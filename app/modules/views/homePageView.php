@@ -1,7 +1,7 @@
 <?php
     require_once __DIR__ . "/../../include/include.inc.php";
 
-    start_page("BDE Inform'Aix - Site Officiel")
+    start_page("BDE Inform'Aix - Site Officiel", true)
 ?>
     <main>
         <section class="hero">

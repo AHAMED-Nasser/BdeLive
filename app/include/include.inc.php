@@ -1,7 +1,8 @@
 <?php
     
-    function start_page($title) {
+    function start_page(string $title, bool $wouldNav = true) {
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,17 +15,20 @@
     <title><?= $title ?></title>
 </head>
 <body>
+<?php if ($wouldNav): ?>
     <header>
         <nav aria-label="Main navigation">
             <ul>
-                <li><a href="../../../public/index.php">Accueil</a></li>
+                <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="#">Horaire</a></li>
                 <li><a href="#">BDE Info</a></li>
-                <li><a href="../auth/login.php">Connexion</a></li>
-                <li><a href="../auth/register.php">Inscription</a></li>
+                <li><a href="index.php?page=login">Connexion</a></li>
+                <li><a href="index.php?page=register">Inscription</a></li>
             </ul>
         </nav>
     </header>
+<?php endif; ?>
+
 <?php } ?>
 
 <?php

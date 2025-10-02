@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../../public/css/style.css">
-    <title>Inscription</title>
-</head>
-<body>
+<?php
+    require_once __DIR__. '/../../include/include.inc.php';
+    start_page("Inscription - BDE Inform'Aix", false)
+?>
     <h1>Inscription</h1>
-    <form action="register.php" method="POST">
+    <form action="index.php?page=home" method="POST">
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" placeholder="Entrez votre nom d'utilisateur" required><br><br>
 
@@ -21,7 +16,9 @@
         <input type="submit" value="S'inscrire" name="ok">
     </form>
     
-    <p><a href="login.php">Déjà un compte ? Se connecter</a></p>
-    <p><a href="../../../public/index.php">← Retour à l'accueil</a></p>
-</body>
-</html>
+    <p><a href="index.php?page=login">Déjà un compte ? Se connecter</a></p>
+    <p><a href="index.php?page=home">← Retour à l'accueil</a></p>
+
+<?php
+    end_page();
+?>
