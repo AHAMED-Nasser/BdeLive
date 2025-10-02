@@ -1,27 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Site officiel du BDE Inform'Aix - BDE Informatique à Aix-en-Provence. Découvrez nos événements, avantages étudiants et réseaux sociaux.">
-    <link rel="stylesheet" href="../../../public/css/style.css">
-    <link rel="icon" href="../../../public/asset/img/logo.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <title>BDE Inform'Aix - Site Officiel</title>
-</head>
-<body>
-    <header>
-        <nav aria-label="Main navigation">
-            <ul>
-                <li><a href="../../../public/index.php">Accueil</a></li>
-                <li><a href="#">Horaire</a></li>
-                <li><a href="#">BDE Info</a></li>
-                <li><a href="../auth/login.php">Connexion</a></li>
-                <li><a href="../auth/register.php">Inscription</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php
+    require_once __DIR__ . "/../../include/include.inc.php";
 
+    start_page("BDE Inform'Aix - Site Officiel")
+?>
     <main>
         <section class="hero">
             <h1 id="hero-title">BDE INFORM'AIX</h1>
@@ -38,13 +19,13 @@
                 </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="../../../public/asset/img/event1.png" alt="Premier événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="app/assets/img/event1.png" alt="Premier événement" width="800" height="400" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="../../../public/asset/img/event2.png" alt="Deuxième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="app/assets/img/event2.png" alt="Deuxième événement" width="800" height="400" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="../../../public/asset/img/event3.png" alt="Troisième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="app/assets/img/event3.png" alt="Troisième événement" width="800" height="400" loading="lazy">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -67,20 +48,6 @@
             </ul>
         </section>
     </main>
-
-    <footer>
-        <nav aria-label="Footer navigation">
-            <ul>
-                <li><a href="#">Politique de confidentialité</a></li>
-                <li><a href="#">Contact et FAQ</a></li>
-                <li><a href="#">À propos</a></li>
-                <li><a href="#">Mentions légales</a></li>
-            </ul>
-        </nav>
-        <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
-    </footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>
-</body>
-</html>
+<?php
+    end_page();
+?>
