@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../public/css/style.css">
+    <link rel="stylesheet" href="../../../public/css/style.css">
     <title>Inscription</title>
 </head>
 <body>
@@ -22,6 +22,6 @@
     </form>
     
     <p><a href="login.php">Déjà un compte ? Se connecter</a></p>
-    <p><a href="../../public/index.php">← Retour à l'accueil</a></p>
+    <p><a href="../../../public/index.php">← Retour à l'accueil</a></p>
 </body>
 </html>
