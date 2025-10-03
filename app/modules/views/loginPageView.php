@@ -4,11 +4,12 @@
 ?>
 
     <h1>Connexion</h1>
-    <form id="form" action="index.php?page=home" method="POST">
+    <form id="form" action="../../include/AuthController.php" method="POST">
         <label for="email">Adresse e-mail</label>
-        <input id="email" type="text" name="Adresse e-mail" placeholder="Entrez votre Adresse mail" required> <br>
+        <input id="email" type="text" name="email" placeholder="Entrez votre Adresse mail" required> <br>
         <label for="password">Password</label>
-        <input id="password" type="text" name="Password" placeholder="Entrez votre mot de passe" required>
+        <input id="password" type="text" name="pwd" placeholder="Entrez votre mot de passe" required>
+        <button type="submit" name="ok">Se connecter</button>
     </form>
     <br>
     <p><a href="index.php?page=home"> <-- Retour à l'accueil</a></p>
