@@ -19,8 +19,13 @@
 <?php if ($wouldNav): ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
-            <a href
             <ul>
+                <a href="index.php?page=home" class="nav-logo">
+                    <img src="./assets/img/logo.png" alt="Logo Bde">
+                </a>
+            </ul>
+            <ul>
+
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="#">Horaire</a></li>
                 <li><a href="#">BDE Info</a></li>

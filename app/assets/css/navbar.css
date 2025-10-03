@@ -1,7 +1,7 @@
 .nav {
     display: flex;
-    justify-content: center;
-    align-content: center;
+    justify-content: space-evenly;
+    align-items: center;
     padding: 50px;
 }
 
@@ -17,4 +17,10 @@
 
 .nav ul {
     display: flex;
+
+}
+
+.nav-logo img {
+    height: 60px;
+    border-radius: 5px;
 }
