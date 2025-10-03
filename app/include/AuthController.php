@@ -1,7 +1,7 @@
 <?php
 if (isset($_POST['ok'])) {
     $email = $_POST['email'];
-    $mdp = $_POST['mdp'];
+    $mdp = $_POST['pwd'];
 
     $servername = "mysql-boudhib.alwaysdata.net";
     $username = "429915";
@@ -10,7 +10,7 @@ if (isset($_POST['ok'])) {
 
     $link = mysqli_connect($servername, $username, $dbpassword, $dbname) or die('Pb de connexion au serveur: ' . mysqli_connect_error());
     mysqli_select_db($link, $dbname) or die ('Pb de connexion au serveur: ' . mysqli_connect_error());
-    $request = 'SELECT * FROM Inscription WHERE email = $email';
+    $request = 'SELECT * FROM Utilisateurs WHERE email = $email';
     $result = mysqli_query($link, $request);
     if (!$result)
     {
@@ -21,7 +21,7 @@ if (isset($_POST['ok'])) {
         if (mysqli_num_rows($result) != 0)
         {
             $row = mysqli_fetch_assoc($result);
-                if (password_verify($row['mdp'], $mdp)){
+                if (password_verify($row['pwd'], $mdp)){
                     session_start();
                     $_SESSION['suid'] = session_id();
                     header('Location: homePageView.php');
