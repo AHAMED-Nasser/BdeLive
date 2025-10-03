@@ -1,6 +1,6 @@
 <?php
     require_once __DIR__. '/../../include/include.inc.php';
-    start_page("Inscription - BDE Inform'Aix", false)
+    start_page("Inscription - BDE Inform'Aix")
 ?>
     <h1>Inscription</h1>
     <form action="index.php?page=home" method="POST">

@@ -1,6 +1,6 @@
 <?php
     require_once __DIR__. '/../../include/include.inc.php';
-    start_page("Login", false);
+    start_page("Login");
 ?>
 
     <h1>Connexion</h1>
