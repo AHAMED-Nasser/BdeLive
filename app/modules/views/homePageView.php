@@ -1,7 +1,12 @@
 <?php
+    session_start();
+
     require_once __DIR__ . "/../../include/include.inc.php";
 
-    start_page("BDE Inform'Aix - Site Officiel", true)
+    start_page("BDE Inform'Aix - Site Officiel", true);
+    if(isset($_SESSION['suid'])){
+        echo 'SELEM';
+        }
 ?>
     <main>
         <section class="hero">
