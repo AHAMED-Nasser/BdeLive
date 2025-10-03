@@ -11,7 +11,7 @@
         <input id="password" type="text" name="Password" placeholder="Entrez votre mot de passe" required>
     </form>
     <br>
-    <p><a href="index.php?page=home">Revenir à l'accueil</a></p>
+    <p><a href="index.php?page=home"> <-- Retour à l'accueil</a></p>
     <p><a href="index.php?page= ">Mot de passe oublié ?</a></p>
     <p><a href="index.php?page=register">Pas de compte?</a></p>
 
