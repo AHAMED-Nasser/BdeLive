@@ -10,7 +10,7 @@ if (isset($_POST['ok'])) {
 
     $link = mysqli_connect($servername, $username, $dbpassword, $dbname) or die('Pb de connexion au serveur: ' . mysqli_connect_error());
     mysqli_select_db($link, $dbname) or die ('Pb de connexion au serveur: ' . mysqli_connect_error());
-    $request = 'SELECT email FROM Inscription WHERE email = $email';
+    $request = 'SELECT * FROM Inscription WHERE email = $email';
     $result = mysqli_query($link, $request);
     if (!$result)
     {
@@ -24,9 +24,8 @@ if (isset($_POST['ok'])) {
                 if (password_verify($row['mdp'], $mdp)){
                     session_start();
                     $_SESSION['suid'] = session_id();
-                    header('Location: homePageView');
+                    header('Location: homePageView.php');
                 }
-
         }
     }
 }
