@@ -1,18 +1,28 @@
 <?php
-require_once __DIR__ . '/config/database.php';
-class Database {
+// config/database.php
 
+class Database {
+    // Configuration de la base de données
+    private const HOST = 'localhost';
+    private const DB_NAME = 'bdelive';
+    private const USERNAME = 'root';
+    private const PASSWORD = '';
+    private const CHARSET = 'utf8mb4';
+
+    // Instance unique (Singleton)
     private static ?Database $instance = null;
     private ?PDO $connection = null;
 
-
+    /**
+     * Constructeur privé pour empêcher l'instanciation directe
+     */
     private function __construct() {
         try {
             $dsn = sprintf(
                 "mysql:host=%s;dbname=%s;charset=%s",
                 self::HOST,
                 self::DB_NAME,
-                self::DB_CHARSET
+                self::CHARSET
             );
 
             $options = [
@@ -22,7 +32,7 @@ class Database {
                 PDO::ATTR_PERSISTENT => false
             ];
 
-            $this->connection = new PDO($dsn, self::DB_USERNAME, self::DB_PASSWORD, $options);
+            $this->connection = new PDO($dsn, self::USERNAME, self::PASSWORD, $options);
 
         } catch (PDOException $e) {
             error_log("Erreur de connexion à la base de données : " . $e->getMessage());
@@ -30,14 +40,21 @@ class Database {
         }
     }
 
-
+    /**
+     * Empêcher le clonage de l'instance
+     */
     private function __clone() {}
 
-
+    /**
+     * Empêcher la désérialisation
+     */
     public function __wakeup() {
         throw new Exception("Cannot unserialize singleton");
     }
 
+    /**
+     * Obtenir l'instance unique de Database (Singleton)
+     */
     public static function getInstance(): Database {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -45,11 +62,16 @@ class Database {
         return self::$instance;
     }
 
-
+    /**
+     * Obtenir la connexion PDO
+     */
     public function getConnection(): PDO {
         return $this->connection;
     }
 
+    /**
+     * Exécuter une requête SELECT et retourner tous les résultats
+     */
     public function query(string $sql, array $params = []): array {
         try {
             $stmt = $this->connection->prepare($sql);
@@ -61,7 +83,9 @@ class Database {
         }
     }
 
-
+    /**
+     * Exécuter une requête SELECT et retourner une seule ligne
+     */
     public function queryOne(string $sql, array $params = []): ?array {
         try {
             $stmt = $this->connection->prepare($sql);
@@ -74,7 +98,9 @@ class Database {
         }
     }
 
-
+    /**
+     * Exécuter une requête INSERT, UPDATE ou DELETE
+     */
     public function execute(string $sql, array $params = []): bool {
         try {
             $stmt = $this->connection->prepare($sql);
@@ -85,27 +111,37 @@ class Database {
         }
     }
 
-
+    /**
+     * Obtenir l'ID du dernier enregistrement inséré
+     */
     public function lastInsertId(): string {
         return $this->connection->lastInsertId();
     }
 
-
+    /**
+     * Démarrer une transaction
+     */
     public function beginTransaction(): bool {
         return $this->connection->beginTransaction();
     }
 
-
+    /**
+     * Valider une transaction
+     */
     public function commit(): bool {
         return $this->connection->commit();
     }
 
-
+    /**
+     * Annuler une transaction
+     */
     public function rollback(): bool {
         return $this->connection->rollBack();
     }
 
-
+    /**
+     * Vérifier si une transaction est en cours
+     */
     public function inTransaction(): bool {
         return $this->connection->inTransaction();
     }
