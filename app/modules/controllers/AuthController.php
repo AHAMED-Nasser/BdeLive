@@ -4,7 +4,7 @@
 
 
 //on se connecte a la base de donnée
-$servername = "mysql-boudhib.alwaysdata.net";
+$servername = "mysql-bdelivesae.alwaysdata.net";
 $username = "429915";
 $dbpassword = "bdelive+6";
 $dbname = "bdelivesae_db";
