@@ -37,4 +37,21 @@
         public function loadView($viewName) {
             require_once __DIR__ . '/../views/' . $viewName . '.php';
         }
+
+        public function processRegister()
+        {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $username = $_POST['username'] ?? '';
+                $email = $_POST['email'] ?? '';
+                $password = $_POST['password'] ?? '';
+            }
+        }
+
+        public function logout()
+        {
+            session_start();
+            session_destroy();
+            header('Location: /login');
+            exit;
+        }
     }

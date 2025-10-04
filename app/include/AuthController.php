@@ -3,14 +3,14 @@ if (isset($_POST['ok'])) {
     $email = $_POST['email'];
     $mdp = $_POST['pwd'];
 
-    $servername = "mysql-boudhib.alwaysdata.net";
+    $servername = "mysql-bdelivesae.alwaysdata.net";
     $username = "429915";
     $dbpassword = "bdelive+6";
     $dbname = "bdelivesae_db";
 
     $link = mysqli_connect($servername, $username, $dbpassword, $dbname) or die('Pb de connexion au serveur: ' . mysqli_connect_error());
     mysqli_select_db($link, $dbname) or die ('Pb de connexion au serveur: ' . mysqli_connect_error());
-    $request = 'SELECT * FROM Utilisateurs WHERE email = $email';
+    $request = 'SELECT * FROM Utilisateur WHERE email = $email';
     $result = mysqli_query($link, $request);
     if (!$result)
     {
