@@ -15,7 +15,7 @@ start_page("Mentions Légales - BDE Live");
     </section>
 
     <section>
-        <h2>Hébergeur</h2>
+        <h2>Hébergeur </h2>
         <p>
             Ce projet est hébergé sur AlwaysData
         </p>
