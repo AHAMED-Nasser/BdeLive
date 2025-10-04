@@ -1,24 +1,18 @@
 <?php
+    require_once __DIR__ . '/autoload.php';
+    require_once __DIR__ . '/include/include.inc.php';
 
     $page = $_GET['page'] ?? 'home';
 
-    switch ($page) {
-        case 'home':
-            require_once __DIR__ . '/include/include.inc.php';
-            require_once __DIR__ . '/modules/controllers/HomePageController.php';
-            $controller = new HomePageController();
-            $controller->index();
-            break;
-        case 'register':
-            require_once __DIR__ . '/include/include.inc.php';
-            require_once __DIR__ . '/modules/controllers/RegisterController.php';
-            $controller = new RegisterController();
-            $controller->index();
-            break;
-        case 'login':
-            require_once __DIR__ . '/include/include.inc.php';
-            require_once __DIR__ . '/modules/controllers/LoginController.php';
-            $controller = new LoginController();
-            $controller -> index();
+    $controllerMap = [
+        'home' => 'HomePageController',
+        'login' => 'LoginController',
+        'register' => 'RegisterController',
+    ];
+
+    if (isset($controllerMap[$page])) {
+        $controllerName = $controllerMap[$page];
+        new $controllerName();
+    } else {
+        echo "Page not found.";
     }
-?>
