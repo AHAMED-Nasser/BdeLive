@@ -8,6 +8,8 @@
         'home' => 'HomePageController',
         'login' => 'LoginController',
         'register' => 'RegisterController',
+        'legalTerms' => 'LegalTermsPageController',
+
     ];
 
     if (isset($controllerMap[$page])) {

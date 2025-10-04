@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site officiel du BDE Inform'Aix - BDE Informatique à Aix-en-Provence. Découvrez nos événements, avantages étudiants et réseaux sociaux.">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/navbar.css"
     <link rel="icon" href="./assets/img/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <title><?= $title ?></title>
@@ -47,7 +46,7 @@
                 <li><a href="#">Politique de confidentialité</a></li>
                 <li><a href="#">Contact et FAQ</a></li>
                 <li><a href="#">À propos</a></li>
-                <li><a href="#">Mentions légales</a></li>
+                <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
             </ul>
         </nav>
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
