@@ -15,5 +15,10 @@
             $controller = new RegisterController();
             $controller->index();
             break;
+        case 'login':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/LoginController.php';
+            $controller = new LoginController();
+            $controller -> index();
     }
 ?>
