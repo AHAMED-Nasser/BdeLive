@@ -19,13 +19,17 @@
 <?php if ($wouldNav): ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
-            <a href
             <ul>
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="#">Horaire</a></li>
                 <li><a href="#">BDE Info</a></li>
-                <li><a href="index.php?page=login">Connexion</a></li>
-                <li><a href="index.php?page=register">Inscription</a></li>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <li><span>Bonjour, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
+                    <li><a href="index.php?page=logout">Déconnexion</a></li>
+                <?php else: ?>
+                    <li><a href="index.php?page=login">Connexion</a></li>
+                    <li><a href="index.php?page=register">Inscription</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>

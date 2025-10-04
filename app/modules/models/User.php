@@ -1,30 +1,66 @@
 <?php
+require_once __DIR__ . '/../../config/database.php';
+
 class User {
-    public function __construct(private $id, private $username, private $email, private $password) {
-            database::connect();
-        }
+    private $db;
+    
+    public function __construct(
+        private $id, 
+        private $nom, 
+        private $prenom, 
+        private $email, 
+        private $password,
+        private $classe_annee = null
+    ) {
+        $this->db = Database::getInstance();
+    }
 
     public function register() {
         try {
-            $stmt = $this->connection->prepare('INSERT INTO Inscription (username, email, password) VALUES(?, ?, ?)');
-
-            if (!$stmt) {
-                throw new Exception("Erreur lors de la préparation de la requête");
+            $existingUser = $this->db->queryOne(
+                'SELECT utilisateur_id FROM Utilisateur WHERE email = ?', 
+                [$this->email]
+            );
+            
+            if ($existingUser) {
+                return false;
             }
-            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+            
+            $hashedPassword = sha1($this->password);
+            
+            $result = $this->db->execute(
+                'INSERT INTO Utilisateur (nom, prenom, email, mdp, classe_annee) VALUES (?, ?, ?, ?, ?)',
+                [$this->nom, $this->prenom, $this->email, $hashedPassword, $this->classe_annee]
+            );
 
-            $stmt->bind_param("sss", $this->username, $this->email, $hashedPassword);
-
-            if ($stmt->execute()) {
-                $stmt->close();
-                return true;
-            } else {
-                $stmt->close();
-                throw new Exception("Erreur lors de l'insertion : " . $stmt->error);
-            }
+            return $result;
 
         } catch (Exception $e) {
-            error_log($e->getMessage());
+            error_log("Erreur inscription : " . $e->getMessage());
+            return false;
+        }
+    }
+    
+    public function login() {
+        try {
+            $user = $this->db->queryOne(
+                'SELECT utilisateur_id, nom, prenom, email, mdp, classe_annee FROM Utilisateur WHERE email = ?',
+                [$this->email]
+            );
+            
+            if (!$user) {
+                return false;
+            }
+            
+            if (sha1($this->password) === $user['mdp']) {
+                unset($user['mdp']);
+                return $user;
+            }
+            
+            return false;
+            
+        } catch (Exception $e) {
+            error_log("Erreur connexion : " . $e->getMessage());
             return false;
         }
     }
