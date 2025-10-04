@@ -3,10 +3,10 @@
 
 class Database {
     // Configuration de la base de données
-    private const HOST = 'localhost';
+    private const HOST = 'mysql-bdelivesae.alwaysdata.net';
     private const DB_NAME = 'bdelive';
-    private const USERNAME = 'root';
-    private const PASSWORD = '';
+    private const USERNAME = '429915';
+    private const PASSWORD = 'bdelive+6';
     private const CHARSET = 'utf8mb4';
 
     // Instance unique (Singleton)

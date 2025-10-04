@@ -3,7 +3,7 @@ if (isset($_POST['ok'])) {
     $email = $_POST['email'];
     $mdp = $_POST['pwd'];
 
-    $servername = "mysql-boudhib.alwaysdata.net";
+    $servername = "mysql-bdelivesae.alwaysdata.net";
     $username = "429915";
     $dbpassword = "bdelive+6";
     $dbname = "bdelivesae_db";
