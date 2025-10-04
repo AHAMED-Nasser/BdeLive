@@ -1,6 +1,4 @@
 <?php
-    session_start();
-
     require_once __DIR__ . "/../../include/include.inc.php";
 
     start_page("BDE Inform'Aix - Site Officiel", true);
