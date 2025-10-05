@@ -1,0 +1,217 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Styles pour la navbar */
+.nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+}
+
+.nav li {
+    list-style: none;
+    padding: 15px;
+}
+
+.nav a {
+    font-size: 1.3rem;
+    color: black;
+}
+
+.nav ul {
+    display: flex;
+}
+
+.nav-logo img {
+    height: 60px;
+    border-radius: 5px;
+}
+
+/* Styles pour les événements */
+.events {
+    margin: 0;
+    padding: 0.3rem;
+    background-color: #eee;
+}
+
+.event-card{
+    margin: 0.5rem;
+    padding: 0.3rem;
+    font-size: 1.2rem;
+    background-color: #ffffff;
+}
+
+/* Styles pour la page des mentions légales */
+.legal-terms-page {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.legal-terms-page h1,
+.legal-terms-page h2 {
+    color: #2c3e50;
+}
+
+.legal-terms-page section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.legal-terms-page a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.legal-terms-page a:hover {
+    text-decoration: underline;
+}
+
+/* Styles pour les messages d'alerte */
+.alert {
+    padding: 15px;
+    margin: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.alert-danger {
+    background: #ffe6e6;
+    color: #d0314c;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.alert a {
+    margin-left: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.alert a:hover {
+    text-decoration: underline;
+}
+
+/* === Pages d'authentification (mot de passe oublié, réinitialisation) === */
+.forgot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-top: 80px;
+}
+
+.forgot-container h1 {
+    color: #667eea;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.forgot-container form {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.forgot-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.forgot-container input[type="email"],
+.forgot-container input[type="text"],
+.forgot-container input[type="password"],
+.forgot-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.forgot-container input[type="email"]:focus,
+.forgot-container input[type="text"]:focus,
+.forgot-container input[type="password"]:focus,
+.forgot-container select:focus {
+    border-color: #667eea;
+    outline: none;
+}
+
+.forgot-container button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.forgot-container button:hover {
+    transform: translateY(-2px);
+}
+
+.forgot-container a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #667eea;
+    text-decoration: none;
+}
+
+.forgot-container a:hover {
+    text-decoration: underline;
+}
+
+.forgot-container p {
+    text-align: center;
+    color: #666;
+    margin: 15px 0;
+}
+
+@media (max-width: 500px) {
+    .forgot-container form {
+        padding: 25px;
+        width: 90%;
+    }
+}
