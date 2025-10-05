@@ -4,11 +4,26 @@
 ?>
 
     <h1>Connexion</h1>
-    <form id="form" action="../../include/AuthController.php" method="POST">
+    
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+            <?php unset($_SESSION['success']); ?>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['error']) ?>
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+    
+    <form id="form" action="index.php?page=login" method="POST">
         <label for="email">Adresse e-mail</label>
-        <input id="email" type="text" name="email" placeholder="Entrez votre Adresse mail" required> <br>
-        <label for="password">Password</label>
-        <input id="password" type="text" name="pwd" placeholder="Entrez votre mot de passe" required>
+        <input id="email" type="email" name="email" placeholder="Entrez votre Adresse mail" required> <br>
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" name="pwd" placeholder="Entrez votre mot de passe" required>
         <button type="submit" name="ok">Se connecter</button>
     </form>
     <br>

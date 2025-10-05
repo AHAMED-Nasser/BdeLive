@@ -1,14 +1,22 @@
 <?php
-    session_start();
-
     require_once __DIR__ . "/../../include/include.inc.php";
 
     start_page("BDE Inform'Aix - Site Officiel", true);
-    if(isset($_SESSION['suid'])){
-        echo 'SELEM';
-        }
 ?>
     <main>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <?php unset($_SESSION['success']); ?>
+            </div>
+        <?php endif; ?>
+        
+        <?php if (isset($_SESSION['user_id'])): ?>
+            <div class="alert alert-info">
+                Bienvenue, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?> (BUT <?= htmlspecialchars($_SESSION['classe_annee']) ?>) ! 
+                <a href="index.php?page=logout">Se déconnecter</a>
+            </div>
+        <?php endif; ?>
         <section class="hero">
             <h1 id="hero-title">BDE INFORM'AIX</h1>
             <p>Site officiel du BDE, BUT Informatique Aix-en-Provence</p>
