@@ -62,9 +62,9 @@
         <section class="social-media" aria-labelledby="social-title">
             <h2 id="social-title">Réseaux sociaux</h2>
             <ul>
-                <li><a href="#" aria-label="Follow us on Instagram"><img src="./assets/img/icon-instagram.png" alt="Instagram" width="32" height="32" loading="lazy"></a></li>
-                <li><a href="#" aria-label="Join our Discord server"><img src="./assets/img/icon-discord.png" alt="Discord" width="32" height="32" loading="lazy"></a></li>
-                <li><a href="#" aria-label="Follow us on TikTok"><img src="./assets/img/icon-tiktok.png" alt="TikTok" width="32" height="32" loading="lazy"></a></li>
+                <li><a href="#" aria-label="Follow us on Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+                <li><a href="#" aria-label="Join our Discord server"><i class="fa-brands fa-discord"></i></a></li>
+                <li><a href="#" aria-label="Follow us on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
             </ul>
         </section>
     </main>
