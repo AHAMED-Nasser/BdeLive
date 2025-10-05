@@ -26,8 +26,12 @@ class PasswordReset {
     
     public function createToken(int $utilisateur_id): string|false {
         try {
+            $this -> cleanExpiredTokens();
+            $stmt = $this->pdo->prepare('DELETE FROM MDP_OUBLIES_TOKEN WHERE utilisateur_id = ?');
+            $stmt -> execute([$utilisateur_id]);
+
             $token = bin2hex(random_bytes(32));
-            $expire_dans = date('Y-m-d H:i:s', strtotime('+3 hours'));
+            $expire_dans = date('Y-m-d H:i:s', strtotime('+3 minutes'));
             
             $stmt = $this->pdo->prepare(
                 'INSERT INTO MDP_OUBLIES_TOKEN (utilisateur_id, token, expire_dans) VALUES (?, ?, ?)'
@@ -88,15 +92,15 @@ class PasswordReset {
         }
     }
     
-    public function deleteToken(string $token): bool {
-        try {
-            $stmt = $this->pdo->prepare('DELETE FROM MDP_OUBLIES_TOKEN WHERE token = ?');
-            return $stmt->execute([$token]);
-        } catch (PDOException $e) {
-            error_log("Erreur deleteToken : " . $e->getMessage());
-            return false;
-        }
-    }
+//    public function deleteToken(string $token): bool {
+//        try {
+//            $stmt = $this->pdo->prepare('DELETE FROM MDP_OUBLIES_TOKEN WHERE token = ?');
+//            return $stmt->execute([$token]);
+//        } catch (PDOException $e) {
+//            error_log("Erreur deleteToken : " . $e->getMessage());
+//            return false;
+//        }
+//    }
     
     public function updatePassword(int $utilisateur_id, string $new_password): bool {
         try {
