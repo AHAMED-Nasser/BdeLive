@@ -4,19 +4,12 @@
 
     $page = $_GET['page'] ?? 'home';
 
-    // Handle logout separately
-    if ($page === 'logout') {
-        require_once __DIR__ . '/include/AuthController.php';
-        $authController = new AuthController();
-        $authController->logout();
-        exit;
-    }
-
     $controllerMap = [
         'home' => 'HomePageController',
         'login' => 'LoginController',
         'register' => 'RegisterController',
         'legalTerms' => 'LegalTermsPageController',
+        'logout' => 'LogoutController',
     ];
 
     if (isset($controllerMap[$page])) {
