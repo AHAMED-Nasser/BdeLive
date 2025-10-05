@@ -1,23 +1,28 @@
-# PROJET DÉVELOPPEMENT WEB BDE LIVE
+# BDELive
 
 ## Description
-Ce projet est un site web développé en PHP dans le cadre du projet de développement web R3.01 de 2ème année de BUT informatique.
-L'objectif est de proposer une plateforme pour le BDE ayant plusieurs fonctionnalités :
+BDELive est le site d'internet du Bureau Des Etudiant du BUT Informatique d'Aix-en-Provence, permettant de se renseigner sur les différentes actualité et événement du BDE
+
+## Fonctionnalité :
+Sur BDELive, il est possible de :
 - Créer un compte
 - Se connecter
 - Réinitialiser son mot de passe via email (token)
+Dans une version prochaine, il sera aussi possible de créer des évenements, et bien plus...
 
 ## Lien du site
 bdelivesae.alwaysdata.net
 
-## Technologies utilisées
+## Language de programmation utilisée
 - **PHP**
-- **Base de données sur AlwaysData**
-- **Hébergement sur AlwaysData**
+- **SQL**
 - **HTML / CSS**
 
+## Hébergement et base de donnée : 
+Le site est hébérgé sur AlwaysData, ainsi que la base de données (propulsé par phpMyAdmin)
+
 ## Architecture du projet
-Le projet suit une organisation en modules MVC (Model - View - Controller)
+Le projet suit une organisation en module MVC (Model - View - Controller)
 
 ## Auteurs
 - AHAMED Nasser
@@ -29,3 +34,6 @@ Le projet suit une organisation en modules MVC (Model - View - Controller)
 
 ## Licence 
 Projet académique - usage pédagogique uniquement
+
+## Lien du site
+bdelivesae.alwaysdata.net
