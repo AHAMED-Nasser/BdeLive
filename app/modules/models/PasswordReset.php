@@ -26,11 +26,8 @@ class PasswordReset {
     
     public function createToken(int $utilisateur_id): string|false {
         try {
-            $this->cleanExpiredTokens();
-            $stmt = $this->pdo->prepare('DELETE FROM MDP_OUBLIES_TOKEN WHERE utilisateur_id = ?');
-            $stmt->execute([$utilisateur_id]);
-
             $token = bin2hex(random_bytes(32));
+            date_default_timezone_set('Europe/Paris');
             $expire_dans = date('Y-m-d H:i:s', strtotime('+1 minutes'));
             
             $stmt = $this->pdo->prepare(
