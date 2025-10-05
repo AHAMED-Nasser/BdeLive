@@ -59,13 +59,6 @@ class LoginController
         }
     }
 
-
-    public function logout(): void
-    {
-        $this->authController->logout();
-    }
-
-
     private function loadView(string $view): void
     {
         require_once __DIR__ . '/../views/' . $view . '.php';
