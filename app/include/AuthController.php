@@ -51,19 +51,6 @@ class AuthController
         }
     }
 
-    public function logout(): void
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
-        session_unset();
-        session_destroy();
-        
-        header('Location: ../../index.php?page=home');
-        exit;
-    }
-
     public function register(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
     {
         try {
