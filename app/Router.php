@@ -24,6 +24,13 @@
             $controller->index();
             break;
             
+        case 'legalTerms':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/LegalTermsPageController.php';
+            $controller = new LegalTermsPageController();
+            $controller->index();
+            break;
+            
         case 'logout':
             require_once __DIR__ . '/modules/controllers/LogoutController.php';
             $controller = new LogoutController();

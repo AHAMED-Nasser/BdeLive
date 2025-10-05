@@ -11,7 +11,10 @@ class LoginController
     public function __construct()
     {
         $this->authController = new AuthController();
-        
+    }
+
+    public function index(): void
+    {
         // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
             $this->processLogin();

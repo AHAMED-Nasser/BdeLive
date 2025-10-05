@@ -1,11 +1,11 @@
 <?php
 class HomePageController {
 
-    public function __construct() {
-        $this -> loadView('homePageView');
+    public function index(): void {
+        $this->loadView('homePageView');
     }
 
-    public function loadView($viewName) {
+    private function loadView(string $viewName): void {
         require_once __DIR__ . '/../views/' . $viewName . '.php';
     }
 }
