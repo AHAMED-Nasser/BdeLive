@@ -28,7 +28,7 @@
     </form>
     <br>
     <p><a href="index.php?page=home"> <-- Retour à l'accueil</a></p>
-    <p><a href="index.php?page= ">Mot de passe oublié ?</a></p>
+    <p><a href="index.php?page=forgot_password">Mot de passe oublié ?</a></p>
     <p><a href="index.php?page=register">Pas de compte?</a></p>
 
 <?php end_page(); ?>

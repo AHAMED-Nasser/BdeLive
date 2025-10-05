@@ -30,6 +30,27 @@
             $controller->index();
             break;
             
+        case 'forgot_password':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/ForgotPasswordController.php';
+            $controller = new ForgotPasswordController();
+            $controller->index();
+            break;
+            
+        case 'verify_token':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/VerifyTokenController.php';
+            $controller = new VerifyTokenController();
+            $controller->index();
+            break;
+            
+        case 'reset_password':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/ResetPasswordController.php';
+            $controller = new ResetPasswordController();
+            $controller->index();
+            break;
+            
         default:
             header('Location: index.php?page=home');
             exit;
