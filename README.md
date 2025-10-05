@@ -1,7 +1,7 @@
 # BDELive
 
 ## Description
-BDELive est le site d'internet du Bureau Des Etudiant du BUT Informatique d'Aix-en-Provence, permettant de se renseigner sur les différentes actualité et événement du BDE
+BDELive est le site d'internet du Bureau Des Etudiants du BUT Informatique d'Aix-en-Provence, permettant de se renseigner sur les différentes actualités et événements du BDE.
 
 ## Fonctionnalité :
 Sur BDELive, il est possible de :
