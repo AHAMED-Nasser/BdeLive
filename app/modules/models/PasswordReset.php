@@ -28,7 +28,7 @@ class PasswordReset {
         try {
             $token = bin2hex(random_bytes(32));
             date_default_timezone_set('Europe/Paris');
-            $expire_dans = date('Y-m-d H:i:s', strtotime('+1 minutes'));
+            $expire_dans = date('Y-m-d H:i:s', strtotime('+3 hours'));
             
             $stmt = $this->pdo->prepare(
                 'INSERT INTO MDP_OUBLIES_TOKEN (utilisateur_id, token, expire_dans) VALUES (?, ?, ?)'
