@@ -47,7 +47,7 @@ class ResetPasswordController {
             $updated = $passwordReset->updatePassword($_SESSION['reset_user_id'], $password);
             
             if ($updated) {
-                // Marquer le token comme utilisé (utilise = 1) au lieu de le supprimer
+                // Marquer le token comme utilisé (utilise = 1)
                 $passwordReset->markTokenAsUsed($_SESSION['reset_token']);
                 
                 unset($_SESSION['reset_token']);
@@ -72,4 +72,3 @@ class ResetPasswordController {
         require_once __DIR__ . '/../views/' . $viewName . '.php';
     }
 }
-

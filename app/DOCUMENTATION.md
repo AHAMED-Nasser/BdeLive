@@ -7,6 +7,28 @@
 
 ---
 
+## 🆕 FONCTIONNALITÉS IMPLÉMENTÉES
+
+### ✅ Système d'authentification complet
+- Inscription utilisateur avec validation
+- Connexion avec email/mot de passe
+- Déconnexion sécurisée
+- Gestion des sessions
+
+### ✅ Réinitialisation de mot de passe (3 étapes)
+1. **Demande de réinitialisation** : L'utilisateur entre son email
+2. **Vérification du code** : Un token de 64 caractères est envoyé par email
+3. **Nouveau mot de passe** : L'utilisateur définit son nouveau mot de passe
+
+### ✅ Sécurité
+- Tokens avec expiration (3 heures)
+- Hachage SHA-1 des mots de passe
+- Protection contre les injections SQL (requêtes préparées)
+- Validation des entrées utilisateur
+- Protection XSS avec htmlspecialchars()
+
+---
+
 ## 📁 FICHIERS CRÉÉS
 
 ### 🔧 **1. Configuration & Base de données**
@@ -35,7 +57,7 @@ define('DB_CHARSET', 'utf8mb4');
 
 ---
 
-#### `app/config/database.php`
+#### `app/config/Database.php`
 **Utilité :** Classe Singleton pour gérer la connexion PDO à la base de données
 
 **Caractéristiques :**
@@ -54,7 +76,94 @@ $pdo = $db->getConnection();
 
 ---
 
+#### `app/config/mailer.php` ⭐ **NOUVEAU**
+**Utilité :** Classe pour l'envoi d'emails via PHPMailer (réinitialisation mot de passe)
+
+**Configuration SMTP :**
+- Host: smtp-bdelivesae.alwaysdata.net
+- Port: 587 (STARTTLS)
+- Username: bdelivesae@alwaysdata.net
+
+**Méthode principale :**
+```php
+public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool
+```
+
+**Exemple d'utilisation :**
+```php
+$mailer = new Mailer();
+$success = $mailer->sendPasswordResetEmail(
+    'user@example.com',
+    'Jean Dupont',
+    'a1b2c3d4...' // Token de 64 caractères
+);
+```
+
+---
+
+#### `app/config/create_password_reset_table.sql` ⭐ **NOUVEAU**
+**Utilité :** Script SQL pour créer la table des tokens de réinitialisation
+
+**Structure de la table :**
+```sql
+CREATE TABLE MDP_OUBLIES_TOKEN (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    expire_dans DATETIME NOT NULL,
+    utilise TINYINT(1) DEFAULT 0,
+    cree_le TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(utilisateur_id)
+);
+```
+
+---
+
 ### 🎯 **2. Modèles (Data Access Layer)**
+
+#### `app/modules/models/PasswordReset.php` ⭐ **NOUVEAU**
+**Utilité :** Gère les tokens de réinitialisation de mot de passe
+
+**Principe :** Responsabilité unique - Gestion des tokens et réinitialisation
+
+**Méthodes principales :**
+
+| Méthode | Paramètres | Retour | Description |
+|---------|-----------|--------|-------------|
+| `getUserByEmail()` | `string $email` | `array\|false` | Trouve un utilisateur par email |
+| `createToken()` | `int $utilisateur_id` | `string\|false` | Génère un token de 64 caractères (expire dans 3h) |
+| `verifyToken()` | `string $token` | `array` | Vérifie validité du token (non expiré, non utilisé) |
+| `markTokenAsUsed()` | `string $token` | `bool` | Marque le token comme utilisé |
+| `deleteToken()` | `string $token` | `bool` | Supprime un token |
+| `updatePassword()` | `int $utilisateur_id, string $new_password` | `bool` | Met à jour le mot de passe (avec hash SHA-1) |
+| `cleanExpiredTokens()` | - | `bool` | Supprime les tokens expirés/utilisés |
+
+**Sécurité :**
+- ✅ Token aléatoire cryptographiquement sécurisé (`random_bytes`)
+- ✅ Expiration automatique après 3 heures
+- ✅ Token marqué comme utilisé après réinitialisation
+- ✅ Suppression automatique des tokens expirés
+
+**Exemple d'usage :**
+```php
+$passwordReset = new PasswordReset();
+
+// Créer un token
+$token = $passwordReset->createToken($userId);
+
+// Vérifier un token
+$result = $passwordReset->verifyToken($token);
+if ($result['valid']) {
+    // Token valide
+    $userId = $result['utilisateur_id'];
+}
+
+// Changer le mot de passe
+$passwordReset->updatePassword($userId, 'nouveauMotDePasse');
+$passwordReset->markTokenAsUsed($token);
+```
+
+---
 
 #### `app/modules/models/UserManager.php` ⭐ **NOUVEAU**
 **Utilité :** Gère TOUTES les interactions avec la table `Utilisateur` (CRUD complet)
@@ -202,6 +311,75 @@ class LoginController {
 
 ---
 
+#### `app/modules/controllers/ForgotPasswordController.php` ⭐ **NOUVEAU**
+**Utilité :** Gère la demande de réinitialisation de mot de passe (étape 1/3)
+
+**Workflow :**
+1. Affiche le formulaire de saisie d'email
+2. Valide l'email saisi
+3. Vérifie que l'email existe en base
+4. Génère un token de réinitialisation
+5. Envoie le token par email via PHPMailer
+6. Redirige vers la page de vérification du code
+
+**Gestion d'erreurs :**
+- Email vide → Message d'erreur
+- Email inexistant → Message d'erreur
+- Erreur envoi email → Message d'erreur
+
+---
+
+#### `app/modules/controllers/VerifyTokenController.php` ⭐ **NOUVEAU**
+**Utilité :** Gère la vérification du code reçu par email (étape 2/3)
+
+**Workflow :**
+1. Vérifie que l'utilisateur vient bien de forgot_password (session)
+2. Affiche le formulaire de saisie du code
+3. Valide le token saisi
+4. Vérifie que le token existe, n'est pas expiré et n'est pas utilisé
+5. Stocke le token en session
+6. Redirige vers la page de réinitialisation
+
+**Vérifications :**
+- ✅ Token existe en base
+- ✅ Token non expiré (< 3h)
+- ✅ Token non utilisé
+- ✅ Session valide
+
+---
+
+#### `app/modules/controllers/ResetPasswordController.php` ⭐ **NOUVEAU**
+**Utilité :** Gère la définition du nouveau mot de passe (étape 3/3)
+
+**Workflow :**
+1. Vérifie que l'utilisateur a bien validé le token (session)
+2. Affiche le formulaire de nouveau mot de passe
+3. Valide les deux saisies de mot de passe
+4. Met à jour le mot de passe en base (hachage SHA-1)
+5. Marque le token comme utilisé
+6. Nettoie les sessions
+7. Redirige vers la page de connexion avec message de succès
+
+**Validations :**
+- ✅ Mot de passe minimum 6 caractères
+- ✅ Les deux saisies correspondent
+- ✅ Token valide en session
+
+---
+
+#### `app/modules/controllers/LogoutController.php` ⭐ **NOUVEAU**
+**Utilité :** Gère la déconnexion utilisateur
+
+**Workflow :**
+1. Vide toutes les variables de session
+2. Supprime le cookie de session
+3. Détruit la session
+4. Crée une nouvelle session
+5. Définit un message de succès
+6. Redirige vers la page d'accueil
+
+---
+
 #### `app/modules/controllers/HomePageController.php`
 **Utilité :** Affiche la page d'accueil
 - Charge la vue homePageView
@@ -266,6 +444,48 @@ class LoginController {
 
 ---
 
+#### `app/modules/views/forgotPasswordView.php` ⭐ **NOUVEAU**
+**Utilité :** Formulaire de demande de réinitialisation (étape 1/3)
+
+**Champs :**
+- Email (type: email, required)
+
+**Messages affichés :**
+- Erreur (email vide, email inexistant, erreur envoi)
+- Succès (code envoyé par email)
+
+**Envoie vers :** `index.php?page=forgot_password` (POST)
+
+---
+
+#### `app/modules/views/verifyTokenView.php` ⭐ **NOUVEAU**
+**Utilité :** Formulaire de vérification du code (étape 2/3)
+
+**Champs :**
+- Token (type: text, required, maxlength: 64)
+
+**Messages affichés :**
+- Erreur (code invalide, expiré, déjà utilisé)
+
+**Envoie vers :** `index.php?page=verify_token` (POST)
+
+---
+
+#### `app/modules/views/resetPasswordView.php` ⭐ **NOUVEAU**
+**Utilité :** Formulaire de nouveau mot de passe (étape 3/3)
+
+**Champs :**
+- Nouveau mot de passe (type: password, required, minlength: 6)
+- Confirmation mot de passe (type: password, required, minlength: 6)
+
+**Validations :**
+- Minimum 6 caractères
+- Les deux saisies doivent correspondre
+
+**Envoie vers :** `index.php?page=reset_password` (POST)
+
+---
+
 #### `app/modules/views/legalTermsPageView.php`
 **Utilité :** Page des mentions légales
 
@@ -284,19 +504,27 @@ class LoginController {
 #### `app/Router.php`
 **Utilité :** Routeur central de l'application
 
-**Table de routage :**
+**Table de routage complète :**
 ```php
-$controllerMap = [
-    'home' => 'HomePageController',
-    'login' => 'LoginController',
-    'register' => 'RegisterController',
-    'legalTerms' => 'LegalTermsPageController',
-];
-
-// Traitement spécial pour logout
-if ($page === 'logout') {
-    $authController = new AuthController();
-    $authController->logout();
+switch ($page) {
+    case 'home':
+        HomePageController
+    case 'login':
+        LoginController
+    case 'register':
+        RegisterController
+    case 'logout':
+        LogoutController
+    case 'forgot_password':
+        ForgotPasswordController
+    case 'verify_token':
+        VerifyTokenController
+    case 'reset_password':
+        ResetPasswordController
+    case 'legalTerms':
+        LegalTermsPageController
+    default:
+        Redirection vers home
 }
 ```
 
@@ -305,8 +533,9 @@ if ($page === 'logout') {
 <a href="index.php?page=home">Accueil</a>
 <a href="index.php?page=login">Connexion</a>
 <a href="index.php?page=register">Inscription</a>
-<a href="index.php?page=legalTerms">Mentions légales</a>
 <a href="index.php?page=logout">Déconnexion</a>
+<a href="index.php?page=forgot_password">Mot de passe oublié</a>
+<a href="index.php?page=legalTerms">Mentions légales</a>
 ```
 
 ---
@@ -348,7 +577,7 @@ Toutes les requêtes passent par ce fichier.
 ### 🎨 **7. Styles CSS**
 
 #### `app/assets/css/style.css`
-**Utilité :** Feuille de style principale (tout le CSS centralisé)
+**Utilité :** Feuille de style principale (TOUT le CSS centralisé)
 
 **Sections :**
 
@@ -367,16 +596,7 @@ Toutes les requêtes passent par ce fichier.
     justify-content: space-evenly;
     align-items: center;
     padding: 50px;
-}
-
-.nav li {
-    list-style: none;
-    padding: 15px;
-}
-
-.nav a {
-    font-size: 1.3rem;
-    color: black;
+    background-color: #f8f9fa;
 }
 ```
 
@@ -389,22 +609,76 @@ Toutes les requêtes passent par ce fichier.
     text-align: center;
 }
 
-.alert-success { /* Vert */ }
-.alert-info { /* Bleu */ }
-.alert-danger { /* Rouge */ }
-.alert-warning { /* Jaune */ }
+.alert-success { background: #d4edda; color: #155724; }
+.alert-info { background: #d1ecf1; color: #0c5460; }
+.alert-danger { background: #ffe6e6; color: #d0314c; }
+.alert-warning { background: #fff3cd; color: #856404; }
+```
+
+**Pages d'authentification (mot de passe oublié, réinitialisation)** ⭐ **NOUVEAU**
+```css
+.forgot-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-top: 80px;
+}
+
+.forgot-container form {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
+
+.forgot-container button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
 ```
 
 **Usage dans les vues :**
 ```html
 <div class="alert alert-success">Inscription réussie !</div>
 <div class="alert alert-danger">Erreur de connexion</div>
-<div class="alert alert-info">Bienvenue, Jean Dupont !</div>
+<div class="forgot-container"><!-- Formulaire reset password --></div>
 ```
 
 ---
 
-### 📚 **8. Includes / Helpers**
+### 🕒 **8. Tâches automatisées (Cron)**
+
+#### `app/cron/clean_expired_tokens.php` ⭐ **NOUVEAU**
+**Utilité :** Script de nettoyage des tokens expirés (à exécuter régulièrement)
+
+**Fonctionnement :**
+- Supprime les tokens expirés (> 3 heures)
+- Supprime les tokens déjà utilisés
+- Affiche un message de confirmation
+
+**Configuration cron (AlwaysData ou serveur Linux) :**
+```bash
+# Exécuter tous les jours à 2h du matin
+0 2 * * * php /path/to/app/cron/clean_expired_tokens.php
+```
+
+**Exécution manuelle :**
+```bash
+cd app/cron
+php clean_expired_tokens.php
+```
+
+**Sortie attendue :**
+```
+2025-10-05 14:30:00 - Tokens expires nettoyes avec succes
+```
+
+---
+
+### 📚 **9. Includes / Helpers**
 
 #### `app/include/include.inc.php`
 **Utilité :** Fonctions globales pour générer les pages
@@ -455,20 +729,14 @@ end_page();
 ### `app/test_db.php` ❌
 **Raison de suppression :** Fichier de test temporaire
 
-**Utilité passée :**
-- Vérifier la connexion à la base
-- Lister les utilisateurs
-- Afficher la structure de la table
-- Créer un utilisateur de test
-
-**Pourquoi supprimé :**
-- Plus nécessaire une fois l'application fonctionnelle
-- Fichier de développement uniquement
-- Ne doit pas être en production
-
 ---
 
 ### `app/assets/css/navbar.css` ❌
+**Raison de suppression :** Fusionné dans `style.css`
+
+---
+
+### `app/assets/css/forgotPassword.css` ❌
 **Raison de suppression :** Fusionné dans `style.css`
 
 **Avantages de la fusion :**
@@ -482,54 +750,61 @@ end_page();
 ## 🏗️ ARCHITECTURE FINALE
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    PRÉSENTATION (Views)                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ loginPageView│  │registerPageView│ │ homePageView │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-└────────────────────┬────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                      PRÉSENTATION (Views)                          │
+│  ┌─────────────┐ ┌──────────────┐ ┌──────────────────┐           │
+│  │ loginView   │ │ registerView │ │ forgotPasswordView│           │
+│  └─────────────┘ └──────────────┘ └──────────────────┘           │
+│  ┌─────────────┐ ┌──────────────┐ ┌──────────────────┐           │
+│  │ verifyToken │ │ resetPassword│ │ homePageView     │           │
+│  └─────────────┘ └──────────────┘ └──────────────────┘           │
+└────────────────────┬──────────────────────────────────────────────┘
                      │
                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  CONTRÔLEURS (Controllers)                   │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │LoginController│ │RegisterController│ │HomePageController│ │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-└────────────────────┬────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                   CONTRÔLEURS (Controllers)                        │
+│  ┌─────────────┐ ┌──────────────┐ ┌──────────────────┐           │
+│  │   Login     │ │   Register   │ │ ForgotPassword   │           │
+│  └─────────────┘ └──────────────┘ └──────────────────┘           │
+│  ┌─────────────┐ ┌──────────────┐ ┌──────────────────┐           │
+│  │VerifyToken  │ │ ResetPassword│ │     Logout       │           │
+│  └─────────────┘ └──────────────┘ └──────────────────┘           │
+└────────────────────┬──────────────────────────────────────────────┘
                      │
                      ▼
-┌─────────────────────────────────────────────────────────────┐
-│               LOGIQUE MÉTIER (Services)                      │
-│              ┌──────────────────────┐                        │
-│              │   AuthController     │                        │
-│              │  • Valide données    │                        │
-│              │  • Gère sessions     │                        │
-│              │  • Coordonne         │                        │
-│              └──────────┬───────────┘                        │
-└───────────────────────────┼────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  MODÈLE (Data Access)                        │
-│              ┌──────────────────────┐                        │
-│              │    UserManager       │                        │
-│              │  • Requêtes SQL      │                        │
-│              │  • Hash/Verify pwd   │                        │
-│              │  • CRUD operations   │                        │
-│              └──────────┬───────────┘                        │
-└───────────────────────────┼────────────────────────────────────┘
-                     │
-                     ▼
-           ┌─────────────────────┐
-           │      Database       │
-           │   (Singleton PDO)   │
-           └─────────────────────┘
-                     │
-                     ▼
-           ┌─────────────────────┐
-           │  MySQL Database     │
-           │  (AlwaysData)       │
-           └─────────────────────┘
+┌───────────────────────────────────────────────────────────────────┐
+│                LOGIQUE MÉTIER (Services)                           │
+│  ┌──────────────────────┐        ┌──────────────────────┐        │
+│  │   AuthController     │        │      Mailer          │        │
+│  │  • Valide données    │        │  • Envoi emails      │        │
+│  │  • Gère sessions     │        │  • SMTP config       │        │
+│  └──────────┬───────────┘        └──────────────────────┘        │
+└─────────────┼──────────────────────────────────────────────────────┘
+              │
+              ▼
+┌───────────────────────────────────────────────────────────────────┐
+│                    MODÈLE (Data Access)                            │
+│  ┌──────────────────────┐        ┌──────────────────────┐        │
+│  │    UserManager       │        │   PasswordReset      │        │
+│  │  • Requêtes SQL      │        │  • Gestion tokens    │        │
+│  │  • Hash/Verify pwd   │        │  • Reset password    │        │
+│  │  • CRUD operations   │        │  • Clean expired     │        │
+│  └──────────┬───────────┘        └──────────┬───────────┘        │
+└─────────────┼───────────────────────────────┼────────────────────┘
+              │                               │
+              └───────────┬───────────────────┘
+                          ▼
+                ┌─────────────────────┐
+                │      Database       │
+                │   (Singleton PDO)   │
+                └─────────────────────┘
+                          │
+                          ▼
+                ┌─────────────────────┐
+                │  MySQL Database     │
+                │  • Utilisateur      │
+                │  • MDP_OUBLIES_TOKEN│
+                └─────────────────────┘
 ```
 
 ---
@@ -640,15 +915,110 @@ end_page();
 1. Clic sur "Se déconnecter"
    └─> index.php?page=logout
    
-2. Router détecte page=logout
-   └─> AuthController->logout()
+2. LogoutController->index()
    
 3. Destruction de la session
-   ├─> session_unset()
+   ├─> $_SESSION = array()
+   ├─> Suppression du cookie
    └─> session_destroy()
    
 4. Redirection vers home
-   └─> Plus de message de bienvenue
+   └─> Message "Vous avez été déconnecté avec succès"
+```
+
+---
+
+### **RÉINITIALISATION MOT DE PASSE** ⭐ **NOUVEAU**
+
+#### **ÉTAPE 1/3 : Demande de réinitialisation**
+
+```
+1. Utilisateur va sur "Mot de passe oublié"
+   └─> index.php?page=forgot_password
+   
+2. Saisie de l'email
+   └─> forgotPasswordView.php
+   
+3. Soumission du formulaire (POST)
+   └─> ForgotPasswordController->sendResetEmail()
+   
+4. Vérifications
+   ├─> Email non vide
+   └─> Email existe en base (PasswordReset->getUserByEmail())
+   
+5. Génération du token
+   ├─> random_bytes(32) → 64 caractères hexadécimaux
+   ├─> Expiration: 3 heures
+   └─> INSERT INTO MDP_OUBLIES_TOKEN
+   
+6. Envoi de l'email
+   ├─> Mailer->sendPasswordResetEmail()
+   ├─> SMTP AlwaysData
+   └─> Email texte brut avec le token
+   
+7. Stockage en session
+   └─> $_SESSION['reset_email'] = $email
+   
+8. Redirection
+   └─> index.php?page=verify_token
+```
+
+#### **ÉTAPE 2/3 : Vérification du code**
+
+```
+1. Utilisateur reçoit l'email avec le token
+   
+2. Saisie du code
+   └─> verifyTokenView.php
+   
+3. Soumission du formulaire (POST)
+   └─> VerifyTokenController->verifyToken()
+   
+4. Vérifications du token
+   ├─> Token non vide
+   ├─> Token existe en base
+   ├─> Token non expiré (< 3h)
+   └─> Token non utilisé (utilise = 0)
+   
+5. Si valide
+   ├─> $_SESSION['reset_token'] = $token
+   └─> $_SESSION['reset_user_id'] = $userId
+   
+6. Redirection
+   └─> index.php?page=reset_password
+```
+
+#### **ÉTAPE 3/3 : Nouveau mot de passe**
+
+```
+1. Saisie du nouveau mot de passe (2 fois)
+   └─> resetPasswordView.php
+   
+2. Soumission du formulaire (POST)
+   └─> ResetPasswordController->resetPassword()
+   
+3. Validations
+   ├─> Mot de passe non vide
+   ├─> Minimum 6 caractères
+   └─> Les deux saisies correspondent
+   
+4. Mise à jour en base
+   ├─> Hash SHA-1 du nouveau mot de passe
+   └─> UPDATE Utilisateur SET mdp = ...
+   
+5. Marquer le token comme utilisé
+   └─> UPDATE MDP_OUBLIES_TOKEN SET utilise = 1
+   
+6. Nettoyage des sessions
+   ├─> unset($_SESSION['reset_token'])
+   ├─> unset($_SESSION['reset_user_id'])
+   └─> unset($_SESSION['reset_email'])
+   
+7. Message de succès
+   └─> "Votre mot de passe a été réinitialisé avec succès"
+   
+8. Redirection
+   └─> index.php?page=login
 ```
 
 ---
@@ -668,7 +1038,7 @@ CREATE TABLE Utilisateur (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-### Champs
+#### Champs Utilisateur
 
 | Champ | Type | Description | Contraintes |
 |-------|------|-------------|-------------|
@@ -679,11 +1049,51 @@ CREATE TABLE Utilisateur (
 | `email` | VARCHAR(100) | Adresse email | UNIQUE, NOT NULL, max 100 caractères |
 | `mdp` | VARCHAR(40) | Mot de passe hashé | NOT NULL, exactement 40 caractères (SHA-1) |
 
+---
+
+### Table `MDP_OUBLIES_TOKEN` ⭐ **NOUVEAU**
+
+```sql
+CREATE TABLE MDP_OUBLIES_TOKEN (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    utilisateur_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    expire_dans DATETIME NOT NULL,
+    utilise TINYINT(1) DEFAULT 0,
+    cree_le TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (utilisateur_id) REFERENCES Utilisateur(utilisateur_id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+#### Champs MDP_OUBLIES_TOKEN
+
+| Champ | Type | Description | Contraintes |
+|-------|------|-------------|-------------|
+| `id` | INT | Identifiant unique du token | PRIMARY KEY, AUTO_INCREMENT |
+| `utilisateur_id` | INT | Référence vers l'utilisateur | NOT NULL, FOREIGN KEY |
+| `token` | VARCHAR(64) | Code de vérification | NOT NULL, UNIQUE, 64 caractères hexadécimaux |
+| `expire_dans` | DATETIME | Date et heure d'expiration | NOT NULL, expire après 3 heures |
+| `utilise` | TINYINT(1) | Token utilisé ? | DEFAULT 0 (0=non, 1=oui) |
+| `cree_le` | TIMESTAMP | Date de création | DEFAULT CURRENT_TIMESTAMP |
+
+#### Fonctionnement des tokens
+
+1. **Création** : Token généré avec `random_bytes(32)` converti en hex (64 caractères)
+2. **Expiration** : Automatique après 3 heures (défini dans `expire_dans`)
+3. **Utilisation** : Marqué comme utilisé après réinitialisation réussie
+4. **Nettoyage** : Script cron supprime les tokens expirés/utilisés
+
+---
+
 ### Contraintes importantes
 
 ⚠️ **`mdp VARCHAR(40)`** - Contrainte imposée par le professeur  
 Raison : SHA-1 génère exactement 40 caractères hexadécimaux  
 Note : En production, `VARCHAR(255)` avec bcrypt serait recommandé
+
+⚠️ **`token VARCHAR(64)`** - Token sécurisé de réinitialisation  
+Raison : `bin2hex(random_bytes(32))` génère 64 caractères hexadécimaux  
+Sécurité : Cryptographiquement sécurisé, impossible à deviner
 
 ---
 

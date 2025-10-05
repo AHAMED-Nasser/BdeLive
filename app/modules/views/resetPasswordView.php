@@ -3,7 +3,6 @@
     start_page("Réinitialiser le mot de passe - BDE Inform'Aix", true);
 ?>
 
-<link rel="stylesheet" href="./assets/css/forgotPassword.css">
     <div class="forgot-container">
         <h1>Nouveau mot de passe</h1>
         
@@ -30,4 +29,3 @@
 <?php
     end_page();
 ?>
-

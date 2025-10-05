@@ -3,7 +3,6 @@
     start_page("Vérification du code - BDE Inform'Aix", true);
 ?>
 
-<link rel="stylesheet" href="./assets/css/forgotPassword.css">
     <div class="forgot-container">
         <h1>Vérification du code</h1>
         
@@ -28,4 +27,3 @@
 <?php
     end_page();
 ?>
-

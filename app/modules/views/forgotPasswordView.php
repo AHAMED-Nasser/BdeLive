@@ -3,7 +3,6 @@
     start_page("Mot de passe oublié - BDE Inform'Aix", true);
 ?>
 
-<link rel="stylesheet" href="./assets/css/forgotPassword.css">
     <div class="forgot-container">
         <h1>Mot de passe oublié</h1>
         
