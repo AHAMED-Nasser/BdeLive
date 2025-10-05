@@ -51,6 +51,25 @@ class AuthController
         }
     }
 
+    /**
+     * Handle user logout
+     * Destroys session and redirects to home page
+     * 
+     * @return void
+     */
+    public function logout(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        session_unset();
+        session_destroy();
+        
+        header('Location: index.php?page=home');
+        exit;
+    }
+
     public function register(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
     {
         try {
