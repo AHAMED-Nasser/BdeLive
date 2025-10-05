@@ -66,6 +66,7 @@ Le projet suit une organisation en module MVC (Model - View - Controller)
 
 ## Structure de le base de données
 La base de données est représenté par le schéma suivant : 
+
 <img width="892" height="340" alt="image" src="https://github.com/user-attachments/assets/4c6c2363-da5c-47d6-99f5-854286a32db4" />
 
 ## Auteurs
