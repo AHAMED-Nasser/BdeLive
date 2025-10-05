@@ -23,7 +23,8 @@ class PasswordReset {
             return false;
         }
     }
-    
+
+
     public function createToken(int $utilisateur_id): string|false {
         try {
             $token = bin2hex(random_bytes(32));
