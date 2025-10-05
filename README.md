@@ -18,11 +18,55 @@ bdelivesae.alwaysdata.net
 - **SQL**
 - **HTML / CSS**
 
-## Hébergement et base de donnée : 
+## Hébergement et base de donnée 
 Le site est hébérgé sur AlwaysData, ainsi que la base de données (propulsé par phpMyAdmin)
 
-## Architecture du projet
+## Structure du projet : 
+Le site suit cette structure : 
+```
+BDELIVE_REAL/
+│
+├─ app/
+│  ├─ assets/
+│  │  ├─ css/
+│  │  └─ img/
+│  │
+│  ├─ config/
+│  │  ├─ config.php
+│  │  └─ Database.php
+│  │
+│  ├─ include/
+│  │  ├─ AuthController.php
+│  │  └─ include.inc.php
+│  │
+│  ├─ modules/
+│  │  ├─ controllers/
+│  │  │  ├─ HomePageController.php
+│  │  │  ├─ LegalTermsPageController.php
+│  │  │  ├─ LoginController.php
+│  │  │  └─ RegisterController.php
+│  │  │
+│  │  ├─ models/
+│  │  │  └─ UserManager.php
+│  │  │
+│  │  └─ views/
+│  │     ├─ homePageView.php
+│  │     ├─ legalTermsPageView.php
+│  │     ├─ loginPageView.php
+│  │     └─ registerPageView.php
+│
+├─ .htaccess
+├─ autoload.php
+├─ DOCUMENTATION.md
+├─ index.php
+└─ Router.php
+```
+
 Le projet suit une organisation en module MVC (Model - View - Controller)
+
+## Structure de le base de données
+La base de données est représenté par le schéma suivant : 
+<img width="892" height="340" alt="image" src="https://github.com/user-attachments/assets/4c6c2363-da5c-47d6-99f5-854286a32db4" />
 
 ## Auteurs
 - AHAMED Nasser
@@ -34,6 +78,3 @@ Le projet suit une organisation en module MVC (Model - View - Controller)
 
 ## Licence 
 Projet académique - usage pédagogique uniquement
-
-## Lien du site
-bdelivesae.alwaysdata.net
