@@ -4,14 +4,21 @@
     start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
+        <?php
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        ?>
+        
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
                 <?= htmlspecialchars($_SESSION['success']) ?>
-                <?php unset($_SESSION['success']); ?>
             </div>
+            <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
         
-        <?php if (isset($_SESSION['user_id'])): ?>
+        <?php if (isset($_SESSION['utilisateur_id'])): ?>
             <div class="alert alert-info">
                 Bienvenue, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?> (BUT <?= htmlspecialchars($_SESSION['classe_annee']) ?>) ! 
                 <a href="index.php?page=logout">Se déconnecter</a>

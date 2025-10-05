@@ -74,3 +74,41 @@
 .legal-terms-page a:hover {
     text-decoration: underline;
 }
+
+/* Styles pour les messages d'alerte */
+.alert {
+    padding: 15px;
+    margin: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.alert-danger {
+    background: #ffe6e6;
+    color: #d0314c;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.alert a {
+    margin-left: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.alert a:hover {
+    text-decoration: underline;
+}
