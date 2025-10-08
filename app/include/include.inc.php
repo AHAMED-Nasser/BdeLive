@@ -30,7 +30,7 @@
                 <li><a href="#">Horaire</a></li>
                 <li><a href="#">BDE Info</a></li>
                 <?php if (isset($_SESSION['utilisateur_id'])): ?>
-                    <li><span>Bonjour, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
+                    <li><span>Bonjour, <?= htmlspecialchars($_SESSION['prenom']) . htmlspecialchars($_SESSION['nom']) ?></span></li>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
