@@ -1,20 +1,13 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../include/AuthController.php';
-
-
 class RegisterController
 {
-    private AuthController $authController;
+    private $authController;
 
     public function __construct()
     {
         $this->authController = new AuthController();
-    }
-
-    public function index(): void
-    {
         // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
             $this->handleRegistration();
