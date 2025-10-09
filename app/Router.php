@@ -57,6 +57,13 @@
             $controller = new ResetPasswordController();
             $controller->index();
             break;
+        
+        case 'sitemap':
+            require_once __DIR__ . '/include/include.inc.php';
+            require_once __DIR__ . '/modules/controllers/SitemapController.php';
+            $controller = new SitemapController();
+            $controller->index();
+            break;
             
         default:
             header('Location: index.php?page=home');
