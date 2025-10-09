@@ -1,5 +1,4 @@
 <?php
-    require_once __DIR__ . "/../../include/include.inc.php";
     start_page("Mot de passe oublié - BDE Inform'Aix", true);
 ?>
 
