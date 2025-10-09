@@ -3,19 +3,39 @@
     margin: 0;
 }
 
+/* === Styles généraux pour tous les liens === */
+a {
+    color: #667eea;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-family: "JetBrains Mono ExtraBold", monospace;
+}
+
+a:hover {
+    color: #5a6fd8;
+    text-decoration: underline;
+    transform: translateY(-1px);
+}
+
+a:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
 /* Styles pour la navbar */
 .nav {
     display: flex;
     width: 100%;
-    justify-content: flex-start;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
     background: #b523eb;
     background: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%, rgba(237, 221, 83, 1) 100%);
+    position: relative;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    min-height: 70px;
 }
- .item{
-     flex:1;
-     width: 100%;
- }
+
 
 .nav li {
     list-style: none;
@@ -23,9 +43,18 @@
 }
 
 .nav a {
-    font-family: "JetBrains Mono ExtraBold";
     font-size: 1.3rem;
-    color: black;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.nav a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateY(-2px);
 }
 
 .nav ul {
@@ -33,9 +62,64 @@
     align-items: center;
 }
 
+.nav span {
+    color: white;
+    font-family: "JetBrains Mono ExtraBold", monospace;
+    font-size: 1.1rem;
+}
+
 .nav-logo img {
-    height: 150px;
+    height: 110px;
     border-bottom-right-radius: 25px;
+}
+
+/* Styles pour le footer */
+footer {
+    background: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%);
+    color: white;
+    padding: 30px 20px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+footer nav {
+    margin-bottom: 15px;
+}
+
+footer nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+footer nav ul li {
+    display: inline-block;
+}
+
+footer nav ul li a {
+    color: white;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+footer nav ul li a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 /* Styles pour les événements */
@@ -45,12 +129,19 @@
     background-color: #eee;
 }
 
-.event-card{
-    margin: 0.5rem;
-    padding: 0.3rem;
-    font-size: 1.2rem;
-    background-color: #ffffff;
+/* Hero section on home page */
+.hero {
+    padding: 30px 20px;
+    color: #fff;
+    background: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
 }
+
+#hero-title {
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+}
+
+/* .event-card is unused in HTML; removed for cleanliness */
 
 /* Styles pour la page des mentions légales */
 .legal-terms-page {
@@ -75,12 +166,17 @@
 }
 
 .legal-terms-page a {
-    color: #3498db;
-    text-decoration: none;
+    color: #667eea;
+    padding: 4px 8px;
+    border-radius: 3px;
+    display: inline-block;
 }
 
 .legal-terms-page a:hover {
-    text-decoration: underline;
+    color: #5a6fd8;
+    background-color: rgba(102, 126, 234, 0.1);
+    text-decoration: none;
+    transform: translateY(-1px);
 }
 
 /* Styles pour les messages d'alerte */
@@ -113,12 +209,17 @@
 
 .alert a {
     margin-left: 20px;
-    color: #007bff;
-    text-decoration: none;
+    color: #667eea;
+    padding: 4px 8px;
+    border-radius: 3px;
+    display: inline-block;
 }
 
 .alert a:hover {
-    text-decoration: underline;
+    color: #5a6fd8;
+    background-color: rgba(102, 126, 234, 0.1);
+    text-decoration: none;
+    transform: translateY(-1px);
 }
 
 /* === Pages d'authentification (mot de passe oublié, réinitialisation) === */
@@ -203,11 +304,16 @@
     text-align: center;
     margin-top: 20px;
     color: #667eea;
-    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 .forgot-container a:hover {
-    text-decoration: underline;
+    color: #5a6fd8;
+    background-color: rgba(102, 126, 234, 0.1);
+    text-decoration: none;
+    transform: translateY(-2px);
 }
 
 .forgot-container p {
@@ -216,9 +322,160 @@
     margin: 15px 0;
 }
 
-@media (max-width: 500px) {
+/* === Menu Hamburger === */
+/* Cacher la checkbox */
+.menu-toggle {
+    display: none;
+}
+
+/* Icône hamburger - positionnée dans la navbar à droite */
+.hamburger-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    width: 40px;
+    height: 35px;
+    cursor: pointer;
+    z-index: 1002;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Les 3 barres du hamburger */
+.hamburger-icon .bar {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #2c3e50;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Animation des barres quand le menu est ouvert */
+.menu-toggle:checked + .hamburger-icon .bar:nth-child(1) {
+    transform: rotate(45deg) translate(10px, 10px);
+    background-color: white;
+}
+
+.menu-toggle:checked + .hamburger-icon .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle:checked + .hamburger-icon .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(10px, -10px);
+    background-color: white;
+}
+
+/* Menu Sidebar - caché par défaut à droite */
+.sidebar-menu {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Caché à droite */
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+    transition: right 0.4s ease;
+    z-index: 1001;
+    overflow-y: auto;
+}
+
+/* Afficher le menu quand la checkbox est cochée */
+.menu-toggle:checked ~ .sidebar-menu {
+    right: 0; /* Glisse de la droite vers la gauche */
+}
+
+/* Style du menu */
+.sidebar-menu ul {
+    list-style: none;
+    padding: 80px 20px 20px 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-menu ul li {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: block;
+    width: 100%;
+}
+
+.sidebar-menu ul li a {
+    display: block;
+    padding: 20px;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    margin: 2px 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu ul li a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateX(5px);
+    padding-left: 30px;
+}
+
+/* Overlay sombre quand le menu est ouvert */
+.menu-toggle:checked ~ .sidebar-menu::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+@media (max-width: 768px) {
+    /* Navbar adjustments on mobile */
+    .nav {
+        padding: 8px 12px;
+        min-height: 60px;
+    }
+
+    /* Hide ONLY the inline nav links (second top-level UL), not the sidebar menu */
+    .nav > ul:nth-of-type(2) {
+        display: none;
+    }
+
+    .hamburger-icon {
+        display: flex;
+        top: 50%;
+        right: 15px;
+        width: 35px;
+        height: 30px;
+    }
+
+    /* Logo size on mobile */
+    .nav-logo img {
+        height: 60px;
+    }
     .forgot-container form {
         padding: 25px;
         width: 90%;
+        
+    }
+
+    
+    .legal-terms-page {
+        margin: 20px;
+    }
+    
+    .legal-terms-page section {
+        padding: 15px;
+    }
+    
+    /* Menu hamburger en version mobile */
+    .sidebar-menu {
+        width: 250px;
+        right: -250px;
     }
 }

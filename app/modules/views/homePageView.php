@@ -59,14 +59,6 @@
             </div>
         </section>
 
-        <section class="social-media" aria-labelledby="social-title">
-            <h2 id="social-title">Réseaux sociaux</h2>
-            <ul>
-                <li><a href="#" aria-label="Follow us on Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-                <li><a href="#" aria-label="Join our Discord server"><i class="fa-brands fa-discord"></i></a></li>
-                <li><a href="#" aria-label="Follow us on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
-            </ul>
-        </section>
     </main>
 <?php
     end_page();

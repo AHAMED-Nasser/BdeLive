@@ -27,7 +27,6 @@
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <li><a href="#">BDE Info</a></li>
                 <?php if (isset($_SESSION['utilisateur_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><span><?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
@@ -36,6 +35,25 @@
                     <li><a href="index.php?page=register">Inscription</a></li>
                 <?php endif; ?>
             </ul>
+            
+            <!-- Menu Hamburger -->
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger-icon">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </label>
+            
+            <!-- Menu Sidebar -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a href="index.php?page=home">Accueil</a></li>
+                    <li><a href="index.php?page=login">Connexion</a></li>
+                    <li><a href="index.php?page=register">Inscription</a></li>
+                    <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                    <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 <?php endif; ?>
@@ -48,9 +66,6 @@
     <footer>
         <nav aria-label="Footer navigation">
             <ul>
-                <li><a href="#">Politique de confidentialité</a></li>
-                <li><a href="#">Contact et FAQ</a></li>
-                <li><a href="#">À propos</a></li>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
             </ul>
         </nav>
