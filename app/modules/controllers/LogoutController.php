@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 class LogoutController {
     
-    public function index(): void {
-        $_SESSION = array();
+    public function __construct() {
+        $_SESSION = [];
         
         if (isset($_COOKIE[session_name()])) {
             setcookie(session_name(), '', time()-42000, '/');
