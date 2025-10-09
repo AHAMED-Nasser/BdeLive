@@ -9,10 +9,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site officiel du BDE Inform'Aix - BDE Informatique à Aix-en-Provence. Découvrez nos événements, avantages étudiants et réseaux sociaux.">
-    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="icon" href="./assets/img/logo.png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -27,16 +27,33 @@
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <li><a href="#">Horaire</a></li>
-                <li><a href="#">BDE Info</a></li>
                 <?php if (isset($_SESSION['utilisateur_id'])): ?>
-                    <li><span>Bonjour, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
+                    <li><span><?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                 <?php endif; ?>
             </ul>
+            
+            <!-- Menu Hamburger -->
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger-icon">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </label>
+            
+            <!-- Menu Sidebar -->
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a href="index.php?page=home">Accueil</a></li>
+                    <li><a href="index.php?page=login">Connexion</a></li>
+                    <li><a href="index.php?page=register">Inscription</a></li>
+                    <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                    <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
 <?php endif; ?>
@@ -49,9 +66,6 @@
     <footer>
         <nav aria-label="Footer navigation">
             <ul>
-                <li><a href="#">Politique de confidentialité</a></li>
-                <li><a href="#">Contact et FAQ</a></li>
-                <li><a href="#">À propos</a></li>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
             </ul>
         </nav>
