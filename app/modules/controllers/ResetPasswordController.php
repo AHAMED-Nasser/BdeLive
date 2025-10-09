@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class ResetPasswordController {
     
-    public function index(): void {
+    public function __construct() {
         if (!isset($_SESSION['reset_token']) || !isset($_SESSION['reset_user_id'])) {
             header('Location: index.php?page=forgot_password');
             exit;
@@ -41,7 +41,6 @@ class ResetPasswordController {
         }
         
         try {
-            require_once __DIR__ . '/../models/PasswordReset.php';
             $passwordReset = new PasswordReset();
             
             $updated = $passwordReset->updatePassword($_SESSION['reset_user_id'], $password);

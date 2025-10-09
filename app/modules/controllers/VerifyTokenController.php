@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class VerifyTokenController {
     
-    public function index(): void {
+    public function __construct() {
         if (!isset($_SESSION['reset_email'])) {
             header('Location: index.php?page=forgot_password');
             exit;
@@ -28,7 +28,6 @@ class VerifyTokenController {
         }
         
         try {
-            require_once __DIR__ . '/../models/PasswordReset.php';
             $passwordReset = new PasswordReset();
             
             $verification = $passwordReset->verifyToken($token);
