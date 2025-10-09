@@ -564,10 +564,11 @@ $userManager = new UserManager(); // Chargé automatiquement
 **Utilité :** Point d'entrée de l'application
 
 **Contenu :**
+
 ```php
 <?php
 session_start();
-require_once 'Router.php';
+require_once 'rooter.php';
 ```
 
 Toutes les requêtes passent par ce fichier.
@@ -1252,12 +1253,13 @@ Vérifications :
 ### Activer les logs d'erreurs
 
 Dans `index.php`, ajouter en haut :
+
 ```php
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-require_once 'Router.php';
+require_once 'rooter.php';
 ```
 
 ---
