@@ -2,8 +2,27 @@
 
 declare(strict_types=1);
 
+/**
+ * Forgot Password Controller
+ * 
+ * Handles the password reset request process. Validates user email,
+ * generates a secure reset token, and sends it via email.
+ * First step in the password recovery workflow.
+ * 
+ * @package BdeLive\Controllers
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
 class ForgotPasswordController {
     
+    /**
+     * Handle forgot password page requests
+     * 
+     * Displays the forgot password form on GET requests, or processes
+     * the email submission on POST requests.
+     * 
+     * @return void
+     */
     public function index(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->sendResetEmail();
@@ -13,6 +32,15 @@ class ForgotPasswordController {
         $this->loadView('forgotPasswordView');
     }
     
+    /**
+     * Process password reset email request
+     * 
+     * Validates the provided email, generates a reset token, and sends
+     * it to the user's email address. Redirects to token verification
+     * page on success.
+     * 
+     * @return void
+     */
     private function sendResetEmail(): void {
         $email = trim($_POST['email'] ?? '');
         
@@ -68,6 +96,14 @@ class ForgotPasswordController {
         exit;
     }
     
+    /**
+     * Load a view file
+     * 
+     * Helper method to include and render a view template.
+     * 
+     * @param string $viewName The name of the view file to load (without .php extension)
+     * @return void
+     */
     private function loadView(string $viewName): void {
         require_once __DIR__ . '/../views/' . $viewName . '.php';
     }

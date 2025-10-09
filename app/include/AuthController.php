@@ -3,21 +3,49 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../modules/models/UserManager.php';
 
-
+/**
+ * Authentication Controller
+ * 
+ * Handles user authentication, registration, session management and user data retrieval.
+ * This controller acts as a bridge between the user interface (the views) and the UserManager model,
+ * managing the authentication workflow and session state.
+ * 
+ * @package BdeLive\Controllers
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui
+ * @version 1.0.0
+ */
 class AuthController
 {
+    /**
+     * User manager instance for database operations
+     * 
+     * @var UserManager
+     */
     private UserManager $userManager;
 
+    /**
+     * Constructor - Initialize the AuthController
+     * 
+     * Creates a new UserManager instance for handling user-related database operations.
+     */
     public function __construct()
     {
         $this->userManager = new UserManager();
     }
 
-
+    /**
+     * Authenticate a user with email and password
+     * 
+     * Validates user credentials against the database. If successful, creates
+     * a new session and stores user information in session variables.
+     * 
+     * @param string $email The user's email address
+     * @param string $mdp The user's password 
+     * @return bool True if authentication successful, false otherwise
+     */
     public function login(string $email, string $mdp): bool
     {
         try {
-            // Step 1: Find user by email using UserManager
             $user = $this->userManager->findUserByEmail($email);
             
             // Step 2: Check if user exists
@@ -53,7 +81,9 @@ class AuthController
 
     /**
      * Handle user logout
-     * Destroys session and redirects to home page
+     * 
+     * Destroys the current session and redirects to home page.
+     * Clears all session data and cookies associated with the user's session.
      * 
      * @return void
      */
@@ -70,6 +100,19 @@ class AuthController
         exit;
     }
 
+    /**
+     * Register a new user
+     * 
+     * Creates a new user account after validating the email format and checking
+     * for duplicate email addresses. The password is hashed before storage.
+     * 
+     * @param string $nom User's last name
+     * @param string $prenom User's first name
+     * @param string $classeAnnee User's class year (1, 2, or 3)
+     * @param string $email User's email address
+     * @param string $mdp User's password (will be hashed)
+     * @return int|false The new user ID if successful, false otherwise
+     */
     public function register(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
     {
         try {
@@ -92,7 +135,14 @@ class AuthController
         }
     }
 
-
+    /**
+     * Check if a user is currently logged in
+     * 
+     * Verifies the presence of required session variables to determine
+     * if a user has an active authenticated session.
+     * 
+     * @return bool True if user is logged in, false otherwise
+     */
     public function isLoggedIn(): bool
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -102,6 +152,13 @@ class AuthController
         return isset($_SESSION['utilisateur_id']) && isset($_SESSION['suid']);
     }
 
+    /**
+     * Get the current logged-in user's ID
+     * 
+     * Retrieves the user ID from the current session if available.
+     * 
+     * @return int|null The user ID, or null if not logged in
+     */
     public function getCurrentUserId(): ?int
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -111,7 +168,13 @@ class AuthController
         return $_SESSION['utilisateur_id'] ?? null;
     }
 
-
+    /**
+     * Get the current logged-in user's full name
+     * 
+     * Returns the user's first name and last name concatenated.
+     * 
+     * @return string|null The user's full name, or null if not logged in
+     */
     public function getCurrentUserFullName(): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -125,6 +188,13 @@ class AuthController
         return null;
     }
 
+    /**
+     * Get the current logged-in user's email address
+     * 
+     * Retrieves the email address from the current session.
+     * 
+     * @return string|null The user's email, or null if not logged in
+     */
     public function getCurrentUserEmail(): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -134,7 +204,13 @@ class AuthController
         return $_SESSION['email'] ?? null;
     }
 
-
+    /**
+     * Get the current logged-in user's class year
+     * 
+     * Retrieves the class year information from the current session.
+     * 
+     * @return string|null The user's class year (1, 2, or 3), or null if not logged in
+     */
     public function getCurrentUserClasseAnnee(): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -145,6 +221,14 @@ class AuthController
     }
 
 
+    /**
+     * Get the complete user data for the currently logged-in user
+     * 
+     * Retrieves all user information from the database for the current session user.
+     * Returns user data including ID, name, email, and class year.
+     * 
+     * @return array|false Array of user data if found, false otherwise
+     */
     public function getCurrentUserData(): array|false
     {
         $userId = $this->getCurrentUserId();

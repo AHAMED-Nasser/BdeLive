@@ -3,16 +3,44 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../../include/AuthController.php';
 
-
+/**
+ * Register Controller
+ * 
+ * Handles user registration operations including form display, input validation,
+ * account creation, and automatic login after successful registration.
+ * Works with AuthController to create new user accounts.
+ * 
+ * @package BdeLive\Controllers
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
 class RegisterController
 {
+    /**
+     * Authentication controller instance
+     * 
+     * @var AuthController
+     */
     private AuthController $authController;
 
+    /**
+     * Constructor - Initialize the RegisterController
+     * 
+     * Creates a new AuthController instance for handling registration operations.
+     */
     public function __construct()
     {
         $this->authController = new AuthController();
     }
 
+    /**
+     * Handle registration page requests
+     * 
+     * Displays the registration form on GET requests, or processes the
+     * registration attempt on POST requests.
+     * 
+     * @return void
+     */
     public function index(): void
     {
         // Handle form submission
@@ -23,6 +51,15 @@ class RegisterController
         }
     }
 
+    /**
+     * Process the registration form submission
+     * 
+     * Validates all user input (required fields, email format, password strength,
+     * class year), creates the user account via AuthController, and automatically
+     * logs in the new user on success.
+     * 
+     * @return void
+     */
     private function handleRegistration(): void
     {
         // Start session for error messages
@@ -86,6 +123,14 @@ class RegisterController
         }
     }
 
+    /**
+     * Load a view file
+     * 
+     * Helper method to include and render a view template.
+     * 
+     * @param string $viewName The name of the view file to load (without .php extension)
+     * @return void
+     */
     private function loadView(string $viewName): void
     {
         require_once __DIR__ . '/../views/' . $viewName . '.php';

@@ -2,8 +2,27 @@
 
 declare(strict_types=1);
 
+/**
+ * Verify Token Controller
+ * 
+ * Handles the token verification step in the password reset workflow.
+ * Validates the token sent to the user's email and ensures it's not
+ * expired or already used. Second step in password recovery.
+ * 
+ * @package BdeLive\Controllers
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
 class VerifyTokenController {
     
+    /**
+     * Handle token verification page requests
+     * 
+     * Ensures user came from forgot password flow, displays token input
+     * form on GET, or processes token verification on POST.
+     * 
+     * @return void
+     */
     public function index(): void {
         if (!isset($_SESSION['reset_email'])) {
             header('Location: index.php?page=forgot_password');
@@ -18,6 +37,15 @@ class VerifyTokenController {
         $this->loadView('verifyTokenView');
     }
     
+    /**
+     * Process token verification
+     * 
+     * Validates the submitted token against the database. Checks if token
+     * is valid, not expired, and not already used. Redirects to password
+     * reset page on success.
+     * 
+     * @return void
+     */
     private function verifyToken(): void {
         $token = trim($_POST['token'] ?? '');
         
@@ -51,6 +79,14 @@ class VerifyTokenController {
         exit;
     }
     
+    /**
+     * Load a view file
+     * 
+     * Helper method to include and render a view template.
+     * 
+     * @param string $viewName The name of the view file to load (without .php extension)
+     * @return void
+     */
     private function loadView(string $viewName): void {
         require_once __DIR__ . '/../views/' . $viewName . '.php';
     }

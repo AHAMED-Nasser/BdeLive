@@ -7,10 +7,43 @@ require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
 
+/**
+ * Email Service Provider
+ * 
+ * Handles email sending functionality using PHPMailer library.
+ * Configured to work with AlwaysData SMTP server for sending
+ * password reset emails and other application notifications.
+ * 
+ * @package BdeLive\Services
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
 class Mailer {
+    /**
+     * Sender email address
+     * 
+     * @var string
+     */
     private string $from_email = 'noreply@bdelivesae.alwaysdata.net';
+    
+    /**
+     * Sender display name
+     * 
+     * @var string
+     */
     private string $from_name = 'BDE Inform\'Aix';
     
+    /**
+     * Send a password reset email
+     * 
+     * Sends an email containing a password reset token to the specified recipient.
+     * The email is sent via SMTP using the AlwaysData mail server.
+     * 
+     * @param string $to_email Recipient's email address
+     * @param string $to_name Recipient's full name
+     * @param string $token The password reset token (64-character hex string)
+     * @return bool True if email sent successfully, false otherwise
+     */
     public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool {
         try {
             $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
@@ -47,11 +80,20 @@ class Mailer {
         }
     }
     
+    /**
+     * Generate plain text email content for password reset
+     * 
+     * Creates a formatted plain text email body containing the password reset
+     * token and instructions for the user.
+     * 
+     * @param string $name Recipient's name to personalize the email
+     * @param string $token The password reset token to include in the email
+     * @return string The formatted email body text
+     */
     private function getEmailTextVersion(string $name, string $token): string {
-        return "========================================\n" .
-               "BDE INFORM'AIX\n" .
+               return "BDE INFORM'AIX\n" .
                "Reinitialisation de mot de passe\n" .
-               "========================================\n\n" .
+               "\n\n" .
                "Bonjour " . $name . ",\n\n" .
                "Vous avez demande la reinitialisation de votre mot de passe.\n\n" .
                "VOTRE CODE DE VERIFICATION :\n" .
@@ -65,9 +107,9 @@ class Mailer {
                "ignorez cet email. Votre mot de passe actuel reste inchange.\n\n" .
                "Cordialement,\n" .
                "L'equipe du BDE Inform'Aix\n\n" .
-               "========================================\n" .
+               "\n\n" .
                "(c) 2025 BDE Inform'Aix - Tous droits reserves\n" .
                "Cet email a ete envoye automatiquement\n" .
-               "========================================";
+               "
     }
 }

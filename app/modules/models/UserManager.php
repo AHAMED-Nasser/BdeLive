@@ -3,28 +3,74 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../../config/Database.php';
 
+/**
+ * User Manager Model
+ * 
+ * Handles all user-related database operations including CRUD operations,
+ * password hashing and verification, and user search functionality.
+ * This class provides a data access layer for the Utilisateur table.
+ * 
+ * @package BdeLive\Models
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
 class UserManager
 {
+    /**
+     * PDO database connection instance
+     * 
+     * @var PDO
+     */
     private PDO $pdo;
 
+    /**
+     * Constructor - Initialize the UserManager
+     * 
+     * Retrieves the database connection from the Database singleton.
+     */
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-
+    /**
+     * Hash a password using SHA-1
+     * 
+     * Generates a hashed password of the one that is provided
+     * 
+     * @param string $password The plain text password to hash
+     * @return string The hashed password
+     */
     public function hashPassword(string $password): string
     {
         // SHA-1 generates exactly 40 hexadecimal characters
-        return hash('sha1', $password);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
+    /**
+     * Verify a password against its hash
+     * 
+     * Compares a plain text password with its hashed version to verify if they match.
+     * 
+     * @param string $password The plain text password to verify
+     * @param string $hashedPassword The hashed password to compare against
+     * @return bool True if the password matches, false otherwise
+     */
     public function verifyPassword(string $password, string $hashedPassword): bool
     {
-        return hash('sha1', $password) === $hashedPassword;
+        return password_hash($password, PASSWORD_DEFAULT) === $hashedPassword;
     }
 
-
+    /**
+     * Find a user by email address
+     * 
+     * Searches for a user in the database using their email address.
+     * Returns all user information including the hashed password.
+     * 
+     * @param string $email The email address to search for
+     * @return array|false Array containing user data if found, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function findUserByEmail(string $email): array|false
     {
         try {
@@ -43,6 +89,16 @@ class UserManager
         }
     }
 
+    /**
+     * Find a user by their ID
+     * 
+     * Retrieves user information from the database using the user ID.
+     * Does not return the password field for security reasons.
+     * 
+     * @param int $utilisateurId The user ID to search for
+     * @return array|false Array containing user data if found, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function findUserById(int $utilisateurId): array|false
     {
         try {
@@ -61,7 +117,15 @@ class UserManager
         }
     }
 
-
+    /**
+     * Get all users from the database
+     * 
+     * Retrieves all registered users, ordered by last name and first name.
+     * Password fields are excluded from the results (for security reasons).
+     * 
+     * @return array Array of user records (empty array if no users found)
+     * @throws PDOException If database query fails
+     */
     public function getAllUsers(): array
     {
         try {
@@ -78,6 +142,16 @@ class UserManager
         }
     }
 
+    /**
+     * Find users by class year
+     * 
+     * Retrieves all users belonging to a specific class year,
+     * ordered by last name and first name.
+     * 
+     * @param string $classeAnnee The class year to filter by (1, 2, or 3)
+     * @return array Array of user records (empty array if no users found)
+     * @throws PDOException If database query fails
+     */
     public function findUsersByClasseAnnee(string $classeAnnee): array
     {
         try {
@@ -96,7 +170,20 @@ class UserManager
         }
     }
 
-
+    /**
+     * Create a new user
+     * 
+     * Inserts a new user record into the database with hashed password.
+     * The password is automatically hashed before storage.
+     * 
+     * @param string $nom User's last name
+     * @param string $prenom User's first name
+     * @param string $classeAnnee User's class year (1, 2, or 3)
+     * @param string $email User's email address
+     * @param string $mdp User's password (plain text, will be hashed)
+     * @return int|false The new user ID if successful, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function createUser(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
     {
         try {
@@ -123,6 +210,19 @@ class UserManager
     }
 
 
+    /**
+     * Update user information
+     * 
+     * Updates an existing user's profile information (excluding password).
+     * 
+     * @param int $utilisateurId The ID of the user to update
+     * @param string $nom New last name
+     * @param string $prenom New first name
+     * @param string $classeAnnee New class year (1, 2, or 3)
+     * @param string $email New email address
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function updateUser(int $utilisateurId, string $nom, string $prenom, string $classeAnnee, string $email): bool
     {
         try {
@@ -148,6 +248,17 @@ class UserManager
         }
     }
 
+    /**
+     * Update a user's password
+     * 
+     * Changes a user's password. The new password is automatically hashed
+     * before storage.
+     * 
+     * @param int $utilisateurId The ID of the user
+     * @param string $newMdp The new password (plain text, will be hashed)
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function updatePassword(int $utilisateurId, string $newMdp): bool
     {
         try {
@@ -170,6 +281,15 @@ class UserManager
     }
 
 
+    /**
+     * Delete a user from the database
+     * 
+     * Permanently removes a user record. This operation cannot be undone.
+     * 
+     * @param int $utilisateurId The ID of the user to delete
+     * @return bool True if deletion successful, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function deleteUser(int $utilisateurId): bool
     {
         try {
@@ -184,6 +304,15 @@ class UserManager
         }
     }
 
+    /**
+     * Check if an email address already exists
+     * 
+     * Useful for validation during user registration to prevent duplicate accounts.
+     * 
+     * @param string $email The email address to check
+     * @return bool True if email exists, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function emailExists(string $email): bool
     {
         try {
