@@ -1,7 +1,7 @@
 <?php
 class HomePageController {
 
-    public function index(): void {
+    public function __construct() {
         $this->loadView('homePageView');
     }
 
