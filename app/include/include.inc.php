@@ -51,7 +51,6 @@
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
-                    <li><a href="index.php?page=sitemap">Plan du site</a></li>
                 </ul>
             </div>
         </nav>
@@ -67,6 +66,7 @@
         <nav aria-label="Footer navigation">
             <ul>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                <li><a href="index.php?page=sitemap">Plan du site</a></li>
             </ul>
         </nav>
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
