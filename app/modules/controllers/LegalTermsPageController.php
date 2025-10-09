@@ -3,7 +3,7 @@
 class LegalTermsPageController
 {
 
-    public function index(): void
+    public function __construct()
     {
         $this->loadView('legalTermsPageView');
     }
