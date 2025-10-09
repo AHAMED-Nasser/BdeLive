@@ -1,12 +1,9 @@
 <?php
 declare(strict_types=1);
 
-//require_once __DIR__ . '/../modules/models/UserManager.php';
-
-
 class AuthController
 {
-    private UserManager $userManager;
+    private $userManager;
 
     public function __construct()
     {
