@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class ForgotPasswordController {
     
-    public function index(): void {
+    public function __construct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->sendResetEmail();
             return;
@@ -43,7 +43,7 @@ class ForgotPasswordController {
             }
             
             // Envoi de l'email avec PHPMailer
-            require_once __DIR__ . '/../../config/mailer.php';
+            require_once __DIR__ . '/../../config/Mailer.php';
             $mailer = new Mailer();
             
             $emailSent = $mailer->sendPasswordResetEmail(
