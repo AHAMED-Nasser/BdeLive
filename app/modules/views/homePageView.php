@@ -39,13 +39,13 @@
                 </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="/assets/img/event1.png" alt="Premier événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="./assets/img/event1.png" alt="Premier événement" width="800" height="400" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="/assets/img/event2.png" alt="Deuxième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src=".//assets/img/event2.png" alt="Deuxième événement" width="800" height="400" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="/assets/img/event3.png" alt="Troisième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="./assets/img/event3.png" alt="Troisième événement" width="800" height="400" loading="lazy">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -59,14 +59,6 @@
             </div>
         </section>
 
-        <section class="social-media" aria-labelledby="social-title">
-            <h2 id="social-title">Réseaux sociaux</h2>
-            <ul>
-                <li><a href="#" aria-label="Follow us on Instagram"><i class="fa-brands fa-instagram"></i></a></li>
-                <li><a href="#" aria-label="Join our Discord server"><i class="fa-brands fa-discord"></i></a></li>
-                <li><a href="#" aria-label="Follow us on TikTok"><i class="fa-brands fa-tiktok"></i></a></li>
-            </ul>
-        </section>
     </main>
 <?php
     end_page();
