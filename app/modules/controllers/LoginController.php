@@ -1,28 +1,21 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../include/AuthController.php';
-
-
 class LoginController
 {
     private AuthController $authController;
 
     public function __construct()
     {
-        $this->authController = new AuthController();
-    }
-
-    public function index(): void
-    {
         // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
+            $this->authController = new AuthController();
             $this->processLogin();
         } else {
             $this->loadView('loginPageView');
         }
-    }
 
+    }
 
     private function processLogin(): void
     {
