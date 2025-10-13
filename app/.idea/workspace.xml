@@ -5,7 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f94ae2e3-d4fa-471e-89c3-52092b4022ed" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Router.php" beforeDir="false" afterPath="$PROJECT_DIR$/rooter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/autoload.php" beforeDir="false" afterPath="$PROJECT_DIR$/include/autoload.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/Database.php" beforeDir="false" afterPath="$PROJECT_DIR$/core/Database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/mailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/mailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/AuthController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/AuthController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/ForgotPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/ForgotPasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/HomePageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/HomePageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/LegalTermsPageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/LegalTermsPageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/LoginController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/LoginController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/LogoutController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/LogoutController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/RegisterController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/RegisterController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/ResetPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/ResetPasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/SitemapController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/SitemapController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/controllers/VerifyTokenController.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/controllers/VerifyTokenController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/models/UserManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/models/UserManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/forgotPasswordView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/forgotPasswordView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/homePageView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/homePageView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/legalTermsPageView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/legalTermsPageView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/loginPageView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/loginPageView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/registerPageView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/registerPageView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/resetPasswordView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/resetPasswordView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/sitemapView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/sitemapView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/views/verifyTokenView.php" beforeDir="false" afterPath="$PROJECT_DIR$/modules/views/verifyTokenView.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,8 +71,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/wamp64/www/FORMATION/BUT/bdeLive/BdeLive/app",
+    "git-widget-placeholder": "reorga",
+    "last_opened_file_path": "C:/wamp64/www/FORMATION/BUT/BdeLive/BdeLive/app",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -58,6 +82,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\wamp64\www\FORMATION\BUT\BdeLive\BdeLive\app\include" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -77,6 +106,7 @@
       <workItem from="1759690334552" duration="2018000" />
       <workItem from="1759692978197" duration="7744000" />
       <workItem from="1759703006577" duration="230000" />
+      <workItem from="1760364067468" duration="4942000" />
     </task>
     <servers />
   </component>

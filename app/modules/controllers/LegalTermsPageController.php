@@ -21,8 +21,7 @@ class LegalTermsPageController
      * 
      * @return void
      */
-    public function index(): void
-    {
+    public function __construct() {
         $this->loadView('legalTermsPageView');
     }
 
