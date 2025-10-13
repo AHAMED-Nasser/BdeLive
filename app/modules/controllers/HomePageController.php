@@ -19,7 +19,7 @@ class HomePageController {
      * 
      * @return void
      */
-    public function index(): void {
+    public function __construct() {
         $this->loadView('homePageView');
     }
 

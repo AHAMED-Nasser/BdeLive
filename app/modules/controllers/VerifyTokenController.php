@@ -23,7 +23,7 @@ class VerifyTokenController {
      * 
      * @return void
      */
-    public function index(): void {
+    public function __construct() {
         if (!isset($_SESSION['reset_email'])) {
             header('Location: index.php?page=forgot_password');
             exit;

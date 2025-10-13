@@ -1,9 +1,8 @@
 <?php
-    require_once __DIR__ . "/../../include/include.inc.php";
-
     start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
+
         <?php
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) {
@@ -60,6 +59,4 @@
         </section>
 
     </main>
-<?php
-    end_page();
-?>
+<?php end_page() ?>

@@ -23,7 +23,7 @@ class ForgotPasswordController {
      * 
      * @return void
      */
-    public function index(): void {
+    public function __construct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->sendResetEmail();
             return;

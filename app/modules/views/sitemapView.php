@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__. '/../../include/include.inc.php';
 start_page("Plan du site - BDE Live");
 ?>
     <div class="legal-terms-page">

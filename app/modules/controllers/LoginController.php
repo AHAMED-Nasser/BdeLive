@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../include/AuthController.php';
 
 /**
  * Login Controller
@@ -31,26 +30,14 @@ class LoginController
     public function __construct()
     {
         $this->authController = new AuthController();
-    }
-
-    /**
-     * Handle login page requests
-     * 
-     * Displays the login form on GET requests, or processes the login
-     * attempt on POST requests.
-     * 
-     * @return void
-     */
-    public function index(): void
-    {
         // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
             $this->processLogin();
         } else {
             $this->loadView('loginPageView');
         }
-    }
 
+    }
 
     /**
      * Process the login form submission

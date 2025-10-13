@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../config/Database.php';
-
 /**
  * User Manager Model
  * 
@@ -58,7 +56,7 @@ class UserManager
      */
     public function verifyPassword(string $password, string $hashedPassword): bool
     {
-        return password_hash($password, PASSWORD_DEFAULT) === $hashedPassword;
+        return password_verify($password, $hashedPassword);
     }
 
     /**

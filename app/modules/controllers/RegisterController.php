@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../include/AuthController.php';
-
 /**
  * Register Controller
  * 
@@ -31,18 +29,6 @@ class RegisterController
     public function __construct()
     {
         $this->authController = new AuthController();
-    }
-
-    /**
-     * Handle registration page requests
-     * 
-     * Displays the registration form on GET requests, or processes the
-     * registration attempt on POST requests.
-     * 
-     * @return void
-     */
-    public function index(): void
-    {
         // Handle form submission
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
             $this->handleRegistration();

@@ -109,7 +109,6 @@ class Mailer {
                "L'equipe du BDE Inform'Aix\n\n" .
                "\n\n" .
                "(c) 2025 BDE Inform'Aix - Tous droits reserves\n" .
-               "Cet email a ete envoye automatiquement\n" .
-               "
+               "Cet email a ete envoye automatiquement\n";
     }
 }

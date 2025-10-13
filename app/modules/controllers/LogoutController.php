@@ -23,7 +23,7 @@ class LogoutController {
      * 
      * @return void
      */
-    public function index(): void {
+    public function __construct() {
         $_SESSION = array();
         
         if (isset($_COOKIE[session_name()])) {

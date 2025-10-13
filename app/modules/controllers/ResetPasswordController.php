@@ -24,7 +24,7 @@ class ResetPasswordController {
      * 
      * @return void
      */
-    public function index(): void {
+    public function __construct() {
         if (!isset($_SESSION['reset_token']) || !isset($_SESSION['reset_user_id'])) {
             header('Location: index.php?page=forgot_password');
             exit;
