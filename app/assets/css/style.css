@@ -479,3 +479,13 @@ footer p {
         right: -250px;
     }
 }
+
+.insta-logo{
+    height: 60px;
+
+}
+
+.discord-logo{
+    height: 70px;
+    margin-left:-5px;
+}

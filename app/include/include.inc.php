@@ -33,6 +33,7 @@
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
+                    <li><a href="index.php?page= #">Evènement</a></li>
                 <?php endif; ?>
             </ul>
             
@@ -67,6 +68,18 @@
             <ul>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                 <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="footer-logo">
+                    <img src="../assets/img/insta.png" alt="Instagram" class="insta-logo">
+                </a>
+
+                <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="footer-logo">
+                    <img src="../assets/img/discord.png" alt="Discord" class="discord-logo">
+                </a>
+
+                <a href="https://www.tiktok.com/#/" target="_blank" rel="noopener noreferrer">
+                    <img src="app/assets/img/insta.png" alt="Tiktok" width="40" height="40">
+                </a>
+
             </ul>
         </nav>
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
