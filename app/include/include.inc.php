@@ -29,7 +29,7 @@
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <?php if (isset($_SESSION['utilisateur_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
-                    <li><span><?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
+                    <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></a></li>
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
