@@ -236,16 +236,6 @@ footer p {
     transition: all 0.4s ease;
 }
 
-/* Section principale BDE */
-.BDE {
-    max-width: 1000px;
-    margin: 60px auto;
-    padding: 40px 20px;
-    background-color: #fafafa;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
 /* Titre principal : "Qui sommes-nous ?" */
 #bde-title {
     text-align: left;
@@ -256,6 +246,16 @@ footer p {
     letter-spacing: 1px;
     border-left: 5px solid #667eea; /* petit effet visuel élégant */
     padding-left: 15px;
+}
+
+/* Section principale BDE */
+.BDE {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px 20px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 /* Présentation */
