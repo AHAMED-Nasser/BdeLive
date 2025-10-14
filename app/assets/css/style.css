@@ -82,6 +82,16 @@ footer {
     text-align: center;
 }
 
+.Réseaux{
+    margin-bottom: 3px;
+    color: white;
+    font-size: 1.3rem;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
 footer nav {
     margin-bottom: 15px;
 }
