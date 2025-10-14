@@ -122,11 +122,199 @@ footer p {
     color: rgba(255, 255, 255, 0.9);
 }
 
-/* Styles pour les événements */
+
 .events {
-    margin: 0;
-    padding: 0.3rem;
-    background-color: #eee;
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: #444;
+}
+
+#events-title {
+    text-align: left;
+    font-size: 2rem;
+    color: #5a5a5a;
+    font-weight: 600;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+    padding-left: 12px;
+}
+
+
+#big-title {
+    text-align: center;
+    color: #333333;
+    margin-bottom: 40PX;
+    height: 100px;
+
+}
+
+.carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    background: #fff;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+    border-radius: 16px;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.85);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    color: #4a4a4a;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-control:hover {
+    background: #667eea;
+    color: #fff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-control-prev {
+    left: 15px;
+}
+
+.carousel-control-next {
+    right: 15px;
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 18px;
+    list-style: none;
+}
+
+.carousel-indicators li {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bbb;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-indicators li.active {
+    background: #424344;
+    width: 30px;
+    border-radius: 6px;
+}
+
+.carousel-item img:hover {
+    filter: brightness(0.95);
+    transform: scale(1.02);
+    transition: all 0.4s ease;
+}
+
+/* Section principale BDE */
+.BDE {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px 20px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Titre principal : "Qui sommes-nous ?" */
+#bde-title {
+    text-align: left;
+    color: #333;
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+    border-left: 5px solid #667eea; /* petit effet visuel élégant */
+    padding-left: 15px;
+}
+
+/* Présentation */
+.BDE h3 {
+    font-size: 1.8rem;
+    text-align: center;
+    color: #4a4a4a;
+    margin-bottom: 30px;
+}
+
+/* Corps du texte centré */
+.bde-text {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    color: #444;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+}
+
+/* Bouton image */
+.btn-image-right {
+    display: block;              /* permet de gérer l'alignement */
+    text-align: right;           /* place le contenu à droite */
+    margin: 20px 40px;           /* espace autour du bouton */
+}
+
+.btn-image-right img {
+    width: 60px;                 /* taille du bouton */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 50%;          /* arrondi pour un effet bouton */
+}
+
+.btn-image-right img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+}
+
+
+@media (max-width: 992px) {
+    .carousel-item img {
+        height: 350px;
+    }
+    #events-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel-item img {
+        height: 250px;
+    }
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
 }
 
 /* Hero section on home page */
