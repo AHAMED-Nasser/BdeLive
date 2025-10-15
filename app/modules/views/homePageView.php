@@ -26,6 +26,7 @@
             <p>Site officiel du BDE, BUT Informatique Aix-en-Provence</p>
         </section>
 
+
         <section class="events" aria-labelledby="events-title">
             <h3 id="big-title"><strong>Bienvenue au BDE Informatique d’Aix !</strong></h3>
             <h2 id="events-title">Événements à venir</h2>
@@ -69,13 +70,29 @@
 
                     Nos valeurs : <strong>convivialité, partage et innovation</strong>.
                     Que tu sois développeur, gamer ou simplement curieux, le BDE Info Aix est fait pour toi !
-                </p> </h2>
+                </h2>
+                </p>
             </div>
         </section>
-            <a href="index.php" class="btn-image-right">
+
+        <section class="Equipe" aria-labelledby="equipe-title">
+            <h3><strong>Notre équipe :</strong></h3>
+            <div class="equipe-text"></div>
+            <p>
+                <h2>
+                    <strong>Notre équipe passionées , </strong> est composée d'experts dévoués qui travaillent
+                    ensemble pour offrir les meilleurs services à nos clients.
+                <li><a href="index.php?page=team">En savoir plus</a></li>
+                </h2>
+            </p>
+        </section>
+
+
+        <div class="btn-image-right">
+        <a href="index.php" >
                 <img src="./assets/img/fleche-accueil.png" alt="Aller à l'accueil" class="bde-image">
             </a>
-
+        </div>
 
 </main>
 <?php end_page() ?>
