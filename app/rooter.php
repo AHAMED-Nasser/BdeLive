@@ -1,4 +1,5 @@
 <?php
+var_dump($_GET);
 // Gestion spéciale pour le sitemap XML (avant tout autre traitement)
 if (isset($_GET['page']) && $_GET['page'] === 'sitemap' && isset($_GET['format']) && $_GET['format'] === 'xml') {
     require_once __DIR__ . '/include/autoload.php';
