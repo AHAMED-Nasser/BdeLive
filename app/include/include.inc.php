@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="./assets/css/footer.css">
     <link rel="stylesheet" href="./assets/css/navbar.css">
     <link rel="stylesheet" href="./assets/css/member.css">
+    <link rel="stylesheet" href="./assets/css/team.css">
 
     <title><?= $title ?></title>
 </head>

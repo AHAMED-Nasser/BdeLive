@@ -59,40 +59,39 @@
         </section>
 
 
-        <section class="BDE" aria-labelledby="bde-title">
-            <h3> <strong>Qui sommes nous ?</strong></h3>
-            <div class="bde-text">
-                <p>
-                    <h2>Le <strong>BDE Informatique d’Aix</strong> est une association étudiante qui rassemble les passionnés de
-                    technologies, de programmation et de cybersécurité.
-                    Nous organisons des événements, des ateliers et des soirées pour créer du lien entre les étudiants
-                    en informatique et favoriser l’entraide au sein du campus.
+<section class="BDE" aria-labelledby="bde-title">
+    <h3 id="bde-title"><strong>Qui sommes-nous ?</strong></h3>
+    <div class="bde-text">
+        <h2>
+            Le <strong>BDE Informatique d’Aix</strong> est une association étudiante qui rassemble les passionnés de
+            technologies, de programmation et de cybersécurité.
+            Nous organisons des événements, des ateliers et des soirées pour créer du lien entre les étudiants
+            en informatique et favoriser l’entraide au sein du campus.
+            <br><br>
+            Nos valeurs : <strong>convivialité, partage et innovation</strong>.
+            Que tu sois développeur, gamer ou simplement curieux, le BDE Info Aix est fait pour toi !
+        </h2>
+    </div>
+</section>
 
-                    Nos valeurs : <strong>convivialité, partage et innovation</strong>.
-                    Que tu sois développeur, gamer ou simplement curieux, le BDE Info Aix est fait pour toi !
-                </h2>
-                </p>
-            </div>
-        </section>
+<section class="Equip" aria-labelledby="equip-title">
+    <h3 id="equip-title"><strong>Notre équipe</strong></h3>
+    <div class="equip-text">
+        <h2>
+            <strong>Notre équipe passionnée</strong> est composée d'étudiants motivés à apprendre qui travaillent
+            ensemble pour proposer des événements et projets autour de l’informatique.
+        </h2>
+        <ul>
+            <li><a href="index.php?page=team">En savoir plus</a></li>
+        </ul>
+    </div>
+</section>
 
-        <section class="Equipe" aria-labelledby="equipe-title">
-            <h3><strong>Notre équipe :</strong></h3>
-            <div class="equipe-text"></div>
-            <p>
-                <h2>
-                    <strong>Notre équipe passionées , </strong> est composée d'experts dévoués qui travaillent
-                    ensemble pour offrir les meilleurs services à nos clients.
-                <li><a href="index.php?page=team">En savoir plus</a></li>
-                </h2>
-            </p>
-        </section>
-
-
-        <div class="btn-image-right">
-        <a href="index.php" >
-                <img src="./assets/img/fleche-accueil.png" alt="Aller à l'accueil" class="bde-image">
-            </a>
-        </div>
+<div class="btn-image-right">
+    <a href="index.php">
+        <img src="./assets/img/fleche-accueil.png" alt="Aller à l'accueil" class="bde-image">
+    </a>
+</div>
 
 </main>
 <?php end_page() ?>
