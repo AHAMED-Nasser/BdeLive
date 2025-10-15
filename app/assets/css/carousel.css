@@ -1,0 +1,7 @@
+.carousel {
+    display: flex;
+}
+
+.carousel-control .prev {
+    rotation: 90deg;
+}
