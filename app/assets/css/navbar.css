@@ -1,0 +1,50 @@
+/* Styles pour la navbar */
+.nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background: #b523eb;
+    background: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%, rgba(237, 221, 83, 1) 100%);
+    position: relative;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    min-height: 70px;
+}
+
+
+.nav li {
+    list-style: none;
+    padding: 15px;
+}
+
+.nav a {
+    font-size: 1.3rem;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.nav a:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.nav ul {
+    display: flex;
+    align-items: center;
+}
+
+.nav span {
+    color: white;
+    font-family: "JetBrains Mono ExtraBold", monospace;
+    font-size: 1.1rem;
+}
+
+.nav-logo img {
+    height: 110px;
+    border-bottom-right-radius: 25px;
+}
