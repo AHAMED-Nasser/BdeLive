@@ -2,9 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../config/Database.php';
-require_once __DIR__ . '/../modules/models/PasswordReset.php';
-
 try {
     $passwordReset = new PasswordReset();
     $result = $passwordReset->cleanExpiredTokens();

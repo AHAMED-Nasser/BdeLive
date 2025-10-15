@@ -1,4 +1,5 @@
 <?php
 
     session_start();
-    require_once  __DIR__ . '/Router.php';
+ 
+    require_once 'rooter.php';

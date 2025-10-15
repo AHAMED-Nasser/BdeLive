@@ -1,5 +1,4 @@
 <?php
-    require_once __DIR__ . "/../../include/include.inc.php";
     start_page("Mot de passe oublié - BDE Inform'Aix", true);
 ?>
 
@@ -29,7 +28,4 @@
         <a href="index.php?page=login"> <--- Retour page de connexion</a>
     </div>
 
-<?php
-    end_page();
-?>
-
+<?php end_page() ?>
