@@ -1,5 +1,4 @@
 <?php
-    
     function start_page(string $title, bool $wouldNav = true) {
 ?>
 
@@ -13,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/carousel.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -33,6 +33,7 @@
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
+                    <li><a href="index.php?page=event">Evénements</a></li>
                 <?php endif; ?>
             </ul>
             
