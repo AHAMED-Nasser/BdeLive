@@ -1,9 +1,8 @@
 <?php
-    require_once __DIR__ . "/../../include/include.inc.php";
-
     start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
+
         <?php
         // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) {
@@ -39,13 +38,13 @@
                 </ul>
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img class="d-block w-100" src="./assets/img/event1.png" alt="Premier événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="./assets/img/event1.png" alt="Premier événement" width="800" height="600" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src=".//assets/img/event2.png" alt="Deuxième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src=".//assets/img/event2.png" alt="Deuxième événement" width="800" height="600" loading="lazy">
                     </div>
                     <div class="carousel-item">
-                        <img class="d-block w-100" src="./assets/img/event3.png" alt="Troisième événement" width="800" height="400" loading="lazy">
+                        <img class="d-block w-100" src="./assets/img/event3.png" alt="Troisième événement" width="800" height="600" loading="lazy">
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -60,6 +59,4 @@
         </section>
 
     </main>
-<?php
-    end_page();
-?>
+<?php end_page() ?>
