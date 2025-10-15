@@ -1,5 +1,14 @@
 <?php
-// On inclut les fichiers nécessaires une seule fois au début
+// Gestion spéciale pour le sitemap XML (avant tout autre traitement)
+if (isset($_GET['page']) && $_GET['page'] === 'sitemap' && isset($_GET['format']) && $_GET['format'] === 'xml') {
+    require_once __DIR__ . '/include/autoload.php';
+    
+    $controller = new SitemapController();
+    $controller->generateXml();
+    exit;
+}
+
+// On inclut les fichiers nécessaires pour les autres pages
 require_once __DIR__ . '/include/include.inc.php';
 require_once __DIR__ . '/include/autoload.php';
 $page = $_GET['page'] ?? 'home';
@@ -13,7 +22,9 @@ $controllerMap = [
     'forgot_password' => 'ForgotPasswordController',
     'verify_token' => 'VerifyTokenController',
     'reset_password' => 'ResetPasswordController',
-    'sitemap' => 'SitemapController'
+    'sitemap' => 'SitemapController',
+    'profile' => 'ProfileController',
+
 ];
 
 if (isset($controllerMap[$page])) {
@@ -32,7 +43,6 @@ if (isset($controllerMap[$page])) {
 
 
 } else {
-    // Page non trouvée
     http_response_code(404);
     echo 'Page non trouvée';
 }
