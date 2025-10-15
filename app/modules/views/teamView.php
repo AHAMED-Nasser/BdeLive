@@ -13,15 +13,15 @@
     <body>
 
     <section class="team" aria-labelledby="team-title">
-        <h2 id="team-title">Notre Équipe</h2>
+        <h2 id="team-title"><strong>Notre Équipe</strong></h2>
 
         <div class="team-box">
             <div class="team-box1">
                 <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Nasser – Scrum Master">
+                    <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master">
                 </div>
                 <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Mohamed – Product Owner">
+                    <img src="assets/img/Mohamed.jpg" alt="Photo Mohamed – Product Owner">
                 </div>
                 <div class="member">
                     <img src="assets/img/square_grey.png" alt="Photo Thomas – Dévellopeur">
@@ -29,13 +29,13 @@
             </div>
             <div class="team-box2">
                 <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Romain – Développeur">
+                    <img src="assets/img/Romain.png" alt="Photo Romain – Développeur">
                 </div>
                 <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Willem – Développeur">
+                    <img src="assets/img/WIllem.jpg" alt="Photo Willem – Développeur">
                 </div>
                 <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Amin – Développeur">
+                    <img src="assets/img/amin.png" alt="Photo Amin – Développeur">
                 </div>
             </div>
         </div>

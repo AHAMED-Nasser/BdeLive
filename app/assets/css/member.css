@@ -1,3 +1,9 @@
+#team-title{
+    color: #444444;
+    margin-top: 100px;
+}
+
+
 .team-box{
     display: flex;
     width: 100%;
@@ -9,10 +15,19 @@
     display: flex;
     justify-content: space-around;
     margin:20px;
+
 }
 
 .team-box2{
     display: flex;
     justify-content: space-around;
     margin:20px;
+}
+
+.member img{
+    width: 500px;        /* largeur du cadre */
+    height: 500px;
+    border-radius: 30px;
+    object-fit: cover;       /* remplit le cadre sans déformation */
+    object-position: center;
 }
