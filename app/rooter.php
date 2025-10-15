@@ -14,7 +14,8 @@
         'forgot_password' => 'ForgotPasswordController',
         'verify_token' => 'VerifyTokenController',
         'reset_password' => 'ResetPasswordController',
-        'sitemap' => 'SitemapController'
+        'sitemap' => 'SitemapController',
+        'team' => 'TeamController'
     ];
 
     if (isset($controllerMap[$page])){
