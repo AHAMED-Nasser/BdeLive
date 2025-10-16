@@ -3,16 +3,21 @@
 
     $imageEventEsport = [
         ['src' => './assets/img/carousel/events/event2.jpg'],
-        ['src' => './assets/img/carousel/events/event1.jpg'],
+        ['src' => './assets/img/carousel/events/event1.svg'],
         ['src' => './assets/img/carousel/events/event1.svg']
     ];
-    $carouselId = 'carousel-event';
+
+    $imageEventSoiree = [
+        ['src' => './assets/img/carousel/events/event1.svg']
+    ];
 ?>
 
-<div class="forgot-container">
-    <h1>Evénements</h1>
-    <?php useCarousel('E-sport', $imageEventEsport) ?>
-</div>
+<section class="events">
+    <h1 class="title">Evénements</h1>
+    <?php useCarousel('E-sport', $imageEventEsport, 'carousel-esport-event') ?>
+    <?php useCarousel('Soirées', $imageEventSoiree, 'carousel-soiree-event') ?>
+</section>
+
 
 <?php end_page() ?>
 

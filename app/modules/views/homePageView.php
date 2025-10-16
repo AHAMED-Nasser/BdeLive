@@ -1,9 +1,10 @@
 <?php
     $imageFuturEvent = [
-        './assets/img/event1.png',
-        './assets/img/event2.png',
-        './assets/img/event3.png'
+        ['src' => './assets/img/event1.png'],
+        ['src' => './assets/img/event2.png'],
+        ['src' => './assets/img/event3.png']
     ];
+
     start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
@@ -62,7 +63,7 @@
 <!--                </a>-->
 <!--            </div>-->
 <!--        </section>-->
-        <?php useCarousel('Evénement à venir', $imageFuturEvent) ?>
+        <?php useCarousel('Evénement à venir', $imageFuturEvent, 'carousel-future-event') ?>
 
     </main>
 <?php end_page() ?>
