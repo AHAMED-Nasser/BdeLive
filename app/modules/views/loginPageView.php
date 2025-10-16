@@ -3,7 +3,7 @@
 ?>
 
     <div class="forgot-container">
-        <h1>Connexion</h1>
+        <h1 class="title">Connexion</h1>
         
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">

@@ -3,7 +3,7 @@
 ?>
 
     <div class="forgot-container">
-        <h1>Nouveau mot de passe</h1>
+        <h1 class="title">Nouveau mot de passe</h1>
         
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger">
