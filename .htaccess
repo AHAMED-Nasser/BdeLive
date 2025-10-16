@@ -1,9 +1,8 @@
 RewriteEngine On
+Options -MultiViews
+RewriteBase /BdeLive/
 
-# Redirection pour sitemap.xml vers le générateur dynamique
-RewriteRule ^sitemap\.xml$ app/index.php?page=sitemap&format=xml [L]
-
-# Redirection générale pour les autres pages
+# Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
