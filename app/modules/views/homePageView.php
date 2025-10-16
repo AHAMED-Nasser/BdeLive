@@ -28,7 +28,7 @@
 
 
         <section class="events" aria-labelledby="events-title">
-            <h3 id="big-title"><strong>Bienvenue au BDE Informatique d’Aix !</strong></h3>
+            <h1 id="big-title"><strong>Bienvenue au BDE Informatique d’Aix !</strong></h1>
             <h2 id="events-title">Événements à venir</h2>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ul class="carousel-indicators">
