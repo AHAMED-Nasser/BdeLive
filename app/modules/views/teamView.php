@@ -12,58 +12,61 @@
     </head>
     <body>
 
-    <section class="team" aria-labelledby="team-title">
-        <h1 id="team-title"><strong>Notre Équipe</strong></h1>
+    <div class="content-background">
+        <section class="team" aria-labelledby="team-title">
+            <h1 id="team-title"><strong>Notre Équipe</strong></h1>
 
-        <div class="team-box">
-            <div class="team-box1">
-                <div class="member">
-                    <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master">
-                    <div class="member-info">
-                        <h3 class="member-name">Nasser AHAMED</h3>
-                        <p class="member-role"><strong>Scrum Master</strong></p>
+            <div class="team-box">
+                <div class="team-box1">
+                    <div class="member">
+                        <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master">
+                        <div class="member-info">
+                            <h3 class="member-name">Nasser AHAMED</h3>
+                            <p class="member-role"><strong>Scrum Master</strong></p>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <img src="assets/img/Mohamed.jpg" alt="Photo Mohamed – Product Owner">
+                        <div class="member-info">
+                            <h3 class="member-name">Mohamed-Amin BOUDHIB</h3>
+                            <p class="member-role"><strong>Product owner</strong></p>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <img src="assets/img/square_grey.png" alt="Photo Thomas – Dévellopeur">
+                        <div class="member-info">
+                            <h3 class="member-name">Thomas PALOT</h3>
+                            <p class="member-role"><strong>Développeur</strong></p>
+                        </div>
                     </div>
                 </div>
-                <div class="member">
-                    <img src="assets/img/Mohamed.jpg" alt="Photo Mohamed – Product Owner">
-                    <div class="member-info">
-                        <h3 class="member-name">Mohamed-Amin BOUDHIB</h3>
-                        <p class="member-role"><strong>Product owner</strong></p>
+                <div class="team-box2">
+                    <div class="member">
+                        <img src="assets/img/Romain.png" alt="Photo Romain – Développeur">
+                        <div class="member-info">
+                            <h3 class="member-name">Romain CANTOR</h3>
+                            <p class="member-role"><strong>Développeur</strong></p>
+                        </div>
                     </div>
-                </div>
-                <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Thomas – Dévellopeur">
-                    <div class="member-info">
-                        <h3 class="member-name">Thomas PALOT</h3>
-                        <p class="member-role"><strong>Développeur</strong></p>
+                    <div class="member">
+                        <img src="assets/img/WIllem.jpg" alt="Photo Willem – Développeur">
+                        <div class="member-info">
+                            <h3 class="member-name">Willem CHETIOUI</h3>
+                            <p class="member-role"><strong>Développeur</strong></p>
+                        </div>
+                    </div>
+                    <div class="member">
+                        <img src="assets/img/square_grey.png" alt="Photo Amin – Développeur">
+                        <div class="member-info">
+                            <h3 class="member-name">Amin HELALI</h3>
+                            <p class="member-role"><strong>Développeur</strong></p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="team-box2">
-                <div class="member">
-                    <img src="assets/img/Romain.png" alt="Photo Romain – Développeur">
-                    <div class="member-info">
-                        <h3 class="member-name">Romain CANTOR</h3>
-                        <p class="member-role"><strong>Développeur</strong></p>
-                    </div>
-                </div>
-                <div class="member">
-                    <img src="assets/img/WIllem.jpg" alt="Photo Willem – Développeur">
-                    <div class="member-info">
-                        <h3 class="member-name">Willem CHETIOUI</h3>
-                        <p class="member-role"><strong>Développeur</strong></p>
-                    </div>
-                </div>
-                <div class="member">
-                    <img src="assets/img/square_grey.png" alt="Photo Amin – Développeur">
-                    <div class="member-info">
-                        <h3 class="member-name">Amin HELALI</h3>
-                        <p class="member-role"><strong>Développeur</strong></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
+
 
     </body>
     </html>
