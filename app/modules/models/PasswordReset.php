@@ -41,7 +41,7 @@ class PasswordReset {
      */
     public function getUserByEmail(string $email): array|false {
         try {
-            $stmt = $this->pdo->prepare('SELECT utilisateur_id, nom, prenom, email FROM Utilisateur WHERE email = ?');
+            $stmt = $this->pdo->prepare('SELECT user_id, last_name, first_name, email FROM Utilisateur WHERE email = ?');
             $stmt->execute([$email]);
             $result = $stmt->fetch();
             
@@ -63,19 +63,22 @@ class PasswordReset {
      * @return string|false The generated token if successful, false otherwise
      *
      */
-    public function createToken(int $utilisateur_id): string|false {
+    public function createToken(int $user_id): string|false {
         try {
+            //Prepare the token
             $token = bin2hex(random_bytes(32));
             date_default_timezone_set('Europe/Paris');
             $expire_dans = date('Y-m-d H:i:s', strtotime('+3 hours'));
             
+            //Insert the token into the database
             $stmt = $this->pdo->prepare(
-                'INSERT INTO MDP_OUBLIES_TOKEN (utilisateur_id, token, expire_dans) VALUES (?, ?, ?)'
+                'INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at) VALUES (?, ?, ?)'
             );
-            $stmt->execute([$utilisateur_id, $token, $expire_dans]);
+            $stmt->execute([$user_id, $token, $expires_at]);
             
             return $token;
         } catch (PDOException $e) {
+            // If another error occurs, show an error message
             error_log("Erreur createToken : " . $e->getMessage());
             return false;
         }
@@ -93,32 +96,33 @@ class PasswordReset {
      */
     public function verifyToken(string $token): array {
         try {
+            //Prepare the statement
             $stmt = $this->pdo->prepare(
-                'SELECT id, utilisateur_id, expire_dans, utilise FROM MDP_OUBLIES_TOKEN WHERE token = ?'
+                'SELECT id, user_id, expires_at, is_used FROM PASSWORD_RESET_TOKEN WHERE token = ?'
             );
+            //Execute the statement
             $stmt->execute([$token]);
             $result = $stmt->fetch();
-            
+            // if the token is not valid (expired or not found), show an error message
             if (!$result) {
                 return ['valid' => false, 'message' => 'Code invalide'];
             }
-            
-            if ($result['utilise'] == 1) {
+            // if the token is already used, show an error message
+            if ($result['is_used'] == 1) {
                 return ['valid' => false, 'message' => 'Ce code a déjà été utilisé'];
             }
-            
-            $expire_time = strtotime($result['expire_dans']);
+            $expire_time = strtotime($result['expires_at']);
             $current_time = time();
             
             if ($current_time > $expire_time) {
-                $deleteStmt = $this->pdo->prepare('DELETE FROM MDP_OUBLIES_TOKEN WHERE id = ?');
+                $deleteStmt = $this->pdo->prepare('DELETE FROM PASSWORD_RESET_TOKEN WHERE id = ?');
                 $deleteStmt->execute([$result['id']]);
                 return ['valid' => false, 'message' => 'Ce code a expiré'];
             }
             
             return [
                 'valid' => true, 
-                'utilisateur_id' => $result['utilisateur_id'], 
+                'user_id' => $result['user_id'], 
                 'token_id' => $result['id']
             ];
             
