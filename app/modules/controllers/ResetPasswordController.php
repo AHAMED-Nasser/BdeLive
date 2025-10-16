@@ -50,19 +50,19 @@ class ResetPasswordController {
     private function resetPassword(): void {
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
-        
+        // Show an error message if the password or the confirm password is empty
         if (empty($password) || empty($confirm_password)) {
             $_SESSION['error'] = 'Veuillez remplir tous les champs';
             header('Location: index.php?page=reset_password');
             exit;
         }
-        
+        // Show an error message if the password is less than 6 characters
         if (strlen($password) < 6) {
             $_SESSION['error'] = 'Le mot de passe doit contenir au moins 6 caractères';
             header('Location: index.php?page=reset_password');
             exit;
         }
-        
+        // Show an error message if the password and the confirm password do not match
         if ($password !== $confirm_password) {
             $_SESSION['error'] = 'Les mots de passe ne correspondent pas';
             header('Location: index.php?page=reset_password');
@@ -70,27 +70,30 @@ class ResetPasswordController {
         }
         
         try {
+            // Update the password in the database
             require_once __DIR__ . '/../models/PasswordReset.php';
             $passwordReset = new PasswordReset();
             
             $updated = $passwordReset->updatePassword($_SESSION['reset_user_id'], $password);
             
             if ($updated) {
-                // Marquer le token comme utilisé (utilise = 1)
+                // Mark the token as used (used = 1)
                 $passwordReset->markTokenAsUsed($_SESSION['reset_token']);
-                
+                // Unset the session variables
                 unset($_SESSION['reset_token']);
                 unset($_SESSION['reset_user_id']);
                 unset($_SESSION['reset_email']);
-                
+                // Show a success message
                 $_SESSION['success'] = 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter';
                 header('Location: index.php?page=login');
             } else {
+                // If the password is not updated, show an error message
                 $_SESSION['error'] = 'Erreur lors de la mise à jour du mot de passe';
                 header('Location: index.php?page=reset_password');
             }
-            
+
         } catch (Exception $e) {
+            // If another error occurs, show an error message
             $_SESSION['error'] = 'Une erreur est survenue';
             header('Location: index.php?page=reset_password');
         }

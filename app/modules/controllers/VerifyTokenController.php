@@ -48,31 +48,32 @@ class VerifyTokenController {
      */
     private function verifyToken(): void {
         $token = trim($_POST['token'] ?? '');
-        
+        // Show an error message if the token is empty
         if (empty($token)) {
             $_SESSION['error'] = 'Veuillez saisir le code de vérification';
             header('Location: index.php?page=verify_token');
             exit;
         }
-        
+        // Verify the token
         try {
             require_once __DIR__ . '/../models/PasswordReset.php';
             $passwordReset = new PasswordReset();
-            
+            // Verify the token
             $verification = $passwordReset->verifyToken($token);
-            
+            // Show an error message if the token is not valid
             if (!$verification['valid']) {
                 $_SESSION['error'] = $verification['message'];
                 header('Location: index.php?page=verify_token');
                 exit;
             }
-            
+            // Set the session variables
             $_SESSION['reset_token'] = $token;
-            $_SESSION['reset_user_id'] = $verification['utilisateur_id'];
-            
+            $_SESSION['reset_user_id'] = $verification['user_id'];
+            // Redirect to the reset password page
             header('Location: index.php?page=reset_password');
-            
+            exit;
         } catch (Exception $e) {
+            // If another error occurs, show an error message
             $_SESSION['error'] = 'Une erreur est survenue lors de la vérification';
             header('Location: index.php?page=verify_token');
         }

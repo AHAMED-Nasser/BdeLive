@@ -1,8 +1,7 @@
 <?php
 
 declare(strict_types=1);
-
-// Charger PHPMailer
+//Charging PHPMailer
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
@@ -48,7 +47,7 @@ class Mailer {
         try {
             $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
             
-            // Configuration SMTP pour AlwaysData
+            // SMTP Configuration
             $mail->isSMTP();
             $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
             $mail->SMTPAuth = true;
@@ -57,11 +56,11 @@ class Mailer {
             $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
             
-            // Configuration expéditeur
+            // Expeditor configuration
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
             
-            // Contenu en texte brut uniquement
+            // Plain text content only
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
             $mail->Subject = 'Réinitialisation de votre mot de passe - BDE Inform\'Aix';

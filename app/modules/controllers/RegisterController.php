@@ -54,14 +54,14 @@ class RegisterController
         }
 
         // Validate and sanitize inputs
-        $nom = isset($_POST['nom']) ? trim($_POST['nom']) : '';
-        $prenom = isset($_POST['prenom']) ? trim($_POST['prenom']) : '';
-        $classeAnnee = isset($_POST['classe_annee']) ? trim($_POST['classe_annee']) : '';
+        $nom = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+        $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+        $user_status = isset($_POST['user_status']) ? trim($_POST['user_status']) : '';
         $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $mdp = isset($_POST['password']) ? $_POST['password'] : '';
+        $pwd = isset($_POST['password']) ? $_POST['password'] : '';
 
         // Validation
-        if (empty($nom) || empty($prenom) || empty($classeAnnee) || empty($email) || empty($mdp)) {
+        if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
             $_SESSION['error'] = 'Tous les champs sont obligatoires';
             $this->loadView('registerPageView');
             return;
@@ -75,26 +75,26 @@ class RegisterController
         }
 
         // Validate password length
-        if (strlen($mdp) < 6) {
+        if (strlen($pwd) < 6) {
             $_SESSION['error'] = 'Le mot de passe doit contenir au moins 6 caractères';
             $this->loadView('registerPageView');
             return;
         }
 
         // Validate classe_annee
-        if (!in_array($classeAnnee, ['1', '2', '3'])) {
-            $_SESSION['error'] = 'Année de classe invalide';
+        if (!in_array($user_status, ['1', '2', '3', 'Personnel enseignant'])) {
+            $_SESSION['error'] = 'Statut d\'utilisateur invalide';
             $this->loadView('registerPageView');
             return;
         }
 
         // Attempt registration
-        $userId = $this->authController->register($nom, $prenom, $classeAnnee, $email, $mdp);
+        $userId = $this->authController->register($last_name, $first_name, $user_status, $email, $pwd);
 
         if ($userId) {
             // Registration successful - auto login
-            if ($this->authController->login($email, $mdp)) {
-                $_SESSION['success'] = 'Inscription réussie ! Bienvenue ' . htmlspecialchars($prenom) . ' !';
+            if ($this->authController->login($email, $pwd)) {
+                $_SESSION['success'] = 'Inscription réussie ! Bienvenue ' . htmlspecialchars($first_name) . ' !';
                 header('Location: index.php?page=home');
                 exit;
             } else {
@@ -103,6 +103,7 @@ class RegisterController
                 header('Location: index.php?page=login');
                 exit;
             }
+            // If the email is already used, show an error message
         } else {
             $_SESSION['error'] = 'Cette adresse email est déjà utilisée';
             $this->loadView('registerPageView');
