@@ -2,6 +2,9 @@ RewriteEngine On
 Options -MultiViews
 RewriteBase /BdeLive/
 
+# Laisser passer sitemap.xml
+RewriteRule ^sitemap\.xml$ - [L]
+
 # Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
