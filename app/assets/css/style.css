@@ -3,6 +3,13 @@
     margin: 0;
 }
 
+.title {
+    color: #667eea;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
 /* === Styles généraux pour tous les liens === */
 a {
     color: #667eea;
@@ -125,8 +132,12 @@ footer p {
 /* Styles pour les événements */
 .events {
     margin: 0;
-    padding: 0.3rem;
+    padding: 20px; /* Plus d'espace */
     background-color: #eee;
+    display: flex; /* AJOUTEZ CETTE LIGNE */
+    flex-direction: column;
+    align-items: center;
+    overflow: visible; /* Assurez-vous que rien n'est coupé */
 }
 
 /* Hero section on home page */
@@ -233,12 +244,12 @@ footer p {
     padding-top: 80px;
 }
 
-.forgot-container h1 {
-    color: #667eea;
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2rem;
-}
+/*.forgot-container h1 {*/
+/*    color: #667eea;*/
+/*    text-align: center;*/
+/*    margin-bottom: 30px;*/
+/*    font-size: 2rem;*/
+/*}*/
 
 .forgot-container form {
     background-color: #fff;
