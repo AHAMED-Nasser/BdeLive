@@ -25,3 +25,18 @@ function showSlide(n, carouselId) {
     slides[slideIndexes[carouselId] - 1].classList.add('active');
     dots[slideIndexes[carouselId] - 1].classList.add('active');
 }
+
+// AJOUTEZ CETTE FONCTION D'INITIALISATION
+function initCarousels() {
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+        const carouselId = carousel.id;
+        if (carouselId) {
+            slideIndexes[carouselId] = 1;
+            showSlide(1, carouselId);
+        }
+    });
+}
+
+// Initialiser au chargement de la page
+document.addEventListener('DOMContentLoaded', initCarousels);
