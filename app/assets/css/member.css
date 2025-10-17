@@ -65,8 +65,8 @@
 }
 
 .member img{
-    width: 300px;        /* largeur du cadre */
-    height: 300px;
+    width: 15rem;        /* largeur du cadre */
+    height: 15rem;
     border-radius: 30px;
     object-fit: cover;       /* remplit le cadre sans déformation */
     object-position: center;
