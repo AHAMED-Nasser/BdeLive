@@ -2,7 +2,7 @@
 start_page("Mentions Légales - BDE Live");
 ?>
     <div class="legal-terms-page">
-        <h1>Mentions Légales</h1>
+        <h1 class="title">Mentions Légales</h1>
 
     <section>
         <h2>Informations du projet</h2>

@@ -13,12 +13,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/caroussel.css">
     <link rel="stylesheet" href="./assets/css/footer.css">
     <link rel="stylesheet" href="./assets/css/navbar.css">
     <link rel="stylesheet" href="./assets/css/member.css">
     <link rel="stylesheet" href="./assets/css/team.css">
     <link rel="stylesheet" href="./assets/css/join.css">
+    <link rel="stylesheet" href="./assets/css/carousel.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -33,14 +33,14 @@
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <?php if (isset($_SESSION['utilisateur_id'])): ?>
+                <?php if (isset($_SESSION['user_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
-                    <li><span><?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?></span></li>
+                    <li><a href="index.php?page=event">Evénements</a></li>
+                    <li><span><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></span></li>
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
-                    <li><a href="index.php?page= #">Evènement</a></li>
-                    <li><a href="index.php?page=delete_account">Supprimer Mon Compte</a></li>
+                    <li><a href="index.php?page=event">Evénements</a></li>
                 <?php endif; ?>
             </ul>
             
@@ -94,8 +94,9 @@
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
     </footer>
     
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
+        <script src="./assets/js/slider.js"></script>
 </body>
 </html>
 <?php } ?>

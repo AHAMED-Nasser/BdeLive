@@ -2,7 +2,7 @@
 start_page("Plan du site - BDE Live");
 ?>
     <div class="legal-terms-page">
-        <h1>Plan du site</h1>
+        <h1 class="title">Plan du site</h1>
 
     <section>
         <h2>Navigation principale</h2>

@@ -1,0 +1,152 @@
+.event-title {
+    font-size: 2em;
+    font-weight: bold;
+    padding: 50px 20px 30px 20px;
+    text-align: center;
+    color: #333;
+}
+
+.events {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px !important;
+    overflow: visible !important;
+    background-color: #f5f5f5;
+}
+
+.carousel {
+    width: 100%;
+    max-width: 1200px;
+    overflow: visible;
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+.carousel .carousel-block {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+/* Zone centrale de l'image - AVEC HAUTEUR FIXE */
+.carousel-inner {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    position: relative;
+    min-height: 450px; /* Hauteur fixe */
+}
+
+/* Items du carousel - POSITION ABSOLUTE */
+.carousel-item {
+    display: none;
+    width: 100%;
+    position: absolute; /* CRITIQUE : superpose les items */
+    top: 0;
+    left: 0;
+    opacity: 0; /* Cache complètement */
+    transition: opacity 0.5s ease; /* Animation douce */
+}
+
+.carousel-item.active {
+    display: block;
+    position: relative; /* L'item actif reprend le flux normal */
+    opacity: 1;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 450px; /* Hauteur fixe */
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    object-fit: cover; /* Remplit l'espace en coupant si nécessaire */
+    object-position: center; /* Centre l'image */
+}
+
+/* Boutons de contrôle */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.carousel-control:hover {
+    background: #f0f0f0;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-control:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-control.prev {
+    left: -70px;
+}
+
+.carousel-control.next {
+    right: -70px;
+}
+
+.carousel-control img {
+    width: 20px;
+    height: 20px;
+    display: block;
+    pointer-events: none;
+}
+
+.carousel-control.next img {
+    transform: rotate(-90deg);
+}
+
+.carousel-control.prev img {
+    transform: rotate(90deg);
+}
+
+/* Dots */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dot:hover {
+    background: #999;
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background: #333;
+    width: 32px;
+    border-radius: 5px;
+}
