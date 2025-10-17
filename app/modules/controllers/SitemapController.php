@@ -25,6 +25,7 @@ class SitemapController
      * @return void
      */
     public function __construct() {
+        $this -> loadView('sitemapView');
     }
 
     /**
