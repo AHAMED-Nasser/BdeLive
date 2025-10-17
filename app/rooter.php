@@ -15,7 +15,8 @@
         'verify_token' => 'VerifyTokenController',
         'reset_password' => 'ResetPasswordController',
         'sitemap' => 'SitemapController',
-        'team' => 'TeamController'
+        'team' => 'TeamController',
+        'delete_account' => 'DeleteAccountController',
     ];
 
     if (isset($controllerMap[$page])){

@@ -40,6 +40,7 @@
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page= #">Evènement</a></li>
+                    <li><a href="index.php?page=delete_account">Supprimer Mon Compte</a></li>
                 <?php endif; ?>
             </ul>
             
