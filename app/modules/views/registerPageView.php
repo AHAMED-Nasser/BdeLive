@@ -12,21 +12,22 @@
         <?php endif; ?>
         
         <form action="index.php?page=register" method="POST">
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" placeholder="Entrez votre nom" maxlength="20" required>
+            <label for="last_name">Nom :</label>
+            <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" required>
 
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" placeholder="Entrez votre prénom" maxlength="20" required>
+            <label for="first_name">Prénom :</label>
+            <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" required>
 
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" required>
 
-            <label for="classe_annee">Année de classe (1, 2 ou 3) :</label>
-            <select id="classe_annee" name="classe_annee" required>
+            <label for="user_status">Statut :</label>
+            <select id="user_status" name="user_status" required>
                 <option value="">-- Sélectionnez --</option>
-                <option value="1">BUT 1</option>
-                <option value="2">BUT 2</option>
-                <option value="3">BUT 3</option>
+                <option value="BUT 1">BUT 1</option>
+                <option value="BUT 2">BUT 2</option>
+                <option value="BUT 3">BUT 3</option>
+                <option value="Personnel Enseignant">Personnel Enseignant</option>
             </select>
 
             <label for="password">Mot de passe :</label>

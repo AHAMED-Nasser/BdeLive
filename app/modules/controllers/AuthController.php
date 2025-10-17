@@ -52,7 +52,7 @@ class AuthController
             }
             
             // Step 3: Verify password using UserManager
-            if (!$this->userManager->verifyPassword($pwd, $user['pwd'])) {
+            if (!$this->userManager->verifyPassword($pwd, $user['password'])) {
                 return false;
             }
             
@@ -62,7 +62,7 @@ class AuthController
             }
             
             // Store user information in session
-            $_SESSION['utilisateur_id'] = $user['utilisateur_id'];
+            $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['last_name'] = $user['last_name'];
             $_SESSION['first_name'] = $user['first_name'];
             $_SESSION['user_status'] = $user['user_status'];
