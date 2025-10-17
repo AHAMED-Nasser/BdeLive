@@ -1,6 +1,7 @@
 <?php
 
     require_once __DIR__ . '/include/include.inc.php';
+    require_once __DIR__ . '/include/carousel.inc.php';
     require_once __DIR__ . '/include/autoload.php';
 
     $page = $_GET['page'] ?? 'home';
@@ -17,6 +18,7 @@
         'sitemap' => 'SitemapController',
         'team' => 'TeamController',
         'delete_account' => 'DeleteAccountController',
+        'event' => 'EventController'
     ];
 
     if (isset($controllerMap[$page])){

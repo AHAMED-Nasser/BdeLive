@@ -3,7 +3,7 @@
 ?>
 
     <div class="forgot-container">
-        <h1>Vérification du code</h1>
+        <h1 class="title">Vérification du code</h1>
         
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger">

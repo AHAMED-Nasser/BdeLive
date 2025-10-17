@@ -2,7 +2,7 @@
     start_page("Inscription - BDE Inform'Aix", true);
 ?>
     <div class="forgot-container">
-        <h1>Inscription</h1>
+        <h1 class="title">Inscription</h1>
         
         <?php if (isset($_SESSION['error'])): ?>
             <div class="alert alert-danger">
