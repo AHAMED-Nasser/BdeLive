@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Password Reset Model
  * 
  * Handles password reset functionality including token generation, validation,
- * and password updates. Manages the MDP_OUBLIES_TOKEN table for secure
+ * and password updates. Manages the PASSWORD_RESET_TOKEN table for secure
  * password reset operations with time-limited tokens.
  * 
  * @package BdeLive
@@ -41,7 +41,7 @@ class PasswordReset {
      */
     public function getUserByEmail(string $email): array|false {
         try {
-            $stmt = $this->pdo->prepare('SELECT user_id, last_name, first_name, email FROM Utilisateur WHERE email = ?');
+            $stmt = $this->pdo->prepare('SELECT user_id, last_name, first_name, email FROM USERS WHERE email = ?');
             $stmt->execute([$email]);
             $result = $stmt->fetch();
             
@@ -59,7 +59,7 @@ class PasswordReset {
      * Generates a secure random token valid for 3 hours and stores it in the database.
      * The token is a 64-character hexadecimal string.
      *
-     * @param int $utilisateur_id The ID of the user requesting password reset
+     * @param int $user_id The ID of the user requesting password reset
      * @return string|false The generated token if successful, false otherwise
      *
      */
@@ -68,12 +68,13 @@ class PasswordReset {
             //Prepare the token
             $token = bin2hex(random_bytes(32));
             date_default_timezone_set('Europe/Paris');
-            $expire_dans = date('Y-m-d H:i:s', strtotime('+3 hours'));
+            $expires_at = date('Y-m-d H:i:s', strtotime('+3 hours'));
             
             //Insert the token into the database
             $stmt = $this->pdo->prepare(
                 'INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at) VALUES (?, ?, ?)'
             );
+            //Execute the statement
             $stmt->execute([$user_id, $token, $expires_at]);
             
             return $token;
@@ -91,7 +92,7 @@ class PasswordReset {
      * Automatically deletes expired tokens.
      * 
      * @param string $token The token to verify
-     * @return array Associative array with 'valid' (bool), and if valid: 'utilisateur_id' and 'token_id',
+     * @return array Associative array with 'valid' (bool), and if valid: 'user_id' and 'token_id',
      *               or if invalid: 'message' (string) explaining why
      */
     public function verifyToken(string $token): array {
@@ -143,7 +144,7 @@ class PasswordReset {
      */
     public function markTokenAsUsed(string $token): bool {
         try {
-            $stmt = $this->pdo->prepare('UPDATE MDP_OUBLIES_TOKEN SET utilise = 1 WHERE token = ?');
+            $stmt = $this->pdo->prepare('UPDATE PASSWORD_RESET_TOKEN SET is_used = 1 WHERE token = ?');
             return $stmt->execute([$token]);
         } catch (PDOException $e) {
             error_log("Erreur markTokenAsUsed : " . $e->getMessage());
@@ -159,16 +160,16 @@ class PasswordReset {
      * Changes the user's password to a new value. The password is hashed using SHA-1
      * before being stored in the database.
      * 
-     * @param int $utilisateur_id The ID of the user whose password to update
+     * @param int $user_id The ID of the user whose password to update
      * @param string $new_password The new password (plain text, will be hashed)
      * @return bool True if successful, false otherwise
      */
-    public function updatePassword(int $utilisateur_id, string $new_password): bool {
+    public function updatePassword(int $user_id, string $new_password): bool {
         try {
             $hashedPassword = password_hash($new_password, PASSWORD_DEFAULT);
             
-            $stmt = $this->pdo->prepare('UPDATE Utilisateur SET mdp = ? WHERE utilisateur_id = ?');
-            return $stmt->execute([$hashedPassword, $utilisateur_id]);
+            $stmt = $this->pdo->prepare('UPDATE USERS SET password = ? WHERE user_id = ?');
+            return $stmt->execute([$hashedPassword, $user_id]);
         } catch (PDOException $e) {
             error_log("Erreur updatePassword : " . $e->getMessage());
             return false;
@@ -187,7 +188,7 @@ class PasswordReset {
     public function cleanExpiredTokens(): bool {
         try {
             $stmt = $this->pdo->prepare(
-                'DELETE FROM MDP_OUBLIES_TOKEN WHERE expire_dans < NOW() OR utilise = 1'
+                'DELETE FROM PASSWORD_RESET_TOKEN WHERE expires_at < NOW() OR is_used = 1'
             );
             return $stmt->execute();
         } catch (PDOException $e) {

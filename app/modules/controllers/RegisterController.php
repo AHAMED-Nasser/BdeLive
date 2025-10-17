@@ -81,8 +81,8 @@ class RegisterController
             return;
         }
 
-        // Validate classe_annee
-        if (!in_array($user_status, ['1', '2', '3', 'Personnel enseignant'])) {
+        // Validate user_status
+        if (!in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
             $_SESSION['error'] = 'Statut d\'utilisateur invalide';
             $this->loadView('registerPageView');
             return;
