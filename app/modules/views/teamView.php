@@ -26,9 +26,9 @@
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/Mohamed.jpg" alt="Photo Mohamed – Product Owner">
+                        <img src="assets/img/Mohamed-Amine.jpg" alt="Photo Mohamed – Product Owner">
                         <div class="member-info">
-                            <h3 class="member-name">Mohamed-Amin BOUDHIB</h3>
+                            <h3 class="member-name">Mohamed-Amine BOUDHIB</h3>
                             <p class="member-role"><strong>Product owner</strong></p>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="team-box2">
                     <div class="member">
-                        <img src="assets/img/Romain.png" alt="Photo Romain – Développeur">
+                        <img src="assets/img/Romain.jpg" alt="Photo Romain – Développeur">
                         <div class="member-info">
                             <h3 class="member-name">Romain CANTOR</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/square_grey.png" alt="Photo Amin – Développeur">
+                        <img src="assets/img/amin.jpg" alt="Photo Amin – Développeur">
                         <div class="member-info">
                             <h3 class="member-name">Amin HELALI</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
