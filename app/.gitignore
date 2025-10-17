@@ -2,3 +2,4 @@
 config/
 *.git
 *.env
+*.swp
