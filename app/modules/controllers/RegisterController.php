@@ -54,7 +54,7 @@ class RegisterController
         }
 
         // Validate and sanitize inputs
-        $nom = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+        $last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
         $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
         $user_status = isset($_POST['user_status']) ? trim($_POST['user_status']) : '';
         $email = isset($_POST['email']) ? trim($_POST['email']) : '';
