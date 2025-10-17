@@ -71,7 +71,7 @@ class ResetPasswordController {
         
         try {
             // Update the password in the database
-            require_once __DIR__ . '/../models/PasswordReset.php';
+            require_once __DIR__ . '/../../models/pwd/PasswordReset.php';
             $passwordReset = new PasswordReset();
             
             $updated = $passwordReset->updatePassword($_SESSION['reset_user_id'], $password);
@@ -109,6 +109,6 @@ class ResetPasswordController {
      * @return void
      */
     private function loadView(string $viewName): void {
-        require_once __DIR__ . '/../views/' . $viewName . '.php';
+        require_once __DIR__ . '/../../views/pwd/' . $viewName . '.php';
     }
 }

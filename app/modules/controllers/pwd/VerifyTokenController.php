@@ -56,7 +56,7 @@ class VerifyTokenController {
         }
         // Verify the token
         try {
-            require_once __DIR__ . '/../models/PasswordReset.php';
+            require_once __DIR__ . '/../../models/pwd/PasswordReset.php';
             $passwordReset = new PasswordReset();
             // Verify the token
             $verification = $passwordReset->verifyToken($token);
@@ -89,6 +89,6 @@ class VerifyTokenController {
      * @return void
      */
     private function loadView(string $viewName): void {
-        require_once __DIR__ . '/../views/' . $viewName . '.php';
+        require_once __DIR__ . '/../../views/pwd/' . $viewName . '.php';
     }
 }
