@@ -21,9 +21,9 @@ $controllerMap = [
 if (isset($controllerMap[$page])) {
     $controllerName = $controllerMap[$page];
     $controller = new $controllerName();
-    if ($controllerName === 'SitemapController') {
-        $controller->showHtmlPage();
-    }
+//    if ($controllerName === 'SitemapController') {
+//        $controller->showHtmlPage();
+//    }
 } else {
     http_response_code(404);
     echo 'Page non trouvée';
