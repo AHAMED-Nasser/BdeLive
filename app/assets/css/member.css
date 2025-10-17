@@ -1,0 +1,82 @@
+#team-title{
+    color: #444444;
+    margin-top: 100px;
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+
+.team-box{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.team-box1{
+    display: flex;
+    justify-content: center;
+    margin-bottom:20px;
+    gap: 40px; /* espace entre chaque box */
+
+}
+
+.team-box2{
+
+    display: flex;
+    justify-content: center;
+    margin:30px;
+    gap: 40px;
+}
+
+/* Member content */
+.member-info {
+    padding: 10px;
+    text-align: center;
+    background-color: #f2f2f2;
+    border-radius: 0 0 20px 20px;
+    font-family: Impact, fantasy;
+}
+
+.member-name {
+    margin: 8px 0 4px;
+    font-size: 1.1rem;
+    color: #222;
+
+}
+
+.member-role {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Transition */
+.member:hover .member-info {
+    background-color: #e3dddd;
+}
+
+.member:hover .member-name{
+    color: #073970;
+}
+
+.member:hover .member-role{
+    color : #232121;
+}
+
+.member img{
+    width: 300px;        /* largeur du cadre */
+    height: 300px;
+    border-radius: 30px;
+    object-fit: cover;       /* remplit le cadre sans déformation */
+    object-position: center;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+.member:hover img{
+    transform: scale(1.05);
+    margin-top: -30px;
+
+}
+
