@@ -15,9 +15,9 @@
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
         
-        <?php if (isset($_SESSION['utilisateur_id'])): ?>
+        <?php if (isset($_SESSION['user_id'])): ?> 
             <div class="alert alert-info">
-                Bienvenue, <?= htmlspecialchars($_SESSION['prenom']) ?> <?= htmlspecialchars($_SESSION['nom']) ?> (BUT <?= htmlspecialchars($_SESSION['classe_annee']) ?>) ! 
+                Bienvenue, <?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?> (<?= htmlspecialchars($_SESSION['user_status']) ?>) ! 
                 <a href="index.php?page=logout">Se déconnecter</a>
             </div>
         <?php endif; ?>

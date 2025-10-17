@@ -1,7 +1,9 @@
 <?php
 
 declare(strict_types=1);
-
+/**
+ * A script for reseting the token that are expired (clean the table PASSWORD_RESET_TOKEN every 3 hours)
+ */
 try {
     $passwordReset = new PasswordReset();
     $result = $passwordReset->cleanExpiredTokens();

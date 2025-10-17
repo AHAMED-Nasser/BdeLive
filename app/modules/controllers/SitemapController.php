@@ -1,18 +1,58 @@
 <?php
 
+/**
+ * SitemapController
+ * 
+ * Handles the display of the HTML sitemap page and the generation
+ * of the XML sitemap. The controller allows for SEF site structure 
+ * documentation and can respond to requests by providing the 
+ * user-friendly site map or the dynamically generated XML file 
+ * for search engine indexing.
+ * 
+ * @package BdeLive\Controllers
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @version 1.0.0
+ */
+
 class SitemapController
 {
-    //on laisse vide car c'est le routeur qui va gerer si afficher la vue ou generer le xml
+    /**
+     * Constructor for SitemapController
+     * 
+     * Initializes the controller. The routing logic determines whether
+     * to display the HTML sitemap view or generate the XML sitemap.
+     * 
+     * @return void
+     */
     public function __construct() {
     }
 
-    //affiche la page plan du site
+    /**
+     * Display the HTML sitemap page
+     * 
+     * Renders the user-friendly HTML sitemap page by loading
+     * the corresponding view template.
+     * 
+     * @return void
+     */
     public function showHtmlPage() {
         $this->loadView('sitemapView');
     }
 
-    //genere le xml, d'abord dans se fichier on met les pages existantes 
-    // et leur priorité et dans .xml on met les autre pages ajouter 
+    /**
+     * Generate the XML sitemap for search engine indexing
+     * 
+     * Creates a dynamic XML sitemap containing all static pages with their
+     * respective priorities, change frequencies, and last modification dates.
+     * The generated XML is compliant with the Sitemap protocol and can be
+     * used by search engines for better indexing.
+     * 
+     * Sets the appropriate XML content-type header and outputs the sitemap.
+     * The script execution terminates after the XML is generated to prevent
+     * any additional output.
+     * 
+     * @return void This method outputs XML directly and exits
+     */
     public function generateXml() {
         header('Content-Type: application/xml; charset=utf-8');
         
@@ -34,10 +74,20 @@ class SitemapController
         $sitemapGenerator->addStaticPages($staticPages);
         
         echo $sitemapGenerator->generate();
-        exit; // Arrêter l'exécution après génération du XML
+        exit;
     }
 
-    
+    /**
+     * Load and include a view template
+     * 
+     * Loads the specified view file from the views directory.
+     * This is a helper method to maintain consistent view loading
+     * throughout the controller.
+     * 
+     * @param string $viewName The name of the view file (without extension)
+     * @return void
+     * @throws Exception If the view file does not exist
+     */
     private function loadView(string $viewName): void
     {
         require_once __DIR__ . '/../views/' . $viewName . '.php';

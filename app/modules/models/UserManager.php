@@ -6,7 +6,7 @@ declare(strict_types=1);
  * 
  * Handles all user-related database operations including CRUD operations,
  * password hashing and verification, and user search functionality.
- * This class provides a data access layer for the Utilisateur table.
+ * This class provides a data access layer for the USERS table.
  * 
  * @package BdeLive\Models
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
@@ -72,8 +72,8 @@ class UserManager
     public function findUserByEmail(string $email): array|false
     {
         try {
-            $query = "SELECT utilisateur_id, nom, prenom, classe_annee, email, mdp 
-                      FROM Utilisateur 
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password 
+                      FROM USERS 
                       WHERE email = :email 
                       LIMIT 1";
             
@@ -88,25 +88,25 @@ class UserManager
     }
 
     /**
-     * Find a user by their ID
+     * Find a user by their ID 
      * 
      * Retrieves user information from the database using the user ID.
      * Does not return the password field for security reasons.
      * 
-     * @param int $utilisateurId The user ID to search for
+     * @param int $user_id The user ID to search for
      * @return array|false Array containing user data if found, false otherwise
      * @throws PDOException If database query fails
      */
-    public function findUserById(int $utilisateurId): array|false
+    public function findUserById(int $user_id): array|false
     {
         try {
-            $query = "SELECT utilisateur_id, nom, prenom, classe_annee, email 
-                      FROM Utilisateur 
-                      WHERE utilisateur_id = :utilisateur_id 
+            $query = "SELECT user_id, last_name, first_name, user_status, email 
+                      FROM USERS 
+                      WHERE user_id = :user_id 
                       LIMIT 1";
             
             $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['utilisateur_id' => $utilisateurId]);
+            $stmt->execute(['user_id' => $user_id]);
             
             return $stmt->fetch();
         } catch (PDOException $e) {
@@ -127,9 +127,9 @@ class UserManager
     public function getAllUsers(): array
     {
         try {
-            $query = "SELECT utilisateur_id, nom, prenom, classe_annee, email 
-                      FROM Utilisateur 
-                      ORDER BY nom, prenom";
+            $query = "SELECT user_id, last_name, first_name, user_status, email 
+                      FROM USERS 
+                      ORDER BY last_name, first_name";
             
             $stmt = $this->pdo->query($query);
             
@@ -146,24 +146,24 @@ class UserManager
      * Retrieves all users belonging to a specific class year,
      * ordered by last name and first name.
      * 
-     * @param string $classeAnnee The class year to filter by (1, 2, or 3)
+     * @param string $user_status The user status to filter by (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
      * @return array Array of user records (empty array if no users found)
      * @throws PDOException If database query fails
      */
-    public function findUsersByClasseAnnee(string $classeAnnee): array
+    public function findUsersByUserStatus(string $user_status): array
     {
         try {
-            $query = "SELECT utilisateur_id, nom, prenom, classe_annee, email 
-                      FROM Utilisateur 
-                      WHERE classe_annee = :classe_annee 
-                      ORDER BY nom, prenom";
+            $query = "SELECT user_id, last_name, first_name, user_status, email 
+                      FROM USERS 
+                      WHERE user_status = :user_status 
+                      ORDER BY last_name, first_name";
             
             $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['classe_annee' => $classeAnnee]);
+            $stmt->execute(['user_status' => $user_status]);
             
             return $stmt->fetchAll();
         } catch (PDOException $e) {
-            error_log('UserManager::findUsersByClasseAnnee - ' . $e->getMessage());
+            error_log('UserManager::findUsersByUserStatus - ' . $e->getMessage());
             throw $e;
         }
     }
@@ -174,32 +174,33 @@ class UserManager
      * Inserts a new user record into the database with hashed password.
      * The password is automatically hashed before storage.
      * 
-     * @param string $nom User's last name
-     * @param string $prenom User's first name
-     * @param string $classeAnnee User's class year (1, 2, or 3)
+     * @param string $last_name User's last name
+     * @param string $first_name User's first name
+     * @param string $user_status User's status (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
      * @param string $email User's email address
-     * @param string $mdp User's password (plain text, will be hashed)
+     * @param string $password User's password (plain text, will be hashed)
      * @return int|false The new user ID if successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function createUser(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
+    public function createUser(string $last_name, string $first_name, string $user_status, string $email, string $password): int|false
     {
         try {
-            $hashedPassword = $this->hashPassword($mdp);
+            $hashedPassword = $this->hashPassword($password);
             
-            $query = "INSERT INTO Utilisateur (nom, prenom, classe_annee, email, mdp) 
-                      VALUES (:nom, :prenom, :classe_annee, :email, :mdp)";
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password) 
+                      VALUES (:last_name, :first_name, :user_status, :email, :password)";
             
             $stmt = $this->pdo->prepare($query);
-            
+            //Execute the statement
             $success = $stmt->execute([
-                'nom' => $nom,
-                'prenom' => $prenom,
-                'classe_annee' => $classeAnnee,
+                'last_name' => $last_name,
+                'first_name' => $first_name,
+                'user_status' => $user_status,
                 'email' => $email,
-                'mdp' => $hashedPassword
+                'password' => $hashedPassword
             ]);
             
+            //Return the new user ID if successful, false otherwise
             return $success ? (int)$this->pdo->lastInsertId() : false;
         } catch (PDOException $e) {
             error_log('UserManager::createUser - ' . $e->getMessage());
@@ -213,31 +214,31 @@ class UserManager
      * 
      * Updates an existing user's profile information (excluding password).
      * 
-     * @param int $utilisateurId The ID of the user to update
-     * @param string $nom New last name
-     * @param string $prenom New first name
-     * @param string $classeAnnee New class year (1, 2, or 3)
+     * @param int $user_id The ID of the user to update
+     * @param string $last_name New last name
+     * @param string $first_name New first name
+     * @param string $user_status New user status (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
      * @param string $email New email address
      * @return bool True if update successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function updateUser(int $utilisateurId, string $nom, string $prenom, string $classeAnnee, string $email): bool
+    public function updateUser(int $user_id, string $last_name, string $first_name, string $user_status, string $email): bool
     {
         try {
-            $query = "UPDATE Utilisateur 
-                      SET nom = :nom, 
-                          prenom = :prenom, 
-                          classe_annee = :classe_annee, 
+            $query = "UPDATE USERS 
+                      SET last_name = :last_name, 
+                          first_name = :first_name, 
+                          user_status = :user_status, 
                           email = :email 
-                      WHERE utilisateur_id = :utilisateur_id";
+                      WHERE user_id = :user_id";
             
             $stmt = $this->pdo->prepare($query);
             
             return $stmt->execute([
-                'utilisateur_id' => $utilisateurId,
-                'nom' => $nom,
-                'prenom' => $prenom,
-                'classe_annee' => $classeAnnee,
+                'user_id' => $user_id,
+                'last_name' => $last_name,
+                'first_name' => $first_name,
+                'user_status' => $user_status,
                 'email' => $email
             ]);
         } catch (PDOException $e) {
@@ -252,25 +253,25 @@ class UserManager
      * Changes a user's password. The new password is automatically hashed
      * before storage.
      * 
-     * @param int $utilisateurId The ID of the user
-     * @param string $newMdp The new password (plain text, will be hashed)
+     * @param int $user_id The ID of the user
+     * @param string $new_password The new password (plain text, will be hashed)
      * @return bool True if update successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function updatePassword(int $utilisateurId, string $newMdp): bool
+    public function updatePassword(int $user_id, string $new_password): bool
     {
         try {
-            $hashedPassword = $this->hashPassword($newMdp);
+            $hashedPassword = $this->hashPassword($new_password);
             
-            $query = "UPDATE Utilisateur 
-                      SET mdp = :mdp 
-                      WHERE utilisateur_id = :utilisateur_id";
+            $query = "UPDATE USERS 
+                      SET password = :password 
+                      WHERE user_id = :user_id";
             
             $stmt = $this->pdo->prepare($query);
             
             return $stmt->execute([
-                'utilisateur_id' => $utilisateurId,
-                'mdp' => $hashedPassword
+                'user_id' => $user_id,
+                'password' => $hashedPassword
             ]);
         } catch (PDOException $e) {
             error_log('UserManager::updatePassword - ' . $e->getMessage());
@@ -284,18 +285,18 @@ class UserManager
      * 
      * Permanently removes a user record. This operation cannot be undone.
      * 
-     * @param int $utilisateurId The ID of the user to delete
+     * @param int $user_id The ID of the user to delete
      * @return bool True if deletion successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function deleteUser(int $utilisateurId): bool
+    public function deleteUser(int $user_id): bool
     {
         try {
-            $query = "DELETE FROM Utilisateur WHERE utilisateur_id = :utilisateur_id";
+            $query = "DELETE FROM USERS WHERE user_id = :user_id";
             
             $stmt = $this->pdo->prepare($query);
             
-            return $stmt->execute(['utilisateur_id' => $utilisateurId]);
+            return $stmt->execute(['user_id' => $user_id]);
         } catch (PDOException $e) {
             error_log('UserManager::deleteUser - ' . $e->getMessage());
             throw $e;
@@ -315,7 +316,7 @@ class UserManager
     {
         try {
             $query = "SELECT COUNT(*) as count 
-                      FROM Utilisateur 
+                      FROM USERS 
                       WHERE email = :email";
             
             $stmt = $this->pdo->prepare($query);
