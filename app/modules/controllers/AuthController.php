@@ -41,7 +41,7 @@ class AuthController
      * @param string $mdp The user's password 
      * @return bool True if authentication successful, false otherwise
      */
-    public function login(string $email, string $mdp): bool
+    public function login(string $email, string $pwd): bool
     {
         try {
             $user = $this->userManager->findUserByEmail($email);
@@ -52,7 +52,7 @@ class AuthController
             }
             
             // Step 3: Verify password using UserManager
-            if (!$this->userManager->verifyPassword($mdp, $user['mdp'])) {
+            if (!$this->userManager->verifyPassword($pwd, $user['password'])) {
                 return false;
             }
             
@@ -62,10 +62,10 @@ class AuthController
             }
             
             // Store user information in session
-            $_SESSION['utilisateur_id'] = $user['utilisateur_id'];
-            $_SESSION['nom'] = $user['nom'];
-            $_SESSION['prenom'] = $user['prenom'];
-            $_SESSION['classe_annee'] = $user['classe_annee'];
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['last_name'] = $user['last_name'];
+            $_SESSION['first_name'] = $user['first_name'];
+            $_SESSION['user_status'] = $user['user_status'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['suid'] = session_id();
             
@@ -104,14 +104,14 @@ class AuthController
      * Creates a new user account after validating the email format and checking
      * for duplicate email addresses. The password is hashed before storage.
      * 
-     * @param string $nom User's last name
-     * @param string $prenom User's first name
-     * @param string $classeAnnee User's class year (1, 2, or 3)
+     * @param string $last_name User's last name
+     * @param string $first_name User's first name
+     * @param string $user_status User's class year (1, 2, or 3)
      * @param string $email User's email address
-     * @param string $mdp User's password (will be hashed)
+     * @param string $pwd User's password (will be hashed)
      * @return int|false The new user ID if successful, false otherwise
      */
-    public function register(string $nom, string $prenom, string $classeAnnee, string $email, string $mdp): int|false
+    public function register(string $last_name, string $first_name, string $user_status, string $email, string $pwd): int|false
     {
         try {
             // Step 1: Check if email already exists using UserManager
@@ -125,7 +125,7 @@ class AuthController
             }
             
             // Step 3: Create new user via UserManager
-            return $this->userManager->createUser($nom, $prenom, $classeAnnee, $email, $mdp);
+            return $this->userManager->createUser($last_name, $first_name, $user_status, $email, $pwd);
             
         } catch (PDOException $e) {
             error_log('AuthController::register - ' . $e->getMessage());
@@ -147,7 +147,7 @@ class AuthController
             session_start();
         }
         
-        return isset($_SESSION['utilisateur_id']) && isset($_SESSION['suid']);
+        return isset($_SESSION['user_id']) && isset($_SESSION['suid']);
     }
 
     /**
@@ -163,7 +163,7 @@ class AuthController
             session_start();
         }
         
-        return $_SESSION['utilisateur_id'] ?? null;
+        return $_SESSION['user_id'] ?? null;
     }
 
     /**
@@ -179,8 +179,8 @@ class AuthController
             session_start();
         }
         
-        if (isset($_SESSION['prenom']) && isset($_SESSION['nom'])) {
-            return $_SESSION['prenom'] . ' ' . $_SESSION['nom'];
+        if (isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
+            return $_SESSION['first_name'] . ' ' . $_SESSION['last_name'];
         }
         
         return null;
@@ -215,7 +215,7 @@ class AuthController
             session_start();
         }
         
-        return $_SESSION['classe_annee'] ?? null;
+        return $_SESSION['user_status'] ?? null;
     }
 
 
