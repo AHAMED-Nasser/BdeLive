@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Legal Terms Page Controller
+ * Legal Terms Controller
  * 
  * Handles the display of legal terms and conditions page.
- * Shows the application's terms of service, privacy policy, and legal information.
  * 
  * @package BdeLive\Controllers
- * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
- * @version 1.0.0
  */
-class LegalTermsPageController
+class LegalTermsController
 {
 
     /**
@@ -39,3 +36,5 @@ class LegalTermsPageController
     }
 
 }
+
+

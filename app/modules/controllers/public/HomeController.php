@@ -1,16 +1,14 @@
 <?php
 
 /**
- * Home Page Controller
+ * Home Controller
  * 
  * Handles the display of the application's home page.
  * This is the main entry point for users visiting the application.
  * 
  * @package BdeLive\Controllers
- * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
- * @version 1.0.0
  */
-class HomePageController {
+class HomeController {
 
     /**
      * Display the home page
@@ -36,3 +34,5 @@ class HomePageController {
     }
 }
 ?>
+
+
