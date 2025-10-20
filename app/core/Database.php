@@ -50,7 +50,7 @@ class Database
             $this->pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
         } catch (PDOException $e) {
             error_log('Database connection error: ' . $e->getMessage());
-            throw new PDOException('Unable to connect to database');
+            throw new PDOException('Unable to connect to database: ' . $e->getMessage());
         }
     }
 

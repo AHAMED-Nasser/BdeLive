@@ -10,7 +10,7 @@ class DeleteAccountController {
     private $userManager;
 
     public function __construct() {
-        require_once __DIR__ . '/../models/UserManager.php';
+        require_once __DIR__ . '/../../models/users/UserManager.php';
         $this->userManager = new UserManager();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,7 +21,7 @@ class DeleteAccountController {
     }
 
     private function loadView(string $viewName): void {
-        require_once __DIR__ . '/../views/' . $viewName . '.php';
+        require_once __DIR__ . '/../../views/users/' . $viewName . '.php';
     }
 
     private function handleDelete(): void {
