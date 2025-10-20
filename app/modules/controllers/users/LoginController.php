@@ -73,6 +73,26 @@ class LoginController
             return;
         }
 
+        // Admin authentification
+        $adminEmail = ADMIN_EMAIL;
+        $adminPwd = ADMIN_PWD;
+
+        if ($email === $adminEmail && $mdp === $adminPwd) {
+            // Store user information in session
+            $_SESSION['user_id'] = 'Admin';
+            $_SESSION['last_name'] = 'Admin';
+            $_SESSION['first_name'] = 'Me';
+            $_SESSION['user_status'] = 'BDE';
+            $_SESSION['email'] = $adminEmail;
+            $_SESSION['suid'] = session_id();
+
+            // Login admin success
+            $_SESSION['success'] = 'Connexion réussie ! Bienvenue administrateur !';
+            header('Location: index.php?page=home');
+            exit;
+        }
+
+
         // Attempt login
         if ($this->authController->login($email, $mdp)) {
             // Login successful
