@@ -15,23 +15,24 @@
         }, null);
     }
 
-    // Cacher le popup si le cookie est déjà accepté
-    const consent = getCookie(cookieName);
-    if(consent === 'yes'){
-        consentEl.style.display = 'none';
+    // Cacher le popup si le consentement est déjà donné
+    if(getCookie(cookieName) === 'yes'){
+        if(consentEl) consentEl.style.display = 'none';
     }
 
-    document.getElementById('acceptBtn').addEventListener('click', ()=>{
-        setCookie(cookieName,'yes');
-        consentEl.style.display='none';
-    });
+    const acceptBtn = document.getElementById('acceptBtn');
+    if(acceptBtn){
+        acceptBtn.addEventListener('click', ()=>{
+            setCookie(cookieName,'yes');
+            if(consentEl) consentEl.style.display='none';
+        });
+    }
 
-    document.getElementById('declineBtn').addEventListener('click', ()=>{
-        setCookie(cookieName,'no');
-        consentEl.style.display='none';
-    });
-
-    document.getElementById('manageBtn').addEventListener('click', ()=>{
-        alert('Ici, vous pourriez ouvrir une modal de gestion des cookies.');
-    });
+    const declineBtn = document.getElementById('declineBtn');
+    if(declineBtn){
+        declineBtn.addEventListener('click', ()=>{
+            setCookie(cookieName,'no');
+            if(consentEl) consentEl.style.display='none';
+        });
+    }
 })();
