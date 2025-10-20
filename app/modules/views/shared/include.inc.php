@@ -97,6 +97,13 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
         <script src="./assets/js/slider.js"></script>
-</body>
+
+    <?php
+    // Affiche le popup cookies sur toutes les pages
+    require_once __DIR__ . '/../../controllers/cookie/CookieConsentController.php';
+    new CookieConsentController();
+    ?>
+
+        </body>
 </html>
 <?php } ?>
