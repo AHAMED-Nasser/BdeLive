@@ -33,11 +33,11 @@
     </div>
     <script>
         const date = new Date();
-        // Date
+        // Get the current date (jj:mm:AAAA)
         const today = date.toISOString().split("T")[0];
         document.getElementById('event-date').setAttribute("value", today)
 
-        // Time
+        // Get the current time (hh:mm)
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         document.getElementById('event-time').value = `${hours}:${minutes}`;
