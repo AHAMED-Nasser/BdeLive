@@ -64,6 +64,10 @@
                     </div>
                 </div>
             </div>
+            <div class="btn-image-right">
+                <a href="index.php?page=team">
+                    <img src="./assets/img/fleche-accueil.png" alt="Aller à l'accueil" class="bde-image">
+                </a>
         </section>
     </div>
 
