@@ -38,7 +38,7 @@ class AuthController
      * a new session and stores user information in session variables.
      * 
      * @param string $email The user's email address
-     * @param string $mdp The user's password 
+     * @param string $pwd The user's password
      * @return bool True if authentication successful, false otherwise
      */
     public function login(string $email, string $pwd): bool

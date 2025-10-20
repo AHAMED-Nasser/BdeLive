@@ -19,5 +19,4 @@
 </section>
 
 
-<?php end_page() ?>
-
+<?php end_page();
