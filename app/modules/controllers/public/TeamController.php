@@ -11,5 +11,3 @@ class TeamController{
         require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
     }
 }
-?>
-
