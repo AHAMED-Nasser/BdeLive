@@ -78,11 +78,11 @@
 
                 <div class="social-logos"> <h3>Nos réseaux</h3>
                     <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="footer-logo">
-                        <img src="../assets/img/insta.png" alt="Instagram" class="insta-logo">
+                        <img src="../../../assets/img/insta.png" alt="Instagram" class="insta-logo">
                     </a>
 
                     <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="footer-logo">
-                        <img src="../assets/img/discord.png" alt="Discord" class="discord-logo">
+                        <img src="../../../assets/img/discord.png" alt="Discord" class="discord-logo">
                     </a>
 
                     <a href="https://www.tiktok.com/#/" target="_blank" rel="noopener noreferrer">

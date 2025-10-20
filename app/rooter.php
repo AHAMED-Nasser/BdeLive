@@ -13,8 +13,8 @@
  * - No router edits are required when adding a new controller that follows this convention.
  */
 
-    require_once __DIR__ . '/include/include.inc.php';
-    require_once __DIR__ . '/include/carousel.inc.php';
+    require_once __DIR__ . '/modules/views/shared/include.inc.php';
+    require_once __DIR__ . '/modules/views/shared/carousel.inc.php';
     require_once __DIR__ . '/include/autoload.php';
 
     $page = $_GET['page'] ?? 'home';
