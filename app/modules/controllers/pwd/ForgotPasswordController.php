@@ -75,7 +75,7 @@ class ForgotPasswordController {
             }
             
             // Send the email with PHPMailer
-            require_once __DIR__ . '/../../config/mailer.php';
+            require_once __DIR__ . '/../../../config/Mailer.php';
             $mailer = new Mailer();
             
             $emailSent = $mailer->sendPasswordResetEmail(
