@@ -23,9 +23,13 @@
             <label for="event-who">Qui peut venir</label>
             <input id="event-who" type="checkbox" name="event-who" value="BUT1">
 
-            <label for="event-images">Insérer des images d'illustration</label>
-            <input id="event-images" type="file">
-
+            <label>Insérer des images d'illustration</label>
+            <label for="event-images" id="drop-area">
+                <input id="event-images" type="file" accept="image/*" hidden>
+                <div id="image-view">
+                    <p>Glissez dépossé ici <br> pour ajouter une image</p>
+                </div>
+            </label>
             <button type="submit">Créer un événement</button>
 
         </form>
