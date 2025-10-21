@@ -17,12 +17,11 @@
 CREATE TABLE USER (
     user_id INT AUTO_INCREMENT PRIMARY KEY, -- Unique ID for each user of the website. Auto-incremented each time.
     last_name VARCHAR(100) NOT NULL, -- User last name.
-    user_status INT NOT NULL, --  Student's year of study or a teaching staff (if he is not a student)
+    user_status ENUM ('BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant') --  Student's year of study or a teaching staff (if he is not a student)
     first_name VARCHAR(100) NOT NULL, -- User fisrt name
     email VARCHAR(100) UNIQUE NOT NULL, -- User e-mail
     password varchar(255) NOT NULL, -- User hashed password (Hashed by BCRYPT)
     registration_date DATETIME DEFAULT CURRENT_TIMESTAMP, -- User registration date (at server timestamp)
-    CONSTRAINT chk_user_status CHECK (user_status IN ('BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant')), -- Checking the user year if he is a student, or if he is a teaching staff.
     CONSTRAINT chk_email CHECK (email LIKE '%_@%_.__%') -- Checking email format.
 );
 
