@@ -1,11 +1,12 @@
 <?php
 
-    class CreateEventController {
+    class CreateEventController extends AdminController {
         public function __construct() {
+            parent::__construct();
             $this -> loadView('createEventPageView');
         }
 
-        public function loadView($viewName) {
+        protected function loadView($viewName): void {
             require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
         }
     }
