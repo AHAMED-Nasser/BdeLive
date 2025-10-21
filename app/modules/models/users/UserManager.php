@@ -329,5 +329,34 @@ class UserManager
             throw $e;
         }
     }
+
+    public function updateFirstName(int $user_id, String $newFirstName): void{
+        try {
+            $query = 'UPDATE Utilisateur 
+                SET first_name = :newFirstName 
+                WHERE user_id = :user_id';
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
+        }
+        catch (PDOException $e) {
+            error_log('UserManager::updateFirstName - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function updateLastName(int $user_id, String $newLastName): void{
+        try {
+            $query = 'UPDATE Utilisateur 
+                SET last_name = :newLastName 
+                WHERE user_id = :user_id';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
+        }
+        catch (PDOException $e) {
+            error_log('UserManager::updateLastName - ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }
 
