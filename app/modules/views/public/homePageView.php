@@ -36,7 +36,7 @@
 
         <section class="future-event">
             <h2 class="title">Événement à venir</h2>
-            <?php useCarousel('E-sport', $imageFuturEvent, 'carousel-future-event') ?>
+            <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
         </section>
 
         <section class="BDE" aria-labelledby="bde-title">
