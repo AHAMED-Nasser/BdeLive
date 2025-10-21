@@ -1,0 +1,15 @@
+.change-user form{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 40%;
+}
+
+.change-user{
+    display: flex;
+    justify-content: center;
+}
+
+.change-user-item{
+
+}
