@@ -1,3 +1,8 @@
 <?php
 
-abstract class AuthenticatedController extends 
+abstract class AuthenticatedController extends DefaultController {
+    public function __construct() {
+        parent::__construct();
+        requireLogin();
+    }
+}
