@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="./assets/css/member.css">
     <link rel="stylesheet" href="./assets/css/team.css">
     <link rel="stylesheet" href="./assets/css/join.css">
-    <link rel="stylesheet" href="./assets/css/carousel.css">
+    <link rel="stylesheet" href="./assets/css/caroussel.css">
+    <link rel="stylesheet" href="./assets/css/createEvent.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -102,6 +103,7 @@
     </footer>
     
         <script src="./assets/js/slider.js"></script>
+        <script src="./assets/js/dropImageArea.js"></script>
 </body>
 </html>
 <?php } ?>
