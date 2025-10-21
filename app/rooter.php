@@ -16,6 +16,7 @@
     require_once __DIR__ . '/modules/views/shared/include.inc.php';
     require_once __DIR__ . '/modules/views/shared/carousel.inc.php';
     require_once __DIR__ . '/include/autoload.php';
+    require_once __DIR__ . '/include/auth.php';
 
     $page = $_GET['page'] ?? 'home';
 
