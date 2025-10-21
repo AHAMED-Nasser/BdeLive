@@ -79,7 +79,7 @@ class LoginController
 
         if ($email === $adminEmail && $mdp === $adminPwd) {
             // Store user information in session
-            $_SESSION['user_id'] = 'Admin';
+            $_SESSION['user_id'] = 0;
             $_SESSION['last_name'] = 'Admin';
             $_SESSION['first_name'] = 'Me';
             $_SESSION['user_status'] = 'BDE';
