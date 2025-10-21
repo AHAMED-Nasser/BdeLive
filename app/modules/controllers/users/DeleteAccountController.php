@@ -6,21 +6,22 @@ declare(strict_types=1);
  *
  * Allows a logged-in user to delete their own account.
  */
-class DeleteAccountController {
+class DeleteAccountController extends AuthenticatedController {
     private $userManager;
 
     public function __construct() {
+        parent::__construct();
         require_once __DIR__ . '/../../models/users/UserManager.php';
         $this->userManager = new UserManager();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->handleDelete();
-        } else {
-            $this->loadView('deleteAccountView');
+            return;
         }
+        $this->loadView('deleteAccountView');
     }
 
-    private function loadView(string $viewName): void {
+    protected function loadView($viewName): void {
         require_once __DIR__ . '/../../views/users/' . $viewName . '.php';
     }
 
