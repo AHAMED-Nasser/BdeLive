@@ -20,17 +20,24 @@
             <label for="event-theme">Thème de l'événement</label>
             <input id="event-theme" type="text" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
+            <label for="event-who">Qui peut venir</label>
+            <input id="event-who" type="checkbox" name="event-who" value="BUT1">
+
+            <label for="event-images">Insérer des images d'illustration</label>
+            <input id="event-images" type="file">
+
+            <button type="submit">Créer un événement</button>
 
         </form>
 
     </div>
     <script>
         const date = new Date();
-        // Date
+        // Get the current date (jj:mm:AAAA)
         const today = date.toISOString().split("T")[0];
         document.getElementById('event-date').setAttribute("value", today)
 
-        // Time
+        // Get the current time (hh:mm)
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         document.getElementById('event-time').value = `${hours}:${minutes}`;
