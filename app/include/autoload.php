@@ -6,6 +6,7 @@
             __DIR__ . '/../modules/models/' . $className . '.php',
             __DIR__ . '/../modules/models/users/' . $className . '.php',
             __DIR__ . '/../modules/models/pwd/' . $className . '.php',
+            __DIR__ . '/../modules/models/public/' . $className . '.php',
             
             // Controllers
             __DIR__ . '/../modules/controllers/' . $className . '.php',
