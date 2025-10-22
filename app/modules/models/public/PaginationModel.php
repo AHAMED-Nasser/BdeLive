@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Pagination Model - PHP 8 optimized
- * 
+ *
  * @package BdeLive\Models
  * @version 2.0.0
  */
@@ -29,12 +29,12 @@ class PaginationModel
              ORDER BY event_date DESC 
              LIMIT :offset, :limit"
         );
-        
+
         $stmt->execute([
             ':offset' => $offset,
-            ':limit' => $limit
+            ':limit' => $limit,
         ]);
-        
+
         return $stmt->fetchAll();
     }
 

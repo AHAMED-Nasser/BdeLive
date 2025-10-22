@@ -1,5 +1,5 @@
 <?php
-    start_page("Inscription - BDE Inform'Aix", true);
+start_page("Inscription - BDE Inform'Aix", true);
 ?>
     <div class="forgot-container">
         <h1 class="title">Inscription</h1>

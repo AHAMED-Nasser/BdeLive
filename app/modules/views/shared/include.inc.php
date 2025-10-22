@@ -1,7 +1,8 @@
 <?php
-    
-    function start_page(string $title, bool $wouldNav = true) {
-?>
+
+function start_page(string $title, bool $wouldNav = true)
+{
+    ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -76,8 +77,9 @@
 <?php } ?>
 
 <?php
-    function end_page() {
-?>
+        function end_page()
+        {
+            ?>
     <footer>
         <nav aria-label="Footer navigation">
             <ul>

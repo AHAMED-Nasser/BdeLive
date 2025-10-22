@@ -1,5 +1,5 @@
 <?php
-    start_page("Réinitialiser le mot de passe - BDE Inform'Aix", true);
+start_page("Réinitialiser le mot de passe - BDE Inform'Aix", true);
 ?>
 
     <div class="forgot-container">

@@ -1,5 +1,5 @@
 <?php
-start_page('Supprimer mon compte',true);
+start_page('Supprimer mon compte', true);
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,13 +19,15 @@ require_once __DIR__ . '/../../include/include.inc.php';
         <h2>Supprimer mon compte</h2>
 
         <!-- Message Erreur -->
-        <?php if (!empty($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?php echo htmlspecialchars($_SESSION['error']); unset($_SESSION['error']); ?></div>
+        <?php if (! empty($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?php echo htmlspecialchars($_SESSION['error']);
+            unset($_SESSION['error']); ?></div>
         <?php endif; ?>
 
         <!-- Message Réussie-->
-        <?php if (!empty($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?php echo htmlspecialchars($_SESSION['success']); unset($_SESSION['success']); ?></div>
+        <?php if (! empty($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?php echo htmlspecialchars($_SESSION['success']);
+            unset($_SESSION['success']); ?></div>
         <?php endif; ?>
 
         <p>Attention : cette action est irréversible. Toutes vos données seront supprimées.</p>

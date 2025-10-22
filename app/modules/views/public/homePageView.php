@@ -1,11 +1,11 @@
 <?php
-    $imageFuturEvent = [
-        ['src' => './assets/img/event1.png'],
-        ['src' => './assets/img/event2.png'],
-        ['src' => './assets/img/event3.png']
-    ];
+$imageFuturEvent = [
+    ['src' => './assets/img/event1.png'],
+    ['src' => './assets/img/event2.png'],
+    ['src' => './assets/img/event3.png'],
+];
 
-    start_page("BDE Inform'Aix - Site Officiel", true);
+start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
 
@@ -14,7 +14,7 @@
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        ?>
+?>
         
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">

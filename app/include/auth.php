@@ -1,22 +1,24 @@
 <?php
 
-function requireLogin(): void {
+function requireLogin(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    if (!isset($_SESSION['user_id'])) {
+    if (! isset($_SESSION['user_id'])) {
         header('Location: index.php?page=login&error=login_required');
         exit();
     }
 }
 
-function requireAdmin(): void {
+function requireAdmin(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 
-    if (!isset($_SESSION['user_id'])) {
+    if (! isset($_SESSION['user_id'])) {
         header('Location: index.php?page=login&error=login_required');
         exit();
     }

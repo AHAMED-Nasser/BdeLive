@@ -1,5 +1,5 @@
 <?php
-    start_page("Vérification du code - BDE Inform'Aix", true);
+start_page("Vérification du code - BDE Inform'Aix", true);
 ?>
 
     <div class="forgot-container">

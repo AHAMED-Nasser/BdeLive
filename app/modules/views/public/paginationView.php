@@ -4,7 +4,7 @@ start_page('Evénements');
 // Images par défaut pour les événements (en attendant les images en BDD)
 $defaultImages = [
     ['src' => './assets/img/carousel/events/event2.jpg'],
-    ['src' => './assets/img/carousel/events/event1.svg']
+    ['src' => './assets/img/carousel/events/event1.svg'],
 ];
 ?>
 
@@ -15,13 +15,13 @@ $defaultImages = [
         <p style="text-align: center; padding: 40px; color: #666;">Aucun événement trouvé.</p>
     <?php else: ?>
         <?php foreach ($paginationData['items'] as $index => $event): ?>
-            <?php 
+            <?php
             // Construire le titre de l'événement avec les détails
             $eventTitle = htmlspecialchars($event['event_name']);
-            $eventDetails = date('d/m/Y', strtotime($event['event_date'])) . ' à ' . 
-                          date('H:i', strtotime($event['event_time'])) . ' - ' . 
+            $eventDetails = date('d/m/Y', strtotime($event['event_date'])) . ' à ' .
+                          date('H:i', strtotime($event['event_time'])) . ' - ' .
                           htmlspecialchars($event['event_location']);
-            
+
             if ($desc = $event['description'] ?? null) {
                 $eventDetails .= ' | ' . htmlspecialchars(mb_strlen($desc) > 100 ? mb_substr($desc, 0, 100) . '...' : $desc);
             }
@@ -40,12 +40,12 @@ $defaultImages = [
         <?php endforeach; ?>
     <?php endif; ?>
     
-    <?php if ($paginationData['totalPages'] > 1): 
+    <?php if ($paginationData['totalPages'] > 1):
         $current = $paginationData['currentPage'];
         $total = $paginationData['totalPages'];
         $start = max(1, $current - 2);
         $end = min($total, $current + 2);
-    ?>
+        ?>
         <nav aria-label="pagination">
             <p class="pagination-info">
                 Page <?= $current ?> sur <?= $total ?> (<?= $paginationData['totalItems'] ?> événement<?= $paginationData['totalItems'] > 1 ? 's' : '' ?>)

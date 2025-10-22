@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Application router
  *
@@ -13,45 +14,47 @@
  * - No router edits are required when adding a new controller that follows this convention.
  */
 
-    require_once __DIR__ . '/modules/views/shared/include.inc.php';
-    require_once __DIR__ . '/modules/views/shared/carousel.inc.php';
-    require_once __DIR__ . '/include/autoload.php';
-    require_once __DIR__ . '/include/auth.php';
+require_once __DIR__ . '/modules/views/shared/include.inc.php';
+require_once __DIR__ . '/modules/views/shared/carousel.inc.php';
+require_once __DIR__ . '/include/autoload.php';
+require_once __DIR__ . '/include/auth.php';
 
-    $page = $_GET['page'] ?? 'home';
+$page = $_GET['page'] ?? 'home';
 
-    /**
-     * Keep only allowed characters for the page token and default to 'home' if empty.
-     */
-    $sanitizePage = static function (string $page): string {
-        $sanitized = preg_replace('/[^a-zA-Z0-9_-]/', '', $page);
-        return $sanitized !== '' ? $sanitized : 'home';
-    };
+/**
+ * Keep only allowed characters for the page token and default to 'home' if empty.
+ */
+$sanitizePage = static function (string $page): string {
+    $sanitized = preg_replace('/[^a-zA-Z0-9_-]/', '', $page);
 
-    /**
-     * Convert snake_case, kebab-case, or camelCase to StudlyCase.
-     * Examples: 'legal-terms' → 'LegalTerms', 'forgot_password' → 'ForgotPassword', 'legalTerms' → 'LegalTerms'.
-     */
-    $toStudlyCase = static function (string $string): string {
-        if (strpos($string, '-') !== false || strpos($string, '_') !== false) {
-            $string = str_replace(['-', '_'], ' ', $string);
-            $string = ucwords($string);
-            return str_replace(' ', '', $string);
-        }
-        // camelCase → StudlyCase
-        $string = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
+    return $sanitized !== '' ? $sanitized : 'home';
+};
+
+/**
+ * Convert snake_case, kebab-case, or camelCase to StudlyCase.
+ * Examples: 'legal-terms' → 'LegalTerms', 'forgot_password' → 'ForgotPassword', 'legalTerms' → 'LegalTerms'.
+ */
+$toStudlyCase = static function (string $string): string {
+    if (strpos($string, '-') !== false || strpos($string, '_') !== false) {
+        $string = str_replace(['-', '_'], ' ', $string);
         $string = ucwords($string);
+
         return str_replace(' ', '', $string);
-    };
-
-    $page = $sanitizePage($page);
-    // StudlyCase + 'Controller' naming convention
-    $controllerName = $toStudlyCase($page) . 'Controller';
-
-    if (class_exists($controllerName)) {
-        new $controllerName();
-    } else {
-        http_response_code(404);
-        echo 'Page non trouvée';
     }
+    // camelCase → StudlyCase
+    $string = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
+    $string = ucwords($string);
 
+    return str_replace(' ', '', $string);
+};
+
+$page = $sanitizePage($page);
+// StudlyCase + 'Controller' naming convention
+$controllerName = $toStudlyCase($page) . 'Controller';
+
+if (class_exists($controllerName)) {
+    new $controllerName();
+} else {
+    http_response_code(404);
+    echo 'Page non trouvée';
+}

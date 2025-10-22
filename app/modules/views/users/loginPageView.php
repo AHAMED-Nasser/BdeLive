@@ -1,5 +1,5 @@
 <?php
-    start_page("Connexion - BDE Inform'Aix", true);
+start_page("Connexion - BDE Inform'Aix", true);
 ?>
 
     <div class="forgot-container">
