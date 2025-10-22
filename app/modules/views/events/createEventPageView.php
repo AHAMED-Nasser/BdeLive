@@ -14,22 +14,54 @@
             <label for="event-time">Heure de l'événement</label>
             <input id="event-time" type="time" name="event-time">
 
-            <label for="event-place">Lieu de l'événement</label>
-            <input id="event-place" type="text" placeholder="Entrer votre lieu">
+            <label for="event-location">Lieu de l'événement</label>
+            <input id="event-location" type="text" placeholder="Entrer votre lieu">
 
             <label for="event-theme">Thème de l'événement</label>
             <input id="event-theme" type="text" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
-            <label for="event-who">Qui peut venir</label>
-            <input id="event-who" type="checkbox" name="event-who" value="BUT1">
+            <!-- checkbox -->
+            <label for="status_participating">Qui peut venir</label>
+            <div class="checkbox-container">
+                <article>
+                    <input id="but1" type="checkbox" name="but1" value="BUT1">
+                    <label for="but1">BUT 1</label>
+                </article>
 
-            <label>Insérer des images d'illustration</label>
-            <label for="event-images" id="drop-area">
-                <input id="event-images" type="file" accept="image/*" hidden>
-                <div id="image-view">
-                    <p>Glissez dépossé ici <br> pour ajouter une image</p>
-                </div>
-            </label>
+                <article>
+                    <input id="but2" type="checkbox" name="but1" value="BUT2">
+                    <label for="but2">BUT 2</label>
+                </article>
+
+                <article>
+                    <input id="but3" type="checkbox" name="but3" value="BUT3">
+                    <label for="but3">BUT 2</label>
+                </article>
+
+                <article>
+                    <input id="educator" type="checkbox" name="educator" value="EDUCATOR">
+                    <label for="educator">Personnel Enseignant</label>
+                </article>
+
+            </div>
+
+
+            <label for="description">Description de l'événement</label>
+            <textarea id="event-description" placeholder="Venez à notre événement pour ..." name="event-description"></textarea>
+
+            <div class="insert-image">
+                <label>Insérer des images d'illustration</label>
+                <label for="event-images" id="drop-area">
+                    <input id="event-images" type="file" accept="image/*" hidden>
+                    <div id="image-view">
+                        <p id="image-view-text">Glissez dépossé ici <br> pour ajouter une image</p>
+                    </div>
+                </label>
+                <!-- image recap -->
+                <div id="image-recap"></div>
+            </div>
+
+
             <button type="submit">Créer un événement</button>
 
         </form>
