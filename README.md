@@ -77,5 +77,22 @@ La base de données est représentée par le schéma suivant :
 - HELALI Amin
 - PALOT Thomas
 
+## Sécurité
+
+### Configuration des sessions
+Le projet implémente une configuration sécurisée des cookies de session PHP conforme aux bonnes pratiques OWASP :
+
+- **httponly**: Les cookies de session ne sont pas accessibles via JavaScript (protection contre XSS)
+- **secure**: Les cookies ne sont transmis que sur des connexions HTTPS
+- **samesite**: Protection contre les attaques CSRF
+- **Durée de vie**: 30 minutes pour limiter l'exposition en cas de compromission
+
+Cette configuration est définie dans `app/index.php` et s'applique à l'ensemble du site.
+
+### Conformité OWASP
+- **A01:2021 - Broken Access Control**: Protection des sessions
+- **A03:2021 - Injection**: Protection contre le vol de cookies via XSS  
+- **A05:2021 - Security Misconfiguration**: Configuration correcte des cookies
+
 ## Licence 
 Projet académique - usage pédagogique uniquement
