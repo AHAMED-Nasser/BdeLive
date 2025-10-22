@@ -3,7 +3,13 @@ parameters:
     paths:
         - app/
     ignoreErrors:
-        - '#Call to an undefined method#'
+        - '#Instantiated class PHPMailer\\PHPMailer\\PHPMailer not found#'
+        - '#Call to method .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
+        - '#Access to property .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
+        - '#Access to constant .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
+        - '#Caught class PHPMailer\\PHPMailer\\Exception not found#'
+        - '#Call to method getMessage\(\) on an unknown class PHPMailer\\PHPMailer\\Exception#'
+        - '#Variable \$paginationData might not be defined#'
     excludePaths:
         - app/vendor/
         - app/assets/

@@ -25,6 +25,9 @@ class PaginationController
             'totalItems' => $model->getTotalItems(),
         ];
 
+        // Make variables available to the view
+        $current = $currentPage;
+
         require __DIR__ . '/../../views/public/paginationView.php';
     }
 }

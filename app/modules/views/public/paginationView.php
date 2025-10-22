@@ -11,7 +11,7 @@ $defaultImages = [
 <section class="events">
     <h1 class="title">Événements</h1>
     
-    <?php if (empty($paginationData['items'])): ?>
+    <?php if (empty($paginationData['items'] ?? [])): ?>
         <p style="text-align: center; padding: 40px; color: #666;">Aucun événement trouvé.</p>
     <?php else: ?>
         <?php foreach ($paginationData['items'] as $index => $event): ?>
@@ -40,15 +40,15 @@ $defaultImages = [
         <?php endforeach; ?>
     <?php endif; ?>
     
-    <?php if ($paginationData['totalPages'] > 1):
-        $current = $paginationData['currentPage'];
-        $total = $paginationData['totalPages'];
+    <?php if (($paginationData['totalPages'] ?? 0) > 1):
+        $current = $paginationData['currentPage'] ?? 1;
+        $total = $paginationData['totalPages'] ?? 0;
         $start = max(1, $current - 2);
         $end = min($total, $current + 2);
         ?>
         <nav aria-label="pagination">
             <p class="pagination-info">
-                Page <?= $current ?> sur <?= $total ?> (<?= $paginationData['totalItems'] ?> événement<?= $paginationData['totalItems'] > 1 ? 's' : '' ?>)
+                Page <?= $current ?> sur <?= $total ?> (<?= $paginationData['totalItems'] ?? 0 ?> événement<?= ($paginationData['totalItems'] ?? 0) > 1 ? 's' : '' ?>)
             </p>
             <ul class="pagination">
                 <?php if ($current > 1): ?>
