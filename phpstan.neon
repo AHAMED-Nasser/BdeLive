@@ -1,0 +1,9 @@
+parameters:
+  level: 5
+  paths:
+    - app
+  excludePaths:
+    - app/vendor/phpmailer
+    - app/vendor
+    - vendor
+  tmpDir: var/cache/phpstan
