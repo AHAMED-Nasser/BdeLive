@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Delete Account Controller
+ * Delete Account Controller/
  *
  * Allows a logged-in user to delete their own account.
  */
