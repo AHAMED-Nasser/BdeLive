@@ -10,9 +10,6 @@ if (empty($_SESSION['csrf_token'])) {
 }
 $csrf = $_SESSION['csrf_token'];
 
-require_once __DIR__ . '/../../include/include.inc.php';
-
-
 ?>
 
     <div class="container" style="max-width:600px;margin:60px auto;">
