@@ -4,7 +4,7 @@
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <form id="form" action="index.php?page=event" method="POST">
+        <form id="form" action="index.php?page=createEvent" method="POST">
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
 
@@ -15,31 +15,31 @@
             <input id="event-time" type="time" name="event-time">
 
             <label for="event-location">Lieu de l'événement</label>
-            <input id="event-location" type="text" placeholder="Entrer votre lieu">
+            <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu">
 
             <label for="event-theme">Thème de l'événement</label>
-            <input id="event-theme" type="text" placeholder="Entrer le thème de l'événement (Soirée, ...)">
+            <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
             <!-- checkbox -->
             <label for="status_participating">Qui peut venir</label>
             <div class="checkbox-container">
                 <article>
-                    <input id="but1" type="checkbox" name="but1" value="BUT1">
+                    <input id="but1" type="checkbox" name="status_participating[]" value="BUT 1">
                     <label for="but1">BUT 1</label>
                 </article>
 
                 <article>
-                    <input id="but2" type="checkbox" name="but1" value="BUT2">
+                    <input id="but2" type="checkbox" name="status_participating[]" value="BUT 2">
                     <label for="but2">BUT 2</label>
                 </article>
 
                 <article>
-                    <input id="but3" type="checkbox" name="but3" value="BUT3">
+                    <input id="but3" type="checkbox" name="status_participating[]" value="BUT 3">
                     <label for="but3">BUT 2</label>
                 </article>
 
                 <article>
-                    <input id="educator" type="checkbox" name="educator" value="EDUCATOR">
+                    <input id="educator" type="checkbox" name="status_participating[]" value="Personnel Enseignant">
                     <label for="educator">Personnel Enseignant</label>
                 </article>
 
@@ -47,7 +47,7 @@
 
 
             <label for="description">Description de l'événement</label>
-            <textarea id="event-description" placeholder="Venez à notre événement pour ..." name="event-description"></textarea>
+            <textarea id="description" placeholder="Venez à notre événement pour ..." name="event-description"></textarea>
 
             <div class="insert-image">
                 <label>Insérer des images d'illustration</label>
@@ -62,7 +62,7 @@
             </div>
 
 
-            <button type="submit">Créer un événement</button>
+            <button type="submit" name="ok">Créer un événement</button>
 
         </form>
 
