@@ -47,7 +47,6 @@
                 <?php endif; ?>
             </ul>
             
-            <!-- Menu Hamburger -->
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger-icon">
                 <span class="bar"></span>
@@ -55,7 +54,6 @@
                 <span class="bar"></span>
             </label>
             
-            <!-- Menu Sidebar -->
             <div class="sidebar-menu">
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
