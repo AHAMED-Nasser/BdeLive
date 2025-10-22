@@ -16,6 +16,8 @@ node_modules/
 # Cache
 .php-cs-fixer.cache
 .phpstan.cache
+.phpdoc/
+.cursor/
 
 # Logs
 *.log
