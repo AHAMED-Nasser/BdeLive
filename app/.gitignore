@@ -3,3 +3,4 @@ config/
 *.git
 *.env
 *.swp
+../vendor/
