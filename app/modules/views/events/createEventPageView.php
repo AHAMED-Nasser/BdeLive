@@ -30,6 +30,7 @@
                     <p>Glissez dépossé ici <br> pour ajouter une image</p>
                 </div>
             </label>
+            <?= csrfField() ?>
             <button type="submit">Créer un événement</button>
 
         </form>

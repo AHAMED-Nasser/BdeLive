@@ -51,6 +51,13 @@ class ResetPasswordController
      */
     private function resetPassword(): void
     {
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            header('Location: index.php?page=reset_password');
+            exit;
+        }
+
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
         // Show an error message if the password or the confirm password is empty

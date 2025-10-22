@@ -19,6 +19,7 @@ start_page("Réinitialiser le mot de passe - BDE Inform'Aix", true);
             <label for="confirm_password">Confirmer le mot de passe :</label><br>
             <input id="confirm_password" type="password" name="confirm_password" placeholder="Confirmez votre mot de passe" required minlength="6"><br>
             
+            <?= csrfField() ?>
             <button type="submit" name="submit">Réinitialiser le mot de passe</button>
         </form>
 

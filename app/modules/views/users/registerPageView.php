@@ -33,6 +33,7 @@ start_page("Inscription - BDE Inform'Aix", true);
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
 
+            <?= csrfField() ?>
             <button type="submit" name="ok">S'inscrire</button>
         </form>
         

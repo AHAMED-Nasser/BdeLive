@@ -54,6 +54,14 @@ class RegisterController
             session_start();
         }
 
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            $this->loadView('registerPageView');
+
+            return;
+        }
+
         // Validate and sanitize inputs
         $last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
         $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';

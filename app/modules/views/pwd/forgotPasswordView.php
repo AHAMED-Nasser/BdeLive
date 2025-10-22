@@ -22,6 +22,7 @@ start_page("Mot de passe oublié - BDE Inform'Aix", true);
         <form action="index.php?page=forgot_password" method="POST">
             <label for="email">Adresse e-mail :</label><br>
             <input id="email" type="email" name="email" placeholder="Entrez votre email" required><br>
+            <?= csrfField() ?>
             <button type="submit" name="submit">Envoyer le code</button>
         </form>
 

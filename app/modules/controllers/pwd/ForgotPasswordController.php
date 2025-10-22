@@ -45,6 +45,13 @@ class ForgotPasswordController
      */
     private function sendResetEmail(): void
     {
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            header('Location: index.php?page=forgot_password');
+            exit;
+        }
+
         $email = trim($_POST['email'] ?? '');
         // Ask the user to enter their email
         if (empty($email)) {

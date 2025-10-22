@@ -56,6 +56,14 @@ class LoginController
             session_start();
         }
 
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            $this->loadView('loginPageView');
+
+            return;
+        }
+
         // Get and sanitize inputs
         $email = isset($_POST['email']) ? trim($_POST['email']) : '';
         $mdp = isset($_POST['pwd']) ? $_POST['pwd'] : '';

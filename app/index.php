@@ -14,4 +14,12 @@ session_set_cookie_params([
 ]);
 
 session_start();
+
+// En-têtes de sécurité HTTP
+header("X-Frame-Options: SAMEORIGIN");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+header("X-Content-Type-Options: nosniff");
+header("X-XSS-Protection: 1; mode=block");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+
 require_once __DIR__ . '/rooter.php';
