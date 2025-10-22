@@ -50,6 +50,13 @@ class VerifyTokenController
      */
     private function verifyToken(): void
     {
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            header('Location: index.php?page=verify_token');
+            exit;
+        }
+
         $token = trim($_POST['token'] ?? '');
         // Show an error message if the token is empty
         if (empty($token)) {
