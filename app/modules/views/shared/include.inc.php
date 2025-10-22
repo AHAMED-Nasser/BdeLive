@@ -36,12 +36,14 @@
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=deleteAccount">Delete</a></li>
+                    <li><a href="index.php?page=deleteAccount">Supprimer Compte</a></li>
                     <li><span><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></span></li>
                 <?php else: ?>
+
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
+
                 <?php endif; ?>
             </ul>
             
