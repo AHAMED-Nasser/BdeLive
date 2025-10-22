@@ -397,7 +397,7 @@ return \PHPStan\Cache\CacheItem::__set_state(array(
       array (
       ),
     ),
-    'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\EventCreationModel.php' =>
+    'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\EventCreationModel.php.php' =>
     array (
       0 => '4e8317d49cd365b78e1e32c49ff24ac57a8abace',
       1 => 
