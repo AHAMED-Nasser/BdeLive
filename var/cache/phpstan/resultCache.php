@@ -1153,7 +1153,7 @@ return [
     'fileHash' => '51621d19b5a9b351fa065df5f931d00043c40f1a',
     'dependentFiles' => 
     array (
-      0 => 'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\eventCreationModel.php',
+      0 => 'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\EventCreationModel.php',
       1 => 'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\pwd\\PasswordReset.php',
       2 => 'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\users\\UserManager.php',
     ),
@@ -1315,7 +1315,7 @@ return [
     array (
     ),
   ),
-  'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\eventCreationModel.php' => 
+  'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\EventCreationModel.php' =>
   array (
     'fileHash' => '4e8317d49cd365b78e1e32c49ff24ac57a8abace',
     'dependentFiles' => 
@@ -3347,7 +3347,7 @@ return [
       ),
     )),
   ),
-  'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\eventCreationModel.php' => 
+  'C:\\wamp64\\www\\FORMATION\\BUT\\BdeLive\\app\\modules\\models\\admin\\EventCreationModel.php' =>
   array (
     0 => 
     \PHPStan\Dependency\ExportedNode\ExportedClassNode::__set_state(array(
