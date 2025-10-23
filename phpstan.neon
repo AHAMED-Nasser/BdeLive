@@ -1,35 +1,6 @@
-includes:
-    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
-
 parameters:
-    # 🔍 Niveau d’analyse (0 = basique, 9 = très strict)
-    level: 6
-
-    # 📂 Répertoires à analyser
     paths:
-        - app/
-
-    # 🚫 Répertoires ou fichiers à ignorer
+        - app
     excludePaths:
-        - vendor/*
-        - app/assets/*
-        - app/config/*
-        - app/include/*
-        - app/cron/*
-        - app/views/*
-        - app/rooter.php
-        - app/index.php
-
-    # 🔄 Fichier d’autoload (Composer)
-    bootstrapFiles:
-        - vendor/autoload.php
-
-    # ⚙️ Quelques options utiles
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-    reportUnmatchedIgnoredErrors: true
-
-    # 🧠 Pour éviter les fausses erreurs sur les classes dynamiques
-    ignoreErrors:
-        - '#Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+#'
-        - '#Access to an undefined property [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+#'
+        analyse:
+            - app/vendor/*
