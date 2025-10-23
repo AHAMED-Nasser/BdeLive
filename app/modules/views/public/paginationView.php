@@ -23,7 +23,7 @@ $defaultImages = [
                           htmlspecialchars($event['event_location']);
 
             if ($desc = $event['description'] ?? null) {
-                $eventDetails .= ' | ' . htmlspecialchars(mb_strlen($desc) > 100 ? mb_substr($desc, 0, 100) . '...' : $desc);
+                $eventDetails .= ' | ' . htmlspecialchars(strlen($desc) > 100 ? substr($desc, 0, 100) . '...' : $desc);
             }
             ?>
             
