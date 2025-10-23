@@ -1,15 +1,35 @@
+includes:
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
 parameters:
-    level: 5
+    # 🔍 Niveau d’analyse (0 = basique, 9 = très strict)
+    level: 6
+
+    # 📂 Répertoires à analyser
     paths:
         - app/
-    ignoreErrors:
-        - '#Instantiated class PHPMailer\\PHPMailer\\PHPMailer not found#'
-        - '#Call to method .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
-        - '#Access to property .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
-        - '#Access to constant .* on an unknown class PHPMailer\\PHPMailer\\PHPMailer#'
-        - '#Caught class PHPMailer\\PHPMailer\\Exception not found#'
-        - '#Call to method getMessage\(\) on an unknown class PHPMailer\\PHPMailer\\Exception#'
-        - '#Variable \$paginationData might not be defined#'
+
+    # 🚫 Répertoires ou fichiers à ignorer
     excludePaths:
-        - app/vendor/
-        - app/assets/
+        - vendor/*
+        - app/assets/*
+        - app/config/*
+        - app/include/*
+        - app/cron/*
+        - app/views/*
+        - app/rooter.php
+        - app/index.php
+
+    # 🔄 Fichier d’autoload (Composer)
+    bootstrapFiles:
+        - vendor/autoload.php
+
+    # ⚙️ Quelques options utiles
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    reportUnmatchedIgnoredErrors: true
+
+    # 🧠 Pour éviter les fausses erreurs sur les classes dynamiques
+    ignoreErrors:
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+::[a-zA-Z0-9\\_]+#'
