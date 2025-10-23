@@ -52,7 +52,16 @@ function validateCsrfToken(string $token): bool
  */
 function csrfField(): string
 {
-    $token = generateCsrfToken();
+    // Use existing token if available, otherwise generate a new one
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['csrf_token'])) {
+        $token = generateCsrfToken();
+    } else {
+        $token = $_SESSION['csrf_token'];
+    }
 
     return '<input type="hidden" name="csrf_token" value="' . htmlspecialchars($token) . '">';
 }
