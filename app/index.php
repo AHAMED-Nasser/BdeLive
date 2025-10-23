@@ -8,9 +8,9 @@ session_set_cookie_params([
     'lifetime' => 1800,                      // 30 minutes
     'path' => '/',
     'domain' => 'bdelivesae.alwaysdata.net',
-    'secure' => true,                        // Uniquement HTTPS
+    'secure' => true,                        // HTTPS uniquement
     'httponly' => true,                      // Inaccessible en JavaScript
-    'samesite' => 'Lax',                      // Protection CSRF
+    'samesite' => 'Lax',                     // Protection CSRF
 ]);
 
 session_start();
