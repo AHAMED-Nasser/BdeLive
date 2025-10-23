@@ -15,6 +15,8 @@ start_page("BDE Inform'Aix - Site Officiel", true);
             session_start();
         }
 ?>
+
+
         
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">

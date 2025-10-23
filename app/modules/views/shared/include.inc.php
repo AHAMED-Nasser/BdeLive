@@ -42,6 +42,7 @@ function start_page(string $title, bool $wouldNav = true)
                     <li><span><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></span></li>
                 <?php elseif (isset($_SESSION['user_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
+                    <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                     <li><a href="index.php?page=pagination">Evénements</a></li>
                     <li><span><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></span></li>
 

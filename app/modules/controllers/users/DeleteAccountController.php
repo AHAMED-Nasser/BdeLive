@@ -37,13 +37,13 @@ class DeleteAccountController extends AuthenticatedController
         }
 
         // Si l'utilisateur n'est pas connecté
-        if (empty($_SESSION['utilisateur_id'])) {
+        if (empty($_SESSION['user_id'])) {
             $_SESSION['error'] = 'Vous devez être connecté pour supprimer votre compte.';
             header('Location: index.php?page=login');
             exit;
         }
 
-        $userId = (int) $_SESSION['utilisateur_id'];
+        $userId = (int) $_SESSION['user_id'];
 
         // Protection en cas d'attaque
         $token = $_POST['csrf_token'] ?? '';
