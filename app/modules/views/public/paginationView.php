@@ -6,6 +6,14 @@ $defaultImages = [
     ['src' => './assets/img/carousel/events/event2.jpg'],
     ['src' => './assets/img/carousel/events/event1.svg'],
 ];
+
+// Ensure pagination data is available (set by controller)
+$paginationData = $paginationData ?? [
+    'items' => [],
+    'currentPage' => 1,
+    'totalPages' => 0,
+    'totalItems' => 0
+];
 ?>
 
 <section class="events">

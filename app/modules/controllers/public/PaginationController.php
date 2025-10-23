@@ -27,6 +27,9 @@ class PaginationController
 
         // Make variables available to the view
         $current = $currentPage;
+        
+        // Extract pagination data for the view
+        extract($paginationData);
 
         require __DIR__ . '/../../views/public/paginationView.php';
     }
