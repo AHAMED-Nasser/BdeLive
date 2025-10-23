@@ -49,4 +49,22 @@ class EventCreationModel {
 
     }
 
+    /**
+     * Delete an event by its ID
+     * @param int $eventId The event ID to delete
+     * @return bool True if deletion successful, false otherwise
+     */
+    public function deleteEvent(int $eventId): bool
+    {
+        try {
+            $query = "DELETE FROM EVENTS WHERE event_id = :event_id";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam(':event_id', $eventId, PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('EventCreationModel::deleteEvent - ' . $e->getMessage());
+            return false;
+        }
+    }
+
 }
