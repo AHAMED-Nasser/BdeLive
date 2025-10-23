@@ -10,7 +10,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 $csrf = $_SESSION['csrf_token'];
 
-require_once __DIR__ . '/../../include/include.inc.php';
+require_once __DIR__ . '/../shared/include.inc.php';
 
 
 ?>
