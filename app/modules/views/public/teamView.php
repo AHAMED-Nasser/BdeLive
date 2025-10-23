@@ -1,6 +1,6 @@
 <?php
-    start_page("Team - BDE Inform'Aix", true);
-    ?>
+start_page("Team - BDE Inform'Aix", true);
+?>
 
     <!DOCTYPE html>
     <html lang="fr">

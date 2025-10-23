@@ -1,5 +1,5 @@
 <?php
-    start_page("Vérification du code - BDE Inform'Aix", true);
+start_page("Vérification du code - BDE Inform'Aix", true);
 ?>
 
     <div class="forgot-container">
@@ -17,6 +17,7 @@
         <form action="index.php?page=verify_token" method="POST">
             <label for="token">Code de vérification :</label><br>
             <input id="token" type="text" name="token" placeholder="Entrez le code reçu par email" required maxlength="64"><br>
+            <?= csrfField() ?>
             <button type="submit" name="submit">Vérifier le code</button>
         </form>
 

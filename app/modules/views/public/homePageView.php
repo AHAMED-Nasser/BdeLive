@@ -1,24 +1,24 @@
 <?php
-    $imageFuturEvent = [
-        ['src' => './assets/img/event1.png'],
-        ['src' => './assets/img/event2.png'],
-        ['src' => './assets/img/event3.png']
-    ];
+$imageFuturEvent = [
+    ['src' => './assets/img/event1.png'],
+    ['src' => './assets/img/event2.png'],
+    ['src' => './assets/img/event3.png'],
+];
 
-    start_page("BDE Inform'Aix - Site Officiel", true);
+start_page("BDE Inform'Aix - Site Officiel", true);
 ?>
     <main>
 
         <?php
-        // Startsession if not already started/
+        // Start session if not already started
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        ?>
+?>
         
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success">
-                <?= $_SESSION['success']?>
+                <?= htmlspecialchars($_SESSION['success']) ?>
             </div>
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
@@ -36,7 +36,7 @@
 
         <section class="future-event">
             <h2 class="title">Événement à venir</h2>
-            <?php useCarousel('E-sport', $imageFuturEvent, 'carousel-future-event') ?>
+            <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
         </section>
 
         <section class="BDE" aria-labelledby="bde-title">

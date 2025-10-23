@@ -1,5 +1,5 @@
 <?php
-    start_page("Inscription - BDE Inform'Aix", true);
+start_page("Inscription - BDE Inform'Aix", true);
 ?>
     <div class="forgot-container">
         <h1 class="title">Inscription</h1>
@@ -33,6 +33,7 @@
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
 
+            <?= csrfField() ?>
             <button type="submit" name="ok">S'inscrire</button>
         </form>
         
