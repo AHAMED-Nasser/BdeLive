@@ -77,5 +77,40 @@ La base de données est représentée par le schéma suivant :
 - HELALI Amin
 - PALOT Thomas
 
+## Sécurité
+
+### Configuration des sessions
+Le projet implémente une configuration sécurisée des cookies de session PHP conforme aux bonnes pratiques OWASP :
+
+- **httponly**: Les cookies de session ne sont pas accessibles via JavaScript (protection contre XSS)
+- **secure**: Les cookies ne sont transmis que sur des connexions HTTPS
+- **samesite**: Protection contre les attaques CSRF
+- **Durée de vie**: 30 minutes pour limiter l'exposition en cas de compromission
+
+Cette configuration est définie dans `app/index.php` et s'applique à l'ensemble du site.
+
+### Protection Anti-CSRF
+Tous les formulaires sont protégés contre les attaques Cross-Site Request Forgery :
+
+- **Génération de jetons**: Chaque formulaire reçoit un jeton unique et aléatoire
+- **Validation côté serveur**: Tous les contrôleurs vérifient la validité du jeton avant traitement
+- **Expiration**: Les jetons expirent après 1 heure pour limiter les risques
+- **Formulaires protégés**: Login, Register, Forgot Password, Reset Password, Verify Token, Create Event
+
+### En-têtes de sécurité HTTP
+Le site envoie des en-têtes de sécurité pour renforcer la protection :
+
+- **X-Frame-Options**: Protection anti-clickjacking
+- **Strict-Transport-Security**: Force l'utilisation d'HTTPS
+- **X-Content-Type-Options**: Prévient le MIME-sniffing
+- **X-XSS-Protection**: Protection contre les attaques XSS
+- **Referrer-Policy**: Contrôle des informations de référent
+
+### Conformité OWASP
+- **A01:2021 - Broken Access Control**: Protection des sessions et CSRF
+- **A03:2021 - Injection**: Protection contre le vol de cookies via XSS et headers de sécurité
+- **A05:2021 - Security Misconfiguration**: Configuration correcte des cookies et en-têtes HTTP
+- **A07:2021 - Identification and Authentication Failures**: Jetons de session sécurisés
+
 ## Licence 
 Projet académique - usage pédagogique uniquement

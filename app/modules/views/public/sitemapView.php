@@ -22,7 +22,9 @@ start_page("Plan du site - BDE Live");
         <section>
             <h2>Gestion de Compte</h2>
             <ul>
-                <?php if (session_status() === PHP_SESSION_NONE) { session_start(); } ?>
+                <?php if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                } ?>
                 <?php if (isset($_SESSION['utilisateur_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=profile">Mon Profil</a></li>

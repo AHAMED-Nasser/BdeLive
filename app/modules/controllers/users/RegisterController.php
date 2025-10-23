@@ -1,13 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 /**
  * Register Controller
- * 
+ *
  * Handles user registration operations including form display, input validation,
  * account creation, and automatic login after successful registration.
  * Works with AuthController to create new user accounts.
- * 
+ *
  * @package BdeLive\Controllers
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
@@ -16,14 +17,14 @@ class RegisterController
 {
     /**
      * Authentication controller instance
-     * 
+     *
      * @var AuthController
      */
     private AuthController $authController;
 
     /**
      * Constructor - Initialize the RegisterController
-     * 
+     *
      * Creates a new AuthController instance for handling registration operations.
      */
     public function __construct()
@@ -39,11 +40,11 @@ class RegisterController
 
     /**
      * Process the registration form submission
-     * 
+     *
      * Validates all user input (required fields, email format, password strength,
      * class year), creates the user account via AuthController, and automatically
      * logs in the new user on success.
-     * 
+     *
      * @return void
      */
     private function handleRegistration(): void
@@ -51,6 +52,14 @@ class RegisterController
         // Start session for error messages
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
+        }
+
+        // Validate CSRF token
+        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
+            $this->loadView('registerPageView');
+
+            return;
         }
 
         // Validate and sanitize inputs
@@ -64,13 +73,15 @@ class RegisterController
         if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
             $_SESSION['error'] = 'Tous les champs sont obligatoires';
             $this->loadView('registerPageView');
+
             return;
         }
 
         // Validate email format
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $_SESSION['error'] = 'Format d\'email invalide';
             $this->loadView('registerPageView');
+
             return;
         }
 
@@ -78,13 +89,15 @@ class RegisterController
         if (strlen($pwd) < 6) {
             $_SESSION['error'] = 'Le mot de passe doit contenir au moins 6 caractères';
             $this->loadView('registerPageView');
+
             return;
         }
 
         // Validate user_status
-        if (!in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
+        if (! in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
             $_SESSION['error'] = 'Statut d\'utilisateur invalide';
             $this->loadView('registerPageView');
+
             return;
         }
 
@@ -112,9 +125,9 @@ class RegisterController
 
     /**
      * Load a view file
-     * 
+     *
      * Helper method to include and render a view template.
-     * 
+     *
      * @param string $viewName The name of the view file to load (without .php extension)
      * @return void
      */

@@ -1,5 +1,5 @@
 <?php
-    start_page("Connexion - BDE Inform'Aix", true);
+start_page("Connexion - BDE Inform'Aix", true);
 ?>
 
     <div class="forgot-container">
@@ -26,6 +26,7 @@
             <label for="password">Mot de passe :</label>
             <input id="password" type="password" name="pwd" placeholder="Entrez votre mot de passe" required>
             
+            <?= csrfField() ?>
             <button type="submit" name="ok">Se connecter</button>
         </form>
         

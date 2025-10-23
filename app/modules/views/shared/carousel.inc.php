@@ -1,6 +1,7 @@
 <?php
-    function useCarousel($carouselLabel, $imageMap, $carouselId) {
-?>
+function useCarousel($carouselLabel, $imageMap, $carouselId)
+{
+    ?>
 
 <h2 class="event-title"><?= $carouselLabel ?></h2>
 <article class="carousel" id="<?= $carouselId ?? 'carousel' ?>">

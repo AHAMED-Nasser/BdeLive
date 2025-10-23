@@ -1,25 +1,43 @@
+# IDE
+*.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+*.env
+.env.local
+.env.production
+
 # Dependencies
 vendor/
 node_modules/
 
-# Environment files
-.env
-.env.local
-.env.production
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS files
-.DS_Store
-Thumbs.db
+# Cache
+.php-cs-fixer.cache
+.phpstan.cache
+.phpdoc/
+.cursor/
 
 # Logs
 *.log
+logs/
 
-# Cache
-cache/
-tmp/
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Composer
+composer.phar
+
+# Database
+*.sql
+*.db
+*.sqlite
+
+# Config files with sensitive data
+app/config/config.php
