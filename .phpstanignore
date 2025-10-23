@@ -1,0 +1,5 @@
+vendor/*
+app/assets/*
+app/config/*
+app/include/*
+app/cron/*
