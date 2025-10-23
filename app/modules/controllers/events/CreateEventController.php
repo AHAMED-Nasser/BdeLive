@@ -1,9 +1,8 @@
 <?php
     class CreateEventController extends AdminController {
-        public $creationModel;
         public function __construct() {
-            $this -> creationModel = new EventCreationModel();
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])){
+            $action = $_GET['action'] ?? '';
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submitEvent'){
                 $this -> createEvent();
             } else {
                 parent::__construct();
@@ -12,10 +11,6 @@
         }
 
         public function createEvent(): void {
-
-            // Debug : Voir ce qui est reçu
-            error_log("POST data: " . print_r($_POST, true));
-
             // Event creation logic goes here
             $eventName = $_POST['event-name'] ?? '';
             $eventDate = $_POST['event-date'] ?? '';
@@ -26,15 +21,6 @@
             $statusParticipating = implode(',', $statusParticipatingArray);
             $description = $_POST['description'] ?? '';
 
-            // Debug : Voir les valeurs récupérées
-            error_log("Event Name: $eventName");
-            error_log("Event Date: $eventDate");
-            error_log("Event Time: $eventTime");
-            error_log("Event Location: $eventLocation");
-            error_log("Event Theme: $eventTheme");
-            error_log("Status: $statusParticipating");
-            error_log("Description: $description");
-
             // Validate required fields
             if (empty($eventName) || empty($eventDate) || empty($eventTime) || empty($eventLocation) || empty($eventTheme) || empty($statusParticipating) || empty($description)) {
                 $_SESSION['error'] = 'Tous les champs sont obligatoires';
@@ -42,9 +28,8 @@
                 exit();
             }
 
-            error_log("Validation passed, calling insertEvent...");
-
-            $eventCreated = $this->creationModel->insertEvent(
+            $creationModel = new EventCreationModel();
+            $event = $creationModel -> insertEvent(
                 $eventName,
                 new DateTime($eventDate),
                 new DateTime($eventTime),
@@ -54,9 +39,7 @@
                 $description
             );
 
-            error_log("Insert result: " . ($eventCreated ? "SUCCESS" : "FAILED"));
-
-            if ($eventCreated){
+            if ($event){
                 $_SESSION['success'] = 'Événement créé avec succès';
                 header('Location: index.php?page=event');
                 exit();
