@@ -1,8 +1,7 @@
 <?php
-
-function start_page(string $title, bool $wouldNav = true)
-{
-    ?>
+    
+    function start_page(string $title, bool $wouldNav = true) {
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -78,9 +77,8 @@ function start_page(string $title, bool $wouldNav = true)
 <?php } ?>
 
 <?php
-        function end_page()
-        {
-            ?>
+    function end_page() {
+?>
     <footer>
         <nav aria-label="Footer navigation">
             <ul>
@@ -105,6 +103,8 @@ function start_page(string $title, bool $wouldNav = true)
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
     </footer>
     
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
         <script src="./assets/js/slider.js"></script>
         <script src="./assets/js/dropImageArea.js"></script>
 </body>
