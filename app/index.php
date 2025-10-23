@@ -4,11 +4,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Configuration sécurisée des cookies de session
+// Détection automatique de l'environnement
+$isProduction = isset($_SERVER['HTTP_HOST']) && 
+    strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
+
 session_set_cookie_params([
     'lifetime' => 1800,                      // 30 minutes
     'path' => '/',
-    'domain' => 'bdelivesae.alwaysdata.net',
-    'secure' => true,                        // HTTPS uniquement
+    'domain' => $isProduction ? 'bdelivesae.alwaysdata.net' : '',
+    'secure' => $isProduction,               // HTTPS uniquement en production
     'httponly' => true,                      // Inaccessible en JavaScript
     'samesite' => 'Lax',                     // Protection CSRF
 ]);
