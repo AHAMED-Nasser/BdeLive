@@ -29,17 +29,24 @@ class EventCreationModel {
                                 string $statusParticipating,
                                 string $description
     ) {
-        $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description)";
-        $stmt = $this->pdo->prepare($query);
-        return $stmt -> execute([
-            ':event_name' => $eventName,
-            ':event_date' => $eventDate->format('Y-m-d'),
-            ':event_time' => $eventTime->format('H:i'),
-            ':event_location' => $eventLocation,
-            ':event_theme' => $eventTheme,
-            ':status_participating' => $statusParticipating,
-            ':description' => $description
-        ]);
+        try {
+            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description)";
+            $stmt = $this->pdo->prepare($query);
+            return $stmt -> execute([
+                ':event_name' => $eventName,
+                ':event_date' => $eventDate->format('Y-m-d'),
+                ':event_time' => $eventTime->format('H:i'),
+                ':event_location' => $eventLocation,
+                ':event_theme' => $eventTheme,
+                ':status_participating' => $statusParticipating,
+                ':description' => $description
+            ]);
+        } catch (PDOException $e) {
+            error_log('EventCreationModel::insertEvent - ' . $e->getMessage());
+            header('Location: index.php?page=createEvent');
+            exit();
+        }
+
     }
 
 }
