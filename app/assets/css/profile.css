@@ -1,15 +1,29 @@
 .change-user form{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     flex-wrap: wrap;
-    width: 40%;
+    width: 50%;
 }
 
 .change-user{
     display: flex;
-    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
 }
 
-.change-user-item{
-
+.change-user-label, h1{
+    font-family: "JetBrains Mono ExtraBold", monospace;
 }
+
+.change-user-input::placeholder{
+    color: red;
+}
+
+.change-user-div{
+    display: flex;
+    justify-content: space-around;
+    margin: 0.5em;
+}
+
+
