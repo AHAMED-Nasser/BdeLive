@@ -4,9 +4,10 @@
         $searchPaths = [
             // Models
             __DIR__ . '/../modules/models/' . $className . '.php',
+            __DIR__ . '/../modules/models/admin/' . $className . '.php',
             __DIR__ . '/../modules/models/users/' . $className . '.php',
             __DIR__ . '/../modules/models/pwd/' . $className . '.php',
-            
+
             // Controllers
             __DIR__ . '/../modules/controllers/' . $className . '.php',
             __DIR__ . '/../modules/controllers/users/' . $className . '.php',
