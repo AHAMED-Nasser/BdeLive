@@ -49,7 +49,7 @@
 
                 <article>
                     <input id="but3" type="checkbox" name="status_participating[]" value="BUT 3">
-                    <label for="but3">BUT 2</label>
+                    <label for="but3">BUT 3</label>
                 </article>
 
                 <article>
