@@ -4,7 +4,21 @@
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <form id="form" action="index.php?page=createEvent" method="POST">
+        <?php if(isset($_SESSION['success'])): ?>
+            <article style="color: #1d7630">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+            </article>
+            <?php unset($_SESSION['success']) ?>
+        <?php endif ?>
+
+        <?php if(isset($_SESSION['error'])): ?>
+            <article style="color: #922222">
+                <?= htmlspecialchars($_SESSION['error']) ?>
+            </article>
+            <?php unset($_SESSION['error']) ?>
+        <?php endif ?>
+
+        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST">
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
 
@@ -47,7 +61,7 @@
 
 
             <label for="description">Description de l'événement</label>
-            <textarea id="description" placeholder="Venez à notre événement pour ..." name="event-description"></textarea>
+            <textarea id="description" placeholder="Venez à notre événement pour ..." name="description"></textarea>
 
             <div class="insert-image">
                 <label>Insérer des images d'illustration</label>
@@ -62,7 +76,7 @@
             </div>
 
 
-            <button type="submit" name="ok">Créer un événement</button>
+            <button type="submit">Créer un événement</button>
 
         </form>
 
