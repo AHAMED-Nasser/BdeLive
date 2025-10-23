@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInitf9e7218f71d5874b5632927df4f72bd7
 {
-    public static $files = array (
-        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
-    );
-
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
