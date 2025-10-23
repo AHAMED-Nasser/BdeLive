@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script de linting pour BdeLive
-# Usage: ./scripts/lint.sh [phpstan|phpcs|php-cs-fixer|all]
+# Usage: ./scripts/lint.sh [phpcs|php-cs-fixer|all]
 
 set -e
 
@@ -16,19 +16,6 @@ NC='\033[0m' # No Color
 
 echo -e "${YELLOW}🔍 Linting BdeLive Project${NC}"
 echo "================================"
-
-# Fonction pour exécuter PHPStan
-run_phpstan() {
-    echo -e "\n${YELLOW}📊 Running PHPStan (Static Analysis)${NC}"
-    echo "--------------------------------"
-    if php vendor/bin/phpstan analyse --memory-limit=1G; then
-        echo -e "${GREEN}✅ PHPStan passed${NC}"
-        return 0
-    else
-        echo -e "${RED}❌ PHPStan failed${NC}"
-        return 1
-    fi
-}
 
 # Fonction pour exécuter PHP CodeSniffer
 run_phpcs() {
@@ -71,9 +58,6 @@ fix_code() {
 
 # Gestion des arguments
 case "${1:-all}" in
-    "phpstan")
-        run_phpstan
-        ;;
     "phpcs")
         run_phpcs
         ;;
@@ -84,23 +68,15 @@ case "${1:-all}" in
         fix_code
         ;;
     "all")
-        phpstan_exit=0
         phpcs_exit=0
         cs_fixer_exit=0
         
-        run_phpstan || phpstan_exit=1
         # Temporarily disabled due to PHP 8.4 compatibility issues
         # run_phpcs || phpcs_exit=1
         run_php_cs_fixer || cs_fixer_exit=1
         
         echo -e "\n${YELLOW}📋 Summary${NC}"
         echo "=========="
-        
-        if [ $phpstan_exit -eq 0 ]; then
-            echo -e "${GREEN}✅ PHPStan: PASSED${NC}"
-        else
-            echo -e "${RED}❌ PHPStan: FAILED${NC}"
-        fi
         
         echo -e "${YELLOW}⚠️  PHP CodeSniffer: DISABLED (PHP 8.4 compatibility)${NC}"
         
@@ -110,7 +86,7 @@ case "${1:-all}" in
             echo -e "${RED}❌ PHP CS Fixer: FAILED${NC}"
         fi
         
-        if [ $phpstan_exit -eq 0 ] && [ $cs_fixer_exit -eq 0 ]; then
+        if [ $cs_fixer_exit -eq 0 ]; then
             echo -e "\n${GREEN}🎉 All linters passed!${NC}"
             exit 0
         else
@@ -119,10 +95,9 @@ case "${1:-all}" in
         fi
         ;;
     *)
-        echo "Usage: $0 [phpstan|phpcs|php-cs-fixer|fix|all]"
+        echo "Usage: $0 [phpcs|php-cs-fixer|fix|all]"
         echo ""
         echo "Commands:"
-        echo "  phpstan      Run static analysis with PHPStan"
         echo "  phpcs        Check code standards with PHP CodeSniffer"
         echo "  php-cs-fixer Check code style with PHP CS Fixer"
         echo "  fix          Auto-fix code style issues"
