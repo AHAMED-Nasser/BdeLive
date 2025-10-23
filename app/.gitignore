@@ -4,3 +4,5 @@ config/
 *.env
 *.swp
 ../vendor/
+composer.lock
+composer.json
