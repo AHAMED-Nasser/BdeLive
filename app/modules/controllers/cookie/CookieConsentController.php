@@ -3,8 +3,8 @@
 
 class CookieConsentController
 {
-    private $cookieName = 'cookie_consent';
-    private $cookieDays = 365;
+    private string $cookieName = 'cookie_consent';
+    private int $cookieDays = 365;
 
     public function __construct()
     {
@@ -12,7 +12,7 @@ class CookieConsentController
         $this->render();
     }
 
-    private function handlePost()
+    private function handlePost(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cookie_consent'])) {
             $value = $_POST['cookie_consent'] === 'accept' ? 'yes' : 'no';
@@ -23,7 +23,7 @@ class CookieConsentController
         }
     }
 
-    private function render()
+    private function render(): void
     {
         $consent = $_COOKIE[$this->cookieName] ?? null;
         $showPopup = ($consent !== 'yes');

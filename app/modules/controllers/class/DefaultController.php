@@ -6,5 +6,5 @@ abstract class DefaultController
     {
     }
 
-    abstract protected function loadView($viewName): void;
+    abstract protected function loadView(string $viewName): void;
 }
