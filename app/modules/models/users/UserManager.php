@@ -138,6 +138,9 @@ class UserManager
                       ORDER BY last_name, first_name";
 
             $stmt = $this->pdo->query($query);
+            if ($stmt === false) {
+                throw new PDOException('Failed to execute query in getAllUsers().');
+            }
 
             return $stmt->fetchAll();
         } catch (PDOException $e) {

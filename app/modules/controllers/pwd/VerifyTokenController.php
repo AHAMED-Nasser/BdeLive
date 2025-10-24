@@ -72,7 +72,7 @@ class VerifyTokenController
             // Verify the token
             $verification = $passwordReset->verifyToken($token);
             // Show an error message if the token is not valid
-            if (! $verification['valid']) {
+            if ($verification['valid'] === false) {
                 $_SESSION['error'] = $verification['message'];
                 header('Location: index.php?page=verify_token');
                 exit;

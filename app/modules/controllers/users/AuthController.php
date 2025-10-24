@@ -230,7 +230,8 @@ class AuthController
      * Retrieves all user information from the database for the current session user.
      * Returns user data including ID, name, email, and class year.
      *
-     * @return array{id: int, name: string, email: string, class_year: int|string}|false Array of user data if found, false otherwise
+     * @return array{user_id: int, last_name: string, first_name: string, user_status: string, email: string}|false
+     * Array of user data if found, false otherwise
      */
     public function getCurrentUserData(): array|false
     {
