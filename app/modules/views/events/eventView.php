@@ -47,9 +47,9 @@ $defaultImages = [
                 <p style="text-align: center; color: #666; margin-bottom: 20px;">
                     Lieu : <?= htmlspecialchars($event['event_location']) ?>
                 </p>
-                
+
                 <?php if (!empty($event['description'])): ?>
-                    <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 1.2rem;">
+                    <p style="color: #666; margin-bottom: 20px; font-size: 1.2rem; text-align: center">
                         <?= htmlspecialchars($event['description']) ?>
                     </p>
                 <?php endif; ?>
