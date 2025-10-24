@@ -48,6 +48,12 @@ $defaultImages = [
                     Lieu : <?= htmlspecialchars($event['event_location']) ?>
                 </p>
                 
+                <?php if (!empty($event['description'])): ?>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px; font-size: 1.2rem;">
+                        <?= htmlspecialchars($event['description']) ?>
+                    </p>
+                <?php endif; ?>
+                
                 <!-- Carousel pour chaque événement -->
                 <?php useCarousel($event['event_name'], $defaultImages, 'carousel-event-' . $event['event_id']) ?>
                 
