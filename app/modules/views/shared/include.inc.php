@@ -1,5 +1,5 @@
 <?php
-    
+
     function start_page(string $title, bool $wouldNav = true) {
 ?>
 
@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="./assets/css/team.css">
     <link rel="stylesheet" href="./assets/css/join.css">
     <link rel="stylesheet" href="./assets/css/carousel.css">
+    <link rel="stylesheet" href="./assets/css/profile.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -36,14 +37,14 @@
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><span><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></span></li>
+                    <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
                 <?php else: ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                 <?php endif; ?>
             </ul>
-            
+
             <!-- Menu Hamburger -->
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger-icon">
@@ -51,7 +52,7 @@
                 <span class="bar"></span>
                 <span class="bar"></span>
             </label>
-            
+
             <!-- Menu Sidebar -->
             <div class="sidebar-menu">
                 <ul>
@@ -93,7 +94,7 @@
         </nav>
         <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
     </footer>
-    
+
 <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
         <script src="./assets/js/slider.js"></script>
