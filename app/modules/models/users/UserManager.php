@@ -67,7 +67,8 @@ class UserManager
      * Returns all user information including the hashed password.
      *
      * @param string $email The email address to search for
-     * @return array|false Array containing user data if found, false otherwise
+     * @return array{user_id: int, last_name: string, first_name: string, user_status: string, email: string, password: string}|false
+     * Array containing user data if found, false otherwise
      * @throws PDOException If database query fails
      */
     public function findUserByEmail(string $email): array|false
@@ -96,7 +97,8 @@ class UserManager
      * Does not return the password field for security reasons.
      *
      * @param int $user_id The user ID to search for
-     * @return array|false Array containing user data if found, false otherwise
+     * @return array{user_id: int, last_name: string, first_name: string, user_status: string, email: string}|false
+     * Array containing user data if found, false otherwise
      * @throws PDOException If database query fails
      */
     public function findUserById(int $user_id): array|false
@@ -124,7 +126,8 @@ class UserManager
      * Retrieves all registered users, ordered by last name and first name.
      * Password fields are excluded from the results (for security reasons).
      *
-     * @return array Array of user records (empty array if no users found)
+     * @return array<int, array{user_id: int, last_name: string, first_name: string, user_status: string, email: string}>
+     *         Array of user records (empty array if no users found)
      * @throws PDOException If database query fails
      */
     public function getAllUsers(): array
@@ -151,7 +154,8 @@ class UserManager
      * ordered by last name and first name.
      *
      * @param string $user_status The user status to filter by (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
-     * @return array Array of user records (empty array if no users found)
+     * @return array<int, array{user_id: int, last_name: string, first_name: string, user_status: string, email: string}>
+     *         Array of user records (empty array if no users found)
      * @throws PDOException If database query fails
      */
     public function findUsersByUserStatus(string $user_status): array

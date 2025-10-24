@@ -49,8 +49,7 @@
                 exit();
             }
         }
-
-        protected function loadView($viewName): void {
+        protected function loadView(string $viewName): void {
             require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
         }
     }

@@ -19,6 +19,20 @@ class PaginationModel
 
     /**
      * Get paginated events
+     *
+     * @param int $offset
+     * @param int $limit
+     * @return array<int, array{
+     *      event_id: int,
+     *      event_name: string,
+     *      event_date: string,
+     *      event_time: string,
+     *      event_location: string,
+     *      event_theme: string,
+     *      description: string,
+     *      max_capacity: int,
+     *      created_at: string
+     *  }>
      */
     public function getPaginatedData(int $offset, int $limit): array
     {
