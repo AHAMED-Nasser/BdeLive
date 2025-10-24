@@ -81,26 +81,6 @@ class AuthController
         }
     }
 
-    /**
-     * Handle user logout
-     *
-     * Destroys the current session and redirects to home page.
-     * Clears all session data and cookies associated with the user's session.
-     *
-     * @return void
-     */
-    public function logout(): void
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        session_unset();
-        session_destroy();
-
-        header('Location: index.php?page=home');
-        exit;
-    }
 
     /**
      * Register a new user
@@ -138,38 +118,7 @@ class AuthController
         }
     }
 
-    /**
-     * Check if a user is currently logged in
-     *
-     * Verifies the presence of required session variables to determine
-     * if a user has an active authenticated session.
-     *
-     * @return bool True if user is logged in, false otherwise
-     */
-    public function isLoggedIn(): bool
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
 
-        return isset($_SESSION['user_id']) && isset($_SESSION['suid']);
-    }
-
-    /**
-     * Get the current logged-in user's ID
-     *
-     * Retrieves the user ID from the current session if available.
-     *
-     * @return int|null The user ID, or null if not logged in
-     */
-    public function getCurrentUserId(): ?int
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        return $_SESSION['user_id'] ?? null;
-    }
 
     /**
      * Get the current logged-in user's full name
@@ -191,61 +140,7 @@ class AuthController
         return null;
     }
 
-    /**
-     * Get the current logged-in user's email address
-     *
-     * Retrieves the email address from the current session.
-     *
-     * @return string|null The user's email, or null if not logged in
-     */
-    public function getCurrentUserEmail(): ?string
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        return $_SESSION['email'] ?? null;
-    }
-
-    /**
-     * Get the current logged-in user's class year
-     *
-     * Retrieves the class year information from the current session.
-     *
-     * @return string|null The user's class year (1, 2, or 3), or null if not logged in
-     */
-    public function getCurrentUserClasseAnnee(): ?string
-    {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        return $_SESSION['user_status'] ?? null;
-    }
 
 
-    /**
-     * Get the complete user data for the currently logged-in user
-     *
-     * Retrieves all user information from the database for the current session user.
-     * Returns user data including ID, name, email, and class year.
-     *
-     * @return array|false Array of user data if found, false otherwise
-     */
-    public function getCurrentUserData(): array|false
-    {
-        $userId = $this->getCurrentUserId();
 
-        if ($userId === null) {
-            return false;
-        }
-
-        try {
-            return $this->userManager->findUserById($userId);
-        } catch (PDOException $e) {
-            error_log('AuthController::getCurrentUserData - ' . $e->getMessage());
-
-            return false;
-        }
-    }
 }

@@ -16,14 +16,14 @@ class DeleteEventController extends AdminController
         // Only allow POST requests
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             $_SESSION['error'] = 'Méthode non autorisée';
-            header('Location: index.php?page=pagination');
+            header('Location: index.php?page=event');
             exit;
         }
 
         // Validate CSRF token
         if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
             $_SESSION['error'] = 'Jeton de sécurité invalide';
-            header('Location: index.php?page=pagination');
+            header('Location: index.php?page=event');
             exit;
         }
 
@@ -31,7 +31,7 @@ class DeleteEventController extends AdminController
         $eventId = filter_input(INPUT_POST, 'event_id', FILTER_VALIDATE_INT);
         if ($eventId === false || $eventId <= 0) {
             $_SESSION['error'] = 'ID d\'événement invalide';
-            header('Location: index.php?page=pagination');
+            header('Location: index.php?page=event');
             exit;
         }
 
@@ -60,7 +60,7 @@ class DeleteEventController extends AdminController
         }
 
         // Redirect back to pagination page
-        header('Location: index.php?page=pagination');
+        header('Location: index.php?page=event');
         exit;
     }
 

@@ -41,7 +41,7 @@
 
             if ($event){
                 $_SESSION['success'] = 'Événement créé avec succès';
-                header('Location: index.php?page=pagination');
+                header('Location: index.php?page=event');
                 exit();
             } else {
                 $_SESSION['error'] = 'Une erreur est survenue lors de la création de l\'événement';
@@ -50,7 +50,7 @@
             }
         }
 
-        protected function loadView($viewName): void {
+        protected function loadView(string $viewName): void {
             require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
         }
     }
