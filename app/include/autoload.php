@@ -11,7 +11,6 @@
             
             // Controllers
             __DIR__ . '/../modules/controllers/' . $className . '.php',
-            __DIR__ . '/../modules/controllers/class/' . $className . '.php',
             __DIR__ . '/../modules/controllers/cookie/' . $className . '.php',
             __DIR__ . '/../modules/controllers/events/' . $className . '.php',
             __DIR__ . '/../modules/controllers/public/' . $className . '.php',
