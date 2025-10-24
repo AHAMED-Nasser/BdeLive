@@ -18,7 +18,8 @@ jobs:
       # 2️⃣ Installer PHP
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: '8.5'
+          extensions: pdo_mysql
 
       # 3️⃣ Installer Composer et dépendances
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
