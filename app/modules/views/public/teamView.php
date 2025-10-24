@@ -22,18 +22,18 @@ start_page("Team - BDE Inform'Aix", true);
                         <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master">
                         <div class="member-info">
                             <h3 class="member-name">Nasser AHAMED</h3>
-                            <p class="member-role"><strong>Scrum Master</strong></p>
+                            <p class="member-role"><strong>Scrum Master/Développeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
                         <img src="assets/img/Mohamed-Amine.jpg" alt="Photo Mohamed – Product Owner">
                         <div class="member-info">
                             <h3 class="member-name">Mohamed-Amine BOUDHIB</h3>
-                            <p class="member-role"><strong>Product owner</strong></p>
+                            <p class="member-role"><strong>Product owner/Dévelopeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/square_grey.png" alt="Photo Thomas – Dévellopeur">
+                        <img src="assets/img/Thomas.jpg" alt="Photo Thomas – Développeur">
                         <div class="member-info">
                             <h3 class="member-name">Thomas PALOT</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
