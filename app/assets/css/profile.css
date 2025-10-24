@@ -1,7 +1,12 @@
+::placeholder{
+    text-align: center;
+}
+
 .change-user form{
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     width: 50%;
 }
 
@@ -12,18 +17,69 @@
     width: 100%;
 }
 
-.change-user-label, h1{
+.change-user-label{
     font-family: "JetBrains Mono ExtraBold", monospace;
+    color: #667eea;
+}
+
+.change-user h1{
+    font-family: "JetBrains Mono ExtraBold", monospace;
+    color: #667eea;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    margin: 20px;
 }
 
 .change-user-input::placeholder{
-    color: red;
+    color: #667eea;
+    opacity: 50%;
 }
 
 .change-user-div{
     display: flex;
     justify-content: space-around;
     margin: 0.5em;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
+.change-user-input{
+    margin: 10px;
+    width: 17em;
+    height: 3rem;
+    border-color: #667eea;
+    border-radius: 10px;
+}
+
+.change-user-label{
+    margin: 10px;
+}
+
+.change-user-button{
+    margin: 10px;
+    background: #b523eb;
+    background: linear-gradient(90deg,rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%, rgba(237, 221, 83, 1) 100%);
+    color: white;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: "JetBrains Mono ExtraBold", monospace;
+    transition: box-shadow 0.25s ease-in-out;
+}
+
+.change-user-button:hover{
+    box-shadow:0 3px 3px 0 rgba(0,0,0,0.6);
+}
+
+.change-user-div div{
+    display: flex;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.change-user-div div span{
+    opacity: 50%;
+    font-size: 1rem;
+}
 
