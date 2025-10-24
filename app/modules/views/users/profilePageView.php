@@ -5,20 +5,18 @@
 <div class="change-user">
 
     <h1>Modification des informations</h1>
-
     <form method="POST" action="index.php?page=profile">
-
         <div class="change-user-div">
             <div>
                 <label class="change-user-label">Prénom</label>
                 <?php if (isset($_SESSION['first_name'])) : ?>
-                <span>(Actuel : <?= htmlspecialchars($_SESSION['first_name'])?>)</span>
+                    <span>(Actuel : <?= htmlspecialchars($_SESSION['first_name'])?>)</span>
                 <?php endif ?>
             </div>
-            <input class="change-user-input" placeholder="Saisissez le nouveau prénom" name="first-name">
-            <button class="change-user-button" type="submit" name="ok_first_name">Confirmer</button>
-        </div>
 
+            <input class="change-user-input" type="text" name="first-name" placeholder="Saisissez le nouveau prénom">
+            <button class="change-user-button" type="submit" name="ok">Confirmer</button>
+        </div>
         <div class="change-user-div">
             <div>
                 <label class="change-user-label">Nom</label>
