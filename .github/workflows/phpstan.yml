@@ -24,4 +24,4 @@ jobs:
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       # 4️⃣ Exécuter PHPStan
-      - run: vendor/bin/phpstan analyse --level=5 app
+      - run: composer phpstan

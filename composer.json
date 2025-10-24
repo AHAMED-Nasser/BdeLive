@@ -1,0 +1,22 @@
+{
+  "name": "bdelive/app",
+  "description": "BDE Live PHP project",
+  "type": "project",
+  "require": {
+    "php": "^8.2"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse --level=5 app"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
