@@ -51,7 +51,7 @@ class EventRepository
     {
         try {
             // SQL basé sur la structure de la table EVENTS
-            $sql = 'SELECT event_id, event_name, event_date, event_time, event_location
+            $sql = 'SELECT event_id, event_name, event_date, event_time, event_location, description
                     FROM EVENTS
                     ORDER BY event_date DESC, event_time DESC
                     LIMIT :offset, :limit';
