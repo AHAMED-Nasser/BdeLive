@@ -57,6 +57,11 @@ class PaginationModel
      */
     public function getTotalItems(): int
     {
-        return (int) $this->pdo->query("SELECT COUNT(*) FROM EVENTS")->fetchColumn();
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM EVENTS");
+        if ($stmt === false) {
+            throw new PDOException('Failed to execute COUNT(*) query.');
+        }
+
+        return (int) $stmt->fetchColumn();
     }
 }

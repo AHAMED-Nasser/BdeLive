@@ -99,9 +99,17 @@ class PasswordReset
      * Automatically deletes expired tokens.
      *
      * @param string $token The token to verify
-     * @return array{valid: bool, user_id?: int, token_id?: int, message?: string}
-     *         Associative array with 'valid' (bool), and if valid: 'user_id' and 'token_id',
-     *         or if invalid: 'message' (string) explaining why
+     * @return array{
+     *     valid: true,
+     *     user_id: int,
+     *     token_id: int
+     * }|array{
+     *     valid: false,
+     *     message: string
+     * }
+     *         Associative array indicating whether the token is valid:
+     *         - If valid: contains 'user_id' and 'token_id'.
+     *         - If invalid: contains 'message' explaining the reason.
      */
     public function verifyToken(string $token): array
     {
