@@ -85,9 +85,9 @@ class LoginController
         }
 
         // Admin authentification
-        $adminEmail = ADMIN_EMAIL;
-        $adminPwd = ADMIN_PWD;
-
+        $adminEmail = defined('ADMIN_EMAIL') ? ADMIN_EMAIL : 'admin@example.com';
+        $adminPwd   = defined('ADMIN_PWD') ? ADMIN_PWD : 'motdepasse123';
+        
         if ($email === $adminEmail && $mdp === $adminPwd) {
             // Store user information in session
             $_SESSION['user_id'] = 0;
