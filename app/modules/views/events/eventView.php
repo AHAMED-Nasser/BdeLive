@@ -14,25 +14,24 @@ $defaultImages = [
     ['src' => './assets/img/carousel/events/event2.jpg'],
     ['src' => './assets/img/carousel/events/event1.svg'],
 ];
+
+// Repository pour vérifier les inscriptions
+$registrationRepo = new EventRegistrationRepository();
+$userId = $_SESSION['user_id'] ?? null;
 ?>
 
 <div class="container event-list">
     <h1 style="text-align: center;">Nos Événements</h1>
 
     <!-- Messages flash -->
-    <?php if (!empty($_SESSION['success'])): ?>
-        <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 12px; margin: 20px 0; border: 1px solid #c3e6cb; border-radius: 4px; text-align: center;">
-            <?= htmlspecialchars($_SESSION['success']) ?>
-            <?php unset($_SESSION['success']); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($_SESSION['error'])): ?>
-        <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 12px; margin: 20px 0; border: 1px solid #f5c6cb; border-radius: 4px; text-align: center;">
-            <?= htmlspecialchars($_SESSION['error']) ?>
-            <?php unset($_SESSION['error']); ?>
-        </div>
-    <?php endif; ?>
+    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color): ?>
+        <?php if (!empty($_SESSION[$type])): ?>
+            <div style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : '721c24' ?>; padding: 12px; margin: 20px 0; border: 1px solid #<?= $type === 'success' ? 'c3e6cb' : 'f5c6cb' ?>; border-radius: 4px; text-align: center;">
+                <?= htmlspecialchars($_SESSION[$type]) ?>
+            </div>
+            <?php unset($_SESSION[$type]); ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
 
     <?php if (empty($events)): ?>
         <p>Aucun événement à afficher pour le moment.</p>
@@ -56,6 +55,22 @@ $defaultImages = [
                 
                 <!-- Carousel pour chaque événement -->
                 <?php useCarousel($event['event_name'], $defaultImages, 'carousel-event-' . $event['event_id']) ?>
+                
+                <!-- Boutons d'inscription (utilisateurs connectés) -->
+                <?php if ($userId): ?>
+                    <?php $isRegistered = $registrationRepo->isUserRegistered((int)$event['event_id'], (int)$userId); ?>
+                    <?php if ($isRegistered): ?>
+                        <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>" 
+                           style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
+                            Se désinscrire
+                        </a>
+                    <?php else: ?>
+                        <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>" 
+                           style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
+                            S'inscrire
+                        </a>
+                    <?php endif; ?>
+                <?php endif; ?>
                 
                 <!-- Bouton de suppression (admin uniquement) -->
                 <?php if (isset($_SESSION['user_status']) && $_SESSION['user_status'] === 'BDE'): ?>
