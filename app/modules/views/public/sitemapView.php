@@ -40,7 +40,8 @@ start_page("Plan du site - BDE Live");
         <section>
             <h2>Événements & Vie Étudiante</h2>
             <ul>
-                <li><a href="index.php?page=events">Prochains événements</a></li>
+                <li><a href="index.php?page=event">Tous les événements</a></li>
+                <li><a href="index.php?page=createEvent">Créer un événement (Admin)</a></li>
             </ul>
         </section>
     

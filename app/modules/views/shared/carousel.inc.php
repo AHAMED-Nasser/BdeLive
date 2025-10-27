@@ -1,12 +1,17 @@
 <?php
-function useCarousel($carouselLabel, $imageMap, $carouselId)
+/**
+ * @param string $carouselLabel
+ * @param array<int, array<string, string>> $imageMap
+ * @param string $carouselId
+ */
+function useCarousel(string $carouselLabel, array $imageMap, string $carouselId): void
 {
     ?>
 
 <h2 class="event-title"><?= $carouselLabel ?></h2>
-<article class="carousel" id="<?= $carouselId ?? 'carousel' ?>">
+<article class="carousel" id="<?= $carouselId ?>">
     <div class="carousel-block">
-        <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId ?? 'carousel' ?>')" ><img src="./assets/img/carousel/arrow.png" alt="Précédent"></button>
+        <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId ?>')" ><img src="./assets/img/carousel/arrow.png" alt="Précédent"></button>
 
         <div class="carousel-inner">
             <?php foreach ($imageMap as $index => $image): ?>
@@ -16,12 +21,12 @@ function useCarousel($carouselLabel, $imageMap, $carouselId)
             <?php endforeach ?>
         </div>
 
-        <button class="carousel-control next" onclick="moveSlide(1, '<?= $carouselId ?? 'carousel'?>')"><img src="./assets/img/carousel/arrow.png" alt="Suivant"></button>
+        <button class="carousel-control next" onclick="moveSlide(1, '<?= $carouselId ?>')"><img src="./assets/img/carousel/arrow.png" alt="Suivant"></button>
     </div>
 
     <div class="carousel-dots">
         <?php foreach ($imageMap as $index => $image): ?>
-            <span class="dot <?= $index === 0 ? 'active' : ''?>" onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?? 'carousel'?>')"></span>
+            <span class="dot <?= $index === 0 ? 'active' : ''?>" onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?>')"></span>
         <?php endforeach ?>
     </div>
 </article>

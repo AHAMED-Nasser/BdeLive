@@ -39,7 +39,7 @@ class PasswordReset
      * Retrieves basic user information (without password) for password reset purposes.
      *
      * @param string $email The user's email address
-     * @return array|false Array containing user data if found, false otherwise
+     * @return array<string, mixed>|false Array containing user data if found, false otherwise
      */
     public function getUserByEmail(string $email): array|false
     {
@@ -98,7 +98,7 @@ class PasswordReset
      * Automatically deletes expired tokens.
      *
      * @param string $token The token to verify
-     * @return array Associative array with 'valid' (bool), and if valid: 'user_id' and 'token_id',
+     * @return array<string, mixed> Associative array with 'valid' (bool), and if valid: 'user_id' and 'token_id',
      *               or if invalid: 'message' (string) explaining why
      */
     public function verifyToken(string $token): array

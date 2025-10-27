@@ -26,7 +26,7 @@ $page = $_GET['page'] ?? 'home';
  * Keep only allowed characters for the page token and default to 'home' if empty.
  */
 $sanitizePage = static function (string $page): string {
-    $sanitized = preg_replace('/[^a-zA-Z0-9_-]/', '', $page);
+    $sanitized = preg_replace('/[^a-zA-Z0-9_-]/', '', $page) ?? '';
 
     return $sanitized !== '' ? $sanitized : 'home';
 };
@@ -40,13 +40,14 @@ $toStudlyCase = static function (string $string): string {
         $string = str_replace(['-', '_'], ' ', $string);
         $string = ucwords($string);
 
-        return str_replace(' ', '', $string);
+        return str_replace(' ', '', $string) !== '' ? str_replace(' ', '', $string) : 'Home';
     }
     // camelCase → StudlyCase
-    $string = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
-    $string = ucwords($string);
+    $parts = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
+    $result = $parts !== null ? ucwords($parts) : ucwords($string);
+    $final = str_replace(' ', '', $result);
 
-    return str_replace(' ', '', $string);
+    return $final !== '' ? $final : 'Home';
 };
 
 $page = $sanitizePage($page);
