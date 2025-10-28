@@ -51,7 +51,6 @@ class RegisterController
     {
         // Start session for error messages
         if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         // Validate CSRF token

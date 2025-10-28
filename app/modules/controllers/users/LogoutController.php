@@ -34,7 +34,6 @@ class LogoutController
 
         session_destroy();
 
-        session_start();
         $_SESSION['success'] = 'Vous avez été déconnecté avec succès.';
 
         header('Location: index.php?page=home');

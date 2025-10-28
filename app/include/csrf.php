@@ -7,7 +7,6 @@
 function generateCsrfToken(): string
 {
     if (session_status() === PHP_SESSION_NONE) {
-        session_start();
     }
 
     $token = bin2hex(random_bytes(32));
@@ -25,7 +24,6 @@ function generateCsrfToken(): string
 function validateCsrfToken(string $token): bool
 {
     if (session_status() === PHP_SESSION_NONE) {
-        session_start();
     }
 
     // Check if token exists in session
@@ -54,7 +52,6 @@ function csrfField(): string
 {
     // Use existing token if available, otherwise generate a new one
     if (session_status() === PHP_SESSION_NONE) {
-        session_start();
     }
     
     if (!isset($_SESSION['csrf_token'])) {

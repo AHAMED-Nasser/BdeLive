@@ -9,7 +9,6 @@ start_page("BDE Inform'Aix - Site Officiel", true);
 
 
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 
 

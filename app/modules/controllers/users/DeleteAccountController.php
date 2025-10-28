@@ -26,7 +26,6 @@ class DeleteAccountController {
 
     private function handleDelete(): void {
         if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
 
@@ -52,7 +51,6 @@ class DeleteAccountController {
                 session_unset();
                 session_destroy();
 
-                session_start();
                 $_SESSION['success'] = 'Votre compte a bien été supprimé ! <br>
                   <a href="index.php?page=register"">Cliquez ici pour créer un nouveau compte</a>';
 

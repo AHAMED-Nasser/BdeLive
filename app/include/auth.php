@@ -2,7 +2,6 @@
 
 function requireLogin(): void {
     if (session_status() === PHP_SESSION_NONE) {
-        session_start();
     }
 
     if (!isset($_SESSION['user_id'])) {
@@ -13,7 +12,6 @@ function requireLogin(): void {
 
 function requireAdmin(): void {
     if (session_status() === PHP_SESSION_NONE) {
-        session_start();
     }
 
     if (!isset($_SESSION['user_id'])) {
