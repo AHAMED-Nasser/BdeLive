@@ -1,7 +1,6 @@
 <?php
 start_page('Supprimer mon compte', true);
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
 }
 
 // Generate CSRF token

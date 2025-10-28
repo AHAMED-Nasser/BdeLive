@@ -61,7 +61,6 @@ class AuthController
 
             // Step 4: Credentials are valid - Create session
             if (session_status() === PHP_SESSION_NONE) {
-                session_start();
             }
 
             // Store user information in session
@@ -130,7 +129,6 @@ class AuthController
     public function getCurrentUserFullName(): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         if (isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {

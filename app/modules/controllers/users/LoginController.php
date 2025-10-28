@@ -53,7 +53,6 @@ class LoginController
     {
         // Start session for messages
         if (session_status() === PHP_SESSION_NONE) {
-            session_start();
         }
 
         // Validate CSRF token
