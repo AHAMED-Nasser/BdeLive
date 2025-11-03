@@ -1,17 +1,22 @@
 <?php
-function useCarousel($carouselLabel, $imageMap, $carouselId)
+function useCarousel($imageMap, $carouselId, $carouselLabel = null)
 {
     ?>
 
-<h2 class="event-title"><?= $carouselLabel ?></h2>
+
+<?php if ($carouselLabel !== null) : ?>
+    <h2 class="event-title"><?= $carouselLabel ?></h2>
+<?php endif ?>
+
 <article class="carousel" id="<?= $carouselId ?? 'carousel' ?>">
     <div class="carousel-block">
         <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId ?? 'carousel' ?>')" ><img src="./assets/img/carousel/arrow.png" alt="Précédent"></button>
 
         <div class="carousel-inner">
             <?php foreach ($imageMap as $index => $image): ?>
+                <?php if (empty($image['src'])) continue ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                    <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? 'Image') ?>">
+                    <img src="<?= htmlspecialchars($image['src'] ?? '') ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? 'Image') ?>">
                 </div>
             <?php endforeach ?>
         </div>
