@@ -18,6 +18,12 @@ node_modules/
 .phpstan.cache
 .phpdoc/
 .cursor/
+.phpunit.cache/
+.phpunit.result.cache
+
+# PHPUnit
+phpunit.xml
+tests/coverage/
 
 # Logs
 *.log

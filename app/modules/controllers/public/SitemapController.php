@@ -4,17 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Public;
 
-class SitemapController
+use App\Modules\Controllers\DefaultController;
+
+class SitemapController extends DefaultController
 {
     public function __construct()
     {
-        $this->loadView('sitemapView');
-    }
-
-
-
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
+        parent::__construct();
+        $this->render('public/sitemapView');
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Public;
 
+use App\Modules\Controllers\DefaultController;
+
 /**
  * Home Controller
  *
@@ -12,7 +14,7 @@ namespace App\Modules\Controllers\Public;
  *
  * @package BdeLive\Controllers
  */
-class HomeController
+class HomeController extends DefaultController
 {
     /**
      * Display the home page
@@ -23,19 +25,7 @@ class HomeController
      */
     public function __construct()
     {
-        $this->loadView('homePageView');
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
+        parent::__construct();
+        $this->render('public/homePageView');
     }
 }

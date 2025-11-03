@@ -18,6 +18,4 @@ abstract class DefaultController
     {
         require_once __DIR__ . '/../views/' . $viewPath . '.php';
     }
-
-    abstract protected function loadView(string $viewName): void;
 }
