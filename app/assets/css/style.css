@@ -513,6 +513,44 @@ a {
     z-index: -1;
 }
 
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet and below (max-width: 992px) */
+@media (max-width: 992px) {
+    .BDE {
+        margin: 40px 20px;
+        padding: 30px 15px;
+    }
+
+    #bde-title {
+        font-size: 2rem;
+        padding-left: 10px;
+    }
+
+    .bde-text {
+        font-size: 1rem;
+        padding: 10px 15px;
+    }
+
+    .btn-image-right {
+        padding-right: 30px;
+        margin: 20px 30px;
+    }
+
+    .content-background {
+        padding: 40px 20px;
+    }
+
+    .hero {
+        padding: 25px 15px;
+    }
+
+    #hero-title {
+        font-size: 1.8rem;
+    }
+}
+
+/* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     /* Navbar adjustments on mobile */
     .nav {
@@ -537,25 +575,190 @@ a {
     .nav-logo img {
         height: 60px;
     }
+
     .forgot-container form {
         padding: 25px;
         width: 90%;
-
+        margin: 15px;
     }
 
+    .forgot-container {
+        padding-top: 60px;
+    }
+
+    .forgot-container h1 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
 
     .legal-terms-page {
-        margin: 20px;
+        margin: 20px 10px;
+        padding: 15px;
     }
 
     .legal-terms-page section {
         padding: 15px;
+        margin-bottom: 15px;
     }
 
     /* Menu hamburger en version mobile */
     .sidebar-menu {
         width: 250px;
         right: -250px;
+    }
+
+    /* BDE Section */
+    .BDE {
+        margin: 30px 10px;
+        padding: 25px 15px;
+    }
+
+    #bde-title {
+        font-size: 1.6rem;
+        padding-left: 5px;
+        margin-bottom: 15px;
+    }
+
+    .bde-text {
+        font-size: 0.95rem;
+        padding: 8px 10px;
+    }
+
+    /* Button image */
+    .btn-image-right {
+        padding-right: 15px;
+        margin: 15px 10px;
+    }
+
+    .btn-image-right img,
+    .bde-image {
+        width: 50px;
+        height: 50px;
+        margin: 15px;
+    }
+
+    /* Hero section */
+    .hero {
+        padding: 20px 15px;
+    }
+
+    #hero-title {
+        font-size: 1.5rem;
+    }
+
+    /* Pagination */
+    .pagination {
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+
+    .pagination a {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+        min-width: 40px;
+    }
+
+    /* Content background */
+    .content-background {
+        padding: 30px 15px;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 12px;
+        margin: 15px 10px;
+        font-size: 0.9rem;
+    }
+
+    /* Social logos */
+    .social-logos {
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .social-logos img {
+        height: 35px;
+    }
+}
+
+/* Small mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .BDE {
+        margin: 20px 5px;
+        padding: 20px 10px;
+    }
+
+    #bde-title {
+        font-size: 1.4rem;
+        padding-left: 0;
+    }
+
+    .bde-text {
+        font-size: 0.9rem;
+        padding: 5px;
+    }
+
+    .forgot-container form {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .forgot-container h1 {
+        font-size: 1.4rem;
+    }
+
+    .forgot-container input[type="email"],
+    .forgot-container input[type="text"],
+    .forgot-container input[type="password"],
+    .forgot-container select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .legal-terms-page {
+        margin: 10px 5px;
+        font-size: 0.9rem;
+    }
+
+    .legal-terms-page h1 {
+        font-size: 1.5rem;
+    }
+
+    .legal-terms-page h2 {
+        font-size: 1.2rem;
+    }
+
+    .btn-image-right {
+        padding-right: 10px;
+        margin: 10px 5px;
+    }
+
+    .btn-image-right img,
+    .bde-image {
+        width: 45px;
+        height: 45px;
+        margin: 10px;
+    }
+
+    .hero {
+        padding: 15px 10px;
+    }
+
+    #hero-title {
+        font-size: 1.3rem;
+    }
+
+    .pagination a {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        min-width: 35px;
+    }
+
+    .social-logos {
+        gap: 10px;
+    }
+
+    .social-logos img {
+        height: 30px;
     }
 }
 
