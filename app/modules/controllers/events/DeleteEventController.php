@@ -67,7 +67,7 @@ class DeleteEventController extends AdminController
     /**
      * Required by parent class - not used in this controller
      */
-    protected function loadView(string $viewName): void
+    protected function loadView(mixed $viewName): void
     {
         // This controller doesn't load views, it only handles POST requests
     }

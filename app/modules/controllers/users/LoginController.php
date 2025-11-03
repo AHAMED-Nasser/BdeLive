@@ -85,7 +85,7 @@ class LoginController
 
         // Admin authentification
         $adminEmail = ADMIN_EMAIL;
-        $adminPwd = ADMIN_PWD;
+        $adminPwd   = ADMIN_PWD;
 
         if ($email === $adminEmail && $mdp === $adminPwd) {
             // Store user information in session
@@ -106,8 +106,7 @@ class LoginController
         // Attempt login
         if ($this->authController->login($email, $mdp)) {
             // Login successful
-            $fullName = $this->authController->getCurrentUserFullName();
-            $_SESSION['success'] = 'Connexion réussie ! Bienvenue ' . ($fullName !== null ? htmlspecialchars($fullName) : '') . ' !';
+            $_SESSION['success'] = 'Connexion réussie ! Bienvenue ' . htmlspecialchars($this->authController->getCurrentUserFullName() ?? '') . ' !';
             header('Location: index.php?page=home');
             exit;
         } else {

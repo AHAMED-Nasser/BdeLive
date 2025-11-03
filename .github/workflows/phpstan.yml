@@ -1,0 +1,28 @@
+name: PHPStan Check
+
+# Déclenche le workflow sur push et pull request
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Récupérer le code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Installer PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_mysql
+
+      # 3️⃣ Installer Composer et dépendances
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Exécuter PHPStan
+      - run: composer phpstan

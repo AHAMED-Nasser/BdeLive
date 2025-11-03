@@ -1,6 +1,11 @@
 parameters:
     paths:
         - app
+
+    bootstrapFiles:
+        - phpstan-bootstrap.php
+
     excludePaths:
         analyse:
             - app/vendor/*
+

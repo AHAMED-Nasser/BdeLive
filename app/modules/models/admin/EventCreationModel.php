@@ -15,7 +15,8 @@ class EventCreationModel {
                                 string $eventTheme,
                                 string $statusParticipating,
                                 string $description
-    ): bool {
+    ): bool
+    {
         try {
             $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description)";
             $stmt = $this->pdo->prepare($query);
