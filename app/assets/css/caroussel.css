@@ -150,3 +150,135 @@
     width: 32px;
     border-radius: 5px;
 }
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+    .carousel-control {
+        width: 45px;
+        height: 45px;
+    }
+
+    .carousel-control.prev {
+        left: -60px;
+    }
+
+    .carousel-control.next {
+        right: -60px;
+    }
+
+    .carousel-control img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .carousel-inner {
+        min-height: 400px;
+    }
+
+    .carousel-image {
+        height: 400px;
+    }
+
+    .event-title {
+        font-size: 1.8rem;
+        padding: 40px 15px 25px 15px;
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .carousel {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+
+    .carousel-control.prev {
+        left: 5px;
+    }
+
+    .carousel-control.next {
+        right: 5px;
+    }
+
+    .carousel-control img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .carousel-inner {
+        min-height: 300px;
+        max-width: 100%;
+    }
+
+    .carousel-image {
+        height: 300px;
+    }
+
+    .event-title {
+        font-size: 1.6rem;
+        padding: 30px 10px 20px 10px;
+    }
+
+    .events {
+        padding: 30px 10px !important;
+    }
+
+    .carousel-dots {
+        margin-top: 20px;
+        gap: 8px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .dot.active {
+        width: 24px;
+    }
+}
+
+/* Small mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .carousel-control {
+        width: 35px;
+        height: 35px;
+    }
+
+    .carousel-control.prev {
+        left: 2px;
+    }
+
+    .carousel-control.next {
+        right: 2px;
+    }
+
+    .carousel-control img {
+        width: 14px;
+        height: 14px;
+    }
+
+    .carousel-inner {
+        min-height: 250px;
+    }
+
+    .carousel-image {
+        height: 250px;
+    }
+
+    .event-title {
+        font-size: 1.4rem;
+        padding: 25px 5px 15px 5px;
+    }
+
+    .events {
+        padding: 20px 5px !important;
+    }
+}
