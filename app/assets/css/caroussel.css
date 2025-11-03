@@ -191,7 +191,7 @@
 @media (max-width: 768px) {
     .carousel {
         max-width: 100%;
-        padding: 0 10px;
+        padding: 0 50px; /* Add padding for controls */
     }
 
     .carousel-control {
