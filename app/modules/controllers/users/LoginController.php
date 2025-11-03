@@ -107,7 +107,8 @@ class LoginController
         // Attempt login
         if ($this->authController->login($email, $mdp)) {
             // Login successful
-            $_SESSION['success'] = 'Connexion réussie ! Bienvenue ' . htmlspecialchars($this->authController->getCurrentUserFullName()) . ' !';
+            $fullName = $this->authController->getCurrentUserFullName();
+            $_SESSION['success'] = 'Connexion réussie ! Bienvenue ' . htmlspecialchars($fullName ?? '') . ' !';
             header('Location: index.php?page=home');
             exit;
         } else {

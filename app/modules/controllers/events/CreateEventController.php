@@ -1,5 +1,8 @@
 <?php
-    class CreateEventController extends AdminController {
+
+declare(strict_types=1);
+
+class CreateEventController extends AdminController {
         public function __construct() {
             $action = $_GET['action'] ?? '';
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submitEvent'){
@@ -28,7 +31,7 @@
                 exit();
             }
 
-            $creationModel = new EventCreationModel();
+            $creationModel = new EventManager();
             $event = $creationModel -> insertEvent(
                 $eventName,
                 new DateTime($eventDate),
@@ -50,7 +53,7 @@
             }
         }
 
-        protected function loadView($viewName): void {
+        protected function loadView(string $viewName): void {
             require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
         }
     }

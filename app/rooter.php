@@ -28,7 +28,7 @@ $page = $_GET['page'] ?? 'home';
 $sanitizePage = static function (string $page): string {
     $sanitized = preg_replace('/[^a-zA-Z0-9_-]/', '', $page);
 
-    return $sanitized !== '' ? $sanitized : 'home';
+    return ($sanitized !== null && $sanitized !== '') ? $sanitized : 'home';
 };
 
 /**
@@ -43,7 +43,8 @@ $toStudlyCase = static function (string $string): string {
         return str_replace(' ', '', $string);
     }
     // camelCase → StudlyCase
-    $string = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
+    $replaced = preg_replace('/(^|[a-z])([A-Z])/', '$1 $2', $string);
+    $string = $replaced !== null ? $replaced : $string;
     $string = ucwords($string);
 
     return str_replace(' ', '', $string);

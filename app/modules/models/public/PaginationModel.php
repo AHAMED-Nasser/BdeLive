@@ -19,6 +19,7 @@ class PaginationModel
 
     /**
      * Get paginated events
+     * @return array<int, array<string, mixed>>
      */
     public function getPaginatedData(int $offset, int $limit): array
     {
@@ -43,6 +44,11 @@ class PaginationModel
      */
     public function getTotalItems(): int
     {
-        return (int) $this->pdo->query("SELECT COUNT(*) FROM EVENTS")->fetchColumn();
+        $stmt = $this->pdo->query("SELECT COUNT(*) FROM EVENTS");
+        if ($stmt === false) {
+            return 0;
+        }
+        $result = $stmt->fetchColumn();
+        return $result !== false ? (int) $result : 0;
     }
 }

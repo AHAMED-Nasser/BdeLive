@@ -27,8 +27,9 @@ class LogoutController
     {
         $_SESSION = [];
 
-        if (isset($_COOKIE[session_name()])) {
-            setcookie(session_name(), '', time() - 42000, '/');
+        $sessionName = session_name();
+        if ($sessionName !== false && isset($_COOKIE[$sessionName])) {
+            setcookie($sessionName, '', time() - 42000, '/');
         }
 
         session_destroy();
