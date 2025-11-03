@@ -61,6 +61,7 @@ class AuthController
 
             // Step 4: Credentials are valid - Create session
             if (session_status() === PHP_SESSION_NONE) {
+                session_start();
             }
 
             // Store user information in session
@@ -80,6 +81,26 @@ class AuthController
         }
     }
 
+    /**
+     * Handle user logout
+     *
+     * Destroys the current session and redirects to home page.
+     * Clears all session data and cookies associated with the user's session.
+     *
+     * @return void
+     */
+    public function logout(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        session_unset();
+        session_destroy();
+
+        header('Location: index.php?page=home');
+        exit;
+    }
 
     /**
      * Register a new user
@@ -118,7 +139,6 @@ class AuthController
     }
 
 
-
     /**
      * Get the current logged-in user's full name
      *
@@ -129,6 +149,7 @@ class AuthController
     public function getCurrentUserFullName(): ?string
     {
         if (session_status() === PHP_SESSION_NONE) {
+            session_start();
         }
 
         if (isset($_SESSION['first_name']) && isset($_SESSION['last_name'])) {
@@ -137,8 +158,5 @@ class AuthController
 
         return null;
     }
-
-
-
 
 }
