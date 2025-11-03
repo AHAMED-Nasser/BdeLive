@@ -58,14 +58,14 @@ class OAuth implements OAuthTokenProvider
     protected $oauthUserEmail = '';
 
     /**
-     * The client secret, generated in the app definition of the service you're connecting to.
+     * The client secret, generated in the app definition of the services you're connecting to.
      *
      * @var string
      */
     protected $oauthClientSecret = '';
 
     /**
-     * The client ID, generated in the app definition of the service you're connecting to.
+     * The client ID, generated in the app definition of the services you're connecting to.
      *
      * @var string
      */

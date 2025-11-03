@@ -825,7 +825,7 @@ class SMTP
             return true;
         }
 
-        //Some servers shut down the SMTP service here (RFC 5321)
+        //Some servers shut down the SMTP services here (RFC 5321)
         if (substr($this->helo_rply, 0, 3) == '421') {
             return false;
         }
