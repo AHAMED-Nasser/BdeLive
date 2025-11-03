@@ -11,6 +11,6 @@ if (!defined('ADMIN_PWD')) define('ADMIN_PWD', 'pass_admin_test');
 // Mock de Mailer
 if (!class_exists('Mailer')) {
     class Mailer {
-        public function sendPasswordResetEmail() {}
+        public function sendPasswordResetEmail(string $to_email, string $to_name, string $token) {}
     }
 }
