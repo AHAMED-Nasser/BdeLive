@@ -4,14 +4,14 @@
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <?php if(isset($_SESSION['success'])): ?>
+        <?php if (isset($_SESSION['success'])) : ?>
             <article style="color: #1d7630">
                 <?= htmlspecialchars($_SESSION['success']) ?>
             </article>
             <?php unset($_SESSION['success']) ?>
         <?php endif ?>
 
-        <?php if(isset($_SESSION['error'])): ?>
+        <?php if (isset($_SESSION['error'])) : ?>
             <article style="color: #922222">
                 <?= htmlspecialchars($_SESSION['error']) ?>
             </article>

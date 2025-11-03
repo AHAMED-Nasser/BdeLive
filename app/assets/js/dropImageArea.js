@@ -9,14 +9,16 @@ div.classList.add('img-recap');
 
 inputFile.addEventListener("change", uploadImage);
 
-function displayRecapImage(imageLink) {
+function displayRecapImage(imageLink)
+{
     // Create recap image
     let img = document.createElement("img");
     img.src = `${imageLink}`;
     div.appendChild(img);
     imageRecap.append(div);
 }
-function uploadImage() {
+function uploadImage()
+{
     let imageLink = URL.createObjectURL(inputFile.files[0]);
     dropArea.style.backgroundImage = `url(${imageLink}`;
     imageViewText.style.display = "none";

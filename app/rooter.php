@@ -52,11 +52,35 @@ $toStudlyCase = static function (string $string): string {
 
 $page = $sanitizePage($page);
 // StudlyCase + 'Controller' naming convention
-$controllerName = $toStudlyCase($page) . 'Controller';
+$shortName = $toStudlyCase($page) . 'Controller';
 
-if (class_exists($controllerName)) {
-    new $controllerName();
+// Try namespaced controllers across known groups
+$namespaces = [
+    'App\\Modules\\Controllers\\',
+    'App\\Modules\\Controllers\\Public\\',
+    'App\\Modules\\Controllers\\Users\\',
+    'App\\Modules\\Controllers\\Events\\',
+    'App\\Modules\\Controllers\\Pwd\\',
+    'App\\Modules\\Controllers\\Cookie\\',
+];
+
+$resolved = null;
+foreach ($namespaces as $ns) {
+    $fqcn = $ns . $shortName;
+    if (class_exists($fqcn)) {
+        $resolved = $fqcn;
+        break;
+    }
+}
+
+if ($resolved !== null) {
+    new $resolved();
 } else {
-    http_response_code(404);
-    echo 'Page non trouvée';
+    // Backward compatibility: non-namespaced class if present
+    if (class_exists($shortName)) {
+        new $shortName();
+    } else {
+        http_response_code(404);
+        echo 'Page non trouvée';
+    }
 }

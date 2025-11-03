@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Pwd;
+
+use Exception;
+use App\Modules\Models\Pwd\PasswordReset;
+
 /**
  * Verify Token Controller
  *

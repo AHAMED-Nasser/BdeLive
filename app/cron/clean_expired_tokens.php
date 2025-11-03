@@ -1,12 +1,13 @@
 <?php
 
+/**
+ * Script to clean expired tokens (every 3 hours).
+ */
+
 declare(strict_types=1);
 
-/**
- * A script for reseting the token that are expired (clean the table PASSWORD_RESET_TOKEN every 3 hours)
- */
 try {
-    $passwordReset = new PasswordReset();
+    $passwordReset = new \App\Modules\Models\Pwd\PasswordReset();
     $result = $passwordReset->cleanExpiredTokens();
 
     if ($result) {
@@ -14,7 +15,6 @@ try {
     } else {
         echo date('Y-m-d H:i:s') . " - Aucun token a nettoyer\n";
     }
-
 } catch (Exception $e) {
     echo date('Y-m-d H:i:s') . " - Erreur : " . $e->getMessage() . "\n";
 }

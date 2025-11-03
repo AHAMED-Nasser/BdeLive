@@ -8,4 +8,7 @@ parameters:
     excludePaths:
         analyse:
             - app/vendor/*
+            - app/modules/views/*
+
+    level: 8
 

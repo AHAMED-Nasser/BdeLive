@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Pwd;
+
+use Exception;
+use App\Modules\Models\Pwd\PasswordReset;
+
 /**
  * Reset Password Controller
  *
@@ -101,7 +106,6 @@ class ResetPasswordController
                 $_SESSION['error'] = 'Erreur lors de la mise à jour du mot de passe';
                 header('Location: index.php?page=reset_password');
             }
-
         } catch (Exception $e) {
             // If another error occurs, show an error message
             $_SESSION['error'] = 'Une erreur est survenue';

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Modules\Controllers\Public;
+
 /**
  * Legal Terms Controller
  *
@@ -34,5 +38,4 @@ class LegalTermsController
     {
         require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
     }
-
 }

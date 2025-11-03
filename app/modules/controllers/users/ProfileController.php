@@ -1,11 +1,21 @@
 <?php
-class ProfileController
+
+declare(strict_types=1);
+
+namespace App\Modules\Controllers\Users;
+
+use App\Modules\Controllers\AuthenticatedController;
+
+class ProfileController extends AuthenticatedController
 {
-    public function __construct(){
-        $this->loadView('profilePageView');
+    public function __construct()
+    {
+        parent::__construct();
+        $this->render('users/profilePageView');
     }
 
-    public function loadView(string $viewName): void {
-        require_once __DIR__ . '/../views/users/' . $viewName . '.php';
+    protected function loadView(string $viewName): void
+    {
+        $this->render('users/' . $viewName);
     }
 }

@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace App\Core;
+
+use PDO;
+use PDOException;
+use Exception;
+
 require_once __DIR__ . '/../config/config.php';
 
 /**
@@ -107,3 +113,5 @@ class Database
         throw new Exception("Cannot unserialize singleton");
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\Database', 'Database');

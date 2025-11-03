@@ -1,22 +1,33 @@
 <?php
 
-class EventCreationModel {
+declare(strict_types=1);
+
+namespace App\Modules\Models\Admin;
+
+use PDO;
+use PDOException;
+use DateTime;
+use App\Core\Database;
+
+class EventCreationModel
+{
     private PDO $pdo;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
 
-    public function insertEvent(string $eventName,
-                                DateTime $eventDate,
-                                DateTime $eventTime,
-                                string $eventLocation,
-                                string $eventTheme,
-                                string $statusParticipating,
-                                string $description
-    ): bool
-    {
+    public function insertEvent(
+        string $eventName,
+        DateTime $eventDate,
+        DateTime $eventTime,
+        string $eventLocation,
+        string $eventTheme,
+        string $statusParticipating,
+        string $description
+    ): bool {
         try {
             $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description)";
             $stmt = $this->pdo->prepare($query);
@@ -34,7 +45,6 @@ class EventCreationModel {
             header('Location: index.php?page=createEvent');
             exit();
         }
-
     }
 
     /**
@@ -54,5 +64,6 @@ class EventCreationModel {
             return false;
         }
     }
-
 }
+
+\class_alias(__NAMESPACE__ . '\\EventCreationModel', 'EventCreationModel');

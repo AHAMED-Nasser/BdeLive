@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Users;
+
+use PDOException;
+use App\Modules\Models\Users\UserManager;
+
 require_once __DIR__ . '/../../../config/config.php';
 
 /**
@@ -73,7 +78,6 @@ class AuthController
             $_SESSION['suid'] = session_id();
 
             return true;
-
         } catch (PDOException $e) {
             error_log('AuthController::login - ' . $e->getMessage());
 
@@ -130,7 +134,6 @@ class AuthController
 
             // Step 3: Create new user via UserManager
             return $this->userManager->createUser($last_name, $first_name, $user_status, $email, $pwd);
-
         } catch (PDOException $e) {
             error_log('AuthController::register - ' . $e->getMessage());
 
@@ -158,5 +161,4 @@ class AuthController
 
         return null;
     }
-
 }

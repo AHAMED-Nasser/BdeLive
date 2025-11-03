@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Helpers;
+
 /**
  * Pagination Helper - Classe réutilisable pour la pagination
  * @package BdeLive\Helpers
@@ -78,3 +80,5 @@ class Pagination
         return 'index.php?' . http_build_query($params);
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\Pagination', 'Pagination');

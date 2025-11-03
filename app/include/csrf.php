@@ -56,7 +56,7 @@ function csrfField(): string
     if (session_status() === PHP_SESSION_NONE) {
         return '';
     }
-    
+
     if (!isset($_SESSION['csrf_token'])) {
         $token = generateCsrfToken();
     } else {

@@ -7,7 +7,7 @@
 require_once __DIR__ . '/../shared/include.inc.php';
 start_page('Liste des Événements');
 
-// Les variables $events et $pagination sont définies par EventController 
+// Les variables $events et $pagination sont définies par EventController
 
 // Images par défaut pour les événements (en attendant les images en BDD)
 $defaultImages = [
@@ -24,8 +24,8 @@ $userId = $_SESSION['user_id'] ?? null;
     <h1 style="text-align: center;">Nos Événements</h1>
 
     <!-- Messages flash -->
-    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color): ?>
-        <?php if (!empty($_SESSION[$type])): ?>
+    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color) : ?>
+        <?php if (!empty($_SESSION[$type])) : ?>
             <div style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : '721c24' ?>; padding: 12px; margin: 20px 0; border: 1px solid #<?= $type === 'success' ? 'c3e6cb' : 'f5c6cb' ?>; border-radius: 4px; text-align: center;">
                 <?= htmlspecialchars($_SESSION[$type]) ?>
             </div>
@@ -33,10 +33,10 @@ $userId = $_SESSION['user_id'] ?? null;
         <?php endif; ?>
     <?php endforeach; ?>
 
-    <?php if (empty($events)): ?>
+    <?php if (empty($events)) : ?>
         <p>Aucun événement à afficher pour le moment.</p>
-    <?php else: ?>
-        <?php foreach ($events as $event): ?>
+    <?php else : ?>
+        <?php foreach ($events as $event) : ?>
             <div class="event-item" style="text-align: center; margin-bottom: 30px;">
                 <h2 style="text-align: center;"><?= htmlspecialchars($event['event_name']) ?></h2>
                 <p style="text-align: center; color: #666; margin-bottom: 20px;">
@@ -47,7 +47,7 @@ $userId = $_SESSION['user_id'] ?? null;
                     Lieu : <?= htmlspecialchars($event['event_location']) ?>
                 </p>
 
-                <?php if (!empty($event['description'])): ?>
+                <?php if (!empty($event['description'])) : ?>
                     <p style="color: #666; margin-bottom: 20px; font-size: 1.2rem; text-align: center">
                         <?= htmlspecialchars($event['description']) ?>
                     </p>
@@ -57,14 +57,14 @@ $userId = $_SESSION['user_id'] ?? null;
                 <?php useCarousel($event['event_name'], $defaultImages, 'carousel-event-' . $event['event_id']) ?>
                 
                 <!-- Boutons d'inscription (utilisateurs connectés) -->
-                <?php if ($userId): ?>
+                <?php if ($userId) : ?>
                     <?php $isRegistered = $registrationRepo->isUserRegistered((int)$event['event_id'], (int)$userId); ?>
-                    <?php if ($isRegistered): ?>
+                    <?php if ($isRegistered) : ?>
                         <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>" 
                            style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
                             Se désinscrire
                         </a>
-                    <?php else: ?>
+                    <?php else : ?>
                         <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>" 
                            style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
                             S'inscrire
@@ -73,7 +73,7 @@ $userId = $_SESSION['user_id'] ?? null;
                 <?php endif; ?>
                 
                 <!-- Bouton de suppression (admin uniquement) -->
-                <?php if (isset($_SESSION['user_status']) && $_SESSION['user_status'] === 'BDE'): ?>
+                <?php if (isset($_SESSION['user_status']) && $_SESSION['user_status'] === 'BDE') : ?>
                     <div style="text-align: center; margin-top: 15px;">
                         <form method="post" action="index.php?page=deleteEvent" 
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'événement \'<?= htmlspecialchars($event['event_name']) ?>\' ?\n\nCette action est irréversible.');"
@@ -91,13 +91,13 @@ $userId = $_SESSION['user_id'] ?? null;
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php if ($pagination->getTotalPages() > 1): ?>
+    <?php if ($pagination->getTotalPages() > 1) : ?>
         <div class="pagination-info">
             Page <?= $pagination->getCurrentPage() ?> sur <?= $pagination->getTotalPages() ?> (<?= $pagination->getTotalItems() ?> événement<?= $pagination->getTotalItems() > 1 ? 's' : '' ?>)
         </div>
         
         <ul class="pagination">
-            <?php if ($pagination->hasPrevious()): ?>
+            <?php if ($pagination->hasPrevious()) : ?>
                 <li>
                     <a href="<?= $pagination->getLink($pagination->getFirstPage()) ?>">« Premier</a>
                 </li>
@@ -112,7 +112,7 @@ $userId = $_SESSION['user_id'] ?? null;
                 </a>
             </li>
 
-            <?php if ($pagination->hasNext()): ?>
+            <?php if ($pagination->hasNext()) : ?>
                 <li>
                     <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>">Suivant ›</a>
                 </li>

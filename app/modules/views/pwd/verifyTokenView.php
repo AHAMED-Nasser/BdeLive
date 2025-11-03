@@ -5,7 +5,7 @@ start_page("Vérification du code - BDE Inform'Aix", true);
     <div class="forgot-container">
         <h1 class="title">Vérification du code</h1>
         
-        <?php if (isset($_SESSION['error'])): ?>
+        <?php if (isset($_SESSION['error'])) : ?>
             <div class="alert alert-danger">
                 <?= htmlspecialchars($_SESSION['error']) ?>
                 <?php unset($_SESSION['error']); ?>

@@ -1,16 +1,25 @@
 <?php
+
 declare(strict_types=1);
+
+namespace App\Modules\Controllers\Users;
+
+use Exception;
+use App\Modules\Models\Users\UserManager;
+
+// legacy global model
 
 /**
  * Delete Account Controller
  *
  * Allows a logged-in user to delete their own account.
  */
-class DeleteAccountController {
+class DeleteAccountController
+{
     private UserManager $userManager;
 
-    public function __construct() {
-        require_once __DIR__ . '/../../models/users/UserManager.php';
+    public function __construct()
+    {
         $this->userManager = new UserManager();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,11 +29,13 @@ class DeleteAccountController {
         }
     }
 
-    private function loadView(string $viewName): void {
+    private function loadView(string $viewName): void
+    {
         require_once __DIR__ . '/../../views/users/' . $viewName . '.php';
     }
 
-    private function handleDelete(): void {
+    private function handleDelete(): void
+    {
         if (session_status() === PHP_SESSION_NONE) {
         }
 
@@ -56,7 +67,6 @@ class DeleteAccountController {
 
                 header('Location: index.php?page=home');
                 exit;
-
             } else {
                 $_SESSION['error'] = 'Impossible de supprimer le compte.';
                 header('Location: index.php?page=delete_account');

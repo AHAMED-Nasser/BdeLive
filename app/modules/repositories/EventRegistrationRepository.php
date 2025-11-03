@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Repositories;
+
+use PDO;
+use App\Core\Database;
+
 class EventRegistrationRepository
 {
     private PDO $pdo;
@@ -30,3 +35,5 @@ class EventRegistrationRepository
         return $stmt->execute([$eventId, $userId]);
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
