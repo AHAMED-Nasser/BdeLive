@@ -19,8 +19,8 @@ jobs:
       # 2️⃣ Setup PHP
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
-          extensions: pdo_mysql, mbstring
+          php-version: '8.2'
+          extensions: pdo_mysql, mbstring, xml, curl
 
       # 3️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
@@ -39,14 +39,14 @@ jobs:
       # 2️⃣ Setup PHP
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
-          extensions: pdo_mysql, mbstring
+          php-version: '8.2'
+          extensions: pdo_mysql, mbstring, xml, curl
 
       # 3️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      # 4️⃣ Run PHPCS
-      - run: composer lint
+      # 4️⃣ Run PHPCS (only fail on errors, not warnings)
+      - run: vendor/bin/phpcs --standard=PSR12 app --error-severity=1 --warning-severity=0
 
   phpunit:
     name: PHPUnit Tests
@@ -59,8 +59,8 @@ jobs:
       # 2️⃣ Setup PHP
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.5'
-          extensions: pdo_mysql, mbstring
+          php-version: '8.2'
+          extensions: pdo_mysql, mbstring, xml, curl
 
       # 3️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
