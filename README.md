@@ -56,8 +56,16 @@ php -m | grep -E "(mbstring|xml|curl|pdo_mysql)"
 ### 3. Install Composer Dependencies
 
 ```bash
+# Install all dependencies (including dev dependencies)
 composer install
+
+# For production, install without dev dependencies
+composer install --no-dev --optimize-autoloader
 ```
+
+**Important**: The `vendor/` directory is not in Git (it's in `.gitignore`). You must run `composer install` on the server after deployment.
+
+See `DEPLOYMENT.md` for detailed deployment instructions.
 
 ### 4. Configure Database
 
