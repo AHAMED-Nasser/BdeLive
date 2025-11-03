@@ -26,7 +26,9 @@ header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 
-// Composer autoload (PSR-4)
-require_once __DIR__ . '/../vendor/autoload.php';
+// Composer autoload (PSR-4) - Optional, falls back to custom autoloader if not available
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 
 require_once __DIR__ . '/rooter.php';
