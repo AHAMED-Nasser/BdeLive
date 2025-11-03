@@ -32,7 +32,10 @@
             
             // Core
             __DIR__ . '/../core/' . $className . '.php',
-            __DIR__ . '/../config/' . $className . '.php'
+            __DIR__ . '/../config/' . $className . '.php',
+
+            // services
+            __DIR__ . '/../services/' . $className . '.php'
         ];
 
         foreach ($searchPaths as $path) {
