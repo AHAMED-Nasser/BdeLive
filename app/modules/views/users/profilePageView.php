@@ -6,6 +6,7 @@
 
     <h1>Modification des informations</h1>
     <form method="POST" action="index.php?page=profile">
+        <?= csrfField() ?>
         <div class="change-user-div">
             <div>
                 <label class="change-user-label">Prénom</label>

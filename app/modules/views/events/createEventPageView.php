@@ -19,6 +19,7 @@
         <?php endif ?>
 
         <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST">
+            <?= csrfField() ?>
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
 
