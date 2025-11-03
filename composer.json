@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "phpstan": "phpstan analyse --level=5 app"
+    "phpstan": "phpstan analyse --level=8 app"
   },
   "config": {
     "optimize-autoloader": true
