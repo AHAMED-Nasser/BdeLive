@@ -188,26 +188,6 @@ a {
 
 
 
-@media (max-width: 992px) {
-    .carousel-item img {
-        height: 350px;
-    }
-    #events-title {
-        font-size: 1.8rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .carousel-item img {
-        height: 250px;
-    }
-    .carousel-control {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-}
-
 /* Hero section on home page */
 .hero {
     padding: 30px 20px;
