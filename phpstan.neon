@@ -1,6 +1,12 @@
 parameters:
     paths:
         - app
+
+    bootstrapFiles:
+        - app/config/config.php
+        - app/config/mailer.php
+
     excludePaths:
         analyse:
             - app/vendor/*
+
