@@ -1,11 +1,8 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 // Configuration sécurisée des cookies de session
 // Détection automatique de l'environnement
-$isProduction = isset($_SERVER['HTTP_HOST']) && 
+$isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
 
 session_set_cookie_params([
@@ -26,4 +23,10 @@ header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+require_once __DIR__ . '/../vendor/autoload.php'; // autoload des dépendances Cloudinary via Composer
 require_once __DIR__ . '/rooter.php';
+require_once __DIR__ . '/modules/views/shared/include.inc.php';
