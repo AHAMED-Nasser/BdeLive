@@ -24,10 +24,10 @@ start_page("Plan du site - BDE Live");
             <ul>
                 <?php if (session_status() === PHP_SESSION_NONE) {
                 } ?>
-                <?php if (isset($_SESSION['utilisateur_id'])): ?>
+                <?php if (isset($_SESSION['utilisateur_id'])) : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=profile">Mon Profil</a></li>
-                <?php else: ?>
+                <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     

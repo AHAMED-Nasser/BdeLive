@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Modules\Controllers\Public;
+
 class SitemapController
 {
     public function __construct()
@@ -13,5 +17,4 @@ class SitemapController
     {
         require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
     }
-
 }

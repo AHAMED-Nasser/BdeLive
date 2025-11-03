@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Cookie;
+
 class CookieConsentController
 {
     private string $cookieName = 'cookie_consent';

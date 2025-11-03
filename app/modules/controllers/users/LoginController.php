@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Users;
+
+use App\Modules\Controllers\Users\AuthController;
 
 /**
  * Login Controller
@@ -37,7 +40,6 @@ class LoginController
         } else {
             $this->loadView('loginPageView');
         }
-
     }
 
     /**

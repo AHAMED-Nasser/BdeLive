@@ -6,7 +6,8 @@
     "php": "^8.2"
   },
   "require-dev": {
-    "phpstan/phpstan": "^1.11"
+    "phpstan/phpstan": "^1.11",
+    "squizlabs/php_codesniffer": "^3.10"
   },
   "autoload": {
     "psr-4": {
@@ -14,7 +15,9 @@
     }
   },
   "scripts": {
-    "phpstan": "phpstan analyse --level=8 app"
+    "phpstan": "phpstan analyse --level=8 app",
+    "lint": "phpcs --standard=PSR12 app",
+    "lint:fix": "phpcbf --standard=PSR12 app"
   },
   "config": {
     "optimize-autoloader": true

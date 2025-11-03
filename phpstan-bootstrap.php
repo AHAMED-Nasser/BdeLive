@@ -1,5 +1,6 @@
 <?php
 // phpstan-bootstrap.php
+require_once __DIR__ . '/vendor/autoload.php';
 if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
 if (!defined('DB_NAME')) define('DB_NAME', 'test');
 if (!defined('DB_USER')) define('DB_USER', 'user');
@@ -14,3 +15,13 @@ if (!class_exists('Mailer')) {
         public function sendPasswordResetEmail(string $to_email, string $to_name, string $token) {}
     }
 }
+
+// Map namespaced classes to legacy names for PHPStan symbol discovery
+@class_alias('App\\Core\\Database', 'Database');
+@class_alias('App\\Config\\Mailer', 'Mailer');
+@class_alias('App\\Modules\\Repositories\\EventRepository', 'EventRepository');
+@class_alias('App\\Modules\\Repositories\\EventRegistrationRepository', 'EventRegistrationRepository');
+@class_alias('App\\Modules\\Models\\Pwd\\PasswordReset', 'PasswordReset');
+@class_alias('App\\Modules\\Models\\Admin\\EventCreationModel', 'EventCreationModel');
+@class_alias('App\\Modules\\Models\\Users\\UserManager', 'UserManager');
+@class_alias('App\\Modules\\Helpers\\Pagination', 'Pagination');

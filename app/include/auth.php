@@ -1,6 +1,7 @@
 <?php
 
-function requireLogin(): void {
+function requireLogin(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         header('Location: index.php?page=login&error=login_required');
         exit();
@@ -12,7 +13,8 @@ function requireLogin(): void {
     }
 }
 
-function requireAdmin(): void {
+function requireAdmin(): void
+{
     if (session_status() === PHP_SESSION_NONE) {
         header('Location: index.php?page=login&error=login_required');
         exit();

@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App\Modules\Controllers\Public;
+
 /**
  * Home Controller
  *

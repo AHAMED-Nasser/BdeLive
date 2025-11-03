@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Events;
+
+use App\Modules\Controllers\AuthenticatedController;
+use App\Modules\Repositories\EventRegistrationRepository;
+
 class RegisterEventController extends AuthenticatedController
 {
     private EventRegistrationRepository $repo;
@@ -10,7 +15,7 @@ class RegisterEventController extends AuthenticatedController
     {
         parent::__construct();
         $this->repo = new EventRegistrationRepository();
-        
+
         $action = $_GET['action'] ?? '';
         $eventId = (int)($_GET['event_id'] ?? 0);
 
@@ -29,7 +34,7 @@ class RegisterEventController extends AuthenticatedController
     private function register(int $eventId): void
     {
         $userId = $_SESSION['user_id'];
-        
+
         if ($this->repo->isUserRegistered($eventId, $userId)) {
             $this->redirect('Déjà inscrit', false);
             return;
@@ -42,7 +47,7 @@ class RegisterEventController extends AuthenticatedController
     private function unregister(int $eventId): void
     {
         $userId = $_SESSION['user_id'];
-        
+
         if (!$this->repo->isUserRegistered($eventId, $userId)) {
             $this->redirect('Non inscrit', false);
             return;
@@ -59,6 +64,7 @@ class RegisterEventController extends AuthenticatedController
         exit();
     }
 
-    protected function loadView(string $viewName): void {}
+    protected function loadView(string $viewName): void
+    {
+    }
 }
-

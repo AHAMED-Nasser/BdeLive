@@ -2,8 +2,14 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Repositories;
+
+use PDO;
+use PDOException;
+use App\Core\Database;
+
 /**
- * Event Repository - Accès aux données des événements
+ * Event Repository - Access to event data
  * @package BdeLive\Repositories
  * @version 1.0.0
  */
@@ -12,7 +18,7 @@ class EventRepository
     private PDO $pdo;
 
     /**
-     * Constructeur - Initialise la connexion PDO
+     * Constructor - Initialize the PDO connection
      */
     public function __construct()
     {
@@ -22,7 +28,7 @@ class EventRepository
     /**
      * Compte le nombre total d'événements dans la base de données
      * Basé sur le dump SQL (table EVENTS)
-     * 
+     *
      * @return int Nombre total d'événements
      */
     public function count(): int
@@ -55,12 +61,12 @@ class EventRepository
                     FROM EVENTS
                     ORDER BY event_date DESC, event_time DESC
                     LIMIT :offset, :limit';
-                    
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
-            
+
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             error_log('EventRepository::findPaginated - ' . $e->getMessage());
@@ -68,3 +74,5 @@ class EventRepository
         }
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\EventRepository', 'EventRepository');

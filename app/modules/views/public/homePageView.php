@@ -32,7 +32,7 @@ if (!empty($_SESSION['delete_session_after_home'])) {
 ?>
 
 <main>
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION['user_id'])) : ?>
         <div class="alert alert-info">
             Bienvenue, <?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?> (BUT <?= htmlspecialchars($_SESSION['user_status']) ?>) !
             <a href="index.php?page=logout">Se déconnecter</a>

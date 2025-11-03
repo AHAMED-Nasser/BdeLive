@@ -5,14 +5,14 @@ start_page("Mot de passe oublié - BDE Inform'Aix", true);
     <div class="forgot-container">
         <h1 class="title">Mot de passe oublié</h1>
         
-        <?php if (isset($_SESSION['error'])): ?>
+        <?php if (isset($_SESSION['error'])) : ?>
             <div class="alert alert-danger">
                 <?= htmlspecialchars($_SESSION['error']) ?>
                 <?php unset($_SESSION['error']); ?>
             </div>
         <?php endif; ?>
         
-        <?php if (isset($_SESSION['success'])): ?>
+        <?php if (isset($_SESSION['success'])) : ?>
             <div class="alert alert-success">
                 <?= htmlspecialchars($_SESSION['success']) ?>
                 <?php unset($_SESSION['success']); ?>

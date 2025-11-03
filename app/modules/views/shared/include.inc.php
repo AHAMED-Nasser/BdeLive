@@ -1,6 +1,7 @@
 <?php
-    function start_page(string $title, bool $wouldNav = true): void {
-?>
+function start_page(string $title, bool $wouldNav = true): void
+{
+    ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,7 +23,7 @@
     <title><?= $title ?></title>
 </head>
 <body>
-<?php if ($wouldNav): ?>
+    <?php if ($wouldNav) : ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
             <ul>
@@ -33,17 +34,17 @@
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <?php if ((isset($_SESSION['user_id']) && $_SESSION['user_status'] === 'BDE')): ?>
+                <?php if ((isset($_SESSION['user_id']) && $_SESSION['user_status'] === 'BDE')) : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
-                <?php elseif (isset($_SESSION['user_id'])): ?>
+                <?php elseif (isset($_SESSION['user_id'])) : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
-                <?php else: ?>
+                <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
@@ -69,13 +70,15 @@
             </div>
         </nav>
     </header>
-<?php endif; ?>
+    <?php endif; ?>
 
-<?php } ?>
+<?php }
+?>
 
 <?php
-    function end_page(): void {
-?>
+function end_page(): void
+{
+    ?>
     <footer>
         <nav aria-label="Footer navigation">
             <ul>
@@ -106,11 +109,14 @@
         <script src="./assets/js/dropImageArea.js"></script>
 
     <?php
-    // Affiche le popup cookies sur toutes les pages
-    require_once __DIR__ . '/../../controllers/cookie/CookieConsentController.php';
-    new CookieConsentController();
+    // Display the cookie popup on all pages (autoload Composer)
+    if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
+        $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
+        new $cls();
+    }
     ?>
 
         </body>
 </html>
-<?php } ?>
+<?php }
+?>

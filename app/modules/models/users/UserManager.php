@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Models\Users;
+
+use PDO;
+use PDOException;
+use App\Core\Database;
+
 /**
  * User Manager Model
  *
@@ -257,7 +263,8 @@ class UserManager
         }
     }
 
-    public function updateFirstName(int $user_id, String $newFirstName): void{
+    public function updateFirstName(int $user_id, string $newFirstName): void
+    {
         try {
             $query = 'UPDATE Utilisateur 
                 SET first_name = :newFirstName 
@@ -265,24 +272,25 @@ class UserManager
 
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             error_log('UserManager::updateFirstName - ' . $e->getMessage());
             throw $e;
         }
     }
 
-    public function updateLastName(int $user_id, String $newLastName): void{
+    public function updateLastName(int $user_id, string $newLastName): void
+    {
         try {
             $query = 'UPDATE Utilisateur 
                 SET last_name = :newLastName 
                 WHERE user_id = :user_id';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
-        }
-        catch (PDOException $e) {
+        } catch (PDOException $e) {
             error_log('UserManager::updateLastName - ' . $e->getMessage());
             throw $e;
         }
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\UserManager', 'UserManager');

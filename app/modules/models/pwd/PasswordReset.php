@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Models\Pwd;
+
+use PDO;
+use PDOException;
+use App\Core\Database;
 
 /**
  * Password Reset Model
@@ -144,7 +149,6 @@ class PasswordReset
                 'user_id' => $result['user_id'],
                 'token_id' => $result['id'],
             ];
-
         } catch (PDOException $e) {
             error_log("Erreur verifyToken : " . $e->getMessage());
 
@@ -225,3 +229,5 @@ class PasswordReset
         }
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\PasswordReset', 'PasswordReset');

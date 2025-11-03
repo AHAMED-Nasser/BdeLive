@@ -1,6 +1,11 @@
 <?php
 
-abstract class AdminController extends DefaultController {
+declare(strict_types=1);
+
+namespace App\Modules\Controllers;
+
+abstract class AdminController extends DefaultController
+{
     public function __construct()
     {
         parent::__construct();

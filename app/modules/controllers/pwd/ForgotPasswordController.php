@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace App\Modules\Controllers\Pwd;
+
+use Exception;
+use App\Config\Mailer;
+use App\Modules\Models\Pwd\PasswordReset;
+
 /**
  * Forgot Password Controller
  *
@@ -103,7 +109,6 @@ class ForgotPasswordController
                 $_SESSION['error'] = 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer';
                 header('Location: index.php?page=forgot_password');
             }
-
         } catch (Exception $e) {
             // If another error occurs, show an error message
             $_SESSION['error'] = 'Une erreur est survenue';
