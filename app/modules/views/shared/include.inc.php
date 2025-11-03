@@ -64,12 +64,23 @@ function start_page(string $title, bool $wouldNav = true): void
             <div class="sidebar-menu">
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
-                    <li><a href="index.php?page=login">Connexion</a></li>
-                    <li><a href="index.php?page=register">Inscription</a></li>
+                    <?php if ((isset($_SESSION['user_id']) && $_SESSION['user_status'] === 'BDE')) : ?>
+                        <li><a href="index.php?page=event">Evénements</a></li>
+                        <li><a href="index.php?page=createEvent">Créer un événement</a></li>
+                        <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
+                        <li><a href="index.php?page=logout">Déconnexion</a></li>
+                    <?php elseif (isset($_SESSION['user_id'])) : ?>
+                        <li><a href="index.php?page=event">Evénements</a></li>
+                        <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
+                        <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
+                        <li><a href="index.php?page=logout">Déconnexion</a></li>
+                    <?php else : ?>
+                        <li><a href="index.php?page=event">Evénements</a></li>
+                        <li><a href="index.php?page=login">Connexion</a></li>
+                        <li><a href="index.php?page=register">Inscription</a></li>
+                    <?php endif; ?>
                     <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                     <li><a href="index.php?page=sitemap">Plan du site</a></li>
-                    <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=profile">Mon profil</a></li>
                 </ul>
             </div>
         </nav>
