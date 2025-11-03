@@ -41,3 +41,4 @@ composer.phar
 
 # Config files with sensitive data
 app/config/config.php
+.idea/php.xml
