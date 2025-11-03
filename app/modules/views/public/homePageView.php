@@ -47,7 +47,7 @@ if (!empty($_SESSION['delete_session_after_home'])) {
 
     <section class="future-event">
         <h2 class="title">Événement à venir</h2>
-        <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
+        <?php useCarousel($imageFuturEvent, 'carousel-future-event', 'Soirée') ?>
     </section>
 
     <section class="BDE" aria-labelledby="bde-title">
