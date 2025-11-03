@@ -105,7 +105,6 @@
 <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
         <script src="./assets/js/slider.js"></script>
-        <script src="./assets/js/dropImageArea.js"></script>
 
     <?php
     // Affiche le popup cookies sur toutes les pages
