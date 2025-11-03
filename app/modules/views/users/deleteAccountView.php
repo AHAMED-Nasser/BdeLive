@@ -3,12 +3,6 @@ start_page('Supprimer mon compte', true);
 if (session_status() === PHP_SESSION_NONE) {
 }
 
-// Generate CSRF token
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(16));
-}
-$csrf = $_SESSION['csrf_token'];
-
 require_once __DIR__ . '/../shared/include.inc.php';
 
 
@@ -32,7 +26,7 @@ require_once __DIR__ . '/../shared/include.inc.php';
         <p>Attention : cette action est irréversible. Toutes vos données seront supprimées.</p>
 
             <form method="post" action="index.php?page=delete_account" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ?');">
-                <input type="hidden" name="csrf_token" value="<?php echo $csrf; ?>">
+                <?= csrfField() ?>
 
             <!-- Boutons -->
             <button type="submit" class="btn btn-danger">Supprimer mon compte</button>

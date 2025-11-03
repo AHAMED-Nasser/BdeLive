@@ -19,7 +19,24 @@ class CookieConsentController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cookie_consent'])) {
             $value = $_POST['cookie_consent'] === 'accept' ? 'yes' : 'no';
-            setcookie($this->cookieName, $value, time() + $this->cookieDays * 24 * 60 * 60, '/');
+            
+            // Secure cookie settings (same as session cookies)
+            $isProduction = isset($_SERVER['HTTP_HOST']) &&
+                strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
+            
+            setcookie(
+                $this->cookieName,
+                $value,
+                [
+                    'expires' => time() + $this->cookieDays * 24 * 60 * 60,
+                    'path' => '/',
+                    'domain' => $isProduction ? 'bdelivesae.alwaysdata.net' : '',
+                    'secure' => $isProduction,  // HTTPS only in production
+                    'httponly' => true,         // Inaccessible by JavaScript
+                    'samesite' => 'Lax'         // CSRF protection
+                ]
+            );
+            
             $_COOKIE[$this->cookieName] = $value;
             header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
             exit;

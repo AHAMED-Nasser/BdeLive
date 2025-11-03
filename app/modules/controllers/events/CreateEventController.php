@@ -8,6 +8,8 @@ use App\Modules\Controllers\AdminController;
 use DateTime;
 use App\Modules\Models\Admin\EventCreationModel;
 
+require_once __DIR__ . '/../../../include/csrf.php';
+
 // model
 
 class CreateEventController extends AdminController
@@ -25,6 +27,13 @@ class CreateEventController extends AdminController
 
     public function createEvent(): void
     {
+        // Validate CSRF token
+        if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
+            $_SESSION['error'] = 'Token de sécurité invalide. Veuillez réessayer.';
+            header('Location: index.php?page=createEvent');
+            exit();
+        }
+
         // Event creation logic goes here
         $eventName = $_POST['event-name'] ?? '';
         $eventDate = $_POST['event-date'] ?? '';
