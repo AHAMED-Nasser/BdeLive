@@ -3,7 +3,7 @@ parameters:
         - app
 
     bootstrapFiles:
-        - app/config/config.php
+        - phpstan-bootstrap.php
         - app/config/mailer.php
 
     excludePaths:
