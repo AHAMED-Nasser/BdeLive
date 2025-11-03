@@ -19,6 +19,21 @@ $paginationData = $paginationData ?? [
 <section class="events">
     <h1 class="title">Événements</h1>
     
+    <!-- Messages flash -->
+    <?php if (!empty($_SESSION['success'])): ?>
+        <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 12px; margin: 20px 0; border: 1px solid #c3e6cb; border-radius: 4px;">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+            <?php unset($_SESSION['success']); ?>
+        </div>
+    <?php endif; ?>
+    
+    <?php if (!empty($_SESSION['error'])): ?>
+        <div class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 12px; margin: 20px 0; border: 1px solid #f5c6cb; border-radius: 4px;">
+            <?= htmlspecialchars($_SESSION['error']) ?>
+            <?php unset($_SESSION['error']); ?>
+        </div>
+    <?php endif; ?>
+    
     <?php if (empty($paginationData['items'] ?? [])): ?>
         <p style="text-align: center; padding: 40px; color: #666;">Aucun événement trouvé.</p>
     <?php else: ?>
@@ -35,7 +50,7 @@ $paginationData = $paginationData ?? [
             }
             ?>
             
-            <div style="margin-bottom: 30px;">
+            <div style="margin-bottom: 30px; position: relative;">
                 <h2 class="event-title"><?= $eventTitle ?></h2>
                 <p style="text-align: center; color: #666; margin-bottom: 20px;">
                     <?= $eventDetails ?>
@@ -44,6 +59,21 @@ $paginationData = $paginationData ?? [
                     <?php endif; ?>
                 </p>
                 <?php useCarousel($eventTitle, $defaultImages, 'carousel-event-' . $event['event_id']) ?>
+                
+                <?php if (isset($_SESSION['user_status']) && $_SESSION['user_status'] === 'BDE'): ?>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <form method="post" action="index.php?page=deleteEvent" 
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'événement \'<?= htmlspecialchars($event['event_name']) ?>\' ?\n\nCette action est irréversible.');"
+                              style="display: inline;">
+                            <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                            <?= csrfField() ?>
+                            <button type="submit" 
+                                    style="background-color: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+                                Supprimer
+                            </button>
+                        </form>
+                    </div>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>
