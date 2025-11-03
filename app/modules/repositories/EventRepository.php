@@ -10,15 +10,28 @@ use App\Core\Database;
 
 /**
  * Event Repository - Access to event data
+ *
+ * Provides methods for retrieving event data from the database.
+ * Based on the EVENTS table structure from the SQL dump.
+ *
  * @package BdeLive\Repositories
  * @version 1.0.0
  */
 class EventRepository
 {
+    /**
+     * PDO database connection instance
+     *
+     * @var PDO
+     */
     private PDO $pdo;
 
     /**
      * Constructor - Initialize the PDO connection
+     *
+     * Retrieves the database connection from the Database singleton.
+     *
+     * @return void
      */
     public function __construct()
     {
@@ -26,10 +39,12 @@ class EventRepository
     }
 
     /**
-     * Compte le nombre total d'événements dans la base de données
-     * Basé sur le dump SQL (table EVENTS)
+     * Count the total number of events in the database
      *
-     * @return int Nombre total d'événements
+     * Counts all events in the EVENTS table.
+     *
+     * @return int Total number of events
+     * @throws PDOException If database query fails
      */
     public function count(): int
     {
@@ -46,17 +61,26 @@ class EventRepository
     }
 
     /**
-     * Récupère une liste paginée d'événements
-     * Basé sur le dump SQL (table EVENTS)
+     * Retrieve a paginated list of events
      *
-     * @param int $offset L'OFFSET calculé par Pagination->getOffset()
-     * @param int $limit Le LIMIT (items par page)
-     * @return array<string, mixed> La liste des événements pour la page
+     * Fetches events from the database with pagination support.
+     * Results are ordered by event date and time in descending order.
+     *
+     * @param int $offset The offset calculated by Pagination->getOffset()
+     * @param int $limit The limit (items per page)
+     * @return array<string, mixed> Array of events for the page, each containing:
+     *                              - event_id: Event identifier
+     *                              - event_name: Event name
+     *                              - event_date: Event date
+     *                              - event_time: Event time
+     *                              - event_location: Event location
+     *                              - description: Event description
+     * @throws PDOException If database query fails
      */
     public function findPaginated(int $offset, int $limit): array
     {
         try {
-            // SQL basé sur la structure de la table EVENTS
+            // SQL based on the EVENTS table structure
             $sql = 'SELECT event_id, event_name, event_date, event_time, event_location, description
                     FROM EVENTS
                     ORDER BY event_date DESC, event_time DESC

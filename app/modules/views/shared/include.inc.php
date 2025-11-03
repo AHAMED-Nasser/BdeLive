@@ -20,6 +20,7 @@ function start_page(string $title, bool $wouldNav = true): void
     <link rel="stylesheet" href="./assets/css/join.css">
     <link rel="stylesheet" href="./assets/css/caroussel.css">
     <link rel="stylesheet" href="./assets/css/createEvent.css">
+    <link rel="stylesheet" href="./assets/css/profile.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -66,6 +67,9 @@ function start_page(string $title, bool $wouldNav = true): void
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                    <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                    <li><a href="index.php?page=event">Evénements</a></li>
+                    <li><a href="index.php?page=profile">Mon profil</a></li>
                 </ul>
             </div>
         </nav>

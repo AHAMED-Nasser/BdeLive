@@ -2,7 +2,11 @@
 
 /**
  * Generate a CSRF token and store it in session
- * @return string The generated token
+ *
+ * Generates a cryptographically secure random token (64 hex characters)
+ * and stores it in the session along with a timestamp.
+ *
+ * @return string The generated token (64 hex characters), or empty string if session is not active
  */
 function generateCsrfToken(): string
 {
@@ -19,8 +23,12 @@ function generateCsrfToken(): string
 
 /**
  * Validate CSRF token
+ *
+ * Validates that the provided token matches the token stored in the session
+ * and that the token has not expired (1 hour expiration).
+ *
  * @param string $token The token to validate
- * @return bool True if valid, false otherwise
+ * @return bool True if the token is valid and not expired, false otherwise
  */
 function validateCsrfToken(string $token): bool
 {
@@ -48,7 +56,11 @@ function validateCsrfToken(string $token): bool
 
 /**
  * Get CSRF token field HTML
- * @return string HTML input field
+ *
+ * Generates an HTML hidden input field containing the CSRF token.
+ * Uses an existing token if available, otherwise generates a new one.
+ *
+ * @return string HTML input field with CSRF token, or empty string if session is not active
  */
 function csrfField(): string
 {

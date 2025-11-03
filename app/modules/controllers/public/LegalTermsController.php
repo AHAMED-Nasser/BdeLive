@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Public;
 
+use App\Modules\Controllers\DefaultController;
+
 /**
  * Legal Terms Controller
  *
@@ -11,7 +13,7 @@ namespace App\Modules\Controllers\Public;
  *
  * @package BdeLive\Controllers
  */
-class LegalTermsController
+class LegalTermsController extends DefaultController
 {
     /**
      * Display the legal terms page
@@ -23,19 +25,7 @@ class LegalTermsController
      */
     public function __construct()
     {
-        $this->loadView('legalTermsPageView');
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
+        parent::__construct();
+        $this->render('public/legalTermsPageView');
     }
 }

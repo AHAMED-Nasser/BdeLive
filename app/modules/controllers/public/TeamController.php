@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Public;
 
-class TeamController
+use App\Modules\Controllers\DefaultController;
+
+class TeamController extends DefaultController
 {
     public function __construct()
     {
-        $this->loadView('teamView');
-    }
-
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/public/' . $viewName . '.php';
+        parent::__construct();
+        $this->render('public/teamView');
     }
 }

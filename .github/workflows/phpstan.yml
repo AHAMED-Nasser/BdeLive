@@ -1,6 +1,6 @@
-name: PHPStan Check
+name: CI/CD Pipeline
 
-# Déclenche le workflow sur push et pull request
+# Trigger workflow on push and pull request
 on:
   push:
     branches: [ "**" ]
@@ -9,20 +9,61 @@ on:
 
 jobs:
   phpstan:
+    name: PHPStan Analysis
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Récupérer le code
+      # 1️⃣ Checkout code
       - uses: actions/checkout@v4
 
-      # 2️⃣ Installer PHP
+      # 2️⃣ Setup PHP
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: pdo_mysql
+          extensions: pdo_mysql, mbstring
 
-      # 3️⃣ Installer Composer et dépendances
+      # 3️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      # 4️⃣ Exécuter PHPStan
+      # 4️⃣ Run PHPStan
       - run: composer phpstan
+
+  phpcs:
+    name: PHPCS Code Style
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_mysql, mbstring
+
+      # 3️⃣ Install Composer dependencies
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Run PHPCS
+      - run: composer lint
+
+  phpunit:
+    name: PHPUnit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_mysql, mbstring
+
+      # 3️⃣ Install Composer dependencies
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Run PHPUnit tests
+      - run: composer test

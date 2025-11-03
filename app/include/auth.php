@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Require user authentication
+ *
+ * Checks if a user session is active and if the user is logged in.
+ * Redirects to the login page with an error message if the user is not authenticated.
+ *
+ * @return void
+ * @throws void Exits execution if user is not authenticated
+ */
 function requireLogin(): void
 {
     if (session_status() === PHP_SESSION_NONE) {
@@ -13,6 +22,16 @@ function requireLogin(): void
     }
 }
 
+/**
+ * Require admin privileges
+ *
+ * Checks if a user session is active, if the user is logged in, and if the user
+ * has admin status ('BDE'). Redirects to login page if not authenticated, or
+ * returns 403 Forbidden if authenticated but not admin.
+ *
+ * @return void
+ * @throws void Exits execution if user is not authenticated or not admin
+ */
 function requireAdmin(): void
 {
     if (session_status() === PHP_SESSION_NONE) {

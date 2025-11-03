@@ -47,3 +47,5 @@
         </div>
     </form>
 </div>
+
+<?php end_page(); ?>
