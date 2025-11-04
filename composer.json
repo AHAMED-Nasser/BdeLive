@@ -1,0 +1,21 @@
+{
+    "name": "bdelive/event",
+    "description": "BDE Live Event Management System",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "vendor-dir": "vendor"
+    }
+}
+
