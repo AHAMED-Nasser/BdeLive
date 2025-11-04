@@ -265,7 +265,7 @@ class UserManager
 
     public function updateFirstName(int $user_id, String $newFirstName) : void{
         try {
-            $query = 'UPDATE `USERS`
+            $query = 'UPDATE USERS
                 SET first_name = :newFirstName 
                 WHERE user_id = :user_id';
 
@@ -281,7 +281,7 @@ class UserManager
 
     public function updateLastName(int $user_id, String $newLastName): void{
         try {
-            $query = 'UPDATE `USERS`
+            $query = 'UPDATE USERS
                 SET last_name = :newLastName 
                 WHERE user_id = :user_id';
             $stmt = $this->pdo->prepare($query);
