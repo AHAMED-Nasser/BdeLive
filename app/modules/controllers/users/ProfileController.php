@@ -12,12 +12,14 @@ class ProfileController extends AuthenticatedController
     public function __construct()
     {
         parent::__construct();
-        $this->render('users/profilePageView');
         $action = $_GET['action'] ?? '';
         if ($action === 'processFirstName' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this -> processFirstName();
         } else if ($action === 'processLastName' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this -> processLastName();
+        }
+        else {
+            $this->render('users/profilePageView');
         }
     }
 
