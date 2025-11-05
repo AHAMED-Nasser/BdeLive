@@ -306,6 +306,7 @@ class UserManager
         }
         else {
             error_log('UserManager::updateEmail - ' . $result);
+            $_SESSION['error_email'] = 'Email déjà existante';
         }
     }
 }
