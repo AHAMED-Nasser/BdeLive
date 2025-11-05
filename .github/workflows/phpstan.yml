@@ -84,15 +84,21 @@ jobs:
           php-version: '8.4'
           extensions: pdo_mysql, mbstring, xml, curl
 
-      # 3️⃣ Install Composer dependencies
+      # 3️⃣ Install MySQL client
+      - name: Install MySQL client
+        run: sudo apt-get update && sudo apt-get install -y default-mysql-client
+
+      # 4️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      # 4️⃣ Wait for MySQL service
+      # 5️⃣ Wait for MySQL service
       - name: Wait for MySQL service
         run: |
           for i in {1..30}; do
-            mysql -h 127.0.0.1 -uroot -proot -e 'SELECT 1' && break || sleep 1
+            mysql -h 127.0.0.1 -uroot -proot -e 'SELECT 1' && break
+            echo "Waiting for MySQL..."
+            sleep 1
           done
 
-      # 5️⃣ Run PHPUnit tests
+      # 6️⃣ Run PHPUnit tests
       - run: composer test
