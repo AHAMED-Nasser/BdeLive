@@ -5,23 +5,31 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Core;
 
 use PHPUnit\Framework\TestCase;
-use App\core\Database;
+use App\Core\Database;
 use PDO;
 use ReflectionClass;
 use Exception;
 use Error;
 
+/**
+ * Tests unitaires pour la classe Database (singleton de connexion PDO).
+ */
 class DatabaseTest extends TestCase
 {
+    /**
+     * Réinitialise le singleton après chaque test.
+     */
     protected function tearDown(): void
     {
-        // Réinitialiser le singleton après chaque test
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setValue(null, null);
     }
 
-    public function testGetInstanceReturnsSameInstance(): void // verifie si ile existe une seul instance Database
+    /**
+     * Vérifie que getInstance() retourne toujours la même instance.
+     */
+    public function testGetInstanceReturnsSameInstance(): void
     {
         $instance1 = Database::getInstance();
         $instance2 = Database::getInstance();
@@ -29,7 +37,10 @@ class DatabaseTest extends TestCase
         $this->assertSame($instance1, $instance2);
     }
 
-    public function testGetConnectionReturnsPDO(): void // garantit que Database renvoie bien une connexion PDO valide.
+    /**
+     * Vérifie que getConnection() retourne bien un objet PDO.
+     */
+    public function testGetConnectionReturnsPDO(): void
     {
         $database = Database::getInstance();
         $connection = $database->getConnection();
@@ -37,7 +48,10 @@ class DatabaseTest extends TestCase
         $this->assertInstanceOf(PDO::class, $connection);
     }
 
-    public function testGetConnectionReturnsSamePDOInstance(): void // garantit que la connexion PDO est unique et persistante
+    /**
+     * Vérifie que getConnection() retourne toujours la même instance PDO.
+     */
+    public function testGetConnectionReturnsSamePDOInstance(): void
     {
         $database = Database::getInstance();
         $conn1 = $database->getConnection();
@@ -46,7 +60,10 @@ class DatabaseTest extends TestCase
         $this->assertSame($conn1, $conn2);
     }
 
-    public function testCloneIsPrevented(): void //Ce test garantit qu’il est impossible de dupliquer l’instance du singleton.
+    /**
+     * Vérifie que le clonage de l'instance Database est interdit.
+     */
+    public function testCloneIsPrevented(): void
     {
         $database = Database::getInstance();
 
@@ -54,7 +71,10 @@ class DatabaseTest extends TestCase
         clone $database;
     }
 
-    public function testWakeupIsPrevented(): void // Ce test grantit qu'on ne peut pas restaurer une nouvelle instance du singleton
+    /**
+     * Vérifie que la désérialisation (wakeup) est interdite.
+     */
+    public function testWakeupIsPrevented(): void
     {
         $database = Database::getInstance();
 

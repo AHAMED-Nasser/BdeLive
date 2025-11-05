@@ -16,24 +16,18 @@ use App\Modules\Models\Pwd\PasswordReset;
  * First step in the password recovery workflow.
  *
  * @package BdeLive\Controllers
- * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @author Mohamed-Amine Boudhib, ...
  * @version 1.0.0
  */
 class ForgotPasswordController
 {
     /**
-     * Handle forgot password page requests
-     *
-     * Displays the forgot password form on GET requests, or processes
-     * the email submission on POST requests.
-     *
-     * @return void
+     * Handle forgot password page requests.
      */
     public function __construct()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->sendResetEmail();
-
             return;
         }
 
@@ -41,13 +35,7 @@ class ForgotPasswordController
     }
 
     /**
-     * Process password reset email request
-     *
-     * Validates the provided email, generates a reset token, and sends
-     * it to the user's email address. Redirects to token verification
-     * page on success.
-     *
-     * @return void
+     * Process password reset email request.
      */
     private function sendResetEmail(): void
     {
@@ -59,39 +47,33 @@ class ForgotPasswordController
         }
 
         $email = trim($_POST['email'] ?? '');
-        // Ask the user to enter their email
-        if (empty($email)) {
-            $_SESSION['error'] = 'Veuillez saisir votre adresse email';
+
+        if ($email === '') {
+            $_SESSION['error'] = 'Veuillez saisir votre adresse email.';
             header('Location: index.php?page=forgot_password');
             exit;
         }
 
         try {
-            // Get the user by email
-            require_once __DIR__ . '/../../models/pwd/PasswordReset.php';
+            // Charger le modèle
             $passwordReset = new PasswordReset();
-
             $user = $passwordReset->getUserByEmail($email);
 
-            // If the user is not found, show an error message
             if (! $user) {
-                $_SESSION['error'] = 'Aucun compte n\'est associé à cette adresse email';
+                $_SESSION['error'] = 'Aucun compte n\'est associé à cette adresse email.';
                 header('Location: index.php?page=forgot_password');
                 exit;
             }
 
-            // If the user is found, create a token
             $token = $passwordReset->createToken($user['user_id']);
 
-            // If the token is not created, show an error message
             if (! $token) {
-                $_SESSION['error'] = 'Erreur lors de la génération du code';
+                $_SESSION['error'] = 'Erreur lors de la génération du code.';
                 header('Location: index.php?page=forgot_password');
                 exit;
             }
 
-            // Send the email with PHPMailer
-            require_once __DIR__ . '/../../../config/Mailer.php';
+            // ✅ Pas besoin de require, autoload le gère via PSR-4
             $mailer = new Mailer();
 
             $emailSent = $mailer->sendPasswordResetEmail(
@@ -99,31 +81,25 @@ class ForgotPasswordController
                 $user['first_name'] . ' ' . $user['last_name'],
                 $token
             );
-            // If the email is sent (with the token in it), show a success message
+
             if ($emailSent) {
                 $_SESSION['reset_email'] = $email;
-                $_SESSION['success'] = 'Un code de vérification a été envoyé à votre adresse email';
+                $_SESSION['success'] = 'Un code de vérification a été envoyé à votre adresse email.';
                 header('Location: index.php?page=verify_token');
-                // Else, show an error message
             } else {
-                $_SESSION['error'] = 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer';
+                $_SESSION['error'] = 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer.';
                 header('Location: index.php?page=forgot_password');
             }
         } catch (Exception $e) {
-            // If another error occurs, show an error message
-            $_SESSION['error'] = 'Une erreur est survenue';
+            $_SESSION['error'] = 'Une erreur est survenue : ' . $e->getMessage();
             header('Location: index.php?page=forgot_password');
         }
+
         exit;
     }
 
     /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
+     * Load a view file.
      */
     private function loadView(string $viewName): void
     {
