@@ -1,5 +1,4 @@
 <?php
-var_dump($_SERVER['REQUEST_METHOD']);
 
 // Configuration sécurisée des cookies de session
 // Détection automatique de l'environnement
