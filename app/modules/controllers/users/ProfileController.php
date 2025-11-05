@@ -15,15 +15,15 @@ class ProfileController extends AuthenticatedController
         $action = $_GET['action'] ?? '';
         if ($action === 'processFirstName' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this -> processFirstName();
-        } else if ($action === 'processLastName' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        } elseif ($action === 'processLastName' && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this -> processLastName();
-        }
-        else {
+        } else {
             $this->render('users/profilePageView');
         }
     }
 
-    public function processFirstName() : void {
+    public function processFirstName(): void
+    {
         $userId = $_SESSION['user_id'];
         $newFirstName = $_POST['first-name'] ?? '';
 
@@ -43,7 +43,8 @@ class ProfileController extends AuthenticatedController
         exit;
     }
 
-    public function processLastName() : void {
+    public function processLastName(): void
+    {
         $userId = $_SESSION['user_id'];
         $newLastName = $_POST['last-name'] ?? '';
 

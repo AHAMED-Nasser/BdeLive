@@ -9,6 +9,12 @@ parameters:
         analyse:
             - app/vendor/*
             - app/modules/views/*
+            - app/cache/*
+            - storage/*
+            - var/*
+            - logs/*
+            # Décommentez la ligne suivante pour exclure aussi les tests de l'analyse
+            # - tests/*
 
     level: 8
 

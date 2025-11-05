@@ -19,11 +19,11 @@ class CookieConsentController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cookie_consent'])) {
             $value = $_POST['cookie_consent'] === 'accept' ? 'yes' : 'no';
-            
+
             // Secure cookie settings (same as session cookies)
             $isProduction = isset($_SERVER['HTTP_HOST']) &&
                 strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
-            
+
             setcookie(
                 $this->cookieName,
                 $value,
@@ -36,7 +36,7 @@ class CookieConsentController
                     'samesite' => 'Lax'         // CSRF protection
                 ]
             );
-            
+
             $_COOKIE[$this->cookieName] = $value;
             header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
             exit;

@@ -16,13 +16,11 @@ use Error;
  */
 class DatabaseTest extends TestCase
 {
-    /**
-     * Réinitialise le singleton après chaque test.
-     */
     protected function tearDown(): void
     {
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, null);
     }
 
@@ -46,6 +44,9 @@ class DatabaseTest extends TestCase
         $connection = $database->getConnection();
 
         $this->assertInstanceOf(PDO::class, $connection);
+        $this->assertEquals(PDO::ERRMODE_EXCEPTION, $connection->getAttribute(PDO::ATTR_ERRMODE));
+        $this->assertEquals(PDO::FETCH_ASSOC, $connection->getAttribute(PDO::ATTR_DEFAULT_FETCH_MODE));
+        $this->assertFalse($connection->getAttribute(PDO::ATTR_EMULATE_PREPARES));
     }
 
     /**

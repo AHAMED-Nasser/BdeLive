@@ -141,5 +141,41 @@ class PaginationTest extends TestCase
         $this->assertStringContainsString('p=2', $link);
         $this->assertStringContainsString('page=test', $link);
     }
+
+    public function testPaginationWithLargeItemsPerPage(): void
+    {
+        $pagination = new Pagination(100, 50, 1);
+
+        $this->assertEquals(2, $pagination->getTotalPages());
+        $this->assertEquals(0, $pagination->getOffset());
+        $this->assertEquals(50, $pagination->getLimit());
+    }
+
+    public function testPaginationWithExactMultiple(): void
+    {
+        $pagination = new Pagination(100, 10, 1);
+
+        $this->assertEquals(10, $pagination->getTotalPages());
+        $this->assertEquals(0, $pagination->getOffset());
+    }
+
+    public function testPaginationLastPageOffset(): void
+    {
+        $pagination = new Pagination(25, 10, 3);
+
+        $this->assertEquals(3, $pagination->getTotalPages());
+        $this->assertEquals(3, $pagination->getCurrentPage());
+        $this->assertEquals(20, $pagination->getOffset());
+    }
+
+    public function testGetNextAndPreviousPage(): void
+    {
+        $pagination = new Pagination(30, 10, 2);
+
+        $this->assertTrue($pagination->hasNext());
+        $this->assertTrue($pagination->hasPrevious());
+        $this->assertEquals(1, $pagination->getFirstPage());
+        $this->assertEquals(3, $pagination->getLastPage());
+    }
 }
 

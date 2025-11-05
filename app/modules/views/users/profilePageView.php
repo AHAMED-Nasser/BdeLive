@@ -1,5 +1,5 @@
 <?php
-start_page("Modification du profil", True);
+start_page("Modification du profil", true);
 ?>
 
 <div class="change-user">

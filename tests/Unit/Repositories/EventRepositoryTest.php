@@ -124,12 +124,57 @@ class EventRepositoryTest extends TestCase
             if (!empty($events)) {
                 $event = $events[0];
                 $this->assertIsArray($event);
-                // Check for expected keys (if events exist)
                 $expectedKeys = ['event_id', 'event_name', 'event_date', 'event_time', 'event_location', 'description'];
                 foreach ($expectedKeys as $key) {
                     $this->assertArrayHasKey($key, $event);
                 }
             }
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testFindPaginatedWithZeroOffset(): void
+    {
+        try {
+            $repository = new EventRepository();
+            $events = $repository->findPaginated(0, 5);
+
+            $this->assertIsArray($events);
+            $this->assertLessThanOrEqual(5, count($events));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testCountDoesNotThrowException(): void
+    {
+        try {
+            $repository = new EventRepository();
+            $count = $repository->count();
+
+            $this->assertIsInt($count);
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testFindPaginatedOrderedByDateDescending(): void
+    {
+        try {
+            $repository = new EventRepository();
+            $events = $repository->findPaginated(0, 10);
+
+            if (count($events) >= 2) {
+                for ($i = 0; $i < count($events) - 1; $i++) {
+                    $this->assertGreaterThanOrEqual(
+                        strtotime($events[$i + 1]['event_date']),
+                        strtotime($events[$i]['event_date'])
+                    );
+                }
+            }
+
+            $this->assertIsArray($events);
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }

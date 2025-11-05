@@ -60,11 +60,9 @@ class Mailer
             $mail->send();
             error_log("Email envoyé avec succès à : " . $to_email);
             return true;
-
         } catch (PHPMailerException $e) {
             error_log("Erreur PHPMailer : " . $e->getMessage());
             return false;
-
         } catch (Exception $e) {
             error_log("Erreur envoi email : " . $e->getMessage());
             return false;
