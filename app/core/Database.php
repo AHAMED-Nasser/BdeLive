@@ -8,7 +8,26 @@ use PDO;
 use PDOException;
 use Exception;
 
-require_once __DIR__ . '/../config/config.php';
+$configPath = __DIR__ . '/../config/config.php';
+if (file_exists($configPath)) {
+    require_once $configPath;
+} else {
+    if (!defined('DB_HOST')) {
+        define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
+    }
+    if (!defined('DB_NAME')) {
+        define('DB_NAME', getenv('DB_NAME') ?: 'bdelive_test');
+    }
+    if (!defined('DB_USER')) {
+        define('DB_USER', getenv('DB_USER') ?: 'root');
+    }
+    if (!defined('DB_PASSWORD')) {
+        define('DB_PASSWORD', getenv('DB_PASSWORD') ?: 'root');
+    }
+    if (!defined('DB_CHARSET')) {
+        define('DB_CHARSET', getenv('DB_CHARSET') ?: 'utf8mb4');
+    }
+}
 
 /**
  * Classe Database : singleton gérant une seule connexion PDO.
