@@ -5,132 +5,60 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Core;
 
 use PHPUnit\Framework\TestCase;
-use App\Core\Database;
+use App\core\Database;
 use PDO;
 use ReflectionClass;
-use ReflectionProperty;
+use Exception;
+use Error;
 
-/**
- * Test suite for Database singleton class
- *
- * Note: These tests require a database connection. For true unit tests,
- * consider using mocks or a test database. These are integration tests.
- *
- * @package App\Tests\Unit\Core
- */
 class DatabaseTest extends TestCase
 {
-    /**
-     * Clean up database instance after each test
-     *
-     * @return void
-     */
     protected function tearDown(): void
     {
-        // Reset singleton instance using reflection
+        // Réinitialiser le singleton après chaque test
         $reflection = new ReflectionClass(Database::class);
-        $instance = $reflection->getProperty('instance');
-        $instance->setAccessible(true);
-        $instance->setValue(null, null);
+        $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setValue(null, null);
     }
 
-    /**
-     * Test that getInstance returns the same instance (singleton pattern)
-     *
-     * @return void
-     */
-    public function testGetInstanceReturnsSameInstance(): void
+    public function testGetInstanceReturnsSameInstance(): void // verifie si ile existe une seul instance Database
     {
-        // Skip if database connection is not available
-        try {
-            $instance1 = Database::getInstance();
-            $instance2 = Database::getInstance();
+        $instance1 = Database::getInstance();
+        $instance2 = Database::getInstance();
 
-            $this->assertSame($instance1, $instance2);
-        } catch (\PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertSame($instance1, $instance2);
     }
 
-    /**
-     * Test that getConnection returns a PDO instance
-     *
-     * @return void
-     */
-    public function testGetConnectionReturnsPDO(): void
+    public function testGetConnectionReturnsPDO(): void // garantit que Database renvoie bien une connexion PDO valide.
     {
-        try {
-            $database = Database::getInstance();
-            $connection = $database->getConnection();
+        $database = Database::getInstance();
+        $connection = $database->getConnection();
 
-            $this->assertInstanceOf(PDO::class, $connection);
-        } catch (\PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertInstanceOf(PDO::class, $connection);
     }
 
-    /**
-     * Test that getConnection returns the same PDO instance
-     *
-     * @return void
-     */
-    public function testGetConnectionReturnsSamePDOInstance(): void
+    public function testGetConnectionReturnsSamePDOInstance(): void // garantit que la connexion PDO est unique et persistante
     {
-        try {
-            $database = Database::getInstance();
-            $connection1 = $database->getConnection();
-            $connection2 = $database->getConnection();
+        $database = Database::getInstance();
+        $conn1 = $database->getConnection();
+        $conn2 = $database->getConnection();
 
-            $this->assertSame($connection1, $connection2);
-        } catch (\PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertSame($conn1, $conn2);
     }
 
-    /**
-     * Test that cloning is prevented
-     *
-     * @return void
-     */
-    public function testCloneIsPrevented(): void
+    public function testCloneIsPrevented(): void //Ce test garantit qu’il est impossible de dupliquer l’instance du singleton.
     {
-        try {
-            $database = Database::getInstance();
+        $database = Database::getInstance();
 
-            $this->expectException(\Error::class);
-            clone $database;
-        } catch (\PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->expectException(Error::class);
+        clone $database;
     }
 
-    /**
-     * Test that unserialization is prevented
-     *
-     * @return void
-     */
-    public function testUnserializationIsPrevented(): void
+    public function testWakeupIsPrevented(): void // Ce test grantit qu'on ne peut pas restaurer une nouvelle instance du singleton
     {
-        try {
-            $database = Database::getInstance();
-            
-            // Try to serialize - PDO cannot be serialized, which prevents serialization
-            // This is actually good - it means the Database instance cannot be serialized
-            try {
-                $serialized = serialize($database);
-                // If serialization succeeds, try to unserialize and expect exception
-                $this->expectException(\Exception::class);
-                $this->expectExceptionMessage('Cannot unserialize singleton');
-                unserialize($serialized);
-            } catch (\Exception $e) {
-                // Serialization failed (expected - PDO cannot be serialized)
-                // This is actually the desired behavior - Database cannot be serialized
-                // Test passes because unserialization is effectively prevented
-                $this->assertTrue(true, 'Serialization prevented (PDO cannot be serialized)');
-            }
-        } catch (\PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $database = Database::getInstance();
+
+        $this->expectException(Exception::class);
+        $database->__wakeup();
     }
 }
-
