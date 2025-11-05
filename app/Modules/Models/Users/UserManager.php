@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Models\Users;
 
-use DateTime;
-use DateTimeZone;
 use PDO;
 use PDOException;
 use App\Core\Database;
@@ -18,7 +16,7 @@ use App\Core\Database;
  * This class provides a data access layer for the USERS table.
  *
  * @package BdeLive\Models
- * @author BdeLive - Group 8
+ * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
 class UserManager
@@ -38,8 +36,6 @@ class UserManager
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
-        // Assurer l'encodage UTF-8 comme spécifié dans les contraintes du cours
-        $this->pdo->exec('SET CHARACTER SET utf8');
     }
 
     /**
@@ -71,25 +67,22 @@ class UserManager
     }
 
     /**
-     * @return array{
-     * user_id: int,
-     * last_name: string,
-     * first_name: string,
-     * user_status: string,
-     * email: string,
-     * password: string,
-     * role: string,
-     * is_blocked: int|string,
-     * is_verified: int,
-     * deleted_at: string|null
-     * }|false
+     * Find a user by email address
+     *
+     * Searches for a user in the database using their email address.
+     * Returns all user information including the hashed password.
+     *
+     * @param string $email The email address to search for
+     * @return array{user_id: int, last_name: string, first_name: string, user_status: string, email: string, password: string}|false
+     * Array containing user data if found, false otherwise
+     * @throws PDOException If database query fails
      */
     public function findUserByEmail(string $email): array|false
     {
         try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, role, is_blocked, deleted_at
-                      FROM USERS
-                      WHERE email = :email
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password 
+                      FROM USERS 
+                      WHERE email = :email 
                       LIMIT 1";
 
             $stmt = $this->pdo->prepare($query);
@@ -98,6 +91,7 @@ class UserManager
             return $stmt->fetch();
         } catch (PDOException $e) {
             error_log('UserManager::findUserByEmail - ' . $e->getMessage());
+
             throw $e;
         }
     }
@@ -116,17 +110,12 @@ class UserManager
      * @return int|false The new user ID if successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function createUser(
-        string $last_name,
-        string $first_name,
-        string $user_status,
-        string $email,
-        string $password
-    ): int|false {
+    public function createUser(string $last_name, string $first_name, string $user_status, string $email, string $password): int|false
+    {
         try {
             $hashedPassword = $this->hashPassword($password);
 
-            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password)
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password) 
                       VALUES (:last_name, :first_name, :user_status, :email, :password)";
 
             $stmt = $this->pdo->prepare($query);
@@ -140,7 +129,7 @@ class UserManager
             ]);
 
             //Return the new user ID if successful, false otherwise
-            return $success ? (int) $this->pdo->lastInsertId() : false;
+            return $success ? (int)$this->pdo->lastInsertId() : false;
         } catch (PDOException $e) {
             error_log('UserManager::createUser - ' . $e->getMessage());
 
@@ -162,19 +151,14 @@ class UserManager
      * @return bool True if update successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function updateUser(
-        int $user_id,
-        string $last_name,
-        string $first_name,
-        string $user_status,
-        string $email
-    ): bool {
+    public function updateUser(int $user_id, string $last_name, string $first_name, string $user_status, string $email): bool
+    {
         try {
-            $query = "UPDATE USERS
-                      SET last_name = :last_name,
-                          first_name = :first_name,
-                          user_status = :user_status,
-                          email = :email
+            $query = "UPDATE USERS 
+                      SET last_name = :last_name, 
+                          first_name = :first_name, 
+                          user_status = :user_status, 
+                          email = :email 
                       WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
@@ -209,8 +193,8 @@ class UserManager
         try {
             $hashedPassword = $this->hashPassword($new_password);
 
-            $query = "UPDATE USERS
-                      SET password = :password
+            $query = "UPDATE USERS 
+                      SET password = :password 
                       WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
@@ -226,55 +210,6 @@ class UserManager
         }
     }
 
-
-    /**
-     * Soft delete a user (logical deletion)
-     *
-     * Marks the user as deleted by setting deleted_at to the current timestamp.
-     * The user record remains in the database. The user cannot log in until restored.
-     *
-     * @param int $user_id The ID of the user to soft delete
-     * @return bool True if update successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function softDeleteUser(int $user_id): bool
-    {
-        try {
-            $query = "UPDATE USERS SET deleted_at = NOW() WHERE user_id = :user_id";
-
-            $stmt = $this->pdo->prepare($query);
-
-            return $stmt->execute(['user_id' => $user_id]);
-        } catch (PDOException $e) {
-            error_log('UserManager::softDeleteUser - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Restore a soft-deleted user
-     *
-     * Resets deleted_at to NULL, allowing the user to log in again.
-     *
-     * @param int $user_id The ID of the user to restore
-     * @return bool True if update successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function restoreUser(int $user_id): bool
-    {
-        try {
-            $query = "UPDATE USERS SET deleted_at = NULL WHERE user_id = :user_id";
-
-            $stmt = $this->pdo->prepare($query);
-
-            return $stmt->execute(['user_id' => $user_id]);
-        } catch (PDOException $e) {
-            error_log('UserManager::restoreUser - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
 
     /**
      * Delete a user from the database
@@ -312,8 +247,8 @@ class UserManager
     public function emailExists(string $email): bool
     {
         try {
-            $query = "SELECT COUNT(*) as count
-                      FROM USERS
+            $query = "SELECT COUNT(*) as count 
+                      FROM USERS 
                       WHERE email = :email";
 
             $stmt = $this->pdo->prepare($query);
@@ -328,46 +263,27 @@ class UserManager
         }
     }
 
-    /**
-     * Update a user's first name
-     *
-     * Changes a user's first name in the database.
-     *
-     * @param int $user_id The ID of the user
-     * @param string $newFirstName The new first name
-     * @return void
-     * @throws PDOException If database query fails
-     */
     public function updateFirstName(int $user_id, string $newFirstName): void
     {
         try {
             $query = 'UPDATE USERS
-                SET first_name = :newFirstName
+                SET first_name = :newFirstName 
                 WHERE user_id = :user_id';
 
             $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
+            $result = $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
+            error_log('UserManager::updateFirstName - ' . $result);
         } catch (PDOException $e) {
             error_log('UserManager::updateFirstName - ' . $e->getMessage());
             throw $e;
         }
     }
 
-    /**
-     * Update a user's last name
-     *
-     * Changes a user's last name in the database.
-     *
-     * @param int $user_id The ID of the user
-     * @param string $newLastName The new last name
-     * @return void
-     * @throws PDOException If database query fails
-     */
     public function updateLastName(int $user_id, string $newLastName): void
     {
         try {
             $query = 'UPDATE USERS
-                SET last_name = :newLastName
+                SET last_name = :newLastName 
                 WHERE user_id = :user_id';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
@@ -377,641 +293,21 @@ class UserManager
         }
     }
 
-
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    public function getAllUsersPaginated(int $limit, int $offset, bool $isBlocked = false): array
-    {
-        try {
-            $blockedValue = $isBlocked ? 1 : 0;
-
-            $query = 'SELECT user_id, last_name, first_name, user_status, email, role, is_blocked
-                      FROM USERS
-                      WHERE is_blocked = :is_blocked
-                      ORDER BY last_name ASC
-                      LIMIT :limit OFFSET :offset';
-
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute([
-                'is_blocked' => $blockedValue,
-                'limit' => $limit,
-                'offset' => $offset
-            ]);
-
-            return $stmt->fetchAll();
-        } catch (PDOException $e) {
-            error_log('UserManager::getAllUsersPaginated - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Compte les utilisateurs pour la pagination selon is_blocked
-     */
-    public function countUsersByBlockStatus(bool $isBlocked = false): int
-    {
-        $blockedValue = $isBlocked ? 1 : 0;
-        $query = 'SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked';
+    public function updateEmail(int $user_id, String $newEmail): void {
+        $query = 'SELECT email FROM USERS WHERE email = :newEmail';
         $stmt = $this->pdo->prepare($query);
-        $stmt->execute(['is_blocked' => $blockedValue]);
-        return (int) $stmt->fetchColumn();
-    }
-
-    /**
-     * Change le rôle d'un utilisateur (ex: 'admin' ou 'user')
-     */
-    public function updateUserRole(int $userId, string $role): bool
-    {
-        $query = 'UPDATE USERS SET role = :role WHERE user_id = :id';
-        return $this->pdo->prepare($query)->execute(['role' => $role, 'id' => $userId]);
-    }
-
-    public function setBlockStatus(int $userId, int $status): bool
-    {
-        $query = 'UPDATE USERS SET is_blocked = :status WHERE user_id = :id';
-        return $this->pdo->prepare($query)->execute(['status' => $status, 'id' => $userId]);
-    }
-
-    /**
-     * Get the role of a user by their ID
-     *
-     * @param int $userId The user ID
-     * @return string The role ('user', 'admin', or 'super_admin'), defaults to 'user' if not found
-     */
-    public function getUserRoleById(int $userId): string
-    {
-        try {
-            $query = 'SELECT role FROM USERS WHERE user_id = :id LIMIT 1';
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['id' => $userId]);
-            $result = $stmt->fetch();
-            return $result ? (string) $result['role'] : 'user';
-        } catch (\PDOException $e) {
-            error_log('UserManager::getUserRoleById - ' . $e->getMessage());
-            throw $e;
+        $stmt->execute(['newEmail' => $newEmail]);
+        $result = $stmt->fetch();
+        if ($result === false) {
+            $query2 = "UPDATE USERS SET email = :newEmail WHERE user_id = :user_id";
+            $stmt2 = $this->pdo->prepare($query2);
+            $stmt2->execute(['user_id' => $user_id, 'newEmail' => $newEmail]);
+            $_SESSION['email'] = $_POST['newEmail'] ?? '';
         }
-    }
-
-    /**
-     * Get users with optional filters (unified method)
-     *
-     * Retrieves users with support for filtering by blocked status, role, and search term.
-     * Uses prepared statements with typed parameter binding for SQL injection protection.
-     *
-     * @param int $limit Number of users per page
-     * @param int $offset Offset for pagination
-     * @param bool $isBlocked Filter by blocked status (default: false = active users)
-     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
-     * @param string $search Search term (searches in first_name, last_name, email)
-     * @return array<int, array<string, mixed>> Array of user records
-     * @throws PDOException If database query fails
-     */
-    public function getUsers(
-        int $limit,
-        int $offset,
-        bool $isBlocked = false,
-        string $roleFilter = 'all',
-        string $search = ''
-    ): array {
-        try {
-            $params = [
-                'is_blocked' => $isBlocked ? 1 : 0,
-                'limit' => $limit,
-                'offset' => $offset
-            ];
-
-            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked, deleted_at
-                    FROM USERS
-                    WHERE is_blocked = :is_blocked
-                      AND deleted_at IS NULL";
-
-            // Role filter (validated by controller)
-            if ($roleFilter !== 'all') {
-                $sql .= " AND role = :role";
-                $params['role'] = $roleFilter;
-            }
-
-            // Text search (secured with prepared statement)
-            if (!empty($search)) {
-                // Use distinct parameter names for each LIKE clause
-                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
-                $searchParam = "%$search%";
-                $params['search1'] = $searchParam;
-                $params['search2'] = $searchParam;
-                $params['search3'] = $searchParam;
-            }
-
-            $sql .= " ORDER BY last_name ASC LIMIT :limit OFFSET :offset";
-
-            $stmt = $this->pdo->prepare($sql);
-
-            // Typed parameter binding (required for LIMIT/OFFSET to work correctly)
-            foreach ($params as $key => $val) {
-                $type = is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-                $stmt->bindValue(":$key", $val, $type);
-            }
-
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            error_log('UserManager::getUsers - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Count users with optional filters (unified method)
-     *
-     * Counts users matching the provided filters. Uses the same logic as getUsers()
-     * to ensure consistency between count and actual results.
-     *
-     * @param bool $isBlocked Filter by blocked status
-     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
-     * @param string $search Search term
-     * @return int Total number of users matching the filters
-     * @throws PDOException If database query fails
-     */
-    public function countUsers(
-        bool $isBlocked = false,
-        string $roleFilter = 'all',
-        string $search = ''
-    ): int {
-        try {
-            $params = ['is_blocked' => $isBlocked ? 1 : 0];
-            $sql = "SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked AND deleted_at IS NULL";
-
-            if ($roleFilter !== 'all') {
-                $sql .= " AND role = :role";
-                $params['role'] = $roleFilter;
-            }
-
-            if (!empty($search)) {
-                // Use distinct parameter names for each LIKE clause
-                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
-                $searchParam = "%$search%";
-                $params['search1'] = $searchParam;
-                $params['search2'] = $searchParam;
-                $params['search3'] = $searchParam;
-            }
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute($params);
-            return (int) $stmt->fetchColumn();
-        } catch (\PDOException $e) {
-            error_log('UserManager::countUsers - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Get deleted users with optional filters
-     *
-     * @param int $limit Number of users per page
-     * @param int $offset Offset for pagination
-     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
-     * @param string $search Search term (searches in first_name, last_name, email)
-     * @return array<int, array<string, mixed>>
-     */
-    public function getDeletedUsers(
-        int $limit,
-        int $offset,
-        string $roleFilter = 'all',
-        string $search = ''
-    ): array {
-        try {
-            $params = [
-                'limit' => $limit,
-                'offset' => $offset,
-            ];
-
-            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked, deleted_at
-                    FROM USERS
-                    WHERE deleted_at IS NOT NULL";
-
-            if ($roleFilter !== 'all') {
-                $sql .= " AND role = :role";
-                $params['role'] = $roleFilter;
-            }
-
-            if (!empty($search)) {
-                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
-                $searchParam = "%$search%";
-                $params['search1'] = $searchParam;
-                $params['search2'] = $searchParam;
-                $params['search3'] = $searchParam;
-            }
-
-            $sql .= " ORDER BY last_name ASC LIMIT :limit OFFSET :offset";
-
-            $stmt = $this->pdo->prepare($sql);
-
-            foreach ($params as $key => $val) {
-                $type = is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-                $stmt->bindValue(":$key", $val, $type);
-            }
-
-            $stmt->execute();
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            error_log('UserManager::getDeletedUsers - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Count deleted users with optional filters
-     *
-     * @param string $roleFilter
-     * @param string $search
-     * @return int
-     */
-    public function countDeletedUsers(
-        string $roleFilter = 'all',
-        string $search = ''
-    ): int {
-        try {
-            $params = [];
-            $sql = "SELECT COUNT(*) FROM USERS WHERE deleted_at IS NOT NULL";
-
-            if ($roleFilter !== 'all') {
-                $sql .= " AND role = :role";
-                $params['role'] = $roleFilter;
-            }
-
-            if (!empty($search)) {
-                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
-                $searchParam = "%$search%";
-                $params['search1'] = $searchParam;
-                $params['search2'] = $searchParam;
-                $params['search3'] = $searchParam;
-            }
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute($params);
-            return (int) $stmt->fetchColumn();
-        } catch (\PDOException $e) {
-            error_log('UserManager::countDeletedUsers - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Update a user's status
-     *
-     * Changes a user's status in the database.
-     * Valid statuses: BUT 1, BUT 2, BUT 3, Personnel Enseignant
-     * Note: BDE status cannot be set through this method for security.
-     *
-     * @param int $user_id The ID of the user
-     * @param string $newUserStatus The new user status
-     * @return void
-     * @throws PDOException If database query fails
-     */
-    public function updateUserStatus(int $user_id, string $newUserStatus): void
-    {
-        try {
-            $query = 'UPDATE USERS
-                SET user_status = :newUserStatus
-                WHERE user_id = :user_id';
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['newUserStatus' => $newUserStatus, 'user_id' => $user_id]);
-        } catch (PDOException $e) {
-            error_log('UserManager::updateUserStatus - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Generate a unique verification token
-     *
-     * Generates a cryptographically secure random token for email verification.
-     * The token is a 64-character hexadecimal string (32 bytes).
-     *
-     * @return string The generated verification token
-     */
-    public function generateVerificationToken(): string
-    {
-        return bin2hex(random_bytes(32));
-    }
-
-    /**
-     * Create a new user with verification token
-     *
-     * Inserts a new user record into the database with hashed password and verification token.
-     * The user is created with is_verified = 0 (not verified).
-     * The verification token expires 24 hours after creation and the expiration
-     * date is stored in the token_expires_at column.
-     *
-     * @param string $last_name User's last name
-     * @param string $first_name User's first name
-     * @param string $user_status User's status (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
-     * @param string $email User's email address
-     * @param string $password User's password (plain text, will be hashed)
-     * @return array{user_id: int, token: string}|false Array with user_id and token if successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function createUserWithVerification(
-        string $last_name,
-        string $first_name,
-        string $user_status,
-        string $email,
-        string $password
-    ): array|false {
-        try {
-            $hashedPassword = $this->hashPassword($password);
-            $verificationToken = $this->generateVerificationToken();
-            // Token expires 24 hours after creation
-            $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
-            $now->modify('+24 hours');
-            $tokenExpiresAt = $now->format('Y-m-d H:i:s');
-
-            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified, token_expires_at)
-                      VALUES (:last_name, :first_name, :user_status, :email, :password, :verification_token, 0, :token_expires_at)";
-
-            $stmt = $this->pdo->prepare($query);
-            $success = $stmt->execute([
-                'last_name' => $last_name,
-                'first_name' => $first_name,
-                'user_status' => $user_status,
-                'email' => $email,
-                'password' => $hashedPassword,
-                'verification_token' => $verificationToken,
-                'token_expires_at' => $tokenExpiresAt,
-            ]);
-
-            if ($success) {
-                return [
-                    'user_id' => (int) $this->pdo->lastInsertId(),
-                    'token' => $verificationToken,
-                ];
-            }
-
-            return false;
-        } catch (PDOException $e) {
-            error_log('UserManager::createUserWithVerification - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Verify email token and activate account
-     *
-     * Verifies the token and sets is_verified to 1 for the user.
-     * Checks if the token has expired (24 hours). If expired, deletes the user
-     * and returns an "expired" message. The token is cleared after successful
-     * verification and the expiration date is reset to NULL.
-     *
-     * @param string $token The verification token
-     * @return array{success: bool, user_id: int}|array{success: bool, message: string}
-     *         Array with success status and user_id or error message
-     * @throws PDOException If database query fails
-     */
-    public function verifyEmailToken(string $token): array
-    {
-        try {
-            // Find user by verification token
-            $query = "SELECT user_id, is_verified, token_expires_at FROM USERS
-                      WHERE verification_token = :token
-                      LIMIT 1";
-
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['token' => $token]);
-            $user = $stmt->fetch();
-
-            if (!$user) {
-                return [
-                    'success' => false,
-                    'message' => 'Token de vérification invalide',
-                ];
-            }
-
-            // Check if email is already verified
-            if ((int) $user['is_verified'] === 1) {
-                return [
-                    'success' => false,
-                    'message' => 'Cet email a déjà été vérifié',
-                ];
-            }
-
-            // Validate token expiration if present
-            if ($user['token_expires_at'] !== null) {
-                $expirationDate = new DateTime($user['token_expires_at'], new DateTimeZone('Europe/Paris'));
-                $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
-
-                if ($now > $expirationDate) {
-                    // Token expired: delete the user so they can register again
-                    $this->deleteUser((int) $user['user_id']);
-
-                    return [
-                        'success' => false,
-                        'message' => 'expired',
-                    ];
-                }
-            }
-
-            // Activate account and clear token and expiration date
-            $updateQuery = "UPDATE USERS
-                           SET is_verified = 1, verification_token = NULL, token_expires_at = NULL
-                           WHERE user_id = :user_id";
-
-            $updateStmt = $this->pdo->prepare($updateQuery);
-            $updateSuccess = $updateStmt->execute(['user_id' => $user['user_id']]);
-
-            if ($updateSuccess) {
-                return [
-                    'success' => true,
-                    'user_id' => (int) $user['user_id'],
-                ];
-            }
-
-            return [
-                'success' => false,
-                'message' => 'Erreur lors de la vérification',
-            ];
-        } catch (PDOException $e) {
-            error_log('UserManager::verifyEmailToken - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Check if user's email is verified
-     *
-     * @param int $user_id The ID of the user
-     * @return bool True if email is verified, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function isEmailVerified(int $user_id): bool
-    {
-        try {
-            $query = "SELECT is_verified FROM USERS WHERE user_id = :user_id LIMIT 1";
-
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['user_id' => $user_id]);
-            $result = $stmt->fetch();
-
-            return $result && (int) $result['is_verified'] === 1;
-        } catch (PDOException $e) {
-            error_log('UserManager::isEmailVerified - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Resend verification token
-     *
-     * Generates a new verification token for the user and returns it.
-     * Updates the token expiration date to 24 hours from now.
-     * Does not send the email (that's handled by the controller).
-     *
-     * @param int $user_id The ID of the user
-     * @return string|false The new verification token if successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function resendVerificationToken(int $user_id): string|false
-    {
-        try {
-            $newToken = $this->generateVerificationToken();
-            // Token expires 24 hours after resend
-            $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
-            $now->modify('+24 hours');
-            $tokenExpiresAt = $now->format('Y-m-d H:i:s');
-
-            $query = "UPDATE USERS
-                     SET verification_token = :token, is_verified = 0, token_expires_at = :token_expires_at
-                     WHERE user_id = :user_id";
-
-            $stmt = $this->pdo->prepare($query);
-            $success = $stmt->execute([
-                'token' => $newToken,
-                'user_id' => $user_id,
-                'token_expires_at' => $tokenExpiresAt,
-            ]);
-
-            return $success ? $newToken : false;
-        } catch (PDOException $e) {
-            error_log('UserManager::resendVerificationToken - ' . $e->getMessage());
-
-            throw $e;
-        }
-    }
-
-    /**
-     * Update a user's email address
-     *
-     * Changes a user's email address in the database.
-     *
-     * @param int $user_id The ID of the user
-     * @param string $newEmail The new email address
-     * @return bool True if update successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function updateEmail(int $user_id, string $newEmail): bool
-    {
-        try {
-            $query = "UPDATE USERS SET email = :email WHERE user_id = :user_id";
-            $stmt = $this->pdo->prepare($query);
-
-            return $stmt->execute([
-                'email' => $newEmail,
-                'user_id' => $user_id
-            ]);
-        } catch (PDOException $e) {
-            error_log('UserManager::updateEmail - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Get user by ID
-     *
-     * Retrieves user information by user ID.
-     *
-     * @param int $user_id The user ID
-     * @return array<string, mixed>|false User data if found, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function getUserById(int $user_id): array|false
-    {
-        try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, deleted_at
-                      FROM USERS
-                      WHERE user_id = :user_id
-                      LIMIT 1";
-
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute(['user_id' => $user_id]);
-
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            error_log('UserManager::getUserById - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Retrieve users whose soft-delete grace period has expired
-     *
-     * Returns users where deleted_at is older than the specified number of days,
-     * meaning their 30-day grace period is over and they are eligible for cleanup.
-     *
-     * @param int $days Number of days for the grace period (default: 30)
-     * @return array<int, array<string, mixed>> List of expired deleted users
-     * @throws PDOException If database query fails
-     */
-    public function getExpiredDeletedUsers(int $days = 30): array
-    {
-        try {
-            $sql = "SELECT user_id, email, first_name, last_name, deleted_at
-                    FROM USERS
-                    WHERE deleted_at IS NOT NULL
-                      AND deleted_at <= NOW() - INTERVAL :days DAY";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':days', $days, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-        } catch (PDOException $e) {
-            error_log('UserManager::getExpiredDeletedUsers - ' . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    /**
-     * Anonymize a user record while preserving it for statistical purposes
-     *
-     * Replaces personally identifiable information (email, first name, last name,
-     * password) with placeholder values. The record is kept to maintain referential
-     * integrity and allow statistics to remain accurate.
-     *
-     * @param int $userId The ID of the user to anonymize
-     * @return bool True if the update was successful, false otherwise
-     * @throws PDOException If database query fails
-     */
-    public function anonymizeUser(int $userId): bool
-    {
-        try {
-            $sql = "UPDATE USERS
-                    SET email              = CONCAT('deleted_', user_id, '@anonymous.local'),
-                        first_name         = 'deleted_user',
-                        last_name          = 'anonymous',
-                        password           = :placeholder,
-                        verification_token = NULL
-                    WHERE user_id = :user_id";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':placeholder', password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT));
-            $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
-
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log('UserManager::anonymizeUser - ' . $e->getMessage());
-            throw $e;
+        else {
+            error_log('UserManager::updateEmail - ' . $result);
         }
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\UserManager', 'UserManager');
