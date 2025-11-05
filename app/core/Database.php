@@ -1,25 +1,20 @@
 <?php
+
 declare(strict_types=1);
 
-
-namespace App\core;
-
-require_once __DIR__ . '/../config/config.php';
+namespace App\Core;
 
 use PDO;
 use PDOException;
 use Exception;
-$host = DB_HOST;
-$dbname = DB_NAME;
-$user = DB_USER;
-$pass = DB_PASSWORD;
+
+require_once __DIR__ . '/../config/config.php';
 
 /**
  * Classe Database : singleton gérant une seule connexion PDO.
  */
 class Database
 {
-
     private static ?Database $instance = null;
     private PDO $pdo;
 
@@ -37,10 +32,11 @@ class Database
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES   => false,
             ];
+
             $this->pdo = new PDO($dsn, DB_USER, DB_PASSWORD, $options);
         } catch (PDOException $e) {
             error_log('Database connection error: ' . $e->getMessage());
-            throw new PDOException('Unable to connect to database', (int)$e->getCode(), $e);
+            throw new PDOException('Unable to connect to database', (int) $e->getCode(), $e);
         }
     }
 
@@ -52,6 +48,7 @@ class Database
         if (self::$instance === null) {
             self::$instance = new self();
         }
+
         return self::$instance;
     }
 
@@ -70,7 +67,7 @@ class Database
      */
     private function __clone(): void
     {
-        throw new \Error("Cloning of Database is not allowed");
+        throw new \Error('Cloning of Database is not allowed');
     }
 
     /**
@@ -80,6 +77,6 @@ class Database
      */
     public function __wakeup(): void
     {
-        throw new Exception("Cannot unserialize singleton");
+        throw new Exception('Cannot unserialize singleton');
     }
 }
