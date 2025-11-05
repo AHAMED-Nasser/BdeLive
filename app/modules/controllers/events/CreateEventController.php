@@ -59,7 +59,7 @@
             /*
              * Insert event in database
              */
-            $creationModel = new EventCreationModel();
+            $creationModel = new EventManager();
             $event = $creationModel -> insertEvent(
                 $eventName,
                 $eventDateTime->format('Y-m-d'),

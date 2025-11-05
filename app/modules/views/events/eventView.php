@@ -55,7 +55,7 @@ $defaultImages = [
 
                 <?php
                 // Prepare images for carousel
-                $eventImages = (new EventCreationModel())->getEventImages($event['event_id']);
+                $eventImages = (new EventManager())->getEventImages($event['event_id']);
 
                 // else, use default images
                 if (empty($eventImages)) {
