@@ -52,7 +52,7 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            $model = new EventCreationModel();
+            $model = new EventManager();
             $success = $model->deleteEvent($eventId);
 
             if ($success) {

@@ -1,10 +1,8 @@
 <?php
+var_dump($_SERVER['REQUEST_METHOD']);
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Secure session cookies configuration
-// Automatic environment detection
+// Configuration sécurisée des cookies de session
+// Détection automatique de l'environnement
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
 
@@ -26,9 +24,15 @@ header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 
-// Composer autoload (PSR-4) - Optional, falls back to custom autoloader if not available
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    require_once __DIR__ . '/../vendor/autoload.php';
-}
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
+//// Composer autoload (PSR-4) - Optional, falls back to custom autoloader if not available
+//if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+//    require_once __DIR__ . '/../vendor/autoload.php';
+//}
+
+require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/rooter.php';
+require_once __DIR__ . '/modules/views/shared/include.inc.php';

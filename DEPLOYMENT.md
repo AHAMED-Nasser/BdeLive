@@ -49,9 +49,9 @@ define('DB_USER', 'votre_utilisateur');
 define('DB_PASSWORD', 'votre_mot_de_passe');
 define('DB_CHARSET', 'utf8mb4');
 
-// Configuration admin
-define('ADMIN_EMAIL', 'admin@admin.iut');
-define('ADMIN_PWD', 'admin');
+// Configuration events
+define('ADMIN_EMAIL', 'events@events.iut');
+define('ADMIN_PWD', 'events');
 ```
 
 2. Importer le schéma de base de données :

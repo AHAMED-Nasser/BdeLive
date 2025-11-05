@@ -23,14 +23,14 @@ function requireLogin(): void
 }
 
 /**
- * Require admin privileges
+ * Require events privileges
  *
  * Checks if a user session is active, if the user is logged in, and if the user
- * has admin status ('BDE'). Redirects to login page if not authenticated, or
- * returns 403 Forbidden if authenticated but not admin.
+ * has events status ('BDE'). Redirects to login page if not authenticated, or
+ * returns 403 Forbidden if authenticated but not events.
  *
  * @return void
- * @throws void Exits execution if user is not authenticated or not admin
+ * @throws void Exits execution if user is not authenticated or not events
  */
 function requireAdmin(): void
 {

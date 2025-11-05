@@ -26,7 +26,7 @@ spl_autoload_register(function ($className) {
     $searchPaths = [
         // Models
         __DIR__ . '/../modules/models/' . $className . '.php',
-        __DIR__ . '/../modules/models/admin/' . $className . '.php',
+        __DIR__ . '/../modules/models/events/' . $className . '.php',
         __DIR__ . '/../modules/models/users/' . $className . '.php',
         __DIR__ . '/../modules/models/pwd/' . $className . '.php',
         __DIR__ . '/../modules/models/public/' . $className . '.php',
@@ -47,7 +47,10 @@ spl_autoload_register(function ($className) {
 
         // Core
         __DIR__ . '/../core/' . $className . '.php',
-        __DIR__ . '/../config/' . $className . '.php'
+        __DIR__ . '/../config/' . $className . '.php',
+
+        // services
+        __DIR__ . '/../services/' . $className . '.php'
     ];
 
     foreach ($searchPaths as $path) {

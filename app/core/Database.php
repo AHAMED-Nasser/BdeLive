@@ -113,5 +113,3 @@ class Database
         throw new Exception("Cannot unserialize singleton");
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\Database', 'Database');

@@ -4,7 +4,8 @@
  * @var Pagination $pagination L'objet pagination (passé par EventController)
  */
 
-require_once __DIR__ . '/../shared/include.inc.php';
+use App\Modules\Models\Events\EventManager;
+
 start_page('Liste des Événements');
 
 // Les variables $events et $pagination sont définies par EventController
@@ -52,9 +53,19 @@ $userId = $_SESSION['user_id'] ?? null;
                         <?= htmlspecialchars($event['description']) ?>
                     </p>
                 <?php endif; ?>
+
+                <?php
+                // Prepare images for carousel
+                $eventImages = (new EventManager())->getEventImages($event['event_id']);
+
+                // else, use default images
+                if (empty($eventImages)) {
+                    $eventImages = $defaultImages;
+                }
+                ?>
                 
                 <!-- Carousel pour chaque événement -->
-                <?php useCarousel($event['event_name'], $defaultImages, 'carousel-event-' . $event['event_id']) ?>
+                <?php useCarousel($eventImages, 'carousel-event-' . $event['event_id']) ?>
                 
                 <!-- Boutons d'inscription (utilisateurs connectés) -->
                 <?php if ($userId) : ?>
