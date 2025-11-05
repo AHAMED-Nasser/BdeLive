@@ -53,6 +53,27 @@ jobs:
     name: PHPUnit Tests
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: bdelive_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    env:
+      DB_HOST: '127.0.0.1'
+      DB_NAME: 'bdelive_test'
+      DB_USER: 'root'
+      DB_PASSWORD: 'root'
+      DB_CHARSET: 'utf8mb4'
+
     steps:
       # 1️⃣ Checkout code
       - uses: actions/checkout@v4
@@ -66,5 +87,12 @@ jobs:
       # 3️⃣ Install Composer dependencies
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      # 4️⃣ Run PHPUnit tests
+      # 4️⃣ Wait for MySQL service
+      - name: Wait for MySQL service
+        run: |
+          for i in {1..30}; do
+            mysql -h 127.0.0.1 -uroot -proot -e 'SELECT 1' && break || sleep 1
+          done
+
+      # 5️⃣ Run PHPUnit tests
       - run: composer test
