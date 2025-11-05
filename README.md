@@ -272,6 +272,10 @@ Static analysis is performed using PHPStan at level 8:
 ```bash
 composer phpstan
 ```
+Static Code Analysis with PHPStan :
+
+```bash
+vendor/bin/phpstan analyse --level 8 app
 
 ### PHP CodeSniffer
 
