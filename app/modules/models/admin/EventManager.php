@@ -1,6 +1,6 @@
 <?php
 
-class EventCreationModel {
+class EventManager {
     private PDO $pdo;
 
     public function __construct() {
@@ -34,7 +34,7 @@ class EventCreationModel {
                 ':images' => $imagesJson
             ]);
         } catch (PDOException $e) {
-            error_log('EventCreationModel::insertEvent - ' . $e->getMessage());
+            error_log('EventManager::insertEvent - ' . $e->getMessage());
             header('Location: index.php?page=createEvent');
             exit();
         }
@@ -77,7 +77,7 @@ class EventCreationModel {
             }
             return [];
         } catch (PDOException $e) {
-            error_log('EventCreationModel::getEventImages - ' . $e->getMessage());
+            error_log('EventManager::getEventImages - ' . $e->getMessage());
             return [];
         }
     }
@@ -108,7 +108,7 @@ class EventCreationModel {
             return $success; // return true if deletion successful, false otherwise
 
         } catch (PDOException $e) {
-            error_log('EventCreationModel::deleteEvent - ' . $e->getMessage());
+            error_log('EventManager::deleteEvent - ' . $e->getMessage());
             return false;
         }
     }
