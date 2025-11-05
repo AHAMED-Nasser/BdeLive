@@ -105,73 +105,97 @@ class UserManagerTest extends TestCase
     {
         try {
             $userManager = new UserManager();
-            // This test requires a database connection
-            // Skip if DB is not available
             $this->assertTrue(method_exists($userManager, 'emailExists'));
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Test that emailExists returns false for non-existing email
-     *
-     * @return void
-     */
     public function testEmailExistsReturnsFalseForNonExistingEmail(): void
     {
         try {
             $userManager = new UserManager();
-            // This test requires a database connection
             $this->assertTrue(method_exists($userManager, 'emailExists'));
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Test that findUserByEmail returns user data for existing email
-     *
-     * @return void
-     */
     public function testFindUserByEmailReturnsUserDataForExistingEmail(): void
     {
         try {
             $userManager = new UserManager();
-            // This test requires a database connection
             $this->assertTrue(method_exists($userManager, 'findUserByEmail'));
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Test that findUserByEmail returns false for non-existing email
-     *
-     * @return void
-     */
     public function testFindUserByEmailReturnsFalseForNonExistingEmail(): void
     {
         try {
             $userManager = new UserManager();
-            // This test requires a database connection
             $this->assertTrue(method_exists($userManager, 'findUserByEmail'));
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Test that createUser creates a new user
-     *
-     * @return void
-     */
     public function testCreateUserCreatesNewUser(): void
     {
         try {
             $userManager = new UserManager();
-            // This test requires a database connection
             $this->assertTrue(method_exists($userManager, 'createUser'));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testUpdateUserMethodExists(): void
+    {
+        try {
+            $userManager = new UserManager();
+            $this->assertTrue(method_exists($userManager, 'updateUser'));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testUpdatePasswordMethodExists(): void
+    {
+        try {
+            $userManager = new UserManager();
+            $this->assertTrue(method_exists($userManager, 'updatePassword'));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testDeleteUserMethodExists(): void
+    {
+        try {
+            $userManager = new UserManager();
+            $this->assertTrue(method_exists($userManager, 'deleteUser'));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testUpdateFirstNameMethodExists(): void
+    {
+        try {
+            $userManager = new UserManager();
+            $this->assertTrue(method_exists($userManager, 'updateFirstName'));
+        } catch (PDOException $e) {
+            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        }
+    }
+
+    public function testUpdateLastNameMethodExists(): void
+    {
+        try {
+            $userManager = new UserManager();
+            $this->assertTrue(method_exists($userManager, 'updateLastName'));
         } catch (PDOException $e) {
             $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
         }

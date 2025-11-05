@@ -95,6 +95,24 @@ class CsrfFunctionsTest extends TestCase
         $this->assertFalse($isValid);
     }
 
+    public function testValidateCsrfTokenRejectsEmptyToken(): void
+    {
+        generateCsrfToken();
+        $isValid = validateCsrfToken('');
+
+        $this->assertFalse($isValid);
+    }
+
+    public function testValidateCsrfTokenRejectsExpiredToken(): void
+    {
+        $token = generateCsrfToken();
+        $_SESSION['csrf_token_time'] = time() - 3601;
+
+        $isValid = validateCsrfToken($token);
+
+        $this->assertFalse($isValid);
+    }
+
     /**
      * Test that validateCsrfToken returns false when no token exists
      *

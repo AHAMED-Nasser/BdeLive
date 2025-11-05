@@ -48,3 +48,15 @@ composer.phar
 # Config files with sensitive data
 app/config/config.php
 .idea/php.xml
+
+# Local config overrides
+app/config/*.local.php
+
+# Builds
+/dist/
+/build/
+
+# App caches & storage
+/app/cache/
+/storage/
+/var/
