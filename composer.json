@@ -3,7 +3,8 @@
   "description": "BDE Live PHP project",
   "type": "project",
   "require": {
-    "php": "^8.2"
+    "php": "^8.2",
+    "phpmailer/phpmailer": "^7.0"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.11",
