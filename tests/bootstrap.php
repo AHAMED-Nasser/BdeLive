@@ -29,6 +29,17 @@ if (file_exists($configPath)) {
     }
 }
 
+// Load Cloudinary configuration for tests
+$cloudinaryConfigPath = __DIR__ . '/../app/config/cloudinary.php';
+if (file_exists($cloudinaryConfigPath)) {
+    try {
+        require_once $cloudinaryConfigPath;
+    } catch (\Throwable $e) {
+        // Cloudinary config exists but may have errors, tests will be skipped
+        error_log('Warning: Cloudinary config could not be loaded: ' . $e->getMessage());
+    }
+}
+
 // Define database constants if not already defined (for tests)
 // This allows using environment variables or test database if config.php doesn't define them
 if (!defined('DB_HOST')) {
