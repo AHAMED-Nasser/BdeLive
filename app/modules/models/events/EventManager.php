@@ -23,7 +23,7 @@ class EventManager {
                                 string $statusParticipating,
                                 string $description,
                                 ?array $images = null
-    ) {
+    ): bool {
         try {
             $imagesJson = !empty($images) ? json_encode($images) : null; // Convert images array to JSON or set to null
 
