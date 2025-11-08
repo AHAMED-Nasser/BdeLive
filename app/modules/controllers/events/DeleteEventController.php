@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\EventCreationModel;
+use App\Modules\Models\Events\EventManager;
 use Exception;
 
 /**

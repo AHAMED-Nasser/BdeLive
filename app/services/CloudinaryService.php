@@ -2,14 +2,17 @@
 
 // official Cloudinary SDK classes
 use Cloudinary\Api\Upload\UploadApi; // Permit to upload or delete images
-use Cloudinary\Api\Admin\AdminApi; // Permit to administrate the Cloudinary space
+use Cloudinary\Api\Admin\AdminApi;
+
+// Permit to administrate the Cloudinary space
 
 class CloudinaryService
 {
     private UploadApi $uploadApi;
     private AdminApi $adminApi;
 
-    public function __construct() {
+    public function __construct()
+    {
         // Load the Composer autoloader IF not already loaded
         if (!class_exists('Cloudinary\Configuration\Configuration')) {
             $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
@@ -33,10 +36,11 @@ class CloudinaryService
     /**
      * Upload an image to Cloudinary with UNSIGNED upload
      */
-    public function uploadImage(array $file, string $folder = 'events'): ?array {
+    public function uploadImage(array $file, string $folder = 'events'): ?array
+    {
         try {
-            // file validation (type, size, etc)
-            if (!$this->validateImageFile($file)){
+            // file validation (type, size, etc.)
+            if (!$this->validateImageFile($file)) {
                 error_log('CloudinaryService::uploadImage - Validation failed for file: ' . ($file['name'] ?? 'unknown'));
                 return null;
             }
@@ -84,7 +88,8 @@ class CloudinaryService
     /**
      * Upload multiple images
      */
-    public function uploadMultipleImages(array $files, string $folder = 'events'): array {
+    public function uploadMultipleImages(array $files, string $folder = 'events'): array
+    {
         $uploadedImages = []; // uploaded image empty array by default
 
         error_log('CloudinaryService::uploadMultipleImages - Starting upload of ' . count($files['name']) . ' files');
@@ -125,7 +130,8 @@ class CloudinaryService
     /**
      * Delete an image of Cloudinary
      */
-    public function deleteImage(string $publicId): bool {
+    public function deleteImage(string $publicId): bool
+    {
         try {
             $this->uploadApi->destroy($publicId);
             error_log('CloudinaryService::deleteImage - SUCCESS: ' . $publicId);
@@ -139,7 +145,8 @@ class CloudinaryService
     /**
      * Delete multiple images
      */
-    public function deleteMultipleImages(array $publicIds): bool {
+    public function deleteMultipleImages(array $publicIds): bool
+    {
         try {
             foreach ($publicIds as $publicId) {
                 $this->deleteImage($publicId);
@@ -154,7 +161,8 @@ class CloudinaryService
     /**
      * Valid an image file
      */
-    private function validateImageFile(array $file): bool {
+    private function validateImageFile(array $file): bool
+    {
         // Verify upload errors
         if ($file['error'] !== UPLOAD_ERR_OK) {
             error_log('CloudinaryService::validateImageFile - Upload error code: ' . $file['error'] . ' - ' . $this->getUploadErrorMessage($file['error']));
@@ -203,7 +211,8 @@ class CloudinaryService
     /**
      * Get human-readable upload error message
      */
-    private function getUploadErrorMessage(int $errorCode): string {
+    private function getUploadErrorMessage(int $errorCode): string
+    {
         $errors = [
             UPLOAD_ERR_OK => 'No error',
             UPLOAD_ERR_INI_SIZE => 'File exceeds upload_max_filesize in php.ini',
@@ -222,7 +231,8 @@ class CloudinaryService
      * Generate an URL with transformation
      * This method can be used to generate thumbnails on the fly later...
      */
-    public function getTransformedURL(string $url, array $transformations = []): string {
+    public function getTransformedURL(string $url, array $transformations = []): string
+    {
         // This method can be used for generate miniatures on the fly
         // For exemple: ['width' => 400, 'height' => 300, 'crop' => 'fill']
         return $url; // Simplifed for the exemple
