@@ -15,7 +15,7 @@ use App\Modules\Controllers\DefaultController;
  * @package BdeLive\Controllers\Cookie
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see DefaultController For base functionality
  */
 class CookieConsentController extends DefaultController
@@ -26,7 +26,7 @@ class CookieConsentController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->handlePost();
         $this->renderCookiePopup();
     }

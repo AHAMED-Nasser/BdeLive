@@ -22,10 +22,10 @@ namespace App\Modules\Controllers;
  * @package App\Modules\Controllers
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see BaseController For available methods and properties
  * @see AdminController For admin-only pages
- * 
+ *
  * @throws \App\Core\Exception\AuthenticationException If user is not logged in
  */
 abstract class AuthenticatedController extends BaseController

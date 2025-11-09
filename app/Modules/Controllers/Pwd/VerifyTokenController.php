@@ -32,7 +32,7 @@ class VerifyTokenController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         if (!$this->session->has('reset_email')) {
             $this->redirect('index.php?page=forgot_password');
         }

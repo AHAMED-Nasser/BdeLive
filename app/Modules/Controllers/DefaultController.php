@@ -21,7 +21,7 @@ namespace App\Modules\Controllers;
  * @package App\Modules\Controllers
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see BaseController For available methods and properties
  */
 abstract class DefaultController extends BaseController

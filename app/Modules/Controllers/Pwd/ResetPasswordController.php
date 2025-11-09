@@ -33,7 +33,7 @@ class ResetPasswordController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         if (!$this->session->has('reset_token') || !$this->session->has('reset_user_id')) {
             $this->redirect('index.php?page=forgot_password');
         }
@@ -66,7 +66,7 @@ class ResetPasswordController extends DefaultController
 
         $password = (string) $this->request->post('password', '');
         $confirm_password = (string) $this->request->post('confirm_password', '');
-        
+
         // Show an error message if the password or the confirm password is empty
         if (empty($password) || empty($confirm_password)) {
             $this->setError('Veuillez remplir tous les champs');

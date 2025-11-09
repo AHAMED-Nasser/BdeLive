@@ -53,28 +53,24 @@ require_once __DIR__ . '/include/legacy_helpers.php';
 try {
     // Charger et exécuter le routeur
     require_once __DIR__ . '/rooter.php';
-    
 } catch (AuthenticationException $e) {
     // Utilisateur non authentifié → rediriger vers login
     $app->session()->flash('error', $e->getMessage());
     $app->response()->redirect('index.php?page=login');
-    
 } catch (AuthorizationException $e) {
     // Utilisateur n'a pas les permissions → 403 + redirection home
     $app->session()->flash('error', $e->getMessage());
     $app->response()->setStatusCode(403)->redirect('index.php?page=home');
-    
 } catch (CsrfException $e) {
     // Token CSRF invalide → rediriger avec erreur
     $app->session()->flash('error', $e->getMessage());
     $referer = $app->request()->server('HTTP_REFERER', 'index.php?page=home');
     $app->response()->redirect($referer);
-    
 } catch (\Exception $e) {
     // Erreur serveur générique → afficher page d'erreur
     http_response_code(500);
     error_log('Application Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
-    
+
     if ($isProduction) {
         echo '<h1>Erreur serveur</h1><p>Une erreur est survenue. Veuillez réessayer ultérieurement.</p>';
     } else {

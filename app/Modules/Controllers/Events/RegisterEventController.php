@@ -23,7 +23,7 @@ use App\Modules\Repositories\EventRegistrationRepository;
  * @package BdeLive\Controllers\Events
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see AuthenticatedController For authentication requirements
  * @see EventRegistrationRepository For database operations
  */
@@ -83,7 +83,7 @@ class RegisterEventController extends AuthenticatedController
             $this->redirectWithMessage('Utilisateur non authentifié', false);
             return;
         }
-        
+
         $userId = $user['user_id'];
 
         if ($this->repo->isUserRegistered($eventId, $userId)) {
@@ -110,7 +110,7 @@ class RegisterEventController extends AuthenticatedController
             $this->redirectWithMessage('Utilisateur non authentifié', false);
             return;
         }
-        
+
         $userId = $user['user_id'];
 
         if (!$this->repo->isUserRegistered($eventId, $userId)) {

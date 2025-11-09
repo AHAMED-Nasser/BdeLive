@@ -25,9 +25,9 @@ class SessionManager
 
     /**
      * Start the PHP session
-     * 
+     *
      * Safe to call multiple times - checks if session is already active.
-     * 
+     *
      * @return void
      */
     public function start(): void
@@ -42,7 +42,7 @@ class SessionManager
 
     /**
      * Check if the session is started
-     * 
+     *
      * @return bool True if session is active
      */
     public function isStarted(): bool
@@ -52,7 +52,7 @@ class SessionManager
 
     /**
      * Get a session value
-     * 
+     *
      * @param string $key Session key
      * @param mixed $default Default value if key doesn't exist
      * @return mixed The session value or default
@@ -65,7 +65,7 @@ class SessionManager
 
     /**
      * Set a session value
-     * 
+     *
      * @param string $key Session key
      * @param mixed $value Value to store
      * @return void
@@ -78,7 +78,7 @@ class SessionManager
 
     /**
      * Check if a session key exists
-     * 
+     *
      * @param string $key Session key to check
      * @return bool True if key exists
      */
@@ -90,7 +90,7 @@ class SessionManager
 
     /**
      * Remove a session value
-     * 
+     *
      * @param string $key Session key to remove
      * @return void
      */
@@ -102,9 +102,9 @@ class SessionManager
 
     /**
      * Clear all session data
-     * 
+     *
      * Removes all session variables but keeps the session active.
-     * 
+     *
      * @return void
      */
     public function clear(): void
@@ -115,10 +115,10 @@ class SessionManager
 
     /**
      * Destroy the session completely
-     * 
+     *
      * Clears all data, deletes session cookie, and destroys the session.
      * Use this for logout operations.
-     * 
+     *
      * @return void
      */
     public function destroy(): void
@@ -137,10 +137,10 @@ class SessionManager
 
     /**
      * Set a flash message (available only once)
-     * 
+     *
      * Flash messages are automatically deleted after being read once.
      * Useful for success/error messages after redirects.
-     * 
+     *
      * @param string $key Message type (success, error, warning, info)
      * @param mixed $value Message content
      * @return void
@@ -152,10 +152,10 @@ class SessionManager
 
     /**
      * Get and consume a flash message
-     * 
+     *
      * Retrieves the flash message and immediately deletes it.
      * Subsequent calls return null.
-     * 
+     *
      * @param string $key Message type
      * @param mixed $default Default value if flash doesn't exist
      * @return mixed The flash message or default
@@ -170,7 +170,7 @@ class SessionManager
 
     /**
      * Check if a flash message exists
-     * 
+     *
      * @param string $key Message type to check
      * @return bool True if flash message exists
      */
@@ -181,9 +181,9 @@ class SessionManager
 
     /**
      * Regenerate the session ID (security measure)
-     * 
+     *
      * Should be called after login to prevent session fixation attacks.
-     * 
+     *
      * @param bool $deleteOldSession Whether to delete the old session file
      * @return void
      */
@@ -195,7 +195,7 @@ class SessionManager
 
     /**
      * Get the current session ID
-     * 
+     *
      * @return string The session identifier
      */
     public function getId(): string
@@ -207,9 +207,9 @@ class SessionManager
 
     /**
      * Ensure the session is started
-     * 
+     *
      * Internal helper that automatically starts the session if needed.
-     * 
+     *
      * @return void
      */
     private function ensureStarted(): void

@@ -23,10 +23,10 @@ namespace App\Modules\Controllers;
  * @package App\Modules\Controllers
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see BaseController For available methods and properties
  * @see AuthenticatedController For non-admin authenticated pages
- * 
+ *
  * @throws \App\Core\Exception\AuthenticationException If user is not logged in
  * @throws \App\Core\Exception\AuthorizationException If user is not an administrator
  */

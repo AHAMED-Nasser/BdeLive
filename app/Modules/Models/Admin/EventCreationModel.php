@@ -18,7 +18,7 @@ use App\Core\Database;
  * @package BdeLive\Models\Admin
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see EventRepository For event retrieval operations
  */
 class EventCreationModel

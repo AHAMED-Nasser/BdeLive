@@ -15,7 +15,7 @@ use App\Modules\Controllers\DefaultController;
  * @package BdeLive\Controllers\Public
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see DefaultController For base functionality
  */
 class TeamController extends DefaultController

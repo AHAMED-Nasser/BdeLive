@@ -111,7 +111,7 @@ abstract class BaseController
 
     /**
      * Set an error flash message
-     * 
+     *
      * @param string $message Error message
      * @return void
      */
@@ -122,7 +122,7 @@ abstract class BaseController
 
     /**
      * Set a success flash message
-     * 
+     *
      * @param string $message Success message
      * @return void
      */
@@ -133,7 +133,7 @@ abstract class BaseController
 
     /**
      * Set a warning flash message
-     * 
+     *
      * @param string $message Warning message
      * @return void
      */
@@ -144,7 +144,7 @@ abstract class BaseController
 
     /**
      * Set an info flash message
-     * 
+     *
      * @param string $message Info message
      * @return void
      */

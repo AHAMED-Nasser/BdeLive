@@ -20,7 +20,7 @@ class DeleteEventController extends AdminController
     public function __construct()
     {
         parent::__construct();
-        
+
         // Only allow POST requests
         if (!$this->request->isPost()) {
             $this->setError('Méthode non autorisée');

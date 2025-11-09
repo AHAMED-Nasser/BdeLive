@@ -24,7 +24,7 @@ use App\Modules\Models\Users\UserManager;
  * @package BdeLive\Controllers\Users
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see AuthenticatedController For authentication requirements
  * @see UserManager For database operations
  */
@@ -48,7 +48,7 @@ class DeleteAccountController extends AuthenticatedController
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->userManager = new UserManager();
 
         if ($this->request->isPost()) {

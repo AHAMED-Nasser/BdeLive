@@ -28,7 +28,7 @@ class LoginController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         // Handle form submission
         if ($this->request->isPost() && $this->request->post('ok') !== null) {
             $this->processLogin();
@@ -81,7 +81,7 @@ class LoginController extends DefaultController
         if ($email === $adminEmail && $mdp === $adminPwd) {
             // Use AuthManager to login admin
             $this->auth->login(0, 'BDE', $adminEmail, 'Admin', 'Me');
-            
+
             // Login admin success
             $this->setSuccess('Connexion réussie ! Bienvenue administrateur !');
             $this->redirect('index.php?page=home');
@@ -90,14 +90,14 @@ class LoginController extends DefaultController
         // Attempt login with old system to verify credentials
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);
-        
+
         if (!$user || !$userManager->verifyPassword($mdp, $user['password'])) {
             // Login failed
             $this->setError('Email ou mot de passe incorrect');
             $this->render('users/loginPageView');
             return;
         }
-        
+
         // Login successful - Use new AuthManager to store session
         $this->auth->login(
             (int) $user['user_id'],
@@ -106,7 +106,7 @@ class LoginController extends DefaultController
             $user['first_name'],
             $user['last_name']
         );
-        
+
         $userName = trim($user['first_name'] . ' ' . $user['last_name']);
         $this->setSuccess('Connexion réussie ! Bienvenue ' . htmlspecialchars($userName) . ' !');
         $this->redirect('index.php?page=home');

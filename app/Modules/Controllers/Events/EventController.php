@@ -25,7 +25,7 @@ class EventController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         try {
             // 1. MODEL (Repository)
             $repository = new EventRepository();

@@ -36,7 +36,7 @@ $userId = $user['user_id'] ?? null;
             <?php
             // Décoder le JSON des images Cloudinary
             $eventImages = !empty($event['images']) ? json_decode($event['images'], true) : [];
-            
+
             // Convertir en format attendu par useCarousel()
             $carouselImages = [];
             if (!empty($eventImages) && is_array($eventImages)) {
@@ -51,7 +51,7 @@ $userId = $user['user_id'] ?? null;
                     }
                 }
             }
-            
+
             // Fallback vers images par défaut si vide
             if (empty($carouselImages)) {
                 $carouselImages = [
