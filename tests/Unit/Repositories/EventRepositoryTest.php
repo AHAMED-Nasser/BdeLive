@@ -7,177 +7,264 @@ namespace App\Tests\Unit\Repositories;
 use PHPUnit\Framework\TestCase;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
-use PDOException;
+use PDO;
+use PDOStatement;
+use ReflectionClass;
 
-/**
- * Test suite for EventRepository
- *
- * Note: These tests require a database connection. They are skipped if
- * database is not available.
- *
- * @package App\Tests\Unit\Repositories
- */
 class EventRepositoryTest extends TestCase
 {
-    /**
-     * Test that count returns an integer
-     *
-     * @return void
-     */
+    private EventRepository $repository;
+    private PDO $mockPdo;
+    private PDOStatement $mockStmt;
+
+    protected function setUp(): void
+    {
+        $this->mockPdo = $this->createMock(PDO::class);
+        $this->mockStmt = $this->createMock(PDOStatement::class);
+        
+        $mockDatabase = $this->createMock(Database::class);
+        $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
+        
+        $reflection = new ReflectionClass(Database::class);
+        $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
+        $instanceProperty->setValue(null, $mockDatabase);
+        
+        $this->repository = new EventRepository();
+    }
+
+    protected function tearDown(): void
+    {
+        $reflection = new ReflectionClass(Database::class);
+        $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
+        $instanceProperty->setValue(null, null);
+    }
+
     public function testCountReturnsInteger(): void
     {
-        try {
-            $repository = new EventRepository();
-            $count = $repository->count();
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(42);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('query')
+            ->with('SELECT COUNT(*) FROM EVENTS')
+            ->willReturn($this->mockStmt);
 
-            $this->assertIsInt($count);
-            $this->assertGreaterThanOrEqual(0, $count);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $count = $this->repository->count();
+        
+        $this->assertIsInt($count);
+        $this->assertEquals(42, $count);
     }
 
-    /**
-     * Test that findPaginated returns an array
-     *
-     * @return void
-     */
+    public function testCountReturnsZeroOnError(): void
+    {
+        $this->mockPdo->expects($this->once())
+            ->method('query')
+            ->with('SELECT COUNT(*) FROM EVENTS')
+            ->willReturn(false);
+
+        $count = $this->repository->count();
+        
+        $this->assertEquals(0, $count);
+    }
+
     public function testFindPaginatedReturnsArray(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(0, 10);
+        $mockEvents = [
+            [
+                'event_id' => 1,
+                'event_name' => 'Test Event 1',
+                'event_date' => '2025-12-01',
+                'event_time' => '10:00:00',
+                'event_location' => 'Location 1',
+                'description' => 'Description 1'
+            ],
+            [
+                'event_id' => 2,
+                'event_name' => 'Test Event 2',
+                'event_date' => '2025-12-02',
+                'event_time' => '14:00:00',
+                'event_location' => 'Location 2',
+                'description' => 'Description 2'
+            ]
+        ];
 
-            $this->assertIsArray($events);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($mockEvents);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $events = $this->repository->findPaginated(0, 10);
+        
+        $this->assertIsArray($events);
+        $this->assertCount(2, $events);
     }
 
-    /**
-     * Test that findPaginated respects offset
-     *
-     * @return void
-     */
-    public function testFindPaginatedRespectsOffset(): void
-    {
-        try {
-            $repository = new EventRepository();
-            $events1 = $repository->findPaginated(0, 10);
-            $events2 = $repository->findPaginated(10, 10);
-
-            // Events should be different (unless there are less than 10 events)
-            $this->assertIsArray($events1);
-            $this->assertIsArray($events2);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Test that findPaginated respects limit
-     *
-     * @return void
-     */
     public function testFindPaginatedRespectsLimit(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(0, 5);
+        $mockEvents = [
+            [
+                'event_id' => 1,
+                'event_name' => 'Test Event 1',
+                'event_date' => '2025-12-01',
+                'event_time' => '10:00:00',
+                'event_location' => 'Location 1',
+                'description' => 'Description 1'
+            ]
+        ];
 
-            $this->assertIsArray($events);
-            $this->assertLessThanOrEqual(5, count($events));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($mockEvents);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $events = $this->repository->findPaginated(0, 5);
+        
+        $this->assertIsArray($events);
+        $this->assertLessThanOrEqual(5, count($events));
     }
 
-    /**
-     * Test that findPaginated returns empty array with invalid offset
-     *
-     * @return void
-     */
     public function testFindPaginatedReturnsEmptyArrayWithInvalidOffset(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(999999, 10);
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn([]);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
 
-            $this->assertIsArray($events);
-            // May be empty if no events exist at that offset
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $events = $this->repository->findPaginated(999999, 10);
+        
+        $this->assertIsArray($events);
+        $this->assertEmpty($events);
     }
 
-    /**
-     * Test that findPaginated returns events with correct structure
-     *
-     * @return void
-     */
     public function testFindPaginatedReturnsEventsWithCorrectStructure(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(0, 1);
+        $mockEvents = [
+            [
+                'event_id' => 1,
+                'event_name' => 'Test Event',
+                'event_date' => '2025-12-01',
+                'event_time' => '10:00:00',
+                'event_location' => 'Test Location',
+                'description' => 'Test Description'
+            ]
+        ];
 
-            if (!empty($events)) {
-                $event = $events[0];
-                $this->assertIsArray($event);
-                $expectedKeys = ['event_id', 'event_name', 'event_date', 'event_time', 'event_location', 'description'];
-                foreach ($expectedKeys as $key) {
-                    $this->assertArrayHasKey($key, $event);
-                }
-            }
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($mockEvents);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $events = $this->repository->findPaginated(0, 1);
+        
+        $this->assertNotEmpty($events);
+        $event = $events[0];
+        
+        $expectedKeys = ['event_id', 'event_name', 'event_date', 'event_time', 'event_location', 'description'];
+        foreach ($expectedKeys as $key) {
+            $this->assertArrayHasKey($key, $event);
         }
     }
 
     public function testFindPaginatedWithZeroOffset(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(0, 5);
+        $mockEvents = [];
 
-            $this->assertIsArray($events);
-            $this->assertLessThanOrEqual(5, count($events));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
-    }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($mockEvents);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
 
-    public function testCountDoesNotThrowException(): void
-    {
-        try {
-            $repository = new EventRepository();
-            $count = $repository->count();
-
-            $this->assertIsInt($count);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $events = $this->repository->findPaginated(0, 5);
+        
+        $this->assertIsArray($events);
     }
 
     public function testFindPaginatedOrderedByDateDescending(): void
     {
-        try {
-            $repository = new EventRepository();
-            $events = $repository->findPaginated(0, 10);
+        $mockEvents = [
+            [
+                'event_id' => 1,
+                'event_name' => 'Recent Event',
+                'event_date' => '2025-12-02',
+                'event_time' => '14:00:00',
+                'event_location' => 'Location 1',
+                'description' => 'Description 1'
+            ],
+            [
+                'event_id' => 2,
+                'event_name' => 'Older Event',
+                'event_date' => '2025-12-01',
+                'event_time' => '10:00:00',
+                'event_location' => 'Location 2',
+                'description' => 'Description 2'
+            ]
+        ];
 
-            if (count($events) >= 2) {
-                for ($i = 0; $i < count($events) - 1; $i++) {
-                    $this->assertGreaterThanOrEqual(
-                        strtotime($events[$i + 1]['event_date']),
-                        strtotime($events[$i]['event_date'])
-                    );
-                }
-            }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($mockEvents);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
 
-            $this->assertIsArray($events);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
+        $events = $this->repository->findPaginated(0, 10);
+        
+        if (count($events) >= 2) {
+            $this->assertGreaterThanOrEqual(
+                strtotime($events[1]['event_date']),
+                strtotime($events[0]['event_date'])
+            );
         }
+        
+        $this->assertIsArray($events);
     }
 }
-

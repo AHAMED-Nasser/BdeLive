@@ -60,3 +60,7 @@ spl_autoload_register(function ($className) {
         }
     }
 });
+
+if (class_exists('App\\Services\\CloudinaryService')) {
+    class_alias('App\\Services\\CloudinaryService', 'CloudinaryService');
+}

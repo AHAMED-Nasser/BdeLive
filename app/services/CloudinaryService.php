@@ -1,15 +1,16 @@
 <?php
 
-// official Cloudinary SDK classes
-use Cloudinary\Api\Upload\UploadApi; // Permit to upload or delete images
-use Cloudinary\Api\Admin\AdminApi;
+declare(strict_types=1);
 
-// Permit to administrate the Cloudinary space
+namespace App\Services;
+
+use Cloudinary\Api\Upload\UploadApi;
+use Cloudinary\Api\Admin\AdminApi;
+use Exception;
 
 class CloudinaryService
 {
     private UploadApi $uploadApi;
-    private AdminApi $adminApi;
 
     public function __construct()
     {
@@ -30,23 +31,29 @@ class CloudinaryService
 
         // Initialize Cloudinary API clients
         $this->uploadApi = new UploadApi();
-        $this->adminApi = new AdminApi();
     }
 
     /**
      * Upload an image to Cloudinary with UNSIGNED upload
+     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file
+     * @return array{url: string, public_id: string}|null
      */
     public function uploadImage(array $file, string $folder = 'events'): ?array
     {
         try {
             // file validation (type, size, etc.)
             if (!$this->validateImageFile($file)) {
-                error_log('CloudinaryService::uploadImage - Validation failed for file: ' . ($file['name'] ?? 'unknown'));
+                error_log(
+                    'CloudinaryService::uploadImage - Validation failed for file: ' . $file['name']
+                );
                 return null;
             }
 
             // Log avant upload
-            error_log('CloudinaryService::uploadImage - Uploading: ' . $file['name'] . ' (Size: ' . $file['size'] . ' bytes)');
+            error_log(
+                'CloudinaryService::uploadImage - Uploading: ' . $file['name'] .
+                ' (Size: ' . $file['size'] . ' bytes)'
+            );
 
             // Upload to Cloudinary with options for images (destination folder, resize with | height | crop | etc)
             // quality optimization with 'quality' => 'auto:good'
@@ -87,15 +94,20 @@ class CloudinaryService
 
     /**
      * Upload multiple images
+     * @param array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files
+     * @return array<int, array{url: string, public_id: string}>
      */
     public function uploadMultipleImages(array $files, string $folder = 'events'): array
     {
         $uploadedImages = []; // uploaded image empty array by default
 
-        error_log('CloudinaryService::uploadMultipleImages - Starting upload of ' . count($files['name']) . ' files');
+        error_log(
+            'CloudinaryService::uploadMultipleImages - Starting upload of ' .
+            count($files['name']) . ' files'
+        );
 
         // Management in the case where multiple files are sended
-        if (isset($files['tmp_name']) && is_array($files['tmp_name'])) {
+        if (is_array($files['tmp_name'])) {
             $fileCount = count($files['tmp_name']);
 
             for ($i = 0; $i < $fileCount; $i++) {
@@ -107,7 +119,10 @@ class CloudinaryService
                     'size' => $files['size'][$i]
                 ];
 
-                error_log("CloudinaryService::uploadMultipleImages - Processing file $i: {$file['name']} (error code: {$file['error']})");
+                error_log(
+                    "CloudinaryService::uploadMultipleImages - Processing file $i: {$file['name']} " .
+                    "(error code: {$file['error']})"
+                );
 
                 if ($file['error'] === UPLOAD_ERR_OK) { // Verify no upload error
                     $result = $this->uploadImage($file, $folder); // call uploadImage to upload each file on Cloudinary
@@ -115,15 +130,23 @@ class CloudinaryService
                         $uploadedImages[] = $result; // stock result to uploadedImages array
                         error_log("CloudinaryService::uploadMultipleImages - File $i uploaded successfully");
                     } else {
-                        error_log("CloudinaryService::uploadMultipleImages - File $i upload FAILED");
+                        error_log(
+                        "CloudinaryService::uploadMultipleImages - File $i upload FAILED"
+                    );
                     }
                 } else {
-                    error_log("CloudinaryService::uploadMultipleImages - File $i has upload error: " . $this->getUploadErrorMessage($file['error']));
+                    error_log(
+                        "CloudinaryService::uploadMultipleImages - File $i has upload error: " .
+                        $this->getUploadErrorMessage($file['error'])
+                    );
                 }
             }
         }
 
-        error_log('CloudinaryService::uploadMultipleImages - Completed. ' . count($uploadedImages) . ' files uploaded successfully');
+        error_log(
+            'CloudinaryService::uploadMultipleImages - Completed. ' .
+            count($uploadedImages) . ' files uploaded successfully'
+        );
         return $uploadedImages;
     }
 
@@ -144,6 +167,7 @@ class CloudinaryService
 
     /**
      * Delete multiple images
+     * @param array<int, string> $publicIds
      */
     public function deleteMultipleImages(array $publicIds): bool
     {
@@ -160,12 +184,16 @@ class CloudinaryService
 
     /**
      * Valid an image file
+     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file
      */
     private function validateImageFile(array $file): bool
     {
         // Verify upload errors
         if ($file['error'] !== UPLOAD_ERR_OK) {
-            error_log('CloudinaryService::validateImageFile - Upload error code: ' . $file['error'] . ' - ' . $this->getUploadErrorMessage($file['error']));
+            error_log(
+                'CloudinaryService::validateImageFile - Upload error code: ' .
+                $file['error'] . ' - ' . $this->getUploadErrorMessage($file['error'])
+            );
             return false;
         }
 
@@ -195,12 +223,19 @@ class CloudinaryService
             $mimeType = mime_content_type($file['tmp_name']);
         } else {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            if ($finfo === false) {
+                error_log('CloudinaryService::validateImageFile - Failed to open finfo');
+                return false;
+            }
             $mimeType = finfo_file($finfo, $file['tmp_name']);
             finfo_close($finfo);
         }
 
-        if (!in_array($mimeType, $allowedTypes)) { // If type not allowed return false and write error log
-            error_log('CloudinaryService::validateImageFile - Invalid mime type: ' . $mimeType . ' (allowed: ' . implode(', ', $allowedTypes) . ')');
+        if (!in_array($mimeType, $allowedTypes)) {
+            error_log(
+                'CloudinaryService::validateImageFile - Invalid mime type: ' . $mimeType .
+                ' (allowed: ' . implode(', ', $allowedTypes) . ')'
+            );
             return false;
         }
 
@@ -230,6 +265,7 @@ class CloudinaryService
     /**
      * Generate an URL with transformation
      * This method can be used to generate thumbnails on the fly later...
+     * @param array<string, mixed> $transformations
      */
     public function getTransformedURL(string $url, array $transformations = []): string
     {

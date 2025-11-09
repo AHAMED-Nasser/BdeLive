@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Services;
 
 use PHPUnit\Framework\TestCase;
-use CloudinaryService;
+use App\Services\CloudinaryService;
 use Exception;
 
 /**
@@ -380,7 +380,11 @@ class CloudinaryServiceTest extends TestCase
     {
         $tmpFile = tempnam(sys_get_temp_dir(), 'img_');
 
-        // Create a minimal valid image file
+        if (!extension_loaded('gd')) {
+            file_put_contents($tmpFile, 'fake image data');
+            return $tmpFile;
+        }
+
         $img = imagecreatetruecolor(10, 10);
 
         switch ($type) {
