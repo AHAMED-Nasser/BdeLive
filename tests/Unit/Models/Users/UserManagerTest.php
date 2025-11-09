@@ -7,198 +7,264 @@ namespace App\Tests\Unit\Models\Users;
 use PHPUnit\Framework\TestCase;
 use App\Modules\Models\Users\UserManager;
 use App\Core\Database;
+use PDO;
+use PDOStatement;
 use PDOException;
+use ReflectionClass;
 
-/**
- * Test suite for UserManager model
- *
- * Note: Password hashing tests are true unit tests (no DB needed).
- * Database-dependent tests are skipped if DB connection is not available.
- *
- * @package App\Tests\Unit\Models\Users
- */
 class UserManagerTest extends TestCase
 {
-    /**
-     * Test that hashPassword returns a valid hash
-     *
-     * @return void
-     */
+    private UserManager $userManager;
+    private PDO $mockPdo;
+    private PDOStatement $mockStmt;
+
+    protected function setUp(): void
+    {
+        $this->mockPdo = $this->createMock(PDO::class);
+        $this->mockStmt = $this->createMock(PDOStatement::class);
+        
+        $mockDatabase = $this->createMock(Database::class);
+        $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
+        
+        $reflection = new ReflectionClass(Database::class);
+        $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
+        $instanceProperty->setValue(null, $mockDatabase);
+        
+        $this->userManager = new UserManager();
+    }
+
+    protected function tearDown(): void
+    {
+        $reflection = new ReflectionClass(Database::class);
+        $instanceProperty = $reflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
+        $instanceProperty->setValue(null, null);
+    }
+
     public function testHashPasswordReturnsValidHash(): void
     {
-        try {
-            $userManager = new UserManager();
-            $password = 'testPassword123';
-            $hash = $userManager->hashPassword($password);
+        $password = 'testPassword123';
+        $hash = $this->userManager->hashPassword($password);
 
-            $this->assertNotEmpty($hash);
-            $this->assertNotEquals($password, $hash);
-            $this->assertTrue(strlen($hash) >= 60); // password_hash creates hashes of at least 60 characters
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertNotEmpty($hash);
+        $this->assertNotEquals($password, $hash);
+        $this->assertTrue(strlen($hash) >= 60);
     }
 
-    /**
-     * Test that hashPassword creates different hashes for same password
-     *
-     * @return void
-     */
     public function testHashPasswordCreatesDifferentHashes(): void
     {
-        try {
-            $userManager = new UserManager();
-            $password = 'testPassword123';
-            $hash1 = $userManager->hashPassword($password);
-            $hash2 = $userManager->hashPassword($password);
+        $password = 'testPassword123';
+        $hash1 = $this->userManager->hashPassword($password);
+        $hash2 = $this->userManager->hashPassword($password);
 
-            // password_hash uses random salt, so hashes should be different
-            $this->assertNotEquals($hash1, $hash2);
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertNotEquals($hash1, $hash2);
     }
 
-    /**
-     * Test that verifyPassword validates correct password
-     *
-     * @return void
-     */
     public function testVerifyPasswordValidatesCorrectPassword(): void
     {
-        try {
-            $userManager = new UserManager();
-            $password = 'testPassword123';
-            $hash = $userManager->hashPassword($password);
+        $password = 'testPassword123';
+        $hash = $this->userManager->hashPassword($password);
 
-            $this->assertTrue($userManager->verifyPassword($password, $hash));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertTrue($this->userManager->verifyPassword($password, $hash));
     }
 
-    /**
-     * Test that verifyPassword rejects incorrect password
-     *
-     * @return void
-     */
     public function testVerifyPasswordRejectsIncorrectPassword(): void
     {
-        try {
-            $userManager = new UserManager();
-            $password = 'testPassword123';
-            $wrongPassword = 'wrongPassword456';
-            $hash = $userManager->hashPassword($password);
+        $password = 'testPassword123';
+        $wrongPassword = 'wrongPassword456';
+        $hash = $this->userManager->hashPassword($password);
 
-            $this->assertFalse($userManager->verifyPassword($wrongPassword, $hash));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->assertFalse($this->userManager->verifyPassword($wrongPassword, $hash));
     }
 
-    /**
-     * Test that emailExists returns true for existing email
-     *
-     * @return void
-     */
     public function testEmailExistsReturnsTrueForExistingEmail(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'emailExists'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['email' => 'existing@example.com'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(['count' => 1]);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->emailExists('existing@example.com');
+        $this->assertTrue($result);
     }
 
     public function testEmailExistsReturnsFalseForNonExistingEmail(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'emailExists'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['email' => 'nonexistent@example.com'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(['count' => 0]);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->emailExists('nonexistent@example.com');
+        $this->assertFalse($result);
     }
 
     public function testFindUserByEmailReturnsUserDataForExistingEmail(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'findUserByEmail'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $expectedUser = [
+            'user_id' => 1,
+            'last_name' => 'Doe',
+            'first_name' => 'John',
+            'user_status' => 'BUT 1',
+            'email' => 'john.doe@example.com',
+            'password' => '$2y$10$hashedpassword'
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['email' => 'john.doe@example.com'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($expectedUser);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->findUserByEmail('john.doe@example.com');
+        $this->assertEquals($expectedUser, $result);
     }
 
     public function testFindUserByEmailReturnsFalseForNonExistingEmail(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'findUserByEmail'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['email' => 'nonexistent@example.com'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(false);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->findUserByEmail('nonexistent@example.com');
+        $this->assertFalse($result);
     }
 
     public function testCreateUserCreatesNewUser(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'createUser'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('lastInsertId')
+            ->willReturn('42');
+
+        $result = $this->userManager->createUser(
+            'Doe',
+            'John',
+            'BUT 1',
+            'john.doe@example.com',
+            'password123'
+        );
+        
+        $this->assertEquals(42, $result);
     }
 
-    public function testUpdateUserMethodExists(): void
+    public function testUpdateUserUpdatesUserInformation(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'updateUser'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->updateUser(
+            1,
+            'Smith',
+            'Jane',
+            'BUT 2',
+            'jane.smith@example.com'
+        );
+        
+        $this->assertTrue($result);
     }
 
-    public function testUpdatePasswordMethodExists(): void
+    public function testUpdatePasswordUpdatesUserPassword(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'updatePassword'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->updatePassword(1, 'newPassword123');
+        $this->assertTrue($result);
     }
 
-    public function testDeleteUserMethodExists(): void
+    public function testDeleteUserRemovesUser(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'deleteUser'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 1])
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->deleteUser(1);
+        $this->assertTrue($result);
     }
 
-    public function testUpdateFirstNameMethodExists(): void
+    public function testUpdateFirstNameUpdatesUserFirstName(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'updateFirstName'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['newFirstName' => 'Jane', 'user_id' => 1])
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $this->userManager->updateFirstName(1, 'Jane');
+        $this->assertTrue(true);
     }
 
-    public function testUpdateLastNameMethodExists(): void
+    public function testUpdateLastNameUpdatesUserLastName(): void
     {
-        try {
-            $userManager = new UserManager();
-            $this->assertTrue(method_exists($userManager, 'updateLastName'));
-        } catch (PDOException $e) {
-            $this->markTestSkipped('Database connection not available: ' . $e->getMessage());
-        }
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['newLastName' => 'Smith', 'user_id' => 1])
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $this->userManager->updateLastName(1, 'Smith');
+        $this->assertTrue(true);
     }
 }
-
