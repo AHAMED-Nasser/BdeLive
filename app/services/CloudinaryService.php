@@ -8,10 +8,34 @@ use Cloudinary\Api\Upload\UploadApi;
 use Cloudinary\Api\Admin\AdminApi;
 use Exception;
 
+/**
+ * CloudinaryService - Image Upload and Management Service
+ *
+ * Handles all Cloudinary operations for image uploads, transformations,
+ * and deletions. Provides validation and error handling for file uploads.
+ *
+ * Features:
+ * - Single and multiple image uploads
+ * - Automatic image optimization and resizing
+ * - File validation (type, size, MIME type)
+ * - Image deletion from Cloudinary
+ * - Comprehensive error logging
+ *
+ * @package App\Services
+ * @version 1.0.0
+ * @author BdeLive Team
+ */
 class CloudinaryService
 {
     private UploadApi $uploadApi;
 
+    /**
+     * Constructor - Initialize Cloudinary service
+     *
+     * Loads Cloudinary SDK and configuration, initializes API client.
+     *
+     * @throws Exception If Cloudinary SDK is not installed or config file is missing
+     */
     public function __construct()
     {
         // Load the Composer autoloader IF not already loaded
@@ -42,9 +66,19 @@ class CloudinaryService
     }
 
     /**
-     * Upload an image to Cloudinary with UNSIGNED upload
-     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file
-     * @return array{url: string, public_id: string}|null
+     * Upload a single image to Cloudinary
+     *
+     * Validates the file, uploads it to Cloudinary with automatic optimization,
+     * and returns the URL and public ID.
+     *
+     * Transformations applied:
+     * - Max dimensions: 1920x1080 (limit crop)
+     * - Quality: auto:good (automatic optimization)
+     * - Unique filename generation
+     *
+     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file File from $_FILES
+     * @param string $folder Cloudinary folder path (default: 'events')
+     * @return array{url: string, public_id: string}|null Array with URL and public_id on success, null on failure
      */
     public function uploadImage(array $file, string $folder = 'events'): ?array
     {
@@ -101,9 +135,15 @@ class CloudinaryService
     }
 
     /**
-     * Upload multiple images
-     * @param array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files
-     * @return array<int, array{url: string, public_id: string}>
+     * Upload multiple images to Cloudinary
+     *
+     * Processes an array of files from a multi-file input field.
+     * Each file is validated and uploaded individually.
+     * Skips files with upload errors.
+     *
+     * @param array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files Files array from $_FILES
+     * @param string $folder Cloudinary folder path (default: 'events')
+     * @return array<int, array{url: string, public_id: string}> Array of successfully uploaded images
      */
     public function uploadMultipleImages(array $files, string $folder = 'events'): array
     {
@@ -159,7 +199,12 @@ class CloudinaryService
     }
 
     /**
-     * Delete an image of Cloudinary
+     * Delete a single image from Cloudinary
+     *
+     * Removes an image from Cloudinary storage using its public ID.
+     *
+     * @param string $publicId The Cloudinary public_id of the image to delete
+     * @return bool True if deletion successful, false otherwise
      */
     public function deleteImage(string $publicId): bool
     {
@@ -174,8 +219,13 @@ class CloudinaryService
     }
 
     /**
-     * Delete multiple images
-     * @param array<int, string> $publicIds
+     * Delete multiple images from Cloudinary
+     *
+     * Removes multiple images from Cloudinary storage.
+     * Iterates through each public ID and deletes individually.
+     *
+     * @param array<int, string> $publicIds Array of Cloudinary public_ids to delete
+     * @return bool True if all deletions successful, false if any failed
      */
     public function deleteMultipleImages(array $publicIds): bool
     {
@@ -191,8 +241,16 @@ class CloudinaryService
     }
 
     /**
-     * Valid an image file
-     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file
+     * Validate an image file before upload
+     *
+     * Performs comprehensive validation:
+     * - Checks for upload errors
+     * - Verifies file exists in tmp directory
+     * - Checks file size (max 10MB)
+     * - Validates MIME type (jpeg, jpg, png, gif, webp)
+     *
+     * @param array{name: string, type: string, tmp_name: string, error: int, size: int} $file File array from $_FILES
+     * @return bool True if file is valid, false otherwise
      */
     private function validateImageFile(array $file): bool
     {
@@ -253,6 +311,11 @@ class CloudinaryService
 
     /**
      * Get human-readable upload error message
+     *
+     * Converts PHP upload error codes to descriptive messages.
+     *
+     * @param int $errorCode PHP upload error code (UPLOAD_ERR_* constants)
+     * @return string Human-readable error description
      */
     private function getUploadErrorMessage(int $errorCode): string
     {
@@ -271,14 +334,23 @@ class CloudinaryService
     }
 
     /**
-     * Generate an URL with transformation
-     * This method can be used to generate thumbnails on the fly later...
-     * @param array<string, mixed> $transformations
+     * Generate a transformed image URL
+     *
+     * Creates a Cloudinary URL with transformation parameters.
+     * Can be used to generate thumbnails, crops, or other transformations on-the-fly.
+     *
+     * Example transformations:
+     * - ['width' => 400, 'height' => 300, 'crop' => 'fill']
+     * - ['quality' => 'auto:low', 'format' => 'webp']
+     *
+     * @param string $url Original Cloudinary image URL
+     * @param array<string, mixed> $transformations Transformation parameters
+     * @return string Transformed image URL (currently returns original URL - to be implemented)
      */
     public function getTransformedURL(string $url, array $transformations = []): string
     {
-        // This method can be used for generate miniatures on the fly
-        // For exemple: ['width' => 400, 'height' => 300, 'crop' => 'fill']
-        return $url; // Simplifed for the exemple
+        // This method can be used to generate thumbnails on the fly
+        // For example: ['width' => 400, 'height' => 300, 'crop' => 'fill']
+        return $url; // Simplified for the example - to be fully implemented
     }
 }

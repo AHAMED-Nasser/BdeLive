@@ -56,7 +56,7 @@ class PasswordReset
 
             return $result ?: false;
         } catch (PDOException $e) {
-            error_log("Erreur getUserByEmail : " . $e->getMessage());
+            error_log("PasswordReset::getUserByEmail - " . $e->getMessage());
 
             return false;
         }
@@ -91,7 +91,7 @@ class PasswordReset
             return $token;
         } catch (PDOException $e) {
             // If another error occurs, show an error message
-            error_log("Erreur createToken : " . $e->getMessage());
+            error_log("PasswordReset::createToken - " . $e->getMessage());
 
             return false;
         }
@@ -128,11 +128,11 @@ class PasswordReset
             $result = $stmt->fetch();
             // if the token is not valid (expired or not found), show an error message
             if (! $result) {
-                return ['valid' => false, 'message' => 'Code invalide'];
+                return ['valid' => false, 'message' => 'Invalid code'];
             }
             // if the token is already used, show an error message
             if ($result['is_used'] == 1) {
-                return ['valid' => false, 'message' => 'Ce code a déjà été utilisé'];
+                return ['valid' => false, 'message' => 'This code has already been used'];
             }
             $expire_time = strtotime($result['expires_at']);
             $current_time = time();
@@ -141,7 +141,7 @@ class PasswordReset
                 $deleteStmt = $this->pdo->prepare('DELETE FROM PASSWORD_RESET_TOKEN WHERE id = ?');
                 $deleteStmt->execute([$result['id']]);
 
-                return ['valid' => false, 'message' => 'Ce code a expiré'];
+                return ['valid' => false, 'message' => 'This code has expired'];
             }
 
             return [
@@ -150,9 +150,9 @@ class PasswordReset
                 'token_id' => $result['id'],
             ];
         } catch (PDOException $e) {
-            error_log("Erreur verifyToken : " . $e->getMessage());
+            error_log("PasswordReset::verifyToken - " . $e->getMessage());
 
-            return ['valid' => false, 'message' => 'Erreur lors de la vérification'];
+            return ['valid' => false, 'message' => 'Error during verification'];
         }
     }
 
@@ -172,7 +172,7 @@ class PasswordReset
 
             return $stmt->execute([$token]);
         } catch (PDOException $e) {
-            error_log("Erreur markTokenAsUsed : " . $e->getMessage());
+            error_log("PasswordReset::markTokenAsUsed - " . $e->getMessage());
 
             return false;
         }
@@ -199,7 +199,7 @@ class PasswordReset
 
             return $stmt->execute([$hashedPassword, $user_id]);
         } catch (PDOException $e) {
-            error_log("Erreur updatePassword : " . $e->getMessage());
+            error_log("PasswordReset::updatePassword - " . $e->getMessage());
 
             return false;
         }
@@ -223,7 +223,7 @@ class PasswordReset
 
             return $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Erreur cleanExpiredTokens : " . $e->getMessage());
+            error_log("PasswordReset::cleanExpiredTokens - " . $e->getMessage());
 
             return false;
         }

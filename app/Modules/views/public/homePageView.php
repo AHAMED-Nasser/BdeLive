@@ -5,36 +5,32 @@ $imageFuturEvent = [
         ['src' => './assets/img/event3.png'],
 ];
 
-start_page("BDE Inform'Aix - Site Officiel", true);
+start_page("BDE Inform'Aix - Site Officiel", true, $user ?? null);
 
 
 if (session_status() === PHP_SESSION_NONE) {
 }
 
 
-if (isset($_SESSION['success'])) {
-    echo '<div class="alert alert-success">' . $_SESSION['success'] . '</div>';
+if (!empty($flash['success'])) {
+    echo '<div class="alert alert-success">' . htmlspecialchars($flash['success']) . '</div>';
 }
 
-if (isset($_SESSION['error'])) {
-    echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error']) . '</div>';
+if (!empty($flash['error'])) {
+    echo '<div class="alert alert-danger">' . htmlspecialchars($flash['error']) . '</div>';
 }
 
-
-unset($_SESSION['success'], $_SESSION['error']);
-
-
-if (!empty($_SESSION['delete_session_after_home'])) {
-    unset($_SESSION['delete_session_after_home']);
+// Gestion spéciale pour la suppression de session après affichage de la home
+if (isset($user) && !empty($user['delete_session_after_home'])) {
     session_unset();
     session_destroy();
 }
 ?>
 
 <main>
-    <?php if (isset($_SESSION['user_id'])) : ?>
+    <?php if (isset($user) && $user !== null) : ?>
         <div class="alert alert-info">
-            Bienvenue, <?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?> (BUT <?= htmlspecialchars($_SESSION['user_status']) ?>) !
+            Bienvenue, <?= htmlspecialchars($user['first_name'] ?? '') ?> <?= htmlspecialchars($user['last_name'] ?? '') ?> (BUT <?= htmlspecialchars($user['user_status'] ?? '') ?>) !
             <a href="index.php?page=logout">Se déconnecter</a>
         </div>
     <?php endif; ?>

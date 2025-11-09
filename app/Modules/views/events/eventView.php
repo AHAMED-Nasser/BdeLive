@@ -1,17 +1,20 @@
 <?php
 /**
- * @var array<string, mixed> $events La liste des événements (passée par EventController)
- * @var Pagination $pagination L'objet pagination (passé par EventController)
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ * @var array<int, array<string, mixed>> $events La liste des événements (passée par EventController)
+ * @var \App\Modules\Helpers\Pagination $pagination L'objet pagination (passé par EventController)
  */
 
 require_once __DIR__ . '/../shared/include.inc.php';
-start_page('Liste des Événements');
+start_page('Liste des Événements', true, $user ?? null);
 
 // Les variables $events et $pagination sont définies par EventController
 
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
-$userId = $_SESSION['user_id'] ?? null;
+$userId = $user['user_id'] ?? null;
 ?>
 
 <div class="container event-list">
@@ -19,11 +22,10 @@ $userId = $_SESSION['user_id'] ?? null;
 
     <!-- Messages flash -->
     <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color) : ?>
-        <?php if (!empty($_SESSION[$type])) : ?>
+        <?php if (!empty($flash[$type])) : ?>
             <div style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : '721c24' ?>; padding: 12px; margin: 20px 0; border: 1px solid #<?= $type === 'success' ? 'c3e6cb' : 'f5c6cb' ?>; border-radius: 4px; text-align: center;">
-                <?= htmlspecialchars($_SESSION[$type]) ?>
+                <?= htmlspecialchars($flash[$type]) ?>
             </div>
-            <?php unset($_SESSION[$type]); ?>
         <?php endif; ?>
     <?php endforeach; ?>
 
@@ -95,13 +97,13 @@ $userId = $_SESSION['user_id'] ?? null;
                 <?php endif; ?>
                 
                 <!-- Bouton de suppression (admin uniquement) -->
-                <?php if (isset($_SESSION['user_status']) && $_SESSION['user_status'] === 'BDE') : ?>
+                <?php if (isset($user) && $user !== null && $user['user_status'] === 'BDE') : ?>
                     <div style="text-align: center; margin-top: 15px;">
                         <form method="post" action="index.php?page=deleteEvent" 
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'événement \'<?= htmlspecialchars($event['event_name']) ?>\' ?\n\nCette action est irréversible.');"
                               style="display: inline;">
                             <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                            <?= csrfField() ?>
+                            <?= $csrf->getTokenField() ?>
                             <button type="submit" 
                                     style="background-color: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
                                 Supprimer

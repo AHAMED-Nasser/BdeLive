@@ -4,79 +4,104 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Modules\Controllers\AuthenticatedController;
 use Exception;
 use App\Modules\Models\Users\UserManager;
 
-// legacy global model
-
 /**
- * Delete Account Controller
+ * Delete Account Controller - User Account Deletion
  *
- * Allows a logged-in user to delete their own account.
+ * Handles user account deletion with CSRF protection.
+ * Only accessible to authenticated users who can delete their own account.
+ *
+ * Features:
+ * - Display account deletion confirmation form
+ * - CSRF token validation
+ * - Permanent account deletion
+ * - Automatic logout after deletion
+ * - Success/error feedback with flash messages
+ *
+ * @package BdeLive\Controllers\Users
+ * @version 1.0.0
+ * @author BdeLive Team
+ * 
+ * @see AuthenticatedController For authentication requirements
+ * @see UserManager For database operations
  */
-class DeleteAccountController
+class DeleteAccountController extends AuthenticatedController
 {
+    /**
+     * User manager instance for database operations
+     *
+     * @var UserManager
+     */
     private UserManager $userManager;
 
+    /**
+     * Constructor - Handle account deletion form and submission
+     *
+     * GET request: Displays the account deletion confirmation page
+     * POST request: Processes the account deletion
+     *
+     * @return void
+     */
     public function __construct()
     {
+        parent::__construct();
+        
         $this->userManager = new UserManager();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->request->isPost()) {
             $this->handleDelete();
         } else {
-            $this->loadView('deleteAccountView');
+            $this->render('users/deleteAccountView');
         }
     }
 
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/users/' . $viewName . '.php';
-    }
-
+    /**
+     * Process account deletion
+     *
+     * Validates CSRF token, deletes the user account from database,
+     * logs out the user, and redirects to home page with success message.
+     *
+     * @return void Redirects to home page or delete_account page on error
+     */
     private function handleDelete(): void
     {
-        if (session_status() === PHP_SESSION_NONE) {
+        // Get user from auth (already authenticated by parent)
+        $user = $this->auth->getUser();
+        if (!$user || !isset($user['user_id'])) {
+            $this->setError('Vous devez être connecté pour supprimer votre compte.');
+            $this->redirect('index.php?page=login');
         }
 
+        $userId = (int) $user['user_id'];
 
-        if (empty($_SESSION['user_id'])) {
-            $_SESSION['error'] = 'Vous devez être connecté pour supprimer votre compte.';
-            header('Location: index.php?page=login');
-            exit;
-        }
-
-        $userId = (int) $_SESSION['user_id'];
-
-        $token = $_POST['csrf_token'] ?? '';
-        if (empty($token) || empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
-            $_SESSION['error'] = 'Jeton invalide. Veuillez réessayer.';
-            header('Location: index.php?page=delete_account');
-            exit;
+        // Validate CSRF token
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=delete_account');
         }
 
         try {
             $deleted = $this->userManager->deleteUser($userId);
 
             if ($deleted) {
-                session_unset();
-                session_destroy();
+                // Logout user (destroys session)
+                $this->auth->logout();
 
-                $_SESSION['success'] = 'Votre compte a bien été supprimé ! <br>
-                  <a href="index.php?page=register"">Cliquez ici pour créer un nouveau compte</a>';
-
-                header('Location: index.php?page=home');
-                exit;
+                // Set success message for after logout
+                $this->setSuccess('Votre compte a bien été supprimé ! <br><a href="index.php?page=register">Cliquez ici pour créer un nouveau compte</a>');
+                $this->redirect('index.php?page=home');
             } else {
-                $_SESSION['error'] = 'Impossible de supprimer le compte.';
-                header('Location: index.php?page=delete_account');
-                exit;
+                $this->setError('Impossible de supprimer le compte.');
+                $this->redirect('index.php?page=delete_account');
             }
         } catch (Exception $e) {
             error_log('DeleteAccountController::handleDelete - ' . $e->getMessage());
-            $_SESSION['error'] = 'Erreur serveur. Contactez un administrateur.';
-            header('Location: index.php?page=delete_account');
-            exit;
+            $this->setError('Erreur serveur. Contactez un administrateur.');
+            $this->redirect('index.php?page=delete_account');
         }
     }
 }

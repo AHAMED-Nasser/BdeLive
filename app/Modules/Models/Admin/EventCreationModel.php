@@ -9,16 +9,53 @@ use PDOException;
 use DateTime;
 use App\Core\Database;
 
+/**
+ * EventCreationModel - Event Creation and Deletion
+ *
+ * Handles database operations for event management (admin functions).
+ * Provides methods to insert and delete events from the EVENTS table.
+ *
+ * @package BdeLive\Models\Admin
+ * @version 1.0.0
+ * @author BdeLive Team
+ * 
+ * @see EventRepository For event retrieval operations
+ */
 class EventCreationModel
 {
+    /**
+     * PDO database connection instance
+     *
+     * @var PDO
+     */
     private PDO $pdo;
 
+    /**
+     * Constructor - Initialize database connection
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-
+    /**
+     * Insert a new event into the database
+     *
+     * Creates a new event record with all provided information including images.
+     *
+     * @param string $eventName Event title/name
+     * @param DateTime $eventDate Event date
+     * @param DateTime $eventTime Event time
+     * @param string $eventLocation Event location/venue
+     * @param string $eventTheme Event theme/category
+     * @param string $statusParticipating Comma-separated allowed participant statuses
+     * @param string $description Event description
+     * @param string $images JSON string of image URLs from Cloudinary
+     * @return bool True if insertion successful, false otherwise
+     * @throws PDOException If database query fails
+     */
     public function insertEvent(
         string $eventName,
         DateTime $eventDate,
@@ -51,8 +88,13 @@ class EventCreationModel
 
     /**
      * Delete an event by its ID
+     *
+     * Removes an event record from the EVENTS table.
+     * This operation cannot be undone.
+     *
      * @param int $eventId The event ID to delete
      * @return bool True if deletion successful, false otherwise
+     * @throws PDOException If database query fails
      */
     public function deleteEvent(int $eventId): bool
     {

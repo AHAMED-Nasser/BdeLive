@@ -30,7 +30,20 @@ if (file_exists($configPath)) {
 }
 
 /**
- * Classe Database : singleton gérant une seule connexion PDO.
+ * Database - Database Connection Singleton
+ *
+ * Manages a single PDO connection throughout the application lifecycle.
+ * Implements the Singleton pattern to ensure only one database connection exists.
+ *
+ * Features:
+ * - Single PDO connection instance
+ * - Automatic connection configuration from config file or environment variables
+ * - UTF-8 charset support
+ * - Exception mode for errors
+ * - Prevents cloning and unserialization
+ *
+ * @package App\Core
+ * @version 1.0.0
  */
 class Database
 {
@@ -38,9 +51,12 @@ class Database
     private PDO $pdo;
 
     /**
-     * Constructeur privé pour empêcher l'instanciation directe.
+     * Private constructor to prevent direct instantiation
      *
-     * @throws PDOException
+     * Establishes database connection using configuration from config.php
+     * or environment variables as fallback.
+     *
+     * @throws PDOException If connection fails
      */
     private function __construct()
     {
@@ -60,7 +76,11 @@ class Database
     }
 
     /**
-     * Récupère l'instance unique du singleton.
+     * Get the singleton instance of Database
+     *
+     * Creates the instance on first call, then returns the same instance.
+     *
+     * @return Database The unique Database instance
      */
     public static function getInstance(): Database
     {
@@ -72,7 +92,11 @@ class Database
     }
 
     /**
-     * Récupère l'objet PDO pour exécuter des requêtes.
+     * Get the PDO connection object
+     *
+     * Returns the PDO instance for executing database queries.
+     *
+     * @return PDO The PDO database connection
      */
     public function getConnection(): PDO
     {
@@ -80,9 +104,9 @@ class Database
     }
 
     /**
-     * Empêche le clonage.
+     * Prevent cloning (Singleton pattern)
      *
-     * @throws \Error
+     * @throws \Error Always throws to prevent cloning
      */
     private function __clone(): void
     {
@@ -90,9 +114,9 @@ class Database
     }
 
     /**
-     * Empêche la désérialisation.
+     * Prevent unserialization (Singleton pattern)
      *
-     * @throws Exception
+     * @throws Exception Always throws to prevent unserialization
      */
     public function __wakeup(): void
     {

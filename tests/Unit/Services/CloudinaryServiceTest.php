@@ -202,6 +202,9 @@ class CloudinaryServiceTest extends TestCase
                 $this->assertArrayHasKey('public_id', $result);
                 $this->assertNotEmpty($result['url']);
                 $this->assertNotEmpty($result['public_id']);
+            } else {
+                // Cloudinary not configured - test that service handles it gracefully
+                $this->assertNull($result);
             }
 
             unlink($tmpFile);
@@ -236,6 +239,9 @@ class CloudinaryServiceTest extends TestCase
                 $this->assertIsArray($result);
                 $this->assertArrayHasKey('url', $result);
                 $this->assertArrayHasKey('public_id', $result);
+            } else {
+                // Cloudinary not configured - test that service handles it gracefully
+                $this->assertNull($result);
             }
 
             unlink($tmpFile);

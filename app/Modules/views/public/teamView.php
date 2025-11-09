@@ -1,5 +1,5 @@
 <?php
-start_page("Team - BDE Inform'Aix", true);
+start_page("Team - BDE Inform'Aix", true, $user ?? null);
 ?>
 
     <!DOCTYPE html>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Modules\Controllers\DefaultController;
 use App\Modules\Controllers\Users\AuthController;
 
 /**
@@ -17,7 +18,7 @@ use App\Modules\Controllers\Users\AuthController;
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
-class RegisterController
+class RegisterController extends DefaultController
 {
     /**
      * Authentication controller instance
@@ -33,12 +34,15 @@ class RegisterController
      */
     public function __construct()
     {
+        parent::__construct();
+        
         $this->authController = new AuthController();
+        
         // Handle form submission
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
+        if ($this->request->isPost() && $this->request->post('ok') !== null) {
             $this->handleRegistration();
         } else {
-            $this->loadView('registerPageView');
+            $this->render('users/registerPageView');
         }
     }
 
@@ -53,54 +57,46 @@ class RegisterController
      */
     private function handleRegistration(): void
     {
-        // Start session for error messages
-        if (session_status() === PHP_SESSION_NONE) {
-        }
-
         // Validate CSRF token
-        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
-            $this->loadView('registerPageView');
-
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->render('users/registerPageView');
             return;
         }
 
         // Validate and sanitize inputs
-        $last_name = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
-        $first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
-        $user_status = isset($_POST['user_status']) ? trim($_POST['user_status']) : '';
-        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $pwd = isset($_POST['password']) ? $_POST['password'] : '';
+        $last_name = trim((string) $this->request->post('last_name', ''));
+        $first_name = trim((string) $this->request->post('first_name', ''));
+        $user_status = trim((string) $this->request->post('user_status', ''));
+        $email = trim((string) $this->request->post('email', ''));
+        $pwd = (string) $this->request->post('password', '');
 
         // Validation
         if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
-            $_SESSION['error'] = 'Tous les champs sont obligatoires';
-            $this->loadView('registerPageView');
-
+            $this->setError('Tous les champs sont obligatoires');
+            $this->render('users/registerPageView');
             return;
         }
 
         // Validate email format
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = 'Format d\'email invalide';
-            $this->loadView('registerPageView');
-
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->setError('Format d\'email invalide');
+            $this->render('users/registerPageView');
             return;
         }
 
         // Validate password length
         if (strlen($pwd) < 6) {
-            $_SESSION['error'] = 'Le mot de passe doit contenir au moins 6 caractères';
-            $this->loadView('registerPageView');
-
+            $this->setError('Le mot de passe doit contenir au moins 6 caractères');
+            $this->render('users/registerPageView');
             return;
         }
 
         // Validate user_status
-        if (! in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
-            $_SESSION['error'] = 'Statut d\'utilisateur invalide';
-            $this->loadView('registerPageView');
-
+        if (!in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
+            $this->setError('Statut d\'utilisateur invalide');
+            $this->render('users/registerPageView');
             return;
         }
 
@@ -110,32 +106,17 @@ class RegisterController
         if ($userId) {
             // Registration successful - auto login
             if ($this->authController->login($email, $pwd)) {
-                $_SESSION['success'] = 'Inscription réussie ! Bienvenue ' . htmlspecialchars($first_name) . ' !';
-                header('Location: index.php?page=home');
-                exit;
+                $this->setSuccess('Inscription réussie ! Bienvenue ' . htmlspecialchars($first_name) . ' !');
+                $this->redirect('index.php?page=home');
             } else {
                 // Registration ok but login failed (shouldn't happen)
-                $_SESSION['success'] = 'Inscription réussie ! Veuillez vous connecter.';
-                header('Location: index.php?page=login');
-                exit;
+                $this->setSuccess('Inscription réussie ! Veuillez vous connecter.');
+                $this->redirect('index.php?page=login');
             }
             // If the email is already used, show an error message
         } else {
-            $_SESSION['error'] = 'Cette adresse email est déjà utilisée';
-            $this->loadView('registerPageView');
+            $this->setError('Cette adresse email est déjà utilisée');
+            $this->render('users/registerPageView');
         }
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/users/' . $viewName . '.php';
     }
 }

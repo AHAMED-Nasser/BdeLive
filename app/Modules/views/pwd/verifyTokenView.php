@@ -1,14 +1,18 @@
 <?php
-start_page("Vérification du code - BDE Inform'Aix", true);
+/**
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+start_page("Vérification du code - BDE Inform'Aix", true, $user ?? null);
 ?>
 
     <div class="forgot-container">
         <h1 class="title">Vérification du code</h1>
         
-        <?php if (isset($_SESSION['error'])) : ?>
+        <?php if (!empty($flash['error'])) : ?>
             <div class="alert alert-danger">
-                <?= htmlspecialchars($_SESSION['error']) ?>
-                <?php unset($_SESSION['error']); ?>
+                <?= htmlspecialchars($flash['error']) ?>
             </div>
         <?php endif; ?>
         
@@ -17,7 +21,7 @@ start_page("Vérification du code - BDE Inform'Aix", true);
         <form action="index.php?page=verify_token" method="POST">
             <label for="token">Code de vérification :</label><br>
             <input id="token" type="text" name="token" placeholder="Entrez le code reçu par email" required maxlength="64"><br>
-            <?= csrfField() ?>
+            <?= $csrf->getTokenField() ?>
             <button type="submit" name="submit">Vérifier le code</button>
         </form>
 

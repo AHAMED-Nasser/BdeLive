@@ -58,13 +58,13 @@ class Mailer
             $mail->Body = $this->getEmailTextVersion($to_name, $token);
 
             $mail->send();
-            error_log("Email envoyé avec succès à : " . $to_email);
+            error_log("Mailer::sendEmail - Email sent successfully to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
-            error_log("Erreur PHPMailer : " . $e->getMessage());
+            error_log("Mailer::sendEmail (PHPMailer) - " . $e->getMessage());
             return false;
         } catch (Exception $e) {
-            error_log("Erreur envoi email : " . $e->getMessage());
+            error_log("Mailer::sendEmail - " . $e->getMessage());
             return false;
         }
     }

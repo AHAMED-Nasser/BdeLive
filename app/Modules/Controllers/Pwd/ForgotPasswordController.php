@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Pwd;
 
+use App\Modules\Controllers\DefaultController;
 use App\Config\Mailer;
 use Exception;
 use App\Modules\Models\Pwd\PasswordReset;
@@ -19,19 +20,21 @@ use App\Modules\Models\Pwd\PasswordReset;
  * @author Mohamed-Amine Boudhib, ...
  * @version 1.0.0
  */
-class ForgotPasswordController
+class ForgotPasswordController extends DefaultController
 {
     /**
      * Handle forgot password page requests.
      */
     public function __construct()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        parent::__construct();
+        
+        if ($this->request->isPost()) {
             $this->sendResetEmail();
             return;
         }
 
-        $this->loadView('forgotPasswordView');
+        $this->render('pwd/forgotPasswordView');
     }
 
     /**
@@ -40,18 +43,17 @@ class ForgotPasswordController
     private function sendResetEmail(): void
     {
         // Validate CSRF token
-        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
-            header('Location: index.php?page=forgot_password');
-            exit;
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=forgot_password');
         }
 
-        $email = trim($_POST['email'] ?? '');
+        $email = trim((string) $this->request->post('email', ''));
 
         if ($email === '') {
-            $_SESSION['error'] = 'Veuillez saisir votre adresse email.';
-            header('Location: index.php?page=forgot_password');
-            exit;
+            $this->setError('Veuillez saisir votre adresse email.');
+            $this->redirect('index.php?page=forgot_password');
         }
 
         try {
@@ -59,18 +61,16 @@ class ForgotPasswordController
             $passwordReset = new PasswordReset();
             $user = $passwordReset->getUserByEmail($email);
 
-            if (! $user) {
-                $_SESSION['error'] = 'Aucun compte n\'est associé à cette adresse email.';
-                header('Location: index.php?page=forgot_password');
-                exit;
+            if (!$user) {
+                $this->setError('Aucun compte n\'est associé à cette adresse email.');
+                $this->redirect('index.php?page=forgot_password');
             }
 
             $token = $passwordReset->createToken($user['user_id']);
 
-            if (! $token) {
-                $_SESSION['error'] = 'Erreur lors de la génération du code.';
-                header('Location: index.php?page=forgot_password');
-                exit;
+            if (!$token) {
+                $this->setError('Erreur lors de la génération du code.');
+                $this->redirect('index.php?page=forgot_password');
             }
 
             // ✅ Pas besoin de require, autoload le gère via PSR-4
@@ -83,26 +83,16 @@ class ForgotPasswordController
             );
 
             if ($emailSent) {
-                $_SESSION['reset_email'] = $email;
-                $_SESSION['success'] = 'Un code de vérification a été envoyé à votre adresse email.';
-                header('Location: index.php?page=verify_token');
+                $this->session->set('reset_email', $email);
+                $this->setSuccess('Un code de vérification a été envoyé à votre adresse email.');
+                $this->redirect('index.php?page=verify_token');
             } else {
-                $_SESSION['error'] = 'Erreur lors de l\'envoi de l\'email. Veuillez réessayer.';
-                header('Location: index.php?page=forgot_password');
+                $this->setError('Erreur lors de l\'envoi de l\'email. Veuillez réessayer.');
+                $this->redirect('index.php?page=forgot_password');
             }
         } catch (Exception $e) {
-            $_SESSION['error'] = 'Une erreur est survenue : ' . $e->getMessage();
-            header('Location: index.php?page=forgot_password');
+            $this->setError('Une erreur est survenue : ' . $e->getMessage());
+            $this->redirect('index.php?page=forgot_password');
         }
-
-        exit;
-    }
-
-    /**
-     * Load a view file.
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/pwd/' . $viewName . '.php';
     }
 }

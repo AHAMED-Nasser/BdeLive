@@ -1,21 +1,24 @@
 <?php
-start_page("Connexion - BDE Inform'Aix", true);
+/**
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+start_page("Connexion - BDE Inform'Aix", true, $user ?? null);
 ?>
 
     <div class="forgot-container">
         <h1 class="title">Connexion</h1>
         
-        <?php if (isset($_SESSION['success'])) : ?>
+        <?php if (!empty($flash['success'])) : ?>
             <div class="alert alert-success">
-                <?= htmlspecialchars($_SESSION['success']) ?>
-                <?php unset($_SESSION['success']); ?>
+                <?= htmlspecialchars($flash['success']) ?>
             </div>
         <?php endif; ?>
         
-        <?php if (isset($_SESSION['error'])) : ?>
+        <?php if (!empty($flash['error'])) : ?>
             <div class="alert alert-danger">
-                <?= htmlspecialchars($_SESSION['error']) ?>
-                <?php unset($_SESSION['error']); ?>
+                <?= htmlspecialchars($flash['error']) ?>
             </div>
         <?php endif; ?>
         
@@ -26,7 +29,7 @@ start_page("Connexion - BDE Inform'Aix", true);
             <label for="password">Mot de passe :</label>
             <input id="password" type="password" name="pwd" placeholder="Entrez votre mot de passe" required>
             
-            <?= csrfField() ?>
+            <?= $csrf->getTokenField() ?>
             <button type="submit" name="ok">Se connecter</button>
         </form>
         
