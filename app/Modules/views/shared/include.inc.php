@@ -136,7 +136,7 @@ function end_page(): void
                     </a>
 
                     <a href="https://www.tiktok.com/#/" target="_blank" rel="noopener noreferrer">
-                        <img src="app/assets/img/insta.png" alt="Tiktok" class="tiktok-logo">
+                        <img src="../../../assets/img/tiktok.png" alt="Tiktok" class="tiktok-logo">
                     </a>
                 </div>
             </ul>

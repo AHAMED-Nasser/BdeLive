@@ -3,7 +3,13 @@
 /**
  * Fichier : views/shared/cookie_popup.php
  * Description : Popup cookies
+ * 
+ * @var \App\Core\Application $app
  */
+
+use App\Core\Application;
+
+$app = Application::getInstance();
 
 ?>
 
@@ -22,6 +28,7 @@
 
     <noscript>
         <form method="post">
+            <?= $app->csrf()->getTokenField() ?>
             <input type="hidden" name="cookie_consent" value="accept">
             <button type="submit" class="btn">Accepter</button>
         </form>

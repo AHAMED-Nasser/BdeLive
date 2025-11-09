@@ -31,6 +31,20 @@ header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
 
+// Content Security Policy (CSP) - Protection contre XSS
+$cspDirectives = [
+    "default-src 'self'",
+    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com",
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com",
+    "img-src 'self' data: https: http:",
+    "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
+    "connect-src 'self'",
+    "frame-ancestors 'self'",
+    "base-uri 'self'",
+    "form-action 'self'"
+];
+header("Content-Security-Policy: " . implode("; ", $cspDirectives));
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
