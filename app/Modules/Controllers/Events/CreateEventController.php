@@ -7,6 +7,7 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use DateTime;
 use App\Modules\Models\Admin\EventCreationModel;
+use App\Services\CloudinaryService;
 
 require_once __DIR__ . '/../../../include/csrf.php';
 
@@ -51,6 +52,31 @@ class CreateEventController extends AdminController
             exit();
         }
 
+        // Upload images to Cloudinary
+        $imageUrls = [];
+        if (!empty($_FILES['event-images']['name'][0])) {
+            try {
+                $cloudinary = new CloudinaryService();
+                $uploadedImages = $cloudinary->uploadMultipleImages($_FILES['event-images'], 'events');
+                
+                foreach ($uploadedImages as $image) {
+                    $imageUrls[] = $image['url'];
+                }
+                
+                if (empty($uploadedImages) && !empty($_FILES['event-images']['name'][0])) {
+                    error_log('CreateEventController::createEvent - Image upload failed but no exception thrown');
+                }
+            } catch (\Exception $e) {
+                error_log('CreateEventController::createEvent - Cloudinary error: ' . $e->getMessage());
+                $_SESSION['error'] = 'Erreur lors de l\'upload des images. Veuillez réessayer.';
+                header('Location: index.php?page=createEvent');
+                exit();
+            }
+        }
+        
+        // Convert to JSON for storage
+        $imagesJson = !empty($imageUrls) ? json_encode($imageUrls) : '';
+
         $creationModel = new EventCreationModel();
         $event = $creationModel -> insertEvent(
             $eventName,
@@ -59,7 +85,8 @@ class CreateEventController extends AdminController
             $eventLocation,
             $eventTheme,
             $statusParticipating,
-            $description
+            $description,
+            $imagesJson
         );
 
         if ($event) {
