@@ -60,3 +60,6 @@ app/config/*.local.php
 /app/cache/
 /storage/
 /var/
+
+.gemini/
+gha-creds-*.json

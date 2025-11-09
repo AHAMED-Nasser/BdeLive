@@ -8,7 +8,7 @@ use PDO;
 use PDOException;
 use Exception;
 
-$configPath = __DIR__ . '/../config/config.php';
+$configPath = __DIR__ . '/../Config/config.php';
 if (file_exists($configPath)) {
     require_once $configPath;
 } else {
