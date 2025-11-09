@@ -34,4 +34,4 @@ ini_set('display_startup_errors', 1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/rooter.php';
-require_once __DIR__ . '/modules/views/shared/include.inc.php';
+require_once __DIR__ . '/Modules/views/shared/include.inc.php';

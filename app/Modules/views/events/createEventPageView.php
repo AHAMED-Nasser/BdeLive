@@ -18,7 +18,7 @@
             <?php unset($_SESSION['error']) ?>
         <?php endif ?>
 
-        <form id="form" action="index.php?page=createEvent" method="POST" enctype="multipart/form-data">
+        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST">
             <?= csrfField() ?>
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
@@ -27,16 +27,16 @@
             <input id="event-date" type="date" name="event-date" required>
 
             <label for="event-time">Heure de l'événement</label>
-            <input id="event-time" type="time" name="event-time" required>
+            <input id="event-time" type="time" name="event-time">
 
             <label for="event-location">Lieu de l'événement</label>
-            <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu" required>
+            <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu">
 
             <label for="event-theme">Thème de l'événement</label>
-            <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)" required>
+            <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
             <!-- checkbox -->
-            <label>Qui peut venir</label>
+            <label for="status_participating">Qui peut venir</label>
             <div class="checkbox-container">
                 <article>
                     <input id="but1" type="checkbox" name="status_participating[]" value="BUT 1">
@@ -62,12 +62,12 @@
 
 
             <label for="description">Description de l'événement</label>
-            <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required></textarea>
+            <textarea id="description" placeholder="Venez à notre événement pour ..." name="description"></textarea>
 
             <div class="insert-image">
                 <label>Insérer des images d'illustration</label>
                 <label for="event-images" id="drop-area">
-                    <input id="event-images" type="file" accept="image/*" name="images[]" multiple hidden required>
+                    <input id="event-images" type="file" accept="image/*" hidden>
                     <div id="image-view">
                         <p id="image-view-text">Glissez dépossé ici <br> pour ajouter une image</p>
                     </div>
@@ -86,14 +86,13 @@
         const date = new Date();
         // Get the current date (jj:mm:AAAA)
         const today = date.toISOString().split("T")[0];
-        document.getElementById('event-date').value = today;
+        document.getElementById('event-date').setAttribute("value", today)
 
         // Get the current time (hh:mm)
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         document.getElementById('event-time').value = `${hours}:${minutes}`;
     </script>
-    <script src="./assets/js/dropImageArea.js"></script>
 </section>
 
 

@@ -6,24 +6,19 @@
  * @param array<int, array{src: string, alt?: string}> $imageMap
  * @param string $carouselId
  */
-function useCarousel($imageMap, $carouselId, $carouselLabel = null)
+function useCarousel($carouselLabel, $imageMap, $carouselId): void
 {
     ?>
 
-
-<?php if ($carouselLabel !== null) : ?>
-    <h2 class="event-title"><?= $carouselLabel ?></h2>
-<?php endif ?>
-
-<article class="carousel" id="<?= $carouselId ?? 'carousel' ?>">
+<h2 class="event-title"><?= $carouselLabel ?></h2>
+<article class="carousel" id="<?= $carouselId ?>">
     <div class="carousel-block">
         <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId  ?>')" ><img src="./assets/img/carousel/arrow.png" alt="Précédent"></button>
 
         <div class="carousel-inner">
-            <?php foreach ($imageMap as $index => $image): ?>
-                <?php if (empty($image['src'])) continue ?>
+            <?php foreach ($imageMap as $index => $image) : ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                    <img src="<?= htmlspecialchars($image['src'] ?? '') ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? 'Image') ?>">
+                    <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? 'Image') ?>">
                 </div>
             <?php endforeach ?>
         </div>

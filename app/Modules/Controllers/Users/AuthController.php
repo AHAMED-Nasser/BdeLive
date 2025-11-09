@@ -7,7 +7,7 @@ namespace App\Modules\Controllers\Users;
 use PDOException;
 use App\Modules\Models\Users\UserManager;
 
-require_once __DIR__ . '/../../../config/config.php';
+require_once __DIR__ . '/../../../Config/config.php';
 
 /**
  * Authentication Controller

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Events\EventManager;
+use App\Modules\Models\Admin\EventCreationModel;
 use Exception;
 
 /**
@@ -52,7 +52,7 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            $model = new EventManager();
+            $model = new EventCreationModel();
             $success = $model->deleteEvent($eventId);
 
             if ($success) {

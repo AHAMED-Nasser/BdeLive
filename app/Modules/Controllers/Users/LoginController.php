@@ -98,7 +98,7 @@ class LoginController
             $_SESSION['email'] = $adminEmail;
             $_SESSION['suid'] = session_id();
 
-            // Login events success
+            // Login admin success
             $_SESSION['success'] = 'Connexion réussie ! Bienvenue administrateur !';
             header('Location: index.php?page=home');
             exit;
