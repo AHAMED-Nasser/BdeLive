@@ -29,6 +29,14 @@ class CloudinaryService
             throw new Exception('Cloudinary SDK not loaded. Please run "composer install"');
         }
 
+        // Load Cloudinary configuration
+        $configPath = __DIR__ . '/../Config/cloudinary.php';
+        if (file_exists($configPath)) {
+            require_once $configPath;
+        } else {
+            throw new Exception('Cloudinary configuration file not found: ' . $configPath);
+        }
+
         // Initialize Cloudinary API clients
         $this->uploadApi = new UploadApi();
     }
@@ -131,8 +139,8 @@ class CloudinaryService
                         error_log("CloudinaryService::uploadMultipleImages - File $i uploaded successfully");
                     } else {
                         error_log(
-                        "CloudinaryService::uploadMultipleImages - File $i upload FAILED"
-                    );
+                            "CloudinaryService::uploadMultipleImages - File $i upload FAILED"
+                        );
                     }
                 } else {
                     error_log(

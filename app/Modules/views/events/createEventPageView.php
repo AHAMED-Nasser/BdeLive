@@ -18,7 +18,7 @@
             <?php unset($_SESSION['error']) ?>
         <?php endif ?>
 
-        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST">
+        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST" enctype="multipart/form-data">
             <?= csrfField() ?>
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
@@ -67,7 +67,7 @@
             <div class="insert-image">
                 <label>Insérer des images d'illustration</label>
                 <label for="event-images" id="drop-area">
-                    <input id="event-images" type="file" accept="image/*" hidden>
+                    <input id="event-images" name="event-images[]" type="file" accept="image/*" multiple hidden>
                     <div id="image-view">
                         <p id="image-view-text">Glissez dépossé ici <br> pour ajouter une image</p>
                     </div>

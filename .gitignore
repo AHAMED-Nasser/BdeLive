@@ -47,6 +47,9 @@ composer.phar
 
 # Config files with sensitive data
 app/config/config.php
+app/Config/config.php
+app/Config/cloudinary.php
+config/cloudinary.php
 .idea/php.xml
 
 # Local config overrides

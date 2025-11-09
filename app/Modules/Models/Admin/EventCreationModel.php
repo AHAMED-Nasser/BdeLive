@@ -26,10 +26,11 @@ class EventCreationModel
         string $eventLocation,
         string $eventTheme,
         string $statusParticipating,
-        string $description
+        string $description,
+        string $images = ''
     ): bool {
         try {
-            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description)";
+            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description, images) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description, :images)";
             $stmt = $this->pdo->prepare($query);
             return $stmt -> execute([
                 ':event_name' => $eventName,
@@ -38,7 +39,8 @@ class EventCreationModel
                 ':event_location' => $eventLocation,
                 ':event_theme' => $eventTheme,
                 ':status_participating' => $statusParticipating,
-                ':description' => $description
+                ':description' => $description,
+                ':images' => $images
             ]);
         } catch (PDOException $e) {
             error_log('EventCreationModel::insertEvent - ' . $e->getMessage());

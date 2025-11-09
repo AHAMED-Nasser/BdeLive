@@ -9,12 +9,6 @@ start_page('Liste des Événements');
 
 // Les variables $events et $pagination sont définies par EventController
 
-// Images par défaut pour les événements (en attendant les images en BDD)
-$defaultImages = [
-    ['src' => './assets/img/carousel/events/event2.jpg'],
-    ['src' => './assets/img/carousel/events/event1.svg'],
-];
-
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $_SESSION['user_id'] ?? null;
@@ -37,6 +31,34 @@ $userId = $_SESSION['user_id'] ?? null;
         <p>Aucun événement à afficher pour le moment.</p>
     <?php else : ?>
         <?php foreach ($events as $event) : ?>
+            <?php
+            // Décoder le JSON des images Cloudinary
+            $eventImages = !empty($event['images']) ? json_decode($event['images'], true) : [];
+            
+            // Convertir en format attendu par useCarousel()
+            $carouselImages = [];
+            if (!empty($eventImages) && is_array($eventImages)) {
+                foreach ($eventImages as $image) {
+                    // Support des deux formats: string simple ou objet {url, public_id}
+                    if (is_string($image)) {
+                        // Nouveau format: ["url1", "url2", ...]
+                        $carouselImages[] = ['src' => $image];
+                    } elseif (is_array($image) && isset($image['url'])) {
+                        // Ancien format: [{"url": "...", "public_id": "..."}, ...]
+                        $carouselImages[] = ['src' => $image['url']];
+                    }
+                }
+            }
+            
+            // Fallback vers images par défaut si vide
+            if (empty($carouselImages)) {
+                $carouselImages = [
+                    ['src' => './assets/img/carousel/events/event2.jpg'],
+                    ['src' => './assets/img/carousel/events/event1.svg'],
+                ];
+            }
+            ?>
+            
             <div class="event-item" style="text-align: center; margin-bottom: 30px;">
                 <h2 style="text-align: center;"><?= htmlspecialchars($event['event_name']) ?></h2>
                 <p style="text-align: center; color: #666; margin-bottom: 20px;">
@@ -54,7 +76,7 @@ $userId = $_SESSION['user_id'] ?? null;
                 <?php endif; ?>
                 
                 <!-- Carousel pour chaque événement -->
-                <?php useCarousel($event['event_name'], $defaultImages, 'carousel-event-' . $event['event_id']) ?>
+                <?php useCarousel($event['event_name'], $carouselImages, 'carousel-event-' . $event['event_id']) ?>
                 
                 <!-- Boutons d'inscription (utilisateurs connectés) -->
                 <?php if ($userId) : ?>
