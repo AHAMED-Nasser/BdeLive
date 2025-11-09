@@ -25,7 +25,7 @@ use App\Services\CloudinaryService;
  * @package BdeLive\Controllers\Events
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see AdminController For admin authentication requirements
  * @see EventCreationModel For database operations
  * @see CloudinaryService For image upload handling
@@ -43,7 +43,7 @@ class CreateEventController extends AdminController
     public function __construct()
     {
         parent::__construct();
-        
+
         $action = $this->request->get('action', '');
         if ($this->request->isPost() && $action === 'submitEvent') {
             $this->createEvent();
@@ -103,11 +103,11 @@ class CreateEventController extends AdminController
                 $cloudinary = new CloudinaryService();
                 /** @var array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files */
                 $uploadedImages = $cloudinary->uploadMultipleImages($files, 'events');
-                
+
                 foreach ($uploadedImages as $image) {
                     $imageUrls[] = $image['url'];
                 }
-                
+
                 if (empty($uploadedImages) && !empty($files['name'][0])) {
                     error_log('CreateEventController::createEvent - Image upload failed but no exception thrown');
                 }
@@ -117,7 +117,7 @@ class CreateEventController extends AdminController
                 $this->redirect('index.php?page=createEvent');
             }
         }
-        
+
         // Convert to JSON for storage
         $imagesJsonEncoded = !empty($imageUrls) ? json_encode($imageUrls) : '';
         $imagesJson = $imagesJsonEncoded !== false ? $imagesJsonEncoded : '';

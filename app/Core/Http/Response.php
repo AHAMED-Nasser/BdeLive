@@ -29,7 +29,7 @@ class Response
 
     /**
      * Set the HTTP status code
-     * 
+     *
      * @param int $code HTTP status code (200, 404, 500, etc.)
      * @return self For method chaining
      */
@@ -41,7 +41,7 @@ class Response
 
     /**
      * Get the HTTP status code
-     * 
+     *
      * @return int Current status code
      */
     public function getStatusCode(): int
@@ -51,7 +51,7 @@ class Response
 
     /**
      * Set an HTTP header
-     * 
+     *
      * @param string $name Header name (e.g., Content-Type, Location)
      * @param string $value Header value
      * @return self For method chaining
@@ -74,7 +74,7 @@ class Response
 
     /**
      * Redirect to a URL
-     * 
+     *
      * Sends Location header and terminates script execution.
      *
      * @param string $url Destination URL
@@ -91,10 +91,10 @@ class Response
 
     /**
      * Send HTTP headers
-     * 
+     *
      * Sends all configured headers. Safe to call multiple times
      * (checks if headers already sent).
-     * 
+     *
      * @return void
      */
     public function send(): void
@@ -112,7 +112,7 @@ class Response
 
     /**
      * Set the Content-Type header
-     * 
+     *
      * @param string $contentType MIME type (e.g., text/html, application/json)
      * @param string $charset Character encoding (default: UTF-8)
      * @return self For method chaining
@@ -124,7 +124,7 @@ class Response
 
     /**
      * Send a JSON response
-     * 
+     *
      * Sets Content-Type to application/json, encodes data and terminates.
      *
      * @param mixed $data Data to encode as JSON

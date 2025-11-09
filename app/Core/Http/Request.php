@@ -40,7 +40,7 @@ class Request
 
     /**
      * Create a Request instance from PHP superglobals
-     * 
+     *
      * @return self New Request with current superglobal values
      */
     public static function createFromGlobals(): self
@@ -76,7 +76,7 @@ class Request
 
     /**
      * Get a GET parameter
-     * 
+     *
      * @param string $key Parameter name
      * @param mixed $default Default value if not set
      * @return mixed Parameter value or default
@@ -88,7 +88,7 @@ class Request
 
     /**
      * Get a POST parameter
-     * 
+     *
      * @param string $key Parameter name
      * @param mixed $default Default value if not set
      * @return mixed Parameter value or default
@@ -100,7 +100,7 @@ class Request
 
     /**
      * Get an uploaded file
-     * 
+     *
      * @param string $key File input name
      * @return array<string, mixed>|null File data or null if not found
      */
@@ -111,7 +111,7 @@ class Request
 
     /**
      * Get a server variable
-     * 
+     *
      * @param string $key Server variable name
      * @param mixed $default Default value if not set
      * @return mixed Server variable value or default
@@ -123,7 +123,7 @@ class Request
 
     /**
      * Get a cookie value
-     * 
+     *
      * @param string $key Cookie name
      * @param mixed $default Default value if not set
      * @return mixed Cookie value or default
@@ -135,7 +135,7 @@ class Request
 
     /**
      * Get the HTTP method
-     * 
+     *
      * @return string HTTP method in uppercase (GET, POST, etc.)
      */
     public function method(): string
@@ -145,7 +145,7 @@ class Request
 
     /**
      * Check if this is a POST request
-     * 
+     *
      * @return bool True if POST
      */
     public function isPost(): bool
@@ -155,7 +155,7 @@ class Request
 
     /**
      * Check if this is a GET request
-     * 
+     *
      * @return bool True if GET
      */
     public function isGet(): bool
@@ -175,7 +175,7 @@ class Request
 
     /**
      * Check if a parameter exists (in GET or POST)
-     * 
+     *
      * @param string $key Parameter name
      * @return bool True if parameter exists
      */
@@ -186,7 +186,7 @@ class Request
 
     /**
      * Get the request URI
-     * 
+     *
      * @return string Request URI (e.g., /index.php?page=home)
      */
     public function uri(): string
@@ -196,7 +196,7 @@ class Request
 
     /**
      * Get the host name
-     * 
+     *
      * @return string Host name (e.g., localhost, example.com)
      */
     public function host(): string
@@ -206,7 +206,7 @@ class Request
 
     /**
      * Check if the request is over HTTPS
-     * 
+     *
      * @return bool True if HTTPS
      */
     public function isSecure(): bool

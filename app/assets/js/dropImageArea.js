@@ -5,17 +5,17 @@ const imageRecap = document.getElementById('image-recap');
 
 // Vérifier que les éléments existent
 if (dropArea && inputFile && imageViewText && imageRecap) {
-
     // Stocker les fichiers sélectionnés
     let selectedFiles = [];
 
-    inputFile.addEventListener("change", function(e) {
+    inputFile.addEventListener("change", function (e) {
         uploadImage(e.target.files);
     });
 
-    function displayRecapImage(file, index) {
+    function displayRecapImage(file, index)
+    {
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             let div = document.createElement('div');
             div.classList.add('img-recap');
             div.style.display = 'inline-block';
@@ -41,7 +41,7 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
             removeBtn.style.cursor = 'pointer';
             removeBtn.style.width = '25px';
             removeBtn.style.height = '25px';
-            removeBtn.onclick = function() {
+            removeBtn.onclick = function () {
                 selectedFiles.splice(index, 1);
                 updateFileInput();
                 div.remove();
@@ -54,7 +54,8 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
         reader.readAsDataURL(file);
     }
 
-    function uploadImage(files) {
+    function uploadImage(files)
+    {
         if (files && files.length > 0) {
             // Ajouter les nouveaux fichiers
             Array.from(files).forEach((file, index) => {
@@ -72,7 +73,8 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
         }
     }
 
-    function updateFileInput() {
+    function updateFileInput()
+    {
         // Créer un nouveau DataTransfer pour mettre à jour l'input
         const dataTransfer = new DataTransfer();
         selectedFiles.forEach(file => {
@@ -104,7 +106,7 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
     });
 
     // Click sur la zone pour ouvrir le sélecteur
-    dropArea.addEventListener("click", function(e) {
+    dropArea.addEventListener("click", function (e) {
         // Ne pas déclencher si on clique sur une image dans le recap
         if (!e.target.closest('.img-recap')) {
             inputFile.click();

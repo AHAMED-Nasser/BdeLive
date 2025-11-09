@@ -35,9 +35,9 @@ class RegisterController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->authController = new AuthController();
-        
+
         // Handle form submission
         if ($this->request->isPost() && $this->request->post('ok') !== null) {
             $this->handleRegistration();

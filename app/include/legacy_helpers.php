@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Helper Functions - Compatibility Layer
  *
@@ -14,10 +12,12 @@ declare(strict_types=1);
  * @package BdeLive\Include
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see \App\Core\Application For the OOP architecture
  * @see \App\Modules\Controllers\BaseController For controller base class
  */
+
+declare(strict_types=1);
 
 use App\Core\Application;
 
@@ -27,15 +27,15 @@ use App\Core\Application;
  * Convenience function that wraps CsrfProtection::getTokenField().
  *
  * @return string HTML hidden input with CSRF token
- * 
+ *
  * @see \App\Core\Security\CsrfProtection::getTokenField()
- * 
+ *
  * @example
  * <form method="POST">
  *     <?= csrfField() ?>
  *     <!-- form fields -->
  * </form>
- * 
+ *
  * // Or use OOP approach in views:
  * <?= $csrf->getTokenField() ?>
  */
@@ -51,14 +51,14 @@ function csrfField(): string
  *
  * @param string $token The CSRF token to validate
  * @return bool True if valid, false otherwise
- * 
+ *
  * @see \App\Core\Security\CsrfProtection::validateToken()
- * 
+ *
  * @example
  * if (validateCsrfToken($_POST['csrf_token'])) {
  *     // Token is valid
  * }
- * 
+ *
  * // Or use OOP approach in controllers:
  * if ($this->csrf->validateToken($token)) { ... }
  */
@@ -73,12 +73,12 @@ function validateCsrfToken(string $token): bool
  * Convenience function that wraps CsrfProtection::generateToken().
  *
  * @return string The generated CSRF token (64 hex characters)
- * 
+ *
  * @see \App\Core\Security\CsrfProtection::generateToken()
- * 
+ *
  * @example
  * $token = generateCsrfToken();
- * 
+ *
  * // Or use OOP approach in controllers:
  * $token = $this->csrf->generateToken();
  */
@@ -94,14 +94,14 @@ function generateCsrfToken(): string
  * Convenience function that wraps AuthManager::requireAuthentication().
  *
  * @return void Redirects to login page if not authenticated
- * 
+ *
  * @see \App\Core\Auth\AuthManager::requireAuthentication()
  * @see \App\Modules\Controllers\AuthenticatedController For OOP approach
- * 
+ *
  * @example
  * // In procedural code:
  * requireLogin();
- * 
+ *
  * // Or use OOP approach - extend AuthenticatedController:
  * class MyController extends AuthenticatedController {
  *     // Authentication checked automatically in constructor
@@ -126,14 +126,14 @@ function requireLogin(): void
  * Convenience function that wraps AuthManager::requireAdmin().
  *
  * @return void Redirects if not authenticated or not admin
- * 
+ *
  * @see \App\Core\Auth\AuthManager::requireAdmin()
  * @see \App\Modules\Controllers\AdminController For OOP approach
- * 
+ *
  * @example
  * // In procedural code:
  * requireAdmin();
- * 
+ *
  * // Or use OOP approach - extend AdminController:
  * class MyAdminController extends AdminController {
  *     // Admin rights checked automatically in constructor

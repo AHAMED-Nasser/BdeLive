@@ -17,7 +17,7 @@ use App\Core\Auth\AuthManager;
  * It initializes and provides access to all core services.
  *
  * Pattern: Singleton (Service Locator)
- * 
+ *
  * This class implements the Singleton pattern to ensure a single instance
  * manages all core services throughout the application lifecycle.
  * It provides centralized access to:
@@ -41,7 +41,7 @@ class Application
 
     /**
      * Private constructor (Singleton pattern)
-     * 
+     *
      * Initializes all core services in dependency order:
      * 1. SessionManager - for session handling
      * 2. Request - HTTP request encapsulation
@@ -60,9 +60,9 @@ class Application
 
     /**
      * Get the singleton instance of the application
-     * 
+     *
      * Creates the instance on first call, then returns the same instance.
-     * 
+     *
      * @return self The unique Application instance
      */
     public static function getInstance(): self
@@ -79,7 +79,7 @@ class Application
      *
      * Starts the session and prepares the environment for request handling.
      * Must be called once at application startup before processing requests.
-     * 
+     *
      * @return void
      */
     public function boot(): void
@@ -89,9 +89,9 @@ class Application
 
     /**
      * Get the session manager instance
-     * 
+     *
      * Provides access to session operations like get/set/flash messages.
-     * 
+     *
      * @return SessionManager The session manager for handling $_SESSION
      */
     public function session(): SessionManager
@@ -101,9 +101,9 @@ class Application
 
     /**
      * Get the HTTP request instance
-     * 
+     *
      * Provides access to GET/POST/SERVER data in an OOP manner.
-     * 
+     *
      * @return Request The current HTTP request with encapsulated superglobals
      */
     public function request(): Request
@@ -113,9 +113,9 @@ class Application
 
     /**
      * Get the HTTP response instance
-     * 
+     *
      * Provides methods for redirects, headers, and status codes.
-     * 
+     *
      * @return Response The response handler for HTTP output
      */
     public function response(): Response
@@ -125,9 +125,9 @@ class Application
 
     /**
      * Get the CSRF protection service
-     * 
+     *
      * Provides token generation, validation, and HTML field generation.
-     * 
+     *
      * @return CsrfProtection The CSRF protection service
      */
     public function csrf(): CsrfProtection
@@ -137,9 +137,9 @@ class Application
 
     /**
      * Get the authentication manager
-     * 
+     *
      * Handles user login, logout, and permission checks.
-     * 
+     *
      * @return AuthManager The authentication manager
      */
     public function auth(): AuthManager

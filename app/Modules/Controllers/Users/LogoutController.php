@@ -30,13 +30,13 @@ class LogoutController extends AuthenticatedController
     public function __construct()
     {
         parent::__construct();
-        
+
         // Use AuthManager to handle logout
         $this->auth->logout();
-        
+
         // Set success message
         $this->setSuccess('Vous avez été déconnecté avec succès.');
-        
+
         // Redirect to home
         $this->redirect('index.php?page=home');
     }

@@ -38,10 +38,10 @@ class CsrfProtection
 
     /**
      * Generate a new CSRF token
-     * 
+     *
      * Creates a cryptographically secure random token and stores it
      * in the session with a timestamp.
-     * 
+     *
      * @return string The generated token (64 hex characters)
      */
     public function generateToken(): string
@@ -54,11 +54,11 @@ class CsrfProtection
 
     /**
      * Validate a CSRF token
-     * 
+     *
      * Checks if the provided token matches the session token and
      * hasn't expired (1 hour lifetime).
      * Uses timing-safe comparison to prevent timing attacks.
-     * 
+     *
      * @param string $token The token to validate
      * @return bool True if valid, false otherwise
      */
@@ -84,9 +84,9 @@ class CsrfProtection
 
     /**
      * Validate a CSRF token and throw exception if invalid
-     * 
+     *
      * Convenience method for strict validation in controllers.
-     * 
+     *
      * @param string $token The token to validate
      * @return void
      * @throws CsrfException If token is invalid or expired
@@ -100,10 +100,10 @@ class CsrfProtection
 
     /**
      * Get the current CSRF token (or generate a new one)
-     * 
+     *
      * Returns the existing token from session, or generates a new one
      * if none exists.
-     * 
+     *
      * @return string The current CSRF token
      */
     public function getToken(): string
@@ -117,13 +117,13 @@ class CsrfProtection
 
     /**
      * Generate an HTML hidden input field with the CSRF token
-     * 
+     *
      * Convenience method for forms. Use this in all POST forms:
      * <form method="POST">
      *     <?= $csrf->getTokenField() ?>
      *     ...
      * </form>
-     * 
+     *
      * @return string HTML input tag with CSRF token
      */
     public function getTokenField(): string
@@ -135,10 +135,10 @@ class CsrfProtection
 
     /**
      * Invalidate the current CSRF token
-     * 
+     *
      * Removes the token from session, forcing generation of a new one.
      * Useful after logout or when rotating tokens for extra security.
-     * 
+     *
      * @return void
      */
     public function invalidateToken(): void

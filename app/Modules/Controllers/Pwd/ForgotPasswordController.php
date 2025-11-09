@@ -28,7 +28,7 @@ class ForgotPasswordController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        
+
         if ($this->request->isPost()) {
             $this->sendResetEmail();
             return;

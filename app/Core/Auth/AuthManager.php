@@ -43,7 +43,7 @@ class AuthManager
 
     /**
      * Check if user is authenticated
-     * 
+     *
      * @return bool True if user is logged in
      */
     public function isAuthenticated(): bool
@@ -53,7 +53,7 @@ class AuthManager
 
     /**
      * Get the authenticated user's ID
-     * 
+     *
      * @return int|null User ID or null if not authenticated
      */
     public function getUserId(): ?int
@@ -64,9 +64,9 @@ class AuthManager
 
     /**
      * Get the user's status
-     * 
+     *
      * Possible values: BUT 1, BUT 2, BUT 3, Personnel Enseignant, BDE
-     * 
+     *
      * @return string|null User status or null if not authenticated
      */
     public function getUserStatus(): ?string
@@ -76,7 +76,7 @@ class AuthManager
 
     /**
      * Get the user's email address
-     * 
+     *
      * @return string|null Email or null if not authenticated
      */
     public function getUserEmail(): ?string
@@ -86,7 +86,7 @@ class AuthManager
 
     /**
      * Get the user's first name
-     * 
+     *
      * @return string|null First name or null if not set/authenticated
      */
     public function getUserFirstName(): ?string
@@ -96,7 +96,7 @@ class AuthManager
 
     /**
      * Get the user's last name
-     * 
+     *
      * @return string|null Last name or null if not set/authenticated
      */
     public function getUserLastName(): ?string
@@ -106,7 +106,7 @@ class AuthManager
 
     /**
      * Check if the user is an administrator (BDE)
-     * 
+     *
      * @return bool True if user has BDE status
      */
     public function isAdmin(): bool
@@ -116,7 +116,7 @@ class AuthManager
 
     /**
      * Log in a user
-     * 
+     *
      * Stores user information in session and regenerates session ID
      * to prevent session fixation attacks.
      *
@@ -151,9 +151,9 @@ class AuthManager
 
     /**
      * Log out the current user
-     * 
+     *
      * Removes all user data from session. Session itself remains active.
-     * 
+     *
      * @return void
      */
     public function logout(): void
@@ -167,7 +167,7 @@ class AuthManager
 
     /**
      * Require user to be authenticated
-     * 
+     *
      * Throws an exception if user is not logged in.
      * Redirect handling is delegated to the Application/Router layer.
      *
@@ -183,7 +183,7 @@ class AuthManager
 
     /**
      * Require user to be an administrator (BDE)
-     * 
+     *
      * Throws an exception if user doesn't have admin rights.
      * Redirect handling is delegated to the Application/Router layer.
      *
@@ -202,7 +202,7 @@ class AuthManager
 
     /**
      * Get all user data as an array
-     * 
+     *
      * Returns a complete array of user information suitable for passing to views.
      * Returns null if user is not authenticated.
      *

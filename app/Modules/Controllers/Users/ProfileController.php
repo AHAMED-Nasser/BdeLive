@@ -22,7 +22,7 @@ use App\Modules\Models\Users\UserManager;
  * @package BdeLive\Controllers\Users
  * @version 1.0.0
  * @author BdeLive Team
- * 
+ *
  * @see AuthenticatedController For authentication requirements
  * @see UserManager For database operations
  */
@@ -31,7 +31,7 @@ class ProfileController extends AuthenticatedController
     public function __construct()
     {
         parent::__construct();
-        
+
         $action = $this->request->get('action', '');
         if ($action === 'processFirstName' && $this->request->isPost()) {
             $this->processFirstName();
@@ -50,13 +50,13 @@ class ProfileController extends AuthenticatedController
             $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
             $this->redirect('index.php?page=profile');
         }
-        
+
         $user = $this->auth->getUser();
         if (!$user || !isset($user['user_id'])) {
             $this->setError('Utilisateur non authentifié');
             $this->redirect('index.php?page=login');
         }
-        
+
         $userId = $user['user_id'];
         $newFirstName = trim((string) $this->request->post('first-name', ''));
 
@@ -68,10 +68,10 @@ class ProfileController extends AuthenticatedController
 
         $userModel = new UserManager();
         $userModel->updateFirstName($userId, $newFirstName);
-        
+
         // Update session data via AuthManager
         $this->session->set('first_name', $newFirstName);
-        
+
         $this->setSuccess('Prénom mis à jour avec succès');
         $this->redirect('index.php?page=profile');
     }
@@ -84,13 +84,13 @@ class ProfileController extends AuthenticatedController
             $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
             $this->redirect('index.php?page=profile');
         }
-        
+
         $user = $this->auth->getUser();
         if (!$user || !isset($user['user_id'])) {
             $this->setError('Utilisateur non authentifié');
             $this->redirect('index.php?page=login');
         }
-        
+
         $userId = $user['user_id'];
         $newLastName = trim((string) $this->request->post('last-name', ''));
 
@@ -102,10 +102,10 @@ class ProfileController extends AuthenticatedController
 
         $userModel = new UserManager();
         $userModel->updateLastName($userId, $newLastName);
-        
+
         // Update session data via AuthManager
         $this->session->set('last_name', $newLastName);
-        
+
         $this->setSuccess('Nom mis à jour avec succès');
         $this->redirect('index.php?page=profile');
     }
