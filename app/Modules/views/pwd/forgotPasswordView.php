@@ -1,28 +1,31 @@
 <?php
-start_page("Mot de passe oublié - BDE Inform'Aix", true);
+/**
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+start_page("Mot de passe oublié - BDE Inform'Aix", true, $user ?? null);
 ?>
 
     <div class="forgot-container">
         <h1 class="title">Mot de passe oublié</h1>
         
-        <?php if (isset($_SESSION['error'])) : ?>
+        <?php if (!empty($flash['error'])) : ?>
             <div class="alert alert-danger">
-                <?= htmlspecialchars($_SESSION['error']) ?>
-                <?php unset($_SESSION['error']); ?>
+                <?= htmlspecialchars($flash['error']) ?>
             </div>
         <?php endif; ?>
         
-        <?php if (isset($_SESSION['success'])) : ?>
+        <?php if (!empty($flash['success'])) : ?>
             <div class="alert alert-success">
-                <?= htmlspecialchars($_SESSION['success']) ?>
-                <?php unset($_SESSION['success']); ?>
+                <?= htmlspecialchars($flash['success']) ?>
             </div>
         <?php endif; ?>
         
         <form action="index.php?page=forgot_password" method="POST">
             <label for="email">Adresse e-mail :</label><br>
             <input id="email" type="email" name="email" placeholder="Entrez votre email" required><br>
-            <?= csrfField() ?>
+            <?= $csrf->getTokenField() ?>
             <button type="submit" name="submit">Envoyer le code</button>
         </form>
 

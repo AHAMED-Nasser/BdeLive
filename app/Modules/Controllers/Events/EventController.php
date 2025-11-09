@@ -25,16 +25,7 @@ class EventController extends DefaultController
     public function __construct()
     {
         parent::__construct();
-        $this->loadView();
-    }
-
-    /**
-     * Load the view with the necessary data
-     *
-     * @param string $viewName Name of the view to load (ignored, always uses eventView)
-     */
-    protected function loadView(string $viewName = 'eventView'): void
-    {
+        
         try {
             // 1. MODEL (Repository)
             $repository = new EventRepository();
@@ -49,12 +40,15 @@ class EventController extends DefaultController
                 $pagination->getLimit()
             );
 
-            // 4. VIEW - Include the view and pass the data to it
-            // These variables ($events, $pagination) will be available in the view
-            require __DIR__ . '/../../views/events/eventView.php';
+            // 4. VIEW - Render with BaseController (injects $csrf, $auth, $flash, $user)
+            $this->render('events/eventView', [
+                'events' => $events,
+                'pagination' => $pagination
+            ]);
         } catch (Exception $e) {
-            // Handle errors (e.g., display an error page)
-            echo 'Erreur : ' . $e->getMessage();
+            // Handle errors
+            $this->setError('Erreur lors du chargement des événements : ' . $e->getMessage());
+            $this->redirect('index.php?page=home');
         }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Pwd;
 
+use App\Modules\Controllers\DefaultController;
 use Exception;
 use App\Modules\Models\Pwd\PasswordReset;
 
@@ -18,7 +19,7 @@ use App\Modules\Models\Pwd\PasswordReset;
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
-class VerifyTokenController
+class VerifyTokenController extends DefaultController
 {
     /**
      * Handle token verification page requests
@@ -30,18 +31,18 @@ class VerifyTokenController
      */
     public function __construct()
     {
-        if (! isset($_SESSION['reset_email'])) {
-            header('Location: index.php?page=forgot_password');
-            exit;
+        parent::__construct();
+        
+        if (!$this->session->has('reset_email')) {
+            $this->redirect('index.php?page=forgot_password');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->request->isPost()) {
             $this->verifyToken();
-
             return;
         }
 
-        $this->loadView('verifyTokenView');
+        $this->render('pwd/verifyTokenView');
     }
 
     /**
@@ -56,56 +57,38 @@ class VerifyTokenController
     private function verifyToken(): void
     {
         // Validate CSRF token
-        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
-            header('Location: index.php?page=verify_token');
-            exit;
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=verify_token');
         }
 
-        $token = trim($_POST['token'] ?? '');
+        $token = trim((string) $this->request->post('token', ''));
         // Show an error message if the token is empty
         if (empty($token)) {
-            $_SESSION['error'] = 'Veuillez saisir le code de vérification';
-            header('Location: index.php?page=verify_token');
-            exit;
+            $this->setError('Veuillez saisir le code de vérification');
+            $this->redirect('index.php?page=verify_token');
         }
 
         // Verify the token
         try {
-            require_once __DIR__ . '/../../models/pwd/PasswordReset.php';
             $passwordReset = new PasswordReset();
             // Verify the token
             $verification = $passwordReset->verifyToken($token);
             // Show an error message if the token is not valid
             if ($verification['valid'] === false) {
-                $_SESSION['error'] = $verification['message'];
-                header('Location: index.php?page=verify_token');
-                exit;
+                $this->setError($verification['message']);
+                $this->redirect('index.php?page=verify_token');
             }
             // Set the session variables
-            $_SESSION['reset_token'] = $token;
-            $_SESSION['reset_user_id'] = $verification['user_id'];
+            $this->session->set('reset_token', $token);
+            $this->session->set('reset_user_id', $verification['user_id']);
             // Redirect to the reset password page
-            header('Location: index.php?page=reset_password');
-            exit;
+            $this->redirect('index.php?page=reset_password');
         } catch (Exception $e) {
             // If another error occurs, show an error message
-            $_SESSION['error'] = 'Une erreur est survenue lors de la vérification';
-            header('Location: index.php?page=verify_token');
+            $this->setError('Une erreur est survenue lors de la vérification');
+            $this->redirect('index.php?page=verify_token');
         }
-        exit;
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/pwd/' . $viewName . '.php';
     }
 }

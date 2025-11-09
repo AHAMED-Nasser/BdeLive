@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Pwd;
 
+use App\Modules\Controllers\DefaultController;
 use Exception;
 use App\Modules\Models\Pwd\PasswordReset;
 
@@ -18,7 +19,7 @@ use App\Modules\Models\Pwd\PasswordReset;
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
-class ResetPasswordController
+class ResetPasswordController extends DefaultController
 {
     /**
      * Handle password reset page requests
@@ -31,18 +32,18 @@ class ResetPasswordController
      */
     public function __construct()
     {
-        if (! isset($_SESSION['reset_token']) || ! isset($_SESSION['reset_user_id'])) {
-            header('Location: index.php?page=forgot_password');
-            exit;
+        parent::__construct();
+        
+        if (!$this->session->has('reset_token') || !$this->session->has('reset_user_id')) {
+            $this->redirect('index.php?page=forgot_password');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($this->request->isPost()) {
             $this->resetPassword();
-
             return;
         }
 
-        $this->loadView('resetPasswordView');
+        $this->render('pwd/resetPasswordView');
     }
 
     /**
@@ -57,73 +58,58 @@ class ResetPasswordController
     private function resetPassword(): void
     {
         // Validate CSRF token
-        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
-            header('Location: index.php?page=reset_password');
-            exit;
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=reset_password');
         }
 
-        $password = $_POST['password'] ?? '';
-        $confirm_password = $_POST['confirm_password'] ?? '';
+        $password = (string) $this->request->post('password', '');
+        $confirm_password = (string) $this->request->post('confirm_password', '');
+        
         // Show an error message if the password or the confirm password is empty
         if (empty($password) || empty($confirm_password)) {
-            $_SESSION['error'] = 'Veuillez remplir tous les champs';
-            header('Location: index.php?page=reset_password');
-            exit;
+            $this->setError('Veuillez remplir tous les champs');
+            $this->redirect('index.php?page=reset_password');
         }
         // Show an error message if the password is less than 6 characters
         if (strlen($password) < 6) {
-            $_SESSION['error'] = 'Le mot de passe doit contenir au moins 6 caractères';
-            header('Location: index.php?page=reset_password');
-            exit;
+            $this->setError('Le mot de passe doit contenir au moins 6 caractères');
+            $this->redirect('index.php?page=reset_password');
         }
         // Show an error message if the password and the confirm password do not match
         if ($password !== $confirm_password) {
-            $_SESSION['error'] = 'Les mots de passe ne correspondent pas';
-            header('Location: index.php?page=reset_password');
-            exit;
+            $this->setError('Les mots de passe ne correspondent pas');
+            $this->redirect('index.php?page=reset_password');
         }
 
         try {
             // Update the password in the database
-            require_once __DIR__ . '/../../models/pwd/PasswordReset.php';
             $passwordReset = new PasswordReset();
+            $resetUserId = $this->session->get('reset_user_id');
+            $resetToken = $this->session->get('reset_token');
 
-            $updated = $passwordReset->updatePassword($_SESSION['reset_user_id'], $password);
+            $updated = $passwordReset->updatePassword($resetUserId, $password);
 
             if ($updated) {
                 // Mark the token as used (used = 1)
-                $passwordReset->markTokenAsUsed($_SESSION['reset_token']);
+                $passwordReset->markTokenAsUsed($resetToken);
                 // Unset the session variables
-                unset($_SESSION['reset_token']);
-                unset($_SESSION['reset_user_id']);
-                unset($_SESSION['reset_email']);
+                $this->session->remove('reset_token');
+                $this->session->remove('reset_user_id');
+                $this->session->remove('reset_email');
                 // Show a success message
-                $_SESSION['success'] = 'Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter';
-                header('Location: index.php?page=login');
+                $this->setSuccess('Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter');
+                $this->redirect('index.php?page=login');
             } else {
                 // If the password is not updated, show an error message
-                $_SESSION['error'] = 'Erreur lors de la mise à jour du mot de passe';
-                header('Location: index.php?page=reset_password');
+                $this->setError('Erreur lors de la mise à jour du mot de passe');
+                $this->redirect('index.php?page=reset_password');
             }
         } catch (Exception $e) {
             // If another error occurs, show an error message
-            $_SESSION['error'] = 'Une erreur est survenue';
-            header('Location: index.php?page=reset_password');
+            $this->setError('Une erreur est survenue');
+            $this->redirect('index.php?page=reset_password');
         }
-        exit;
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $viewName The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/pwd/' . $viewName . '.php';
     }
 }

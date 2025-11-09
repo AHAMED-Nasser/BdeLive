@@ -1,25 +1,29 @@
-<?php start_page("Créer un événement") ?>
+<?php
+/**
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+start_page("Créer un événement", true, $user ?? null) ?>
 
 <section class="createEvent">
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <?php if (isset($_SESSION['success'])) : ?>
+        <?php if (!empty($flash['success'])) : ?>
             <article style="color: #1d7630">
-                <?= htmlspecialchars($_SESSION['success']) ?>
+                <?= htmlspecialchars($flash['success']) ?>
             </article>
-            <?php unset($_SESSION['success']) ?>
         <?php endif ?>
 
-        <?php if (isset($_SESSION['error'])) : ?>
+        <?php if (!empty($flash['error'])) : ?>
             <article style="color: #922222">
-                <?= htmlspecialchars($_SESSION['error']) ?>
+                <?= htmlspecialchars($flash['error']) ?>
             </article>
-            <?php unset($_SESSION['error']) ?>
         <?php endif ?>
 
         <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST" enctype="multipart/form-data">
-            <?= csrfField() ?>
+            <?= $csrf->getTokenField() ?>
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
 

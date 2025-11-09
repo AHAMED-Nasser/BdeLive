@@ -1,5 +1,11 @@
 <?php
-function start_page(string $title, bool $wouldNav = true): void
+/**
+ * @param string $title
+ * @param bool $wouldNav
+ * @param array<string, mixed>|null $user
+ * @return void
+ */
+function start_page(string $title, bool $wouldNav = true, ?array $user = null): void
 {
     ?>
 
@@ -35,16 +41,26 @@ function start_page(string $title, bool $wouldNav = true): void
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <?php if ((isset($_SESSION['user_id']) && $_SESSION['user_status'] === 'BDE')) : ?>
+                <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
-                    <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
-                <?php elseif (isset($_SESSION['user_id'])) : ?>
+                    <li><a href="index.php?page=profile">
+                        <?php 
+                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                        echo htmlspecialchars($displayName ?: 'Mon Profil');
+                        ?>
+                    </a></li>
+                <?php elseif (isset($user) && $user !== null) : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
+                    <li><a href="index.php?page=profile">
+                        <?php 
+                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                        echo htmlspecialchars($displayName ?: 'Mon Profil');
+                        ?>
+                    </a></li>
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
@@ -64,14 +80,24 @@ function start_page(string $title, bool $wouldNav = true): void
             <div class="sidebar-menu">
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
-                    <?php if ((isset($_SESSION['user_id']) && $_SESSION['user_status'] === 'BDE')) : ?>
+                    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
-                        <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
+                        <li><a href="index.php?page=profile">
+                            <?php 
+                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                            echo htmlspecialchars($displayName ?: 'Mon Profil');
+                            ?>
+                        </a></li>
                         <li><a href="index.php?page=logout">Déconnexion</a></li>
-                    <?php elseif (isset($_SESSION['user_id'])) : ?>
+                    <?php elseif (isset($user) && $user !== null) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=profile"><?= htmlspecialchars($_SESSION['first_name']) ?> <?= htmlspecialchars($_SESSION['last_name']) ?></a></li>
+                        <li><a href="index.php?page=profile">
+                            <?php 
+                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                            echo htmlspecialchars($displayName ?: 'Mon Profil');
+                            ?>
+                        </a></li>
                         <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                         <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <?php else : ?>

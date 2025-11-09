@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Modules\Controllers\DefaultController;
 use App\Modules\Controllers\Users\AuthController;
 
 /**
@@ -17,28 +18,22 @@ use App\Modules\Controllers\Users\AuthController;
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
-class LoginController
+class LoginController extends DefaultController
 {
-    /**
-     * Authentication controller instance
-     *
-     * @var AuthController
-     */
-    private AuthController $authController;
-
     /**
      * Constructor - Initialize the LoginController
      *
-     * Creates a new AuthController instance for handling authentication operations.
+     * Displays the login form or processes the login submission.
      */
     public function __construct()
     {
-        $this->authController = new AuthController();
+        parent::__construct();
+        
         // Handle form submission
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ok'])) {
+        if ($this->request->isPost() && $this->request->post('ok') !== null) {
             $this->processLogin();
         } else {
-            $this->loadView('loginPageView');
+            $this->render('users/loginPageView');
         }
     }
 
@@ -53,35 +48,29 @@ class LoginController
      */
     private function processLogin(): void
     {
-        // Start session for messages
-        if (session_status() === PHP_SESSION_NONE) {
-        }
-
         // Validate CSRF token
-        if (! isset($_POST['csrf_token']) || ! validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide. Veuillez réessayer.';
-            $this->loadView('loginPageView');
-
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->render('users/loginPageView');
             return;
         }
 
         // Get and sanitize inputs
-        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $mdp = isset($_POST['pwd']) ? $_POST['pwd'] : '';
+        $email = trim((string) $this->request->post('email', ''));
+        $mdp = (string) $this->request->post('pwd', '');
 
         // Validation
         if (empty($email) || empty($mdp)) {
-            $_SESSION['error'] = 'Veuillez remplir tous les champs';
-            $this->loadView('loginPageView');
-
+            $this->setError('Veuillez remplir tous les champs');
+            $this->render('users/loginPageView');
             return;
         }
 
         // Validate email format
-        if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = 'Format d\'email invalide';
-            $this->loadView('loginPageView');
-
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $this->setError('Format d\'email invalide');
+            $this->render('users/loginPageView');
             return;
         }
 
@@ -90,44 +79,36 @@ class LoginController
         $adminPwd   = ADMIN_PWD;
 
         if ($email === $adminEmail && $mdp === $adminPwd) {
-            // Store user information in session
-            $_SESSION['user_id'] = 0;
-            $_SESSION['last_name'] = 'Admin';
-            $_SESSION['first_name'] = 'Me';
-            $_SESSION['user_status'] = 'BDE';
-            $_SESSION['email'] = $adminEmail;
-            $_SESSION['suid'] = session_id();
-
+            // Use AuthManager to login admin
+            $this->auth->login(0, 'BDE', $adminEmail, 'Admin', 'Me');
+            
             // Login admin success
-            $_SESSION['success'] = 'Connexion réussie ! Bienvenue administrateur !';
-            header('Location: index.php?page=home');
-            exit;
+            $this->setSuccess('Connexion réussie ! Bienvenue administrateur !');
+            $this->redirect('index.php?page=home');
         }
 
-
-        // Attempt login
-        if ($this->authController->login($email, $mdp)) {
-            // Login successful
-            $_SESSION['success'] = 'Connexion réussie ! Bienvenue ' . htmlspecialchars($this->authController->getCurrentUserFullName() ?? '') . ' !';
-            header('Location: index.php?page=home');
-            exit;
-        } else {
+        // Attempt login with old system to verify credentials
+        $userManager = new \App\Modules\Models\Users\UserManager();
+        $user = $userManager->findUserByEmail($email);
+        
+        if (!$user || !$userManager->verifyPassword($mdp, $user['password'])) {
             // Login failed
-            $_SESSION['error'] = 'Email ou mot de passe incorrect';
-            $this->loadView('loginPageView');
+            $this->setError('Email ou mot de passe incorrect');
+            $this->render('users/loginPageView');
+            return;
         }
-    }
-
-    /**
-     * Load a view file
-     *
-     * Helper method to include and render a view template.
-     *
-     * @param string $view The name of the view file to load (without .php extension)
-     * @return void
-     */
-    private function loadView(string $view): void
-    {
-        require_once __DIR__ . '/../../views/users/' . $view . '.php';
+        
+        // Login successful - Use new AuthManager to store session
+        $this->auth->login(
+            (int) $user['user_id'],
+            $user['user_status'],
+            $user['email'],
+            $user['first_name'],
+            $user['last_name']
+        );
+        
+        $userName = trim($user['first_name'] . ' ' . $user['last_name']);
+        $this->setSuccess('Connexion réussie ! Bienvenue ' . htmlspecialchars($userName) . ' !');
+        $this->redirect('index.php?page=home');
     }
 }

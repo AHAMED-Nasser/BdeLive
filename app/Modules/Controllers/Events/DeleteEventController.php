@@ -19,26 +19,26 @@ class DeleteEventController extends AdminController
 {
     public function __construct()
     {
+        parent::__construct();
+        
         // Only allow POST requests
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            $_SESSION['error'] = 'Méthode non autorisée';
-            header('Location: index.php?page=event');
-            exit;
+        if (!$this->request->isPost()) {
+            $this->setError('Méthode non autorisée');
+            $this->redirect('index.php?page=event');
         }
 
         // Validate CSRF token
-        if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Jeton de sécurité invalide';
-            header('Location: index.php?page=event');
-            exit;
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide');
+            $this->redirect('index.php?page=event');
         }
 
         // Get and validate event ID
-        $eventId = filter_input(INPUT_POST, 'event_id', FILTER_VALIDATE_INT);
-        if ($eventId === false || $eventId <= 0) {
-            $_SESSION['error'] = 'ID d\'événement invalide';
-            header('Location: index.php?page=event');
-            exit;
+        $eventId = (int) $this->request->post('event_id', 0);
+        if ($eventId <= 0) {
+            $this->setError('ID d\'événement invalide');
+            $this->redirect('index.php?page=event');
         }
 
         // Delete the event
@@ -56,25 +56,16 @@ class DeleteEventController extends AdminController
             $success = $model->deleteEvent($eventId);
 
             if ($success) {
-                $_SESSION['success'] = 'Événement supprimé avec succès';
+                $this->setSuccess('Événement supprimé avec succès');
             } else {
-                $_SESSION['error'] = 'Erreur lors de la suppression de l\'événement';
+                $this->setError('Erreur lors de la suppression de l\'événement');
             }
         } catch (Exception $e) {
             error_log('DeleteEventController::deleteEvent - ' . $e->getMessage());
-            $_SESSION['error'] = 'Erreur interne du serveur';
+            $this->setError('Erreur interne du serveur');
         }
 
         // Redirect back to pagination page
-        header('Location: index.php?page=event');
-        exit;
-    }
-
-    /**
-     * Required by parent class - not used in this controller
-     */
-    protected function loadView(mixed $viewName): void
-    {
-        // This controller doesn't load views, it only handles POST requests
+        $this->redirect('index.php?page=event');
     }
 }

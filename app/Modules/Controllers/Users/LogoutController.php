@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Modules\Controllers\AuthenticatedController;
+
 /**
  * Logout Controller
  *
@@ -15,7 +17,7 @@ namespace App\Modules\Controllers\Users;
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
  * @version 1.0.0
  */
-class LogoutController
+class LogoutController extends AuthenticatedController
 {
     /**
      * Process user logout
@@ -27,17 +29,15 @@ class LogoutController
      */
     public function __construct()
     {
-        $_SESSION = [];
-
-        if (isset($_COOKIE[session_name()])) {
-            setcookie((string) session_name(), '', time() - 42000, '/');
-        }
-
-        session_destroy();
-
-        $_SESSION['success'] = 'Vous avez été déconnecté avec succès.';
-
-        header('Location: index.php?page=home');
-        exit;
+        parent::__construct();
+        
+        // Use AuthManager to handle logout
+        $this->auth->logout();
+        
+        // Set success message
+        $this->setSuccess('Vous avez été déconnecté avec succès.');
+        
+        // Redirect to home
+        $this->redirect('index.php?page=home');
     }
 }

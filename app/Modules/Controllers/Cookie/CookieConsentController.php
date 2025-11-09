@@ -4,25 +4,41 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Cookie;
 
-class CookieConsentController
+use App\Modules\Controllers\DefaultController;
+
+/**
+ * CookieConsentController - Cookie Consent Management
+ *
+ * Handles cookie consent preferences (accept/reject).
+ * Sets a cookie to remember user's choice.
+ *
+ * @package BdeLive\Controllers\Cookie
+ * @version 1.0.0
+ * @author BdeLive Team
+ * 
+ * @see DefaultController For base functionality
+ */
+class CookieConsentController extends DefaultController
 {
     private string $cookieName = 'cookie_consent';
     private int $cookieDays = 365;
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->handlePost();
-        $this->render();
+        $this->renderCookiePopup();
     }
 
     private function handlePost(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cookie_consent'])) {
-            $value = $_POST['cookie_consent'] === 'accept' ? 'yes' : 'no';
+        if ($this->request->isPost() && $this->request->post('cookie_consent') !== null) {
+            $consentValue = $this->request->post('cookie_consent', '');
+            $value = $consentValue === 'accept' ? 'yes' : 'no';
 
             // Secure cookie settings (same as session cookies)
-            $isProduction = isset($_SERVER['HTTP_HOST']) &&
-                strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
+            $isProduction = strpos($this->request->server('HTTP_HOST', ''), 'alwaysdata.net') !== false;
 
             setcookie(
                 $this->cookieName,
@@ -37,15 +53,15 @@ class CookieConsentController
                 ]
             );
 
-            $_COOKIE[$this->cookieName] = $value;
-            header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/'));
-            exit;
+            // Redirect to referer or home
+            $referer = $this->request->server('HTTP_REFERER', 'index.php?page=home');
+            $this->redirect($referer);
         }
     }
 
-    private function render(): void
+    private function renderCookiePopup(): void
     {
-        $consent = $_COOKIE[$this->cookieName] ?? null;
+        $consent = $this->request->cookie($this->cookieName);
         $showPopup = ($consent !== 'yes');
 
         if ($showPopup) {

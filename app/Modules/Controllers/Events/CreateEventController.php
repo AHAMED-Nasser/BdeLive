@@ -9,73 +9,118 @@ use DateTime;
 use App\Modules\Models\Admin\EventCreationModel;
 use App\Services\CloudinaryService;
 
-require_once __DIR__ . '/../../../include/csrf.php';
-
-// model
-
+/**
+ * CreateEventController - Event Creation for Administrators
+ *
+ * Handles the creation of new events with image upload to Cloudinary.
+ * Only accessible to users with BDE (admin) status.
+ *
+ * Features:
+ * - Event form display
+ * - Form validation (CSRF, required fields, date format)
+ * - Multiple image upload to Cloudinary
+ * - Event data persistence to database
+ * - Success/error feedback with flash messages
+ *
+ * @package BdeLive\Controllers\Events
+ * @version 1.0.0
+ * @author BdeLive Team
+ * 
+ * @see AdminController For admin authentication requirements
+ * @see EventCreationModel For database operations
+ * @see CloudinaryService For image upload handling
+ */
 class CreateEventController extends AdminController
 {
+    /**
+     * Constructor - Handle event creation form display and submission
+     *
+     * GET request: Displays the event creation form
+     * POST request with action=submitEvent: Processes the form submission
+     *
+     * @return void
+     */
     public function __construct()
     {
-        $action = $_GET['action'] ?? '';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'submitEvent') {
-            $this -> createEvent();
+        parent::__construct();
+        
+        $action = $this->request->get('action', '');
+        if ($this->request->isPost() && $action === 'submitEvent') {
+            $this->createEvent();
         } else {
-            parent::__construct();
-            $this -> loadView('createEventPageView');
+            $this->render('events/createEventPageView');
         }
     }
 
+    /**
+     * Create a new event
+     *
+     * Validates form data, uploads images to Cloudinary, and saves event to database.
+     * Redirects back to form on validation error or to event list on success.
+     *
+     * Required form fields:
+     * - event-name: Event title
+     * - event-date: Event date (YYYY-MM-DD)
+     * - event-time: Event time (HH:MM)
+     * - event-location: Event location
+     * - event-theme: Event theme/category
+     * - status_participating: Array of allowed participant statuses
+     * - description: Event description
+     * - event-images: Optional image files (uploaded to Cloudinary)
+     *
+     * @return void Redirects to appropriate page with flash message
+     */
     public function createEvent(): void
     {
         // Validate CSRF token
-        if (!isset($_POST['csrf_token']) || !validateCsrfToken($_POST['csrf_token'])) {
-            $_SESSION['error'] = 'Token de sécurité invalide. Veuillez réessayer.';
-            header('Location: index.php?page=createEvent');
-            exit();
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=createEvent');
         }
 
         // Event creation logic goes here
-        $eventName = $_POST['event-name'] ?? '';
-        $eventDate = $_POST['event-date'] ?? '';
-        $eventTime = $_POST['event-time'] ?? '';
-        $eventLocation = $_POST['event-location'] ?? '';
-        $eventTheme = $_POST['event-theme'] ?? '';
-        $statusParticipatingArray = $_POST['status_participating'] ?? [];
-        $statusParticipating = implode(',', $statusParticipatingArray);
-        $description = $_POST['description'] ?? '';
+        $eventName = (string) $this->request->post('event-name', '');
+        $eventDate = (string) $this->request->post('event-date', '');
+        $eventTime = (string) $this->request->post('event-time', '');
+        $eventLocation = (string) $this->request->post('event-location', '');
+        $eventTheme = (string) $this->request->post('event-theme', '');
+        $statusParticipatingArray = $this->request->post('status_participating', []);
+        $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
+        $description = (string) $this->request->post('description', '');
 
         // Validate required fields
         if (empty($eventName) || empty($eventDate) || empty($eventTime) || empty($eventLocation) || empty($eventTheme) || empty($statusParticipating) || empty($description)) {
-            $_SESSION['error'] = 'Tous les champs sont obligatoires';
-            header('Location: index.php?page=createEvent');
-            exit();
+            $this->setError('Tous les champs sont obligatoires');
+            $this->redirect('index.php?page=createEvent');
         }
 
         // Upload images to Cloudinary
         $imageUrls = [];
-        if (!empty($_FILES['event-images']['name'][0])) {
+        $files = $this->request->file('event-images');
+        if ($files !== null && !empty($files['name'][0])) {
             try {
                 $cloudinary = new CloudinaryService();
-                $uploadedImages = $cloudinary->uploadMultipleImages($_FILES['event-images'], 'events');
+                /** @var array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files */
+                $uploadedImages = $cloudinary->uploadMultipleImages($files, 'events');
                 
                 foreach ($uploadedImages as $image) {
                     $imageUrls[] = $image['url'];
                 }
                 
-                if (empty($uploadedImages) && !empty($_FILES['event-images']['name'][0])) {
+                if (empty($uploadedImages) && !empty($files['name'][0])) {
                     error_log('CreateEventController::createEvent - Image upload failed but no exception thrown');
                 }
             } catch (\Exception $e) {
                 error_log('CreateEventController::createEvent - Cloudinary error: ' . $e->getMessage());
-                $_SESSION['error'] = 'Erreur lors de l\'upload des images. Veuillez réessayer.';
-                header('Location: index.php?page=createEvent');
-                exit();
+                $this->setError('Erreur lors de l\'upload des images. Veuillez réessayer.');
+                $this->redirect('index.php?page=createEvent');
             }
         }
         
         // Convert to JSON for storage
-        $imagesJson = !empty($imageUrls) ? json_encode($imageUrls) : '';
+        $imagesJsonEncoded = !empty($imageUrls) ? json_encode($imageUrls) : '';
+        $imagesJson = $imagesJsonEncoded !== false ? $imagesJsonEncoded : '';
 
         $creationModel = new EventCreationModel();
         $event = $creationModel -> insertEvent(
@@ -90,17 +135,16 @@ class CreateEventController extends AdminController
         );
 
         if ($event) {
-            $_SESSION['success'] = 'Événement créé avec succès';
-            header('Location: index.php?page=event');
-            exit();
+            $this->setSuccess('Événement créé avec succès');
+            $this->redirect('index.php?page=event');
         } else {
-            $_SESSION['error'] = 'Une erreur est survenue lors de la création de l\'événement';
-            header('Location: index.php?page=createEvent');
-            exit();
+            $this->setError('Une erreur est survenue lors de la création de l\'événement');
+            $this->redirect('index.php?page=createEvent');
         }
     }
-    protected function loadView(string $viewName): void
-    {
-        require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
-    }
+    // Supprimé - utilise maintenant $this->render() de BaseController
+    // protected function loadView(string $viewName): void
+    // {
+    //     require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
+    // }
 }

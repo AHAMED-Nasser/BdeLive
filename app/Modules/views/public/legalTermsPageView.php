@@ -1,5 +1,5 @@
 <?php
-start_page("Mentions Légales - BDE Live");
+start_page("Mentions Légales - BDE Live", true, $user ?? null);
 ?>
     <div class="legal-terms-page">
         <h1>Mentions Légales</h1>

@@ -1,13 +1,17 @@
 <?php
-start_page("Inscription - BDE Inform'Aix", true);
+/**
+ * @var \App\Core\Security\CsrfProtection $csrf
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+start_page("Inscription - BDE Inform'Aix", true, $user ?? null);
 ?>
     <div class="forgot-container">
         <h1 class="title">Inscription</h1>
         
-        <?php if (isset($_SESSION['error'])) : ?>
+        <?php if (!empty($flash['error'])) : ?>
             <div class="alert alert-danger">
-                <?= htmlspecialchars($_SESSION['error']) ?>
-                <?php unset($_SESSION['error']); ?>
+                <?= htmlspecialchars($flash['error']) ?>
             </div>
         <?php endif; ?>
         
@@ -33,7 +37,7 @@ start_page("Inscription - BDE Inform'Aix", true);
             <label for="password">Mot de passe :</label>
             <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
 
-            <?= csrfField() ?>
+            <?= $csrf->getTokenField() ?>
             <button type="submit" name="ok">S'inscrire</button>
         </form>
         

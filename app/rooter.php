@@ -14,11 +14,12 @@
  * - No router edits are required when adding a new controller that follows this convention.
  */
 
-require_once __DIR__ . '/Modules/views/shared/include.inc.php';
 require_once __DIR__ . '/Modules/views/shared/carousel.inc.php';
 require_once __DIR__ . '/include/autoload.php';
-require_once __DIR__ . '/include/auth.php';
-require_once __DIR__ . '/include/csrf.php';
+
+// Ces fichiers sont maintenant gérés par legacy_helpers.php et Application
+// require_once __DIR__ . '/include/auth.php';  // Remplacé par AuthManager
+// require_once __DIR__ . '/include/csrf.php';  // Remplacé par CsrfProtection
 
 $page = $_GET['page'] ?? 'home';
 
