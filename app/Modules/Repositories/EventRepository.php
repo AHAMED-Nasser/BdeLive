@@ -61,6 +61,27 @@ class EventRepository
     }
 
     /**
+     * Find event by his id
+     *
+     * @param int $id
+     * @return array|null Events as assoc event , or null if not find.
+     */
+    public function findById(int $id): ?array {
+        try {
+            $sql = "SELECT * FROM EVENTS WHERE event_id = :id";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':id' => $id]);
+
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $event ?: null;
+        } catch (PDOException $e) {
+            error_log('EventRepository::findById - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Retrieve a paginated list of events
      *
      * Fetches events from the database with pagination support.
