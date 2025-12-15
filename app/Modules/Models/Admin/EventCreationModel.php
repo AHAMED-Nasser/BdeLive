@@ -120,7 +120,7 @@ class EventCreationModel
             event_location = :event_location,
             event_theme = :event_theme,
             status_participating = :status_participating,
-            description = :description,
+            description = :description
             WHERE event_id = :event_id";
 
             $stmt = $this->pdo->prepare($sql);
