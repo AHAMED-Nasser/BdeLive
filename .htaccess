@@ -5,6 +5,9 @@ RewriteBase /BdeLive/
 # Laisser passer sitemap.xml
 RewriteRule ^sitemap\.xml$ - [L]
 
+# Laisser passer la vérification Google
+RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
+
 # Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
