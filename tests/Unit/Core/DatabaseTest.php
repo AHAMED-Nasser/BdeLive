@@ -24,7 +24,7 @@ class DatabaseTest extends TestCase
 
     public function testGetInstanceReturnsSameInstance(): void
     {
-        $this->markTestSkipped('Requires real database connection - move to integration tests');
+            $this->markTestSkipped('Requires real database connection - move to integration tests');
     }
 
     public function testGetConnectionReturnsPDO(): void

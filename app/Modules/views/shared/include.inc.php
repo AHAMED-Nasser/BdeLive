@@ -123,8 +123,10 @@ function end_page(): void
     <footer>
         <nav aria-label="Footer navigation">
             <ul>
+                <li><a href="index.php?page=about">À propos</a></li> <br><br>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                 <li><a href="index.php?page=sitemap">Plan du site</a></li> <br><br>
+
 
                 <div class="social-logos"> <h3>Nos réseaux</h3>
                     <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="footer-logo">
