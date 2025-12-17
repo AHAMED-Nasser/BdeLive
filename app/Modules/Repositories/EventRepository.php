@@ -64,7 +64,7 @@ class EventRepository
      * Find event by his id
      *
      * @param int $id
-     * @return array|null Events as assoc event , or null if not find.
+     * @return array<string, mixed>|null Events as assoc event , or null if not find.
      */
     public function findById(int $id): ?array
     {
