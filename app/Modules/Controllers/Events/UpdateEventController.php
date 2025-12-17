@@ -51,9 +51,10 @@ class UpdateEventController extends AdminController
 
         if ($this->request->isPost() && $this->request->post('action') === 'submitUpdate') {
             $this->processUpdate($eventId);
-        } else {
-            $this->displayForm($eventId);
+            return;
         }
+
+        $this->displayForm($eventId);
     }
 
     /**
