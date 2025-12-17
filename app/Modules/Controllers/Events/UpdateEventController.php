@@ -99,7 +99,7 @@ class UpdateEventController extends AdminController
 
         // POST traitement (form submit)
         if ($this -> request -> isPost()) {
-            $this -> processUpdate($eventId, $event);
+            $this -> processUpdate($eventId);
             return;
         }
 
