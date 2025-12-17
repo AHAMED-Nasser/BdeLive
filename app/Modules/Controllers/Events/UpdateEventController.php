@@ -5,8 +5,24 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Models\Admin\EventCreationModel;
 use App\Modules\Repositories\EventRepository;
+use DateMalformedStringException;
 use DateTime;
+use Exception;
 
+/**
+ * Class UpdateEventController
+ *
+ * This controller handles the logic for modifying existing events.
+ * Access is restricted to users with administrative privileges via inheritance from AdminController.
+ *
+ * Main functionalities:
+ * - Loading and pre-filling the update form (GET).
+ * - Validating security tokens (CSRF) and input data (POST).
+ * - Updating event details including name, date, time, location, theme, and description.
+ * - Handling input errors and server-side exceptions during the update process.
+ *
+ * @package App\Modules\Controllers\Events
+ */
 class UpdateEventController extends AdminController
 {
     private EventCreationModel $eventModel;
@@ -14,6 +30,11 @@ class UpdateEventController extends AdminController
     private const REDIRECT_URL = 'index.php?page=event';
     private const REDIRECT_VIEW = 'events/updateEventPageView';
 
+    /**
+     * Initializes the controller, verifies admin access, and routes the request
+     * to either display the form or process the submission based on the HTTP method.
+     * @throws DateMalformedStringException
+     */
     public function __construct()
     {
         parent::__construct(); // Verify that's it an admin
@@ -35,6 +56,12 @@ class UpdateEventController extends AdminController
         }
     }
 
+    /**
+     * Retrieves event data and renders the update form view.
+     *
+     * @param int $eventId The unique identifier of the event to be modified.
+     * @return void
+     */
     private function displayForm(int $eventId): void
     {
         $event = $this->eventRepository->findById($eventId);
@@ -48,7 +75,14 @@ class UpdateEventController extends AdminController
         $this->render(self::REDIRECT_VIEW, ['event' => $event]);
     }
 
-    public function handleRequest(): void {
+    /**
+     * Alternative entry point to handle the update request cycle.
+     *
+     * @return void
+     * @throws DateMalformedStringException
+     */
+    public function handleRequest(): void
+    {
         $eventId = $this->request->get('id');
 
         if (!$eventId || !is_numeric($eventId)) {
@@ -77,6 +111,15 @@ class UpdateEventController extends AdminController
         $this -> render('events/updateEventPageView', ['event' => $event]);
     }
 
+    /**
+     * Validates and persists the updated event data into the database.
+     *
+     * This method performs CSRF verification, ensures all mandatory fields are present,
+     * and converts string inputs into DateTime objects before calling the model.
+     *
+     * @param int $eventId The unique identifier of the event to update.
+     * @return void
+     */
     private function processUpdate(int $eventId): void
     {
         // 1. Validation CSRF
