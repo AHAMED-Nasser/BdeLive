@@ -126,6 +126,7 @@ function end_page(): void
                 <li><a href="index.php?page=about">À propos</a></li> <br><br>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                 <li><a href="index.php?page=sitemap">Plan du site</a></li> <br><br>
+                <li><a href="index.php?page=history">Notre histoire</a></li> <br><br>
 
 
                 <div class="social-logos"> <h3>Nos réseaux</h3>
