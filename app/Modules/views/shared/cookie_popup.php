@@ -3,8 +3,7 @@
 /**
  * Fichier : views/shared/cookie_popup.php
  * Description : Popup cookies
- * 
- * @var \App\Core\Application $app
+ * @var Application $app
  */
 
 use App\Core\Application;
