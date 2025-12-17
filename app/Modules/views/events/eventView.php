@@ -119,6 +119,16 @@ $userId = $user['user_id'] ?? null;
                                 Supprimer
                             </button>
                         </form>
+
+                        <form action="index.php?page=exportUserEvent" method="post" style="display: inline;">
+                            <input type="hidden" name="page" value="export-event">
+                            <input type="hidden" name="id" value="<?= htmlspecialchars((string)$event['event_id']) ?>">
+
+                            <button type="submit" class="btn btn-export"
+                            style="background-color: #1299ff; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
+                                Liste des inscrits (PDF)
+                            </button>
+                        </form>
                     </div>
                 <?php endif; ?>
             </div>
