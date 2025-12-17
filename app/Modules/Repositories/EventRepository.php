@@ -66,7 +66,8 @@ class EventRepository
      * @param int $id
      * @return array|null Events as assoc event , or null if not find.
      */
-    public function findById(int $id): ?array {
+    public function findById(int $id): ?array
+    {
         try {
             $sql = "SELECT * FROM EVENTS WHERE event_id = :id";
             $stmt = $this->pdo->prepare($sql);

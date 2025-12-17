@@ -110,7 +110,8 @@ class EventCreationModel
         string $eventLocation,
         string $eventTheme,
         string $statusParticipating,
-        string $description): bool {
+        string $description
+    ): bool {
 
         try {
             $sql = "UPDATE EVENTS SET
@@ -135,7 +136,6 @@ class EventCreationModel
                 ':status_participating' => $statusParticipating,
                 ':description' => $description
             ]);
-
         } catch (PDOException $e) {
             // En cas d'erreur, on log l'erreur et on retourne false
             error_log('EventCreationModel::updateEvent - ' . $e->getMessage());
