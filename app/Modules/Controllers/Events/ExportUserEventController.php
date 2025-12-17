@@ -12,8 +12,24 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use JetBrains\PhpStorm\NoReturn;
 
+/**
+ * Controller responsible for exporting event registration lists to PDF format.
+ *
+ * This controller handles the authentication check, data retrieval for a specific event,
+ * and uses the Dompdf library to generate a downloadable participant list.
+ *
+ * @package App\Modules\Controllers\Events
+ */
 class ExportUserEventController extends AdminController
 {
+    /**
+     * Constructor - Handles the request lifecycle.
+     *
+     * Validates user authentication and the presence of a valid event ID
+     * before triggering the PDF generation process.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -27,6 +43,15 @@ class ExportUserEventController extends AdminController
         $this->generatePdf($eventId);
     }
 
+    /**
+     * Generates and streams a PDF file containing the list of registrants.
+     *
+     * Fetches event data and registrant details, renders an HTML template,
+     * and sends the resulting PDF to the browser as an attachment.
+     *
+     * @param int $eventId The validated event identifier.
+     * @return void
+     */
     private function generatePdf(int $eventId): void
     {
         $eventRepo = new EventRepository();
@@ -86,7 +111,7 @@ class ExportUserEventController extends AdminController
         $html = ob_get_clean();
 
         // Generation
-        $dompdf->loadHtml($html);
+        $dompdf->loadHtml((string)$html); // string for phpstan
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
