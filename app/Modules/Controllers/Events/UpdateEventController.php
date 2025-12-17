@@ -46,7 +46,6 @@ class UpdateEventController extends AdminController
 
         if ($eventId <= 0) {
             $this->redirectWithError(self::REDIRECT_URL, "ID d'événement non spécifié ou invalide.");
-            return;
         }
 
         if ($this->request->isPost() && $this->request->post('action') === 'submitUpdate') {
@@ -69,7 +68,6 @@ class UpdateEventController extends AdminController
 
         if (!$event) {
             $this->redirectWithError(self::REDIRECT_URL, "L'événement à modifier n'existe pas.");
-            return;
         }
 
         // Passage des données de l'événement à la vue
@@ -89,7 +87,6 @@ class UpdateEventController extends AdminController
         if (!$eventId || !is_numeric($eventId)) {
             $this -> session->flash('error', "ID d'événement non spécifié ou invalide.");
             $this -> response -> redirect('/events');
-            return;
         }
 
         $eventId = (int) $eventId;
@@ -98,7 +95,6 @@ class UpdateEventController extends AdminController
         if (!$event) {
             $this -> session -> flash('error', "L'événement modifié n'existe pas.");
             $this -> response -> redirect('/events');
-            return;
         }
 
         // POST traitement (form submit)
@@ -127,7 +123,6 @@ class UpdateEventController extends AdminController
         $csrfToken = $this->request->post('csrf_token', '');
         if (!$this->csrf->validateToken((string)$csrfToken)) {
             $this->redirectWithError(self::REDIRECT_URL, 'Jeton de sécurité invalide. Veuillez réessayer.');
-            return;
         }
 
         // 2. Récupération des données POST
@@ -142,7 +137,6 @@ class UpdateEventController extends AdminController
         // 3. Validation de base
         if (empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) || empty($eventLocation) || empty($eventTheme) || empty($description)) {
             $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Tous les champs sont obligatoires.');
-            return;
         }
 
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
