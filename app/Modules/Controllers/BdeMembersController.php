@@ -22,32 +22,28 @@ class BdeMembersController extends AuthenticatedController
         // Vérifie l'authentification.
         parent::__construct($params);
 
-        // NOTE : Vous devez adapter la logique ci-dessous pour récupérer
-        // VOS VRAIES DONNÉES des membres du BDE depuis la base de données.
+
+        // Membres actifs du Bureau
         $bdeMembers = [
-            [
-                'firstname' => 'Cyril',
-                'lastname' => 'Tamine',
-                'role' => 'Président',
-                'description' => 'Responsable de l\'équipe et de la vision globale.',
-            ],
-            [
-                'firstname' => 'Romain',
-                'lastname' => 'DUPONT',
-                'role' => 'Secrétaire',
-                'description' => 'Gestion de la communication et des réunions.',
-            ],
-            [
-                'firstname' => 'Thomas',
-                'lastname' => 'MARTIN',
-                'role' => 'Trésorier',
-                'description' => 'Gestion du budget et des finances.',
-            ],
+            ['firstname' => 'Ewan', 'lastname' => 'EL KIHAL', 'role' => 'Président', 'description' => 'Responsable de l\'équipe et de la vision globale.'],
+            ['firstname' => 'Matteo', 'lastname' => 'BELZ', 'role' => 'Co-président', 'description' => 'Gestion de la communication et des réunions.'],
+            ['firstname' => 'Nassim', 'lastname' => 'BUCHMULLER', 'role' => 'Secrétaire', 'description' => 'Responsable marketing et design.'],
+            ['firstname' => 'Valentin', 'lastname' => 'GORGODIAN', 'role' => 'Trésorier', 'description' => 'Gestion du budget et des finances.'],
+            ['firstname' => 'Claire', 'lastname' => 'ARSENA', 'role' => 'Responsable événements et communication', 'description' => 'Relations inter-associations et partenariats.'],
+            ['firstname' => 'Pablo', 'lastname' => 'SENE', 'role' => 'Pôle événements', 'description' => 'Membre actif du pôle événementiel.'],
+        ];
+
+        // Membres d'honneur
+        $honorMembers = [
+            ['firstname' => 'Baptiste', 'lastname' => 'TURMO'],
+            ['firstname' => 'Cyril', 'lastname' => 'TAMINE'],
+            ['firstname' => 'Naël', 'lastname' => 'TURLURE'],
         ];
 
         // Affiche la nouvelle vue sans photos.
         $this->render('public/bdeMembersView', [
             'bdeMembers' => $bdeMembers,
+            'honorMembers' => $honorMembers,
         ]);
     }
 }
