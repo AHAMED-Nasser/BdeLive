@@ -18,7 +18,6 @@ use App\Modules\Controllers\AuthenticatedController;
  */
 class AboutController extends AuthenticatedController
 {
-
     public function __construct()
     {
         // La méthode parent vérifie l'authentification et redirige si l'utilisateur n'est pas connecté.

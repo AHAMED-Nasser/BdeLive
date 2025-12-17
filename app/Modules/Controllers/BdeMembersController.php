@@ -14,7 +14,6 @@ namespace App\Modules\Controllers;
  */
 class BdeMembersController extends AuthenticatedController
 {
-
     public function __construct()
     {
         // Vérifie l'authentification.
