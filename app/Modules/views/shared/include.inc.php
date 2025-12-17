@@ -143,7 +143,7 @@ function end_page(): void
                 </div>
             </ul>
         </nav>
-        <p>&copy; 2025 BdeLive. Tous droits réservés.</p>
+        <p>&copy; <?= date("Y") ?> BdeLive. Tous droits réservés.</p>
     </footer>
 
 <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
