@@ -18,13 +18,11 @@ use App\Modules\Controllers\AuthenticatedController;
  */
 class AboutController extends AuthenticatedController
 {
-    /**
-     * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
-     */
-    public function __construct(?array $params = null)
+
+    public function __construct()
     {
         // La méthode parent vérifie l'authentification et redirige si l'utilisateur n'est pas connecté.
-        parent::__construct($params);
+        parent::__construct();
 
         // Charge la vue de la page "À propos" sans les photos
         $this->render('public/aboutView');
