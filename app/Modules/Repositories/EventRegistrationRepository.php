@@ -90,6 +90,16 @@ class EventRegistrationRepository
         return $stmt->execute([$eventId, $userId]);
     }
 
+    /**
+     * Retrieves detailed information about users registered for a specific event.
+     *
+     * This method joins the USERS table with the EVENT_REGISTRATIONS table to provide
+     * a list of participant names, statuses, and contact information.
+     *
+     * @param int $eventId The unique identifier of the event.
+     * @return array<int, array{first_name: string, last_name: string, user_status: string, email: string}>
+     * An indexed array of associative arrays containing user details.
+     */
     public function getRegisteredUsersDetails(int $eventId): array
     {
         $sql = 'SELECT u.first_name, u.last_name, u.user_status
@@ -100,7 +110,9 @@ class EventRegistrationRepository
 
         $stmt = $this -> pdo -> prepare($sql);
         $stmt -> execute([$eventId]);
-        return $stmt -> fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        $results = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        return $results ?: [];
     }
 }
 
