@@ -89,6 +89,19 @@ class EventRegistrationRepository
         $stmt = $this->pdo->prepare('DELETE FROM EVENT_REGISTRATIONS WHERE event_id = ? AND user_id = ?');
         return $stmt->execute([$eventId, $userId]);
     }
+
+    public function getRegisteredUsersDetails(int $eventId): array
+    {
+        $sql = 'SELECT u.first_name, u.last_name, u.user_status
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                WHERE er.event_id = ?
+                ORDER BY u.last_name ASC';
+
+        $stmt = $this -> pdo -> prepare($sql);
+        $stmt -> execute([$eventId]);
+        return $stmt -> fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
