@@ -87,6 +87,63 @@ class EventCreationModel
     }
 
     /**
+     * Update current event in database
+     *
+     * Image update excluded for the moment
+     *
+     * @param int $eventId Event ID to edit
+     * @param string $eventName Event title/name
+     * @param DateTime $eventDate Event date
+     * @param DateTime $eventTime event time
+     * @param string $eventLocation Event location
+     * @param string $eventTheme Event theme
+     * @param string $statusParticipating Event participating (BUT1, BUT2, ...)
+     * @param string $description Event description
+     * @return bool True if update success else false
+     * @throws PDOException If the update fail
+     */
+    public function updateEvent(
+        int $eventId,
+        string $eventName,
+        DateTime $eventDate,
+        DateTime $eventTime,
+        string $eventLocation,
+        string $eventTheme,
+        string $statusParticipating,
+        string $description
+    ): bool {
+
+        try {
+            $sql = "UPDATE EVENTS SET
+            event_name = :event_name,
+            event_date = :event_date,
+            event_time = :event_time,
+            event_location = :event_location,
+            event_theme = :event_theme,
+            status_participating = :status_participating,
+            description = :description
+            WHERE event_id = :event_id";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            return $stmt->execute([
+                ':event_id' => $eventId,
+                ':event_name' => $eventName,
+                ':event_date' => $eventDate->format('Y-m-d'), // SQL format
+                'event_time' => $eventTime->format('H:i'), // SQL format
+                'event_location' => $eventLocation,
+                'event_theme' => $eventTheme,
+                ':status_participating' => $statusParticipating,
+                ':description' => $description
+            ]);
+        } catch (PDOException $e) {
+            // En cas d'erreur, on log l'erreur et on retourne false
+            error_log('EventCreationModel::updateEvent - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Delete an event by its ID
      *
      * Removes an event record from the EVENTS table.
