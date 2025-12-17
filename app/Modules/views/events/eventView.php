@@ -99,6 +99,16 @@ $userId = $user['user_id'] ?? null;
                 <!-- Bouton de suppression (admin uniquement) -->
                 <?php if (isset($user) && $user !== null && $user['user_status'] === 'BDE') : ?>
                     <div style="text-align: center; margin-top: 15px;">
+                        <form method="GET" action="index.php" style="display: inline;">
+                            <input type="hidden" name="page" value="updateEvent">
+                            <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+
+                            <button type="submit"
+                                    style="background-color: #ffc107; color: #212529; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 10px;">
+                                Modifier
+                            </button>
+                        </form>
+
                         <form method="post" action="index.php?page=deleteEvent" 
                               onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'événement \'<?= htmlspecialchars($event['event_name']) ?>\' ?\n\nCette action est irréversible.');"
                               style="display: inline;">
