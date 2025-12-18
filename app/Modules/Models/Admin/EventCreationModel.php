@@ -111,7 +111,7 @@ class EventCreationModel
         string $eventTheme,
         string $statusParticipating,
         string $description,
-        string $images = ''
+        string $images
     ): bool {
 
         try {

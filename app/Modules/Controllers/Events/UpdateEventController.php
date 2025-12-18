@@ -74,7 +74,6 @@ class UpdateEventController extends AdminController
 
     /**
      * Alternative entry point to handle the update request cycle.
-     *
      * @return void
      */
     public function handleRequest(): void
