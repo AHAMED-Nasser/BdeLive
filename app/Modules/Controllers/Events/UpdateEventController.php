@@ -5,8 +5,6 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Models\Admin\EventCreationModel;
 use App\Modules\Repositories\EventRepository;
-use Cassandra\Date;
-use DateMalformedStringException;
 use DateTime;
 use Exception;
 
@@ -34,7 +32,6 @@ class UpdateEventController extends AdminController
     /**
      * Initializes the controller, verifies admin access, and routes the request
      * to either display the form or process the submission based on the HTTP method.
-     * @throws DateMalformedStringException
      */
     public function __construct()
     {
@@ -184,11 +181,9 @@ class UpdateEventController extends AdminController
                 $eventLocation,
                 $eventTheme,
                 $statusParticipating,
-                $description
+                $description,
+                $imageJson
             );
-
-            // Persist the updated image list
-            $this->eventRepository->updateEventImages($eventId, $imageJson);
 
             if ($success) {
                 $this->redirectWithSuccess(self::REDIRECT_URL, 'Événement mis à jour avec succès.');

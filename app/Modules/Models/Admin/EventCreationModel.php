@@ -110,7 +110,8 @@ class EventCreationModel
         string $eventLocation,
         string $eventTheme,
         string $statusParticipating,
-        string $description
+        string $description,
+        string $images
     ): bool {
 
         try {
@@ -121,7 +122,8 @@ class EventCreationModel
             event_location = :event_location,
             event_theme = :event_theme,
             status_participating = :status_participating,
-            description = :description
+            description = :description,
+            images = :images
             WHERE event_id = :event_id";
 
             $stmt = $this->pdo->prepare($sql);
@@ -130,11 +132,12 @@ class EventCreationModel
                 ':event_id' => $eventId,
                 ':event_name' => $eventName,
                 ':event_date' => $eventDate->format('Y-m-d'), // SQL format
-                'event_time' => $eventTime->format('H:i'), // SQL format
-                'event_location' => $eventLocation,
-                'event_theme' => $eventTheme,
+                ':event_time' => $eventTime->format('H:i'), // SQL format
+                ':event_location' => $eventLocation,
+                ':event_theme' => $eventTheme,
                 ':status_participating' => $statusParticipating,
-                ':description' => $description
+                ':description' => $description,
+                ':images' => $images
             ]);
         } catch (PDOException $e) {
             // En cas d'erreur, on log l'erreur et on retourne false
