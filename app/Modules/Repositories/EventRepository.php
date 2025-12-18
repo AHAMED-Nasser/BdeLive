@@ -119,6 +119,27 @@ class EventRepository
             return [];
         }
     }
+
+    /**
+     * Update the images associated with an event.
+     * @param int $eventId The unique identifier of the event.
+     * @param string $imageJson
+     * @return bool True on success, false on failure.
+     */
+    public function updateEventImages(int $eventId, string $imageJson): bool
+    {
+        try {
+            $sql = 'UPDATE EVENTS SET images = :images WHERE event_id = :id';
+            $stmt = $this->pdo->prepare($sql);
+            return $stmt->execute([
+                ':images' => $imageJson,
+                ':id' => $eventId
+            ]);
+        } catch (PDOException $e) {
+            error_log('EventRepository::updateEventImages - ' . $e->getMessage());
+            return  false;
+        }
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRepository', 'EventRepository');

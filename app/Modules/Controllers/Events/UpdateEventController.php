@@ -5,6 +5,7 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Models\Admin\EventCreationModel;
 use App\Modules\Repositories\EventRepository;
+use Cassandra\Date;
 use DateMalformedStringException;
 use DateTime;
 use Exception;
@@ -142,6 +143,34 @@ class UpdateEventController extends AdminController
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
 
         try {
+            $cloudinary = new \App\Services\CloudinaryService();
+            $event = $this->eventRepository->findById($eventId);
+
+            // On décode les images actuelle, on renvoie un tableau vide dans le cas ou il n'y a rien
+            $currentImages = json_decode($event['images'] ?? '[]', true) ?: [];
+
+            // 1. Handle deletation
+            $imageToDelete = $this->request->post('delete_images', []);
+            if (!empty($imageToDelete) && is_array($imageToDelete)) {
+                foreach ($imageToDelete as $publicId) {
+                    if ($cloudinary->deleteImage($publicId)) {
+                        // Remove from our local array
+                        $currentImages = array_filter($currentImages, function ($img) use ($publicId) {
+                            $imgId = is_array($img) ? ($img['public_id'] ?? '') : '';
+                            return $imgId !== $publicId;
+                        });
+                    }
+                }
+            }
+
+            // 2. Handle New Upload
+            if (isset($_FILES['event_images']) && !empty($_FILES['event_images']['name'][0])) {
+                $newUploadedImages = $cloudinary->uploadMultipleImages($_FILES['event_images']);
+                $currentImages = array_merge($currentImages, $newUploadedImages);
+            }
+
+            $imageJson = json_encode(array_values($currentImages));
+
             // Conversion en objets DateTime
             $eventDate = new DateTime($eventDateStr);
             $eventTime = new DateTime($eventTimeStr);
@@ -157,6 +186,9 @@ class UpdateEventController extends AdminController
                 $statusParticipating,
                 $description
             );
+
+            // Persist the updated image list
+            $this->eventRepository->updateEventImages($eventId, $imageJson);
 
             if ($success) {
                 $this->redirectWithSuccess(self::REDIRECT_URL, 'Événement mis à jour avec succès.');
