@@ -81,6 +81,8 @@ class ExportUserEventController extends AdminController
                     th, td { border: 1px solid #dddddd; padding: 8px; text-align: left; }
                     th { background-color: #f2f2f2; }
                     h1 { color: #333; }
+                    .checkbox-col { width: 60px; text-align: center; } /* Largeur fixe pour les cases */
+                    .box { height: 15px; width: 15px; border: 1px solid #333; margin: auto; } /* Dessine le carré */
                 </style>
             </head>
             <body>
@@ -92,6 +94,8 @@ class ExportUserEventController extends AdminController
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Statut</th>
+                            <th>Présent</th>
+                            <th>Abscent</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,6 +104,8 @@ class ExportUserEventController extends AdminController
                                 <td><?= htmlspecialchars($user['last_name']) ?></td>
                                 <td><?= htmlspecialchars($user['first_name']) ?></td>
                                 <td><?= htmlspecialchars($user['user_status']) ?></td>
+                                <td class="checkbox-col"><div class="box"></div></td>
+                                <td class="checkbox-col"><div class="box"></div></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
