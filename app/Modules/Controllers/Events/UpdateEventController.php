@@ -191,8 +191,8 @@ class UpdateEventController extends AdminController
                 $this->redirectWithError(self::REDIRECT_URL, 'Erreur lors de la mise à jour de l\'événement.');
             }
         } catch (Exception $e) {
-            error_log('UpdateEventController::processUpdate - ' . $e->getMessage());
-            $this->redirectWithError(self::REDIRECT_URL, 'Erreur interne du serveur lors de la mise à jour.');
+            // Affiche l'erreur réelle au lieu du message générique pour tester
+            $this->redirectWithError(self::REDIRECT_URL, 'Erreur : ' . $e->getMessage());
         }
     }
 }
