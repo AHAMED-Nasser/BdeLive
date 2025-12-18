@@ -76,7 +76,6 @@ class UpdateEventController extends AdminController
      * Alternative entry point to handle the update request cycle.
      *
      * @return void
-     * @throws DateMalformedStringException
      */
     public function handleRequest(): void
     {
@@ -166,7 +165,7 @@ class UpdateEventController extends AdminController
                 $currentImages = array_merge($currentImages, $newUploadedImages);
             }
 
-            $imageJson = json_encode(array_values($currentImages));
+            $imageJson = json_encode(array_values($currentImages)) ?: '[]';
 
             // Conversion en objets DateTime
             $eventDate = new DateTime($eventDateStr);
