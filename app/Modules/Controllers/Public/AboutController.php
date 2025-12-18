@@ -18,9 +18,6 @@ use App\Modules\Controllers\AuthenticatedController;
  */
 class AboutController extends AuthenticatedController
 {
-    /**
-     * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
-     */
     // Dans le constructeur de tes contrôleurs :
     public function __construct()
     {
