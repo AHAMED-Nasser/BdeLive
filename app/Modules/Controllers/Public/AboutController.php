@@ -22,10 +22,9 @@ class AboutController extends AuthenticatedController
      * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
      */
     // Dans le constructeur de tes contrôleurs :
-    public function __construct(?array $params = null)
+    public function __construct()
     {
-        // parent::__construct($params); <-- ERREUR ICI
-        parent::__construct(); // <-- SOLUTION : Enlever $params
+        parent::__construct();
 
         // Charge la vue de la page "À propos" sans les photos
         $this->render('public/aboutView');
