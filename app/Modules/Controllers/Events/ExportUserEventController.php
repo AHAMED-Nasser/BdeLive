@@ -45,12 +45,11 @@ class ExportUserEventController extends AdminController
 
     /**
      * Generates and streams a PDF file containing the list of registrants.
-     *
      * Fetches event data and registrant details, renders an HTML template,
      * and sends the resulting PDF to the browser as an attachment.
-     *
      * @param int $eventId The validated event identifier.
      * @return void
+     * @throws \Exception
      */
     private function generatePdf(int $eventId): void
     {
