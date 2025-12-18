@@ -14,9 +14,6 @@ namespace App\Modules\Controllers;
  */
 class BdeMembersController extends AuthenticatedController
 {
-    /**
-     * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
-     */
     // Dans le constructeur de tes contrôleurs :
     public function __construct()
     {
