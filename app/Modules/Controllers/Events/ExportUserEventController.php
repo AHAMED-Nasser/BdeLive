@@ -54,6 +54,15 @@ class ExportUserEventController extends AdminController
      */
     private function generatePdf(int $eventId): void
     {
+        if (!class_exists('Dompdf\Options')) {
+            $autoloadPath = __DIR__ . '/../../../../vendor/autoload.php';
+            if (file_exists($autoloadPath)) {
+                require_once $autoloadPath;
+            } else {
+                throw new \Exception("L'autoloader de Composer est introuvable. Veuillez lancer 'composer install'.");
+            }
+        }
+
         $eventRepo = new EventRepository();
         $registrationRepo = new EventRegistrationRepository();
 
