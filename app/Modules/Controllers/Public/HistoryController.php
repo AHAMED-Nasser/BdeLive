@@ -13,4 +13,3 @@ class HistoryController extends DefaultController
         $this->render('public/historyView');
     }
 }
-
