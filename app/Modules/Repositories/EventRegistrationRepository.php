@@ -114,6 +114,20 @@ class EventRegistrationRepository
         $results = $stmt -> fetchAll(PDO::FETCH_ASSOC);
         return $results ?: [];
     }
+
+    // get inscription user by event ID
+    public function getRegistrationsByEventId(int $eventId): array
+    {
+        $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
+            FROM event_registrations er
+            JOIN users u ON er.user_id = u.id
+            WHERE er.event_id = :event_id
+            ORDER BY er.registration_date DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['event_id' => $eventId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
