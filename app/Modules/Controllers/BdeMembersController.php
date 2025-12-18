@@ -14,10 +14,14 @@ namespace App\Modules\Controllers;
  */
 class BdeMembersController extends AuthenticatedController
 {
-    public function __construct()
+    /**
+     * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
+     */
+    public function __construct(?array $params = null)
     {
         // Vérifie l'authentification.
-        parent::__construct();
+        parent::__construct($params);
+
 
         // Membres actifs du Bureau
         $bdeMembers = [
