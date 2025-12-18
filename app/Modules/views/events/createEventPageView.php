@@ -71,7 +71,7 @@ start_page("Créer un événement", true, $user ?? null) ?>
             <div class="insert-image">
                 <label>Insérer des images d'illustration</label>
                 <label for="event-images" id="drop-area">
-                    <input id="event-images" name="event-images[]" type="file" accept="image/*" multiple hidden>
+                    <input id="event-images" name="event_images[]" type="file" accept="image/*" multiple hidden>
                     <div id="image-view">
                         <p id="image-view-text">Glissez dépossé ici <br> pour ajouter une image</p>
                     </div>

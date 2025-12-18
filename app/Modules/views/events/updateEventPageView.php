@@ -36,6 +36,7 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
             <form id="form" action="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" method="POST" enctype="multipart/form-data">
                 <?= $csrf->getTokenField() ?>
                 <input type="hidden" name="action" value="submitUpdate">
+                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
 
                 <label for="event-name">Nom de l'événement</label>
                 <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement"
@@ -75,20 +76,8 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                     <?php endforeach; ?>
                 </div>
 
-
                 <label for="description">Description de l'événement</label>
                 <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event['description']) ?></textarea>
-
-                <div class="insert-image" style="margin-top: 20px;">
-                    <p style="text-align: center; color: #5a6fd8;">
-                        * La modification des images n'est pas encore implémentée *
-                    </p>
-                </div>
-
-                <button type="submit">Enregistrer les modifications</button>
-                <a href="index.php?page=event" class="btn btn-secondary" style="background-color: #6c757d; color: white; display: block; text-align: center; padding: 12px; border-radius: 5px; margin-top: 15px;">
-                    Annuler et Retour à la liste
-                </a>
 
                 <div class="image-management" style="margin-top: 20px;">
                     <label>Images actuelles (cocher pour supprimer) :</label>
@@ -112,6 +101,16 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
 
                     <label for="event_images">Ajouter de nouvelles images :</label>
                     <input type="file" name="event_images[]" id="event_images" multiple accept="image/*" class="form-control">
+                </div>
+
+                <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">
+                    <button type="submit" name="action" value="submitUpdate" style="width: 100%; padding: 12px; background-color: #5a6fd8; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        Enregistrer les modifications
+                    </button>
+
+                    <button type="submit" formaction="index.php?page=event" formmethod="POST" formnovalidate style="width: 100%; background-color: #6c757d; color: white; padding: 12px; border-radius: 5px; border: none; cursor: pointer;">
+                        Annuler et Retour à la liste
+                    </button>
                 </div>
 
             </form>

@@ -40,7 +40,7 @@ class UpdateEventController extends AdminController
         $this->eventModel = new EventCreationModel();
         $this->eventRepository = new EventRepository();
 
-        $eventId = (int) $this -> request -> get('id', 0);
+        $eventId = (int) $this -> request -> post('event_id', $this->request->get('id', 0));
 
         if ($eventId <= 0) {
             $this->redirectWithError(self::REDIRECT_URL, "ID d'événement non spécifié ou invalide.");
