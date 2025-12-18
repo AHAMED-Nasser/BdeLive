@@ -17,10 +17,11 @@ class BdeMembersController extends AuthenticatedController
     /**
      * @param array<string, mixed>|null $params Les paramètres passés au contrôleur.
      */
+    // Dans le constructeur de tes contrôleurs :
     public function __construct(?array $params = null)
     {
-        // Vérifie l'authentification.
-        parent::__construct($params);
+        // parent::__construct($params); <-- ERREUR ICI
+        parent::__construct(); // <-- SOLUTION : Enlever $params
 
 
         // Membres actifs du Bureau
