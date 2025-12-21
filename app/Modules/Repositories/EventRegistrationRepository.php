@@ -116,8 +116,10 @@ class EventRegistrationRepository
     }
 
     /**
+     * Récupère les inscriptions pour un événement spécifique.
+     *
      * @param int $eventId
-     * @return Registration[]  <-- Specify the type here
+     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
      */
     public function getRegistrationsByEventId(int $eventId): array
     {
@@ -127,7 +129,7 @@ class EventRegistrationRepository
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
