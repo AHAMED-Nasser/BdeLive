@@ -30,7 +30,6 @@ class EventRegistrationRepository
      * @var PDO
      */
     private PDO $pdo;
-    private $db;
 
     /**
      * Constructor - Initialize database connection
@@ -39,10 +38,9 @@ class EventRegistrationRepository
      *
      * @return void
      */
-    public function __construct($db)
+    public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
-        $this->db = $db;
     }
 
     /**
