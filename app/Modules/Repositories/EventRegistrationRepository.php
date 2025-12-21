@@ -30,6 +30,7 @@ class EventRegistrationRepository
      * @var PDO
      */
     private PDO $pdo;
+    private $db;
 
     /**
      * Constructor - Initialize database connection
@@ -38,9 +39,10 @@ class EventRegistrationRepository
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($db)
     {
         $this->pdo = Database::getInstance()->getConnection();
+        $this->db = $db;
     }
 
     /**
@@ -115,7 +117,10 @@ class EventRegistrationRepository
         return $results ?: [];
     }
 
-    // get inscription user by event ID
+    /**
+     * @param int $eventId
+     * @return Registration[]  <-- Specify the type here
+     */
     public function getRegistrationsByEventId(int $eventId): array
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
