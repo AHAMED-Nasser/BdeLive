@@ -95,7 +95,8 @@ class ExportUserEventController extends AdminController
             </head>
             <body>
                 <h1>Liste des inscrits: <?= htmlspecialchars($event['event_name']) ?></h1>
-                <p>Date de l'événement : <?= htmlspecialchars($event['event_date']) ?> à <?= htmlspecialchars($event['event_time'])?></p>
+                <p>Date de l'événement : <?= htmlspecialchars($event['event_date']) ?>
+                    à <?= htmlspecialchars($event['event_time']) ?></p>
                 <table>
                     <thead>
                         <tr>

@@ -141,5 +141,3 @@ class EventRepository
         }
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\EventRepository', 'EventRepository');

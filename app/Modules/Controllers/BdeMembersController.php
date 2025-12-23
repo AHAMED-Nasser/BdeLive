@@ -22,12 +22,42 @@ class BdeMembersController extends AuthenticatedController
 
         // Membres actifs du Bureau
         $bdeMembers = [
-            ['firstname' => 'Ewan', 'lastname' => 'EL KIHAL', 'role' => 'Président', 'description' => 'Responsable de l\'équipe et de la vision globale.'],
-            ['firstname' => 'Matteo', 'lastname' => 'BELZ', 'role' => 'Co-président', 'description' => 'Gestion de la communication et des réunions.'],
-            ['firstname' => 'Nassim', 'lastname' => 'BUCHMULLER', 'role' => 'Secrétaire', 'description' => 'Responsable marketing et design.'],
-            ['firstname' => 'Valentin', 'lastname' => 'GORGODIAN', 'role' => 'Trésorier', 'description' => 'Gestion du budget et des finances.'],
-            ['firstname' => 'Claire', 'lastname' => 'ARSENA', 'role' => 'Responsable événements et communication', 'description' => 'Relations inter-associations et partenariats.'],
-            ['firstname' => 'Pablo', 'lastname' => 'SENE', 'role' => 'Pôle événements', 'description' => 'Membre actif du pôle événementiel.'],
+            [
+                'firstname' => 'Ewan',
+                'lastname' => 'EL KIHAL',
+                'role' => 'Président',
+                'description' => 'Responsable de l\'équipe et de la vision globale.'
+            ],
+            [
+                'firstname' => 'Matteo',
+                'lastname' => 'BELZ',
+                'role' => 'Co-président',
+                'description' => 'Gestion de la communication et des réunions.'
+            ],
+            [
+                'firstname' => 'Nassim',
+                'lastname' => 'BUCHMULLER',
+                'role' => 'Secrétaire',
+                'description' => 'Responsable marketing et design.'
+            ],
+            [
+                'firstname' => 'Valentin',
+                'lastname' => 'GORGODIAN',
+                'role' => 'Trésorier',
+                'description' => 'Gestion du budget et des finances.'
+            ],
+            [
+                'firstname' => 'Claire',
+                'lastname' => 'ARSENA',
+                'role' => 'Responsable événements et communication',
+                'description' => 'Relations inter-associations et partenariats.'
+            ],
+            [
+                'firstname' => 'Pablo',
+                'lastname' => 'SENE',
+                'role' => 'Pôle événements',
+                'description' => 'Membre actif du pôle événementiel.'
+            ],
         ];
 
         // Membres d'honneur

@@ -229,5 +229,3 @@ class PasswordReset
         }
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\PasswordReset', 'PasswordReset');
