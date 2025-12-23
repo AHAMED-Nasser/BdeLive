@@ -400,5 +400,106 @@ class ArticleModelTest extends TestCase
 
         $this->assertTrue($result);
     }
+
+    /**
+     * Test getPaginatedArticles returns correct articles
+     */
+    public function testGetPaginatedArticlesReturnsArticles(): void
+    {
+        $expectedArticles = [
+            [
+                'id' => 1,
+                'title' => 'Article 1',
+                'slug' => 'article-1',
+                'description' => 'Description 1',
+                'image_url' => 'https://cloudinary.com/image1.jpg',
+                'author_firstname' => 'John',
+                'author_lastname' => 'Doe',
+                'created_at' => '2024-01-01 10:00:00'
+            ],
+            [
+                'id' => 2,
+                'title' => 'Article 2',
+                'slug' => 'article-2',
+                'description' => 'Description 2',
+                'image_url' => '',
+                'author_firstname' => 'Jane',
+                'author_lastname' => 'Smith',
+                'created_at' => '2024-01-02 10:00:00'
+            ]
+        ];
+
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->exactly(2))
+            ->method('bindValue')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($expectedArticles);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($stmt);
+
+        $result = $this->model->getPaginatedArticles(0, 10);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertEquals($expectedArticles, $result);
+    }
+
+    /**
+     * Test getPaginatedArticles returns empty array on error
+     */
+    public function testGetPaginatedArticlesReturnsEmptyArrayOnError(): void
+    {
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->will($this->throwException(new PDOException('Database error')));
+
+        $result = $this->model->getPaginatedArticles(0, 10);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Test countArticles returns correct count
+     */
+    public function testCountArticlesReturnsCorrectCount(): void
+    {
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn(['total' => 15]);
+
+        $this->mockPdo->expects($this->once())
+            ->method('query')
+            ->willReturn($stmt);
+
+        $result = $this->model->countArticles();
+
+        $this->assertEquals(15, $result);
+    }
+
+    /**
+     * Test countArticles returns 0 on error
+     */
+    public function testCountArticlesReturnsZeroOnError(): void
+    {
+        $this->mockPdo->expects($this->once())
+            ->method('query')
+            ->will($this->throwException(new PDOException('Database error')));
+
+        $result = $this->model->countArticles();
+
+        $this->assertEquals(0, $result);
+    }
+
 }
 

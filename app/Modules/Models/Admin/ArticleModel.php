@@ -159,4 +159,55 @@ class ArticleModel
             return null;
         }
     }
+
+    /**
+     * Get paginated articles ordered by creation date (newest first)
+     *
+     * @param int $offset Starting offset
+     * @param int $limit Number of articles to fetch
+     * @return array<int, array<string, mixed>> Array of articles
+     */
+    public function getPaginatedArticles(int $offset, int $limit): array
+    {
+        try {
+            $query = "SELECT id, title, slug, description, image_url, 
+                      author_firstname, author_lastname, created_at 
+                      FROM articles 
+                      ORDER BY created_at DESC 
+                      LIMIT :limit OFFSET :offset";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result ?: [];
+        } catch (PDOException $e) {
+            error_log('ArticleModel::getPaginatedArticles - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Count total number of articles
+     *
+     * @return int Total count
+     */
+    public function countArticles(): int
+    {
+        try {
+            $query = "SELECT COUNT(*) as total FROM articles";
+            $stmt = $this->pdo->query($query);
+
+            if ($stmt === false) {
+                return 0;
+            }
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return (int)($result['total'] ?? 0);
+        } catch (PDOException $e) {
+            error_log('ArticleModel::countArticles - ' . $e->getMessage());
+            return 0;
+        }
+    }
 }

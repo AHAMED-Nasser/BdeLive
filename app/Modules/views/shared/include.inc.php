@@ -27,6 +27,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <link rel="stylesheet" href="./assets/css/caroussel.css">
     <link rel="stylesheet" href="./assets/css/createEvent.css">
     <link rel="stylesheet" href="./assets/css/profile.css">
+    <link rel="stylesheet" href="./assets/css/articles.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -41,6 +42,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
+                <li><a href="index.php?page=articles">Nos articles</a></li>
                 <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
@@ -81,6 +83,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <div class="sidebar-menu">
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
+                    <li><a href="index.php?page=articles">Nos articles</a></li>
                     <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
