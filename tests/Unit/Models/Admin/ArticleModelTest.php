@@ -278,7 +278,7 @@ class ArticleModelTest extends TestCase
 
         $this->mockPdo->expects($this->once())
             ->method('prepare')
-            ->with('SELECT * FROM articles WHERE id = :id')
+            ->with('SELECT * FROM ARTICLES WHERE id = :id')
             ->willReturn($this->mockStmt);
 
         $result = $this->model->getArticleById($articleId);
@@ -338,7 +338,7 @@ class ArticleModelTest extends TestCase
 
         $this->mockPdo->expects($this->once())
             ->method('prepare')
-            ->with('SELECT * FROM articles WHERE slug = :slug')
+            ->with('SELECT * FROM ARTICLES WHERE slug = :slug')
             ->willReturn($this->mockStmt);
 
         $result = $this->model->getArticleBySlug($slug);
