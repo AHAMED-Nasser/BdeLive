@@ -63,7 +63,7 @@ class ArticleModel
             // Generate unique slug from title
             $slug = $this->generateUniqueSlug($title);
 
-            $query = "INSERT INTO articles (title, slug, description, image_url, author_firstname, author_lastname) 
+            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author_firstname, author_lastname) 
                       VALUES (:title, :slug, :description, :image_url, :author_firstname, :author_lastname)";
 
             $stmt = $this->pdo->prepare($query);
@@ -107,7 +107,7 @@ class ArticleModel
     private function slugExists(string $slug): bool
     {
         try {
-            $query = "SELECT COUNT(*) FROM articles WHERE slug = :slug";
+            $query = "SELECT COUNT(*) FROM ARTICLES WHERE slug = :slug";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([':slug' => $slug]);
 
@@ -127,7 +127,7 @@ class ArticleModel
     public function getArticleById(int $articleId): ?array
     {
         try {
-            $query = "SELECT * FROM articles WHERE id = :id";
+            $query = "SELECT * FROM ARTICLES WHERE id = :id";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([':id' => $articleId]);
 
@@ -148,7 +148,7 @@ class ArticleModel
     public function getArticleBySlug(string $slug): ?array
     {
         try {
-            $query = "SELECT * FROM articles WHERE slug = :slug";
+            $query = "SELECT * FROM ARTICLES WHERE slug = :slug";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([':slug' => $slug]);
 
@@ -172,7 +172,7 @@ class ArticleModel
         try {
             $query = "SELECT id, title, slug, description, image_url, 
                       author_firstname, author_lastname, created_at 
-                      FROM articles 
+                      FROM ARTICLES 
                       ORDER BY created_at DESC 
                       LIMIT :limit OFFSET :offset";
             $stmt = $this->pdo->prepare($query);
@@ -196,7 +196,7 @@ class ArticleModel
     public function countArticles(): int
     {
         try {
-            $query = "SELECT COUNT(*) as total FROM articles";
+            $query = "SELECT COUNT(*) as total FROM ARTICLES";
             $stmt = $this->pdo->query($query);
 
             if ($stmt === false) {
