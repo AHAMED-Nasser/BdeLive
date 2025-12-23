@@ -71,7 +71,10 @@ class EventRegistrationRepository
      */
     public function registerUser(int $eventId, int $userId): bool
     {
-        $stmt = $this->pdo->prepare('INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status) VALUES (?, ?, ?)');
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status) ' .
+            'VALUES (?, ?, ?)'
+        );
         return $stmt->execute([$eventId, $userId, 'Confirmé']);
     }
 
@@ -134,5 +137,3 @@ class EventRegistrationRepository
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');

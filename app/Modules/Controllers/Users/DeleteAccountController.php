@@ -92,7 +92,10 @@ class DeleteAccountController extends AuthenticatedController
                 $this->auth->logout();
 
                 // Set success message for after logout
-                $this->setSuccess('Votre compte a bien été supprimé ! <br><a href="index.php?page=register">Cliquez ici pour créer un nouveau compte</a>');
+                $this->setSuccess(
+                    'Votre compte a bien été supprimé ! <br>' .
+                    '<a href="index.php?page=register">Cliquez ici pour créer un nouveau compte</a>'
+                );
                 $this->redirect('index.php?page=home');
             } else {
                 $this->setError('Impossible de supprimer le compte.');

@@ -67,7 +67,10 @@ class EventCreationModel
         string $images = ''
     ): bool {
         try {
-            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, event_theme, status_participating, description, images) VALUES (:event_name, :event_date, :event_time, :event_location, :event_theme, :status_participating, :description, :images)";
+            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, " .
+                "event_theme, status_participating, description, images) " .
+                "VALUES (:event_name, :event_date, :event_time, :event_location, " .
+                ":event_theme, :status_participating, :description, :images)";
             $stmt = $this->pdo->prepare($query);
             return $stmt -> execute([
                 ':event_name' => $eventName,
@@ -169,5 +172,3 @@ class EventCreationModel
         }
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\EventCreationModel', 'EventCreationModel');

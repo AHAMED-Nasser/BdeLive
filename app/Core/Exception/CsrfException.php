@@ -17,8 +17,11 @@ use Exception;
  */
 class CsrfException extends Exception
 {
-    public function __construct(string $message = 'CSRF token validation failed', int $code = 403, ?\Throwable $previous = null)
-    {
+    public function __construct(
+        string $message = 'CSRF token validation failed',
+        int $code = 403,
+        ?\Throwable $previous = null
+    ) {
         parent::__construct($message, $code, $previous);
     }
 }

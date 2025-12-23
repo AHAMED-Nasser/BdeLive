@@ -45,6 +45,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
+                    <li><a href="index.php?page=createArticle">Créer un article</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
                         $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
@@ -83,6 +84,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
+                        <li><a href="index.php?page=createArticle">Créer un article</a></li>
                         <li><a href="index.php?page=profile">
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));

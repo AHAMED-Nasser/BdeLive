@@ -73,7 +73,14 @@ class UserManager
      * Returns all user information including the hashed password.
      *
      * @param string $email The email address to search for
-     * @return array{user_id: int, last_name: string, first_name: string, user_status: string, email: string, password: string}|false
+     * @return array{
+     *     user_id: int,
+     *     last_name: string,
+     *     first_name: string,
+     *     user_status: string,
+     *     email: string,
+     *     password: string
+     * }|false
      * Array containing user data if found, false otherwise
      * @throws PDOException If database query fails
      */
@@ -110,8 +117,13 @@ class UserManager
      * @return int|false The new user ID if successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function createUser(string $last_name, string $first_name, string $user_status, string $email, string $password): int|false
-    {
+    public function createUser(
+        string $last_name,
+        string $first_name,
+        string $user_status,
+        string $email,
+        string $password
+    ): int|false {
         try {
             $hashedPassword = $this->hashPassword($password);
 
@@ -151,8 +163,13 @@ class UserManager
      * @return bool True if update successful, false otherwise
      * @throws PDOException If database query fails
      */
-    public function updateUser(int $user_id, string $last_name, string $first_name, string $user_status, string $email): bool
-    {
+    public function updateUser(
+        int $user_id,
+        string $last_name,
+        string $first_name,
+        string $user_status,
+        string $email
+    ): bool {
         try {
             $query = "UPDATE USERS 
                       SET last_name = :last_name, 
@@ -293,5 +310,3 @@ class UserManager
         }
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\UserManager', 'UserManager');
