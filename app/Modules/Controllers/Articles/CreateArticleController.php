@@ -87,31 +87,29 @@ class CreateArticleController extends AdminController
             $this->redirect('index.php?page=createArticle');
         }
 
-        // Upload image to Cloudinary
+        // Upload image to Cloudinary (optionnel)
         $imageUrl = '';
         $file = $this->request->file('article-image');
 
-        if ($file === null || empty($file['name'])) {
-            $this->setError('L\'image est obligatoire.');
-            $this->redirect('index.php?page=createArticle');
-        }
+        // Upload seulement si une image est fournie
+        if ($file !== null && !empty($file['name']) && !empty($file['tmp_name'])) {
+            try {
+                $cloudinary = new CloudinaryService();
+                /** @var array{name: string, type: string, tmp_name: string, error: int, size: int} $file */
+                $uploadedImage = $cloudinary->uploadImage($file, 'articles');
 
-        try {
-            $cloudinary = new CloudinaryService();
-            /** @var array{name: string, type: string, tmp_name: string, error: int, size: int} $file */
-            $uploadedImage = $cloudinary->uploadImage($file, 'articles');
+                if ($uploadedImage === null) {
+                    error_log('CreateArticleController::createArticle - Image upload failed');
+                    $this->setError('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                    $this->redirect('index.php?page=createArticle');
+                }
 
-            if ($uploadedImage === null) {
-                error_log('CreateArticleController::createArticle - Image upload failed');
+                $imageUrl = $uploadedImage['url'];
+            } catch (\Exception $e) {
+                error_log('CreateArticleController::createArticle - Cloudinary error: ' . $e->getMessage());
                 $this->setError('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
                 $this->redirect('index.php?page=createArticle');
             }
-
-            $imageUrl = $uploadedImage['url'];
-        } catch (\Exception $e) {
-            error_log('CreateArticleController::createArticle - Cloudinary error: ' . $e->getMessage());
-            $this->setError('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
-            $this->redirect('index.php?page=createArticle');
         }
 
         // Save article to database

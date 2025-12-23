@@ -47,9 +47,9 @@ start_page("Créer un article", true, $user ?? null) ?>
             <input id="author-lastname" type="text" name="author-lastname" placeholder="Nom de l'auteur" required>
 
             <div class="insert-image">
-                <label>Image de l'article</label>
+                <label>Image de l'article (optionnel)</label>
                 <label for="article-image" id="drop-area">
-                    <input id="article-image" name="article-image" type="file" accept="image/*" hidden required>
+                    <input id="article-image" name="article-image" type="file" accept="image/*" hidden>
                     <div id="image-view">
                         <p id="image-view-text">Glissez déposez ici <br> pour ajouter une image</p>
                     </div>
