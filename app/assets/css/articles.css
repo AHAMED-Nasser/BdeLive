@@ -70,6 +70,34 @@
     margin-bottom: 15px;
 }
 
+/* Actions pour les administrateurs */
+.article-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Bouton modifier pour les articles (même style que les événements) */
+.article-actions .btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.article-actions .btn-edit:hover {
+    background-color: #e0a800;
+    text-decoration: none;
+    color: #212529;
+}
+
 /* Pagination */
 .pagination {
     display: flex;

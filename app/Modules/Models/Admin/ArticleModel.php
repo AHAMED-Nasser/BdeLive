@@ -207,4 +207,115 @@ class ArticleModel
             return 0;
         }
     }
+
+    /**
+     * Update an existing article in the database
+     *
+     * Updates an article record with new information. If the title has changed,
+     * generates a new unique slug. The image URL is only updated if a new image
+     * is provided (non-empty string).
+     *
+     * @param int $articleId The ID of the article to update
+     * @param string $title New article title
+     * @param string $description New article description/content
+     * @param string $imageUrl New Cloudinary image URL (empty string to keep existing)
+     * @param string $author New author's full name
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function updateArticle(
+        int $articleId,
+        string $title,
+        string $description,
+        string $imageUrl,
+        string $author
+    ): bool {
+        try {
+            // Get current article to check if title changed
+            $currentArticle = $this->getArticleById($articleId);
+            if ($currentArticle === null) {
+                error_log('ArticleModel::updateArticle - Article not found: ' . $articleId);
+                return false;
+            }
+
+            // Generate new slug if title changed
+            $slug = $currentArticle['slug'];
+            if ($currentArticle['title'] !== $title) {
+                $slug = $this->generateUniqueSlugForUpdate($title, $articleId);
+            }
+
+            // Build query - only update image_url if a new one is provided
+            if (!empty($imageUrl)) {
+                $query = "UPDATE ARTICLES 
+                         SET title = :title, slug = :slug, description = :description, 
+                             image_url = :image_url, author = :author 
+                         WHERE id = :id";
+                $params = [
+                    ':title' => $title,
+                    ':slug' => $slug,
+                    ':description' => $description,
+                    ':image_url' => $imageUrl,
+                    ':author' => $author,
+                    ':id' => $articleId
+                ];
+            } else {
+                $query = "UPDATE ARTICLES 
+                         SET title = :title, slug = :slug, description = :description, 
+                             author = :author 
+                         WHERE id = :id";
+                $params = [
+                    ':title' => $title,
+                    ':slug' => $slug,
+                    ':description' => $description,
+                    ':author' => $author,
+                    ':id' => $articleId
+                ];
+            }
+
+            $stmt = $this->pdo->prepare($query);
+            return $stmt->execute($params);
+        } catch (PDOException $e) {
+            error_log('ArticleModel::updateArticle - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Generate a unique slug for an article update
+     *
+     * Similar to generateUniqueSlug but excludes the current article from uniqueness check.
+     * This allows updating an article without changing its slug if the title hasn't changed,
+     * or generating a new unique slug if the title has changed.
+     *
+     * @param string $title The title to convert
+     * @param int $excludeId The article ID to exclude from uniqueness check
+     * @return string A unique slug
+     */
+    private function generateUniqueSlugForUpdate(string $title, int $excludeId): string
+    {
+        return SlugGenerator::generateUnique($title, function (string $slug) use ($excludeId): bool {
+            return $this->slugExistsExcludingId($slug, $excludeId);
+        });
+    }
+
+    /**
+     * Check if a slug already exists in the database, excluding a specific article ID
+     *
+     * @param string $slug The slug to check
+     * @param int $excludeId The article ID to exclude from the check
+     * @return bool True if slug exists (excluding the specified ID), false otherwise
+     */
+    private function slugExistsExcludingId(string $slug, int $excludeId): bool
+    {
+        try {
+            $query = "SELECT COUNT(*) FROM ARTICLES WHERE slug = :slug AND id != :id";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([':slug' => $slug, ':id' => $excludeId]);
+
+            return $stmt->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            error_log('ArticleModel::slugExistsExcludingId - ' . $e->getMessage());
+            return false;
+        }
+    }
 }
