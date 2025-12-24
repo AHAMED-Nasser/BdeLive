@@ -58,7 +58,7 @@ class LoginController extends DefaultController
 
         // Get and sanitize inputs
         $email = trim((string) $this->request->post('email', ''));
-        $mdp = (string) $this->request->post('pwd', '');
+        $mdp = (string) $this->request->post('password', '');
 
         // Validation
         if (empty($email) || empty($mdp)) {
