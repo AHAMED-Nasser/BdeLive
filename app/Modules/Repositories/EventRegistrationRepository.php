@@ -125,7 +125,7 @@ class EventRegistrationRepository
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
             FROM event_registrations er
-            JOIN users u ON er.user_id = u.id
+            JOIN users u ON er.user_id = u.id 
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
