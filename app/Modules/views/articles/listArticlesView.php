@@ -51,6 +51,14 @@ start_page("Nos articles", true, $user ?? null);
                                     mb_substr(strip_tags($article['description']), 0, 150)
                                 ) ?>...
                             </p>
+                            <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
+                                <div class="article-actions">
+                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                       class="btn-edit">
+                                        Modifier
+                                    </a>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </article>
                 <?php endforeach; ?>
