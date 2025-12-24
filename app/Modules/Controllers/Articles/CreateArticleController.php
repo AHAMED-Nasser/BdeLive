@@ -60,8 +60,7 @@ class CreateArticleController extends AdminController
      * Required form fields:
      * - article-title: Article title
      * - article-description: Article content/description
-     * - author-firstname: Author's first name
-     * - author-lastname: Author's last name
+     * - author: Author's full name
      * - article-image: Image file (uploaded to Cloudinary)
      *
      * @return void Redirects to appropriate page with flash message
@@ -78,11 +77,10 @@ class CreateArticleController extends AdminController
         // Get form data using Request object (not superglobals)
         $title = (string) $this->request->post('article-title', '');
         $description = (string) $this->request->post('article-description', '');
-        $authorFirstname = (string) $this->request->post('author-firstname', '');
-        $authorLastname = (string) $this->request->post('author-lastname', '');
+        $author = (string) $this->request->post('author', '');
 
         // Validate required fields
-        if (empty($title) || empty($description) || empty($authorFirstname) || empty($authorLastname)) {
+        if (empty($title) || empty($description) || empty($author)) {
             $this->setError('Tous les champs sont obligatoires.');
             $this->redirect('index.php?page=createArticle');
         }
@@ -118,8 +116,7 @@ class CreateArticleController extends AdminController
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         if ($result) {

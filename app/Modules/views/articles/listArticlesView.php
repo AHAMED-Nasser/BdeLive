@@ -43,8 +43,7 @@ start_page("Nos articles", true, $user ?? null);
                                 <?= htmlspecialchars($article['title']) ?>
                             </h2>
                             <p class="article-meta">
-                                Par <?= htmlspecialchars($article['author_firstname']) ?>
-                                <?= htmlspecialchars($article['author_lastname']) ?>
+                                Par <?= htmlspecialchars($article['author']) ?>
                                 le <?= date('d/m/Y', strtotime($article['created_at'])) ?>
                             </p>
                             <p class="article-description">

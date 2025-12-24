@@ -53,8 +53,7 @@ class ArticleModelTest extends TestCase
         $title = 'Mon Premier Article';
         $description = 'Ceci est une description de test pour l\'article.';
         $imageUrl = 'https://res.cloudinary.com/test/image/upload/v123/articles/test.jpg';
-        $authorFirstname = 'Jean';
-        $authorLastname = 'Dupont';
+        $author = 'Jean Dupont';
 
         // Mock slug existence check (slug doesn't exist)
         $checkStmt = $this->createMock(PDOStatement::class);
@@ -64,13 +63,12 @@ class ArticleModelTest extends TestCase
         $insertStmt = $this->createMock(PDOStatement::class);
         $insertStmt->expects($this->once())
             ->method('execute')
-            ->with($this->callback(function ($params) use ($title, $description, $imageUrl, $authorFirstname, $authorLastname) {
+            ->with($this->callback(function ($params) use ($title, $description, $imageUrl, $author) {
                 return $params[':title'] === $title &&
                        $params[':slug'] === 'mon-premier-article' &&
                        $params[':description'] === $description &&
                        $params[':image_url'] === $imageUrl &&
-                       $params[':author_firstname'] === $authorFirstname &&
-                       $params[':author_lastname'] === $authorLastname;
+                       $params[':author'] === $author;
             }))
             ->willReturn(true);
 
@@ -82,8 +80,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertTrue($result);
@@ -97,8 +94,7 @@ class ArticleModelTest extends TestCase
         $title = 'Article Spécial 2024';
         $description = 'Description test';
         $imageUrl = 'https://cloudinary.com/test.jpg';
-        $authorFirstname = 'Marie';
-        $authorLastname = 'Martin';
+        $author = 'Marie Martin';
 
         // Mock for slug existence check
         $checkStmt = $this->createMock(PDOStatement::class);
@@ -124,8 +120,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertTrue($result);
@@ -139,8 +134,7 @@ class ArticleModelTest extends TestCase
         $title = 'Article   avec    espaces';
         $description = 'Test';
         $imageUrl = 'https://cloudinary.com/test.jpg';
-        $authorFirstname = 'Paul';
-        $authorLastname = 'Durand';
+        $author = 'Paul Durand';
 
         $checkStmt = $this->createMock(PDOStatement::class);
         $checkStmt->method('execute')->willReturn(true);
@@ -163,8 +157,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertTrue($result);
@@ -178,8 +171,7 @@ class ArticleModelTest extends TestCase
         $title = 'Article Test';
         $description = 'Description';
         $imageUrl = 'https://cloudinary.com/test.jpg';
-        $authorFirstname = 'Sophie';
-        $authorLastname = 'Bernard';
+        $author = 'Sophie Bernard';
 
         // Mock slug existence checks
         $checkStmt1 = $this->createMock(PDOStatement::class);
@@ -207,8 +199,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertTrue($result);
@@ -222,8 +213,7 @@ class ArticleModelTest extends TestCase
         $title = 'Test Article';
         $description = 'Description';
         $imageUrl = 'https://cloudinary.com/test.jpg';
-        $authorFirstname = 'Test';
-        $authorLastname = 'User';
+        $author = 'Test User';
 
         // First call succeeds (slug check), second call throws exception (insert)
         $checkStmt = $this->createMock(PDOStatement::class);
@@ -241,8 +231,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertFalse($result);
@@ -260,8 +249,7 @@ class ArticleModelTest extends TestCase
             'slug' => 'test-article',
             'description' => 'Test description',
             'image_url' => 'https://cloudinary.com/test.jpg',
-            'author_firstname' => 'Jean',
-            'author_lastname' => 'Dupont',
+                'author' => 'Jean Dupont',
             'created_at' => '2024-01-01 10:00:00',
             'updated_at' => '2024-01-01 10:00:00'
         ];
@@ -322,8 +310,7 @@ class ArticleModelTest extends TestCase
             'slug' => $slug,
             'description' => 'Test description',
             'image_url' => 'https://cloudinary.com/test.jpg',
-            'author_firstname' => 'Jean',
-            'author_lastname' => 'Dupont'
+            'author' => 'Jean Dupont'
         ];
 
         $this->mockStmt->expects($this->once())
@@ -370,8 +357,7 @@ class ArticleModelTest extends TestCase
         $title = '!!!###$$$';
         $description = 'Test';
         $imageUrl = 'https://cloudinary.com/test.jpg';
-        $authorFirstname = 'Test';
-        $authorLastname = 'User';
+        $author = 'Test User';
 
         $checkStmt = $this->createMock(PDOStatement::class);
         $checkStmt->method('execute')->willReturn(true);
@@ -394,8 +380,7 @@ class ArticleModelTest extends TestCase
             $title,
             $description,
             $imageUrl,
-            $authorFirstname,
-            $authorLastname
+            $author
         );
 
         $this->assertTrue($result);
@@ -413,8 +398,7 @@ class ArticleModelTest extends TestCase
                 'slug' => 'article-1',
                 'description' => 'Description 1',
                 'image_url' => 'https://cloudinary.com/image1.jpg',
-                'author_firstname' => 'John',
-                'author_lastname' => 'Doe',
+                'author' => 'John Doe',
                 'created_at' => '2024-01-01 10:00:00'
             ],
             [
@@ -423,8 +407,7 @@ class ArticleModelTest extends TestCase
                 'slug' => 'article-2',
                 'description' => 'Description 2',
                 'image_url' => '',
-                'author_firstname' => 'Jane',
-                'author_lastname' => 'Smith',
+                'author' => 'Jane Smith',
                 'created_at' => '2024-01-02 10:00:00'
             ]
         ];

@@ -47,8 +47,7 @@ class ArticleModel
      * @param string $title Article title
      * @param string $description Article description/content
      * @param string $imageUrl Cloudinary image URL
-     * @param string $authorFirstname Author's first name
-     * @param string $authorLastname Author's last name
+     * @param string $author Author's full name
      * @return bool True if insertion successful, false otherwise
      * @throws PDOException If database query fails
      */
@@ -56,15 +55,14 @@ class ArticleModel
         string $title,
         string $description,
         string $imageUrl,
-        string $authorFirstname,
-        string $authorLastname
+        string $author
     ): bool {
         try {
             // Generate unique slug from title
             $slug = $this->generateUniqueSlug($title);
 
-            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author_firstname, author_lastname) 
-                      VALUES (:title, :slug, :description, :image_url, :author_firstname, :author_lastname)";
+            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author) 
+                      VALUES (:title, :slug, :description, :image_url, :author)";
 
             $stmt = $this->pdo->prepare($query);
 
@@ -73,8 +71,7 @@ class ArticleModel
                 ':slug' => $slug,
                 ':description' => $description,
                 ':image_url' => $imageUrl,
-                ':author_firstname' => $authorFirstname,
-                ':author_lastname' => $authorLastname
+                ':author' => $author
             ]);
         } catch (PDOException $e) {
             error_log('ArticleModel::insertArticle - ' . $e->getMessage());
@@ -171,7 +168,7 @@ class ArticleModel
     {
         try {
             $query = "SELECT id, title, slug, description, image_url, 
-                      author_firstname, author_lastname, created_at 
+                      author, created_at 
                       FROM ARTICLES 
                       ORDER BY created_at DESC 
                       LIMIT :limit OFFSET :offset";
