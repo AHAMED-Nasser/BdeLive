@@ -6,7 +6,16 @@ RewriteRule ^sitemap\.xml$ - [L]
 RewriteRule ^robots\.txt$ - [L]
 RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
 
-# Front controller
+# Laisser passer les fichiers statiques dans app/
+RewriteCond %{REQUEST_URI} ^/app/(assets|Config|include|services)/
+RewriteRule ^ - [L]
+
+# Front controller - rediriger vers index.php si pas de page spécifiée
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ app/index.php?page=home [L,QSA]
+
+# Front controller - toutes les autres requêtes
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
