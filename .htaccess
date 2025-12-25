@@ -1,13 +1,9 @@
 RewriteEngine On
 Options -MultiViews
-RewriteBase /BdeLive/
 
 # Laisser passer sitemap.xml et robots.txt
-RewriteRule ^sitemap\.xml$ - [L]
-RewriteRule ^robots\.txt$ - [L]
-
-# Laisser passer la vérification Google
-RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(sitemap\.xml|robots\.txt|google0d2c8b071cff9901\.html)$ - [L]
 
 # Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
