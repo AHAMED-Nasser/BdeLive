@@ -77,6 +77,8 @@
     margin-top: auto;
     padding-top: 15px;
     border-top: 1px solid #e0e0e0;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 /* Bouton modifier pour les articles (même style que les événements) */
@@ -90,12 +92,49 @@
     text-decoration: none;
     display: inline-block;
     transition: background-color 0.3s ease;
+    font-size: 14px;
+    text-align: center;
 }
 
 .article-actions .btn-edit:hover {
     background-color: #e0a800;
     text-decoration: none;
     color: #212529;
+}
+
+/* Bouton supprimer pour les articles */
+.article-actions .btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    text-align: center;
+}
+
+.article-actions .btn-delete:hover {
+    background-color: #c82333;
+    text-decoration: none;
+    color: white;
+}
+
+.delete-article-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    vertical-align: middle;
+}
+
+.delete-article-form button {
+    margin: 0;
+    width: auto;
 }
 
 /* Pagination */
@@ -278,7 +317,8 @@
     }
 
     .btn-view,
-    .btn-edit {
+    .btn-edit,
+    .btn-delete {
         width: 100%;
         text-align: center;
     }
