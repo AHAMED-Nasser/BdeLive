@@ -61,7 +61,7 @@ $namespaces = [
     'App\\Modules\\Controllers\\Public\\',
     'App\\Modules\\Controllers\\Users\\',
     'App\\Modules\\Controllers\\Events\\',
-    'App\\Modules\\Controllers\\Articles\\',
+    // 'App\\Modules\\Controllers\\Articles\\', // TODO: Uncomment when articles are merged into DEV
     'App\\Modules\\Controllers\\Pwd\\',
     'App\\Modules\\Controllers\\Cookie\\',
 ];
