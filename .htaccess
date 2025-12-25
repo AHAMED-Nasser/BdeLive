@@ -1,20 +1,26 @@
 RewriteEngine On
 Options -MultiViews
 
-# Laisser passer sitemap.xml, robots.txt et fichier de vérification Google (vérifier que le fichier existe)
+Options -Indexes
+
+RedirectMatch 404 /\.git
+<FilesMatch "(\.(env|json|lock|xml|yml|yaml|sql|log)|composer\.(json|lock)|package(-lock)?\.json)$">
+    Require all denied
+</FilesMatch>
+
+
+RewriteRule ^app/(Config|Core|include|services|Modules)/ - [F,L]
+
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(sitemap\.xml|robots\.txt|google0d2c8b071cff9901\.html)$ - [L]
 
-# Laisser passer les fichiers statiques dans app/
-RewriteCond %{REQUEST_URI} ^/app/(assets|Config|include|services)/
+RewriteCond %{REQUEST_URI} ^/app/assets/
 RewriteRule ^ - [L]
 
-# Front controller - rediriger vers index.php si pas de page spécifiée
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^$ app/index.php?page=home [L,QSA]
 
-# Front controller - toutes les autres requêtes
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+
+
+RewriteRule ^$ app/index.php?page=home [L,QSA]
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
