@@ -4,23 +4,23 @@ Options -MultiViews
 Options -Indexes
 
 RedirectMatch 404 /\.git
-
-<FilesMatch "\.(env|sql|log|json|lock|yml|yaml)$|composer\.(json|lock)|package(-lock)?\.json$">
+<FilesMatch "(\.(env|json|lock|xml|yml|yaml|sql|log)|composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
 
-RewriteRule ^app/(Config|Core|include|services|Modules)/ - [F,L]
+<FilesMatch "^(sitemap\.xml|robots\.txt|google.*\.html)$">
+    Require all granted
+</FilesMatch>
 
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(sitemap\.xml|robots\.txt|google0d2c8b071cff9901\.html)$ - [L]
+RewriteCond %{REQUEST_URI} ^/app/
+RewriteCond %{REQUEST_URI} !^/app/assets/
+RewriteCond %{REQUEST_URI} !^/app/(index\.php|robots\.txt|sitemap\.xml)$
+RewriteRule ^ - [F,L]
 
-RewriteCond %{REQUEST_URI} ^/app/assets/
-RewriteRule ^ - [L]
+RewriteRule ^sitemap\.xml$ app/sitemap.xml [L]
+RewriteRule ^robots\.txt$ app/robots.txt [L]
+
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-
-
-RewriteRule ^$ app/index.php?page=home [L,QSA]
-
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
