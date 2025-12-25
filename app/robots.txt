@@ -24,4 +24,3 @@ Disallow: /package-lock.json
 
 # Sitemap
 Sitemap: https://bdelivesae.alwaysdata.net/sitemap.xml
-
