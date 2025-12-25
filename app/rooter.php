@@ -23,10 +23,6 @@ require_once __DIR__ . '/include/autoload.php';
 
 $page = $_GET['page'] ?? 'home';
 
-// #region agent log
-file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:24', 'message' => 'Raw page parameter', 'data' => ['page' => $page, 'GET' => $_GET, 'REQUEST_URI' => $_SERVER['REQUEST_URI'] ?? 'N/A'], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']) . "\n", FILE_APPEND);
-// #endregion
-
 /**
  * Keep only allowed characters for the page token and default to 'home' if empty.
  */
@@ -59,10 +55,6 @@ $page = $sanitizePage($page);
 // StudlyCase + 'Controller' naming convention
 $shortName = $toStudlyCase($page) . 'Controller';
 
-// #region agent log
-file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:54', 'message' => 'After sanitization', 'data' => ['sanitizedPage' => $page, 'shortName' => $shortName], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'A']) . "\n", FILE_APPEND);
-// #endregion
-
 // Try namespaced controllers across known groups
 $namespaces = [
     'App\\Modules\\Controllers\\',
@@ -77,9 +69,6 @@ $namespaces = [
 $resolved = null;
 foreach ($namespaces as $ns) {
     $fqcn = $ns . $shortName;
-    // #region agent log
-    file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:70', 'message' => 'Checking controller class', 'data' => ['fqcn' => $fqcn, 'exists' => class_exists($fqcn)], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'B']) . "\n", FILE_APPEND);
-    // #endregion
     if (class_exists($fqcn)) {
         $resolved = $fqcn;
         break;
@@ -87,21 +76,12 @@ foreach ($namespaces as $ns) {
 }
 
 if ($resolved !== null) {
-    // #region agent log
-    file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:77', 'message' => 'Controller found, instantiating', 'data' => ['resolved' => $resolved], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'C']) . "\n", FILE_APPEND);
-    // #endregion
     new $resolved();
 } else {
     // Backward compatibility: non-namespaced class if present
     if (class_exists($shortName)) {
-        // #region agent log
-        file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:82', 'message' => 'Non-namespaced controller found', 'data' => ['shortName' => $shortName], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'D']) . "\n", FILE_APPEND);
-        // #endregion
         new $shortName();
     } else {
-        // #region agent log
-        file_put_contents('/home/g5kf55/PhpstormProjects/BdeLive/.cursor/debug.log', json_encode(['timestamp' => time() * 1000, 'location' => 'rooter.php:86', 'message' => '404 - Controller not found', 'data' => ['page' => $page, 'shortName' => $shortName, 'namespacesChecked' => $namespaces], 'sessionId' => 'debug-session', 'runId' => 'run1', 'hypothesisId' => 'E']) . "\n", FILE_APPEND);
-        // #endregion
         http_response_code(404);
         echo 'Page non trouvée';
     }
