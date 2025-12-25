@@ -1,13 +1,5 @@
 User-agent: *
 Allow: /
 
-
-Disallow: /vendor/
-Disallow: /node_modules/
-
-
-Disallow: /tests/
-Disallow: /*.log$
-
 # Sitemap
 Sitemap: https://bdelivesae.alwaysdata.net/sitemap.xml
