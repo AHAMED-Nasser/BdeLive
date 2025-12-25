@@ -73,6 +73,16 @@ start_page("Nos articles", true, $user ?? null);
                                        class="btn-edit">
                                         Modifier
                                     </a>
+                                    <form method="POST" 
+                                          action="index.php?page=deleteArticle&action=deleteArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                          class="delete-article-form"
+                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.');">
+                                        <?= csrfField() ?>
+                                        <input type="hidden" name="slug" value="<?= htmlspecialchars((string)($article['slug'] ?? '')) ?>">
+                                        <button type="submit" class="btn-delete">
+                                            Supprimer
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </div>
