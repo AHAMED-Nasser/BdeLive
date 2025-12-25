@@ -1,9 +1,10 @@
 RewriteEngine On
 Options -MultiViews
 
-# Laisser passer sitemap.xml et robots.txt
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(sitemap\.xml|robots\.txt|google0d2c8b071cff9901\.html)$ - [L]
+# Laisser passer sitemap.xml, robots.txt et fichier de vérification Google
+RewriteRule ^sitemap\.xml$ - [L]
+RewriteRule ^robots\.txt$ - [L]
+RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
 
 # Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
