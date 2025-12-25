@@ -1,6 +1,27 @@
 User-agent: *
 Allow: /
 
+# Bloquer l'accès aux répertoires sensibles
+Disallow: /Config/
+Disallow: /config/
+Disallow: /include/
+Disallow: /Core/
+Disallow: /cron/
+Disallow: /vendor/
+Disallow: /tests/
+Disallow: /.git/
+Disallow: /.cursor/
+Disallow: /node_modules/
+
+# Bloquer les fichiers sensibles
+Disallow: /*.sql$
+Disallow: /*.env$
+Disallow: /*.log$
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /package.json
+Disallow: /package-lock.json
+
 # Sitemap
 Sitemap: https://bdelivesae.alwaysdata.net/sitemap.xml
 
