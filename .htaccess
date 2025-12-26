@@ -8,14 +8,8 @@ RedirectMatch 404 /\.git
 <FilesMatch "(\.(env|json|lock|yml|yaml|sql|log)|composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
-# Bloquer tous les XML sauf sitemap.xml (approche simplifiée)
-<FilesMatch "\.xml$">
-    <If "%{REQUEST_URI} !~ m#sitemap\.xml$#">
-        Require all denied
-    </If>
-</FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt (AVANT les autres règles)
+# Laisser passer sitemap.xml et robots.txt (AVANT TOUTES LES AUTRES RÈGLES)
 RewriteRule ^sitemap\.xml$ - [L]
 RewriteRule ^robots\.txt$ - [L]
 
