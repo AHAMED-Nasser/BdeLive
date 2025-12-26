@@ -484,5 +484,390 @@ class ArticleModelTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
+    /**
+     * Test updateArticle updates article with new image
+     */
+    public function testUpdateArticleWithNewImage(): void
+    {
+        $articleId = 1;
+        $title = 'Article Mis à Jour';
+        $description = 'Description mise à jour';
+        $imageUrl = 'https://cloudinary.com/new-image.jpg';
+        $author = 'Nouvel Auteur';
+
+        // Mock getArticleById to return existing article
+        $existingArticle = [
+            'id' => $articleId,
+            'title' => 'Ancien Titre',
+            'slug' => 'ancien-titre',
+            'description' => 'Ancienne description',
+            'image_url' => 'https://cloudinary.com/old-image.jpg',
+            'author' => 'Ancien Auteur'
+        ];
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+        $getStmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($existingArticle);
+
+        // Mock slug existence check (slug doesn't exist)
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        // Mock update statement
+        $updateStmt = $this->createMock(PDOStatement::class);
+        $updateStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) use ($title, $description, $imageUrl, $author, $articleId) {
+                return $params[':title'] === $title &&
+                       $params[':slug'] === 'article-mis-a-jour' &&
+                       $params[':description'] === $description &&
+                       $params[':image_url'] === $imageUrl &&
+                       $params[':author'] === $author &&
+                       $params[':id'] === $articleId;
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($getStmt, $checkStmt, $updateStmt);
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            $title,
+            $description,
+            $imageUrl,
+            $author
+        );
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test updateArticle updates article without changing image
+     */
+    public function testUpdateArticleWithoutNewImage(): void
+    {
+        $articleId = 1;
+        $title = 'Article Mis à Jour';
+        $description = 'Description mise à jour';
+        $imageUrl = ''; // Empty means keep existing
+        $author = 'Nouvel Auteur';
+
+        // Mock getArticleById to return existing article
+        $existingArticle = [
+            'id' => $articleId,
+            'title' => 'Ancien Titre',
+            'slug' => 'ancien-titre',
+            'description' => 'Ancienne description',
+            'image_url' => 'https://cloudinary.com/old-image.jpg',
+            'author' => 'Ancien Auteur'
+        ];
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+        $getStmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($existingArticle);
+
+        // Mock slug existence check (slug doesn't exist)
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        // Mock update statement (should not include image_url)
+        $updateStmt = $this->createMock(PDOStatement::class);
+        $updateStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) use ($title, $description, $author, $articleId) {
+                return $params[':title'] === $title &&
+                       $params[':slug'] === 'article-mis-a-jour' &&
+                       $params[':description'] === $description &&
+                       $params[':author'] === $author &&
+                       $params[':id'] === $articleId &&
+                       !isset($params[':image_url']); // image_url should not be in params
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($getStmt, $checkStmt, $updateStmt);
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            $title,
+            $description,
+            $imageUrl,
+            $author
+        );
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test updateArticle keeps same slug when title doesn't change
+     */
+    public function testUpdateArticleKeepsSlugWhenTitleUnchanged(): void
+    {
+        $articleId = 1;
+        $title = 'Même Titre'; // Same as existing
+        $description = 'Nouvelle description';
+        $imageUrl = '';
+        $author = 'Nouvel Auteur';
+
+        // Mock getArticleById to return existing article
+        $existingArticle = [
+            'id' => $articleId,
+            'title' => 'Même Titre',
+            'slug' => 'meme-titre',
+            'description' => 'Ancienne description',
+            'image_url' => 'https://cloudinary.com/image.jpg',
+            'author' => 'Ancien Auteur'
+        ];
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+        $getStmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($existingArticle);
+
+        // Mock update statement (slug should remain the same)
+        $updateStmt = $this->createMock(PDOStatement::class);
+        $updateStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                return $params[':slug'] === 'meme-titre'; // Same slug
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($getStmt, $updateStmt);
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            $title,
+            $description,
+            $imageUrl,
+            $author
+        );
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test updateArticle returns false when article not found
+     */
+    public function testUpdateArticleReturnsFalseWhenNotFound(): void
+    {
+        $articleId = 999;
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+        $getStmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn(false); // Article not found
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($getStmt);
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            'Title',
+            'Description',
+            '',
+            'Author'
+        );
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test updateArticle returns false on exception
+     */
+    public function testUpdateArticleReturnsFalseOnException(): void
+    {
+        $articleId = 1;
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->method('execute')->willReturn(true);
+        $getStmt->method('fetch')->willReturn([
+            'id' => $articleId,
+            'title' => 'Test',
+            'slug' => 'test',
+            'description' => 'Test',
+            'image_url' => '',
+            'author' => 'Test'
+        ]);
+
+        // Mock slug existence check (slug doesn't exist)
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls(
+                $getStmt,
+                $checkStmt,
+                $this->throwException(new PDOException('Database error'))
+            );
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            'New Title',
+            'New Description',
+            '',
+            'New Author'
+        );
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test deleteArticle returns true on successful deletion
+     */
+    public function testDeleteArticleReturnsTrue(): void
+    {
+        $articleId = 1;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('rowCount')
+            ->willReturn(1); // One row deleted
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with('DELETE FROM ARTICLES WHERE id = :id')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->model->deleteArticle($articleId);
+
+        $this->assertTrue($result);
+    }
+
+    /**
+     * Test deleteArticle returns false when article not found
+     */
+    public function testDeleteArticleReturnsFalseWhenNotFound(): void
+    {
+        $articleId = 999;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':id' => $articleId])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('rowCount')
+            ->willReturn(0); // No rows deleted
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->model->deleteArticle($articleId);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test deleteArticle returns false on exception
+     */
+    public function testDeleteArticleReturnsFalseOnException(): void
+    {
+        $articleId = 1;
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->will($this->throwException(new PDOException('Database error')));
+
+        $result = $this->model->deleteArticle($articleId);
+
+        $this->assertFalse($result);
+    }
+
+    /**
+     * Test updateArticle generates unique slug when title changes
+     */
+    public function testUpdateArticleGeneratesUniqueSlugWhenTitleChanges(): void
+    {
+        $articleId = 1;
+        $title = 'Nouveau Titre';
+        $description = 'Description';
+        $imageUrl = '';
+        $author = 'Author';
+
+        // Mock getArticleById
+        $existingArticle = [
+            'id' => $articleId,
+            'title' => 'Ancien Titre',
+            'slug' => 'ancien-titre',
+            'description' => 'Description',
+            'image_url' => '',
+            'author' => 'Author'
+        ];
+
+        $getStmt = $this->createMock(PDOStatement::class);
+        $getStmt->method('execute')->willReturn(true);
+        $getStmt->method('fetch')->willReturn($existingArticle);
+
+        // Mock slug existence check - first check returns 1 (exists), second returns 0 (unique)
+        $checkStmt1 = $this->createMock(PDOStatement::class);
+        $checkStmt1->method('execute')->willReturn(true);
+        $checkStmt1->method('fetchColumn')->willReturn(1); // Slug exists
+
+        $checkStmt2 = $this->createMock(PDOStatement::class);
+        $checkStmt2->method('execute')->willReturn(true);
+        $checkStmt2->method('fetchColumn')->willReturn(0); // Slug doesn't exist
+
+        // Mock update statement
+        $updateStmt = $this->createMock(PDOStatement::class);
+        $updateStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                // Should append -2 since first slug exists
+                return $params[':slug'] === 'nouveau-titre-2';
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->exactly(4))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($getStmt, $checkStmt1, $checkStmt2, $updateStmt);
+
+        $result = $this->model->updateArticle(
+            $articleId,
+            $title,
+            $description,
+            $imageUrl,
+            $author
+        );
+
+        $this->assertTrue($result);
+    }
+
 }
 

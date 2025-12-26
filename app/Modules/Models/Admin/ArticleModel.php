@@ -318,4 +318,28 @@ class ArticleModel
             return false;
         }
     }
+
+    /**
+     * Delete an article from the database
+     *
+     * Removes an article record by its ID. Returns true if deletion was successful,
+     * false otherwise (e.g., article not found or database error).
+     *
+     * @param int $articleId The ID of the article to delete
+     * @return bool True if deletion successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function deleteArticle(int $articleId): bool
+    {
+        try {
+            $query = "DELETE FROM ARTICLES WHERE id = :id";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([':id' => $articleId]);
+
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log('ArticleModel::deleteArticle - ' . $e->getMessage());
+            return false;
+        }
+    }
 }
