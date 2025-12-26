@@ -1,5 +1,6 @@
 RewriteEngine On
 Options -MultiViews
+RewriteBase /BdeLive/
 
 Options -Indexes
 
@@ -12,15 +13,19 @@ RedirectMatch 404 /\.git
     Require all granted
 </FilesMatch>
 
+# Laisser passer sitemap.xml et robots.txt
+RewriteRule ^sitemap\.xml$ - [L]
+RewriteRule ^robots\.txt$ - [L]
+
+# Laisser passer la vérification Google
+RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
+
 RewriteCond %{REQUEST_URI} ^/app/
 RewriteCond %{REQUEST_URI} !^/app/assets/
 RewriteCond %{REQUEST_URI} !^/app/(index\.php|robots\.txt|sitemap\.xml)$
 RewriteRule ^ - [F,L]
 
-RewriteRule ^sitemap\.xml$ app/sitemap.xml [L]
-RewriteRule ^robots\.txt$ app/robots.txt [L]
-
-
+# Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
