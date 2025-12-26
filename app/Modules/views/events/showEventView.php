@@ -6,10 +6,24 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  */
 start_page("Evénement: " . $event['event_name'], true, $user ?? null);
+// Les variables $events et $pagination sont définies par EventController
+
+// Repository pour vérifier les inscriptions
+$registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
+$userId = $user['user_id'] ?? null;
 ?>
 
     <div class="container event-detail-page">
         <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event['event_name']) ?></h1>
+
+        <!-- Messages flash -->
+        <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color) : ?>
+            <?php if (!empty($flash[$type])) : ?>
+                <div style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : '721c24' ?>; padding: 12px; margin: 20px 0; border: 1px solid #<?= $type === 'success' ? 'c3e6cb' : 'f5c6cb' ?>; border-radius: 4px; text-align: center;">
+                    <?= htmlspecialchars($flash[$type]) ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
         <div class="event-grid-images" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
             <?php
@@ -31,15 +45,15 @@ start_page("Evénement: " . $event['event_name'], true, $user ?? null);
         </div>
 
         <div class="event-description" style="margin-bottom: 50px; line-height: 1.6;">
-            <h3>Description</h3>
-            <p><?= nl2br(htmlspecialchars($event['description'])) ?></p>
+            <h3 style="font-weight: bold">Description</h3>
+            <p style="font-size: 17px"><?= nl2br(htmlspecialchars($event['description'])) ?></p>
         </div>
 
         <div class="registration-section" style="text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid #eee;">
             <?php if ($userId) : ?>
                 <?php
-                // Vérification de l'inscription
-                $isRegistered = $registrationRepo->isUserRegistered((int)$event['event_id'], (int)$userId);
+                    // Vérification de l'inscription
+                    $isRegistered = $registrationRepo->isUserRegistered((int)$event['event_id'], (int)$userId);
                 ?>
                 <?php if ($isRegistered) : ?>
                     <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>"
@@ -52,8 +66,11 @@ start_page("Evénement: " . $event['event_name'], true, $user ?? null);
                         S'inscrire à l'événement
                     </a>
                 <?php endif; ?>
-            <?php else : ?>
+            <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
+                <p style="color: #666666; font-size: 23px">🐐 Bien le bonjour Administrateur</p>
+            <?php elseif (!isset($userId)) : ?>
                 <p style="color: #666;">Veuillez vous <a href="index.php?page=login" style="color: #1299ff; font-weight: bold;">connecter</a> pour vous inscrire.</p>
+
             <?php endif; ?>
         </div>
 
