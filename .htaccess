@@ -9,10 +9,9 @@ RedirectMatch 404 /\.git
     Require all denied
 </FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt (vérifier uniquement le nom du fichier)
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{REQUEST_FILENAME} (sitemap\.xml|robots\.txt)$
-RewriteRule ^ - [L]
+# Laisser passer sitemap.xml et robots.txt (règle simple sans conditions)
+RewriteRule ^sitemap\.xml$ - [L]
+RewriteRule ^robots\.txt$ - [L]
 
 # Laisser passer la vérification Google
 RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
