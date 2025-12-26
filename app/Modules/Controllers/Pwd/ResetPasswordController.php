@@ -99,7 +99,10 @@ class ResetPasswordController extends DefaultController
                 $this->session->remove('reset_user_id');
                 $this->session->remove('reset_email');
                 // Show a success message
-                $this->setSuccess('Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter');
+                $this->setSuccess(
+                    'Votre mot de passe a été réinitialisé avec succès. ' .
+                    'Vous pouvez maintenant vous connecter'
+                );
                 $this->redirect('index.php?page=login');
             } else {
                 // If the password is not updated, show an error message

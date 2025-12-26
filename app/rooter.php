@@ -61,7 +61,11 @@ $namespaces = [
     'App\\Modules\\Controllers\\Public\\',
     'App\\Modules\\Controllers\\Users\\',
     'App\\Modules\\Controllers\\Events\\',
+<<<<<<< HEAD
     // 'App\\Modules\\Controllers\\Articles\\', // TODO: Uncomment when articles are merged into DEV
+=======
+    'App\\Modules\\Controllers\\Articles\\',
+>>>>>>> Page-actualité-bde-ajout-darticle
     'App\\Modules\\Controllers\\Pwd\\',
     'App\\Modules\\Controllers\\Cookie\\',
 ];

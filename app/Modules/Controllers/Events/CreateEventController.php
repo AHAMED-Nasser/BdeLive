@@ -90,7 +90,11 @@ class CreateEventController extends AdminController
         $description = (string) $this->request->post('description', '');
 
         // Validate required fields
-        if (empty($eventName) || empty($eventDate) || empty($eventTime) || empty($eventLocation) || empty($eventTheme) || empty($statusParticipating) || empty($description)) {
+        if (
+            empty($eventName) || empty($eventDate) || empty($eventTime) ||
+            empty($eventLocation) || empty($eventTheme) ||
+            empty($statusParticipating) || empty($description)
+        ) {
             $this->setError('Tous les champs sont obligatoires');
             $this->redirect('index.php?page=createEvent');
         }

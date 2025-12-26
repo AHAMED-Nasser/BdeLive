@@ -175,5 +175,3 @@ class Pagination
         return 'index.php?' . http_build_query($params);
     }
 }
-
-\class_alias(__NAMESPACE__ . '\\Pagination', 'Pagination');

@@ -131,8 +131,14 @@ class UpdateEventController extends AdminController
         $description = (string)$this->request->post('description', '');
 
         // 3. Validation de base
-        if (empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) || empty($eventLocation) || empty($eventTheme) || empty($description)) {
-            $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Tous les champs sont obligatoires.');
+        if (
+            empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) ||
+            empty($eventLocation) || empty($eventTheme) || empty($description)
+        ) {
+            $this->redirectWithError(
+                'index.php?page=updateEvent&id=' . $eventId,
+                'Tous les champs sont obligatoires.'
+            );
         }
 
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';

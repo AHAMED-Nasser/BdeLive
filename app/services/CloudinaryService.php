@@ -118,7 +118,8 @@ class CloudinaryService
 
             // Log succès
             error_log('CloudinaryService::uploadImage - SUCCESS: ' . $result['secure_url']);
-            // if upload success, return url and public_id in JSON format else return NULL and write error log in PHP error log
+            // if upload success, return url and public_id in JSON format
+            // else return NULL and write error log in PHP error log
             return [
                 'url' => $result['secure_url'],
                 'public_id' => $result['public_id']
@@ -141,7 +142,13 @@ class CloudinaryService
      * Each file is validated and uploaded individually.
      * Skips files with upload errors.
      *
-     * @param array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files Files array from $_FILES
+     * @param array{
+     *     name: array<int, string>,
+     *     type: array<int, string>,
+     *     tmp_name: array<int, string>,
+     *     error: array<int, int>,
+     *     size: array<int, int>
+     * } $files Files array from $_FILES
      * @param string $folder Cloudinary folder path (default: 'events')
      * @return array<int, array{url: string, public_id: string}> Array of successfully uploaded images
      */
