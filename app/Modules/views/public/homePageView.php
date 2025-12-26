@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var array<int, array<string, mixed>> $articles
+ * @var array<string, mixed>|null $user
+ * @var array<string, string|null> $flash
+ */
+$articles = $articles ?? [];
 $imageFuturEvent = [
         ['src' => './assets/img/event1.png'],
         ['src' => './assets/img/event2.png'],
@@ -44,6 +50,66 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
         <h2 class="title">Événement à venir</h2>
         <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
     </section>
+
+    <?php if (!empty($articles)) : ?>
+        <section class="latest-articles" aria-labelledby="articles-title">
+            <h2 id="articles-title" class="title">Dernières actualités</h2>
+            <div class="articles-grid-home">
+                <?php foreach ($articles as $index => $article) : ?>
+                    <?php
+                    // Prepare article data
+                    $fullDescription = strip_tags($article['description'] ?? '');
+                    $descriptionLength = mb_strlen($fullDescription);
+                    $previewLength = 150;
+                    $isLong = $descriptionLength > $previewLength;
+                    $preview = mb_substr($fullDescription, 0, $previewLength);
+                    
+                    // Format date using DateTime (POO)
+                    $date = new DateTime($article['created_at'] ?? 'now');
+                    $formattedDate = $date->format('d/m/Y');
+                    ?>
+                    <article class="article-card-home">
+                        <?php if ($index === 0) : ?>
+                            <span class="article-badge-new">Nouveau</span>
+                        <?php endif; ?>
+                        
+                        <?php if (!empty($article['image_url'])) : ?>
+                            <div class="article-image-container">
+                                <img
+                                    src="<?= htmlspecialchars($article['image_url']) ?>"
+                                    alt="Illustration de l'article : <?= htmlspecialchars($article['title']) ?>"
+                                    class="article-image-home"
+                                    loading="lazy">
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="article-content-home">
+                            <h3 class="article-title-home">
+                                <?= htmlspecialchars($article['title']) ?>
+                            </h3>
+                            <p class="article-meta-home">
+                                Par <?= htmlspecialchars($article['author']) ?>
+                                le <?= htmlspecialchars($formattedDate) ?>
+                            </p>
+                            <p class="article-description-home">
+                                <?= htmlspecialchars($preview) ?>
+                                <?php if ($isLong) : ?>
+                                    ...
+                                <?php endif; ?>
+                            </p>
+                            
+                            <div class="article-actions-home">
+                                <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                   class="btn-read-more">
+                                    Lire la suite
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 
     <section class="BDE" aria-labelledby="bde-title">
         <h3 id="bde-title"><strong>Qui sommes-nous ?</strong></h3>
