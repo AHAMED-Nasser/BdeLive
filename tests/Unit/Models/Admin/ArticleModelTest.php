@@ -869,5 +869,198 @@ class ArticleModelTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * Test getLatestArticles returns articles ordered by creation date (newest first)
+     */
+    public function testGetLatestArticlesReturnsArticles(): void
+    {
+        $expectedArticles = [
+            [
+                'id' => 2,
+                'title' => 'Article Récent',
+                'slug' => 'article-recent',
+                'description' => 'Description récente',
+                'image_url' => 'https://cloudinary.com/recent.jpg',
+                'author' => 'Auteur Récent',
+                'created_at' => '2024-01-15 10:00:00'
+            ],
+            [
+                'id' => 1,
+                'title' => 'Article Ancien',
+                'slug' => 'article-ancien',
+                'description' => 'Description ancienne',
+                'image_url' => 'https://cloudinary.com/ancien.jpg',
+                'author' => 'Auteur Ancien',
+                'created_at' => '2024-01-10 10:00:00'
+            ]
+        ];
+
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':limit', 2, PDO::PARAM_INT)
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($expectedArticles);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('ORDER BY created_at DESC'))
+            ->willReturn($stmt);
+
+        $result = $this->model->getLatestArticles(2);
+
+        $this->assertIsArray($result);
+        $this->assertCount(2, $result);
+        $this->assertEquals($expectedArticles, $result);
+    }
+
+    /**
+     * Test getLatestArticles returns empty array when no articles exist
+     */
+    public function testGetLatestArticlesReturnsEmptyArrayWhenNoArticles(): void
+    {
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':limit', 2, PDO::PARAM_INT)
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn([]);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($stmt);
+
+        $result = $this->model->getLatestArticles(2);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Test getLatestArticles returns empty array on PDO exception
+     */
+    public function testGetLatestArticlesReturnsEmptyArrayOnException(): void
+    {
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->will($this->throwException(new PDOException('Database error')));
+
+        $result = $this->model->getLatestArticles(2);
+
+        $this->assertIsArray($result);
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * Test getLatestArticles uses default limit of 2
+     */
+    public function testGetLatestArticlesUsesDefaultLimit(): void
+    {
+        $expectedArticles = [
+            [
+                'id' => 1,
+                'title' => 'Article 1',
+                'slug' => 'article-1',
+                'description' => 'Description 1',
+                'image_url' => 'https://cloudinary.com/image1.jpg',
+                'author' => 'Auteur 1',
+                'created_at' => '2024-01-01 10:00:00'
+            ]
+        ];
+
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':limit', 2, PDO::PARAM_INT)
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($expectedArticles);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($stmt);
+
+        $result = $this->model->getLatestArticles();
+
+        $this->assertIsArray($result);
+        $this->assertCount(1, $result);
+    }
+
+    /**
+     * Test getLatestArticles respects custom limit parameter
+     */
+    public function testGetLatestArticlesRespectsCustomLimit(): void
+    {
+        $expectedArticles = [
+            ['id' => 1, 'title' => 'Article 1', 'slug' => 'article-1', 'description' => 'Desc 1', 'image_url' => '', 'author' => 'Auteur 1', 'created_at' => '2024-01-01 10:00:00'],
+            ['id' => 2, 'title' => 'Article 2', 'slug' => 'article-2', 'description' => 'Desc 2', 'image_url' => '', 'author' => 'Auteur 2', 'created_at' => '2024-01-02 10:00:00'],
+            ['id' => 3, 'title' => 'Article 3', 'slug' => 'article-3', 'description' => 'Desc 3', 'image_url' => '', 'author' => 'Auteur 3', 'created_at' => '2024-01-03 10:00:00']
+        ];
+
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':limit', 3, PDO::PARAM_INT)
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        $stmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($expectedArticles);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($stmt);
+
+        $result = $this->model->getLatestArticles(3);
+
+        $this->assertIsArray($result);
+        $this->assertCount(3, $result);
+    }
+
+    /**
+     * Test getLatestArticles selects only necessary columns
+     */
+    public function testGetLatestArticlesSelectsOnlyNecessaryColumns(): void
+    {
+        $stmt = $this->createMock(PDOStatement::class);
+        $stmt->method('bindValue')->willReturn(true);
+        $stmt->method('execute')->willReturn(true);
+        $stmt->method('fetchAll')->willReturn([]);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->callback(function ($query) {
+                // Verify that the query selects only the necessary columns
+                return strpos($query, 'SELECT id, title, slug, description, image_url, author, created_at') !== false &&
+                       strpos($query, 'FROM ARTICLES') !== false &&
+                       strpos($query, 'ORDER BY created_at DESC') !== false &&
+                       strpos($query, 'LIMIT :limit') !== false &&
+                       strpos($query, 'SELECT *') === false; // Should not use SELECT *
+            }))
+            ->willReturn($stmt);
+
+        $this->model->getLatestArticles(2);
+    }
+
 }
 
