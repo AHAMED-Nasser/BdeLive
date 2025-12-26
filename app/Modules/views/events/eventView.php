@@ -60,77 +60,19 @@ $userId = $user['user_id'] ?? null;
                 ];
             }
             ?>
-            
-            <div class="event-item" style="text-align: center; margin-bottom: 30px;">
-                <h2 style="text-align: center;"><?= htmlspecialchars($event['event_name']) ?></h2>
-                <p style="text-align: center; color: #666; margin-bottom: 20px;">
-                    Le <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
-                    à <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
-                </p>
-                <p style="text-align: center; color: #666; margin-bottom: 20px;">
-                    Lieu : <?= htmlspecialchars($event['event_location']) ?>
-                </p>
 
-                <?php if (!empty($event['description'])) : ?>
-                    <p style="color: #666; margin-bottom: 20px; font-size: 1.2rem; text-align: center">
-                        <?= htmlspecialchars($event['description']) ?>
-                    </p>
-                <?php endif; ?>
-                
-                <!-- Carousel pour chaque événement -->
-                <?php useCarousel($event['event_name'], $carouselImages, 'carousel-event-' . $event['event_id']) ?>
-                
-                <!-- Boutons d'inscription (utilisateurs connectés) -->
-                <?php if ($userId) : ?>
-                    <?php $isRegistered = $registrationRepo->isUserRegistered((int)$event['event_id'], (int)$userId); ?>
-                    <?php if ($isRegistered) : ?>
-                        <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>" 
-                           style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
-                            Se désinscrire
-                        </a>
-                    <?php else : ?>
-                        <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>" 
-                           style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; margin-top: 15px;">
-                            S'inscrire
-                        </a>
-                    <?php endif; ?>
-                <?php endif; ?>
-                
-                <!-- Bouton de suppression (admin uniquement) -->
-                <?php if (isset($user) && $user !== null && $user['user_status'] === 'BDE') : ?>
-                    <div style="text-align: center; margin-top: 15px;">
-                        <form method="GET" action="index.php" style="display: inline;">
-                            <input type="hidden" name="page" value="updateEvent">
-                            <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+            <div class="event-item" style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
 
-                            <button type="submit"
-                                    style="background-color: #ffc107; color: #212529; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; text-decoration: none; display: inline-block; margin-right: 10px;">
-                                Modifier
-                            </button>
-                        </form>
+                <?php
+                // ... (Logique de décodage des images déjà présente dans votre fichier) ...
+                useCarousel($event['event_name'], $carouselImages, 'carousel-event-' . $event['event_id']);
+                ?>
 
-                        <form method="post" action="index.php?page=deleteEvent" 
-                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer l\'événement \'<?= htmlspecialchars($event['event_name']) ?>\' ?\n\nCette action est irréversible.');"
-                              style="display: inline;">
-                            <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                            <?= $csrf->getTokenField() ?>
-                            <button type="submit" 
-                                    style="background-color: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
-                                Supprimer
-                            </button>
-                        </form>
-
-                        <form action="index.php?page=exportUserEvent" method="post" style="display: inline;">
-                            <input type="hidden" name="page" value="export-event">
-                            <input type="hidden" name="id" value="<?= htmlspecialchars((string)$event['event_id']) ?>">
-
-                            <button type="submit" class="btn btn-export"
-                            style="background-color: #1299ff; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">
-                                Liste des inscrits (PDF)
-                            </button>
-                        </form>
-                    </div>
-                <?php endif; ?>
+                <div style="margin-top: 15px;">
+                    <a href="index.php?page=showEvent&id=<?= $event['event_id'] ?>" class="btn-more" style="color: #1299ff; font-weight: bold;">
+                        Voir les détails et s'inscrire →
+                    </a>
+                </div>
             </div>
         <?php endforeach; ?>
     <?php endif; ?>

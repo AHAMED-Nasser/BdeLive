@@ -119,6 +119,7 @@ class EventRegistrationRepository
     }
 
     /**
+<<<<<<< HEAD
      * Récupère les inscriptions pour un événement spécifique.
      *
      * @param int $eventId
