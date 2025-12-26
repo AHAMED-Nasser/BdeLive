@@ -21,7 +21,7 @@ class ShowEventController extends DefaultController
             $event = $repository->findById($eventId);
 
             if (!$event) {
-                $this->redirect('index.php?page=event');
+                $this->redirectWithError('index.php?page=event', "L'événement en question n'a pas été événement trouvé");
             }
 
             // On passe l'ID de l'utilisateur et le repository d'inscription à la vue
