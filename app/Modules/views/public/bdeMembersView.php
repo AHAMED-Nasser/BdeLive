@@ -6,10 +6,6 @@
  * @var array<int, array<string, string>> $bdeMembers
  * @var array<int, array<string, string>> $honorMembers
  */
-
-$bdeMembers = $bdeMembers ?? [];
-$honorMembers = $honorMembers ?? [];
-
 start_page("Membres BDE - BDE Inform'Aix", true, $user ?? null);
 ?>
 

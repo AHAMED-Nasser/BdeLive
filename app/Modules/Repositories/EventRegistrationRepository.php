@@ -115,7 +115,12 @@ class EventRegistrationRepository
         return $results ?: [];
     }
 
-    // get inscription user by event ID
+    /**
+    * Récupère les inscriptions pour un événement spécifique.
+    *
+    * @param int $eventId L'identifiant de l'événement.
+    * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
+    */
     public function getRegistrationsByEventId(int $eventId): array
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
