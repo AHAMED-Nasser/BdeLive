@@ -34,8 +34,10 @@ header("Referrer-Policy: strict-origin-when-cross-origin");
 // Content Security Policy (CSP) - Protection contre XSS
 $cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.googletagmanager.com",
-    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com",
+    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
+        "https://cdn.jsdelivr.net https://www.googletagmanager.com",
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
+        "https://cdn.jsdelivr.net https://fonts.googleapis.com",
     "img-src 'self' data: https: http:",
     "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
     "connect-src 'self'",

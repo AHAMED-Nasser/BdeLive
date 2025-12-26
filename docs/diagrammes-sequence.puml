@@ -1,0 +1,697 @@
+@startuml Inscription utilisateur
+skinparam sequenceMessageAlign center
+skinparam backgroundColor #FEFEFE
+skinparam shadowing false
+
+
+actor "Visiteur" as User
+participant "RegisterController" as RC
+participant "UserManager" as UM
+participant "Database" as DB
+participant "AuthManager" as AM
+
+User -> RC : POST /register (données)
+activate RC
+
+RC -> RC : validateCsrf(token)
+alt Token CSRF invalide
+    RC --> User : Erreur 403 (Token invalide)
+else Token valide
+    RC -> UM : isEmailExists(email)
+    activate UM
+    UM -> DB : SELECT COUNT(*) FROM users WHERE email = ?
+    activate DB
+    DB --> UM : count
+    deactivate DB
+    UM --> RC : exists (bool)
+    deactivate UM
+
+    alt Email déjà pris
+        RC --> User : Message d'erreur : Email déjà utilisé
+    else Email disponible
+        RC -> UM : createUser(lastName, firstName, status, email, password)
+        activate UM
+        UM -> UM : password_hash(pwd)
+        UM -> DB : INSERT INTO users (...)
+        activate DB
+        DB --> UM : user_id
+        deactivate DB
+        UM --> RC : user_id
+        deactivate UM
+
+        RC -> AM : login(user_id, status, email, firstName, lastName)
+        activate AM
+        AM -> AM : session_regenerate_id()
+        AM --> RC : success
+        deactivate AM
+
+        RC --> User : Redirection (Accueil + Flash Success)
+    end
+end
+
+deactivate RC
+@enduml
+
+@startuml Connexion utilisateur
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Connexion d'un utilisateur
+
+actor "Visiteur" as User
+participant "LoginController" as LC
+participant "AuthManager" as AM
+participant "UserManager" as UM
+participant "Database" as DB
+
+User -> LC : POST /login (email, password)
+activate LC
+
+LC -> LC : validateCsrf(token)
+
+LC -> AM : login(email, password)
+activate AM
+
+AM -> UM : findByEmail(email)
+activate UM
+UM -> DB : SELECT * FROM users WHERE email = ?
+activate DB
+DB --> UM : user_data
+deactivate DB
+UM --> AM : user_array | false
+deactivate UM
+
+alt Utilisateur introuvable
+    AM --> LC : false (LoginException)
+else Utilisateur trouvé
+    AM -> AM : password_verify(password, hash)
+    alt Mot de passe incorrect
+        AM --> LC : false (LoginException)
+    else Mot de passe correct
+        AM -> AM : initializeSession(user)
+        AM --> LC : true
+    end
+end
+deactivate AM
+
+alt Erreur Authentification
+    LC --> User : Message d'erreur (Identifiants invalides)
+else Succès Authentification
+    LC --> User : Redirection (Dashboard ou Accueil)
+end
+
+deactivate LC
+@enduml
+
+@startuml Déconnexion utilisateur
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Déconnexion d'un utilisateur
+
+actor "Utilisateur" as User
+participant "LogoutController" as LC
+participant "AuthManager" as AM
+participant "SessionManager" as SM
+
+User -> LC : GET /logout
+activate LC
+
+LC -> AM : logout()
+activate AM
+AM -> SM : destroy()
+activate SM
+SM -> SM : session_destroy()
+SM --> AM : success
+deactivate SM
+AM --> LC : success
+deactivate AM
+
+LC --> User : Redirection (Accueil + Flash Success)
+
+deactivate LC
+@enduml
+
+@startuml Réinitialisation mot de passe
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Réinitialisation de mot de passe
+
+actor "Visiteur" as User
+participant "ForgotPasswordController" as FPC
+participant "PasswordReset" as PR
+participant "Database" as DB
+participant "Mailer" as M
+participant "VerifyTokenController" as VTC
+participant "ResetPasswordController" as RPC
+
+== Phase 1 : Demande de réinitialisation ==
+
+User -> FPC : POST /forgotPassword (email)
+activate FPC
+
+FPC -> PR : getUserByEmail(email)
+activate PR
+PR -> DB : SELECT * FROM users WHERE email = ?
+activate DB
+DB --> PR : user_data | null
+deactivate DB
+PR --> FPC : user | false
+deactivate PR
+
+alt Utilisateur non trouvé
+    FPC --> User : Message d'erreur
+else Utilisateur trouvé
+    FPC -> PR : createToken(user_id)
+    activate PR
+    PR -> PR : bin2hex(random_bytes(32))
+    PR -> DB : INSERT INTO password_reset_token (...)
+    activate DB
+    DB --> PR : success
+    deactivate DB
+    PR --> FPC : token
+    deactivate PR
+
+    FPC -> M : sendPasswordResetEmail(email, name, token)
+    activate M
+    M --> FPC : success
+    deactivate M
+
+    FPC --> User : Message : Email envoyé
+end
+
+deactivate FPC
+
+== Phase 2 : Vérification du token ==
+
+User -> VTC : GET /verifyToken?token=XXX
+activate VTC
+
+VTC -> PR : verifyToken(token)
+activate PR
+PR -> DB : SELECT * FROM password_reset_token WHERE token = ?
+activate DB
+DB --> PR : token_data
+deactivate DB
+PR --> VTC : {valid: bool, user_id}
+deactivate PR
+
+alt Token invalide ou expiré
+    VTC --> User : Erreur : Token invalide
+else Token valide
+    VTC --> User : Formulaire nouveau mot de passe
+end
+
+deactivate VTC
+
+== Phase 3 : Nouveau mot de passe ==
+
+User -> RPC : POST /resetPassword (token, password)
+activate RPC
+
+RPC -> PR : updatePassword(user_id, password)
+activate PR
+PR -> DB : UPDATE users SET password = ? WHERE user_id = ?
+activate DB
+DB --> PR : success
+deactivate DB
+PR --> RPC : success
+deactivate PR
+
+RPC -> PR : markTokenAsUsed(token)
+activate PR
+PR -> DB : UPDATE password_reset_token SET is_used = 1
+activate DB
+DB --> PR : success
+deactivate DB
+deactivate PR
+
+RPC --> User : Redirection (Login + Flash Success)
+
+deactivate RPC
+@enduml
+
+@startuml Gestion du profil
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Mise à jour du profil utilisateur
+
+actor "Utilisateur" as User
+participant "ProfileController" as PC
+participant "AuthManager" as AM
+participant "UserManager" as UM
+participant "Database" as DB
+participant "SessionManager" as SM
+
+User -> PC : POST /profile?action=update (données)
+activate PC
+
+PC -> AM : requireAuthentication()
+activate AM
+AM --> PC : OK | Exception
+deactivate AM
+
+alt Non authentifié
+    PC --> User : Redirection vers login
+else Authentifié
+    PC -> PC : validateCsrf(token)
+    PC -> PC : validate input data
+
+    PC -> UM : updateUser(user_id, data)
+    activate UM
+    UM -> DB : UPDATE users SET ... WHERE user_id = ?
+    activate DB
+    DB --> UM : success
+    deactivate DB
+    UM --> PC : success
+    deactivate UM
+
+    PC -> SM : set(updated_data)
+    PC --> User : Redirection (Profil + Flash Success)
+end
+
+deactivate PC
+@enduml
+
+@startuml Suppression de compte
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Suppression de compte utilisateur
+
+actor "Utilisateur" as User
+participant "DeleteAccountController" as DAC
+participant "AuthManager" as AM
+participant "UserManager" as UM
+participant "Database" as DB
+
+User -> DAC : POST /deleteAccount
+activate DAC
+
+DAC -> AM : requireAuthentication()
+activate AM
+AM --> DAC : OK | Exception
+deactivate AM
+
+DAC -> DAC : validateCsrf(token)
+
+DAC -> UM : deleteUser(user_id)
+activate UM
+UM -> DB : DELETE FROM event_registrations WHERE user_id = ?
+activate DB
+DB --> UM : success
+deactivate DB
+UM -> DB : DELETE FROM users WHERE user_id = ?
+activate DB
+DB --> UM : success
+deactivate DB
+UM --> DAC : success
+deactivate UM
+
+DAC -> AM : logout()
+activate AM
+AM --> DAC : success
+deactivate AM
+
+DAC --> User : Redirection (Accueil + Flash Success)
+
+deactivate DAC
+@enduml
+
+@startuml Création événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Création d'un événement (Admin/BDE)
+
+actor "Membre BDE" as Admin
+participant "CreateEventController" as EC
+participant "AuthManager" as AM
+participant "CloudinaryService" as CS
+participant "EventCreationModel" as EM
+participant "Database" as DB
+
+Admin -> EC : POST /createEvent (données + images)
+activate EC
+
+EC -> AM : requireAdmin()
+activate AM
+AM -> AM : check status == 'BDE'
+AM --> EC : void | Exception
+deactivate AM
+
+alt Accès refusé
+    EC --> Admin : Erreur 403 (Accès interdit)
+else Accès autorisé
+    EC -> EC : validate form data
+
+    alt Images présentes
+        EC -> CS : uploadMultipleImages(files)
+        activate CS
+        CS --> EC : urls[]
+        deactivate CS
+    end
+
+    EC -> EM : insertEvent(name, date, time, location, theme, status, description, images)
+    activate EM
+    EM -> DB : INSERT INTO events (...)
+    activate DB
+    DB --> EM : success
+    deactivate DB
+    EM --> EC : true | false
+    deactivate EM
+
+    EC --> Admin : Redirection (Liste événements + Flash)
+end
+
+deactivate EC
+@enduml
+
+@startuml Modification événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Modification d'un événement
+
+actor "Membre BDE" as Admin
+participant "UpdateEventController" as UEC
+participant "AuthManager" as AM
+participant "EventModel" as EM
+participant "CloudinaryService" as CS
+participant "Database" as DB
+
+Admin -> UEC : POST /updateEvent (event_id, données)
+activate UEC
+
+UEC -> AM : requireAdmin()
+activate AM
+AM --> UEC : void | Exception
+deactivate AM
+
+UEC -> EM : getEventById(event_id)
+activate EM
+EM -> DB : SELECT * FROM events WHERE event_id = ?
+activate DB
+DB --> EM : event_data
+deactivate DB
+EM --> UEC : event | null
+deactivate EM
+
+alt Événement non trouvé
+    UEC --> Admin : Erreur 404
+else Événement trouvé
+    alt Nouvelles images
+        UEC -> CS : uploadMultipleImages(files)
+        activate CS
+        CS --> UEC : urls[]
+        deactivate CS
+    end
+
+    UEC -> EM : updateEvent(event_id, data)
+    activate EM
+    EM -> DB : UPDATE events SET ... WHERE event_id = ?
+    activate DB
+    DB --> EM : success
+    deactivate DB
+    EM --> UEC : success
+    deactivate EM
+
+    UEC --> Admin : Redirection (Détail événement + Flash)
+end
+
+deactivate UEC
+@enduml
+
+@startuml Suppression événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Suppression d'un événement
+
+actor "Membre BDE" as Admin
+participant "DeleteEventController" as DEC
+participant "AuthManager" as AM
+participant "EventModel" as EM
+participant "Database" as DB
+
+Admin -> DEC : POST /deleteEvent (event_id)
+activate DEC
+
+DEC -> AM : requireAdmin()
+activate AM
+AM --> DEC : void | Exception
+deactivate AM
+
+DEC -> DEC : validateCsrf(token)
+
+DEC -> EM : deleteEvent(event_id)
+activate EM
+EM -> DB : DELETE FROM event_registrations WHERE event_id = ?
+activate DB
+DB --> EM : success
+deactivate DB
+EM -> DB : DELETE FROM events WHERE event_id = ?
+activate DB
+DB --> EM : success
+deactivate DB
+EM --> DEC : success
+deactivate EM
+
+DEC --> Admin : Redirection (Liste événements + Flash)
+
+deactivate DEC
+@enduml
+
+@startuml Inscription événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Inscription à un événement
+
+actor "Utilisateur" as User
+participant "RegisterEventController" as REC
+participant "AuthManager" as AM
+participant "EventRegistrationRepository" as ERR
+participant "Database" as DB
+
+User -> REC : GET /registerEvent?action=register&event_id=X
+activate REC
+
+REC -> AM : requireAuthentication()
+activate AM
+AM --> REC : OK | Exception
+deactivate AM
+
+REC -> AM : getUserId()
+activate AM
+AM --> REC : user_id
+deactivate AM
+
+REC -> ERR : isUserRegistered(event_id, user_id)
+activate ERR
+ERR -> DB : SELECT 1 FROM event_registrations WHERE event_id = ? AND user_id = ?
+activate DB
+DB --> ERR : result
+deactivate DB
+ERR --> REC : bool
+deactivate ERR
+
+alt Déjà inscrit
+    REC --> User : Message d'erreur (Déjà inscrit)
+else Pas encore inscrit
+    REC -> ERR : registerUser(event_id, user_id)
+    activate ERR
+    ERR -> DB : INSERT INTO event_registrations (event_id, user_id, status)
+    activate DB
+    DB --> ERR : success
+    deactivate DB
+    ERR --> REC : success
+    deactivate ERR
+
+    REC --> User : Redirection (Événement + Flash Success)
+end
+
+deactivate REC
+@enduml
+
+@startuml Désinscription événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Désinscription d'un événement
+
+actor "Utilisateur" as User
+participant "RegisterEventController" as REC
+participant "AuthManager" as AM
+participant "EventRegistrationRepository" as ERR
+participant "Database" as DB
+
+User -> REC : GET /registerEvent?action=unregister&event_id=X
+activate REC
+
+REC -> AM : requireAuthentication()
+activate AM
+AM --> REC : OK | Exception
+deactivate AM
+
+REC -> AM : getUserId()
+activate AM
+AM --> REC : user_id
+deactivate AM
+
+REC -> ERR : unregisterUser(event_id, user_id)
+activate ERR
+ERR -> DB : DELETE FROM event_registrations WHERE event_id = ? AND user_id = ?
+activate DB
+DB --> ERR : success
+deactivate DB
+ERR --> REC : success
+deactivate ERR
+
+REC --> User : Redirection (Événement + Flash Success)
+
+deactivate REC
+@enduml
+
+@startuml Export participants événement
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Export des participants d'un événement
+
+actor "Membre BDE" as Admin
+participant "ExportUserEventController" as EUC
+participant "AuthManager" as AM
+participant "EventRegistrationRepository" as ERR
+participant "Database" as DB
+
+Admin -> EUC : GET /exportUserEvent?event_id=X
+activate EUC
+
+EUC -> AM : requireAdmin()
+activate AM
+AM --> EUC : void | Exception
+deactivate AM
+
+EUC -> ERR : getRegisteredUsers(event_id)
+activate ERR
+ERR -> DB : SELECT u.* FROM users u JOIN event_registrations er ON ...
+activate DB
+DB --> ERR : users[]
+deactivate DB
+ERR --> EUC : users[]
+deactivate ERR
+
+EUC -> EUC : generateCSV(users)
+EUC --> Admin : Téléchargement fichier CSV
+
+deactivate EUC
+@enduml
+
+@startuml Consultation événements
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Consultation des événements
+
+actor "Visiteur/Utilisateur" as User
+participant "EventController" as EC
+participant "EventModel" as EM
+participant "Database" as DB
+
+== Liste des événements ==
+
+User -> EC : GET /events
+activate EC
+
+EC -> EM : getAllEvents()
+activate EM
+EM -> DB : SELECT * FROM events ORDER BY date DESC
+activate DB
+DB --> EM : events[]
+deactivate DB
+EM --> EC : events[]
+deactivate EM
+
+EC --> User : Page liste événements
+
+deactivate EC
+
+== Détail d'un événement ==
+
+User -> EC : GET /event?id=X
+activate EC
+
+EC -> EM : getEventById(event_id)
+activate EM
+EM -> DB : SELECT * FROM events WHERE event_id = ?
+activate DB
+DB --> EM : event_data
+deactivate DB
+EM --> EC : event | null
+deactivate EM
+
+alt Événement non trouvé
+    EC --> User : Erreur 404
+else Événement trouvé
+    EC --> User : Page détail événement
+end
+
+deactivate EC
+@enduml
+
+@startuml Gestion membres BDE
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+
+title Diagramme de séquence : Gestion des membres BDE
+
+actor "Admin BDE" as Admin
+participant "BdeMembersController" as BMC
+participant "AuthManager" as AM
+participant "UserManager" as UM
+participant "Database" as DB
+
+Admin -> BMC : GET /bdeMembers
+activate BMC
+
+BMC -> AM : requireAdmin()
+activate AM
+AM --> BMC : void | Exception
+deactivate AM
+
+BMC -> UM : getAllUsers()
+activate UM
+UM -> DB : SELECT * FROM users
+activate DB
+DB --> UM : users[]
+deactivate DB
+UM --> BMC : users[]
+deactivate UM
+
+BMC --> Admin : Page gestion membres
+
+== Modification statut utilisateur ==
+
+Admin -> BMC : POST /bdeMembers (user_id, new_status)
+activate BMC
+
+BMC -> AM : requireAdmin()
+BMC -> BMC : validateCsrf(token)
+
+BMC -> UM : updateUserStatus(user_id, status)
+activate UM
+UM -> DB : UPDATE users SET status = ? WHERE user_id = ?
+activate DB
+DB --> UM : success
+deactivate DB
+UM --> BMC : success
+deactivate UM
+
+BMC --> Admin : Redirection (Liste membres + Flash)
+
+deactivate BMC
+@enduml
+

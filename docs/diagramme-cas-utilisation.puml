@@ -1,0 +1,114 @@
+@startuml
+
+skinparam usecase {
+    BackgroundColor #F0F0F0
+    BorderColor #444444
+}
+skinparam rectangle {
+    BorderColor #003366
+    BackgroundColor #E0E0FF
+    FontColor #003366
+    StereotypeFontColor #003366
+    BorderThickness 2
+}
+
+' ==== 1. ACTEURS (Externes au système - tous à gauche) ====
+left to right direction
+
+' Groupe d'acteurs à gauche
+together {
+    actor "Visiteur" as Visiteur
+    actor "Étudiant authentifié" as Etudiant
+    actor "Membre BDE (Admin)" as Admin
+    actor "Système d'email" as MailSystem
+    actor "Service Cloudinary" as CloudinaryService
+}
+
+' Généralisation des Acteurs
+Etudiant --|> Visiteur
+Admin --|> Etudiant
+
+' ==== 2. FRONTIÈRE DU SYSTÈME (Rectangle UML) ====
+rectangle "Système Web BDE Live" {
+
+    ' --- A. Cas d'utilisation publics / Déconnectés ---
+    usecase "Consulter le site (Général)" as UC_Consultation
+    usecase "S'inscrire (Nouveau Compte)" as UC_Inscription
+    usecase "Se connecter" as UC_Login
+    usecase "Demander réinitialisation Mot de Passe" as UC_ResetPwdRequest
+
+    usecase "Consulter Mentions Légales" as UC_Legal
+    usecase "Consulter Plan du Site" as UC_Sitemap
+    usecase "Consulter l'équipe BDE" as UC_Equipe
+
+    ' Cas d'utilisation détaillés et/ou inclus
+    usecase "Vérifier l'existence de l'utilisateur" as UC_VerifyUser
+    usecase "Envoyer l'email de réinitialisation" as UC_SendEmail
+    usecase "Suivre le lien de réinitialisation" as UC_FollowLink
+    usecase "Vérifier le token (Clé Sécurité)" as UC_VerifyToken
+    usecase "Définir un nouveau mot de passe" as UC_SetNewPwd
+
+    ' --- B. Cas d'utilisation Authentifiés (Étudiant) ---
+    usecase "Se déconnecter" as UC_Logout
+    usecase "Gérer son Profil" as UC_Profile
+    usecase "S'inscrire à un Événement" as UC_RegisterEvent
+    usecase "Se désinscrire d'un Événement" as UC_UnregisterEvent
+
+    ' --- C. Cas d'utilisation Administrateurs (Membre BDE) ---
+    usecase "Gérer les Événements (Créer/Modifier/Supprimer)" as UC_ManageEvents
+    usecase "Gérer les médias d'événement (Cloudinary)" as UC_ManageMedia
+
+    ' --- D. Cas d'utilisation Extension / Optionnel ---
+    usecase "Gérer le Consentement Cookies" as UC_Cookies
+
+    ' =======================================================
+    ' ==== Relations Include / Extend (INTERNES au système) ====
+    ' =======================================================
+
+    ' 1. Inclusion (Obligatoire)
+    UC_Consultation ..> UC_Legal : <<include>>
+    UC_Consultation ..> UC_Sitemap : <<include>>
+    UC_Consultation ..> UC_Equipe : <<include>>
+
+    UC_Profile ..> UC_Logout : <<include>>
+
+    ' 2. Token de Réinitialisation (Inclusions en séquence)
+    UC_ResetPwdRequest ..> UC_VerifyUser : <<include>>
+    UC_VerifyUser ..> UC_SendEmail : <<include>>
+    UC_FollowLink ..> UC_VerifyToken : <<include>>
+    UC_VerifyToken ..> UC_SetNewPwd : <<include>>
+
+    ' 3. Gestion Admin : UC_ManageEvents encapsule les opérations CRUD
+    ' (pas d'auto-include UML, la précision est dans le nom / la doc)
+
+    ' 4. Services d'Image (Cloudinary) – use case interne + association acteur
+    UC_ManageEvents ..> UC_ManageMedia : <<include>>
+
+    ' 5. Extension (Optionnelle) – cookies
+    UC_Consultation <. UC_Cookies : <<extend>>\n(Si non consenti)
+}
+
+' =======================================================
+' ==== Associations Acteurs ↔ Cas d'utilisation (Externes) ====
+' =======================================================
+
+' Visiteur (Public)
+Visiteur --> UC_Consultation
+Visiteur --> UC_Inscription
+Visiteur --> UC_Login
+Visiteur --> UC_ResetPwdRequest
+Visiteur --> UC_FollowLink
+
+' Étudiant (Connecté)
+Etudiant --> UC_Profile
+Etudiant --> UC_RegisterEvent
+Etudiant --> UC_UnregisterEvent
+
+' Admin (Membre BDE)
+Admin --> UC_ManageEvents
+
+' Systèmes Externes
+MailSystem --> UC_SendEmail
+CloudinaryService --> UC_ManageMedia
+
+@enduml
