@@ -186,6 +186,34 @@ class ArticleModel
     }
 
     /**
+     * Get the latest articles ordered by creation date (newest first)
+     *
+     * Retrieves a specified number of the most recent articles from the database.
+     * Optimized query that only selects necessary columns for performance.
+     *
+     * @param int $limit Number of articles to fetch (default: 2)
+     * @return array<int, array<string, mixed>> Array of articles, empty array if none found
+     */
+    public function getLatestArticles(int $limit = 2): array
+    {
+        try {
+            $query = "SELECT id, title, slug, description, image_url, author, created_at 
+                      FROM ARTICLES 
+                      ORDER BY created_at DESC 
+                      LIMIT :limit";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result ?: [];
+        } catch (PDOException $e) {
+            error_log('ArticleModel::getLatestArticles - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
      * Count total number of articles
      *
      * @return int Total count
