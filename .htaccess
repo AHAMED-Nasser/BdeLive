@@ -5,15 +5,18 @@ RewriteBase /BdeLive/
 Options -Indexes
 
 RedirectMatch 404 /\.git
-<FilesMatch "(\.(env|json|lock|xml|yml|yaml|sql|log)|composer\.(json|lock))$">
+<FilesMatch "(\.(env|json|lock|yml|yaml|sql|log)|composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
-
-<FilesMatch "^(sitemap\.xml|robots\.txt|google.*\.html)$">
-    Require all granted
+# Bloquer tous les XML sauf sitemap.xml
+<FilesMatch "\.xml$">
+    <RequireAll>
+        Require all denied
+        Require expr "! %{REQUEST_URI} =~ m#sitemap\.xml$#"
+    </RequireAll>
 </FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt
+# Laisser passer sitemap.xml et robots.txt (AVANT les autres règles)
 RewriteRule ^sitemap\.xml$ - [L]
 RewriteRule ^robots\.txt$ - [L]
 
