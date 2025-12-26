@@ -63,7 +63,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     $previewLength = 150;
                     $isLong = $descriptionLength > $previewLength;
                     $preview = mb_substr($fullDescription, 0, $previewLength);
-                    
+
                     // Format date using DateTime (POO)
                     $date = new DateTime($article['created_at'] ?? 'now');
                     $formattedDate = $date->format('d/m/Y');
