@@ -5,7 +5,7 @@
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
  * @var \App\Core\Security\CsrfProtection $csrf
  */
-start_page($event['event_name'], true, $user ?? null);
+start_page("Evénement: " . $event['event_name'], true, $user ?? null);
 ?>
 
     <div class="container event-detail-page">

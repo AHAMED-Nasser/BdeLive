@@ -124,7 +124,7 @@ class EventRegistrationRepository
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
