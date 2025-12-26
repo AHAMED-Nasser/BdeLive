@@ -9,6 +9,14 @@ RedirectMatch 404 /\.git
     Require all denied
 </FilesMatch>
 
+# Autoriser explicitement sitemap.xml et robots.txt
+<Files "sitemap.xml">
+    Require all granted
+</Files>
+<Files "robots.txt">
+    Require all granted
+</Files>
+
 # Laisser passer sitemap.xml et robots.txt (AVANT TOUTES LES AUTRES RÈGLES)
 RewriteRule ^sitemap\.xml$ - [L]
 RewriteRule ^robots\.txt$ - [L]
