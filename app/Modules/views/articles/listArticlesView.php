@@ -29,6 +29,13 @@ start_page("Nos articles", true, $user ?? null);
         <?php else : ?>
             <div class="articles-grid">
                 <?php foreach ($articles as $article) : ?>
+                    <?php
+                    $fullDescription = strip_tags($article['description'] ?? '');
+                    $descriptionLength = mb_strlen($fullDescription);
+                    $previewLength = 150;
+                    $isLong = $descriptionLength > $previewLength;
+                    $preview = mb_substr($fullDescription, 0, $previewLength);
+                    ?>
                     <article class="article-card">
                         <?php if (!empty($article['image_url'])) : ?>
                             <img
@@ -47,10 +54,27 @@ start_page("Nos articles", true, $user ?? null);
                                 le <?= date('d/m/Y', strtotime($article['created_at'])) ?>
                             </p>
                             <p class="article-description">
-                                <?= htmlspecialchars(
-                                    mb_substr(strip_tags($article['description']), 0, 150)
-                                ) ?>...
+                                <?= htmlspecialchars($preview) ?>
+                                <?php if ($isLong) : ?>
+                                    ...
+                                <?php endif; ?>
                             </p>
+                            
+                            <div class="article-actions">
+                                <?php if ($isLong) : ?>
+                                    <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                       class="btn-view">
+                                        Voir l'article
+                                    </a>
+                                <?php endif; ?>
+                                
+                                <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
+                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                       class="btn-edit">
+                                        Modifier
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </article>
                 <?php endforeach; ?>
