@@ -9,12 +9,16 @@ RedirectMatch 404 /\.git
     Require all denied
 </FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt (TRÈS TÔT, AVANT TOUTES LES AUTRES RÈGLES)
-RewriteCond %{REQUEST_URI} sitemap\.xml$ [OR]
+# Laisser passer sitemap.xml et robots.txt (vérifier à la fois REQUEST_URI et REQUEST_FILENAME)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} ^/BdeLive/sitemap\.xml$ [OR]
+RewriteCond %{REQUEST_URI} ^/sitemap\.xml$ [OR]
 RewriteCond %{REQUEST_FILENAME} sitemap\.xml$
 RewriteRule ^ - [L]
 
-RewriteCond %{REQUEST_URI} robots\.txt$ [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{REQUEST_URI} ^/BdeLive/robots\.txt$ [OR]
+RewriteCond %{REQUEST_URI} ^/robots\.txt$ [OR]
 RewriteCond %{REQUEST_FILENAME} robots\.txt$
 RewriteRule ^ - [L]
 
