@@ -9,9 +9,9 @@ RedirectMatch 404 /\.git
     Require all denied
 </FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt (vérifier que le fichier existe)
+# Laisser passer sitemap.xml et robots.txt (dans app/ ou à la racine)
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(sitemap\.xml|robots\.txt)$ - [L]
+RewriteRule ^(app/)?(sitemap\.xml|robots\.txt)$ - [L]
 
 # Laisser passer la vérification Google
 RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
