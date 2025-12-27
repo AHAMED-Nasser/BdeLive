@@ -47,8 +47,7 @@ composer.phar
 
 # Config files with sensitive data
 app/config/config.php
-app/Config/config.php
-app/Config/cloudinary.php
+app/Config/
 config/cloudinary.php
 .idea/php.xml
 
