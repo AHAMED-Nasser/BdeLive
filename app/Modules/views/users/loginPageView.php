@@ -27,7 +27,7 @@ start_page("Connexion - BDE Inform'Aix", true, $user ?? null);
             <input id="email" type="email" name="email" placeholder="Entrez votre adresse mail" required>
             
             <label for="password">Mot de passe :</label>
-            <input id="password" type="password" name="pwd" placeholder="Entrez votre mot de passe" required>
+            <input id="password" type="password" name="password" placeholder="Entrez votre mot de passe" required>
             
             <?= $csrf->getTokenField() ?>
             <button type="submit" name="ok">Se connecter</button>
