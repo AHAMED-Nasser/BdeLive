@@ -56,14 +56,14 @@ class RegisterEventController extends AuthenticatedController
         $eventId = (int) $this->request->get('event_id', 0);
 
         if ($eventId <= 0) {
-            $this->redirectWithMessage('ID événement invalide', false);
+            $this->redirectWithMessage($eventId, 'ID événement invalide', false);
             return;
         }
 
         match ($action) {
             'register' => $this->register($eventId),
             'unregister' => $this->unregister($eventId),
-            default => $this->redirectWithMessage('Action invalide', false)
+            default => $this->redirectWithMessage($eventId, 'Action invalide', false)
         };
     }
 
@@ -80,19 +80,19 @@ class RegisterEventController extends AuthenticatedController
     {
         $user = $this->auth->getUser();
         if (!$user || !isset($user['user_id'])) {
-            $this->redirectWithMessage('Utilisateur non authentifié', false);
+            $this->redirectWithMessage($eventId, 'Utilisateur non authentifié', false);
             return;
         }
 
         $userId = $user['user_id'];
 
         if ($this->repo->isUserRegistered($eventId, $userId)) {
-            $this->redirectWithMessage('Vous êtes déjà inscrit à cet événement', false);
+            $this->redirectWithMessage($eventId, 'Vous êtes déjà inscrit à cet événement', false);
             return;
         }
 
         $this->repo->registerUser($eventId, $userId);
-        $this->redirectWithMessage('Inscription réussie à l\'événement');
+        $this->redirectWithMessage($eventId, 'Inscription réussie à l\'événement');
     }
 
     /**
@@ -107,19 +107,19 @@ class RegisterEventController extends AuthenticatedController
     {
         $user = $this->auth->getUser();
         if (!$user || !isset($user['user_id'])) {
-            $this->redirectWithMessage('Utilisateur non authentifié', false);
+            $this->redirectWithMessage($eventId, 'Utilisateur non authentifié', false);
             return;
         }
 
         $userId = $user['user_id'];
 
         if (!$this->repo->isUserRegistered($eventId, $userId)) {
-            $this->redirectWithMessage('Vous n\'êtes pas inscrit à cet événement', false);
+            $this->redirectWithMessage($eventId, 'Vous n\'êtes pas inscrit à cet événement', false);
             return;
         }
 
         $this->repo->unregisterUser($eventId, $userId);
-        $this->redirectWithMessage('Désinscription réussie');
+        $this->redirectWithMessage($eventId, 'Désinscription réussie');
     }
 
     /**
@@ -131,13 +131,13 @@ class RegisterEventController extends AuthenticatedController
      * @param bool $success True for success message, false for error message
      * @return void Redirects to event page
      */
-    private function redirectWithMessage(string $message, bool $success = true): void
+    private function redirectWithMessage(int $eventId, string $message, bool $success = true): void
     {
         if ($success) {
             $this->setSuccess($message);
         } else {
             $this->setError($message);
         }
-        parent::redirect('index.php?page=event');
+        parent::redirect('index.php?page=showEvent&id=' . $eventId);
     }
 }
