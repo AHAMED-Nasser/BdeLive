@@ -1,0 +1,32 @@
+{
+  "name": "bdelive/app",
+  "description": "BDE Live PHP project",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "phpmailer/phpmailer": "^7.0",
+    "cloudinary/cloudinary_php": "^3.1",
+    "ext-pdo": "*",
+    "dompdf/dompdf": "^3.1"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.11",
+    "squizlabs/php_codesniffer": "^3.10",
+    "phpunit/phpunit": "^12.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse --level=8 app",
+    "lint": "phpcs --standard=PSR12 app",
+    "lint:fix": "phpcbf --standard=PSR12 app",
+    "test": "phpunit"
+  },
+  "config": {
+    "optimize-autoloader": true
+  }
+}
