@@ -9,7 +9,21 @@ if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 if (!defined('ADMIN_EMAIL')) define('ADMIN_EMAIL', 'events@example.com');
 if (!defined('ADMIN_PWD')) define('ADMIN_PWD', 'pass_admin_test');
 
-// Mock de Mailer
+// Stub pour App\Config\Mailer (dossier exclu de l'analyse)
+// Utilisation de eval pour créer la classe dans le bon namespace
+if (!class_exists('App\\Config\\Mailer')) {
+    eval('
+        namespace App\\Config {
+            class Mailer {
+                public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool {
+                    return true;
+                }
+            }
+        }
+    ');
+}
+
+// Mock de Mailer (legacy)
 if (!class_exists('Mailer')) {
     class Mailer {
         public function sendPasswordResetEmail(string $to_email, string $to_name, string $token) {}
@@ -18,7 +32,7 @@ if (!class_exists('Mailer')) {
 
 // Map namespaced classes to legacy names for PHPStan symbol discovery
 @class_alias('App\\Core\\Database', 'Database');
-// App\Config\Mailer removed - using mock Mailer class above instead
+@class_alias('App\\Config\\Mailer', 'Mailer');
 @class_alias('App\\Modules\\Repositories\\EventRepository', 'EventRepository');
 @class_alias('App\\Modules\\Repositories\\EventRegistrationRepository', 'EventRegistrationRepository');
 @class_alias('App\\Modules\\Models\\Pwd\\PasswordReset', 'PasswordReset');
