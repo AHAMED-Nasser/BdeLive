@@ -1,19 +1,20 @@
 RewriteEngine On
 Options -MultiViews
-RewriteBase /BdeLive/
+
+RewriteBase /
 
 Options -Indexes
 
 RedirectMatch 404 /\.git
+
+# Sécurité : Bloquer l'accès aux fichiers sensibles
 <FilesMatch "(\.(env|json|lock|yml|yaml|sql|log)|composer\.(json|lock))$">
     Require all denied
 </FilesMatch>
 
-# Laisser passer sitemap.xml et robots.txt (dans app/ ou à la racine)
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(app/)?(sitemap\.xml|robots\.txt)$ - [L]
 
-# Laisser passer la vérification Google
 RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
 
 RewriteCond %{REQUEST_URI} ^/app/
@@ -21,7 +22,6 @@ RewriteCond %{REQUEST_URI} !^/app/assets/
 RewriteCond %{REQUEST_URI} !^/app/(index\.php|robots\.txt|sitemap\.xml)$
 RewriteRule ^ - [F,L]
 
-# Front controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]
