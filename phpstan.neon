@@ -5,6 +5,9 @@ parameters:
     bootstrapFiles:
         - phpstan-bootstrap.php
 
+    stubFiles:
+        - .phpstan/stubs/Mailer.php
+
     excludePaths:
         analyse:
             - app/vendor/*
