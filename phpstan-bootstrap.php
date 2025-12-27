@@ -18,7 +18,7 @@ if (!class_exists('Mailer')) {
 
 // Map namespaced classes to legacy names for PHPStan symbol discovery
 @class_alias('App\\Core\\Database', 'Database');
-@class_alias('App\\Config\\Mailer', 'Mailer');
+// App\Config\Mailer removed - using mock Mailer class above instead
 @class_alias('App\\Modules\\Repositories\\EventRepository', 'EventRepository');
 @class_alias('App\\Modules\\Repositories\\EventRegistrationRepository', 'EventRegistrationRepository');
 @class_alias('App\\Modules\\Models\\Pwd\\PasswordReset', 'PasswordReset');
