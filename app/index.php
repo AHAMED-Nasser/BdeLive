@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // Load configuration
-require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/Config/config.php';
 
 use App\Core\Application;
 use App\Core\Exception\AuthenticationException;
