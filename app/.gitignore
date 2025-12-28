@@ -1,3 +1,18 @@
+# IDE
+*.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+*.env
+.env.local
+.env.production
+
+# Dependencies
+vendor/
+node_modules/
+
 # Cache
 .php-cs-fixer.cache
 .phpstan.cache
@@ -32,3 +47,21 @@ composer.phar
 
 # Config files with sensitive data
 app/config/config.php
+app/Config/
+config/cloudinary.php
+.idea/php.xml
+
+# Local config overrides
+app/config/*.local.php
+
+# Builds
+/dist/
+/build/
+
+# App caches & storage
+/app/cache/
+/storage/
+/var/
+
+.gemini/
+gha-creds-*.json
