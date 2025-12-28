@@ -140,4 +140,20 @@ class EventRepository
             return  false;
         }
     }
+
+    /**
+     * Get all events for calendar display
+     * * @return array<int, array<string, mixed>>
+     */
+    public function findAll(): array
+    {
+        try {
+            $sql = 'SELECT event_id, event_name, event_date, event_time, description FROM EVENTS';
+            $stmt = $this->pdo->query($sql);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('EventRepository::findAll - ' . $e->getMessage());
+            return [];
+        }
+    }
 }
