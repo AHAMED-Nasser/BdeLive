@@ -29,26 +29,62 @@ class EventController extends DefaultController
         try {
             // 1. MODEL (Repository)
             $repository = new EventRepository();
-            $totalEvents = $repository->count();
+            $viewMode = $_GET['view'] ?? 'list'; // Détection du mode
 
-            // 2. HELPER (Pagination)
-            $pagination = new Pagination($totalEvents, self::ITEMS_PER_PAGE);
+            if ($viewMode === 'calendar') {
+                // Mode Calendrier : on récupère tout
+                $events = $repository->findAll();
+                $this->render('events/eventView', [
+                    'events' => $events,
+                    'viewMode' => 'calendar'
+                ]);
+            } else {
+                // Mode Liste : conservation de la logique de pagination existante
+                $totalEvents = $repository->count();
 
-            // 3. MODEL (Repository)
-            $events = $repository->findPaginated(
-                $pagination->getOffset(),
-                $pagination->getLimit()
-            );
+                // 2. HELPER (Pagination)
+                $pagination = new Pagination($totalEvents, self::ITEMS_PER_PAGE);
 
-            // 4. VIEW - Render with BaseController (injects $csrf, $auth, $flash, $user)
-            $this->render('events/eventView', [
-                'events' => $events,
-                'pagination' => $pagination
-            ]);
+                // 3. MODEL (Repository)
+                $events = $repository->findPaginated(
+                    $pagination->getOffset(),
+                    $pagination->getLimit()
+                );
+
+                $this->render('events/eventView', [
+                    'events' => $events,
+                    'pagination' => $pagination,
+                    'viewMode' => 'list'
+                ]);
+            }
         } catch (Exception $e) {
-            // Handle errors
-            $this->setError('Erreur lors du chargement des événements : ' . $e->getMessage());
+            $this->setError('Erreur lors du chargement : ' . $e->getMessage());
             $this->redirect('index.php?page=home');
         }
+
+//        try {
+//            // 1. MODEL (Repository)
+//            $repository = new EventRepository();
+//            $totalEvents = $repository->count();
+//
+//            // 2. HELPER (Pagination)
+//            $pagination = new Pagination($totalEvents, self::ITEMS_PER_PAGE);
+//
+//            // 3. MODEL (Repository)
+//            $events = $repository->findPaginated(
+//                $pagination->getOffset(),
+//                $pagination->getLimit()
+//            );
+//
+//            // 4. VIEW - Render with BaseController (injects $csrf, $auth, $flash, $user)
+//            $this->render('events/eventView', [
+//                'events' => $events,
+//                'pagination' => $pagination
+//            ]);
+//        } catch (Exception $e) {
+//            // Handle errors
+//            $this->setError('Erreur lors du chargement des événements : ' . $e->getMessage());
+//            $this->redirect('index.php?page=home');
+//        }
     }
 }
