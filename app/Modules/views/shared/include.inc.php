@@ -55,6 +55,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         echo htmlspecialchars($displayName ?: 'Mon Profil');
                         ?>
                     </a></li>
+                    <li><a href="index.php?page=adminSection">Administration</a></li>
                 <?php elseif (isset($user) && $user !== null) : ?>
                     <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
