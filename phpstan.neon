@@ -10,7 +10,6 @@ parameters:
             - app/vendor/*
             - app/modules/views/*
             - app/cache/*
-            - app/Config/*
             - storage/*
             - var/*
             - logs/*
