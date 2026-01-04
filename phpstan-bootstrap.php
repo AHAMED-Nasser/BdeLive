@@ -9,13 +9,17 @@ if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
 if (!defined('ADMIN_EMAIL')) define('ADMIN_EMAIL', 'events@example.com');
 if (!defined('ADMIN_PWD')) define('ADMIN_PWD', 'pass_admin_test');
 
-// Stub pour App\Config\Mailer (dossier exclu de l'analyse)
-// Utilisation de eval pour créer la classe dans le bon namespace
+// Stub pour App\Config\Mailer (si nécessaire pour l'analyse)
+// Note: Maintenant que app/Config/* n'est plus exclu, ce stub ne devrait plus être nécessaire
+// mais on le garde pour compatibilité avec les anciennes configurations
 if (!class_exists('App\\Config\\Mailer')) {
     eval('
         namespace App\\Config {
             class Mailer {
                 public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool {
+                    return true;
+                }
+                public function sendVerificationEmail(string $to_email, string $to_name, string $token): bool {
                     return true;
                 }
             }
