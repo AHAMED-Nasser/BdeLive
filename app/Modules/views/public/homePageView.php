@@ -19,7 +19,11 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 if (!empty($flash['success'])) {
-    echo '<div class="alert alert-success">' . htmlspecialchars($flash['success']) . '</div>';
+    echo '<div class="alert alert-success">' . htmlspecialchars($flash['success']);
+    if (!empty($flash['show_register_link'])) {
+        echo '<br><a href="index.php?page=register" style="margin-top: 10px; display: inline-block;">Cliquez ici pour créer un nouveau compte</a>';
+    }
+    echo '</div>';
 }
 
 if (!empty($flash['error'])) {

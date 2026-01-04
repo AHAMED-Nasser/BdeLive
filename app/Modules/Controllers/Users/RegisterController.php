@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Users;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Controllers\Users\AuthController;
+use App\Modules\Models\Users\UserManager;
+use App\Config\Mailer;
+use Exception;
 
 /**
  * Register Controller
  *
  * Handles user registration operations including form display, input validation,
- * account creation, and automatic login after successful registration.
- * Works with AuthController to create new user accounts.
+ * account creation with email verification.
  *
  * @package BdeLive\Controllers
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
@@ -21,22 +22,22 @@ use App\Modules\Controllers\Users\AuthController;
 class RegisterController extends DefaultController
 {
     /**
-     * Authentication controller instance
+     * User manager instance
      *
-     * @var AuthController
+     * @var UserManager
      */
-    private AuthController $authController;
+    private UserManager $userManager;
 
     /**
      * Constructor - Initialize the RegisterController
      *
-     * Creates a new AuthController instance for handling registration operations.
+     * Creates a new UserManager instance for handling registration operations.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->authController = new AuthController();
+        $this->userManager = new UserManager();
 
         // Handle form submission
         if ($this->request->isPost() && $this->request->post('ok') !== null) {
@@ -100,22 +101,52 @@ class RegisterController extends DefaultController
             return;
         }
 
-        // Attempt registration
-        $userId = $this->authController->register($last_name, $first_name, $user_status, $email, $pwd);
-
-        if ($userId) {
-            // Registration successful - auto login
-            if ($this->authController->login($email, $pwd)) {
-                $this->setSuccess('Inscription réussie ! Bienvenue ' . htmlspecialchars($first_name) . ' !');
-                $this->redirect('index.php?page=home');
-            } else {
-                // Registration ok but login failed (shouldn't happen)
-                $this->setSuccess('Inscription réussie ! Veuillez vous connecter.');
-                $this->redirect('index.php?page=login');
-            }
-            // If the email is already used, show an error message
-        } else {
+        // Vérifier si l'email existe déjà
+        if ($this->userManager->emailExists($email)) {
             $this->setError('Cette adresse email est déjà utilisée');
+            $this->render('users/registerPageView');
+            return;
+        }
+
+        // Attempt registration with verification token
+        try {
+            $result = $this->userManager->createUserWithVerification(
+                $last_name,
+                $first_name,
+                $user_status,
+                $email,
+                $pwd
+            );
+
+            if ($result) {
+                // Envoyer l'email de vérification
+                $mailer = new Mailer();
+                $emailSent = $mailer->sendVerificationEmail(
+                    $email,
+                    $first_name . ' ' . $last_name,
+                    $result['token']
+                );
+
+                if ($emailSent) {
+                    $this->setSuccess(
+                        'Inscription réussie ! Un email de vérification a été envoyé à ' .
+                        htmlspecialchars($email) . '. Veuillez vérifier votre boîte de réception.'
+                    );
+                } else {
+                    $this->setError(
+                        'Inscription réussie, mais l\'envoi de l\'email de vérification a échoué. ' .
+                        'Veuillez contacter l\'administrateur.'
+                    );
+                }
+
+                $this->render('users/registerPageView');
+            } else {
+                $this->setError('Erreur lors de l\'inscription. Veuillez réessayer.');
+                $this->render('users/registerPageView');
+            }
+        } catch (Exception $e) {
+            error_log('RegisterController::handleRegistration - ' . $e->getMessage());
+            $this->setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
             $this->render('users/registerPageView');
         }
     }

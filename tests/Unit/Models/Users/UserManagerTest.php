@@ -267,4 +267,295 @@ class UserManagerTest extends TestCase
         $this->userManager->updateLastName(1, 'Smith');
         $this->assertTrue(true);
     }
+
+    public function testGenerateVerificationTokenReturnsValidToken(): void
+    {
+        $token = $this->userManager->generateVerificationToken();
+
+        $this->assertIsString($token);
+        $this->assertEquals(64, strlen($token));
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $token);
+    }
+
+    public function testGenerateVerificationTokenGeneratesUniqueTokens(): void
+    {
+        $token1 = $this->userManager->generateVerificationToken();
+        $token2 = $this->userManager->generateVerificationToken();
+
+        $this->assertNotEquals($token1, $token2);
+    }
+
+    public function testCreateUserWithVerificationCreatesUserWithToken(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                return isset($params['last_name']) &&
+                       isset($params['first_name']) &&
+                       isset($params['user_status']) &&
+                       isset($params['email']) &&
+                       isset($params['password']) &&
+                       isset($params['verification_token']) &&
+                       strlen($params['verification_token']) === 64;
+            }))
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('lastInsertId')
+            ->willReturn('42');
+
+        $result = $this->userManager->createUserWithVerification(
+            'Doe',
+            'John',
+            'BUT 1',
+            'john.doe@example.com',
+            'password123'
+        );
+        
+        $this->assertIsArray($result);
+        $this->assertEquals(42, $result['user_id']);
+        $this->assertIsString($result['token']);
+        $this->assertEquals(64, strlen($result['token']));
+    }
+
+    public function testCreateUserWithVerificationReturnsFalseOnFailure(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(false);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->createUserWithVerification(
+            'Doe',
+            'John',
+            'BUT 1',
+            'john.doe@example.com',
+            'password123'
+        );
+        
+        $this->assertFalse($result);
+    }
+
+    public function testVerifyEmailTokenReturnsSuccessForValidToken(): void
+    {
+        $mockUser = [
+            'user_id' => 123,
+            'is_verified' => 0
+        ];
+
+        $mockUpdateStmt = $this->createMock(PDOStatement::class);
+        $mockUpdateStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 123])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['token' => 'validtoken123'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($mockUser);
+        
+        $this->mockPdo->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($this->mockStmt, $mockUpdateStmt);
+
+        $result = $this->userManager->verifyEmailToken('validtoken123');
+        
+        $this->assertTrue($result['success']);
+        $this->assertEquals(123, $result['user_id']);
+    }
+
+    public function testVerifyEmailTokenReturnsFailureForInvalidToken(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['token' => 'invalidtoken'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(false);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->verifyEmailToken('invalidtoken');
+        
+        $this->assertFalse($result['success']);
+        $this->assertEquals('Token de vérification invalide', $result['message']);
+    }
+
+    public function testVerifyEmailTokenReturnsFailureForAlreadyVerifiedEmail(): void
+    {
+        $mockUser = [
+            'user_id' => 123,
+            'is_verified' => 1
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['token' => 'alreadyverifiedtoken'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($mockUser);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->verifyEmailToken('alreadyverifiedtoken');
+        
+        $this->assertFalse($result['success']);
+        $this->assertEquals('Cet email a déjà été vérifié', $result['message']);
+    }
+
+    public function testIsEmailVerifiedReturnsTrueForVerifiedUser(): void
+    {
+        $mockUser = [
+            'is_verified' => 1
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 123])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($mockUser);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->isEmailVerified(123);
+        
+        $this->assertTrue($result);
+    }
+
+    public function testIsEmailVerifiedReturnsFalseForUnverifiedUser(): void
+    {
+        $mockUser = [
+            'is_verified' => 0
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 123])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($mockUser);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->isEmailVerified(123);
+        
+        $this->assertFalse($result);
+    }
+
+    public function testIsEmailVerifiedReturnsFalseForNonExistentUser(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 999])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(false);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->isEmailVerified(999);
+        
+        $this->assertFalse($result);
+    }
+
+    public function testResendVerificationTokenGeneratesNewToken(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                return isset($params['token']) &&
+                       isset($params['user_id']) &&
+                       strlen($params['token']) === 64 &&
+                       $params['user_id'] === 123;
+            }))
+            ->willReturn(true);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->resendVerificationToken(123);
+        
+        $this->assertIsString($result);
+        $this->assertEquals(64, strlen($result));
+        $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $result);
+    }
+
+    public function testResendVerificationTokenReturnsFalseOnFailure(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(false);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->resendVerificationToken(123);
+        
+        $this->assertFalse($result);
+    }
+
+    public function testFindUserByEmailIncludesIsVerified(): void
+    {
+        $expectedUser = [
+            'user_id' => 1,
+            'last_name' => 'Doe',
+            'first_name' => 'John',
+            'user_status' => 'BUT 1',
+            'email' => 'john.doe@example.com',
+            'password' => '$2y$10$hashedpassword',
+            'is_verified' => 1
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['email' => 'john.doe@example.com'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($expectedUser);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->findUserByEmail('john.doe@example.com');
+        
+        $this->assertEquals($expectedUser, $result);
+        $this->assertArrayHasKey('is_verified', $result);
+    }
 }
