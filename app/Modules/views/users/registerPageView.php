@@ -15,6 +15,12 @@ start_page("Inscription - BDE Inform'Aix", true, $user ?? null);
             </div>
         <?php endif; ?>
         
+        <?php if (!empty($flash['success'])) : ?>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($flash['success']) ?>
+            </div>
+        <?php endif; ?>
+        
         <form action="index.php?page=register" method="POST">
             <label for="last_name">Nom :</label>
             <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" required>

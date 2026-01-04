@@ -75,6 +75,7 @@ abstract class BaseController
                 'error'   => $this->session->getFlash('error'),
                 'warning' => $this->session->getFlash('warning'),
                 'info'    => $this->session->getFlash('info'),
+                'show_register_link' => $this->session->getFlash('show_register_link'),
             ],
 
             'user' => $this->auth->getUser(),

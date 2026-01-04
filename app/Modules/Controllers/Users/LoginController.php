@@ -98,6 +98,16 @@ class LoginController extends DefaultController
             return;
         }
 
+        // Vérifier si l'email est vérifié
+        if ((int)$user['is_verified'] === 0) {
+            $this->setError(
+                'Votre adresse email n\'a pas encore été vérifiée. ' .
+                'Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification dans l\'email que nous vous avons envoyé.'
+            );
+            $this->render('users/loginPageView');
+            return;
+        }
+
         // Login successful - Use new AuthManager to store session
         $this->auth->login(
             (int) $user['user_id'],

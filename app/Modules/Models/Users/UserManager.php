@@ -36,6 +36,8 @@ class UserManager
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();
+        // Assurer l'encodage UTF-8 comme spécifié dans les contraintes du cours
+        $this->pdo->exec('SET CHARACTER SET utf8');
     }
 
     /**
@@ -79,7 +81,8 @@ class UserManager
      *     first_name: string,
      *     user_status: string,
      *     email: string,
-     *     password: string
+     *     password: string,
+     *     is_verified: int
      * }|false
      * Array containing user data if found, false otherwise
      * @throws PDOException If database query fails
@@ -87,7 +90,7 @@ class UserManager
     public function findUserByEmail(string $email): array|false
     {
         try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password 
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified 
                       FROM USERS 
                       WHERE email = :email 
                       LIMIT 1";
@@ -306,6 +309,193 @@ class UserManager
             $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
         } catch (PDOException $e) {
             error_log('UserManager::updateLastName - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Generate a unique verification token
+     *
+     * Generates a cryptographically secure random token for email verification.
+     * The token is a 64-character hexadecimal string (32 bytes).
+     *
+     * @return string The generated verification token
+     */
+    public function generateVerificationToken(): string
+    {
+        return bin2hex(random_bytes(32));
+    }
+
+    /**
+     * Create a new user with verification token
+     *
+     * Inserts a new user record into the database with hashed password and verification token.
+     * The user is created with is_verified = 0 (not verified).
+     *
+     * @param string $last_name User's last name
+     * @param string $first_name User's first name
+     * @param string $user_status User's status (BUT 1, BUT 2, BUT 3, Personnel Enseignant)
+     * @param string $email User's email address
+     * @param string $password User's password (plain text, will be hashed)
+     * @return array{user_id: int, token: string}|false Array with user_id and token if successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function createUserWithVerification(
+        string $last_name,
+        string $first_name,
+        string $user_status,
+        string $email,
+        string $password
+    ): array|false {
+        try {
+            $hashedPassword = $this->hashPassword($password);
+            $verificationToken = $this->generateVerificationToken();
+
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified) 
+                      VALUES (:last_name, :first_name, :user_status, :email, :password, :verification_token, 0)";
+
+            $stmt = $this->pdo->prepare($query);
+            $success = $stmt->execute([
+                'last_name' => $last_name,
+                'first_name' => $first_name,
+                'user_status' => $user_status,
+                'email' => $email,
+                'password' => $hashedPassword,
+                'verification_token' => $verificationToken,
+            ]);
+
+            if ($success) {
+                return [
+                    'user_id' => (int)$this->pdo->lastInsertId(),
+                    'token' => $verificationToken,
+                ];
+            }
+
+            return false;
+        } catch (PDOException $e) {
+            error_log('UserManager::createUserWithVerification - ' . $e->getMessage());
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Verify email token and activate account
+     *
+     * Verifies the token and sets is_verified to 1 for the user.
+     * The token is cleared after successful verification.
+     *
+     * @param string $token The verification token
+     * @return array{success: bool, user_id: int}|array{success: bool, message: string}
+     *         Array with success status and user_id or error message
+     * @throws PDOException If database query fails
+     */
+    public function verifyEmailToken(string $token): array
+    {
+        try {
+            // Rechercher l'utilisateur avec ce token
+            $query = "SELECT user_id, is_verified FROM USERS 
+                      WHERE verification_token = :token 
+                      LIMIT 1";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['token' => $token]);
+            $user = $stmt->fetch();
+
+            if (!$user) {
+                return [
+                    'success' => false,
+                    'message' => 'Token de vérification invalide',
+                ];
+            }
+
+            // Vérifier si l'email est déjà vérifié
+            if ((int)$user['is_verified'] === 1) {
+                return [
+                    'success' => false,
+                    'message' => 'Cet email a déjà été vérifié',
+                ];
+            }
+
+            // Activer le compte et supprimer le token
+            $updateQuery = "UPDATE USERS 
+                           SET is_verified = 1, verification_token = NULL 
+                           WHERE user_id = :user_id";
+
+            $updateStmt = $this->pdo->prepare($updateQuery);
+            $updateSuccess = $updateStmt->execute(['user_id' => $user['user_id']]);
+
+            if ($updateSuccess) {
+                return [
+                    'success' => true,
+                    'user_id' => (int)$user['user_id'],
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => 'Erreur lors de la vérification',
+            ];
+        } catch (PDOException $e) {
+            error_log('UserManager::verifyEmailToken - ' . $e->getMessage());
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Check if user's email is verified
+     *
+     * @param int $user_id The ID of the user
+     * @return bool True if email is verified, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function isEmailVerified(int $user_id): bool
+    {
+        try {
+            $query = "SELECT is_verified FROM USERS WHERE user_id = :user_id LIMIT 1";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['user_id' => $user_id]);
+            $result = $stmt->fetch();
+
+            return $result && (int)$result['is_verified'] === 1;
+        } catch (PDOException $e) {
+            error_log('UserManager::isEmailVerified - ' . $e->getMessage());
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Resend verification token
+     *
+     * Generates a new verification token for the user and returns it.
+     * Does not send the email (that's handled by the controller).
+     *
+     * @param int $user_id The ID of the user
+     * @return string|false The new verification token if successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function resendVerificationToken(int $user_id): string|false
+    {
+        try {
+            $newToken = $this->generateVerificationToken();
+
+            $query = "UPDATE USERS 
+                     SET verification_token = :token, is_verified = 0 
+                     WHERE user_id = :user_id";
+
+            $stmt = $this->pdo->prepare($query);
+            $success = $stmt->execute([
+                'token' => $newToken,
+                'user_id' => $user_id,
+            ]);
+
+            return $success ? $newToken : false;
+        } catch (PDOException $e) {
+            error_log('UserManager::resendVerificationToken - ' . $e->getMessage());
+
             throw $e;
         }
     }
