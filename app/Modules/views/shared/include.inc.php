@@ -1,8 +1,18 @@
 <?php
 /**
- * @param string $title
- * @param bool $wouldNav
- * @param array<string, mixed>|null $user
+ * Renders the page header with navigation
+ *
+ * Generates the HTML head section and navigation bar with responsive
+ * hamburger menu for mobile devices. Includes user-specific navigation
+ * options based on authentication status and user role.
+ *
+ * @author BdeLive Team
+ * @version 1.1.0
+ * @package BdeLive\Views\Shared
+ *
+ * @param string $title Page title for the browser tab
+ * @param bool $wouldNav Whether to display the navigation bar
+ * @param array<string, mixed>|null $user Current user data or null if not logged in
  * @return void
  */
 function start_page(string $title, bool $wouldNav = true, ?array $user = null): void
@@ -41,30 +51,51 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 </a>
             </ul>
             <ul>
-
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="index.php?page=articles">Nos articles</a></li>
                 <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
-                    <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=createArticle">Créer un article</a></li>
-                    <li><a href="index.php?page=profile">
-                        <?php
-                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
-                        echo htmlspecialchars($displayName ?: 'Mon Profil');
-                        ?>
-                    </a></li>
+                    <!-- Profile dropdown menu -->
+                    <li class="profile-dropdown-container">
+                        <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
+                        <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
+                            <i class="fas fa-user"></i>
+                            <?php
+                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                            echo htmlspecialchars($displayName ?: 'Mon Profil');
+                            ?>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </label>
+                        <div class="profile-dropdown-menu">
+                            <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
+                            <a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                        </div>
+                    </li>
                 <?php elseif (isset($user) && $user !== null) : ?>
-                    <li><a href="index.php?page=logout">Déconnexion</a></li>
-                    <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=profile">
-                        <?php
-                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
-                        echo htmlspecialchars($displayName ?: 'Mon Profil');
-                        ?>
-                    </a></li>
+                    <!-- Profile dropdown menu -->
+                    <li class="profile-dropdown-container">
+                        <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
+                        <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
+                            <i class="fas fa-user"></i>
+                            <?php
+                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                            echo htmlspecialchars($displayName ?: 'Mon Profil');
+                            ?>
+                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                        </label>
+                        <div class="profile-dropdown-menu">
+                            <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
+                            <a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                            <a href="index.php?page=deleteAccount" class="dropdown-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a>
+                        </div>
+                    </li>
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
@@ -89,23 +120,17 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle">Créer un article</a></li>
-                        <li><a href="index.php?page=profile">
-                            <?php
-                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
-                            echo htmlspecialchars($displayName ?: 'Mon Profil');
-                            ?>
-                        </a></li>
-                        <li><a href="index.php?page=logout">Déconnexion</a></li>
+                        <li class="sidebar-section-title">Mon compte</li>
+                        <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
+                        <li><a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+                        <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     <?php elseif (isset($user) && $user !== null) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=profile">
-                            <?php
-                            $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
-                            echo htmlspecialchars($displayName ?: 'Mon Profil');
-                            ?>
-                        </a></li>
-                        <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
-                        <li><a href="index.php?page=logout">Déconnexion</a></li>
+                        <li class="sidebar-section-title">Mon compte</li>
+                        <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
+                        <li><a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+                        <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                        <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
                     <?php else : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=login">Connexion</a></li>
@@ -123,6 +148,19 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
 ?>
 
 <?php
+/**
+ * Renders the page footer
+ *
+ * Generates the HTML footer section with navigation links,
+ * social media icons, and copyright information.
+ * Also handles cookie consent popup display.
+ *
+ * @author BdeLive Team
+ * @version 1.1.0
+ * @package BdeLive\Views\Shared
+ *
+ * @return void
+ */
 function end_page(): void
 {
     ?>
