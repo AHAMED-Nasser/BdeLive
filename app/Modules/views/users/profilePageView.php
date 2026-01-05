@@ -186,31 +186,6 @@ $editField = $_GET['edit'] ?? null;
             </div>
             <?php endif; ?>
 
-            <!-- Email Field (Read Only) -->
-            <div class="profile-field">
-                <div class="profile-field-header">
-                    <span class="profile-field-label"><i class="fas fa-envelope"></i> Email</span>
-                </div>
-                <div class="profile-field-value">
-                    <span class="profile-field-readonly"><?= htmlspecialchars($user['email'] ?? 'Non renseigné') ?></span>
-                </div>
-                <div class="profile-field-readonly-notice">
-                    <i class="fas fa-lock"></i> L'email ne peut pas être modifié sur cette page
-                </div>
-            </div>
-
-            <!-- Password Field (Read Only) -->
-            <div class="profile-field">
-                <div class="profile-field-header">
-                    <span class="profile-field-label"><i class="fas fa-key"></i> Mot de passe</span>
-                </div>
-                <div class="profile-field-value">
-                    <span class="profile-field-readonly">••••••••</span>
-                </div>
-                <div class="profile-field-readonly-notice">
-                    <i class="fas fa-lock"></i> Le mot de passe ne peut pas être modifié sur cette page
-                </div>
-            </div>
         </div>
     </div>
 
