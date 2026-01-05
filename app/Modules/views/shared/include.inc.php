@@ -43,33 +43,32 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <ul>
 
                 <li><a href="index.php?page=home">Accueil</a></li>
-                <li><a href="index.php?page=articles">Nos articles</a></li>
+                <li><a href="index.php?page=articles">Articles</a></li>
+                <li><a href="index.php?page=event">Evénements</a></li>
                 <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
-                    <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
-                    <li><a href="index.php?page=createArticle">Créer un article</a></li>
+                    <li><a href="index.php?page=createArticle">Créer article</a></li>
+                    <li><a href="index.php?page=createEvent">Créer évenement</a></li>
+                    <li><a href="index.php?page=adminSection">Administrer</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
                         $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                         echo htmlspecialchars($displayName ?: 'Mon Profil');
                         ?>
                     </a></li>
-                    <li><a href="index.php?page=adminSection">Administration</a></li>
+                    <li><a href="index.php?page=logout">Déconnexion</a></li>
                 <?php elseif (isset($user) && $user !== null) : ?>
-                    <li><a href="index.php?page=logout">Déconnexion</a></li>
                     <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
-                    <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
                         $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                         echo htmlspecialchars($displayName ?: 'Mon Profil');
                         ?>
                     </a></li>
+                    <li><a href="index.php?page=logout">Déconnexion</a></li>
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
-                    <li><a href="index.php?page=event">Evénements</a></li>
                 <?php endif; ?>
             </ul>
 
