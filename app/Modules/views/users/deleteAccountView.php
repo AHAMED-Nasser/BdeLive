@@ -1,43 +1,45 @@
 <?php
 /**
- * @var \App\Core\Security\CsrfProtection $csrf
- * @var array<string, mixed>|null $user
- * @var array<string, string|null> $flash
+ * Delete Account View
+ *
+ * Displays the account deletion confirmation page.
+ * Allows users to permanently delete their account with CSRF protection.
+ *
+ * @author BdeLive Team
+ * @version 1.1.0
+ * @package BdeLive\Views\Users
+ *
+ * @var \App\Core\Security\CsrfProtection $csrf CSRF protection service
+ * @var array<string, mixed>|null $user Current user data
+ * @var array<string, string|null> $flash Flash messages (success, error, etc.)
  */
+
 start_page('Supprimer mon compte', true, $user ?? null);
-if (session_status() === PHP_SESSION_NONE) {
-}
-
-require_once __DIR__ . '/../shared/include.inc.php';
-
-
 ?>
 
-    <div class="container" style="max-width:600px;margin:60px auto;">
-        <h2>Supprimer mon compte</h2>
+<div class="container" style="max-width:600px;margin:60px auto;">
+    <h2>Supprimer mon compte</h2>
 
-        <!-- Message Erreur -->
-        <?php if (!empty($flash['error'])) : ?>
-            <div class="alert alert-danger"><?= htmlspecialchars($flash['error']) ?></div>
-        <?php endif; ?>
+    <!-- Error Message -->
+    <?php if (!empty($flash['error'])) : ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($flash['error']) ?></div>
+    <?php endif; ?>
 
-        <!-- Message Réussie-->
-        <?php if (!empty($flash['success'])) : ?>
-            <div class="alert alert-success"><?= htmlspecialchars($flash['success']) ?></div>
-        <?php endif; ?>
+    <!-- Success Message -->
+    <?php if (!empty($flash['success'])) : ?>
+        <div class="alert alert-success"><?= htmlspecialchars($flash['success']) ?></div>
+    <?php endif; ?>
 
-        <p>Attention : cette action est irréversible. Toutes vos données seront supprimées.</p>
+    <p>Attention : cette action est irréversible. Toutes vos données seront supprimées.</p>
 
-            <form method="post" action="index.php?page=delete_account" onsubmit="return confirm('Voulez-vous vraiment supprimer votre compte ?');">
-                <?= $csrf->getTokenField() ?>
+    <form method="post" action="index.php?page=delete_account">
+        <?= $csrf->getTokenField() ?>
 
-            <!-- Boutons -->
-            <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
-            <a href="index.php?page=home" class="btn btn-secondary">Annuler</a>
-        </form>
-    </div>
+        <!-- Buttons -->
+        <button type="submit" class="btn btn-danger">Supprimer mon compte</button>
+        <a href="index.php?page=home" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
 
 <?php
 end_page();
-?>
-<?php
