@@ -70,7 +70,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         </label>
                         <div class="profile-dropdown-menu">
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
-                            <a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a>
+                            <a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a>
                             <div class="dropdown-divider"></div>
                             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                         </div>
@@ -90,7 +90,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         </label>
                         <div class="profile-dropdown-menu">
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
-                            <a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a>
+                            <a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a>
                             <div class="dropdown-divider"></div>
                             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                             <a href="index.php?page=deleteAccount" class="dropdown-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a>
@@ -122,13 +122,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <li><a href="index.php?page=createArticle">Créer un article</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
-                        <li><a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+                        <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     <?php elseif (isset($user) && $user !== null) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
-                        <li><a href="#" class="dropdown-disabled"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+                        <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                         <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
                     <?php else : ?>

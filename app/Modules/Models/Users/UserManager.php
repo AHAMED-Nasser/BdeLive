@@ -544,4 +544,57 @@ class UserManager
             throw $e;
         }
     }
+
+    /**
+     * Update a user's email address
+     *
+     * Changes a user's email address in the database.
+     *
+     * @param int $user_id The ID of the user
+     * @param string $newEmail The new email address
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function updateEmail(int $user_id, string $newEmail): bool
+    {
+        try {
+            $query = "UPDATE USERS SET email = :email WHERE user_id = :user_id";
+            $stmt = $this->pdo->prepare($query);
+
+            return $stmt->execute([
+                'email' => $newEmail,
+                'user_id' => $user_id
+            ]);
+        } catch (PDOException $e) {
+            error_log('UserManager::updateEmail - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Get user by ID
+     *
+     * Retrieves user information by user ID.
+     *
+     * @param int $user_id The user ID
+     * @return array<string, mixed>|false User data if found, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function getUserById(int $user_id): array|false
+    {
+        try {
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified 
+                      FROM USERS 
+                      WHERE user_id = :user_id 
+                      LIMIT 1";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['user_id' => $user_id]);
+
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            error_log('UserManager::getUserById - ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }
