@@ -74,7 +74,7 @@ $userId = $user['user_id'] ?? null;
             <?php endif; ?>
         </div>
 
-        <?php if (isset($user) && $user['user_status'] === 'BDE') : ?>
+        <?php if ($isAdmin) : ?>
             <div class="admin-zone" style="background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 8px; text-align: center; margin-top: 50px;">
                 <h4 style="color: #856404;">Administration de l'événement</h4>
                 <div style="margin-top: 15px;">
