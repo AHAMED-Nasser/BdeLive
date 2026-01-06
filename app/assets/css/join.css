@@ -1,49 +1,111 @@
 .join {
-    max-width: 500px;
-    margin: 100px auto;
-    padding: 20px 20px;
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px 20px;
     background-color: #FAF9F6;
-    border-radius: 12px;
-    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.08);
     text-align: center;
 }
 
 #join-title {
-    text-align: center;
+    text-align: left;
     font-size: 2.4rem;
     font-weight: 700;
     margin-bottom: 20px;
+    letter-spacing: 1px;
     padding-left: 15px;
     color: #333;
 }
 
-.join-text h2 {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    margin-bottom: 30px;
+.join-text {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
     color: #444;
+    line-height: 1.7;
+    font-size: 1.1rem;
+    padding: 10px 20px;
 }
 
-.join-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+.join-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 0;
+    color: #444;
+    font-weight: normal;
 }
 
-.btn-discord {
-    display: inline-block;
-    transition: transform 0.3s ease;
+.join-text p strong {
+    font-weight: 700;
 }
 
-.btn-discord:hover {
-    transform: scale(1.1);
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+    .join {
+        margin: 50px auto;
+        padding: 35px 15px;
+    }
+
+    #join-title {
+        font-size: 2rem;
+        padding-left: 10px;
+    }
+
+    .join-text {
+        font-size: 1rem;
+        padding: 8px 15px;
+    }
+
+    .join-text p {
+        font-size: 1rem;
+    }
 }
 
-.discord-img {
-    width: 100px;
-    height: auto;
-    border-radius: 15px;
-    transition: box-shadow 0.3s ease;
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .join {
+        margin: 40px 15px;
+        padding: 30px 15px;
+    }
+
+    #join-title {
+        font-size: 1.6rem;
+        padding-left: 5px;
+        margin-bottom: 15px;
+    }
+
+    .join-text {
+        font-size: 0.95rem;
+        padding: 5px 10px;
+    }
+
+    .join-text p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Small mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .join {
+        margin: 30px 10px;
+        padding: 25px 10px;
+    }
+
+    #join-title {
+        font-size: 1.4rem;
+        padding-left: 0;
+    }
+
+    .join-text {
+        font-size: 0.9rem;
+        padding: 5px;
+    }
+
+    .join-text p {
+        font-size: 0.9rem;
+    }
 }
 

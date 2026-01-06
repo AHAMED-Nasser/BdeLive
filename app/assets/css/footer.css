@@ -2,7 +2,7 @@ footer nav {
     margin-bottom: 15px;
 }
 
-footer nav ul {
+.footer-nav {
     list-style: none;
     display: flex;
     justify-content: center;
@@ -13,29 +13,40 @@ footer nav ul {
     margin: 0 0 15px 0;
 }
 
-footer nav ul li {
+.footer-nav li {
     display: inline-block;
 }
 
-footer nav ul li a {
+.footer-nav a {
     color: white;
     font-size: 1.1rem;
     padding: 10px 15px;
     border-radius: 5px;
     display: inline-block;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-footer nav ul li a:hover {
+.footer-nav a:hover {
     color: white;
     background-color: rgba(255, 255, 255, 0.2);
     text-decoration: none;
     transform: translateY(-2px);
 }
 
+.footer-nav a:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
 footer p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 20px 0;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
 }
 
 
@@ -56,17 +67,18 @@ footer {
         margin-top: 40px;
     }
 
-    footer nav ul {
+    .footer-nav {
         gap: 15px;
     }
 
-    footer nav ul li a {
+    .footer-nav a {
         font-size: 1rem;
         padding: 8px 12px;
     }
 
     footer p {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
+        margin-bottom: 18px;
     }
 }
 
@@ -77,17 +89,17 @@ footer {
         margin-top: 30px;
     }
 
-    footer nav ul {
+    .footer-nav {
         gap: 10px;
         flex-direction: column;
     }
 
-    footer nav ul li {
+    .footer-nav li {
         width: 100%;
         text-align: center;
     }
 
-    footer nav ul li a {
+    .footer-nav a {
         font-size: 0.95rem;
         padding: 10px 15px;
         display: block;
@@ -97,8 +109,9 @@ footer {
     }
 
     footer p {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         padding: 0 10px;
+        margin-bottom: 15px;
     }
 }
 
@@ -109,17 +122,18 @@ footer {
         margin-top: 20px;
     }
 
-    footer nav ul {
+    .footer-nav {
         gap: 8px;
     }
 
-    footer nav ul li a {
+    .footer-nav a {
         font-size: 0.9rem;
         padding: 8px 12px;
         max-width: 180px;
     }
 
     footer p {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
+        margin-bottom: 12px;
     }
 }

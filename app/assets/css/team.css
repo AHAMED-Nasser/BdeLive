@@ -1,6 +1,6 @@
 .Equip {
     max-width: 1000px;
-    margin: 150px auto;
+    margin: 60px auto;
     padding: 40px 20px;
     background-color: #FAF9F6;
     border-radius: 10px;
@@ -28,6 +28,22 @@
     padding: 10px 20px;
 }
 
+.equip-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: #444;
+    font-weight: normal;
+}
+
+.equip-text p:last-child {
+    margin-bottom: 0;
+}
+
+.equip-text p strong {
+    font-weight: 700;
+}
+
 .equip-text ul {
     list-style: none;
     padding: 0;
@@ -50,7 +66,7 @@
 /* Tablet (max-width: 992px) */
 @media (max-width: 992px) {
     .Equip {
-        margin: 120px auto;
+        margin: 50px auto;
         padding: 35px 15px;
     }
 
@@ -63,12 +79,16 @@
         font-size: 1rem;
         padding: 8px 15px;
     }
+
+    .equip-text p {
+        font-size: 1rem;
+    }
 }
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     .Equip {
-        margin: 100px 15px;
+        margin: 40px 15px;
         padding: 30px 15px;
     }
 
@@ -83,6 +103,10 @@
         padding: 5px 10px;
     }
 
+    .equip-text p {
+        font-size: 0.95rem;
+    }
+
     .equip-text ul {
         margin-top: 15px;
     }
@@ -91,7 +115,7 @@
 /* Small mobile (max-width: 480px) */
 @media (max-width: 480px) {
     .Equip {
-        margin: 80px 10px;
+        margin: 30px 10px;
         padding: 25px 10px;
     }
 
@@ -103,5 +127,9 @@
     .equip-text {
         font-size: 0.9rem;
         padding: 5px;
+    }
+
+    .equip-text p {
+        font-size: 0.9rem;
     }
 }

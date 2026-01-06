@@ -118,25 +118,26 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
     <section class="BDE" aria-labelledby="bde-title">
         <h3 id="bde-title"><strong>Qui sommes-nous ?</strong></h3>
         <div class="bde-text">
-            <h3>
-                Le <strong>BDE Informatique d’Aix</strong> est une association étudiante qui rassemble les passionnés de
+            <p>
+                Le <strong>BDE Informatique d'Aix</strong> est une association étudiante qui rassemble les passionnés de
                 technologies, de programmation et de cybersécurité.
                 Nous organisons des événements, des ateliers et des soirées pour créer du lien entre les étudiants
-                en informatique et favoriser l’entraide au sein du campus.
-                <br><br>
+                en informatique et favoriser l'entraide au sein du campus.
+            </p>
+            <p>
                 Nos valeurs : <strong>convivialité, partage et innovation</strong>.
                 Que tu sois développeur, gamer ou simplement curieux, le BDE Info Aix est fait pour toi !
-            </h3>
+            </p>
         </div>
     </section>
 
     <section class="Equip" aria-labelledby="equip-title">
         <h3 id="equip-title"><strong>Notre équipe</strong></h3>
         <div class="equip-text">
-            <h3>
+            <p>
                 <strong>Notre équipe passionnée</strong> est composée d'étudiants motivés à apprendre qui travaillent
-                ensemble pour proposer des événements et projets autour de l’informatique.
-            </h3>
+                ensemble pour proposer des événements et projets autour de l'informatique.
+            </p>
             <ul>
                 <li><a href="index.php?page=team">En savoir plus</a></li>
             </ul>
@@ -147,22 +148,19 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
         <h3 id="join-title"><strong>Rejoins-nous</strong></h3>
 
         <div class="join-text">
-            <h2>
+            <p>
                 Envie de participer à la vie du campus ? <br>
                 <strong>Rejoins le BDE Info Aix !</strong>
-            </h2>
-
-            <div class="join-buttons">
-                <a href="https://discord.com/invite/4dXHpN6JCK" target="_blank" class="btn-discord">
-                    <img src="./assets/img/discord.png" alt="Rejoindre le Discord" class="discord-img">
-                </a>
-            </div>
+            </p>
         </div>
     </section>
 
     <div class="btn-image-right">
-        <a href="index.php">
-            <img src="./assets/img/fleche-accueil.png" alt="Aller à l'accueil" class="bde-image">
+        <a href="index.php" aria-label="Retour à l'accueil">
+            <svg class="bde-image" width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" fill="currentColor"/>
+                <path d="M12 8v8M8 12l4-4 4 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
         </a>
     </div>
 </main>
