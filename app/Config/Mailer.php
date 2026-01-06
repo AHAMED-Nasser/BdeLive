@@ -783,8 +783,8 @@ TEXT;
     private function getSecurityAlertEmailHTML(string $name, string $alertType): string
     {
         $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
-        $alertMessage = $alertType === 'email_change' 
-            ? "de modification de votre adresse email" 
+        $alertMessage = $alertType === 'email_change'
+            ? "de modification de votre adresse email"
             : "de modification de votre mot de passe";
 
         return <<<HTML
@@ -857,8 +857,8 @@ HTML;
      */
     private function getSecurityAlertEmailText(string $name, string $alertType): string
     {
-        $alertMessage = $alertType === 'email_change' 
-            ? "de modification de votre adresse email" 
+        $alertMessage = $alertType === 'email_change'
+            ? "de modification de votre adresse email"
             : "de modification de votre mot de passe";
 
         return <<<TEXT
