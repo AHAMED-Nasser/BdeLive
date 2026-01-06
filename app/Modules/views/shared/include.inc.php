@@ -1,4 +1,6 @@
 <?php
+
+use App\Core\Application;
 /**
  * @param string $title
  * @param bool $wouldNav
@@ -7,6 +9,8 @@
  */
 function start_page(string $title, bool $wouldNav = true, ?array $user = null): void
 {
+    $auth = Application::getInstance()->auth();
+    $isAdmin = $auth->isAdmin();
     ?>
 
 <!DOCTYPE html>
@@ -45,10 +49,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="index.php?page=articles">Articles</a></li>
                 <li><a href="index.php?page=event">Evénements</a></li>
-                <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
-                    <li><a href="index.php?page=event">Evénements</a></li>
-                    <li><a href="index.php?page=createArticle">Créer article</a></li>
+                <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                     <li><a href="index.php?page=createEvent">Créer évenement</a></li>
+                    <li><a href="index.php?page=createArticle">Créer article</a></li>
                     <li><a href="index.php?page=adminSection">Administrer</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
@@ -85,7 +88,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
                     <li><a href="index.php?page=articles">Nos articles</a></li>
-                    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
+                    <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle">Créer un article</a></li>
