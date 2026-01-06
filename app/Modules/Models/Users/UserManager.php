@@ -309,4 +309,60 @@ class UserManager
             throw $e;
         }
     }
+
+
+    /**
+    * Récupère les utilisateurs paginés en fonction de l'état de blocage
+    */
+    public function getAllUsersPaginated(int $limit, int $offset, bool $isBlocked = false): array {
+        try {
+            $blockedValue = $isBlocked ? 1 : 0;
+
+            $query = 'SELECT user_id, last_name, first_name, user_status, email, role, is_blocked
+                      FROM USERS
+                      WHERE is_blocked = :is_blocked
+                      ORDER BY last_name ASC
+                      LIMIT :limit OFFSET :offset';
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([
+                'is_blocked' => $blockedValue,
+                'limit' => $limit,
+                'offset' => $offset
+            ]);
+
+            return $stmt->fetchAll();
+        } catch (PDOException $e) {
+            error_log('UserManager::getAllUsersPaginated - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Compte les utilisateurs pour la pagination selon is_blocked
+     */
+    public function countUsersByBlockStatus(bool $isBlocked = false): int
+    {
+        $blockedValue = $isBlocked ? 1 : 0;
+        
+        $query = 'SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute(['is_blocked' => $blockedValue]);
+        return (int)$stmt->fetchColumn();
+    }
+
+    /**
+     * Change le rôle d'un utilisateur (ex: 'admin' ou 'user')
+     */
+    public function updateUserRole(int $userId, string $role): bool 
+    {
+        $query = 'UPDATE USERS SET role = :role WHERE user_id = :id';
+        return $this->pdo->prepare($query)->execute(['role' => $role, 'id' => $userId]);
+    }
+
+    public function setBlockStatus(int $userId, int $status): bool {
+        $query = 'UPDATE USERS SET is_blocked = :status WHERE user_id = :id';
+        return $this->pdo->prepare($query)->execute(['status' => $status, 'id' => $userId]);
+    }
+
 }
