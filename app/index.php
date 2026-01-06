@@ -5,6 +5,9 @@ declare(strict_types=1);
 // Load configuration
 require_once __DIR__ . '/Config/config.php';
 
+// Set timezone to France (Europe/Paris)
+date_default_timezone_set('Europe/Paris');
+
 use App\Core\Application;
 use App\Core\Exception\AuthenticationException;
 use App\Core\Exception\AuthorizationException;

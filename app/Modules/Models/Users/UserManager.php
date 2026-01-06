@@ -331,6 +331,8 @@ class UserManager
      *
      * Inserts a new user record into the database with hashed password and verification token.
      * The user is created with is_verified = 0 (not verified).
+     * The verification token expires 24 hours after creation and the expiration
+     * date is stored in the token_expires_at column.
      *
      * @param string $last_name User's last name
      * @param string $first_name User's first name
@@ -350,9 +352,13 @@ class UserManager
         try {
             $hashedPassword = $this->hashPassword($password);
             $verificationToken = $this->generateVerificationToken();
+            // Token expires 24 hours after creation
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $now->modify('+24 hours');
+            $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
-            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified) 
-                      VALUES (:last_name, :first_name, :user_status, :email, :password, :verification_token, 0)";
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified, token_expires_at) 
+                      VALUES (:last_name, :first_name, :user_status, :email, :password, :verification_token, 0, :token_expires_at)";
 
             $stmt = $this->pdo->prepare($query);
             $success = $stmt->execute([
@@ -362,6 +368,7 @@ class UserManager
                 'email' => $email,
                 'password' => $hashedPassword,
                 'verification_token' => $verificationToken,
+                'token_expires_at' => $tokenExpiresAt,
             ]);
 
             if ($success) {
@@ -383,7 +390,9 @@ class UserManager
      * Verify email token and activate account
      *
      * Verifies the token and sets is_verified to 1 for the user.
-     * The token is cleared after successful verification.
+     * Checks if the token has expired (24 hours). If expired, deletes the user
+     * and returns an "expired" message. The token is cleared after successful
+     * verification and the expiration date is reset to NULL.
      *
      * @param string $token The verification token
      * @return array{success: bool, user_id: int}|array{success: bool, message: string}
@@ -393,8 +402,8 @@ class UserManager
     public function verifyEmailToken(string $token): array
     {
         try {
-            // Rechercher l'utilisateur avec ce token
-            $query = "SELECT user_id, is_verified FROM USERS 
+            // Find user by verification token
+            $query = "SELECT user_id, is_verified, token_expires_at FROM USERS 
                       WHERE verification_token = :token 
                       LIMIT 1";
 
@@ -409,17 +418,33 @@ class UserManager
                 ];
             }
 
-            // Vérifier si l'email est déjà vérifié
-            if ((int)$user['is_verified'] === 1) {
+            // Check if email is already verified
+            if ((int) $user['is_verified'] === 1) {
                 return [
                     'success' => false,
                     'message' => 'Cet email a déjà été vérifié',
                 ];
             }
 
-            // Activer le compte et supprimer le token
+            // Validate token expiration if present
+            if ($user['token_expires_at'] !== null) {
+                $expirationDate = new \DateTime($user['token_expires_at'], new \DateTimeZone('Europe/Paris'));
+                $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+
+                if ($now > $expirationDate) {
+                    // Token expired: delete the user so they can register again
+                    $this->deleteUser((int) $user['user_id']);
+
+                    return [
+                        'success' => false,
+                        'message' => 'expired',
+                    ];
+                }
+            }
+
+            // Activate account and clear token and expiration date
             $updateQuery = "UPDATE USERS 
-                           SET is_verified = 1, verification_token = NULL 
+                           SET is_verified = 1, verification_token = NULL, token_expires_at = NULL 
                            WHERE user_id = :user_id";
 
             $updateStmt = $this->pdo->prepare($updateQuery);
@@ -428,7 +453,7 @@ class UserManager
             if ($updateSuccess) {
                 return [
                     'success' => true,
-                    'user_id' => (int)$user['user_id'],
+                    'user_id' => (int) $user['user_id'],
                 ];
             }
 
@@ -471,6 +496,7 @@ class UserManager
      * Resend verification token
      *
      * Generates a new verification token for the user and returns it.
+     * Updates the token expiration date to 24 hours from now.
      * Does not send the email (that's handled by the controller).
      *
      * @param int $user_id The ID of the user
@@ -481,15 +507,20 @@ class UserManager
     {
         try {
             $newToken = $this->generateVerificationToken();
+            // Token expires 24 hours after resend
+            $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $now->modify('+24 hours');
+            $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
             $query = "UPDATE USERS 
-                     SET verification_token = :token, is_verified = 0 
+                     SET verification_token = :token, is_verified = 0, token_expires_at = :token_expires_at 
                      WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
             $success = $stmt->execute([
                 'token' => $newToken,
                 'user_id' => $user_id,
+                'token_expires_at' => $tokenExpiresAt,
             ]);
 
             return $success ? $newToken : false;
