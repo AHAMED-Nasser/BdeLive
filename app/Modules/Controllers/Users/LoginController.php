@@ -74,19 +74,6 @@ class LoginController extends DefaultController
             return;
         }
 
-        // Admin authentification
-        $adminEmail = ADMIN_EMAIL;
-        $adminPwd   = ADMIN_PWD;
-
-        if ($email === $adminEmail && $mdp === $adminPwd) {
-            // Use AuthManager to login admin
-            $this->auth->login(0, 'BDE', $adminEmail, 'Admin', 'Me');
-
-            // Login admin success
-            $this->setSuccess('Connexion réussie ! Bienvenue administrateur !');
-            $this->redirect('index.php?page=home');
-        }
-
         // Attempt login with old system to verify credentials
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);
@@ -103,6 +90,8 @@ class LoginController extends DefaultController
             (int) $user['user_id'],
             $user['user_status'],
             $user['email'],
+            $user['role'],
+            (int) $user['is_blocked'],
             $user['first_name'],
             $user['last_name']
         );
