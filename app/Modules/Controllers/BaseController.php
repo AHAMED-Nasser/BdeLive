@@ -78,6 +78,7 @@ abstract class BaseController
             ],
 
             'user' => $this->auth->getUser(),
+            'isAdmin' => $this->auth->isAdmin(),
         ];
 
         $allData = array_merge($data, $globalData);
