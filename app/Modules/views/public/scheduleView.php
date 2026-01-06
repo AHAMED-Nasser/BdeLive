@@ -148,7 +148,9 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                     today: "Aujourd'hui",
                     week: 'Semaine',
                     day: 'Jour',
-                    list: 'Liste'
+                    list: 'Liste',
+                    prev: "Précédent",
+                    next: "Suivant"
                 },
                 slotMinTime: '07:00:00',
                 slotMaxTime: '20:00:00',
