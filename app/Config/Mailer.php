@@ -527,4 +527,466 @@ L'équipe du BDE Inform'Aix
 Cet email a été envoyé automatiquement
 TEXT;
     }
+
+    /**
+     * Send a security alert email for suspicious activity
+     *
+     * Notifies the user that a suspicious modification attempt was detected
+     * and their account has been temporarily blocked.
+     *
+     * @param string $to_email Recipient email address
+     * @param string $to_name Recipient name
+     * @param string $alertType Type of alert (email_change, password_change)
+     * @return bool True if email sent successfully, false otherwise
+     */
+    public function sendSecurityAlertEmail(string $to_email, string $to_name, string $alertType): bool
+    {
+        try {
+            $mail = new PHPMailer(true);
+
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bdelivesae@alwaysdata.net';
+            $mail->Password = 'bdelive+6';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($this->from_email, $this->from_name);
+            $mail->addAddress($to_email, $to_name);
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = '⚠️ Alerte de sécurité - BDE Inform\'Aix';
+            $mail->Body = $this->getSecurityAlertEmailHTML($to_name, $alertType);
+            $mail->AltBody = $this->getSecurityAlertEmailText($to_name, $alertType);
+
+            $mail->send();
+            error_log("Mailer::sendSecurityAlertEmail - Security alert sent to: " . $to_email);
+            return true;
+        } catch (PHPMailerException $e) {
+            error_log("Mailer::sendSecurityAlertEmail (PHPMailer) - " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Mailer::sendSecurityAlertEmail - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send an email verification code for email change
+     *
+     * Sends a 6-digit verification code to the NEW email address
+     * to verify that the email exists and is accessible.
+     *
+     * @param string $to_email New email address to verify
+     * @param string $to_name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return bool True if email sent successfully, false otherwise
+     */
+    public function sendEmailVerificationCodeEmail(string $to_email, string $to_name, string $code): bool
+    {
+        try {
+            $mail = new PHPMailer(true);
+
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bdelivesae@alwaysdata.net';
+            $mail->Password = 'bdelive+6';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($this->from_email, $this->from_name);
+            $mail->addAddress($to_email, $to_name);
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = 'Code de vérification - Modification d\'email - BDE Inform\'Aix';
+            $mail->Body = $this->getEmailVerificationCodeHTML($to_name, $code);
+            $mail->AltBody = $this->getEmailVerificationCodeText($to_name, $code);
+
+            $mail->send();
+            error_log("Mailer::sendEmailVerificationCodeEmail - Code sent to: " . $to_email);
+            return true;
+        } catch (PHPMailerException $e) {
+            error_log("Mailer::sendEmailVerificationCodeEmail (PHPMailer) - " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Mailer::sendEmailVerificationCodeEmail - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Send a password change verification code email
+     *
+     * Sends a 6-digit verification code for password change confirmation.
+     *
+     * @param string $to_email Recipient email address
+     * @param string $to_name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return bool True if email sent successfully, false otherwise
+     */
+    public function sendPasswordChangeCodeEmail(string $to_email, string $to_name, string $code): bool
+    {
+        try {
+            $mail = new PHPMailer(true);
+
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bdelivesae@alwaysdata.net';
+            $mail->Password = 'bdelive+6';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($this->from_email, $this->from_name);
+            $mail->addAddress($to_email, $to_name);
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = 'Code de vérification - Modification du mot de passe - BDE Inform\'Aix';
+            $mail->Body = $this->getPasswordChangeCodeEmailHTML($to_name, $code);
+            $mail->AltBody = $this->getPasswordChangeCodeEmailText($to_name, $code);
+
+            $mail->send();
+            error_log("Mailer::sendPasswordChangeCodeEmail - Code sent to: " . $to_email);
+            return true;
+        } catch (PHPMailerException $e) {
+            error_log("Mailer::sendPasswordChangeCodeEmail (PHPMailer) - " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Mailer::sendPasswordChangeCodeEmail - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Generate HTML email content for email verification code
+     *
+     * @param string $name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return string Email content in HTML format
+     */
+    private function getEmailVerificationCodeHTML(string $name, string $code): string
+    {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $escapedCode = htmlspecialchars($code, ENT_QUOTES, 'UTF-8');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification de votre nouvelle adresse email</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f7fa;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f5f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px;">📧 Vérification d'email</h1>
+                            <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">Confirmez votre nouvelle adresse</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="margin: 0 0 20px 0; color: #2d3748; font-size: 18px;">
+                                Bonjour <strong>{$escapedName}</strong>,
+                            </p>
+                            <p style="margin: 0 0 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                Vous avez demandé à modifier votre adresse email sur votre compte BDE Inform'Aix. Pour confirmer que cette adresse email vous appartient, veuillez saisir le code ci-dessous.
+                            </p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <div style="display: inline-block; padding: 25px 50px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 12px;">
+                                    <span style="font-size: 36px; font-weight: bold; color: #ffffff; letter-spacing: 8px; font-family: 'Courier New', monospace;">{$escapedCode}</span>
+                                </div>
+                            </div>
+                            <div style="padding: 20px; background-color: #e6fffa; border-left: 5px solid #28a745; border-radius: 8px; margin: 25px 0;">
+                                <p style="margin: 0; color: #276749; font-size: 14px; line-height: 1.7;">
+                                    <strong>⏰ Ce code expire dans 10 minutes.</strong><br>
+                                    Saisissez-le sur la page de modification pour confirmer votre nouvelle adresse email.
+                                </p>
+                            </div>
+                            <div style="padding: 20px; background-color: #fef2f2; border-left: 5px solid #ef4444; border-radius: 8px;">
+                                <p style="margin: 0; color: #991b1b; font-size: 14px; line-height: 1.7;">
+                                    <strong>🔒 Sécurité :</strong><br>
+                                    Si vous n'avez pas demandé cette modification, ignorez cet email. Votre adresse email actuelle reste inchangée.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                L'équipe du BDE Inform'Aix<br>
+                                <span style="font-size: 12px; color: #adb5bd;">Cet email a été envoyé automatiquement</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+HTML;
+    }
+
+    /**
+     * Generate plain text email content for email verification code
+     *
+     * @param string $name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return string Email content in plain text
+     */
+    private function getEmailVerificationCodeText(string $name, string $code): string
+    {
+        return <<<TEXT
+📧 VÉRIFICATION D'EMAIL - BDE INFORM'AIX
+Confirmez votre nouvelle adresse
+
+Bonjour {$name},
+
+Vous avez demandé à modifier votre adresse email sur votre compte BDE Inform'Aix.
+
+VOTRE CODE DE VÉRIFICATION :
+{$code}
+
+Ce code expire dans 10 minutes.
+
+Saisissez-le sur la page de modification pour confirmer votre nouvelle adresse email.
+
+IMPORTANT : Si vous n'avez pas demandé cette modification, ignorez cet email. Votre adresse email actuelle reste inchangée.
+
+Cordialement,
+L'équipe du BDE Inform'Aix
+
+Cet email a été envoyé automatiquement
+TEXT;
+    }
+
+    /**
+     * Generate HTML email content for security alert
+     *
+     * @param string $name Recipient name
+     * @param string $alertType Type of alert
+     * @return string Email content in HTML format
+     */
+    private function getSecurityAlertEmailHTML(string $name, string $alertType): string
+    {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $alertMessage = $alertType === 'email_change'
+            ? "de modification de votre adresse email"
+            : "de modification de votre mot de passe";
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerte de sécurité</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f7fa;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f5f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); padding: 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px;">⚠️ ALERTE DE SÉCURITÉ</h1>
+                            <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">BDE Inform'Aix</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="margin: 0 0 20px 0; color: #2d3748; font-size: 18px;">
+                                Bonjour <strong>{$escapedName}</strong>,
+                            </p>
+                            <p style="margin: 0 0 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                Nous avons détecté plusieurs tentatives infructueuses {$alertMessage} sur votre compte.
+                            </p>
+                            <div style="padding: 20px; background-color: #fef2f2; border-left: 5px solid #dc3545; border-radius: 8px; margin: 25px 0;">
+                                <p style="margin: 0; color: #991b1b; font-size: 15px; line-height: 1.7;">
+                                    <strong>🔒 Mesure de sécurité appliquée :</strong><br>
+                                    La modification des informations de confidentialité a été temporairement bloquée sur votre compte pour une durée de <strong>30 minutes</strong>.
+                                </p>
+                            </div>
+                            <p style="margin: 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                Si vous êtes à l'origine de ces tentatives, vous pourrez réessayer après la fin du blocage.
+                            </p>
+                            <div style="padding: 20px; background-color: #fffbeb; border-left: 5px solid #f59e0b; border-radius: 8px;">
+                                <p style="margin: 0; color: #92400e; font-size: 14px; line-height: 1.7;">
+                                    <strong>⚠️ Si vous n'êtes pas à l'origine de ces tentatives :</strong><br>
+                                    Nous vous recommandons de changer votre mot de passe dès que le délai est passé et de vérifier l'activité de votre compte. Si besoin, vous pouvez rentrer en contact avec un administrateur
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                L'équipe du BDE Inform'Aix<br>
+                                <span style="font-size: 12px; color: #adb5bd;">Cet email a été envoyé automatiquement</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+HTML;
+    }
+
+    /**
+     * Generate plain text email content for security alert
+     *
+     * @param string $name Recipient name
+     * @param string $alertType Type of alert
+     * @return string Email content in plain text
+     */
+    private function getSecurityAlertEmailText(string $name, string $alertType): string
+    {
+        $alertMessage = $alertType === 'email_change'
+            ? "de modification de votre adresse email"
+            : "de modification de votre mot de passe";
+
+        return <<<TEXT
+⚠️ ALERTE DE SÉCURITÉ - BDE INFORM'AIX
+
+Bonjour {$name},
+
+Nous avons détecté plusieurs tentatives infructueuses {$alertMessage} sur votre compte.
+
+MESURE DE SÉCURITÉ APPLIQUÉE :
+La modification des informations de confidentialité a été temporairement bloquée sur votre compte pour une durée de 30 minutes.
+
+Si vous êtes à l'origine de ces tentatives, vous pourrez réessayer après la fin du blocage.
+
+IMPORTANT : Si vous n'êtes pas à l'origine de ces tentatives, nous vous recommandons de changer votre mot de passe dès que possible.
+
+Cordialement,
+L'équipe du BDE Inform'Aix
+
+Cet email a été envoyé automatiquement
+TEXT;
+    }
+
+    /**
+     * Generate HTML email content for password change verification code
+     *
+     * @param string $name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return string Email content in HTML format
+     */
+    private function getPasswordChangeCodeEmailHTML(string $name, string $code): string
+    {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $escapedCode = htmlspecialchars($code, ENT_QUOTES, 'UTF-8');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code de vérification</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f7fa;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f5f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px;">🔐 Code de vérification</h1>
+                            <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">Modification du mot de passe</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="margin: 0 0 20px 0; color: #2d3748; font-size: 18px;">
+                                Bonjour <strong>{$escapedName}</strong>,
+                            </p>
+                            <p style="margin: 0 0 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                Vous avez demandé à modifier votre mot de passe. Utilisez le code ci-dessous pour confirmer cette modification.
+                            </p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <div style="display: inline-block; padding: 25px 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px;">
+                                    <span style="font-size: 36px; font-weight: bold; color: #ffffff; letter-spacing: 8px; font-family: 'Courier New', monospace;">{$escapedCode}</span>
+                                </div>
+                            </div>
+                            <div style="padding: 20px; background-color: #ebf8ff; border-left: 5px solid #3182ce; border-radius: 8px; margin: 25px 0;">
+                                <p style="margin: 0; color: #2c5282; font-size: 14px; line-height: 1.7;">
+                                    <strong>⏰ Ce code expire dans 10 minutes.</strong><br>
+                                    Saisissez-le sur la page de modification pour confirmer le changement de mot de passe.
+                                </p>
+                            </div>
+                            <div style="padding: 20px; background-color: #fef2f2; border-left: 5px solid #ef4444; border-radius: 8px;">
+                                <p style="margin: 0; color: #991b1b; font-size: 14px; line-height: 1.7;">
+                                    <strong>🔒 Sécurité :</strong><br>
+                                    Si vous n'avez pas demandé cette modification, ignorez cet email. Votre mot de passe actuel reste inchangé.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                L'équipe du BDE Inform'Aix<br>
+                                <span style="font-size: 12px; color: #adb5bd;">Cet email a été envoyé automatiquement</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+HTML;
+    }
+
+    /**
+     * Generate plain text email content for password change verification code
+     *
+     * @param string $name Recipient name
+     * @param string $code The 6-digit verification code
+     * @return string Email content in plain text
+     */
+    private function getPasswordChangeCodeEmailText(string $name, string $code): string
+    {
+        return <<<TEXT
+🔐 CODE DE VÉRIFICATION - BDE INFORM'AIX
+Modification du mot de passe
+
+Bonjour {$name},
+
+Vous avez demandé à modifier votre mot de passe.
+
+VOTRE CODE DE VÉRIFICATION :
+{$code}
+
+Ce code expire dans 10 minutes.
+
+Saisissez-le sur la page de modification pour confirmer le changement de mot de passe.
+
+IMPORTANT : Si vous n'avez pas demandé cette modification, ignorez cet email. Votre mot de passe actuel reste inchangé.
+
+Cordialement,
+L'équipe du BDE Inform'Aix
+
+Cet email a été envoyé automatiquement
+TEXT;
+    }
 }
