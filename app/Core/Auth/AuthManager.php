@@ -36,10 +36,10 @@ class AuthManager
     private const USER_FIRST_NAME_KEY = 'user_first_name';
     private const USER_LAST_NAME_KEY = 'user_last_name';
 
-    public function __construct(
-        private SessionManager $session
-    ) {
+    public function __construct(private SessionManager $session){
+        
     }
+
 
     /**
      * Check if user is authenticated
@@ -105,13 +105,18 @@ class AuthManager
     }
 
     /**
-     * Check if the user is an administrator (BDE)
+     * Check if the user is an administrator (admin)
      *
-     * @return bool True if user has BDE status
+     * @return bool True if user has admin rights and not blocked
      */
     public function isAdmin(): bool
     {
-        return $this->getUserStatus() === 'BDE';
+        $user = $this->session->get('user');
+
+        return $user !== null
+            && isset($user['role'])
+            && $user['role'] === 'admin'
+            && (int) ($user['is_blocked'] ?? 0) === 0;
     }
 
     /**
@@ -131,6 +136,8 @@ class AuthManager
         int $userId,
         string $userStatus,
         string $email,
+        string $role = 'user',
+        int $isBlocked = 0,
         string $firstName = '',
         string $lastName = ''
     ): void {
@@ -139,6 +146,11 @@ class AuthManager
         $this->session->set(self::USER_ID_KEY, $userId);
         $this->session->set(self::USER_STATUS_KEY, $userStatus);
         $this->session->set(self::USER_EMAIL_KEY, $email);
+
+        $this->session->set('user', [
+            'role' => $role,
+            'is_blocked' => $isBlocked,
+        ]);
 
         if ($firstName !== '') {
             $this->session->set(self::USER_FIRST_NAME_KEY, $firstName);
