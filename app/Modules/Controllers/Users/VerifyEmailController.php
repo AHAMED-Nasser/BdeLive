@@ -51,6 +51,11 @@ class VerifyEmailController extends DefaultController
                     'Votre adresse email a été vérifiée avec succès ! ' .
                     'Vous pouvez maintenant vous connecter à votre compte.'
                 );
+            } elseif (($result['message'] ?? '') === 'expired') {
+                $this->setError(
+                    'Votre lien de vérification a expiré. Veuillez vous réinscrire ' .
+                    'avec la même adresse email et vérifier votre compte dans les 24 heures.'
+                );
             } else {
                 $this->setError($result['message'] ?? 'Token de vérification invalide');
             }

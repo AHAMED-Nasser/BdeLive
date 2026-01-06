@@ -296,6 +296,7 @@ class UserManagerTest extends TestCase
                        isset($params['email']) &&
                        isset($params['password']) &&
                        isset($params['verification_token']) &&
+                       isset($params['token_expires_at']) &&
                        strlen($params['verification_token']) === 64;
             }))
             ->willReturn(true);
@@ -345,9 +346,11 @@ class UserManagerTest extends TestCase
 
     public function testVerifyEmailTokenReturnsSuccessForValidToken(): void
     {
+        $futureDate = date('Y-m-d H:i:s', strtotime('+24 hours'));
         $mockUser = [
             'user_id' => 123,
-            'is_verified' => 0
+            'is_verified' => 0,
+            'token_expires_at' => $futureDate,
         ];
 
         $mockUpdateStmt = $this->createMock(PDOStatement::class);
@@ -400,7 +403,8 @@ class UserManagerTest extends TestCase
     {
         $mockUser = [
             'user_id' => 123,
-            'is_verified' => 1
+            'is_verified' => 1,
+            'token_expires_at' => null,
         ];
 
         $this->mockStmt->expects($this->once())
@@ -420,6 +424,40 @@ class UserManagerTest extends TestCase
         
         $this->assertFalse($result['success']);
         $this->assertEquals('Cet email a déjà été vérifié', $result['message']);
+    }
+
+    public function testVerifyEmailTokenReturnsExpiredForExpiredToken(): void
+    {
+        $pastDate = date('Y-m-d H:i:s', strtotime('-1 hour'));
+        $mockUser = [
+            'user_id' => 123,
+            'is_verified' => 0,
+            'token_expires_at' => $pastDate,
+        ];
+
+        $mockDeleteStmt = $this->createMock(PDOStatement::class);
+        $mockDeleteStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 123])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with(['token' => 'expiredtoken'])
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($mockUser);
+        
+        $this->mockPdo->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($this->mockStmt, $mockDeleteStmt);
+
+        $result = $this->userManager->verifyEmailToken('expiredtoken');
+        
+        $this->assertFalse($result['success']);
+        $this->assertEquals('expired', $result['message']);
     }
 
     public function testIsEmailVerifiedReturnsTrueForVerifiedUser(): void
@@ -497,6 +535,7 @@ class UserManagerTest extends TestCase
             ->with($this->callback(function ($params) {
                 return isset($params['token']) &&
                        isset($params['user_id']) &&
+                       isset($params['token_expires_at']) &&
                        strlen($params['token']) === 64 &&
                        $params['user_id'] === 123;
             }))
