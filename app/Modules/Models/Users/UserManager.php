@@ -87,7 +87,7 @@ class UserManager
     public function findUserByEmail(string $email): array|false
     {
         try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password 
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, role, is_blocked
                       FROM USERS 
                       WHERE email = :email 
                       LIMIT 1";
@@ -98,7 +98,6 @@ class UserManager
             return $stmt->fetch();
         } catch (PDOException $e) {
             error_log('UserManager::findUserByEmail - ' . $e->getMessage());
-
             throw $e;
         }
     }
