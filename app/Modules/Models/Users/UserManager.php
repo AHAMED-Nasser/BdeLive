@@ -283,6 +283,16 @@ class UserManager
         }
     }
 
+    /**
+     * Update a user's first name
+     *
+     * Changes a user's first name in the database.
+     *
+     * @param int $user_id The ID of the user
+     * @param string $newFirstName The new first name
+     * @return void
+     * @throws PDOException If database query fails
+     */
     public function updateFirstName(int $user_id, string $newFirstName): void
     {
         try {
@@ -291,14 +301,23 @@ class UserManager
                 WHERE user_id = :user_id';
 
             $stmt = $this->pdo->prepare($query);
-            $result = $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
-            error_log('UserManager::updateFirstName - ' . $result);
+            $stmt->execute(['newFirstName' => $newFirstName, 'user_id' => $user_id]);
         } catch (PDOException $e) {
             error_log('UserManager::updateFirstName - ' . $e->getMessage());
             throw $e;
         }
     }
 
+    /**
+     * Update a user's last name
+     *
+     * Changes a user's last name in the database.
+     *
+     * @param int $user_id The ID of the user
+     * @param string $newLastName The new last name
+     * @return void
+     * @throws PDOException If database query fails
+     */
     public function updateLastName(int $user_id, string $newLastName): void
     {
         try {
@@ -309,6 +328,32 @@ class UserManager
             $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
         } catch (PDOException $e) {
             error_log('UserManager::updateLastName - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Update a user's status
+     *
+     * Changes a user's status in the database.
+     * Valid statuses: BUT 1, BUT 2, BUT 3, Personnel Enseignant
+     * Note: BDE status cannot be set through this method for security.
+     *
+     * @param int $user_id The ID of the user
+     * @param string $newUserStatus The new user status
+     * @return void
+     * @throws PDOException If database query fails
+     */
+    public function updateUserStatus(int $user_id, string $newUserStatus): void
+    {
+        try {
+            $query = 'UPDATE USERS
+                SET user_status = :newUserStatus 
+                WHERE user_id = :user_id';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['newUserStatus' => $newUserStatus, 'user_id' => $user_id]);
+        } catch (PDOException $e) {
+            error_log('UserManager::updateUserStatus - ' . $e->getMessage());
             throw $e;
         }
     }
@@ -527,6 +572,59 @@ class UserManager
         } catch (PDOException $e) {
             error_log('UserManager::resendVerificationToken - ' . $e->getMessage());
 
+            throw $e;
+        }
+    }
+
+    /**
+     * Update a user's email address
+     *
+     * Changes a user's email address in the database.
+     *
+     * @param int $user_id The ID of the user
+     * @param string $newEmail The new email address
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function updateEmail(int $user_id, string $newEmail): bool
+    {
+        try {
+            $query = "UPDATE USERS SET email = :email WHERE user_id = :user_id";
+            $stmt = $this->pdo->prepare($query);
+
+            return $stmt->execute([
+                'email' => $newEmail,
+                'user_id' => $user_id
+            ]);
+        } catch (PDOException $e) {
+            error_log('UserManager::updateEmail - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Get user by ID
+     *
+     * Retrieves user information by user ID.
+     *
+     * @param int $user_id The user ID
+     * @return array<string, mixed>|false User data if found, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function getUserById(int $user_id): array|false
+    {
+        try {
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified 
+                      FROM USERS 
+                      WHERE user_id = :user_id 
+                      LIMIT 1";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['user_id' => $user_id]);
+
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            error_log('UserManager::getUserById - ' . $e->getMessage());
             throw $e;
         }
     }
