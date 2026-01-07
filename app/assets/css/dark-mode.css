@@ -295,7 +295,7 @@ body {
     color: var(--text-primary) !important;
 }
 
-/* Ne pas appliquer de couleur générale à tous les enfants, 
+/* Ne pas appliquer de couleur générale à tous les enfants,
    laisser les événements définir leur propre couleur */
 .dark-mode .fc-list > * {
     color: var(--text-primary) !important;
