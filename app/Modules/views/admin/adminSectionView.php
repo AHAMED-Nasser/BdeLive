@@ -1,97 +1,95 @@
 <?php
-
 declare(strict_types=1);
 
-/** @var array<int, array<string, mixed>> $users */
-/** @var string $currentFilter */
-/** @var \App\Modules\Helpers\Pagination $pagination */
-/** @var array<string, mixed>|null $user */
-
+/** @var $users */
+/** @var $currentFilter */
+/** @var $pagination */
 start_page("Administration", true, $user ?? null);
 ?>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <h3>Filtres</h3>
+            <nav>
+                <ul class="admin-nav-list">
+                    <li class="admin-nav-item">
+                        <a href="index.php?page=admin-section&filter=active"
+                           class="admin-nav-link <?= $currentFilter === 'active' ? 'active' : '' ?>">
+                            <i class="fas fa-user-check"></i> Utilisateurs Actifs
+                        </a>
+                    </li>
+                    <li class="admin-nav-item">
+                        <a href="index.php?page=admin-section&filter=blocked"
+                           class="admin-nav-link <?= $currentFilter === 'blocked' ? 'active' : '' ?>">
+                            <i class="fas fa-user-slash"></i> Utilisateurs Bloqués
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
 
-<div style="display: flex; gap: 20px; margin-top: 20px;">
-    <aside style="width: 220px; border-right: 2px solid #eeeeee; padding: 15px;">
-        <h3 style="color: #555">Filtres</h3>
-        <nav style="padding: 50px 0">
-            <ul style="list-style: none; padding: 0;">
-                <li style="margin-bottom: 10px;">
-                    <a href="index.php?page=admin-section&filter=active" 
-                       style="text-decoration: none; color: <?= $currentFilter === 'active' ? '#007bff; font-weight: bold;' : '#333' ?>;">
-                       Utilisateurs Actifs
-                    </a>
-                </li>
-                <li>
-                    <a href="index.php?page=admin-section&filter=blocked" 
-                       style="text-decoration: none; color: <?= $currentFilter === 'blocked' ? '#dc3545; font-weight: bold;' : '#333' ?>;">
-                       Utilisateurs Bloqués
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
+        <main class="admin-main">
+            <h1>Gestion des Comptes (<?= $currentFilter === 'blocked' ? 'Bloqués' : 'Actifs' ?>)</h1>
 
-    <main style="flex: 1;">
-        <h1>Gestion des Comptes (<?= $currentFilter === 'blocked' ? 'Bloqués' : 'Actifs' ?>)</h1>
-
-        <table style="width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            <thead>
-                <tr style="background: #f8f9fa; border-bottom: 2px solid #dee2e6; text-align: left;">
-                    <th style="padding: 12px;">Utilisateur</th>
-                    <th style="padding: 12px;">Email</th>
-                    <th style="padding: 12px;">Rôle actuel</th>
-                    <th style="padding: 12px;">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $u) : ?>
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 12px;"><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></td>
-                        <td style="padding: 12px;"><?= htmlspecialchars($u['email']) ?></td>
-                        <td style="padding: 12px;">
-                            <span style="padding: 3px 8px; border-radius: 4px; font-size: 0.85em; background: <?= $u['role'] === 'admin' ? '#e3f2fd; color: #0d47a1;' : '#f5f5f5;' ?>">
-                                <?= strtoupper(htmlspecialchars($u['role'] ?? 'user')) ?>
-                            </span>
-                        </td>
-                        <td style="padding: 12px;">
-                            <form method="POST">
-                                <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
-                                
-                                <?php if ($currentFilter !== 'blocked') : ?>
-                                    <select name="action" onchange="this.form.submit()" style="padding: 10px; border-radius: 4px; border: solid 1px black; background-color: white;">
-                                        <option value="">Actions...</option>
-                                        <?php if ($u['role'] === 'admin') : ?>
-                                            <option value="demote">Enlever droits Admin</option>
-                                        <?php else : ?>
-                                            <option value="promote">Promouvoir Admin</option>
-                                        <?php endif; ?>
-                                        <option value="block" style="color: red;">Bloquer l'utilisateur</option>
-                                    </select>
-                                <?php else : ?>
-                                    <button type="submit" name="action" value="unblock" style="background: #28a745; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer;">
-                                        Débloquer
-                                    </button>
-                                <?php endif; ?>
-                            </form>
-                        </td>
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Actions</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($users as $u) : ?>
+                        <tr>
+                            <td><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></td>
+                            <td><?= htmlspecialchars($u['email']) ?></td>
+                            <td>
+                                <span class="role-badge <?= $u['role'] === 'admin' ? 'role-admin' : 'role-user' ?>">
+                                    <?= htmlspecialchars($u['role'] ?? 'user') ?>
+                                </span>
+                            </td>
+                            <td>
+                                <form method="POST">
+                                    <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
 
-        <div style="margin-top: 25px; display: flex; align-items: center; gap: 15px;">
-            <?php if ($pagination->hasPrevious()) : ?>
-                <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" style="text-decoration: none; color: #007bff;">&laquo; Précédent</a>
-            <?php endif; ?>
+                                    <?php if ($currentFilter !== 'blocked') : ?>
+                                        <select name="action" onchange="this.form.submit()" class="admin-select">
+                                            <option value="">Actions...</option>
+                                            <?php if ($u['role'] === 'admin') : ?>
+                                                <option value="demote">Enlever droits Admin</option>
+                                            <?php else : ?>
+                                                <option value="promote">Promouvoir Admin</option>
+                                            <?php endif; ?>
+                                            <option value="block">Bloquer l'utilisateur</option>
+                                        </select>
+                                    <?php else : ?>
+                                        <button type="submit" name="action" value="unblock" class="btn-unblock">
+                                            Débloquer
+                                        </button>
+                                    <?php endif; ?>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
-            <span style="color: #666;">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
+            <div class="pagination">
+                <?php if ($pagination->hasPrevious()) : ?>
+                    <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>">&laquo; Précédent</a>
+                <?php endif; ?>
 
-            <?php if ($pagination->hasNext()) : ?>
-                <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>" style="text-decoration: none; color: #007bff;">Suivant &raquo;</a>
-            <?php endif; ?>
-        </div>
-    </main>
-</div>
+                <span class="pagination-info">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
+
+                <?php if ($pagination->hasNext()) : ?>
+                    <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>">Suivant &raquo;</a>
+                <?php endif; ?>
+            </div>
+        </main>
+    </div>
 
 <?php
 end_page();
