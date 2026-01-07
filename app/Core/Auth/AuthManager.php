@@ -51,6 +51,14 @@ class AuthManager
         return $this->session->has(self::USER_ID_KEY);
     }
 
+    public function isBlocked(): bool
+    {
+        $user = $this->session->get('user');
+        return $user !== null
+            && isset($user['is_blocked'])
+            && (int) $user['is_blocked'] === 1;
+    }
+
     /**
      * Get the authenticated user's ID
      *
@@ -189,7 +197,12 @@ class AuthManager
     public function requireAuthentication(): void
     {
         if (!$this->isAuthenticated()) {
-            throw new AuthenticationException('You must be logged in to access this page');
+            throw new AuthenticationException('Vous devez être connecté pour accéder à cette page.');
+        }
+
+        if ($this->isBlocked()) {
+            $this->logout();
+            throw new AuthenticationException('Votre compte a été bloqué. Veuillez contacter l\'administrateur.');
         }
     }
 
