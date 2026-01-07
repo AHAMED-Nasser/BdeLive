@@ -33,6 +33,47 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Site officiel du BDE Inform'Aix - BDE Informatique à Aix-en-Provence. Découvrez nos événements, avantages étudiants et réseaux sociaux.">
     <link rel="icon" href="./assets/img/logo.png">
+    
+    <!-- Anti-FOUC: Script inline pour détection immédiate du mode sombre -->
+    <script>
+        (function() {
+            const DARK_MODE_KEY = 'darkMode';
+            const DARK_MODE_CLASS = 'dark-mode';
+            const LIGHT_MODE_CLASS = 'light-mode';
+            
+            function getStoredPreference() {
+                try {
+                    return localStorage.getItem(DARK_MODE_KEY);
+                } catch (e) {
+                    return null;
+                }
+            }
+            
+            function isSystemDarkMode() {
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            
+            function determineDarkMode() {
+                const stored = getStoredPreference();
+                if (stored !== null) {
+                    return stored === 'true';
+                }
+                return isSystemDarkMode();
+            }
+            
+            const isDark = determineDarkMode();
+            const html = document.documentElement;
+            if (isDark) {
+                html.classList.add(DARK_MODE_CLASS);
+            } else {
+                html.classList.add(LIGHT_MODE_CLASS);
+            }
+        })();
+    </script>
+    
+    <!-- Dark Mode CSS - Doit être chargé en premier -->
+    <link rel="stylesheet" href="./assets/css/dark-mode.css">
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
@@ -66,6 +107,25 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=createArticle">Créer un article</a></li>
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
+                    <!-- Dark Mode Toggle -->
+                    <li>
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                            <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path>
+                                <path d="M12 20v2"></path>
+                                <path d="m4.93 4.93 1.41 1.41"></path>
+                                <path d="m17.66 17.66 1.41 1.41"></path>
+                                <path d="M2 12h2"></path>
+                                <path d="M20 12h2"></path>
+                                <path d="m6.34 17.66-1.41 1.41"></path>
+                                <path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                            <svg class="dark-mode-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+                            </svg>
+                        </button>
+                    </li>
                     <!-- Profile dropdown menu -->
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
@@ -88,6 +148,25 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     </li>
                 <?php elseif (isset($user) && $user !== null) : ?>
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
+                    <!-- Dark Mode Toggle -->
+                    <li>
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                            <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path>
+                                <path d="M12 20v2"></path>
+                                <path d="m4.93 4.93 1.41 1.41"></path>
+                                <path d="m17.66 17.66 1.41 1.41"></path>
+                                <path d="M2 12h2"></path>
+                                <path d="M20 12h2"></path>
+                                <path d="m6.34 17.66-1.41 1.41"></path>
+                                <path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                            <svg class="dark-mode-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+                            </svg>
+                        </button>
+                    </li>
                     <!-- Profile dropdown menu -->
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
@@ -110,6 +189,26 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
+                    <li><a href="index.php?page=event">Evénements</a></li>
+                    <!-- Dark Mode Toggle -->
+                    <li>
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                            <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path>
+                                <path d="M12 20v2"></path>
+                                <path d="m4.93 4.93 1.41 1.41"></path>
+                                <path d="m17.66 17.66 1.41 1.41"></path>
+                                <path d="M2 12h2"></path>
+                                <path d="M20 12h2"></path>
+                                <path d="m6.34 17.66-1.41 1.41"></path>
+                                <path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                            <svg class="dark-mode-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+                            </svg>
+                        </button>
+                    </li>
                 <?php endif; ?>
             </ul>
 
@@ -128,28 +227,49 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=articles">Nos articles</a></li>
                     <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=schesule">Emploi du temps</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle">Créer un article</a></li>
+                        <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
                         <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     <?php elseif (isset($user) && $user !== null) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=schesule">Emploi du temps</a></li>
+                        <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
                         <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                         <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
                     <?php else : ?>
-                        <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=login">Connexion</a></li>
                         <li><a href="index.php?page=register">Inscription</a></li>
+                        <li><a href="index.php?page=event">Evénements</a></li>
                     <?php endif; ?>
                     <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                     <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                    <!-- Dark Mode Toggle Mobile - En bas du menu -->
+                    <li class="sidebar-section-title">Préférences</li>
+                    <li>
+                        <button id="dark-mode-toggle-mobile" class="dark-mode-toggle-mobile" aria-label="Basculer le mode sombre" title="Mode sombre">
+                            <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="4"></circle>
+                                <path d="M12 2v2"></path>
+                                <path d="M12 20v2"></path>
+                                <path d="m4.93 4.93 1.41 1.41"></path>
+                                <path d="m17.66 17.66 1.41 1.41"></path>
+                                <path d="M2 12h2"></path>
+                                <path d="M20 12h2"></path>
+                                <path d="m6.34 17.66-1.41 1.41"></path>
+                                <path d="m19.07 4.93-1.41 1.41"></path>
+                            </svg>
+                            <svg class="dark-mode-icon moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>
+                            </svg>
+                            <span>Mode sombre</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -210,6 +330,7 @@ function end_page(): void
 
 <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
 <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" defer></script>-->
+        <script src="./assets/js/dark-mode.js"></script>
         <script src="./assets/js/slider.js"></script>
         <script src="./assets/js/dropImageArea.js"></script>
 

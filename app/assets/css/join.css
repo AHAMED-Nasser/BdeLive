@@ -2,9 +2,9 @@
     max-width: 1000px;
     margin: 60px auto;
     padding: 40px 20px;
-    background-color: #FAF9F6;
+    background-color: var(--bg-card);
     border-radius: 10px;
-    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 15px 15px 15px var(--shadow-sm);
     text-align: center;
 }
 
@@ -15,14 +15,14 @@
     margin-bottom: 20px;
     letter-spacing: 1px;
     padding-left: 15px;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .join-text {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
-    color: #444;
+    color: var(--text-secondary);
     line-height: 1.7;
     font-size: 1.1rem;
     padding: 10px 20px;
@@ -32,7 +32,7 @@
     font-size: 1.1rem;
     line-height: 1.7;
     margin-bottom: 0;
-    color: #444;
+    color: var(--text-secondary);
     font-weight: normal;
 }
 

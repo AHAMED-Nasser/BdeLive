@@ -116,7 +116,10 @@ class EventRegistrationRepository
     }
 
     /**
-     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
+     * Get all registrations for a specific event
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}> Array of registrations with user details
      */
     public function getRegistrationsByEventId(int $eventId): array
     {

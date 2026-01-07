@@ -3,8 +3,8 @@
  * Vue : Liste des Membres du BDE (sans photos)
  *
  * @var array<string, mixed>|null $user
- * @var array<int, array<string, string>> $bdeMembers
- * @var array<int, array<string, string>> $honorMembers
+ * @var array<int, array<string, string>>|null $bdeMembers
+ * @var array<int, array<string, string>>|null $honorMembers
  */
 
 start_page("Membres BDE - BDE Inform'Aix", true, $user ?? null);
