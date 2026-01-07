@@ -71,10 +71,7 @@ class EventRegistrationRepository
      */
     public function registerUser(int $eventId, int $userId): bool
     {
-        $stmt = $this->pdo->prepare(
-            'INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status) ' .
-            'VALUES (?, ?, ?)'
-        );
+        $stmt = $this->pdo->prepare('INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status) VALUES (?, ?, ?)');
         return $stmt->execute([$eventId, $userId, 'Confirmé']);
     }
 
@@ -118,23 +115,19 @@ class EventRegistrationRepository
         return $results ?: [];
     }
 
-    /**
-<<<<<<< HEAD
-     * Récupère les inscriptions pour un événement spécifique.
-     *
-     * @param int $eventId
-     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
-     */
+    // get inscription user by event ID
     public function getRegistrationsByEventId(int $eventId): array
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
             FROM event_registrations er
-            JOIN users u ON er.user_id = u.id 
+            JOIN users u ON er.user_id = u.id
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->db->prepare($sql);
         $stmt->execute(['event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
+
+\class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
