@@ -4,11 +4,10 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    background: #b523eb;
-    background: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%, rgba(237, 221, 83, 1) 100%);
+    background: var(--gradient-primary);
     position: relative;
     padding: 10px 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px var(--shadow-md);
     min-height: 70px;
 }
 
@@ -20,14 +19,14 @@
 
 .nav a {
     font-size: 1.3rem;
-    color: white;
+    color: var(--text-inverse);
     padding: 8px 16px;
     border-radius: 5px;
     display: inline-block;
 }
 
 .nav a:hover {
-    color: white;
+    color: var(--text-inverse);
     background-color: rgba(255, 255, 255, 0.2);
     text-decoration: none;
     transform: translateY(-2px);
@@ -39,7 +38,7 @@
 }
 
 .nav span {
-    color: white;
+    color: var(--text-inverse);
     font-family: "JetBrains Mono ExtraBold", monospace;
     font-size: 1.1rem;
 }
@@ -47,6 +46,93 @@
 .nav-logo img {
     height: 110px;
     border-bottom-right-radius: 25px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Assurer la visibilité du logo en mode sombre */
+.dark-mode .nav-logo img {
+    opacity: 1;
+    filter: brightness(1);
+}
+
+/* ===== DARK MODE TOGGLE BUTTON ===== */
+.dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: white !important;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.dark-mode-toggle:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+.dark-mode-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    stroke: white;
+    fill: none;
+}
+
+.dark-mode-toggle:hover .dark-mode-icon {
+    transform: rotate(15deg);
+}
+
+/* Afficher l'icône appropriée selon le mode - CSS de secours si JS ne fonctionne pas */
+.dark-mode .dark-mode-toggle .sun-icon {
+    display: none !important;
+}
+
+.dark-mode .dark-mode-toggle .moon-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle .sun-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle .moon-icon {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Support pour @media prefers-color-scheme: dark (si la classe dark-mode n'est pas appliquée) */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .dark-mode-toggle .sun-icon {
+        display: none !important;
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle .moon-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not(.dark-mode) .dark-mode-toggle .sun-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    :root:not(.dark-mode) .dark-mode-toggle .moon-icon {
+        display: none !important;
+        visibility: hidden !important;
+    }
 }
 
 /* ===== PROFILE DROPDOWN MENU (CSS Only) ===== */
@@ -63,7 +149,7 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    color: white;
+    color: var(--text-inverse);
     font-size: 1.3rem;
     padding: 8px 16px;
     border-radius: 5px;
@@ -89,9 +175,9 @@
     top: 100%;
     right: 0;
     min-width: 220px;
-    background: white;
+    background: var(--bg-card);
     border-radius: 8px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 25px var(--shadow-md);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -112,16 +198,16 @@
     align-items: center;
     gap: 12px;
     padding: 14px 18px;
-    color: #333;
+    color: var(--text-primary);
     font-size: 1rem;
     transition: all 0.2s ease;
     border-left: 3px solid transparent;
 }
 
 .profile-dropdown-menu a:hover {
-    background-color: #f8f9fa;
-    color: #667eea;
-    border-left-color: #667eea;
+    background-color: var(--bg-hover);
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
     transform: none;
     text-decoration: none;
 }
@@ -129,23 +215,23 @@
 .profile-dropdown-menu a i {
     width: 20px;
     text-align: center;
-    color: #667eea;
+    color: var(--color-primary);
 }
 
 .profile-dropdown-menu .dropdown-divider {
     height: 1px;
-    background: #e9ecef;
+    background: var(--border-light);
     margin: 5px 0;
 }
 
 .profile-dropdown-menu .dropdown-disabled {
-    color: #adb5bd;
+    color: var(--text-muted);
     cursor: not-allowed;
     pointer-events: none;
 }
 
 .profile-dropdown-menu .dropdown-disabled i {
-    color: #adb5bd;
+    color: var(--text-muted);
 }
 
 .profile-dropdown-menu .dropdown-danger {
@@ -153,7 +239,7 @@
 }
 
 .profile-dropdown-menu .dropdown-danger:hover {
-    background-color: #fff5f5;
+    background-color: var(--alert-error-bg);
     color: #dc3545;
     border-left-color: #dc3545;
 }
@@ -185,6 +271,94 @@
 
 .sidebar-menu .sidebar-danger:hover {
     background-color: rgba(255, 107, 107, 0.2) !important;
+}
+
+/* Dark Mode Toggle Mobile dans le Sidebar */
+.dark-mode-toggle-mobile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-inverse);
+    font-size: 1.2rem;
+    border-radius: 5px;
+    margin: 2px 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-family: inherit;
+}
+
+.dark-mode-toggle-mobile:hover {
+    color: var(--text-inverse);
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateX(5px);
+    padding-left: 30px;
+}
+
+.dark-mode-toggle-mobile:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+.dark-mode-toggle-mobile .dark-mode-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.dark-mode-toggle-mobile span {
+    flex: 1;
+}
+
+/* Afficher l'icône appropriée dans le sidebar mobile */
+.dark-mode .dark-mode-toggle-mobile .sun-icon {
+    display: none !important;
+}
+
+.dark-mode .dark-mode-toggle-mobile .moon-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Support pour @media prefers-color-scheme: dark dans le sidebar */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .dark-mode-toggle-mobile .sun-icon {
+        display: none !important;
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle-mobile .moon-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    :root:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
+        display: none !important;
+        visibility: hidden !important;
+    }
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

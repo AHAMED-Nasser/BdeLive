@@ -16,12 +16,12 @@
  * @var \App\Core\Security\CsrfProtection $csrf CSRF protection service
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages (success, error, etc.)
- * @var bool $isBlocked Whether account is blocked for privacy modifications
- * @var int $remainingTime Remaining block time in minutes
- * @var array $passwordResendStatus Password resend code status
- * @var array $emailResendStatus Email resend code status
- * @var bool $hasActivePasswordCode Whether there's an active password verification code
- * @var bool $hasActiveEmailCode Whether there's an active email verification code
+ * @var bool|null $isBlocked Whether account is blocked for privacy modifications
+ * @var int|null $remainingTime Remaining block time in minutes
+ * @var array<string, mixed>|null $passwordResendStatus Password resend code status
+ * @var array<string, mixed>|null $emailResendStatus Email resend code status
+ * @var bool|null $hasActivePasswordCode Whether there's an active password verification code
+ * @var bool|null $hasActiveEmailCode Whether there's an active email verification code
  * @var string|null $pendingEmail Pending new email address
  * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $emailResendStatus
  * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $passwordResendStatus

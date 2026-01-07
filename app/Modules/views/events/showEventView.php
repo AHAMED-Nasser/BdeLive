@@ -39,18 +39,18 @@ $userId = $user['user_id'] ?? null;
             <?php endif; ?>
         </div>
 
-        <div class="event-info-banner" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px; text-align: center;">
+        <div class="event-info-banner">
             <p><strong>📅 Date :</strong> <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?></p>
             <p><strong>⏰ Heure :</strong> <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?></p>
             <p><strong>📍 Lieu :</strong> <?= htmlspecialchars($event['event_location']) ?></p>
         </div>
 
-        <div class="event-description" style="margin-bottom: 50px; line-height: 1.6;">
-            <h3 style="font-weight: bold">Description</h3>
-            <p style="font-size: 17px"><?= nl2br(htmlspecialchars($event['description'])) ?></p>
+        <div class="event-description">
+            <h3>Description</h3>
+            <p><?= nl2br(htmlspecialchars($event['description'])) ?></p>
         </div>
 
-        <div class="registration-section" style="text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid #eee;">
+        <div class="registration-section">
             <?php if ($userId) : ?>
                 <?php
                     // Vérification de l'inscription
@@ -68,9 +68,9 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php endif; ?>
             <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
-                <p style="color: #666666; font-size: 23px">🐐 Bien le bonjour Administrateur</p>
+                <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
             <?php elseif (!isset($userId)) : ?>
-                <p style="color: #666;">Veuillez vous <a href="index.php?page=login" style="color: #1299ff; font-weight: bold;">connecter</a> pour vous inscrire.</p>
+                <p>Veuillez vous <a href="index.php?page=login" style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
 
             <?php endif; ?>
         </div>

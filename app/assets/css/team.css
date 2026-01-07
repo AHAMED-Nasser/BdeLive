@@ -2,15 +2,15 @@
     max-width: 1000px;
     margin: 60px auto;
     padding: 40px 20px;
-    background-color: #FAF9F6;
+    background-color: var(--bg-card);
     border-radius: 10px;
-    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 15px 15px 15px var(--shadow-sm);
 }
 
 
 #equip-title {
     text-align: left;
-    color: #333;
+    color: var(--text-primary);
     font-size: 2.4rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -22,7 +22,7 @@
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
-    color: #444;
+    color: var(--text-secondary);
     line-height: 1.7;
     font-size: 1.1rem;
     padding: 10px 20px;
@@ -32,7 +32,7 @@
     font-size: 1.1rem;
     line-height: 1.7;
     margin-bottom: 15px;
-    color: #444;
+    color: var(--text-secondary);
     font-weight: normal;
 }
 
@@ -52,13 +52,13 @@
 
 .equip-text a {
     text-decoration: none;
-    color: #444444;
+    color: var(--text-secondary);
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .equip-text a:hover{
-    color: #667eea;
+    color: var(--color-primary);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
