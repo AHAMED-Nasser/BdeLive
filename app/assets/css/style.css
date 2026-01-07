@@ -535,6 +535,15 @@ a {
     justify-content: space-between;
 }
 
+/* Quand le menu est ouvert, fixer la croix pour qu'elle ne bouge pas au scroll */
+.menu-toggle:checked ~ .hamburger-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    transform: none;
+    z-index: 1003;
+}
+
 /* Les 3 barres du hamburger */
 .hamburger-icon .bar {
     display: block;
@@ -602,10 +611,15 @@ a {
 /* Style du menu */
 .sidebar-menu ul {
     list-style: none;
-    padding: 80px 0 20px 0;
+    padding: 90px 0 20px 0;
     margin: 0;
     display: flex;
     flex-direction: column;
+}
+
+/* S'assurer que le bouton mode sombre n'est pas caché par la croix */
+.sidebar-menu ul li .dark-mode-toggle-mobile {
+    margin-top: 5px;
 }
 
 .sidebar-menu ul li {
@@ -749,6 +763,15 @@ a {
         right: 15px;
         width: 35px;
         height: 30px;
+    }
+
+    /* Sur mobile, fixer la croix quand le menu est ouvert */
+    .menu-toggle:checked ~ .hamburger-icon {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        transform: none;
+        z-index: 1003;
     }
 
     /* Logo size on mobile */
