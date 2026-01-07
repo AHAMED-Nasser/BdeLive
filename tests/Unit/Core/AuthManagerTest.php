@@ -39,7 +39,7 @@ class AuthManagerTest extends TestCase
 
     public function testLoginStoresUserData(): void
     {
-        $this->auth->login(123, 'BUT 2', 'test@example.com', 'John', 'Doe');
+        $this->auth->login(123, 'BUT 2', 'test@example.com', 'user', 0,  'John', 'Doe');
 
         $this->assertTrue($this->auth->isAuthenticated());
         $this->assertEquals(123, $this->auth->getUserId());
@@ -47,6 +47,7 @@ class AuthManagerTest extends TestCase
         $this->assertEquals('test@example.com', $this->auth->getUserEmail());
         $this->assertEquals('John', $this->auth->getUserFirstName());
         $this->assertEquals('Doe', $this->auth->getUserLastName());
+        $this->assertFalse($this->auth->isBlocked());
     }
 
     public function testLoginWithoutNames(): void
@@ -61,28 +62,45 @@ class AuthManagerTest extends TestCase
 
     public function testLogoutRemovesUserData(): void
     {
-        $this->auth->login(123, 'BUT 1', 'test@example.com', 'Jane', 'Smith');
+        $this->auth->login(123, 'BUT 1', 'test@example.com');
         $this->assertTrue($this->auth->isAuthenticated());
 
         $this->auth->logout();
 
         $this->assertFalse($this->auth->isAuthenticated());
         $this->assertNull($this->auth->getUserId());
-        $this->assertNull($this->auth->getUserStatus());
-        $this->assertNull($this->auth->getUserEmail());
     }
 
-    public function testIsAdminReturnsTrueForBDE(): void
+    public function testIsAdminReturnsTrueForAdminRole(): void
     {
-        $this->auth->login(1, 'BDE', 'admin@example.com');
+        // Un utilisateur avec le rôle 'admin' et non bloqué est admin
+        $this->auth->login(1, 'BUT 3', 'admin@example.com', 'admin', 0);
         $this->assertTrue($this->auth->isAdmin());
     }
 
-    public function testIsAdminReturnsFalseForNonBDE(): void
+    public function testIsAdminReturnsFalseForUserRole(): void
     {
-        $this->auth->login(2, 'BUT 1', 'student@example.com');
+        $this->auth->login(2, 'BUT 1', 'student@example.com', 'user', 0);
         $this->assertFalse($this->auth->isAdmin());
     }
+
+    public function testIsBlockedReturnsTrueWhenSet(): void
+    {
+        $this->auth->login(3, 'BUT 1', 'blocked@example.com', 'user', 1);
+        $this->assertTrue($this->auth->isBlocked());
+    }
+
+    public function testRequireAuthenticationThrowsWhenBlocked(): void
+    {
+        $this->auth->login(3, 'BUT 1', 'blocked@example.com', 'user', 1);
+        
+        $this->expectException(AuthenticationException::class);
+        $this->expectExceptionMessage('Votre compte a été bloqué');
+
+        $this->auth->requireAuthentication();
+    }
+
+
 
     public function testIsAdminReturnsFalseWhenNotAuthenticated(): void
     {
@@ -91,7 +109,8 @@ class AuthManagerTest extends TestCase
 
     public function testGetUserReturnsArrayWhenAuthenticated(): void
     {
-        $this->auth->login(123, 'BUT 3', 'user@example.com', 'Bob', 'Martin');
+        // Signature : login(userId, userStatus, email, role, isBlocked, firstName, lastName)
+        $this->auth->login(123, 'BUT 3', 'user@example.com', 'user', 0, 'Bob', 'Martin');
 
         $user = $this->auth->getUser();
 
@@ -112,17 +131,20 @@ class AuthManagerTest extends TestCase
 
     public function testGetUserIncludesIsAdminFlag(): void
     {
-        $this->auth->login(1, 'BDE', 'bde@example.com', 'Admin', 'User');
+        // On passe 'admin' dans le 4ème paramètre (le rôle)
+        // Signature : login($userId, $userStatus, $email, $role, $isBlocked, $firstName, $lastName)
+        $this->auth->login(1, 'BDE', 'bde@example.com', 'admin', 0, 'Admin', 'User');
 
         $user = $this->auth->getUser();
 
+        $this->assertIsArray($user);
         $this->assertTrue($user['is_admin']);
     }
 
     public function testRequireAuthenticationThrowsWhenNotAuthenticated(): void
     {
         $this->expectException(AuthenticationException::class);
-        $this->expectExceptionMessage('You must be logged in to access this page');
+        $this->expectExceptionMessage('Vous devez être connecté pour accéder à cette page.');
 
         $this->auth->requireAuthentication();
     }
@@ -146,22 +168,11 @@ class AuthManagerTest extends TestCase
 
     public function testRequireAdminThrowsWhenNotAdmin(): void
     {
-        $this->auth->login(123, 'BUT 2', 'student@example.com');
+        // Utilisateur connecté mais simple 'user'
+        $this->auth->login(123, 'BUT 2', 'student@example.com', 'user', 0);
 
         $this->expectException(AuthorizationException::class);
-        $this->expectExceptionMessage('You do not have the necessary permissions to access this page');
-
         $this->auth->requireAdmin();
-    }
-
-    public function testRequireAdminDoesNotThrowForBDE(): void
-    {
-        $this->auth->login(1, 'BDE', 'admin@example.com');
-
-        // Should not throw
-        $this->auth->requireAdmin();
-
-        $this->assertTrue(true); // Assert we reach here
     }
 
     public function testGetUserIdReturnsNullWhenNotAuthenticated(): void

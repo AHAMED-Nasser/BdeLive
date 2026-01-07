@@ -6,8 +6,6 @@
  * @var array<int, array<string, mixed>> $events La liste des événements (passée par EventController)
  * @var \App\Modules\Helpers\Pagination $pagination L'objet pagination (passé par EventController)
  */
-
-require_once __DIR__ . '/../shared/include.inc.php';
 start_page('Liste des Événements', true, $user ?? null);
 
 $viewMode = $viewMode ?? 'list'; ?>
