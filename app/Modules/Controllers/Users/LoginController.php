@@ -73,7 +73,7 @@ class LoginController extends DefaultController
             $this->render('users/loginPageView');
             return;
         }
-        
+
         // Attempt login with old system to verify credentials
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);

@@ -33,7 +33,7 @@ class AdminSectionController extends AdminController
 
         $this->render("admin/adminSectionView", [
             'users' => $users,
-            'pagination' => $pagination, 
+            'pagination' => $pagination,
             'currentFilter' => $filter
         ]);
     }
