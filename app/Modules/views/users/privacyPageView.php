@@ -23,6 +23,8 @@
  * @var bool $hasActivePasswordCode Whether there's an active password verification code
  * @var bool $hasActiveEmailCode Whether there's an active email verification code
  * @var string|null $pendingEmail Pending new email address
+ * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $emailResendStatus
+ * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $passwordResendStatus
  */
 
 start_page("Confidentialité - BDE Inform'Aix", true, $user ?? null);
