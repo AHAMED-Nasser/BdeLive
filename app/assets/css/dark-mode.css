@@ -295,7 +295,9 @@ body {
     color: var(--text-primary) !important;
 }
 
-.dark-mode .fc-list * {
+/* Ne pas appliquer de couleur générale à tous les enfants,
+   laisser les événements définir leur propre couleur */
+.dark-mode .fc-list > * {
     color: var(--text-primary) !important;
 }
 
@@ -312,51 +314,50 @@ body {
     color: var(--text-primary) !important;
 }
 
+/* En mode sombre, on préserve les couleurs personnalisées des événements dans la vue liste */
 .dark-mode .fc-list-event {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .dark-mode .fc-list-event:hover * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover .fc-list-event-title {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover .fc-list-event-time {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
-.dark-mode .fc-list-event:hover .fc-list-event-dot {
-    border-color: var(--color-primary) !important;
-}
+/* Le dot utilise la couleur de bordure de l'événement (définie via borderColor) */
 
 .dark-mode .fc-list-event:hover td {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
+    /* Ne pas forcer la couleur, juste l'effet hover */
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover td * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event-title {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event-time {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-table {
@@ -364,42 +365,37 @@ body {
     color: var(--text-primary) !important;
 }
 
-.dark-mode .fc-list-table * {
-    color: var(--text-primary) !important;
-}
-
-.dark-mode .fc-list-table td,
+/* Les éléments de structure de la table (hors événements) */
 .dark-mode .fc-list-table th {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Les cellules des événements héritent de la couleur de l'événement (blanc) */
+.dark-mode .fc-list-table td {
     border-color: var(--border-color) !important;
-    color: var(--text-primary) !important;
-    background-color: var(--bg-card) !important;
+    /* Ne pas forcer la couleur, laisser les événements définir leur propre couleur */
 }
 
-.dark-mode .fc-list-table td * {
-    color: var(--text-primary) !important;
-}
-
+/* Les cellules td héritent de la couleur de fond de l'événement */
 .dark-mode .fc-list-event td {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+    /* Ne pas forcer la couleur de fond, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+    background-color: inherit !important;
 }
 
 .dark-mode .fc-list-event td * {
-    color: var(--text-primary) !important;
-}
-
-.dark-mode .fc-list-table td {
-    background-color: var(--bg-card) !important;
-}
-
-.dark-mode .fc-list-event td {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover td {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
+    /* Ne pas forcer la couleur, juste l'effet hover avec box-shadow */
+    color: var(--text-inverse) !important;
+    background-color: inherit !important;
+}
+
+.dark-mode .fc-list-event:hover td * {
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-table th {
@@ -407,9 +403,10 @@ body {
 }
 
 /* ===== STYLES POUR LES ÉVÉNEMENTS FULLCALENDAR EN MODE SOMBRE ===== */
+/* En mode sombre, on préserve les couleurs personnalisées des événements définies dans ScheduleController */
+/* Les couleurs sont appliquées via styles inline par FullCalendar (backgroundColor, borderColor) */
 .dark-mode .fc-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
 }
 
@@ -434,35 +431,42 @@ body {
 }
 
 .dark-mode .fc-event:hover {
-    background-color: var(--color-primary-hover) !important;
-    border-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Événements dans la vue daygrid (month) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-daygrid-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-daygrid-event:hover {
-    background-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Événements dans la vue timegrid (week/day) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-timegrid-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-timegrid-event:hover {
-    background-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .dark-mode .fc-timegrid-event-short {
-    background-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event-short:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .dark-mode .fc-timegrid-event .fc-event-main,

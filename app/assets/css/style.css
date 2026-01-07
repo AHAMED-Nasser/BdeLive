@@ -564,14 +564,34 @@ a {
 .sidebar-menu {
     position: fixed;
     top: 0;
-    right: -300px; /* Caché à droite */
-    width: 300px;
+    right: -320px; /* Caché à droite - légèrement plus large pour plus d'espace */
+    width: 320px;
+    max-width: 85vw;
     height: 100vh;
     background: var(--gradient-sidebar);
-    box-shadow: -2px 0 10px var(--shadow-md);
-    transition: right 0.4s ease;
+    box-shadow: -2px 0 15px var(--shadow-md);
+    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1001;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Scrollbar personnalisée pour le menu sidebar */
+.sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Afficher le menu quand la checkbox est cochée */
@@ -582,7 +602,7 @@ a {
 /* Style du menu */
 .sidebar-menu ul {
     list-style: none;
-    padding: 80px 20px 20px 20px;
+    padding: 80px 0 20px 0;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -591,39 +611,82 @@ a {
 .sidebar-menu ul li {
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: block;
     width: 100%;
 }
 
+.sidebar-menu ul li:last-child {
+    border-bottom: none;
+}
+
 .sidebar-menu ul li a {
-    display: block;
-    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
     color: var(--text-inverse);
-    font-size: 1.2rem;
-    border-radius: 5px;
-    margin: 2px 0;
+    font-size: 1.1rem;
+    border-radius: 0;
+    margin: 0;
     transition: all 0.3s ease;
+    position: relative;
+}
+
+.sidebar-menu ul li a i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+    flex-shrink: 0;
 }
 
 .sidebar-menu ul li a:hover {
     color: var(--text-inverse);
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
     text-decoration: none;
-    transform: translateX(5px);
-    padding-left: 30px;
+    transform: translateX(8px);
+    padding-left: 28px;
+}
+
+.sidebar-menu ul li a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.sidebar-menu ul li a:hover::before {
+    background: rgba(255, 255, 255, 0.4);
 }
 
 /* Overlay sombre quand le menu est ouvert */
-.menu-toggle:checked ~ .sidebar-menu::before {
-    content: '';
+.sidebar-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: var(--shadow-lg);
-    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+}
+
+.menu-toggle:checked ~ .sidebar-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* Fermer le menu quand on clique sur l'overlay */
+.sidebar-overlay:active {
+    cursor: pointer;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

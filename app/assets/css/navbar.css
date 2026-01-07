@@ -250,13 +250,21 @@
 
 /* Sidebar section title */
 .sidebar-section-title {
-    color: rgba(255, 255, 255, 0.6) !important;
-    font-size: 0.85rem !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.75rem !important;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 15px 20px 5px 20px !important;
+    letter-spacing: 2px;
+    padding: 24px 20px 8px 20px !important;
+    margin-top: 8px;
     border-bottom: none !important;
     pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.sidebar-menu ul li:first-child.sidebar-section-title {
+    margin-top: 0;
+    padding-top: 16px !important;
 }
 
 .sidebar-menu .dropdown-disabled {
@@ -270,7 +278,16 @@
 }
 
 .sidebar-menu .sidebar-danger:hover {
-    background-color: rgba(255, 107, 107, 0.2) !important;
+    background-color: rgba(255, 107, 107, 0.25) !important;
+    color: #ff8787 !important;
+}
+
+.sidebar-menu .sidebar-danger i {
+    color: #ff6b6b !important;
+}
+
+.sidebar-menu .sidebar-danger:hover i {
+    color: #ff8787 !important;
 }
 
 /* Dark Mode Toggle Mobile dans le Sidebar */
@@ -279,25 +296,41 @@
     align-items: center;
     gap: 12px;
     width: 100%;
-    padding: 20px;
+    padding: 16px 20px;
     background: transparent;
     border: none;
     color: var(--text-inverse);
-    font-size: 1.2rem;
-    border-radius: 5px;
-    margin: 2px 0;
+    font-size: 1.1rem;
+    border-radius: 0;
+    margin: 0;
     cursor: pointer;
     transition: all 0.3s ease;
     text-align: left;
     font-family: inherit;
+    position: relative;
 }
 
 .dark-mode-toggle-mobile:hover {
     color: var(--text-inverse);
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.15);
     text-decoration: none;
-    transform: translateX(5px);
-    padding-left: 30px;
+    transform: translateX(8px);
+    padding-left: 28px;
+}
+
+.dark-mode-toggle-mobile::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.dark-mode-toggle-mobile:hover::before {
+    background: rgba(255, 255, 255, 0.4);
 }
 
 .dark-mode-toggle-mobile:focus {
