@@ -235,11 +235,12 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=event"><i class="fas fa-calendar-alt"></i> Événements</a></li>
                     <li><a href="index.php?page=schedule"><i class="fas fa-calendar-week"></i> Emploi du temps</a></li>
                     
-                    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
+                    <?php if (isset($user) && $isAdmin) : ?>
                         <!-- Section Administration (BDE uniquement) -->
                         <li class="sidebar-section-title">Administration</li>
                         <li><a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a></li>
+                        <li><a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a></li>
                     <?php endif; ?>
                     
                     <?php if (!isset($user)) : ?>
