@@ -179,11 +179,6 @@ class ScheduleController extends DefaultController
      * - Les cours spécifiques au demi-groupe : "G1A"
      * - Les cours du groupe entier : "G1", "Groupe 1"
      *
-     * N'affiche PAS :
-     * - L'autre demi-groupe : "G1B"
-     * - Les cours inter-groupes : "G1-G2"
-     * - Les cours pour toute l'année : "1ère année"
-     *
      * @param array<string, string> $event Événement .ics
      * @param string $group Demi-groupe sélectionné (ex: "G1A")
      * @param string $year Année sélectionnée (ex: "1ere") - non utilisé

@@ -23,7 +23,7 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
         <?php endif; ?>
 
         <div class="schedule-header">
-            <h1>📅 Emploi du temps</h1>
+            <h1>Emploi du temps</h1>
             <p>Consultez votre emploi du temps par groupe</p>
         </div>
 
