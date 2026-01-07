@@ -1,9 +1,9 @@
 <?php start_page("Administration", true, $user ?? null); ?>
 
 <div style="display: flex; gap: 20px; margin-top: 20px;">
-    <aside style="width: 220px; border-right: 2px solid #eee; padding-right: 15px;">
-        <h3 style="color: #555;">Filtres</h3>
-        <nav>
+    <aside style="width: 220px; border-right: 2px solid #eeeeee; padding: 15px;">
+        <h3 style="color: #555">Filtres</h3>
+        <nav style="padding: 50px 0">
             <ul style="list-style: none; padding: 0;">
                 <li style="margin-bottom: 10px;">
                     <a href="index.php?page=admin-section&filter=active" 
@@ -48,7 +48,7 @@
                                 <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
                                 
                                 <?php if ($currentFilter !== 'blocked'): ?>
-                                    <select name="action" onchange="this.form.submit()" style="padding: 4px; border-radius: 4px;">
+                                    <select name="action" onchange="this.form.submit()" style="padding: 10px; border-radius: 4px; border: solid 1px black; background-color: white;">
                                         <option value="">Actions...</option>
                                         <?php if ($u['role'] === 'admin'): ?>
                                             <option value="demote">Enlever droits Admin</option>
