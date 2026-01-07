@@ -50,6 +50,7 @@ class AdminSectionController extends AdminController
                 break;
             case 'demote':
                 $manager->updateUserRole($id, 'user');
+                break;
             case 'block':
                 $manager->setBlockStatus($id, 1);
                 $manager->updateUserRole($id, 'user');
