@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-/** @var $users */
-/** @var $currentFilter */
-/** @var $pagination */
+/** @var array<int, array<string, mixed>> $users Liste des utilisateurs passée par le contrôleur */
+/** @var string $currentFilter Le filtre actuel (active/blocked) */
+/** @var \App\Modules\Helpers\Pagination $pagination L'objet de pagination */
+/** @var array<string, mixed>|null $user L'utilisateur connecté (pour start_page) */
 start_page("Administration", true, $user ?? null);
 ?>
     <div class="admin-container">
