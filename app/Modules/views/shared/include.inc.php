@@ -221,36 +221,50 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <span class="bar"></span>
             </label>
 
+            <!-- Overlay pour fermer le menu -->
+            <label for="menu-toggle" class="sidebar-overlay"></label>
+            
             <!-- Menu Sidebar -->
             <div class="sidebar-menu">
                 <ul>
-                    <li><a href="index.php?page=home">Accueil</a></li>
-                    <li><a href="index.php?page=articles">Nos articles</a></li>
-                    <?php if (isset($user) && $user !== null && $isAdmin) : ?>
-                        <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=createEvent">Créer un événement</a></li>
-                        <li><a href="index.php?page=createArticle">Créer un article</a></li>
-                        <li><a href="index.php?page=schedule">Emploi du temps</a></li>
-                        <li class="sidebar-section-title">Mon compte</li>
-                        <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
-                        <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
-                        <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                    <?php elseif (isset($user) && $user !== null) : ?>
-                        <li><a href="index.php?page=event">Evénements</a></li>
-                        <li><a href="index.php?page=schedule">Emploi du temps</a></li>
-                        <li class="sidebar-section-title">Mon compte</li>
-                        <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
-                        <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
-                        <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                        <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
-                    <?php else : ?>
-                        <li><a href="index.php?page=login">Connexion</a></li>
-                        <li><a href="index.php?page=register">Inscription</a></li>
-                        <li><a href="index.php?page=event">Evénements</a></li>
+                    <!-- Section Navigation -->
+                    <li class="sidebar-section-title">Navigation</li>
+                    <li><a href="index.php?page=home"><i class="fas fa-home"></i> Accueil</a></li>
+                    <li><a href="index.php?page=articles"><i class="fas fa-newspaper"></i> Nos articles</a></li>
+                    <li><a href="index.php?page=event"><i class="fas fa-calendar-alt"></i> Événements</a></li>
+                    <li><a href="index.php?page=schedule"><i class="fas fa-calendar-week"></i> Emploi du temps</a></li>
+                    
+                    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
+                        <!-- Section Administration (BDE uniquement) -->
+                        <li class="sidebar-section-title">Administration</li>
+                        <li><a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a></li>
+                        <li><a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a></li>
                     <?php endif; ?>
-                    <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
-                    <li><a href="index.php?page=sitemap">Plan du site</a></li>
-                    <!-- Dark Mode Toggle Mobile - En bas du menu -->
+                    
+                    <?php if (!isset($user)) : ?>
+                        <!-- Section Authentification (non connecté) -->
+                        <li class="sidebar-section-title">Connexion</li>
+                        <li><a href="index.php?page=login"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+                        <li><a href="index.php?page=register"><i class="fas fa-user-plus"></i> Inscription</a></li>
+                    <?php endif; ?>
+                    
+                    <?php if (isset($user) && $user !== null) : ?>
+                        <!-- Section Mon compte (utilisateurs connectés) -->
+                        <li class="sidebar-section-title">Mon compte</li>
+                        <li><a href="index.php?page=profile"><i class="fas fa-user-circle"></i> Mon Profil</a></li>
+                        <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
+                        <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                        <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE') : ?>
+                            <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    
+                    <!-- Section Informations -->
+                    <li class="sidebar-section-title">Informations</li>
+                    <li><a href="index.php?page=legalTerms"><i class="fas fa-file-contract"></i> Mentions légales</a></li>
+                    <li><a href="index.php?page=sitemap"><i class="fas fa-sitemap"></i> Plan du site</a></li>
+                    
+                    <!-- Section Préférences -->
                     <li class="sidebar-section-title">Préférences</li>
                     <li>
                         <button id="dark-mode-toggle-mobile" class="dark-mode-toggle-mobile" aria-label="Basculer le mode sombre" title="Mode sombre">
@@ -334,6 +348,36 @@ function end_page(): void
         <script src="./assets/js/dark-mode.js"></script>
         <script src="./assets/js/slider.js"></script>
         <script src="./assets/js/dropImageArea.js"></script>
+        
+        <!-- Script pour fermer le menu mobile au clic sur un lien -->
+        <script>
+            (function() {
+                const menuToggle = document.getElementById('menu-toggle');
+                const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+                
+                if (menuToggle && sidebarLinks.length > 0) {
+                    sidebarLinks.forEach(link => {
+                        link.addEventListener('click', function() {
+                            // Fermer le menu après un court délai pour permettre la navigation
+                            setTimeout(function() {
+                                menuToggle.checked = false;
+                            }, 100);
+                        });
+                    });
+                }
+                
+                // Empêcher le scroll du body quand le menu est ouvert
+                if (menuToggle) {
+                    menuToggle.addEventListener('change', function() {
+                        if (this.checked) {
+                            document.body.style.overflow = 'hidden';
+                        } else {
+                            document.body.style.overflow = '';
+                        }
+                    });
+                }
+            })();
+        </script>
 
     <?php
     // Display the cookie popup on all pages (autoload Composer)
