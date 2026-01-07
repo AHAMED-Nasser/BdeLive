@@ -1,0 +1,169 @@
+/* assets/css/schedule.css */
+
+.schedule-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.schedule-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.schedule-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.schedule-filters {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-group {
+    margin-bottom: 1rem;
+}
+
+.filter-group:last-child {
+    margin-bottom: 0;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.calendar-wrapper {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#calendar {
+    max-width: 100%;
+}
+
+/* Personnalisation FullCalendar */
+.fc-toolbar-title {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+}
+
+.fc-button {
+    background-color: #667eea !important;
+    border-color: #667eea !important;
+    text-transform: capitalize !important;
+}
+
+.fc-button:hover {
+    background-color: #5568d3 !important;
+    border-color: #5568d3 !important;
+}
+
+.fc-button:disabled {
+    opacity: 0.5 !important;
+}
+
+.fc-event {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+.fc-daygrid-event {
+    margin: 2px 0;
+}
+
+.no-group-selected {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.no-group-selected i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+}
+
+/* Legend */
+.calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.legend-label {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .schedule-filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .filter-group {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .calendar-legend {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
