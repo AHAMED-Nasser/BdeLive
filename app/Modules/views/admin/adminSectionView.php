@@ -1,10 +1,14 @@
-<?php 
+<?php
 
-/** @var array<string, mixed> $users */
+declare(strict_types=1);
+
+/** @var array<int, array<string, mixed>> $users */
 /** @var string $currentFilter */
 /** @var \App\Modules\Helpers\Pagination $pagination */
+/** @var array<string, mixed>|null $user */
 
-start_page("Administration", true, $user ?? null); ?>
+start_page("Administration", true, $user ?? null);
+?>
 
 <div style="display: flex; gap: 20px; margin-top: 20px;">
     <aside style="width: 220px; border-right: 2px solid #eeeeee; padding: 15px;">
@@ -89,5 +93,6 @@ start_page("Administration", true, $user ?? null); ?>
     </main>
 </div>
 
-<?php end_page();
+<?php
+end_page();
 ?>
