@@ -116,10 +116,10 @@ class UpdateEventController extends AdminController
     private function processUpdate(int $eventId): void
     {
         // 1. Validation CSRF
-       $csrfToken = $this->request->post('csrf_token', '');
-       if (!$this->csrf->validateToken((string)$csrfToken)) {
-           $this->redirectWithError(self::REDIRECT_URL, 'Jeton de sécurité invalide. Veuillez réessayer.');
-       }
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string)$csrfToken)) {
+            $this->redirectWithError(self::REDIRECT_URL, 'Jeton de sécurité invalide. Veuillez réessayer.');
+        }
 
         // 2. Récupération des données POST
         $eventName = (string)$this->request->post('event-name', '');

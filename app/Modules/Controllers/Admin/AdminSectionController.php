@@ -31,7 +31,6 @@ class AdminSectionController extends AdminController
             $showBlocked
         );
 
-
         $this->render("admin/adminSectionView", [
             'users' => $users,
             'pagination' => $pagination, 

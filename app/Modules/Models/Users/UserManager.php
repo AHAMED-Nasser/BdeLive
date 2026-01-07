@@ -313,7 +313,8 @@ class UserManager
     /**
     * Récupère les utilisateurs paginés en fonction de l'état de blocage
     */
-    public function getAllUsersPaginated(int $limit, int $offset, bool $isBlocked = false): array {
+    public function getAllUsersPaginated(int $limit, int $offset, bool $isBlocked = false): array
+    {
         try {
             $blockedValue = $isBlocked ? 1 : 0;
 
@@ -343,7 +344,6 @@ class UserManager
     public function countUsersByBlockStatus(bool $isBlocked = false): int
     {
         $blockedValue = $isBlocked ? 1 : 0;
-        
         $query = 'SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['is_blocked' => $blockedValue]);
@@ -363,5 +363,4 @@ class UserManager
         $query = 'UPDATE USERS SET is_blocked = :status WHERE user_id = :id';
         return $this->pdo->prepare($query)->execute(['status' => $status, 'id' => $userId]);
     }
-
 }

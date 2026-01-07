@@ -37,7 +37,4 @@ require_once __DIR__ . '/../shared/include.inc.php';
         </form>
     </div>
 
-<?php
-end_page();
-?>
-<?php
+<?php end_page(); ?>
