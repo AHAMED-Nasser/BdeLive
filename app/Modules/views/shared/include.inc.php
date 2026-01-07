@@ -1,4 +1,9 @@
 <?php
+
+declare(strict_types=1);
+
+use App\Core\Application;
+
 /**
  * Renders the page header with navigation
  *
@@ -17,6 +22,8 @@
  */
 function start_page(string $title, bool $wouldNav = true, ?array $user = null): void
 {
+    $auth = Application::getInstance()->auth();
+    $isAdmin = $auth->isAdmin();
     ?>
 
 <!DOCTYPE html>
@@ -51,9 +58,10 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 </a>
             </ul>
             <ul>
+
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="index.php?page=articles">Nos articles</a></li>
-                <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
+                <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=createArticle">Créer un article</a></li>
@@ -101,7 +109,6 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
-                    <li><a href="index.php?page=event">Evénements</a></li>
                 <?php endif; ?>
             </ul>
 
@@ -118,7 +125,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <ul>
                     <li><a href="index.php?page=home">Accueil</a></li>
                     <li><a href="index.php?page=articles">Nos articles</a></li>
-                    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
+                    <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
                         <li><a href="index.php?page=schesule">Emploi du temps</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>

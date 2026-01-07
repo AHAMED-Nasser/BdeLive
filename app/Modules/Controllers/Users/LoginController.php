@@ -49,12 +49,12 @@ class LoginController extends DefaultController
     private function processLogin(): void
     {
         // Validate CSRF token
-//        $csrfToken = $this->request->post('csrf_token', '');
-//        if (!$this->csrf->validateToken((string) $csrfToken)) {
-//            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
-//            $this->render('users/loginPageView');
-//            return;
-//        }
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+            $this->render('users/loginPageView');
+            return;
+        }
 
         // Get and sanitize inputs
         $email = trim((string) $this->request->post('email', ''));
@@ -74,19 +74,6 @@ class LoginController extends DefaultController
             return;
         }
 
-        // Admin authentification
-        $adminEmail = ADMIN_EMAIL;
-        $adminPwd   = ADMIN_PWD;
-
-        if ($email === $adminEmail && $mdp === $adminPwd) {
-            // Use AuthManager to login admin
-            $this->auth->login(0, 'BDE', $adminEmail, 'Admin', 'Me');
-
-            // Login admin success
-            $this->setSuccess('Connexion réussie ! Bienvenue administrateur !');
-            $this->redirect('index.php?page=home');
-        }
-
         // Attempt login with old system to verify credentials
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);
@@ -94,6 +81,14 @@ class LoginController extends DefaultController
         if (!$user || !$userManager->verifyPassword($mdp, $user['password'])) {
             // Login failed
             $this->setError('Email ou mot de passe incorrect');
+            $this->render('users/loginPageView');
+            return;
+        }
+
+        $isBlocked = (int) $user['is_blocked'];
+        // Verify if user blocked or not
+        if ($isBlocked === 1) {
+            $this->setError('Votre compte a été bloqué. Veuillez contacter l\'administrateur.');
             $this->render('users/loginPageView');
             return;
         }
@@ -113,6 +108,8 @@ class LoginController extends DefaultController
             (int) $user['user_id'],
             $user['user_status'],
             $user['email'],
+            $user['role'],
+            $isBlocked,
             $user['first_name'],
             $user['last_name']
         );

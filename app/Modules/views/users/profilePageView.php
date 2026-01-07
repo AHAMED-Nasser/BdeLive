@@ -194,6 +194,4 @@ $editField = $_GET['edit'] ?? null;
     </a>
 </div>
 
-<?php
-end_page();
-?>
+<?php end_page(); ?>

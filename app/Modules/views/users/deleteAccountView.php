@@ -41,5 +41,4 @@ start_page('Supprimer mon compte', true, $user ?? null);
     </form>
 </div>
 
-<?php
-end_page();
+<?php end_page(); ?>

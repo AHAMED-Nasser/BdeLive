@@ -64,6 +64,7 @@ $namespaces = [
     'App\\Modules\\Controllers\\Articles\\',
     'App\\Modules\\Controllers\\Pwd\\',
     'App\\Modules\\Controllers\\Cookie\\',
+    'App\\Modules\\Controllers\\Admin\\'
 ];
 
 $resolved = null;

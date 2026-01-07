@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers;
 
+use App\Core\Application;
+use App\Core\Auth\AuthManager;
+
 /**
  * AdminController - Base Controller for Administrator Pages (BDE Only)
  *
@@ -30,7 +33,7 @@ namespace App\Modules\Controllers;
  * @throws \App\Core\Exception\AuthenticationException If user is not logged in
  * @throws \App\Core\Exception\AuthorizationException If user is not an administrator
  */
-abstract class AdminController extends BaseController
+abstract class AdminController extends AuthenticatedController
 {
     /**
      * Constructor - Automatically checks authentication and admin rights
@@ -41,6 +44,16 @@ abstract class AdminController extends BaseController
     public function __construct()
     {
         parent::__construct();
+
+        $auth = Application::getInstance()->auth();
+
+        if (!$auth->isAdmin()) {
+            $this->redirectWithError(
+                'index.php?page=home',
+                'Accès refusé : vous n\'avez pas les droits administrateur.'
+            );
+        }
+
         $this->auth->requireAdmin();
     }
 }
