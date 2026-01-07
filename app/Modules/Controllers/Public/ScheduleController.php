@@ -218,10 +218,7 @@ class ScheduleController extends DefaultController
             if (preg_match($pattern, $content) && stripos($content, $otherHalfGroup) === false) {
                 return true;
             }
-        }
-        
-        //Format 2ème/3ème année (ex: GA1-1 ou GB-2)
-        elseif (preg_match('/^(G[A-B]\d?)-(\d)$/', $group, $matches)) {
+        } elseif (preg_match('/^(G[A-B]\d?)-(\d)$/', $group, $matches)) { //Format 2ème/3ème année (ex: GA1-1 ou GB-2)
             $parentGroup = $matches[1]; // ex: "GA1" ou "GB"
             $subNum = $matches[2];      // ex: "1" ou "2"
             $otherSub = ($subNum === '1' ? '2' : '1');
@@ -232,7 +229,6 @@ class ScheduleController extends DefaultController
                 return true;
             }
         }
-
         return false;
     }
 
