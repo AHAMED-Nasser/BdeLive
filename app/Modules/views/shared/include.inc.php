@@ -55,7 +55,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=adminSection">Administrer</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
-                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                        $displayName = trim(($user['last_name'] ?? '') . ' ' . ($user['first_name'] ?? ''));
                         echo htmlspecialchars($displayName ?: 'Mon Profil');
                         ?>
                     </a></li>
@@ -64,7 +64,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=deleteAccount">Suppression Compte</a></li>
                     <li><a href="index.php?page=profile">
                         <?php
-                        $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+                        $displayName = trim(($user['last_name'] ?? '') . ' ' . ($user['first_name'] ?? ''));
                         echo htmlspecialchars($displayName ?: 'Mon Profil');
                         ?>
                     </a></li>
