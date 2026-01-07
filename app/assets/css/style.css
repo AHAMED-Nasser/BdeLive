@@ -3,6 +3,11 @@
     margin: 0;
 }
 
+html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 /* === Styles généraux pour tous les liens === */
 a {
     color: #667eea;
