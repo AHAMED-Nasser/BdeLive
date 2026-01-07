@@ -100,4 +100,3 @@ start_page("Administration", true, $user ?? null);
     </div>
 
 <?php end_page(); ?>
-
