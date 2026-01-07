@@ -3,7 +3,7 @@
     font-weight: bold;
     padding: 50px 20px 30px 20px;
     text-align: center;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .events {
@@ -12,15 +12,15 @@
     justify-content: center;
     align-items: center;
     padding: 40px 20px !important;
-    overflow-x: hidden !important;
+    overflow-x: visible !important;
     overflow-y: visible !important;
-    background-color: #f5f5f5;
+    background-color: var(--bg-secondary);
 }
 
 .carousel {
     width: 100%;
     max-width: 1200px;
-    overflow-x: hidden;
+    overflow-x: visible;
     overflow-y: visible;
     padding: 0;
     margin: 0 auto;
@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     padding: 0;
+    overflow: visible;
 }
 
 /* Zone centrale de l'image - AVEC HAUTEUR FIXE */
@@ -83,19 +84,19 @@
     justify-content: center;
     width: 50px;
     height: 50px;
-    background: white;
-    border: 2px solid #333;
+    background: var(--bg-card) !important;
+    border: 2px solid var(--border-color) !important;
     border-radius: 50%;
     cursor: pointer;
     padding: 0;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px var(--shadow-sm);
 }
 
 .carousel-control:hover {
-    background: #f0f0f0;
+    background: var(--bg-hover) !important;
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px var(--shadow-md);
 }
 
 .carousel-control:active {
@@ -115,6 +116,12 @@
     height: 20px;
     display: block;
     pointer-events: none;
+    filter: brightness(0) saturate(100%) invert(0);
+}
+
+/* Assurer la visibilité des boutons en mode sombre */
+.dark-mode .carousel-control img {
+    filter: brightness(0) saturate(100%) invert(1);
 }
 
 .carousel-control.next img {
@@ -137,18 +144,18 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #ccc;
+    background: var(--border-light);
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .dot:hover {
-    background: #999;
+    background: var(--text-tertiary);
     transform: scale(1.2);
 }
 
 .dot.active {
-    background: #333;
+    background: var(--color-primary);
     width: 32px;
     border-radius: 5px;
 }

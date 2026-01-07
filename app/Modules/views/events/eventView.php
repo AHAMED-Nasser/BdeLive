@@ -48,27 +48,27 @@ $userId = $user['user_id'] ?? null;
         <style>
             /* Augmente le contraste des bordures du calendrier */
             #calendar {
-                --fc-border-color: #333; /* Couleur des lignes (gris très foncé) */
-                --fc-page-bg-color: #fff;
+                --fc-border-color: var(--border-color);
+                --fc-page-bg-color: var(--bg-card);
             }
 
             /* Force l'épaisseur des lignes de la grille */
             .fc-theme-standard td,
             .fc-theme-standard th,
             .fc-theme-standard .fc-scrollgrid {
-                border: 1.5px solid #333 !important;
+                border: 1.5px solid var(--border-color) !important;
             }
 
             /* Améliore la visibilité des noms des jours (Lundi, Mardi...) */
             .fc-col-header-cell {
-                background-color: #f8f9fa;
-                color: #000;
+                background-color: var(--bg-secondary);
+                color: var(--text-primary);
                 font-weight: bold;
             }
 
             /* Rend le numéro du jour plus visible */
             .fc-daygrid-day-number {
-                color: #000 !important;
+                color: var(--text-primary) !important;
                 font-weight: bold;
                 padding: 5px !important;
             }
@@ -86,16 +86,33 @@ $userId = $user['user_id'] ?? null;
 
             /* Améliore l'apparence des boutons de navigation */
             .fc-prev-button, .fc-next-button {
-                background-color: #1299ff !important;
+                background-color: var(--color-primary) !important;
                 border: none !important;
                 opacity: 1 !important;
+                color: var(--text-inverse) !important;
             }
 
             .fc-button-primary:hover {
-                background-color: #0056b3 !important;
+                background-color: var(--color-primary-hover) !important;
+            }
+
+            /* Adaptation pour le mode sombre */
+            .dark-mode #calendar {
+                background: var(--bg-card) !important;
+            }
+
+            .dark-mode .fc-event {
+                background-color: var(--color-primary) !important;
+                border-color: var(--color-primary) !important;
+                color: var(--text-inverse) !important;
+            }
+
+            .dark-mode .fc-event-title,
+            .dark-mode .fc-event-time {
+                color: var(--text-inverse) !important;
             }
         </style> <!-- CSS du calendrier -->
-        <div id="calendar" style="max-width: 900px; margin: 40px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1);"></div>
+        <div id="calendar" style="max-width: 900px; margin: 40px auto; background: var(--bg-card); padding: 20px; border-radius: 8px; box-shadow: 0 0 10px var(--shadow-sm);"></div>
         <!-- SCRIPT JS pour implémenter le calendrier avec la bibliothèque FullCalendar -->
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -117,7 +134,10 @@ $userId = $user['user_id'] ?? null;
                             title: <?= json_encode($event['event_name']) ?>,
                             start: <?= json_encode($event['event_date'] . 'T' . $event['event_time']) ?>,
                             url: <?= json_encode('index.php?page=showEvent&id=' . $event['event_id']) ?>,
-                            backgroundColor: '#1299ff',
+                            // Les couleurs seront gérées par CSS en mode sombre
+                            backgroundColor: '#667eea',
+                            borderColor: '#667eea',
+                            textColor: '#ffffff',
                             borderColor: '#0056b3'
                         },
                         <?php endforeach; ?>
