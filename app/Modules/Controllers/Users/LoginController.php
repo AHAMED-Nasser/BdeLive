@@ -49,12 +49,12 @@ class LoginController extends DefaultController
     private function processLogin(): void
     {
         // Validate CSRF token
-//        $csrfToken = $this->request->post('csrf_token', '');
-//        if (!$this->csrf->validateToken((string) $csrfToken)) {
-//            $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
-//            $this->render('users/loginPageView');
-//            return;
-//        }
+       $csrfToken = $this->request->post('csrf_token', '');
+       if (!$this->csrf->validateToken((string) $csrfToken)) {
+           $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
+           $this->render('users/loginPageView');
+           return;
+       }
 
         // Get and sanitize inputs
         $email = trim((string) $this->request->post('email', ''));
