@@ -61,8 +61,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
 
                 <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="index.php?page=articles">Nos articles</a></li>
-                <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                     <li><a href="index.php?page=event">Evénements</a></li>
+                <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=createArticle">Créer un article</a></li>
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
@@ -81,11 +81,12 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
                             <a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a>
                             <div class="dropdown-divider"></div>
+                            <a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a>
                             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                            <a href="index.php?page=deleteAccount" class="dropdown-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a>
                         </div>
                     </li>
                 <?php elseif (isset($user) && $user !== null) : ?>
-                    <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                     <!-- Profile dropdown menu -->
                     <li class="profile-dropdown-container">
