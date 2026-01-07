@@ -57,6 +57,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=event">Evénements</a></li>
                     <li><a href="index.php?page=createEvent">Créer un évenement</a></li>
                     <li><a href="index.php?page=createArticle">Créer un article</a></li>
+                    <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                     <!-- Profile dropdown menu -->
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
@@ -77,6 +78,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     </li>
                 <?php elseif (isset($user) && $user !== null) : ?>
                     <li><a href="index.php?page=event">Evénements</a></li>
+                    <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                     <!-- Profile dropdown menu -->
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
@@ -118,6 +120,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=articles">Nos articles</a></li>
                     <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
+                        <li><a href="index.php?page=schesule">Emploi du temps</a></li>
                         <li><a href="index.php?page=createEvent">Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle">Créer un article</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
@@ -126,6 +129,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
                     <?php elseif (isset($user) && $user !== null) : ?>
                         <li><a href="index.php?page=event">Evénements</a></li>
+                        <li><a href="index.php?page=schesule">Emploi du temps</a></li>
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a></li>
                         <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
