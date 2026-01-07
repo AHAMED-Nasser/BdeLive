@@ -128,6 +128,95 @@ class EventRegistrationRepository
         $stmt->execute(['event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    /**
+     * Register a user to an event as part of a team
+     *
+     * Creates a new registration record with team association.
+     *
+     * @param int $eventId The event identifier
+     * @param int $userId The user identifier
+     * @param int $teamId The team identifier
+     * @return bool True if registration successful, false otherwise
+     */
+    public function registerUserWithTeam(int $eventId, int $userId, int $teamId): bool
+    {
+        $stmt = $this->pdo->prepare(
+            'INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status, team_id) 
+             VALUES (?, ?, ?, ?)'
+        );
+        return $stmt->execute([$eventId, $userId, 'Confirmé', $teamId]);
+    }
+
+    /**
+     * Get registered users grouped by team for an event
+     *
+     * Returns individual registrations (team_id IS NULL) followed by 
+     * team registrations grouped by team number.
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array<string, mixed>> Array of registrations with team info
+     */
+    public function getRegisteredUsersWithTeams(int $eventId): array
+    {
+        $sql = 'SELECT u.first_name, u.last_name, u.user_status, u.email,
+                       er.team_id, et.team_number
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                LEFT JOIN EVENT_TEAMS et ON er.team_id = et.team_id
+                WHERE er.event_id = ?
+                ORDER BY et.team_number ASC NULLS FIRST, u.last_name ASC';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$eventId]);
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $results ?: [];
+    }
+
+    /**
+     * Get registered users grouped by team for PDF export
+     *
+     * Returns an array with 'individual' and 'teams' keys
+     *
+     * @param int $eventId The event identifier
+     * @return array{individual: array<int, array<string, mixed>>, teams: array<int, array<string, mixed>>}
+     */
+    public function getRegisteredUsersGroupedForPdf(int $eventId): array
+    {
+        $sql = 'SELECT u.first_name, u.last_name, u.user_status, u.email,
+                       er.team_id, et.team_number
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                LEFT JOIN EVENT_TEAMS et ON er.team_id = et.team_id
+                WHERE er.event_id = ?
+                ORDER BY et.team_number ASC, u.last_name ASC';
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$eventId]);
+        
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        
+        $individual = [];
+        $teams = [];
+        
+        foreach ($results as $row) {
+            if (empty($row['team_id'])) {
+                $individual[] = $row;
+            } else {
+                $teamNumber = (int) $row['team_number'];
+                if (!isset($teams[$teamNumber])) {
+                    $teams[$teamNumber] = [];
+                }
+                $teams[$teamNumber][] = $row;
+            }
+        }
+        
+        return [
+            'individual' => $individual,
+            'teams' => $teams
+        ];
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');

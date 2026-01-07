@@ -89,6 +89,17 @@ class CreateEventController extends AdminController
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
         $description = (string) $this->request->post('description', '');
 
+        // Group event fields
+        $eventType = (string) $this->request->post('event_type', 'solo');
+        $isGroupEvent = ($eventType === 'group');
+        $teamSize = $isGroupEvent ? (int) $this->request->post('team_size', 2) : 1;
+
+        // Validate team size for group events
+        if ($isGroupEvent && ($teamSize < 2 || $teamSize > 20)) {
+            $this->setError('Le nombre de personnes par groupe doit être entre 2 et 20');
+            $this->redirect('index.php?page=createEvent');
+        }
+
         // Validate required fields
         if (
             empty($eventName) || empty($eventDate) || empty($eventTime) ||
@@ -135,7 +146,9 @@ class CreateEventController extends AdminController
             $eventTheme,
             $statusParticipating,
             $description,
-            $imagesJson
+            $imagesJson,
+            $isGroupEvent,
+            $teamSize
         );
 
         if ($event) {

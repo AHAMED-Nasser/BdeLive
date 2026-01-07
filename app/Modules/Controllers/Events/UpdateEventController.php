@@ -130,6 +130,19 @@ class UpdateEventController extends AdminController
         $statusParticipatingArray = $this->request->post('status_participating', []);
         $description = (string)$this->request->post('description', '');
 
+        // Group event fields
+        $eventType = (string)$this->request->post('event_type', 'solo');
+        $isGroupEvent = ($eventType === 'group');
+        $teamSize = $isGroupEvent ? (int)$this->request->post('team_size', 2) : 1;
+
+        // Validate team size for group events
+        if ($isGroupEvent && ($teamSize < 2 || $teamSize > 20)) {
+            $this->redirectWithError(
+                'index.php?page=updateEvent&id=' . $eventId,
+                'Le nombre de personnes par groupe doit être entre 2 et 20'
+            );
+        }
+
         // 3. Validation de base
         if (
             empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) ||
@@ -176,7 +189,7 @@ class UpdateEventController extends AdminController
             $eventDate = new DateTime($eventDateStr);
             $eventTime = new DateTime($eventTimeStr);
 
-            // 4. Appel du modèle de mise à jour (sans images pour l'instant)
+            // 4. Appel du modèle de mise à jour
             $success = $this->eventModel->updateEvent(
                 $eventId,
                 $eventName,
@@ -186,7 +199,9 @@ class UpdateEventController extends AdminController
                 $eventTheme,
                 $statusParticipating,
                 $description,
-                $imageJson
+                $imageJson,
+                $isGroupEvent,
+                $teamSize
             );
 
             if ($success) {

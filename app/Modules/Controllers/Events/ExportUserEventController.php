@@ -47,6 +47,8 @@ class ExportUserEventController extends AdminController
      * Generates and streams a PDF file containing the list of registrants.
      * Fetches event data and registrant details, renders an HTML template,
      * and sends the resulting PDF to the browser as an attachment.
+     * Groups are separated with spacing for easy identification.
+     *
      * @param int $eventId The validated event identifier.
      * @return void
      * @throws \Exception
@@ -66,12 +68,19 @@ class ExportUserEventController extends AdminController
         $registrationRepo = new EventRegistrationRepository();
 
         $event = $eventRepo -> findById($eventId);
-        $registrations = $registrationRepo -> getRegisteredUsersDetails($eventId);
 
         if (!$event) {
             $this->setError("Événement introuvable");
             $this->redirect('index.php?page=event');
         }
+
+        // Check if this is a group event
+        $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+
+        // Get registrations grouped for PDF
+        $groupedRegistrations = $registrationRepo->getRegisteredUsersGroupedForPdf($eventId);
+        $individualRegistrations = $groupedRegistrations['individual'];
+        $teamRegistrations = $groupedRegistrations['teams'];
 
         // Dompdf configuration
         $options = new Options();
@@ -84,41 +93,113 @@ class ExportUserEventController extends AdminController
         <html>
             <head>
                 <style>
-                    body { font-family: sans-serif}
-                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    body { font-family: sans-serif; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
                     th, td { border: 1px solid #dddddd; padding: 8px; text-align: left; }
                     th { background-color: #f2f2f2; }
-                    h1 { color: #333; }
-                    .checkbox-col { width: 60px; text-align: center; } /* Largeur fixe pour les cases */
-                    .box { height: 15px; width: 15px; border: 1px solid #333; margin: auto; } /* Dessine le carré */
+                    h1 { color: #333; margin-bottom: 5px; }
+                    h2 { color: #667eea; margin-top: 30px; margin-bottom: 10px; padding: 10px; background: #f0f2ff; border-left: 4px solid #667eea; }
+                    h3 { color: #333; margin-top: 25px; margin-bottom: 10px; }
+                    .checkbox-col { width: 60px; text-align: center; }
+                    .box { height: 15px; width: 15px; border: 1px solid #333; margin: auto; }
+                    .team-separator { height: 20px; }
+                    .event-info { color: #666; margin-bottom: 20px; }
+                    .team-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px; border-radius: 6px; margin-top: 25px; margin-bottom: 10px; }
+                    .stats { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0; }
                 </style>
             </head>
             <body>
                 <h1>Liste des inscrits: <?= htmlspecialchars($event['event_name']) ?></h1>
-                <p>Date de l'événement : <?= htmlspecialchars($event['event_date']) ?>
-                    à <?= htmlspecialchars($event['event_time']) ?></p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Statut</th>
-                            <th>Présent</th>
-                            <th>Abscent</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($registrations as $user) : ?>
+                <p class="event-info">
+                    📅 Date : <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
+                    à <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
+                    <?php if ($isGroupEvent) : ?>
+                        <br>👥 Événement en groupe (<?= htmlspecialchars($event['team_size']) ?> personnes/groupe)
+                    <?php endif; ?>
+                </p>
+
+                <!-- Statistics -->
+                <div class="stats">
+                    <strong>Statistiques :</strong>
+                    <?php
+                    $totalIndividual = count($individualRegistrations);
+                    $totalTeams = count($teamRegistrations);
+                    $totalTeamMembers = array_sum(array_map('count', $teamRegistrations));
+                    ?>
+                    <?php if ($totalIndividual > 0) : ?>
+                        📝 <?= $totalIndividual ?> inscription(s) individuelle(s)
+                    <?php endif; ?>
+                    <?php if ($totalTeams > 0) : ?>
+                        | 🏆 <?= $totalTeams ?> groupe(s) (<?= $totalTeamMembers ?> personnes)
+                    <?php endif; ?>
+                    | 📊 Total : <?= $totalIndividual + $totalTeamMembers ?> participant(s)
+                </div>
+
+                <?php if (!empty($individualRegistrations)) : ?>
+                    <h3>📝 Inscriptions individuelles</h3>
+                    <table>
+                        <thead>
                             <tr>
-                                <td><?= htmlspecialchars($user['last_name']) ?></td>
-                                <td><?= htmlspecialchars($user['first_name']) ?></td>
-                                <td><?= htmlspecialchars($user['user_status']) ?></td>
-                                <td class="checkbox-col"><div class="box"></div></td>
-                                <td class="checkbox-col"><div class="box"></div></td>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Statut</th>
+                                <th class="checkbox-col">Présent</th>
+                                <th class="checkbox-col">Absent</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($individualRegistrations as $user) : ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($user['last_name'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($user['first_name'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($user['user_status'] ?? '') ?></td>
+                                    <td class="checkbox-col"><div class="box"></div></td>
+                                    <td class="checkbox-col"><div class="box"></div></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php endif; ?>
+
+                <?php if (!empty($teamRegistrations)) : ?>
+                    <h2>🏆 Groupes inscrits</h2>
+                    
+                    <?php foreach ($teamRegistrations as $teamNumber => $members) : ?>
+                        <div class="team-header">
+                            <strong>Groupe <?= htmlspecialchars((string) $teamNumber) ?></strong>
+                            (<?= count($members) ?> membre<?= count($members) > 1 ? 's' : '' ?>)
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Statut</th>
+                                    <th class="checkbox-col">Présent</th>
+                                    <th class="checkbox-col">Absent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($members as $user) : ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($user['last_name'] ?? '') ?></td>
+                                        <td><?= htmlspecialchars($user['first_name'] ?? '') ?></td>
+                                        <td><?= htmlspecialchars($user['user_status'] ?? '') ?></td>
+                                        <td class="checkbox-col"><div class="box"></div></td>
+                                        <td class="checkbox-col"><div class="box"></div></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <div class="team-separator"></div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <?php if (empty($individualRegistrations) && empty($teamRegistrations)) : ?>
+                    <p style="text-align: center; color: #666; margin-top: 50px;">
+                        Aucune inscription pour cet événement.
+                    </p>
+                <?php endif; ?>
             </body>
         </html>
 
@@ -126,7 +207,7 @@ class ExportUserEventController extends AdminController
         $html = ob_get_clean();
 
         // Generation
-        $dompdf->loadHtml((string)$html); // string for phpstan
+        $dompdf->loadHtml((string)$html);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 

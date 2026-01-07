@@ -53,6 +53,8 @@ class EventCreationModel
      * @param string $statusParticipating Comma-separated allowed participant statuses
      * @param string $description Event description
      * @param string $images JSON string of image URLs from Cloudinary
+     * @param bool $isGroupEvent Whether this is a group registration event
+     * @param int $teamSize Maximum number of members per team (only for group events)
      * @return bool True if insertion successful, false otherwise
      * @throws PDOException If database query fails
      */
@@ -64,13 +66,15 @@ class EventCreationModel
         string $eventTheme,
         string $statusParticipating,
         string $description,
-        string $images = ''
+        string $images = '',
+        bool $isGroupEvent = false,
+        int $teamSize = 1
     ): bool {
         try {
             $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, " .
-                "event_theme, status_participating, description, images) " .
+                "event_theme, status_participating, description, images, is_group_event, team_size) " .
                 "VALUES (:event_name, :event_date, :event_time, :event_location, " .
-                ":event_theme, :status_participating, :description, :images)";
+                ":event_theme, :status_participating, :description, :images, :is_group_event, :team_size)";
             $stmt = $this->pdo->prepare($query);
             return $stmt -> execute([
                 ':event_name' => $eventName,
@@ -80,7 +84,9 @@ class EventCreationModel
                 ':event_theme' => $eventTheme,
                 ':status_participating' => $statusParticipating,
                 ':description' => $description,
-                ':images' => $images
+                ':images' => $images,
+                ':is_group_event' => $isGroupEvent ? 1 : 0,
+                ':team_size' => $teamSize
             ]);
         } catch (PDOException $e) {
             error_log('EventCreationModel::insertEvent - ' . $e->getMessage());
@@ -92,8 +98,6 @@ class EventCreationModel
     /**
      * Update current event in database
      *
-     * Image update excluded for the moment
-     *
      * @param int $eventId Event ID to edit
      * @param string $eventName Event title/name
      * @param DateTime $eventDate Event date
@@ -102,6 +106,9 @@ class EventCreationModel
      * @param string $eventTheme Event theme
      * @param string $statusParticipating Event participating (BUT1, BUT2, ...)
      * @param string $description Event description
+     * @param string $images JSON string of image URLs
+     * @param bool $isGroupEvent Whether this is a group registration event
+     * @param int $teamSize Maximum number of members per team
      * @return bool True if update success else false
      * @throws PDOException If the update fail
      */
@@ -114,7 +121,9 @@ class EventCreationModel
         string $eventTheme,
         string $statusParticipating,
         string $description,
-        string $images
+        string $images,
+        bool $isGroupEvent = false,
+        int $teamSize = 1
     ): bool {
 
         try {
@@ -126,7 +135,9 @@ class EventCreationModel
             event_theme = :event_theme,
             status_participating = :status_participating,
             description = :description,
-            images = :images
+            images = :images,
+            is_group_event = :is_group_event,
+            team_size = :team_size
             WHERE event_id = :event_id";
 
             $stmt = $this->pdo->prepare($sql);
@@ -134,16 +145,17 @@ class EventCreationModel
             return $stmt->execute([
                 ':event_id' => $eventId,
                 ':event_name' => $eventName,
-                ':event_date' => $eventDate->format('Y-m-d'), // SQL format
-                ':event_time' => $eventTime->format('H:i'), // SQL format
+                ':event_date' => $eventDate->format('Y-m-d'),
+                ':event_time' => $eventTime->format('H:i'),
                 ':event_location' => $eventLocation,
                 ':event_theme' => $eventTheme,
                 ':status_participating' => $statusParticipating,
                 ':description' => $description,
-                ':images' => $images
+                ':images' => $images,
+                ':is_group_event' => $isGroupEvent ? 1 : 0,
+                ':team_size' => $teamSize
             ]);
         } catch (PDOException $e) {
-            // En cas d'erreur, on log l'erreur et on retourne false
             error_log('EventCreationModel::updateEvent - ' . $e->getMessage());
             return false;
         }

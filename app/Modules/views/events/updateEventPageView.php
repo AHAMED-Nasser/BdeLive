@@ -58,6 +58,30 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)"
                        value="<?= htmlspecialchars($event['event_theme']) ?>">
 
+                <!-- Type d'inscription -->
+                <?php 
+                $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+                $teamSize = (int) ($event['team_size'] ?? 1);
+                ?>
+                <label>Type d'inscription</label>
+                <div class="checkbox-container">
+                    <article>
+                        <input id="event-solo" type="radio" name="event_type" value="solo" <?= !$isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
+                        <label for="event-solo">Inscription individuelle</label>
+                    </article>
+                    <article>
+                        <input id="event-group" type="radio" name="event_type" value="group" <?= $isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
+                        <label for="event-group">Inscription en groupe</label>
+                    </article>
+                </div>
+
+                <!-- Taille de l'équipe -->
+                <div id="team-size-container" style="<?= $isGroupEvent ? 'display: block;' : 'display: none;' ?> margin-top: 15px;">
+                    <label for="team-size">Nombre de personnes par groupe</label>
+                    <input id="team-size" type="number" name="team_size" min="2" max="20" value="<?= $teamSize > 1 ? $teamSize : 2 ?>" placeholder="Ex: 4">
+                    <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour former un groupe</small>
+                </div>
+
                 <label for="status_participating">Qui peut venir</label>
                 <div class="checkbox-container">
                     <?php
@@ -117,5 +141,17 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
 
         </div>
     </section>
+
+<script>
+    // Toggle team size visibility based on event type
+    function toggleTeamSizeUpdate() {
+        const isGroup = document.getElementById('event-group').checked;
+        const container = document.getElementById('team-size-container');
+        container.style.display = isGroup ? 'block' : 'none';
+        if (!isGroup) {
+            document.getElementById('team-size').value = '1';
+        }
+    }
+</script>
 
 <?php end_page() ?>
