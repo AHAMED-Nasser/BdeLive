@@ -36,8 +36,8 @@ class AuthManager
     private const USER_FIRST_NAME_KEY = 'user_first_name';
     private const USER_LAST_NAME_KEY = 'user_last_name';
 
-    public function __construct(private SessionManager $session){
-        
+    public function __construct(private SessionManager $session)
+    {
     }
 
 

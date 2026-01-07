@@ -73,11 +73,11 @@ class CreateEventController extends AdminController
     public function createEvent(): void
     {
         // Validate CSRF token
-       $csrfToken = $this->request->post('csrf_token', '');
-       if (!$this->csrf->validateToken((string) $csrfToken)) {
-           $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-           $this->redirect('index.php?page=createEvent');
-       }
+        $csrfToken = $this->request->post('csrf_token', '');
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=createEvent');
+        }
 
         // Event creation logic goes here
         $eventName = (string) $this->request->post('event-name', '');

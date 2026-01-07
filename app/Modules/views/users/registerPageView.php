@@ -45,6 +45,4 @@ start_page("Inscription - BDE Inform'Aix", true, $user ?? null);
         <a href="index.php?page=home">← Retour à l'accueil</a>
     </div>
 
-<?php
-    end_page();
-?>
+<?php end_page(); ?>

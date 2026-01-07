@@ -67,6 +67,4 @@ start_page("Modification du profil", true, $user ?? null);
     </div>
 </div>
 
-<?php
-end_page();
-?>
+<?php end_page(); ?>

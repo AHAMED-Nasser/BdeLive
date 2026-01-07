@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 use App\Core\Application;
 /**
  * @param string $title
@@ -171,5 +171,4 @@ function end_page(): void
 
         </body>
 </html>
-<?php }
-?>
+<?php } ?>

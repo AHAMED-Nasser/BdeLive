@@ -34,7 +34,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $u): ?>
+                <?php foreach ($users as $u) : ?>
                     <tr style="border-bottom: 1px solid #eee;">
                         <td style="padding: 12px;"><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></td>
                         <td style="padding: 12px;"><?= htmlspecialchars($u['email']) ?></td>
@@ -47,17 +47,17 @@
                             <form method="POST">
                                 <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
                                 
-                                <?php if ($currentFilter !== 'blocked'): ?>
+                                <?php if ($currentFilter !== 'blocked') : ?>
                                     <select name="action" onchange="this.form.submit()" style="padding: 10px; border-radius: 4px; border: solid 1px black; background-color: white;">
                                         <option value="">Actions...</option>
-                                        <?php if ($u['role'] === 'admin'): ?>
+                                        <?php if ($u['role'] === 'admin') : ?>
                                             <option value="demote">Enlever droits Admin</option>
-                                        <?php else: ?>
+                                        <?php else : ?>
                                             <option value="promote">Promouvoir Admin</option>
                                         <?php endif; ?>
                                         <option value="block" style="color: red;">Bloquer l'utilisateur</option>
                                     </select>
-                                <?php else: ?>
+                                <?php else : ?>
                                     <button type="submit" name="action" value="unblock" style="background: #28a745; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer;">
                                         Débloquer
                                     </button>
@@ -70,17 +70,17 @@
         </table>
 
         <div style="margin-top: 25px; display: flex; align-items: center; gap: 15px;">
-            <?php if ($pagination->hasPrevious()): ?>
+            <?php if ($pagination->hasPrevious()) : ?>
                 <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" style="text-decoration: none; color: #007bff;">&laquo; Précédent</a>
             <?php endif; ?>
 
             <span style="color: #666;">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
 
-            <?php if ($pagination->hasNext()): ?>
+            <?php if ($pagination->hasNext()) : ?>
                 <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>" style="text-decoration: none; color: #007bff;">Suivant &raquo;</a>
             <?php endif; ?>
         </div>
     </main>
 </div>
 
-<?php end_page(); ?>
+<?php end_page();
