@@ -105,7 +105,6 @@ class ScheduleController extends DefaultController
 
         if (!$group || !array_key_exists($year, self::GROUPS)) {
             $this->response->json(['error' => 'Paramètres invalides'], 400);
-            return;
         }
 
         // Mapper l'année vers le fichier .ics correspondant
@@ -115,11 +114,10 @@ class ScheduleController extends DefaultController
             '3eme' => 'ADE3emeAnnee.ics',
         ];
 
-        $icsFile = self::ICS_DIRECTORY . ($icsFiles[$year] ?? '');
+        $icsFile = self::ICS_DIRECTORY . ($icsFiles[$year]);
 
         if (!file_exists($icsFile)) {
             $this->response->json(['error' => 'Fichier emploi du temps introuvable'], 404);
-            return;
         }
 
         $events = $this->parseIcsFile($icsFile, $group, $year);
@@ -143,14 +141,16 @@ class ScheduleController extends DefaultController
 
         // Normaliser les fins de ligne et supprimer le "line folding" (repli de ligne ADE)
         $content = preg_replace('/\r\n\s+/', '', $content); // Rejoint les lignes coupées
-        $lines = preg_split('/\r\n|\r|\n/', $content); // Découpe proprement
+        $lines = preg_split('/\r\n|\r|\n/', $content ?? '') ?: []; // Découpe proprement
 
         $events = [];
         $currentEvent = null;
 
         foreach ($lines as $line) {
             $line = trim($line);
-            if (empty($line)) continue;
+            if ($line === '') {
+                continue;
+            }
 
             if ($line === 'BEGIN:VEVENT') {
                 $currentEvent = [];
@@ -161,7 +161,7 @@ class ScheduleController extends DefaultController
                 $currentEvent = null;
             } elseif ($currentEvent !== null && str_contains($line, ':')) {
                 // Utilisation de preg_split pour éviter les erreurs sur les URL ou descriptions complexes
-                $parts = preg_split('/(?<!\\\\):/', $line, 2);
+                $parts = preg_split('/(?<!\\\\):/', $line, 2) ?: [];
                 if (count($parts) === 2) {
                     $key = $parts[0];
                     $value = str_replace(['\,', '\;'], [',', ';'], $parts[1]);
@@ -184,7 +184,7 @@ class ScheduleController extends DefaultController
      * - Les cours inter-groupes : "G1-G2"
      * - Les cours pour toute l'année : "1ère année"
      *
-     * @param array $event Événement .ics
+     * @param array<string, string> $event Événement .ics
      * @param string $group Demi-groupe sélectionné (ex: "G1A")
      * @param string $year Année sélectionnée (ex: "1ere") - non utilisé
      * @return bool True si l'événement concerne ce demi-groupe
@@ -243,6 +243,8 @@ class ScheduleController extends DefaultController
 
     /**
      * Formate un événement .ics pour FullCalendar
+     * @param array<string,string> $event Événement .ics (clé/valeur)
+     * @return array<string, mixed> Événement formaté pour FullCalendar
      */
     private function formatEventForFullCalendar(array $event): array
     {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Vue de la page emploi du temps
- * * @var array $groups
+ * @var array<string, array{name: string, groups: array<string, string>}> $groups
  * @var string $selectedYear
  * @var string $selectedGroup
  */
