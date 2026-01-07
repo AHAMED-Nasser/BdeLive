@@ -876,6 +876,30 @@
     .schedule-container {
         padding: 0 0.5rem;
         margin: 1rem auto;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .calendar-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1rem 0.5rem;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    #calendar {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        overflow-x: hidden !important;
+    }
+
+    .fc {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
     }
 
     .schedule-header {
@@ -1034,35 +1058,96 @@
     }
 
     /* Vue Liste (listWeek) - Mobile */
+    .fc-listWeek-view {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .fc-listWeek-view .fc-view-harness {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .fc-listWeek-view .fc-scroller {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    .fc-listWeek-view .fc-scroller-liquid-absolute {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
     .fc-listWeek-view .fc-list-table {
         font-size: 0.85rem;
+        width: 100% !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+        box-sizing: border-box !important;
     }
 
     .fc-listWeek-view .fc-list-day {
         font-size: 0.9rem;
         padding: 0.5rem;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
     .fc-listWeek-view .fc-list-day-cushion {
         padding: 0.5rem 0.75rem;
         font-weight: 600;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
 
     .fc-listWeek-view .fc-list-event {
         font-size: 0.8rem;
         padding: 0.5rem 0.75rem;
         margin: 0.25rem 0;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: table-row !important;
+    }
+
+    .fc-listWeek-view .fc-list-event td {
+        padding: 0.5rem 0.5rem !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 0 !important;
     }
 
     .fc-listWeek-view .fc-list-event-title {
         font-size: 0.85rem;
         font-weight: 500;
         margin-bottom: 0.25rem;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
     }
 
     .fc-listWeek-view .fc-list-event-time {
         font-size: 0.75rem;
         opacity: 0.9;
+        white-space: nowrap;
+    }
+
+    /* Forcer la largeur des colonnes de la table */
+    .fc-listWeek-view .fc-list-table th,
+    .fc-listWeek-view .fc-list-table td {
+        width: auto !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+    }
+
+    /* Colonne de temps plus petite sur mobile */
+    .fc-listWeek-view .fc-list-event-time {
+        width: 60px !important;
+        min-width: 60px !important;
+        max-width: 60px !important;
     }
 
     /* Légende */
@@ -1250,5 +1335,41 @@
 
     .legend-label {
         font-size: 0.75rem;
+    }
+
+    /* Vue Liste (listWeek) - Très petits écrans */
+    .fc-listWeek-view .fc-list-table {
+        font-size: 0.75rem;
+    }
+
+    .fc-listWeek-view .fc-list-day {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+
+    .fc-listWeek-view .fc-list-day-cushion {
+        padding: 0.4rem 0.5rem;
+    }
+
+    .fc-listWeek-view .fc-list-event {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.5rem;
+        margin: 0.2rem 0;
+    }
+
+    .fc-listWeek-view .fc-list-event-title {
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .fc-listWeek-view .fc-list-event-time {
+        font-size: 0.65rem;
+        width: 50px !important;
+        min-width: 50px !important;
+        max-width: 50px !important;
+    }
+
+    .fc-listWeek-view .fc-list-event td {
+        padding: 0.3rem 0.4rem !important;
     }
 }
