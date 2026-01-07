@@ -40,7 +40,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
 <main>
     <?php if (isset($user) && $user !== null) : ?>
         <div class="alert alert-info">
-            Bienvenue, <?= htmlspecialchars($user['first_name'] ?? '') ?> <?= htmlspecialchars($user['last_name'] ?? '') ?> (BUT <?= htmlspecialchars($user['user_status'] ?? '') ?>) !
+            Bienvenue, <?= htmlspecialchars($user['first_name'] ?? '') ?> <?= htmlspecialchars($user['last_name'] ?? '')?> (<?= htmlspecialchars($user['user_status'] ?? '') ?>) !
             <a href="index.php?page=logout">Se déconnecter</a>
         </div>
     <?php endif; ?>
