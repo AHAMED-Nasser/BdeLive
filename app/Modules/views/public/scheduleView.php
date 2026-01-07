@@ -153,14 +153,38 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
 
             <?php if ($selectedGroup) : ?>
             const calendarEl = document.getElementById('calendar');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'timeGridWeek',
-                locale: 'fr',
-                headerToolbar: {
+            
+            // Détection mobile
+            const isMobile = window.innerWidth <= 767;
+            
+            // Configuration responsive de la toolbar
+            const getHeaderToolbar = () => {
+                if (isMobile) {
+                    return {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
+                    };
+                }
+                return {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'timeGridWeek,timeGridDay,listWeek'
-                },
+                };
+            };
+            
+            // Vue initiale responsive
+            const getInitialView = () => {
+                if (isMobile) {
+                    return 'listWeek'; // Vue liste par défaut sur mobile
+                }
+                return 'timeGridWeek';
+            };
+            
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: getInitialView(),
+                locale: 'fr',
+                headerToolbar: getHeaderToolbar(),
                 buttonText: {
                     today: "Aujourd'hui",
                     week: 'Semaine',
@@ -174,6 +198,9 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                 weekends: false,
                 allDaySlot: false,
                 height: 'auto',
+                // Options responsive
+                contentHeight: 'auto',
+                aspectRatio: isMobile ? 1.5 : 1.8,
                 events: function(info, successCallback, failureCallback) {
                     fetch(`index.php?page=schedule&action=get-events&year=<?= urlencode($selectedYear) ?>&group=<?= urlencode($selectedGroup) ?>`)
                         .then(response => response.json())
@@ -248,7 +275,58 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                     }
                 }
             });
+            
             calendar.render();
+            
+            // Ajouter un menu de sélection de vue sur mobile
+            if (isMobile) {
+                const toolbar = calendarEl.querySelector('.fc-toolbar');
+                if (toolbar) {
+                    const viewSelector = document.createElement('div');
+                    viewSelector.className = 'fc-view-selector-mobile';
+                    viewSelector.style.cssText = 'display: flex; gap: 0.5rem; margin-top: 0.5rem; justify-content: center; flex-wrap: wrap; padding: 0.5rem;';
+                    
+                    const views = [
+                        { key: 'listWeek', label: 'Liste' },
+                        { key: 'timeGridDay', label: 'Jour' },
+                        { key: 'timeGridWeek', label: 'Semaine' }
+                    ];
+                    
+                    views.forEach(view => {
+                        const btn = document.createElement('button');
+                        btn.className = 'fc-button fc-button-primary';
+                        btn.textContent = view.label;
+                        btn.style.cssText = 'padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: 4px; cursor: pointer;';
+                        
+                        if (calendar.view.type === view.key) {
+                            btn.classList.add('fc-button-active');
+                        }
+                        
+                        btn.addEventListener('click', () => {
+                            calendar.changeView(view.key);
+                            viewSelector.querySelectorAll('button').forEach(b => b.classList.remove('fc-button-active'));
+                            btn.classList.add('fc-button-active');
+                        });
+                        
+                        viewSelector.appendChild(btn);
+                    });
+                    
+                    toolbar.appendChild(viewSelector);
+                }
+            }
+            
+            // Adapter la toolbar lors du redimensionnement
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    const newIsMobile = window.innerWidth <= 767;
+                    if (newIsMobile !== isMobile) {
+                        location.reload(); // Recharger pour appliquer la nouvelle configuration
+                    }
+                }, 250);
+            });
+            
             <?php endif; ?>
         });
         
