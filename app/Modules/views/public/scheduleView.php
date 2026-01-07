@@ -15,6 +15,23 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/locales/fr.global.min.js'></script>
 
+    <!-- Modal pour les détails d'événement -->
+    <div id="event-modal" class="event-modal" style="display: none;">
+        <div class="event-modal-overlay"></div>
+        <div class="event-modal-content">
+            <button class="event-modal-close" aria-label="Fermer">&times;</button>
+            <div class="event-modal-header">
+                <h2 id="event-modal-title"></h2>
+            </div>
+            <div class="event-modal-body">
+                <div id="event-modal-details"></div>
+            </div>
+            <div class="event-modal-footer">
+                <button class="event-modal-button" id="event-modal-ok">OK</button>
+            </div>
+        </div>
+    </div>
+
     <main class="schedule-container">
         <?php if (!empty($flash['error'])) : ?>
             <div class="alert alert-danger">
@@ -168,14 +185,30 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                 },
                 eventClick: function(info) {
                     const event = info.event;
-                    let content = `<strong>${event.title}</strong>\n`;
-                    if (event.extendedProps.location) content += `📍 ${event.extendedProps.location}\n`;
-                    if (event.extendedProps.teacher) content += `👨‍🏫 ${event.extendedProps.teacher}\n`;
-
+                    const modal = document.getElementById('event-modal');
+                    const modalTitle = document.getElementById('event-modal-title');
+                    const modalDetails = document.getElementById('event-modal-details');
+                    
+                    // Remplir le titre
+                    modalTitle.textContent = event.title;
+                    
+                    // Construire les détails
+                    let detailsHTML = '';
+                    if (event.extendedProps.location) {
+                        detailsHTML += `<div class="event-detail-item"><span class="event-detail-icon">📍</span><span class="event-detail-text">${event.extendedProps.location}</span></div>`;
+                    }
+                    if (event.extendedProps.teacher) {
+                        detailsHTML += `<div class="event-detail-item"><span class="event-detail-icon">👨‍🏫</span><span class="event-detail-text">${event.extendedProps.teacher}</span></div>`;
+                    }
+                    
                     const options = { hour: '2-digit', minute: '2-digit' };
-                    content += `🕐 ${event.start.toLocaleTimeString('fr-FR', options)} - ${event.end.toLocaleTimeString('fr-FR', options)}`;
-
-                    alert(content);
+                    const timeText = `${event.start.toLocaleTimeString('fr-FR', options)} - ${event.end.toLocaleTimeString('fr-FR', options)}`;
+                    detailsHTML += `<div class="event-detail-item"><span class="event-detail-icon">🕐</span><span class="event-detail-text">${timeText}</span></div>`;
+                    
+                    modalDetails.innerHTML = detailsHTML;
+                    
+                    // Afficher la modal
+                    modal.style.display = 'flex';
                 },
                 eventContent: function(arg) {
                     const location = arg.event.extendedProps.location;
@@ -190,6 +223,35 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
             });
             calendar.render();
             <?php endif; ?>
+        });
+        
+        // Gestion de la modal d'événement
+        const eventModal = document.getElementById('event-modal');
+        const eventModalClose = document.querySelector('.event-modal-close');
+        const eventModalOk = document.getElementById('event-modal-ok');
+        const eventModalOverlay = document.querySelector('.event-modal-overlay');
+        
+        function closeEventModal() {
+            eventModal.style.display = 'none';
+        }
+        
+        if (eventModalClose) {
+            eventModalClose.addEventListener('click', closeEventModal);
+        }
+        
+        if (eventModalOk) {
+            eventModalOk.addEventListener('click', closeEventModal);
+        }
+        
+        if (eventModalOverlay) {
+            eventModalOverlay.addEventListener('click', closeEventModal);
+        }
+        
+        // Fermer avec la touche Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && eventModal.style.display === 'flex') {
+                closeEventModal();
+            }
         });
     </script>
 

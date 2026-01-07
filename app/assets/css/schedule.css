@@ -7,30 +7,32 @@
 }
 
 .schedule-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: var(--gradient-sidebar);
+    color: var(--text-inverse);
     padding: 2rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--shadow-md);
 }
 
 .schedule-header h1 {
     margin: 0 0 0.5rem 0;
     font-size: 2rem;
+    color: var(--text-inverse);
 }
 
 .schedule-header p {
     margin: 0;
     opacity: 0.9;
+    color: var(--text-inverse);
 }
 
 .schedule-filters {
-    background: white;
+    background: var(--bg-card);
     padding: 1.5rem;
     border-radius: 12px;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 .filter-group {
@@ -45,28 +47,30 @@
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .filter-group select {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     transition: border-color 0.3s;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
 }
 
 .filter-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: var(--color-primary);
 }
 
 .calendar-wrapper {
-    background: white;
+    background: var(--bg-card);
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px var(--shadow-sm);
 }
 
 #calendar {
@@ -77,17 +81,19 @@
 .fc-toolbar-title {
     font-size: 1.5rem !important;
     font-weight: 600 !important;
+    color: var(--text-primary) !important;
 }
 
 .fc-button {
-    background-color: #667eea !important;
-    border-color: #667eea !important;
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
     text-transform: capitalize !important;
+    color: var(--text-inverse) !important;
 }
 
 .fc-button:hover {
-    background-color: #5568d3 !important;
-    border-color: #5568d3 !important;
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
 }
 
 .fc-button:disabled {
@@ -104,16 +110,353 @@
     margin: 2px 0;
 }
 
+/* ===== STYLES POUR LES ÉVÉNEMENTS EN MODE SOMBRE ===== */
+.dark-mode .fc-event {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-main {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-title {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-time {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-title-container {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-main-frame {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event:hover {
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+}
+
+/* Événements dans la vue daygrid (month) */
+.dark-mode .fc-daygrid-event {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-daygrid-event:hover {
+    background-color: var(--color-primary-hover) !important;
+}
+
+.dark-mode .fc-daygrid-event-dot {
+    border-color: var(--text-inverse) !important;
+}
+
+/* Événements dans la vue timegrid (week/day) */
+.dark-mode .fc-timegrid-event {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event:hover {
+    background-color: var(--color-primary-hover) !important;
+}
+
+.dark-mode .fc-timegrid-event-short {
+    background-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event .fc-event-main {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event .fc-event-title {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event .fc-event-time {
+    color: var(--text-inverse) !important;
+}
+
+/* Adaptation FullCalendar pour le mode sombre */
+.dark-mode .fc {
+    color: var(--text-primary);
+}
+
+.dark-mode .fc-theme-standard td,
+.dark-mode .fc-theme-standard th {
+    border-color: var(--border-color);
+}
+
+.dark-mode .fc-theme-standard .fc-scrollgrid {
+    border-color: var(--border-color);
+}
+
+.dark-mode .fc-col-header-cell {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+/* Désactiver le style de lien dans le calendrier */
+.fc-col-header-cell a,
+.fc-col-header-cell-cushion,
+.fc-daygrid-day-number a,
+.fc-daygrid-day-top a {
+    text-decoration: none !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+.fc-col-header-cell a:hover,
+.fc-col-header-cell-cushion:hover,
+.fc-daygrid-day-number a:hover,
+.fc-daygrid-day-top a:hover {
+    text-decoration: none !important;
+    cursor: default !important;
+    color: inherit !important;
+}
+
+.dark-mode .fc-daygrid-day {
+    background-color: var(--bg-card);
+}
+
+.dark-mode .fc-daygrid-day-top {
+    color: var(--text-primary);
+}
+
+.dark-mode .fc-day-today {
+    background-color: var(--bg-hover) !important;
+}
+
+.dark-mode .fc-daygrid-day-number {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    color: var(--color-primary) !important;
+    font-weight: bold;
+}
+
+/* Force les numéros de jours en blanc pour la vue month */
+.dark-mode .fc-daygrid-day-top a {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-daygrid-day-number,
+.dark-mode .fc-daygrid-day-number a {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-day-other .fc-daygrid-day-top {
+    opacity: 0.5;
+}
+
+/* ===== STYLES POUR LA VUE WEEK (timeGridWeek) ===== */
+.dark-mode .fc-timegrid-slot-label {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col-header {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col-header-cell {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-timegrid-col-header-cell-cushion {
+    color: var(--text-primary) !important;
+}
+
+/* Désactiver le style de lien dans la vue week */
+.fc-timegrid-col-header-cell a,
+.fc-timegrid-col-header-cell-cushion {
+    text-decoration: none !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+.fc-timegrid-col-header-cell a:hover,
+.fc-timegrid-col-header-cell-cushion:hover {
+    text-decoration: none !important;
+    cursor: default !important;
+    color: inherit !important;
+}
+
+.dark-mode .fc-timegrid-slot {
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-timegrid-axis {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-timegrid-axis-cushion {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-timegrid-col-frame {
+    border-color: var(--border-color) !important;
+}
+
+/* ===== STYLES POUR LA VUE DAY (timeGridDay) ===== */
+.dark-mode .fc-timeGridDay-view .fc-timegrid-slot-label,
+.dark-mode .fc-timeGridDay-view .fc-timegrid-col-header {
+    color: var(--text-primary) !important;
+}
+
+/* ===== STYLES POUR LA VUE LISTE (listWeek) ===== */
+.dark-mode .fc-list {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-day {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-list-day * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-day-cushion {
+    color: var(--text-primary) !important;
+}
+
+/* Désactiver le style de lien dans la vue liste */
+.fc-list-day a,
+.fc-list-day-cushion {
+    text-decoration: none !important;
+    cursor: default !important;
+    pointer-events: none !important;
+}
+
+.fc-list-day a:hover,
+.fc-list-day-cushion:hover {
+    text-decoration: none !important;
+    cursor: default !important;
+    color: inherit !important;
+}
+
+.dark-mode .fc-list-event {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.dark-mode .fc-list-event * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover .fc-list-event-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover .fc-list-event-time {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover .fc-list-event-dot {
+    border-color: var(--color-primary) !important;
+}
+
+.dark-mode .fc-list-event-title {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event-time {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event-dot {
+    border-color: var(--color-primary) !important;
+}
+
+.dark-mode .fc-list-table {
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-table * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-table td {
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+    background-color: var(--bg-card) !important;
+}
+
+.dark-mode .fc-list-table td * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event td {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event td * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover td {
+    background-color: var(--bg-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-event:hover td * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-table th {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
 .no-group-selected {
     text-align: center;
     padding: 3rem;
-    color: #666;
+    color: var(--text-tertiary);
 }
 
 .no-group-selected i {
     font-size: 4rem;
     margin-bottom: 1rem;
-    color: #ccc;
+    color: var(--text-muted);
 }
 
 /* Legend */
@@ -123,7 +466,7 @@
     gap: 1rem;
     margin-top: 1rem;
     padding: 1rem;
-    background: #f8f9fa;
+    background: var(--bg-secondary);
     border-radius: 8px;
 }
 
@@ -141,7 +484,151 @@
 
 .legend-label {
     font-size: 0.9rem;
-    color: #555;
+    color: var(--text-secondary);
+}
+
+/* ===== MODAL POUR LES DÉTAILS D'ÉVÉNEMENT ===== */
+.event-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+.event-modal-content {
+    position: relative;
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--shadow-lg);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 10001;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.event-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    line-height: 1;
+    padding: 0;
+}
+
+.event-modal-close:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+.event-modal-header {
+    padding: 24px 24px 16px 24px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.event-modal-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.event-modal-body {
+    padding: 20px 24px;
+}
+
+.event-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.event-detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.event-detail-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.event-detail-text {
+    color: var(--text-primary);
+    font-size: 1rem;
+    flex: 1;
+}
+
+.event-modal-footer {
+    padding: 16px 24px 24px 24px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.event-modal-button {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.event-modal-button:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--shadow-md);
+}
+
+.event-modal-button:active {
+    transform: translateY(0);
 }
 
 /* Responsive */
