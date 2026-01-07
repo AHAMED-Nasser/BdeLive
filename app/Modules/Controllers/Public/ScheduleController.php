@@ -219,7 +219,7 @@ class ScheduleController extends DefaultController
                 return true;
             }
         }
-
+        
         //Format 2ème/3ème année (ex: GA1-1 ou GB-2)
         elseif (preg_match('/^(G[A-B]\d?)-(\d)$/', $group, $matches)) {
             $parentGroup = $matches[1]; // ex: "GA1" ou "GB"
