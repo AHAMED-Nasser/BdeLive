@@ -115,7 +115,9 @@ class EventRegistrationRepository
         return $results ?: [];
     }
 
-    // get inscription user by event ID
+    /**
+     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
+     */
     public function getRegistrationsByEventId(int $eventId): array
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
@@ -124,7 +126,7 @@ class EventRegistrationRepository
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['event_id' => $eventId]);
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }

@@ -69,9 +69,6 @@ class UserManager
     }
 
     /**
-     * Find a user by email address
-     *
-     * @param string $email
      * @return array{
      * user_id: int,
      * last_name: string,
@@ -80,7 +77,7 @@ class UserManager
      * email: string,
      * password: string,
      * role: string,
-     * is_blocked: int|string
+     * is_blocked: int|string,
      * is_verified: int
      * }|false
      */
