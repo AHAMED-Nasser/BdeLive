@@ -311,8 +311,8 @@ class UserManager
 
 
     /**
-    * Récupère les utilisateurs paginés en fonction de l'état de blocage
-    */
+     * @return array<int, array<string, mixed>>
+     */
     public function getAllUsersPaginated(int $limit, int $offset, bool $isBlocked = false): array
     {
         try {

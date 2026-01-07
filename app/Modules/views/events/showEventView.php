@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var bool $isAdmin
  * @var array<string, mixed> $event
  * @var int|null $userId
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
