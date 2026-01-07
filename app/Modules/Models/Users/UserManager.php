@@ -353,13 +353,14 @@ class UserManager
     /**
      * Change le rôle d'un utilisateur (ex: 'admin' ou 'user')
      */
-    public function updateUserRole(int $userId, string $role): bool 
+    public function updateUserRole(int $userId, string $role): bool
     {
         $query = 'UPDATE USERS SET role = :role WHERE user_id = :id';
         return $this->pdo->prepare($query)->execute(['role' => $role, 'id' => $userId]);
     }
 
-    public function setBlockStatus(int $userId, int $status): bool {
+    public function setBlockStatus(int $userId, int $status): bool
+    {
         $query = 'UPDATE USERS SET is_blocked = :status WHERE user_id = :id';
         return $this->pdo->prepare($query)->execute(['status' => $status, 'id' => $userId]);
     }
