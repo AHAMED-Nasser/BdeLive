@@ -78,8 +78,15 @@ class LoginController extends DefaultController
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);
 
+        if ($user === false) {
+            return;
+        }
+
+        $isBlocked = (int) ($user['is_blocked'] ?? 0);
+        $role = $user['role'] ?? 'user';
+
         // Verify if user blocked or not
-        if ((int)$user['is_blocked'] === 1) {
+        if ($isBlocked === 1) {
             $this->setError('Votre compte a été bloqué. Veuillez contacter l\'administrateur.');
             $this->render('users/loginPageView');
             return;
@@ -97,8 +104,8 @@ class LoginController extends DefaultController
             (int) $user['user_id'],
             $user['user_status'],
             $user['email'],
-            $user['role'],
-            (int) $user['is_blocked'],
+            $role,
+            $isBlocked,
             $user['first_name'],
             $user['last_name']
         );
