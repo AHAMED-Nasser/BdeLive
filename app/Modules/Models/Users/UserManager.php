@@ -69,20 +69,17 @@ class UserManager
     /**
      * Find a user by email address
      *
-     * Searches for a user in the database using their email address.
-     * Returns all user information including the hashed password.
-     *
-     * @param string $email The email address to search for
+     * @param string $email
      * @return array{
-     *     user_id: int,
-     *     last_name: string,
-     *     first_name: string,
-     *     user_status: string,
-     *     email: string,
-     *     password: string
+     * user_id: int,
+     * last_name: string,
+     * first_name: string,
+     * user_status: string,
+     * email: string,
+     * password: string,
+     * role: string,
+     * is_blocked: int|string
      * }|false
-     * Array containing user data if found, false otherwise
-     * @throws PDOException If database query fails
      */
     public function findUserByEmail(string $email): array|false
     {
