@@ -219,6 +219,33 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                     if (location) html += `<div style="font-size: 0.85em; opacity: 0.9;">📍 ${location}</div>`;
                     html += `</div></div>`;
                     return { html: html };
+                },
+                eventDidMount: function(arg) {
+                    // S'assurer que les couleurs sont appliquées dans la vue liste
+                    if (arg.view.type === 'listWeek') {
+                        const eventEl = arg.el;
+                        const bgColor = arg.event.backgroundColor;
+                        const borderColor = arg.event.borderColor || bgColor;
+                        
+                        if (bgColor && eventEl) {
+                            // Appliquer la couleur sur .fc-list-event lui-même
+                            eventEl.style.backgroundColor = bgColor;
+                            eventEl.style.borderColor = borderColor;
+                            
+                            // Appliquer la couleur aux cellules td
+                            const tds = eventEl.querySelectorAll('td');
+                            tds.forEach(td => {
+                                td.style.backgroundColor = bgColor;
+                                td.style.color = '#ffffff'; // Texte blanc en mode sombre
+                            });
+                            
+                            // S'assurer que le texte dans les éléments enfants est blanc
+                            const textElements = eventEl.querySelectorAll('.fc-event-title, .fc-event-time, .fc-list-event-time, .fc-list-event-title');
+                            textElements.forEach(el => {
+                                el.style.color = '#ffffff';
+                            });
+                        }
+                    }
                 }
             });
             calendar.render();

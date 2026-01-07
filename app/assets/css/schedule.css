@@ -104,6 +104,32 @@
     cursor: pointer;
     border-radius: 4px;
     padding: 2px 4px;
+    transition: transform 0.2s ease, z-index 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.fc-event:hover {
+    transform: scale(1.02);
+    z-index: 10 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Gestion du texte dans les événements */
+.fc-event-main,
+.fc-event-main-frame,
+.fc-event-title-container,
+.fc-event-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.fc-event:hover .fc-event-title {
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 .fc-daygrid-event {
@@ -111,11 +137,15 @@
 }
 
 /* ===== STYLES POUR LES ÉVÉNEMENTS EN MODE SOMBRE ===== */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    /* Les styles inline de FullCalendar (backgroundColor, borderColor) ont priorité */
     color: var(--text-inverse) !important;
 }
+
+/* Les styles inline de FullCalendar (backgroundColor, borderColor) ont automatiquement priorité */
+/* Pas besoin de règles supplémentaires, les couleurs personnalisées sont préservées */
 
 .dark-mode .fc-event-main {
     color: var(--text-inverse) !important;
@@ -138,19 +168,20 @@
 }
 
 .dark-mode .fc-event:hover {
-    background-color: var(--color-primary-hover) !important;
-    border-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Événements dans la vue daygrid (month) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-daygrid-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-daygrid-event:hover {
-    background-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .dark-mode .fc-daygrid-event-dot {
@@ -158,19 +189,207 @@
 }
 
 /* Événements dans la vue timegrid (week/day) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-timegrid-event {
-    background-color: var(--color-primary) !important;
-    border-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+    overflow: hidden !important;
+}
+
+/* Assurer que le texte reste lisible sur les couleurs personnalisées */
+.dark-mode .fc-timegrid-event .fc-event-main,
+.dark-mode .fc-timegrid-event .fc-event-main-frame,
+.dark-mode .fc-timegrid-event .fc-event-title-container,
+.dark-mode .fc-timegrid-event .fc-event-title,
+.dark-mode .fc-timegrid-event .fc-event-time {
     color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-timegrid-event:hover {
-    background-color: var(--color-primary-hover) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* Contrôle du débordement du texte dans les événements timegrid */
+.fc-timegrid-event {
+    overflow: hidden !important;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event .fc-event-main-frame {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event .fc-event-title-container {
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event .fc-event-title {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event .fc-event-time {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 0.85em;
+}
+
+/* Au survol, permettre l'affichage complet mais avec gestion du débordement */
+.fc-timegrid-event:hover {
+    overflow: visible;
+}
+
+.fc-timegrid-event:hover .fc-event-title {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow: visible;
+}
+
+.fc-timegrid-event:hover .fc-event-time {
+    white-space: normal;
+    word-wrap: break-word;
+    overflow: visible;
+}
+
+/* ===== GESTION DU CHEVAUCHEMENT DES ÉVÉNEMENTS ===== */
+/* Style par défaut pour les événements qui se chevauchent */
+.fc-timegrid-event {
+    position: relative;
+    transition: transform 0.2s ease, z-index 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Agrandissement et élévation au survol pour les événements qui se chevauchent */
+.fc-timegrid-event:hover {
+    transform: scale(1.05);
+    z-index: 10 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    min-width: fit-content;
+    max-width: none;
+}
+
+/* Style compact pour les événements courts qui se chevauchent */
+.fc-timegrid-event-short {
+    position: relative;
+    transition: transform 0.2s ease, z-index 0.2s ease, box-shadow 0.2s ease, width 0.2s ease;
+    z-index: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Agrandissement au survol pour les événements courts */
+.fc-timegrid-event-short:hover {
+    transform: scale(1.1);
+    z-index: 10 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    min-width: fit-content;
+    max-width: none;
+}
+
+/* Gestion du texte dans les événements timegrid */
+.fc-timegrid-event .fc-event-main,
+.fc-timegrid-event .fc-event-main-frame,
+.fc-timegrid-event .fc-event-title-container {
+    overflow: hidden;
+    max-width: 100%;
+}
+
+.fc-timegrid-event .fc-event-title,
+.fc-timegrid-event .fc-event-time {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    display: block;
+}
+
+/* Au survol, permettre l'affichage complet du texte */
+.fc-timegrid-event:hover .fc-event-title,
+.fc-timegrid-event:hover .fc-event-time {
+    white-space: normal;
+    word-wrap: break-word;
+    text-overflow: clip;
+}
+
+.fc-timegrid-event-short:hover .fc-event-title,
+.fc-timegrid-event-short:hover .fc-event-time {
+    white-space: normal;
+    word-wrap: break-word;
+    text-overflow: clip;
+}
+
+/* Style pour les événements avec overlap (FullCalendar ajoute cette classe automatiquement) */
+.fc-timegrid-event-mirror,
+.fc-timegrid-event.fc-event-mirror {
+    z-index: 999 !important;
+}
+
+
 .dark-mode .fc-timegrid-event-short {
-    background-color: var(--color-primary) !important;
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
     color: var(--text-inverse) !important;
+    overflow: hidden !important;
+}
+
+.dark-mode .fc-timegrid-event-short .fc-event-main,
+.dark-mode .fc-timegrid-event-short .fc-event-main-frame,
+.dark-mode .fc-timegrid-event-short .fc-event-title-container,
+.dark-mode .fc-timegrid-event-short .fc-event-title,
+.dark-mode .fc-timegrid-event-short .fc-event-time {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event-short:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Contrôle du débordement pour les événements courts */
+.fc-timegrid-event-short {
+    overflow: hidden !important;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event-short .fc-event-main-frame,
+.fc-timegrid-event-short .fc-event-title-container,
+.fc-timegrid-event-short .fc-event-title,
+.fc-timegrid-event-short .fc-event-time {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.fc-timegrid-event-short:hover {
+    overflow: visible;
+}
+
+.fc-timegrid-event-short:hover .fc-event-title,
+.fc-timegrid-event-short:hover .fc-event-time {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow: visible;
 }
 
 .dark-mode .fc-timegrid-event .fc-event-main {
@@ -328,7 +547,9 @@
     color: var(--text-primary) !important;
 }
 
-.dark-mode .fc-list * {
+/* Ne pas appliquer de couleur générale à tous les enfants, 
+   laisser les événements définir leur propre couleur */
+.dark-mode .fc-list > * {
     color: var(--text-primary) !important;
 }
 
@@ -361,84 +582,87 @@
     color: inherit !important;
 }
 
+/* En mode sombre, on préserve les couleurs personnalisées des événements dans la vue liste */
+/* FullCalendar applique backgroundColor et borderColor via styles inline sur .fc-list-event */
 .dark-mode .fc-list-event {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
-    border-color: var(--border-color) !important;
+    /* Ne PAS forcer background-color, laisser les styles inline de FullCalendar s'appliquer */
+    /* Les couleurs personnalisées sont définies via backgroundColor dans ScheduleController */
+    color: var(--text-inverse) !important;
+    /* La bordure utilise borderColor défini par FullCalendar */
 }
 
 .dark-mode .fc-list-event * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .dark-mode .fc-list-event:hover * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover .fc-list-event-title {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover .fc-list-event-time {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
-.dark-mode .fc-list-event:hover .fc-list-event-dot {
-    border-color: var(--color-primary) !important;
-}
+/* Le dot utilise la couleur de bordure de l'événement (définie via borderColor) */
+/* La couleur de bordure est déjà définie par borderColor inline, on la préserve automatiquement */
 
 .dark-mode .fc-list-event-title {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event-time {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
-.dark-mode .fc-list-event-dot {
-    border-color: var(--color-primary) !important;
-}
+/* Le dot utilise automatiquement la couleur de bordure de l'événement via borderColor */
 
 .dark-mode .fc-list-table {
     border-color: var(--border-color) !important;
     color: var(--text-primary) !important;
 }
 
-.dark-mode .fc-list-table * {
+/* Les éléments de structure de la table (hors événements) */
+.dark-mode .fc-list-table th {
     color: var(--text-primary) !important;
 }
 
+/* Les cellules des événements héritent de la couleur de l'événement */
+/* Règle générale pour les td de la table - ne pas forcer de background */
 .dark-mode .fc-list-table td {
     border-color: var(--border-color) !important;
-    color: var(--text-primary) !important;
-    background-color: var(--bg-card) !important;
-}
-
-.dark-mode .fc-list-table td * {
-    color: var(--text-primary) !important;
+    /* Ne pas forcer background-color, laisser les événements définir leur propre couleur */
 }
 
 .dark-mode .fc-list-event td {
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+    /* Hériter de la couleur de fond de l'événement parent (définie via backgroundColor) */
+    color: var(--text-inverse) !important;
+    /* Hériter du background-color de .fc-list-event qui a les styles inline de FullCalendar */
+    background-color: inherit !important;
 }
 
+
+
 .dark-mode .fc-list-event td * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-event:hover td {
-    background-color: var(--bg-hover) !important;
-    color: var(--text-primary) !important;
+    /* Ne pas forcer la couleur, juste l'effet hover avec box-shadow */
+    color: var(--text-inverse) !important;
+    background-color: inherit !important;
 }
 
 .dark-mode .fc-list-event:hover td * {
-    color: var(--text-primary) !important;
+    color: var(--text-inverse) !important;
 }
 
 .dark-mode .fc-list-table th {
