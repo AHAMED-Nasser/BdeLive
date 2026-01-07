@@ -174,4 +174,5 @@ function end_page(): void
 
         </body>
 </html>
-<?php } ?>
+<?php }
+?>
