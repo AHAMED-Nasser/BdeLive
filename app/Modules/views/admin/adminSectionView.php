@@ -1,7 +1,9 @@
 <?php 
+
 /** @var array<string, mixed> $users */
 /** @var string $currentFilter */
 /** @var \App\Modules\Helpers\Pagination $pagination */
+
 start_page("Administration", true, $user ?? null); ?>
 
 <div style="display: flex; gap: 20px; margin-top: 20px;">
@@ -88,3 +90,4 @@ start_page("Administration", true, $user ?? null); ?>
 </div>
 
 <?php end_page();
+?>
