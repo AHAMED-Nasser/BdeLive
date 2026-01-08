@@ -46,12 +46,12 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
     <?php endif; ?>
 
     <section class="hero">
-        <h1 id="hero-title">BDE INFORM'AIX</h1>
+        <h1 id="hero-title">BDELive</h1>
         <p>Site officiel du BDE, BUT Informatique Aix-en-Provence</p>
     </section>
 
     <section class="future-event">
-        <h2 class="title">Événement à venir</h2>
+        <h2 class="title" style="display: flex; justify-content: center; padding: 45px 0; font-size: 2.5rem; font-weight: bold">Événement à venir</h2>
         <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
     </section>
 
