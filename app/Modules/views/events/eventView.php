@@ -1086,7 +1086,7 @@ $userId = $user['user_id'] ?? null;
 
                 <div style="margin-top: 15px;">
                     <a href="index.php?page=showEvent&id=<?= $event['event_id'] ?>" class="btn-more" style="color: #1299ff; font-weight: bold; text-decoration: none;">
-                        Voir les détails et s'inscrire →
+                        Voir les détails
                     </a>
                 </div>
             </div>
