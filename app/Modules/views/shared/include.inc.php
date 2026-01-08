@@ -191,7 +191,6 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <?php else : ?>
                     <li><a href="index.php?page=login">Connexion</a></li>
                     <li><a href="index.php?page=register">Inscription</a></li>
-                    <li><a href="index.php?page=event">Evénements</a></li>
                     <!-- Dark Mode Toggle -->
                     <li>
                         <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
