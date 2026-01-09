@@ -597,4 +597,345 @@ class UserManagerTest extends TestCase
         $this->assertEquals($expectedUser, $result);
         $this->assertArrayHasKey('is_verified', $result);
     }
+
+    // ==================== Tests pour getUsers() ====================
+
+    public function testGetUsersReturnsActiveUsersWithoutFilters(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 1, 'last_name' => 'AHAMED', 'first_name' => 'Nasser', 'email' => 'nasser@test.com', 'role' => 'admin', 'is_blocked' => 0],
+            ['user_id' => 2, 'last_name' => 'HELALI', 'first_name' => 'Amin', 'email' => 'amin@test.com', 'role' => 'user', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockStmt->expects($this->exactly(3))
+            ->method('bindValue');
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'all', '');
+        
+        $this->assertCount(2, $result);
+        $this->assertEquals($expectedUsers, $result);
+    }
+
+    public function testGetUsersFiltersAdminsOnly(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 1, 'last_name' => 'AHAMED', 'first_name' => 'Nasser', 'email' => 'nasser@test.com', 'role' => 'admin', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockStmt->expects($this->exactly(4))
+            ->method('bindValue');
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('AND role = :role'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'admin', '');
+        
+        $this->assertCount(1, $result);
+        $this->assertEquals('admin', $result[0]['role']);
+    }
+
+    public function testGetUsersFiltersUsersOnly(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 2, 'last_name' => 'HELALI', 'first_name' => 'Amin', 'email' => 'amin@test.com', 'role' => 'user', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('AND role = :role'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'user', '');
+        
+        $this->assertCount(1, $result);
+        $this->assertEquals('user', $result[0]['role']);
+    }
+
+    public function testGetUsersSearchesByLastName(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 1, 'last_name' => 'AHAMED', 'first_name' => 'Nasser', 'email' => 'nasser@test.com', 'role' => 'admin', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'all', 'AHAMED');
+        
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('AHAMED', $result[0]['last_name']);
+    }
+
+    public function testGetUsersSearchesByEmail(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 3, 'last_name' => 'Test', 'first_name' => 'User', 'email' => 'bonjour@test.com', 'role' => 'user', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'all', 'bonjour');
+        
+        $this->assertCount(1, $result);
+        $this->assertStringContainsString('bonjour', $result[0]['email']);
+    }
+
+    public function testGetUsersCombinesFiltersCorrectly(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 1, 'last_name' => 'AHAMED', 'first_name' => 'Nasser', 'email' => 'nasser@test.com', 'role' => 'admin', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->logicalAnd(
+                $this->stringContains('AND role = :role'),
+                $this->stringContains('AND (last_name LIKE :search1')
+            ))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, false, 'admin', 'AHAMED');
+        
+        $this->assertCount(1, $result);
+        $this->assertEquals('admin', $result[0]['role']);
+        $this->assertStringContainsString('AHAMED', $result[0]['last_name']);
+    }
+
+    public function testGetUsersHandlesSpecialCharactersInSearch(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 4, 'last_name' => "O'Brien", 'first_name' => 'John', 'email' => 'john@test.com', 'role' => 'user', 'is_blocked' => 0],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        // Test avec apostrophe (devrait être échappé par PDO)
+        $result = $this->userManager->getUsers(10, 0, false, 'all', "O'Brien");
+        
+        $this->assertCount(1, $result);
+    }
+
+    public function testGetUsersRespectsBlockedFilter(): void
+    {
+        $expectedUsers = [
+            ['user_id' => 5, 'last_name' => 'Blocked', 'first_name' => 'User', 'email' => 'blocked@test.com', 'role' => 'user', 'is_blocked' => 1],
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn($expectedUsers);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getUsers(10, 0, true, 'all', '');
+        
+        $this->assertCount(1, $result);
+        $this->assertEquals(1, $result[0]['is_blocked']);
+    }
+
+    // ==================== Tests pour countUsers() ====================
+
+    public function testCountUsersReturnsCorrectCount(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(5);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->countUsers(false, 'all', '');
+        
+        $this->assertEquals(5, $result);
+    }
+
+    public function testCountUsersWithRoleFilter(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(2);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('AND role = :role'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->countUsers(false, 'admin', '');
+        
+        $this->assertEquals(2, $result);
+    }
+
+    public function testCountUsersWithSearch(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('AND (last_name LIKE :search1'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->countUsers(false, 'all', 'AHAMED');
+        
+        $this->assertEquals(1, $result);
+    }
+
+    public function testCountUsersWithCombinedFilters(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->logicalAnd(
+                $this->stringContains('AND role = :role'),
+                $this->stringContains('AND (last_name LIKE :search1')
+            ))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->countUsers(false, 'admin', 'AHAMED');
+        
+        $this->assertEquals(1, $result);
+    }
+
+    // ==================== Tests de sécurité SQL ====================
+
+    public function testGetUsersProtectsAgainstSQLInjection(): void
+    {
+        // Tentative d'injection SQL
+        $maliciousInput = "'; DROP TABLE USERS; --";
+        
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->willReturn([]);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        // Ne devrait pas lever d'exception car les paramètres sont bindés
+        $result = $this->userManager->getUsers(10, 0, false, 'all', $maliciousInput);
+        
+        $this->assertIsArray($result);
+    }
+
+    public function testCountUsersProtectsAgainstSQLInjection(): void
+    {
+        // Tentative d'injection SQL
+        $maliciousInput = "' OR '1'='1";
+        
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+        
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(0);
+        
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        // Ne devrait pas lever d'exception car les paramètres sont bindés
+        $result = $this->userManager->countUsers(false, 'all', $maliciousInput);
+        
+        $this->assertIsInt($result);
+    }
 }

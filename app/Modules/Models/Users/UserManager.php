@@ -421,8 +421,12 @@ class UserManager
 
             // Text search (secured with prepared statement)
             if (!empty($search)) {
-                $sql .= " AND (last_name LIKE :search OR first_name LIKE :search OR email LIKE :search)";
-                $params['search'] = "%$search%";
+                // Use distinct parameter names for each LIKE clause
+                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
+                $searchParam = "%$search%";
+                $params['search1'] = $searchParam;
+                $params['search2'] = $searchParam;
+                $params['search3'] = $searchParam;
             }
 
             $sql .= " ORDER BY last_name ASC LIMIT :limit OFFSET :offset";
@@ -470,8 +474,12 @@ class UserManager
             }
 
             if (!empty($search)) {
-                $sql .= " AND (last_name LIKE :search OR first_name LIKE :search OR email LIKE :search)";
-                $params['search'] = "%$search%";
+                // Use distinct parameter names for each LIKE clause
+                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
+                $searchParam = "%$search%";
+                $params['search1'] = $searchParam;
+                $params['search2'] = $searchParam;
+                $params['search3'] = $searchParam;
             }
 
             $stmt = $this->pdo->prepare($sql);
