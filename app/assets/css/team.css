@@ -350,6 +350,7 @@
     .bde-column-main,
     .bde-column-side {
         width: 100%;
+        min-width: 0;
     }
 
     .history-timeline-item {
