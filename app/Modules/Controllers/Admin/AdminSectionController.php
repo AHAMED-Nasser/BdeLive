@@ -19,22 +19,38 @@ class AdminSectionController extends AdminController
             $this->handleAction($userManager);
         }
 
+        // Get and validate parameters
         $filter = $_GET['filter'] ?? 'active';
         $showBlocked = ($filter === 'blocked');
 
-        $total = $userManager->countUsersByBlockStatus($showBlocked);
+        // Validate role filter (security - whitelist validation)
+        $allowedRoles = ['all', 'admin', 'user'];
+        $roleFilter = $_GET['role'] ?? 'all';
+        if (!in_array($roleFilter, $allowedRoles, true)) {
+            $roleFilter = 'all';
+        }
+
+        // Clean search term
+        $search = trim($_GET['search'] ?? '');
+
+        // Use unified methods with all filters
+        $total = $userManager->countUsers($showBlocked, $roleFilter, $search);
         $pagination = new Pagination($total, 15);
 
-        $users = $userManager->getAllUsersPaginated(
+        $users = $userManager->getUsers(
             $pagination->getLimit(),
             $pagination->getOffset(),
-            $showBlocked
+            $showBlocked,
+            $roleFilter,
+            $search
         );
 
         $this->render("admin/adminSectionView", [
             'users' => $users,
             'pagination' => $pagination,
-            'currentFilter' => $filter
+            'currentFilter' => $filter,
+            'roleFilter' => $roleFilter,
+            'search' => $search
         ]);
     }
 
