@@ -38,16 +38,6 @@ class CloudinaryService
      */
     public function __construct()
     {
-        // Load the Composer autoloader IF not already loaded
-        if (!class_exists('Cloudinary\Configuration\Configuration')) {
-            $autoloadPath = __DIR__ . '/../../vendor/autoload.php';
-            if (file_exists($autoloadPath)) {
-                require_once realpath($autoloadPath);
-            } else {
-                throw new Exception('Composer autoloader not found at: ' . $autoloadPath);
-            }
-        }
-
         // Verify that Cloudinary SDK is loaded
         if (!class_exists('Cloudinary\Api\Upload\UploadApi')) {
             throw new Exception('Cloudinary SDK not loaded. Please run "composer install"');
