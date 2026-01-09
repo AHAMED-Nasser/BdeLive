@@ -151,7 +151,11 @@
     margin-bottom: 20px;
 }
 
-:root[class~="dark-mode"] .bde-honor-title,
+:root[class~="dark-mode"] .bde-honor-title {
+    color: #f6ad55;
+    border-bottom-color: #f6ad55;
+}
+
 @media (prefers-color-scheme: dark) {
     .bde-honor-title {
         color: #f6ad55;
