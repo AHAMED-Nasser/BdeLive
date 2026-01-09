@@ -1082,10 +1082,10 @@ $userId = $user['user_id'] ?? null;
             $carouselImages = [];
             if (!empty($eventImages) && is_array($eventImages)) {
                 foreach ($eventImages as $image) {
-                    if (is_string($image)) {
-                        $carouselImages[] = ['src' => $image];
-                    } elseif (is_array($image) && isset($image['url'])) {
+                    if (is_array($image) && isset($image['url'])) {
                         $carouselImages[] = ['src' => $image['url']];
+                    } elseif (is_string($image)) {
+                        $carouselImages[] = ['src' => $image];
                     }
                 }
             }
