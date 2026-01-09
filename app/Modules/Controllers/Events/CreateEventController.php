@@ -101,16 +101,18 @@ class CreateEventController extends AdminController
         // Upload images to Cloudinary
         $imageUrls = [];
         $files = $this->request->file('event-images');
-        if ($files !== null && !empty($files['name'][0])) {
+
+        if ($files === null) {
+            // Si vous entrez ici, le nom 'event-images' ne correspond pas au 'name' de votre <input>
+            error_log("DEBUG: Aucun fichier reçu sous le nom event-images");
+            die("DEBUG: Aucun fichier reçu sous le nom event-images");
+        }
+
+        if (!empty($files['name'][0])) {
             try {
                 $cloudinary = new CloudinaryService();
                 /** @var array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files */
-                $uploadedImages = $cloudinary->uploadMultipleImages($files, 'events');
-                $imageUrls = $uploadedImages;
-
-                if (empty($uploadedImages) && !empty($files['name'][0])) {
-                    error_log('CreateEventController::createEvent - Image upload failed but no exception thrown');
-                }
+                $imageUrls = $cloudinary->uploadMultipleImages($files, 'events');
             } catch (\Exception $e) {
                 error_log('CreateEventController::createEvent - Cloudinary error: ' . $e->getMessage());
                 $this->setError('Erreur lors de l\'upload des images. Veuillez réessayer.');
@@ -119,8 +121,8 @@ class CreateEventController extends AdminController
         }
 
         // Convert to JSON for storage
-        $imagesJsonEncoded = !empty($imageUrls) ? json_encode($imageUrls) : '';
-        $imagesJson = $imagesJsonEncoded !== false ? $imagesJsonEncoded : '';
+        $imagesJsonEncoded = !empty($imageUrls) ? json_encode($imageUrls) : '[]';
+        $imagesJson = ($imagesJsonEncoded !== false) ? $imagesJsonEncoded : '[]';
 
         $creationModel = new EventCreationModel();
         $event = $creationModel -> insertEvent(
