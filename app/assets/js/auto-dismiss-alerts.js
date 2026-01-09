@@ -1,9 +1,9 @@
 /**
  * Auto-dismiss alerts after a specified duration
- * 
+ *
  * This script automatically hides alert messages (success, error, info, warning)
  * after a configurable duration to improve UX.
- * 
+ *
  * @author BdeLive Team
  * @version 1.0.0
  */
@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     alerts.forEach(function (alert) {
         // Add fade-out animation styles
+        // phpcs:ignore
         alert.style.transition = `opacity ${FADE_OUT_DURATION}ms ease-out, transform ${FADE_OUT_DURATION}ms ease-out`;
 
         // Set timeout to start fade out
