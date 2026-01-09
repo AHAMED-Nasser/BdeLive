@@ -59,11 +59,11 @@
 
 /* ===== MODE SOMBRE (Premium - Gris colorés) ===== */
 .dark-mode {
-    --bg-primary: #1A1D2B;
+    --bg-primary: #0F111A;
     --bg-secondary: #1A1D2B;
     --bg-tertiary: #1A1D2B;
-    --bg-card: #1A1D2B;
-    --bg-hover: #252938;
+    --bg-card: #252938;
+    --bg-hover: #2D3548;
 
     /* Text Colors - Blanc légèrement bleuté */
     --text-primary: #E2E8F0;
@@ -112,8 +112,8 @@
         --bg-primary: #0F111A;
         --bg-secondary: #1A1D2B;
         --bg-tertiary: #1A1D2B;
-        --bg-card: #1A1D2B;
-        --bg-hover: #252938;
+        --bg-card: #252938;
+        --bg-hover: #2D3548;
 
         /* Text Colors */
         --text-primary: #E2E8F0;
@@ -297,7 +297,7 @@ body {
 
 /* Ne pas appliquer de couleur générale à tous les enfants,
    laisser les événements définir leur propre couleur */
-.dark-mode .fc-list > * {
+.dark-mode .fc-list>* {
     color: var(--text-primary) !important;
 }
 
@@ -474,4 +474,3 @@ body {
 .dark-mode .fc-timegrid-event .fc-event-time {
     color: var(--text-inverse) !important;
 }
-

@@ -3,7 +3,8 @@
     margin: 0;
 }
 
-html, body {
+html,
+body {
     overflow-x: hidden;
     max-width: 100%;
     background-color: var(--bg-secondary);
@@ -41,7 +42,7 @@ a:focus {
 }
 
 
-.Réseaux{
+.Réseaux {
     margin-bottom: 3px;
     color: var(--text-inverse);
     font-size: 1.3rem;
@@ -124,7 +125,7 @@ a:focus {
     max-width: 1000px;
     margin: 60px auto;
     padding: 40px 20px;
-    background-color: var(--bg-tertiary);
+    background-color: var(--bg-card);
     border-radius: 10px;
     box-shadow: 15px 15px 15px var(--shadow-sm);
 }
@@ -296,6 +297,7 @@ a:focus {
 a {
     color: var(--text-primary);
 }
+
 /* Bouton image */
 .btn-image-right {
     position: sticky;
@@ -304,13 +306,16 @@ a {
     width: 100%;
     justify-content: flex-end;
     z-index: 1000;
-    padding-right: 60px; /* remplace margin-right */
+    padding-right: 60px;
+    /* remplace margin-right */
 }
 
 
 .btn-image-right img {
-    width: 60px;                        /* taille du bouton */
-    border-radius: 50%;                 /* arrondi pour un effet bouton */
+    width: 60px;
+    /* taille du bouton */
+    border-radius: 50%;
+    /* arrondi pour un effet bouton */
     margin: 20px;
 }
 
@@ -536,7 +541,7 @@ a {
 }
 
 /* Quand le menu est ouvert, fixer la croix pour qu'elle ne bouge pas au scroll */
-.menu-toggle:checked ~ .hamburger-icon {
+.menu-toggle:checked~.hamburger-icon {
     position: fixed;
     top: 20px;
     right: 20px;
@@ -555,16 +560,16 @@ a {
 }
 
 /* Animation des barres quand le menu est ouvert */
-.menu-toggle:checked + .hamburger-icon .bar:nth-child(1) {
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(1) {
     transform: rotate(45deg) translate(10px, 10px);
     background-color: var(--text-inverse);
 }
 
-.menu-toggle:checked + .hamburger-icon .bar:nth-child(2) {
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(2) {
     opacity: 0;
 }
 
-.menu-toggle:checked + .hamburger-icon .bar:nth-child(3) {
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(3) {
     transform: rotate(-45deg) translate(10px, -10px);
     background-color: var(--text-inverse);
 }
@@ -573,7 +578,8 @@ a {
 .sidebar-menu {
     position: fixed;
     top: 0;
-    right: -320px; /* Caché à droite - légèrement plus large pour plus d'espace */
+    right: -320px;
+    /* Caché à droite - légèrement plus large pour plus d'espace */
     width: 320px;
     max-width: 85vw;
     height: 100vh;
@@ -604,8 +610,9 @@ a {
 }
 
 /* Afficher le menu quand la checkbox est cochée */
-.menu-toggle:checked ~ .sidebar-menu {
-    right: 0; /* Glisse de la droite vers la gauche */
+.menu-toggle:checked~.sidebar-menu {
+    right: 0;
+    /* Glisse de la droite vers la gauche */
 }
 
 /* Style du menu */
@@ -692,7 +699,7 @@ a {
     pointer-events: none;
 }
 
-.menu-toggle:checked ~ .sidebar-overlay {
+.menu-toggle:checked~.sidebar-overlay {
     opacity: 1;
     visibility: visible;
     pointer-events: all;
@@ -746,6 +753,7 @@ a {
 
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
+
     /* Navbar adjustments on mobile */
     .nav {
         padding: 8px 12px;
@@ -753,7 +761,7 @@ a {
     }
 
     /* Hide ONLY the inline nav links (second top-level UL), not the sidebar menu */
-    .nav > ul:nth-of-type(2) {
+    .nav>ul:nth-of-type(2) {
         display: none;
     }
 
@@ -766,7 +774,7 @@ a {
     }
 
     /* Sur mobile, fixer la croix quand le menu est ouvert */
-    .menu-toggle:checked ~ .hamburger-icon {
+    .menu-toggle:checked~.hamburger-icon {
         position: fixed;
         top: 15px;
         right: 15px;
@@ -928,7 +936,8 @@ a {
     .forgot-container input[type="text"],
     .forgot-container input[type="password"],
     .forgot-container select {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 16px;
+        /* Prevents zoom on iOS */
     }
 
     .legal-terms-page {
