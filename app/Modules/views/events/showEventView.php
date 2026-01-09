@@ -89,7 +89,7 @@ $userId = $user['user_id'] ?? null;
 
                     <form action="index.php?page=exportUserEvent" method="post" style="display: inline; margin-left: 10px;">
                         <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                        <button type="submit" style="background-color: #1299ff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Liste (PDF)</button>
+                        <button type="submit" title="Télécharger la liste des participants au format PDF" style="background-color: #1299ff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Export PDF des inscriptions</button>
                     </form>
                 </div>
             </div>
