@@ -190,7 +190,7 @@ class EventRegistrationRepository
                 JOIN USERS u ON er.user_id = u.user_id
                 LEFT JOIN EVENT_TEAMS et ON er.team_id = et.team_id
                 WHERE er.event_id = ?
-                ORDER BY et.team_number ASC, u.last_name ASC';
+                ORDER BY (et.team_number IS NULL), et.team_number ASC, u.last_name ASC';
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$eventId]);
@@ -201,14 +201,19 @@ class EventRegistrationRepository
         $teams = [];
         
         foreach ($results as $row) {
-            if (empty($row['team_id'])) {
+            if (empty($row['team_id']) || $row['team_id'] === null) {
                 $individual[] = $row;
             } else {
-                $teamNumber = (int) $row['team_number'];
-                if (!isset($teams[$teamNumber])) {
-                    $teams[$teamNumber] = [];
+                $teamNumber = (int) ($row['team_number'] ?? 0);
+                if ($teamNumber > 0) {
+                    if (!isset($teams[$teamNumber])) {
+                        $teams[$teamNumber] = [];
+                    }
+                    $teams[$teamNumber][] = $row;
+                } else {
+                    // Si team_id existe mais team_number est NULL, traiter comme individuel
+                    $individual[] = $row;
                 }
-                $teams[$teamNumber][] = $row;
             }
         }
         

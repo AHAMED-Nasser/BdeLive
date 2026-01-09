@@ -114,7 +114,7 @@ class ExportUserEventController extends AdminController
                     📅 Date : <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
                     à <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
                     <?php if ($isGroupEvent) : ?>
-                        <br>👥 Événement en groupe (<?= htmlspecialchars($event['team_size']) ?> personnes/groupe)
+                        <br>👥 Événement en groupe (<?= htmlspecialchars((string)($event['team_size'] ?? 1)) ?> personnes/groupe)
                     <?php endif; ?>
                 </p>
 
