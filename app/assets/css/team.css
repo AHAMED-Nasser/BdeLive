@@ -57,9 +57,231 @@
     transition: color 0.3s ease;
 }
 
-.equip-text a:hover{
+.equip-text a:hover {
     color: var(--color-primary);
 }
+
+/* BDE Members Styles */
+.bde-title {
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+    padding-left: 15px;
+}
+
+.bde-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.bde-column-main {
+    flex: 2;
+    min-width: 300px;
+}
+
+.bde-column-side {
+    flex: 1;
+    min-width: 250px;
+}
+
+.bde-subtitle {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.bde-members-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bde-card {
+    display: block;
+    border-left: 5px solid var(--color-primary);
+    background-color: var(--bg-tertiary);
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 1px 3px var(--shadow-sm);
+    transition: transform 0.2s ease;
+}
+
+.bde-card:hover {
+    transform: translateX(5px);
+}
+
+.bde-member-name {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--color-primary);
+}
+
+.bde-member-role {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 5px 0;
+}
+
+.bde-member-desc {
+    font-size: 0.95rem;
+    color: var(--text-tertiary);
+    line-height: 1.4;
+    margin-bottom: 0;
+}
+
+/* Membres d'Honneur */
+.bde-honor-card {
+    background-color: var(--bg-tertiary);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 1px 3px var(--shadow-sm);
+}
+
+.bde-honor-title {
+    color: #b7791f;
+    border-bottom: 2px solid #b7791f;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+:root[class~="dark-mode"] .bde-honor-title,
+@media (prefers-color-scheme: dark) {
+    .bde-honor-title {
+        color: #f6ad55;
+        border-bottom-color: #f6ad55;
+    }
+}
+
+.bde-honor-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.bde-honor-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.bde-honor-item:last-child {
+    border-bottom: none;
+}
+
+/* History Styles */
+.history-container {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: inherit;
+    /* Utilise la font globale */
+    padding: 20px;
+}
+
+.history-title {
+    text-align: left;
+    color: var(--text-primary);
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    border-left: 10px solid var(--color-primary);
+    padding-left: 20px;
+    line-height: 1.2;
+}
+
+.history-title span {
+    color: var(--color-primary);
+}
+
+.history-intro {
+    margin-bottom: 40px;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.history-timeline-item {
+    margin-bottom: 50px;
+    position: relative;
+    padding-left: 40px;
+    border-left: 3px solid var(--color-primary);
+}
+
+.history-marker {
+    position: absolute;
+    left: -11px;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 86, 179, 0.5);
+    /* Ombre légère de la couleur primaire */
+}
+
+.history-year-title {
+    color: var(--color-primary);
+    margin-top: 0;
+    font-size: 1.6rem;
+}
+
+.history-text {
+    line-height: 1.8;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.history-cta-card {
+    background: var(--bg-tertiary);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 60px;
+    border: 1px solid var(--border-light);
+}
+
+.history-cta-title {
+    margin-top: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.history-cta-text {
+    color: var(--text-tertiary);
+    margin-bottom: 25px;
+}
+
+.history-cta-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background: var(--color-primary);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow-sm);
+}
+
+.history-cta-button:hover {
+    background: var(--bg-hover);
+    /* Peut nécessiter ajustement si bg-hover est trop clair/sombre */
+    filter: brightness(1.1);
+    /* Alternative simple pour éclaircir */
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white !important;
+}
+
 
 /* ===== RESPONSIVE DESIGN ===== */
 
@@ -70,12 +292,15 @@
         padding: 35px 15px;
     }
 
-    #equip-title {
+    #equip-title,
+    .bde-title,
+    .history-title {
         font-size: 2rem;
         padding-left: 10px;
     }
 
-    .equip-text {
+    .equip-text,
+    .history-text {
         font-size: 1rem;
         padding: 8px 15px;
     }
@@ -92,13 +317,16 @@
         padding: 30px 15px;
     }
 
-    #equip-title {
+    #equip-title,
+    .bde-title,
+    .history-title {
         font-size: 1.6rem;
         padding-left: 5px;
         margin-bottom: 15px;
     }
 
-    .equip-text {
+    .equip-text,
+    .history-text {
         font-size: 0.95rem;
         padding: 5px 10px;
     }
@@ -110,6 +338,25 @@
     .equip-text ul {
         margin-top: 15px;
     }
+
+    .bde-grid {
+        flex-direction: column;
+    }
+
+    .bde-column-main,
+    .bde-column-side {
+        width: 100%;
+    }
+
+    .history-timeline-item {
+        padding-left: 20px;
+    }
+
+    .history-marker {
+        width: 15px;
+        height: 15px;
+        left: -8px;
+    }
 }
 
 /* Small mobile (max-width: 480px) */
@@ -119,12 +366,16 @@
         padding: 25px 10px;
     }
 
-    #equip-title {
+    #equip-title,
+    .bde-title,
+    .history-title {
         font-size: 1.4rem;
         padding-left: 0;
+        border-left-width: 5px;
     }
 
-    .equip-text {
+    .equip-text,
+    .history-text {
         font-size: 0.9rem;
         padding: 5px;
     }
