@@ -45,6 +45,17 @@ class AdminSectionController extends AdminController
             $search
         );
 
+        if (isset($_GET['ajax']) && $_GET['ajax'] === '1') {
+            $this->render("admin/partials/usersTablePartial", [
+                'users' => $users,
+                'pagination' => $pagination,
+                'currentFilter' => $filter,
+                'roleFilter' => $roleFilter,
+                'search' => $search
+            ]);
+            exit;
+        }
+
         $this->render("admin/adminSectionView", [
             'users' => $users,
             'pagination' => $pagination,
