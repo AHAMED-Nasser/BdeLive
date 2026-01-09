@@ -382,6 +382,109 @@ class UserManager
     }
 
     /**
+     * Get users with optional filters (unified method)
+     *
+     * Retrieves users with support for filtering by blocked status, role, and search term.
+     * Uses prepared statements with typed parameter binding for SQL injection protection.
+     *
+     * @param int $limit Number of users per page
+     * @param int $offset Offset for pagination
+     * @param bool $isBlocked Filter by blocked status (default: false = active users)
+     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
+     * @param string $search Search term (searches in first_name, last_name, email)
+     * @return array<int, array<string, mixed>> Array of user records
+     * @throws PDOException If database query fails
+     */
+    public function getUsers(
+        int $limit,
+        int $offset,
+        bool $isBlocked = false,
+        string $roleFilter = 'all',
+        string $search = ''
+    ): array {
+        try {
+            $params = [
+                'is_blocked' => $isBlocked ? 1 : 0,
+                'limit' => $limit,
+                'offset' => $offset
+            ];
+
+            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked
+                    FROM USERS
+                    WHERE is_blocked = :is_blocked";
+
+            // Role filter (validated by controller)
+            if ($roleFilter !== 'all') {
+                $sql .= " AND role = :role";
+                $params['role'] = $roleFilter;
+            }
+
+            // Text search (secured with prepared statement)
+            if (!empty($search)) {
+                $sql .= " AND (last_name LIKE :search OR first_name LIKE :search OR email LIKE :search)";
+                $params['search'] = "%$search%";
+            }
+
+            $sql .= " ORDER BY last_name ASC LIMIT :limit OFFSET :offset";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            // Typed parameter binding (required for LIMIT/OFFSET to work correctly)
+            foreach ($params as $key => $val) {
+                $type = is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
+                $stmt->bindValue(":$key", $val, $type);
+            }
+
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log('UserManager::getUsers - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Count users with optional filters (unified method)
+     *
+     * Counts users matching the provided filters. Uses the same logic as getUsers()
+     * to ensure consistency between count and actual results.
+     *
+     * @param bool $isBlocked Filter by blocked status
+     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
+     * @param string $search Search term
+     * @return int Total number of users matching the filters
+     * @throws PDOException If database query fails
+     */
+    public function countUsers(
+        bool $isBlocked = false,
+        string $roleFilter = 'all',
+        string $search = ''
+    ): int {
+        try {
+            $params = ['is_blocked' => $isBlocked ? 1 : 0];
+            $sql = "SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked";
+
+            if ($roleFilter !== 'all') {
+                $sql .= " AND role = :role";
+                $params['role'] = $roleFilter;
+            }
+
+            if (!empty($search)) {
+                $sql .= " AND (last_name LIKE :search OR first_name LIKE :search OR email LIKE :search)";
+                $params['search'] = "%$search%";
+            }
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return (int)$stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            error_log('UserManager::countUsers - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+
+    /**
      * Update a user's status
      *
      * Changes a user's status in the database.
