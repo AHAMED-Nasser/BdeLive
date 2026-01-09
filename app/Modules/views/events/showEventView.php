@@ -78,16 +78,16 @@ $userId = $user['user_id'] ?? null;
         <?php if ($isAdmin) : ?>
             <div class="admin-zone" style="background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 8px; text-align: center; margin-top: 50px;">
                 <h4 style="color: #856404;">Administration de l'événement</h4>
-                <div style="margin-top: 15px;">
-                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" style="background-color: #ffc107; color: #212529; padding: 10px 20px; text-decoration: none; border-radius: 4px; margin-right: 10px; display: inline-block;">Modifier</a>
+                <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" style="background-color: #ffc107; color: #212529; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block;">Modifier</a>
 
-                    <form method="post" action="index.php?page=deleteEvent" style="display: inline;" onsubmit="return confirm('Supprimer ?');">
+                    <form method="post" action="index.php?page=deleteEvent" onsubmit="return confirm('Supprimer ?');" style="margin: 0;">
                         <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                         <?= $csrf->getTokenField() ?>
                         <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Supprimer</button>
                     </form>
 
-                    <form action="index.php?page=exportUserEvent" method="post" style="display: inline; margin-left: 10px;">
+                    <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
                         <button type="submit" title="Télécharger la liste des participants au format PDF" style="background-color: #1299ff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Export PDF des inscriptions</button>
                     </form>
