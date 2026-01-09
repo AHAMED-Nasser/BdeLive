@@ -143,7 +143,7 @@ class UpdateEventController extends AdminController
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
 
         try {
-            $cloudinary = new \App\services\CloudinaryService();
+            $cloudinary = new \App\Services\CloudinaryService();
             $event = $this->eventRepository->findById($eventId);
 
             // On décode les images actuelle, on renvoie un tableau vide dans le cas ou il n'y a rien
