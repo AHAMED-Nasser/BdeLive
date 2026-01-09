@@ -465,6 +465,15 @@ $userId = $user['user_id'] ?? null;
                 opacity: 0.9;
             }
 
+            /* Bloquer le scroll de la page quand la modal est ouverte */
+            body.modal-open,
+            html.modal-open {
+                overflow: hidden !important;
+                position: fixed !important;
+                width: 100% !important;
+                height: 100% !important;
+            }
+
             /* Responsive pour le calendrier des événements */
             @media (max-width: 767px) {
                 .event-calendar-container {
@@ -989,19 +998,27 @@ $userId = $user['user_id'] ?? null;
                     
                     // Afficher la modal
                     modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
+                    document.body.classList.add('modal-open');
+                    document.documentElement.classList.add('modal-open');
                     
                     // Fermer la modal
                     const closeModal = () => {
                         modal.classList.remove('active');
-                        document.body.style.overflow = '';
+                        document.body.classList.remove('modal-open');
+                        document.documentElement.classList.remove('modal-open');
                     };
                     
                     modal.querySelectorAll('.event-mobile-modal-close').forEach(btn => {
                         btn.addEventListener('click', closeModal);
                     });
                     
-                    modal.querySelector('.event-mobile-modal-overlay').addEventListener('click', closeModal);
+                    const overlay = modal.querySelector('.event-mobile-modal-overlay');
+                    overlay.addEventListener('click', closeModal);
+                    
+                    // Empêcher le scroll tactile sur l'overlay
+                    overlay.addEventListener('touchmove', (e) => {
+                        e.preventDefault();
+                    }, { passive: false });
                 }
                 
                 // Ajouter un menu de sélection de vue sur mobile
