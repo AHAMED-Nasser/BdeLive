@@ -160,7 +160,7 @@
     box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
 }
 
-/* Si "Voir l'article" n'est pas là, Modifier prend toute la largeur aussi ? 
+/* Si "Voir l'article" n'est pas là, Modifier prend toute la largeur aussi ?
    On peut utiliser :last-child selector si besoin, mais le grid layout est robuste.
    Si .btn-view est absent, .btn-edit sera col 1, vide col 2.
    Pour faire propre : si c'est le seul enfant avant le form.

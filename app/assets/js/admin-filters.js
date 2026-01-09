@@ -1,6 +1,6 @@
 /**
  * Admin Panel Filters - AJAX Handling
- * 
+ *
  * Handles dynamic updates of the user list without page reloads.
  * Intercepts clicks on filters, pagination, and search form submission.
  */
@@ -8,10 +8,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     const contentArea = document.getElementById('admin-content-area');
 
-    if (!contentArea) return;
+    if (!contentArea) {
+        return;
+    }
 
     // Fonction pour charger le contenu via AJAX
-    async function loadContent(url, updateHistory = true) {
+    async function loadContent(url, updateHistory = true)
+    {
         try {
             // Ajouter un indicateur de chargement
             contentArea.style.opacity = '0.5';
@@ -39,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Mettre à jour les classes "active" dans la sidebar
             updateActiveFilters(fetchUrl);
-
         } catch (error) {
             console.error('Erreur lors du chargement:', error);
             // Fallback : recharger la page en cas d'erreur
@@ -56,7 +58,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Mettre à jour les classes actives dans la sidebar
-    function updateActiveFilters(url) {
+    function updateActiveFilters(url)
+    {
         const params = url.searchParams;
         const currentRole = params.get('role') || 'all';
         const currentFilter = params.get('filter') || 'active';
