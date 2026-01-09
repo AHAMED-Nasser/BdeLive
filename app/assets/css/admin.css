@@ -33,7 +33,7 @@
 
 /* Sidebar */
 .admin-sidebar {
-    width: 260px;
+    width: 380px;
     background: var(--bg-card);
     border-radius: 15px;
     padding: 25px;
@@ -122,6 +122,7 @@
 
 /* Actions */
 .admin-select-action {
+    width: 150px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
@@ -140,19 +141,25 @@
 
 /* Formulaire de recherche */
 .admin-search-form {
+    width: 100%;
     margin: 15px 0 20px;
-    padding: 15px;
+    padding: 10px;
     background: var(--bg-secondary);
     border-radius: 8px;
+    box-sizing: border-box;
 }
 
 .search-group {
     display: flex;
     gap: 8px;
+    width: 100%;
+    align-items: center;
 }
 
 .admin-search-input {
     flex: 1;
+    min-width: 0;
+    /* Permet au champ de se réduire si nécessaire */
     padding: 10px 15px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
@@ -163,6 +170,8 @@
 
 .admin-search-btn,
 .admin-reset-btn {
+    flex-shrink: 0;
+    /* Empêche les boutons de se réduire */
     padding: 10px 15px;
     background: var(--color-primary);
     color: white;
