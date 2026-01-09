@@ -90,8 +90,7 @@ class CreateEventController extends AdminController
         $description = (string) $this->request->post('description', '');
 
         // Validate required fields
-        if (
-            empty($eventName) || empty($eventDate) || empty($eventTime) ||
+        if (empty($eventName) || empty($eventDate) || empty($eventTime) ||
             empty($eventLocation) || empty($eventTheme) ||
             empty($statusParticipating) || empty($description)
         ) {
@@ -107,10 +106,7 @@ class CreateEventController extends AdminController
                 $cloudinary = new CloudinaryService();
                 /** @var array{name: array<int, string>, type: array<int, string>, tmp_name: array<int, string>, error: array<int, int>, size: array<int, int>} $files */
                 $uploadedImages = $cloudinary->uploadMultipleImages($files, 'events');
-
-                foreach ($uploadedImages as $image) {
-                    $imageUrls[] = $image['url'];
-                }
+                $imageUrls = $uploadedImages;
 
                 if (empty($uploadedImages) && !empty($files['name'][0])) {
                     error_log('CreateEventController::createEvent - Image upload failed but no exception thrown');
@@ -146,9 +142,4 @@ class CreateEventController extends AdminController
             $this->redirect('index.php?page=createEvent');
         }
     }
-    // Supprimé - utilise maintenant $this->render() de BaseController
-    // protected function loadView(string $viewName): void
-    // {
-    //     require_once __DIR__ . '/../../views/events/' . $viewName . '.php';
-    // }
 }

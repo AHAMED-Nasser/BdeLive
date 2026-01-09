@@ -131,8 +131,7 @@ class UpdateEventController extends AdminController
         $description = (string)$this->request->post('description', '');
 
         // 3. Validation de base
-        if (
-            empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) ||
+        if (empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) ||
             empty($eventLocation) || empty($eventTheme) || empty($description)
         ) {
             $this->redirectWithError(
@@ -144,7 +143,7 @@ class UpdateEventController extends AdminController
         $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
 
         try {
-            $cloudinary = new \App\Services\CloudinaryService();
+            $cloudinary = new \App\services\CloudinaryService();
             $event = $this->eventRepository->findById($eventId);
 
             // On décode les images actuelle, on renvoie un tableau vide dans le cas ou il n'y a rien
