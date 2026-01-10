@@ -26,13 +26,14 @@ $userId = $user['user_id'] ?? null;
             <?php endif; ?>
         <?php endforeach; ?>
 
-        <div class="event-grid-images" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 30px 0;">
+        <div class="event-grid-images">
             <?php
             $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
             if (!empty($images)) :
-                foreach ($images as $img) :
+                foreach ($images as $index => $img) :
                     $src = is_array($img) ? $img['url'] : $img;
-                    echo '<img src="' . htmlspecialchars($src) . '" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">';
+                    $altText = htmlspecialchars($event['event_name']) . ' - Photo ' . ($index + 1);
+                    echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image">';
                 endforeach;
             else :
                 // No images available
