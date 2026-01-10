@@ -96,13 +96,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <header>
         <nav class="nav" aria-label="Main navigation">
             <ul>
-                <a href="index.php?page=home" class="nav-logo">
-                    <img src="./assets/img/logo.png" alt="Logo Bde">
-                </a>
+                <li>
+                    <a href="index.php?page=home" class="nav-logo" aria-label="BDE Inform'Aix - Accueil">
+                        <img src="./assets/img/logo.png" alt="Logo BDE Inform'Aix">
+                    </a>
+                </li>
             </ul>
             <ul>
-
-                <li><a href="index.php?page=home">Accueil</a></li>
                 <li><a href="index.php?page=articles">Nos articles</a></li>
                     <li><a href="index.php?page=event">Evénements</a></li>
                 <?php if (isset($user) && $user !== null && $isAdmin) : ?>
@@ -111,7 +111,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                     <!-- Dark Mode Toggle -->
                     <li>
-                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre">
                             <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="4"></circle>
                                 <path d="M12 2v2"></path>
@@ -132,12 +132,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
-                            <i class="fas fa-user"></i>
+                            <span class="visually-hidden">Ouvrir le menu de profil</span>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
                             ?>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                         </label>
                         <div class="profile-dropdown-menu">
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
@@ -152,7 +153,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                     <!-- Dark Mode Toggle -->
                     <li>
-                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre">
                             <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="4"></circle>
                                 <path d="M12 2v2"></path>
@@ -173,12 +174,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li class="profile-dropdown-container">
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
-                            <i class="fas fa-user"></i>
+                            <span class="visually-hidden">Ouvrir le menu de profil</span>
+                            <i class="fas fa-user" aria-hidden="true"></i>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
                             ?>
-                            <i class="fas fa-chevron-down dropdown-arrow"></i>
+                            <i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i>
                         </label>
                         <div class="profile-dropdown-menu">
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
@@ -193,7 +195,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <li><a href="index.php?page=register">Inscription</a></li>
                     <!-- Dark Mode Toggle -->
                     <li>
-                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre" title="Mode sombre">
+                        <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre">
                             <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="4"></circle>
                                 <path d="M12 2v2"></path>
@@ -216,13 +218,14 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <!-- Menu Hamburger -->
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
             <label for="menu-toggle" class="hamburger-icon">
+                <span class="visually-hidden">Ouvrir ou fermer le menu de navigation</span>
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </label>
 
             <!-- Overlay pour fermer le menu -->
-            <label for="menu-toggle" class="sidebar-overlay"></label>
+            <button type="button" class="sidebar-overlay" aria-label="Fermer le menu" onclick="document.getElementById('menu-toggle').checked = false"></button>
             
             <!-- Menu Sidebar -->
             <div class="sidebar-menu">
@@ -268,7 +271,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     <!-- Section Préférences -->
                     <li class="sidebar-section-title">Préférences</li>
                     <li>
-                        <button id="dark-mode-toggle-mobile" class="dark-mode-toggle-mobile" aria-label="Basculer le mode sombre" title="Mode sombre">
+                        <button id="dark-mode-toggle-mobile" class="dark-mode-toggle-mobile" aria-label="Basculer le mode sombre">
                             <svg class="dark-mode-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="4"></circle>
                                 <path d="M12 2v2"></path>

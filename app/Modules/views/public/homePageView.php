@@ -97,10 +97,13 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     </button>
                 </div>
 
-                <div class="carousel-dots">
+                <div class="carousel-dots" role="group" aria-label="Indicateurs du carousel">
                     <?php foreach ($events as $index => $event) : ?>
-                        <span class="dot <?= $index === 0 ? 'active' : '' ?>" 
-                              onclick="currentSlide(<?= $index ?>, 'carousel-future-event')"></span>
+                        <button class="dot <?= $index === 0 ? 'active' : '' ?>" 
+                                type="button"
+                                onclick="currentSlide(<?= $index ?>, 'carousel-future-event')"
+                                aria-label="Aller à l'événement <?= $index + 1 ?>"
+                                aria-current="<?= $index === 0 ? 'true' : 'false' ?>"></button>
                     <?php endforeach; ?>
                 </div>
             </article>
@@ -137,7 +140,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                             <div class="article-image-container">
                                 <img
                                     src="<?= htmlspecialchars($article['image_url']) ?>"
-                                    alt="Illustration de l'article : <?= htmlspecialchars($article['title']) ?>"
+                                    alt="<?= htmlspecialchars($article['title']) ?>"
                                     class="article-image-home"
                                     loading="lazy">
                             </div>
