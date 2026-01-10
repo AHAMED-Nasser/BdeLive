@@ -831,8 +831,8 @@ $userId = $user['user_id'] ?? null;
                             title: <?= json_encode($event['event_name']) ?>,
                             start: <?= json_encode($event['event_date'] . 'T' . $event['event_time']) ?>,
                             url: <?= json_encode('index.php?page=showEvent&id=' . $event['event_id']) ?>,
-                            backgroundColor: '#667eea',
-                            borderColor: '#667eea',
+                            backgroundColor: '#4c51bf',
+                            borderColor: '#4c51bf',
                             textColor: '#ffffff'
                         },
                         <?php endforeach; ?>

@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
 html,
 body {
     overflow-x: hidden;

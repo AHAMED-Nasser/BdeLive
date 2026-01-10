@@ -40,8 +40,9 @@ start_page("Créer un événement", true, $user ?? null) ?>
             <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
             <!-- checkbox -->
-            <label for="status_participating">Qui peut venir</label>
-            <div class="checkbox-container">
+            <!-- checkbox -->
+            <fieldset class="checkbox-container">
+                <legend class="form-label">Qui peut venir</legend>
                 <article>
                     <input id="but1" type="checkbox" name="status_participating[]" value="BUT 1">
                     <label for="but1">BUT 1</label>
@@ -62,14 +63,14 @@ start_page("Créer un événement", true, $user ?? null) ?>
                     <label for="educator">Personnel Enseignant</label>
                 </article>
 
-            </div>
+            </fieldset>
 
 
             <label for="description">Description de l'événement</label>
             <textarea id="description" placeholder="Venez à notre événement pour ..." name="description"></textarea>
 
             <div class="insert-image">
-                <label>Insérer des images d'illustration</label>
+                <p class="form-label">Insérer des images d'illustration</p>
                 <label for="event-images" id="drop-area">
                     <input id="event-images" name="event-images[]" type="file" accept="image/*" multiple hidden>
                     <div id="image-view">
