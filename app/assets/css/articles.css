@@ -106,18 +106,18 @@
 
 /* Bouton Voir l'article - Bleu violet */
 .btn-view {
-    background-color: #667eea;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
     grid-column: span 1;
 }
 
 .btn-view:hover {
-    background-color: #5a6fd8;
-    color: white;
+    background-color: var(--color-primary-hover);
+    color: var(--text-inverse);
     text-decoration: none;
     /* Assure qu'il n'y a pas de soulignement */
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 8px rgba(90, 103, 216, 0.3);
 }
 
 /* Bouton Modifier - Moutarde/Doré */
@@ -177,29 +177,7 @@
     /* Ou on le laisse en demi-largeur ? Mieux vaut pleine largeur pour l'harmonie avec supprimer */
 }
 
-/* Pagination */
-.pagination {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-.pagination a {
-    padding: 10px 15px;
-    background: var(--bg-secondary);
-    border-radius: 6px;
-    text-decoration: none;
-    color: var(--text-primary);
-    transition: background 0.3s ease;
-}
-
-.pagination a:hover,
-.pagination a.active {
-    background: var(--color-primary);
-    color: var(--text-inverse);
-}
+/* Pagination styles now handled by style.css */
 
 .no-articles {
     text-align: center;
@@ -255,14 +233,14 @@
 .back-link {
     display: inline-block;
     margin-bottom: 30px;
-    color: #667eea;
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .back-link:hover {
-    color: #5a6fd8;
+    color: var(--color-primary-hover);
     text-decoration: underline;
 }
 

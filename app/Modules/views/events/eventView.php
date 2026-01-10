@@ -1104,37 +1104,37 @@ $userId = $user['user_id'] ?? null;
             </div>
         <?php endforeach; ?>
 
-        <?php if ($pagination->getTotalPages() > 1) : ?>
-            <div class="pagination-info" style="text-align: center; margin-bottom: 10px;">
-                Page <?= $pagination->getCurrentPage() ?> sur <?= $pagination->getTotalPages() ?> (<?= $pagination->getTotalItems() ?> événement<?= $pagination->getTotalItems() > 1 ? 's' : '' ?>)
-            </div>
+            <nav class="pagination-container" aria-label="Navigation des événements">
+                <div class="pagination-info" style="text-align: center; margin-bottom: 10px;">
+                    Page <?= $pagination->getCurrentPage() ?> sur <?= $pagination->getTotalPages() ?> (<?= $pagination->getTotalItems() ?> événement<?= $pagination->getTotalItems() > 1 ? 's' : '' ?>)
+                </div>
 
-            <ul class="pagination" style="display: flex; justify-content: center; list-style: none; gap: 10px; padding: 0;">
-                <?php if ($pagination->hasPrevious()) : ?>
-                    <li>
-                        <a href="<?= $pagination->getLink($pagination->getFirstPage()) ?>">« Premier</a>
-                    </li>
-                    <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>">‹ Précédent</a>
-                    </li>
-                <?php endif; ?>
+                <ul class="pagination">
+                    <?php if ($pagination->hasPrevious()) : ?>
+                        <li>
+                            <a href="<?= $pagination->getLink($pagination->getFirstPage()) ?>">« Premier</a>
+                        </li>
+                        <li>
+                            <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>&src=prev">‹ Précédent</a>
+                        </li>
+                    <?php endif; ?>
 
-                <li>
-                    <a href="<?= $pagination->getLink($pagination->getCurrentPage()) ?>" aria-current="page" style="font-weight: bold; text-decoration: underline;">
-                        <?= $pagination->getCurrentPage() ?>
-                    </a>
-                </li>
+                    <li>
+                        <span class="page-number active" aria-current="page" aria-label="Page <?= $pagination->getCurrentPage() ?>, page actuelle">
+                            <?= $pagination->getCurrentPage() ?>
+                        </span>
+                    </li>
 
-                <?php if ($pagination->hasNext()) : ?>
-                    <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>">Suivant ›</a>
-                    </li>
-                    <li>
-                        <a href="<?= $pagination->getLink($pagination->getLastPage()) ?>">Dernier »</a>
-                    </li>
-                <?php endif; ?>
-            </ul>
-        <?php endif; ?>
+                    <?php if ($pagination->hasNext()) : ?>
+                        <li>
+                            <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>&src=next">Suivant ›</a>
+                        </li>
+                        <li>
+                            <a href="<?= $pagination->getLink($pagination->getLastPage()) ?>">Dernier »</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </nav>
 
     <?php endif; ?>
 </div>
