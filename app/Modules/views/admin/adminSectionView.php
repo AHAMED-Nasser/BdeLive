@@ -21,7 +21,7 @@ start_page("Administration", true, $user ?? null);
 
     <div class="admin-layout">
         <aside class="admin-sidebar">
-        <h3>Navigation</h3>
+        <h2>Navigation</h2>
         
         <!-- Formulaire de recherche -->
         <form method="GET" class="admin-search-form">
@@ -30,7 +30,9 @@ start_page("Administration", true, $user ?? null);
             <input type="hidden" name="role" value="<?= $roleFilter ?>">
             
             <div class="search-group">
+                <label for="admin-search-input" class="sr-only">Rechercher</label>
                 <input type="text" 
+                       id="admin-search-input"
                        name="search" 
                        placeholder="Rechercher par nom, email..." 
                        value="<?= htmlspecialchars($search) ?>"
@@ -57,7 +59,7 @@ start_page("Administration", true, $user ?? null);
         
         <!-- Filtres Actif/Bloqué -->
         <nav class="filter-section">
-            <h4 class="filter-title">Statut</h4>
+            <h3 class="filter-title">Statut</h3>
             <ul class="admin-nav-list">
                 <li>
                     <a href="index.php?page=adminSection&filter=active&role=<?= $roleFilter ?>&search=<?= urlencode($search) ?>"
@@ -76,7 +78,7 @@ start_page("Administration", true, $user ?? null);
         
         <!-- Filtres de Rôle -->
         <nav class="filter-section">
-            <h4 class="filter-title">Rôle</h4>
+            <h3 class="filter-title">Rôle</h3>
             <ul class="admin-nav-list role-filters">
                 <li>
                     <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=all&search=<?= urlencode($search) ?>"

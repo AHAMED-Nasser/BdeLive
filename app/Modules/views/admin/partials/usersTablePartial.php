@@ -38,13 +38,17 @@
                             <form method="POST">
                                 <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
                                 <?php if ($currentFilter !== 'blocked') : ?>
-                                    <select name="action" onchange="this.form.submit()" class="admin-select-action">
-                                        <option value="">Choisir...</option>
-                                        <option value="<?= $u['role'] === 'admin' ? 'demote' : 'promote' ?>">
-                                            <?= $u['role'] === 'admin' ? 'Retirer Admin' : 'Nommer Admin' ?>
-                                        </option>
-                                        <option value="block" class="text-danger">Bloquer</option>
-                                    </select>
+                                    <div class="action-group">
+                                        <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
+                                        <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
+                                            <option value="">Choisir...</option>
+                                            <option value="<?= $u['role'] === 'admin' ? 'demote' : 'promote' ?>">
+                                                <?= $u['role'] === 'admin' ? 'Retirer Admin' : 'Nommer Admin' ?>
+                                            </option>
+                                            <option value="block" class="text-danger">Bloquer</option>
+                                        </select>
+                                        <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
+                                    </div>
                                 <?php else : ?>
                                     <button type="submit" name="action" value="unblock" class="btn-unblock">Réactiver</button>
                                 <?php endif; ?>

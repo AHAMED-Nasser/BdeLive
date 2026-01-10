@@ -18,7 +18,7 @@
 
 .profile-page h1 {
     font-family: "JetBrains Mono ExtraBold", monospace;
-    color: var(--color-primary);
+    color: var(--text-primary);
     margin-bottom: 30px;
     font-size: 2rem;
     text-align: center;
@@ -172,11 +172,11 @@
     animation: slideDown 0.3s ease;
 }
 
-.profile-edit-toggle:checked ~ .profile-edit-content {
+.profile-edit-toggle:checked~.profile-edit-content {
     display: block;
 }
 
-.profile-edit-toggle:checked ~ .profile-field-header .profile-edit-btn {
+.profile-edit-toggle:checked~.profile-field-header .profile-edit-btn {
     background: var(--color-primary);
     color: var(--text-inverse);
 }
@@ -186,6 +186,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -277,14 +278,14 @@
     align-items: center;
     gap: 8px;
     margin-top: 30px;
-    color: #667eea;
+    color: var(--color-primary);
     text-decoration: none;
     font-size: 0.95rem;
     transition: all 0.3s ease;
 }
 
 .profile-back-link:hover {
-    color: #5a6fd8;
+    color: var(--color-primary-hover);
     transform: translateX(-5px);
     text-decoration: none;
 }
@@ -535,7 +536,8 @@
 
     .profile-input,
     .profile-select {
-        font-size: 16px; /* Prevents zoom on iOS */
+        font-size: 16px;
+        /* Prevents zoom on iOS */
     }
 
     .change-user form {
@@ -575,7 +577,7 @@
 /* ===== PRIVACY PAGE SPECIFIC STYLES ===== */
 
 .privacy-page h1 {
-    color: #764ba2;
+    color: var(--text-primary);
 }
 
 .privacy-header {
@@ -728,7 +730,7 @@
     text-align: center;
 }
 
-.privacy-resend-section > p {
+.privacy-resend-section>p {
     color: #6c757d;
     font-size: 0.9rem;
     margin-bottom: 15px;
@@ -809,10 +811,12 @@
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
     }
+
     50% {
         transform: scale(1.05);
         box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
     }
+
     100% {
         transform: scale(1);
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);

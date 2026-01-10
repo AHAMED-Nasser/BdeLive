@@ -41,6 +41,12 @@
     box-shadow: 10px 10px 20px var(--shadow-sm);
 }
 
+.admin-sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
 .admin-nav-list {
     list-style: none;
     padding: 0;
@@ -64,7 +70,7 @@
 
 .admin-nav-link.active {
     background: var(--color-primary);
-    color: white !important;
+    color: var(--text-inverse) !important;
     font-weight: bold;
 }
 
@@ -112,7 +118,7 @@
 
 .badge-admin {
     background: #fee2e2;
-    color: #dc2626;
+    color: #991b1b;
 }
 
 .badge-user {
@@ -121,13 +127,47 @@
 }
 
 /* Actions */
+/* Actions */
+.action-group {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .admin-select-action {
-    width: 150px;
+    width: 130px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background: var(--bg-card);
     color: var(--text-primary);
+}
+
+.btn-apply-action {
+    padding: 8px 12px;
+    background: var(--color-primary);
+    color: var(--text-inverse);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+.btn-apply-action:hover {
+    background: var(--color-primary-hover);
 }
 
 .btn-unblock {
@@ -265,7 +305,7 @@
         border-radius: 12px;
     }
 
-    .admin-sidebar h3 {
+    .admin-sidebar h2 {
         font-size: 1.1rem;
         margin-bottom: 10px;
     }

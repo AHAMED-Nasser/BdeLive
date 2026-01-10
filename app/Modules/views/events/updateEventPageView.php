@@ -58,8 +58,8 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)"
                        value="<?= htmlspecialchars($event['event_theme']) ?>">
 
-                <label for="status_participating">Qui peut venir</label>
-                <div class="checkbox-container">
+                <fieldset class="checkbox-container">
+                    <legend class="form-label">Qui peut venir</legend>
                     <?php
                     $statuses = ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'];
                     foreach ($statuses as $status) :
@@ -74,13 +74,13 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                             <label for="<?= strtolower(str_replace(' ', '', $status)) ?>"><?= htmlspecialchars($status) ?></label>
                         </article>
                     <?php endforeach; ?>
-                </div>
+                </fieldset>
 
                 <label for="description">Description de l'événement</label>
                 <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event['description']) ?></textarea>
 
                 <div class="image-management" style="margin-top: 20px;">
-                    <label>Images actuelles (cocher pour supprimer) :</label>
+                    <p class="form-label">Images actuelles (cocher pour supprimer) :</p>
                     <div class="current-images" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
                         <?php
                         $images = json_decode($event['images'] ?? '[]', true) ?: [];
