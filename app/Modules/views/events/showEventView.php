@@ -80,15 +80,15 @@ $userId = $user['user_id'] ?? null;
             <div class="admin-zone" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; text-align: center; margin-top: 50px;">
                 <h4 style="color: var(--text-primary);">Administration de l'événement</h4>
                 <div class="admin-actions-container">
-                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" class="btn-edit">Modifier</a>
+                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" class="btn-edit grid-item-edit">Modifier</a>
 
-                    <form method="post" action="index.php?page=deleteEvent" onsubmit="return confirm('Supprimer ?');">
+                    <form method="post" action="index.php?page=deleteEvent" onsubmit="return confirm('Supprimer ?');" class="grid-item-delete">
                         <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                         <?= $csrf->getTokenField() ?>
                         <button type="submit" class="btn-delete">Supprimer</button>
                     </form>
 
-                    <form action="index.php?page=exportUserEvent" method="post">
+                    <form action="index.php?page=exportUserEvent" method="post" class="grid-item-export">
                         <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
                         <button type="submit" title="Télécharger la liste des participants au format PDF" class="btn-view">Export PDF des inscriptions</button>
                     </form>
