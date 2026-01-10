@@ -1162,3 +1162,57 @@ a {
         height: 220px;
     }
 }
+
+/* Admin Actions Container */
+.admin-actions-container {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-actions-container form {
+    margin: 0;
+}
+
+/* Mobile adjustments for Admin buttons */
+@media (max-width: 768px) {
+    .admin-actions-container {
+        flex-direction: column;
+        gap: 20px;
+        /* Increased gap to prevent misclicks */
+        width: 100%;
+    }
+
+    .admin-actions-container a,
+    .admin-actions-container form,
+    .admin-actions-container button {
+        width: 100%;
+    }
+
+    .admin-actions-container .btn-edit,
+    .admin-actions-container .btn-delete,
+    .admin-actions-container .btn-view {
+        width: 100%;
+        display: flex;
+        /* Flex to center text/icon */
+        align-items: center;
+        justify-content: center;
+        min-height: 54px;
+        /* Larger touch target for "pro" feel */
+        font-size: 1.05rem;
+        margin: 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Subtle shadow for depth */
+    }
+
+    .admin-actions-container .btn-edit:active,
+    .admin-actions-container .btn-delete:active,
+    .admin-actions-container .btn-view:active {
+        transform: scale(0.98);
+    }
+}
+
+```
