@@ -1,3 +1,33 @@
+/* Section title styling */
+.section-title {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.events-title {
+    font-size: 2.5rem;
+    padding: 45px 20px 30px 20px;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive section titles */
+@media (max-width: 768px) {
+    .events-title {
+        font-size: 1.8rem;
+        padding: 30px 15px 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-title {
+        font-size: 1.5rem;
+        padding: 25px 10px 15px 10px;
+        line-height: 1.3;
+    }
+}
+
 /* Event carousel link styling */
 .carousel-event-link {
     display: block;
@@ -82,6 +112,12 @@
     overflow-x: visible !important;
     overflow-y: visible !important;
     background-color: var(--bg-secondary);
+}
+
+.future-event {
+    width: 100%;
+    padding: 20px 0;
+    margin: 0 auto;
 }
 
 .carousel {
@@ -368,6 +404,10 @@
         padding: 30px 10px !important;
     }
 
+    .future-event {
+        padding: 10px 0;
+    }
+
     .carousel-dots {
         margin-top: 20px;
         gap: 8px;
@@ -427,5 +467,9 @@
 
     .events {
         padding: 20px 5px !important;
+    }
+
+    .future-event {
+        padding: 5px 0;
     }
 }

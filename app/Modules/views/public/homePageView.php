@@ -47,7 +47,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
     </section>
 
     <section class="future-event">
-        <h2 class="title" style="display: flex; justify-content: center; padding: 45px 0; font-size: 2.5rem; font-weight: bold">Événements à venir</h2>
+        <h2 class="section-title events-title">Événements à venir</h2>
         
         <?php if (!empty($events)) : ?>
             <article class="carousel" id="carousel-future-event">
