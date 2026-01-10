@@ -455,7 +455,8 @@ a {
     margin: 20px 0;
 }
 
-.forgot-container label {
+.forgot-container label,
+.forgot-container .form-label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
