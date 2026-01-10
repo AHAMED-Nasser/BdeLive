@@ -575,17 +575,18 @@ a {
 }
 
 /* Animation des barres quand le menu est ouvert */
-.menu-toggle:checked+.hamburger-icon .bar:nth-child(1) {
-    transform: rotate(45deg) translate(10px, 10px);
+/* Animation des barres quand le menu est ouvert */
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(2) {
+    transform: translateY(15.5px) rotate(45deg);
     background-color: var(--text-inverse);
 }
 
-.menu-toggle:checked+.hamburger-icon .bar:nth-child(2) {
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(3) {
     opacity: 0;
 }
 
-.menu-toggle:checked+.hamburger-icon .bar:nth-child(3) {
-    transform: rotate(-45deg) translate(10px, -10px);
+.menu-toggle:checked+.hamburger-icon .bar:nth-child(4) {
+    transform: translateY(-15.5px) rotate(-45deg);
     background-color: var(--text-inverse);
 }
 
