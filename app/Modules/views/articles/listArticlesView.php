@@ -92,26 +92,39 @@ start_page("Nos articles", true, $user ?? null);
 
             <!-- Pagination -->
             <?php if ($pagination->getTotalPages() > 1) : ?>
-                <div class="pagination">
-                    <?php if ($pagination->getCurrentPage() > 1) : ?>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>">
-                            Précédent
-                        </a>
-                    <?php endif; ?>
+                <nav class="pagination-container" aria-label="Navigation des articles">
+                    <ul class="pagination">
+                        <?php if ($pagination->getCurrentPage() > 1) : ?>
+                            <li>
+                                <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>&src=prev">
+                                    Précédent
+                                </a>
+                            </li>
+                        <?php endif; ?>
 
-                    <?php for ($i = 1; $i <= $pagination->getTotalPages(); $i++) : ?>
-                        <a href="<?= $pagination->getLink($i) ?>"
-                           class="<?= $i === $pagination->getCurrentPage() ? 'active' : '' ?>">
-                            <?= $i ?>
-                        </a>
-                    <?php endfor; ?>
+                        <?php for ($i = 1; $i <= $pagination->getTotalPages(); $i++) : ?>
+                            <li>
+                                <?php if ($i === $pagination->getCurrentPage()) : ?>
+                                    <span class="page-number active" aria-current="page" aria-label="Page <?= $i ?>, page actuelle">
+                                        <?= $i ?>
+                                    </span>
+                                <?php else : ?>
+                                    <a href="<?= $pagination->getLink($i) ?>" class="page-number" aria-label="Aller à la page <?= $i ?>">
+                                        <?= $i ?>
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                        <?php endfor; ?>
 
-                    <?php if ($pagination->getCurrentPage() < $pagination->getTotalPages()) : ?>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>">
-                            Suivant
-                        </a>
-                    <?php endif; ?>
-                </div>
+                        <?php if ($pagination->getCurrentPage() < $pagination->getTotalPages()) : ?>
+                            <li>
+                                <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>&src=next">
+                                    Suivant
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             <?php endif; ?>
         <?php endif; ?>
     </div>

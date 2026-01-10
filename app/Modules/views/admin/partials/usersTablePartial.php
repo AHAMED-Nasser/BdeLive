@@ -56,14 +56,24 @@
             </table>
         </div>
 
-        <div class="pagination" id="users-pagination">
-            <?php if ($pagination->hasPrevious()) : ?>
-                <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>">&laquo; Précédent</a>
-            <?php endif; ?>
-            <span class="pagination-info">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
-            <?php if ($pagination->hasNext()) : ?>
-                <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>">Suivant &raquo;</a>
-            <?php endif; ?>
-        </div>
+        <nav class="pagination-container" aria-label="Pagination des utilisateurs">
+            <ul class="pagination" id="users-pagination">
+                <?php if ($pagination->hasPrevious()) : ?>
+                    <li>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>&src=prev">&laquo; Précédent</a>
+                    </li>
+                <?php endif; ?>
+                
+                <li>
+                    <span class="pagination-info" aria-current="page">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
+                </li>
+
+                <?php if ($pagination->hasNext()) : ?>
+                    <li>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>&src=next">Suivant &raquo;</a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </nav>
     <?php endif; ?>
 </div>
