@@ -202,7 +202,8 @@
 
     .btn-view,
     .btn-edit,
-    .btn-delete {
+    .btn-delete,
+    .admin-zone form {
         width: 100%;
         grid-column: 1 / -1 !important;
     }
