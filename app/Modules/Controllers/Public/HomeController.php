@@ -6,6 +6,7 @@ namespace App\Modules\Controllers\Public;
 
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Repositories\EventRepository;
 
 /**
  * Home Controller
@@ -21,7 +22,7 @@ class HomeController extends DefaultController
      * Display the home page
      *
      * Loads and renders the home page view for the application.
-     * Retrieves the two latest articles to display on the homepage.
+     * Retrieves the two latest articles and upcoming events to display on the homepage.
      *
      * @return void
      */
@@ -33,9 +34,14 @@ class HomeController extends DefaultController
         $articleModel = new ArticleModel();
         $articles = $articleModel->getLatestArticles(2);
 
-        // Pass articles to the view (empty array if none exist)
+        // Retrieve upcoming events for the carousel
+        $eventRepository = new EventRepository();
+        $events = $eventRepository->findLatestEvents(5);
+
+        // Pass articles and events to the view (empty array if none exist)
         $this->render('public/homePageView', [
-            'articles' => $articles
+            'articles' => $articles,
+            'events' => $events
         ]);
     }
 }

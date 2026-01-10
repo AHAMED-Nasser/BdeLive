@@ -165,4 +165,36 @@ class EventRepository
             return [];
         }
     }
+
+    /**
+     * Find the latest upcoming events
+     *
+     * Fetches upcoming events ordered by date (ascending) to display the next events first.
+     * Only returns events with dates greater than or equal to today.
+     *
+     * @param int $limit Maximum number of events to retrieve
+     * @return array<int, array<string, mixed>> Array of upcoming events
+     */
+    public function findLatestEvents(int $limit): array
+    {
+        try {
+            $sql = 'SELECT event_id, event_name, event_date, event_time, event_location, description, images
+                    FROM EVENTS
+                    WHERE event_date >= CURDATE()
+                    ORDER BY event_date ASC, event_time ASC
+                    LIMIT :limit';
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->execute();
+
+            /** @var array<int, array<string, mixed>> $results */
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $results;
+        } catch (PDOException $e) {
+            error_log('EventRepository::findLatestEvents - ' . $e->getMessage());
+            return [];
+        }
+    }
 }
