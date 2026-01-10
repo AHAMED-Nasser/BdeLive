@@ -58,7 +58,7 @@ start_page("Modifier un article", true, $user ?? null) ?>
                 required>
 
             <div class="insert-image">
-                <label>Image de l'article (optionnel - laisser vide pour conserver l'image actuelle)</label>
+                <div class="form-label">Image de l'article (optionnel - laisser vide pour conserver l'image actuelle)</div>
                 <?php if (!empty($article['image_url'])) : ?>
                     <div style="margin-bottom: 15px;">
                         <p style="margin-bottom: 10px; font-weight: bold;">Image actuelle :</p>
