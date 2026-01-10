@@ -6,7 +6,6 @@
  * @var array<string, string|null> $flash
  */
 $articles = $articles ?? [];
-$events = $events ?? [];
 
 start_page("BDE Inform'Aix - Site Officiel", true, $user ?? null);
 
@@ -53,8 +52,10 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
         <?php if (!empty($events)) : ?>
             <article class="carousel" id="carousel-future-event">
                 <div class="carousel-block">
-                    <button class="carousel-control prev" onclick="moveSlide(-1, 'carousel-future-event')">
-                        <img src="./assets/img/carousel/arrow.png" alt="Précédent">
+                    <button class="carousel-control prev" onclick="moveSlide(-1, 'carousel-future-event')" aria-label="Précédent">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </button>
 
                     <div class="carousel-inner">
@@ -62,12 +63,12 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                             <?php
                             // Parse images JSON - handle both array and string format
                             $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
-                            $eventImage = './assets/img/default-event.png'; // Default fallback
-                            
+                            $eventImage = null; // No static fallback
+
                             if (!empty($images) && is_array($images)) {
                                 $firstImage = $images[0];
                                 // Check if it's an array with 'url' key or a direct string
-                                $eventImage = is_array($firstImage) ? ($firstImage['url'] ?? './assets/img/default-event.png') : $firstImage;
+                                $eventImage = is_array($firstImage) ? ($firstImage['url'] ?? null) : $firstImage;
                             }
                             ?>
                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
@@ -75,17 +76,24 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                    class="carousel-event-link"
                                    aria-label="Voir les détails de <?= htmlspecialchars($event['event_name']) ?>">
                                     <h3 class="event-title"><?= htmlspecialchars($event['event_name']) ?></h3>
-                                    <img src="<?= htmlspecialchars($eventImage) ?>" 
-                                         class="carousel-image" 
-                                         alt="<?= htmlspecialchars($event['event_name']) ?>"
-                                         onerror="this.src='./assets/img/carousel/events/event2.jpg'">
+                                    <?php if ($eventImage) : ?>
+                                        <img src="<?= htmlspecialchars($eventImage) ?>" 
+                                             class="carousel-image" 
+                                             alt="<?= htmlspecialchars($event['event_name']) ?>">
+                                    <?php else : ?>
+                                        <div class="carousel-no-image">
+                                            <span class="event-name-display"><?= htmlspecialchars($event['event_name']) ?></span>
+                                        </div>
+                                    <?php endif; ?>
                                 </a>
                             </div>
                         <?php endforeach; ?>
                     </div>
 
-                    <button class="carousel-control next" onclick="moveSlide(1, 'carousel-future-event')">
-                        <img src="./assets/img/carousel/arrow.png" alt="Suivant">
+                    <button class="carousel-control next" onclick="moveSlide(1, 'carousel-future-event')" aria-label="Suivant">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </button>
                 </div>
 

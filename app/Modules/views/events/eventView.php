@@ -1090,12 +1090,7 @@ $userId = $user['user_id'] ?? null;
                 }
             }
 
-            if (empty($carouselImages)) {
-                $carouselImages = [
-                    ['src' => './assets/img/carousel/events/event2.jpg'],
-                    ['src' => './assets/img/carousel/events/event1.svg'],
-                ];
-            }
+            // Si aucune image disponible, le carousel sera vide
             ?>
 
             <div class="event-item" style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">

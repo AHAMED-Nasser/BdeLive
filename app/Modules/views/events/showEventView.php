@@ -34,9 +34,9 @@ $userId = $user['user_id'] ?? null;
                     $src = is_array($img) ? $img['url'] : $img;
                     echo '<img src="' . htmlspecialchars($src) . '" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px;">';
                 endforeach;
-            else : ?>
-                <img src="./assets/img/carousel/events/event2.jpg" alt="Default" style="width: 100%; border-radius: 8px;">
-            <?php endif; ?>
+            else :
+                // No images available
+            endif; ?>
         </div>
 
         <div class="event-info-banner">
