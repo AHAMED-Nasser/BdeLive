@@ -1,15 +1,12 @@
 <?php
 /**
  * @var array<int, array<string, mixed>> $articles
+ * @var array<int, array<string, mixed>> $events
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
 $articles = $articles ?? [];
-$imageFuturEvent = [
-        ['src' => './assets/img/event1.png'],
-        ['src' => './assets/img/event2.png'],
-        ['src' => './assets/img/event3.png'],
-];
+$events = $events ?? [];
 
 start_page("BDE Inform'Aix - Site Officiel", true, $user ?? null);
 
@@ -51,8 +48,59 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
     </section>
 
     <section class="future-event">
-        <h2 class="title" style="display: flex; justify-content: center; padding: 45px 0; font-size: 2.5rem; font-weight: bold">Événement à venir</h2>
-        <?php useCarousel('Soirée', $imageFuturEvent, 'carousel-future-event') ?>
+        <h2 class="title" style="display: flex; justify-content: center; padding: 45px 0; font-size: 2.5rem; font-weight: bold">Événements à venir</h2>
+        
+        <?php if (!empty($events)) : ?>
+            <article class="carousel" id="carousel-future-event">
+                <div class="carousel-block">
+                    <button class="carousel-control prev" onclick="moveSlide(-1, 'carousel-future-event')">
+                        <img src="./assets/img/carousel/arrow.png" alt="Précédent">
+                    </button>
+
+                    <div class="carousel-inner">
+                        <?php foreach ($events as $index => $event) : ?>
+                            <?php
+                            // Parse images JSON - handle both array and string format
+                            $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
+                            $eventImage = './assets/img/default-event.png'; // Default fallback
+                            
+                            if (!empty($images) && is_array($images)) {
+                                $firstImage = $images[0];
+                                // Check if it's an array with 'url' key or a direct string
+                                $eventImage = is_array($firstImage) ? ($firstImage['url'] ?? './assets/img/default-event.png') : $firstImage;
+                            }
+                            ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <a href="index.php?page=showEvent&id=<?= htmlspecialchars((string)$event['event_id']) ?>" 
+                                   class="carousel-event-link"
+                                   aria-label="Voir les détails de <?= htmlspecialchars($event['event_name']) ?>">
+                                    <h3 class="event-title"><?= htmlspecialchars($event['event_name']) ?></h3>
+                                    <img src="<?= htmlspecialchars($eventImage) ?>" 
+                                         class="carousel-image" 
+                                         alt="<?= htmlspecialchars($event['event_name']) ?>"
+                                         onerror="this.src='./assets/img/carousel/events/event2.jpg'">
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <button class="carousel-control next" onclick="moveSlide(1, 'carousel-future-event')">
+                        <img src="./assets/img/carousel/arrow.png" alt="Suivant">
+                    </button>
+                </div>
+
+                <div class="carousel-dots">
+                    <?php foreach ($events as $index => $event) : ?>
+                        <span class="dot <?= $index === 0 ? 'active' : '' ?>" 
+                              onclick="currentSlide(<?= $index ?>, 'carousel-future-event')"></span>
+                    <?php endforeach; ?>
+                </div>
+            </article>
+        <?php else : ?>
+            <div class="no-events-message" style="text-align: center; padding: 2rem;">
+                <p>Aucun événement à venir pour le moment. Restez connectés !</p>
+            </div>
+        <?php endif; ?>
     </section>
 
     <?php if (!empty($articles)) : ?>
