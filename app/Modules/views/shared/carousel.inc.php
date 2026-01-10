@@ -13,7 +13,11 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
 <h2 class="event-title"><?= $carouselLabel ?></h2>
 <article class="carousel" id="<?= $carouselId ?>">
     <div class="carousel-block">
-        <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId  ?>')" ><img src="./assets/img/carousel/arrow.png" alt="Précédent"></button>
+        <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId  ?>')" aria-label="Précédent">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
 
         <div class="carousel-inner">
             <?php foreach ($imageMap as $index => $image) : ?>
@@ -23,7 +27,11 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
             <?php endforeach ?>
         </div>
 
-        <button class="carousel-control next" onclick="moveSlide(1, '<?= $carouselId?>')"><img src="./assets/img/carousel/arrow.png" alt="Suivant"></button>
+        <button class="carousel-control next" onclick="moveSlide(1, '<?= $carouselId?>')" aria-label="Suivant">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
     </div>
 
     <div class="carousel-dots">
