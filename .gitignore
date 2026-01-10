@@ -66,3 +66,4 @@ app/config/*.local.php
 
 .gemini/
 gha-creds-*.json
+pentest_results/
