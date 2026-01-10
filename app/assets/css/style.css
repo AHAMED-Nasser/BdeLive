@@ -904,7 +904,9 @@ a {
         margin-bottom: 18px;
     }
 
-    .social-logos h3 {
+    .social-logos h2,
+    .social-logos h3,
+    .social-logos h4 {
         font-size: 0.95rem;
     }
 
@@ -997,7 +999,9 @@ a {
         margin-bottom: 15px;
     }
 
-    .social-logos h3 {
+    .social-logos h2,
+    .social-logos h3,
+    .social-logos h4 {
         font-size: 0.9rem;
     }
 
@@ -1017,7 +1021,9 @@ a {
     flex-wrap: wrap;
 }
 
-.social-logos h3 {
+.social-logos h2,
+.social-logos h3,
+.social-logos h4 {
     margin: 0;
     font-size: 1rem;
     font-weight: 500;
@@ -1056,8 +1062,8 @@ a {
 /* === Boutons d'action admin (Modifier, Supprimer) === */
 /* Réutilisable pour les événements */
 .btn-edit {
-    background-color: #ffc107;
-    color: var(--text-inverse);
+    background-color: var(--color-warning);
+    color: var(--color-warning-text);
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -1068,14 +1074,14 @@ a {
 }
 
 .btn-edit:hover {
-    background-color: #e0a800;
+    filter: brightness(0.9);
     text-decoration: none;
-    color: var(--text-inverse);
+    color: var(--color-warning-text);
 }
 
 .btn-delete {
-    background-color: #dc3545;
-    color: var(--text-inverse);
+    background-color: var(--color-danger);
+    color: var(--color-danger-text);
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -1084,9 +1090,29 @@ a {
     display: inline-block;
     font-size: 0.9rem;
     transition: background-color 0.3s ease;
-    text-align: center;
 }
 
 .btn-delete:hover {
-    background-color: #c82333;
+    filter: brightness(0.9);
+    text-decoration: none;
+    color: var(--color-danger-text);
+}
+
+.btn-success {
+    background-color: var(--color-success);
+    color: var(--color-success-text);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    filter: brightness(0.9);
+    text-decoration: none;
+    color: var(--color-success-text);
 }
