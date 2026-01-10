@@ -1180,16 +1180,40 @@ a {
 /* Mobile adjustments for Admin buttons */
 @media (max-width: 768px) {
     .admin-actions-container {
-        flex-direction: column;
-        gap: 20px;
-        /* Increased gap to prevent misclicks */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
         width: 100%;
+        flex-direction: unset;
+        /* Override flex */
+    }
+
+    /* Modifier button (1st child) */
+    .admin-actions-container> :nth-child(1) {
+        grid-column: 1;
+    }
+
+    /* Supprimer form (2nd child) */
+    .admin-actions-container> :nth-child(2) {
+        grid-column: 2;
+    }
+
+    /* Export PDF form (3nd child) */
+    .admin-actions-container> :nth-child(3) {
+        grid-column: 1 / -1;
+        /* Full width */
     }
 
     .admin-actions-container a,
     .admin-actions-container form,
     .admin-actions-container button {
         width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Ensure forms stretch their buttons */
+    .admin-actions-container form {
+        display: flex;
     }
 
     .admin-actions-container .btn-edit,
@@ -1197,15 +1221,14 @@ a {
     .admin-actions-container .btn-view {
         width: 100%;
         display: flex;
-        /* Flex to center text/icon */
         align-items: center;
         justify-content: center;
         min-height: 54px;
-        /* Larger touch target for "pro" feel */
         font-size: 1.05rem;
         margin: 0;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        /* Subtle shadow for depth */
+        border-radius: 8px;
+        /* Softer look like the mock */
     }
 
     .admin-actions-container .btn-edit:active,
@@ -1213,6 +1236,5 @@ a {
     .admin-actions-container .btn-view:active {
         transform: scale(0.98);
     }
-}
 
-```
+    ```
