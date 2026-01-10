@@ -36,7 +36,11 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
 
     <div class="carousel-dots">
         <?php foreach ($imageMap as $index => $image) : ?>
-            <span class="dot <?= $index === 0 ? 'active' : ''?>" onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?>')"></span>
+            <button class="dot <?= $index === 0 ? 'active' : ''?>" 
+                    type="button"
+                    onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?>')"
+                    aria-label="Afficher l'image <?= $index + 1 ?>"
+                    aria-current="<?= $index === 0 ? 'true' : 'false' ?>"></button>
         <?php endforeach ?>
     </div>
 </article>
