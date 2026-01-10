@@ -31,12 +31,19 @@
 /* Event carousel link styling */
 .carousel-event-link {
     display: block;
-    text-decoration: none;
+    text-decoration: none !important;
     color: inherit;
     width: 100%;
     height: 100%;
     position: relative;
     transition: transform 0.3s ease;
+}
+
+.carousel-event-link:hover,
+.carousel-event-link:visited,
+.carousel-event-link:active,
+.carousel-event-link:focus {
+    text-decoration: none !important;
 }
 
 .carousel-event-link:hover {
