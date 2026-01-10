@@ -1097,7 +1097,7 @@ $userId = $user['user_id'] ?? null;
                 <?php useCarousel($event['event_name'], $carouselImages, 'carousel-event-' . $event['event_id']); ?>
 
                 <div style="margin-top: 15px;">
-                    <a href="index.php?page=showEvent&id=<?= $event['event_id'] ?>" class="btn-more" style="color: #1299ff; font-weight: bold; text-decoration: none;">
+                    <a href="index.php?page=showEvent&id=<?= $event['event_id'] ?>" class="btn-more" style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
                         Voir les détails
                     </a>
                 </div>

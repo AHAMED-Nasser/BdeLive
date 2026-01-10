@@ -122,16 +122,15 @@
 
 /* Bouton Modifier - Moutarde/Doré */
 .article-actions .btn-edit {
-    background-color: #d69e2e;
-    /* Légèrement plus lumineux que ca9800 pour le contraste */
-    color: white;
+    background-color: var(--color-warning);
+    color: var(--color-warning-text);
     grid-column: span 1;
 }
 
 .article-actions .btn-edit:hover {
-    background-color: #b7791f;
-    color: white;
+    filter: brightness(0.9);
     text-decoration: none;
+    color: var(--color-warning-text);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(214, 158, 46, 0.3);
 }
@@ -147,15 +146,15 @@
 
 /* Bouton Supprimer - Rouge */
 .article-actions .btn-delete {
-    background-color: #e53e3e;
-    color: white;
+    background-color: var(--color-danger);
+    color: var(--color-danger-text);
     width: 100%;
 }
 
 .article-actions .btn-delete:hover {
-    background-color: #c53030;
-    color: white;
+    filter: brightness(0.9);
     text-decoration: none;
+    color: var(--color-danger-text);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
 }

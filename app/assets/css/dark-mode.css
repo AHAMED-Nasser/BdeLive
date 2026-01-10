@@ -29,6 +29,12 @@
     --color-primary-hover: #4c51bf;
     --color-secondary: #764ba2;
     --color-accent: #b523eb;
+    --color-warning: #ffc107;
+    --color-warning-text: #212529;
+    --color-danger: #c53030;
+    --color-danger-text: #ffffff;
+    --color-success: #15803d;
+    --color-success-text: #ffffff;
 
     /* Borders & Shadows */
     --border-color: #ddd;
@@ -77,6 +83,12 @@
     --color-primary-hover: #A5B4FC;
     --color-secondary: #C084FC;
     --color-accent: #C084FC;
+    --color-warning: #fbbf24;
+    --color-warning-text: #0F111A;
+    --color-danger: #f87171;
+    --color-danger-text: #0F111A;
+    --color-success: #4ade80;
+    --color-success-text: #0F111A;
 
     /* Borders & Shadows */
     --border-color: #334155;

@@ -58,12 +58,12 @@ $userId = $user['user_id'] ?? null;
                 ?>
                 <?php if ($isRegistered) : ?>
                     <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>"
-                       style="background-color: #dc3545; color: white; border: none; padding: 12px 25px; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">
+                       class="btn-delete">
                         Se désinscrire
                     </a>
                 <?php else : ?>
                     <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>"
-                       style="background-color: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">
+                       class="btn-success">
                         S'inscrire à l'événement
                     </a>
                 <?php endif; ?>
@@ -76,20 +76,20 @@ $userId = $user['user_id'] ?? null;
         </div>
 
         <?php if ($isAdmin) : ?>
-            <div class="admin-zone" style="background: #fff3cd; border: 1px solid #ffeeba; padding: 25px; border-radius: 8px; text-align: center; margin-top: 50px;">
-                <h4 style="color: #856404;">Administration de l'événement</h4>
+            <div class="admin-zone" style="background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; text-align: center; margin-top: 50px;">
+                <h4 style="color: var(--text-primary);">Administration de l'événement</h4>
                 <div style="margin-top: 15px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" style="background-color: #ffc107; color: #212529; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block;">Modifier</a>
+                    <a href="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" class="btn-edit">Modifier</a>
 
                     <form method="post" action="index.php?page=deleteEvent" onsubmit="return confirm('Supprimer ?');" style="margin: 0;">
                         <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                         <?= $csrf->getTokenField() ?>
-                        <button type="submit" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Supprimer</button>
+                        <button type="submit" class="btn-delete">Supprimer</button>
                     </form>
 
                     <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                        <button type="submit" title="Télécharger la liste des participants au format PDF" style="background-color: #1299ff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Export PDF des inscriptions</button>
+                        <button type="submit" title="Télécharger la liste des participants au format PDF" class="btn-view">Export PDF des inscriptions</button>
                     </form>
                 </div>
             </div>
