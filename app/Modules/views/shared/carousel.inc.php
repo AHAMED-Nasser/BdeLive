@@ -22,7 +22,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
         <div class="carousel-inner">
             <?php foreach ($imageMap as $index => $image) : ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                    <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? 'Image') ?>">
+                    <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?>">
                 </div>
             <?php endforeach ?>
         </div>
