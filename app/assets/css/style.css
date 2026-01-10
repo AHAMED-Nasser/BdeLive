@@ -1099,6 +1099,25 @@ a {
     color: var(--color-danger-text);
 }
 
+.btn-view {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-view:hover {
+    filter: brightness(0.9);
+    text-decoration: none;
+    color: var(--text-inverse);
+}
+
 .btn-success {
     background-color: var(--color-success);
     color: var(--color-success-text);
