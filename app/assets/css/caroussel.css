@@ -67,8 +67,18 @@
     backdrop-filter: blur(4px);
 }
 
-.carousel-event-link:hover::after {
-    opacity: 1;
+/* Only show hover effect on devices with fine pointer (mouse) */
+@media (hover: hover) and (pointer: fine) {
+    .carousel-event-link:hover::after {
+        opacity: 1;
+    }
+}
+
+/* Disable hover transform on touch devices */
+@media (hover: none) {
+    .carousel-event-link:hover {
+        transform: none;
+    }
 }
 
 .carousel-event-link .event-title {
@@ -345,9 +355,14 @@
         height: 400px;
     }
 
-    .event-title {
-        font-size: 1.8rem;
-        padding: 40px 15px 25px 15px;
+    .carousel-event-link .event-title {
+        font-size: 1.6rem;
+        padding: 25px 15px 20px 15px;
+    }
+
+    .carousel-event-link::after {
+        font-size: 1.3rem;
+        letter-spacing: 1.5px;
     }
 }
 
@@ -395,9 +410,15 @@
         height: 300px;
     }
 
-    .event-title {
-        font-size: 1.6rem;
-        padding: 30px 10px 20px 10px;
+    .carousel-event-link .event-title {
+        font-size: 1.3rem;
+        padding: 20px 10px 15px 10px;
+        letter-spacing: 0.3px;
+    }
+
+    .carousel-event-link::after {
+        font-size: 1rem;
+        letter-spacing: 1px;
     }
 
     .events {
@@ -460,9 +481,16 @@
         height: 250px;
     }
 
-    .event-title {
-        font-size: 1.4rem;
-        padding: 25px 5px 15px 5px;
+    .carousel-event-link .event-title {
+        font-size: 1.1rem;
+        padding: 15px 8px 12px 8px;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+    }
+
+    .carousel-event-link::after {
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
     }
 
     .events {
