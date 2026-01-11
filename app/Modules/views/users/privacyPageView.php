@@ -29,13 +29,6 @@ start_page("Confidentialité - BDE Inform'Aix", true, $user ?? null);
 
 $editField = $_GET['edit'] ?? null;
 $step = $_GET['step'] ?? null;
-$isBlocked = $isBlocked ?? false;
-$remainingTime = $remainingTime ?? 0;
-$passwordResendStatus = $passwordResendStatus ?? ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
-$emailResendStatus = $emailResendStatus ?? ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
-$hasActivePasswordCode = $hasActivePasswordCode ?? false;
-$hasActiveEmailCode = $hasActiveEmailCode ?? false;
-$pendingEmail = $pendingEmail ?? null;
 ?>
 
 <div class="profile-page privacy-page">
