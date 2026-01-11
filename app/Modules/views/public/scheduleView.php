@@ -21,7 +21,7 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
         <div class="event-modal-content">
             <button class="event-modal-close" aria-label="Fermer">&times;</button>
             <div class="event-modal-header">
-                <h2 id="event-modal-title"></h2>
+                <h2 id="event-modal-title" aria-hidden="true">Détails de l'événement</h2>
             </div>
             <div class="event-modal-body">
                 <div id="event-modal-details"></div>
@@ -243,7 +243,7 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                     html += `<div class="fc-event-time">${arg.timeText}</div>`;
                     html += `<div class="fc-event-title-container">`;
                     html += `<div class="fc-event-title">${arg.event.title}</div>`;
-                    if (location) html += `<div style="font-size: 0.85em; opacity: 0.9;">📍 ${location}</div>`;
+                    if (location) html += `<div class="fc-event-location">📍 ${location}</div>`;
                     html += `</div></div>`;
                     return { html: html };
                 },
@@ -263,13 +263,13 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
                             const tds = eventEl.querySelectorAll('td');
                             tds.forEach(td => {
                                 td.style.backgroundColor = bgColor;
-                                td.style.color = '#ffffff'; // Texte blanc en mode sombre
+                                // Ne pas forcer la couleur du texte, laisser le CSS gérer selon le mode
                             });
                             
-                            // S'assurer que le texte dans les éléments enfants est blanc
+                            // Ne pas forcer la couleur, laisser le CSS gérer selon le mode (dark/light)
                             const textElements = eventEl.querySelectorAll('.fc-event-title, .fc-event-time, .fc-list-event-time, .fc-list-event-title');
                             textElements.forEach(el => {
-                                el.style.color = '#ffffff';
+                                // Retir du forçage de couleur - géré par CSS
                             });
                         }
                     }
