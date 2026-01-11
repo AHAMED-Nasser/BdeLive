@@ -5,7 +5,7 @@ namespace App\Core;
 /**
  * DayScheduleManager - Gestionnaire d'emploi du temps journalier
  *
- * Génère des vues journalières avec timeline verticale détaillée (07:00-20:00)
+ * Génère des vues journalières avec timeline verticale détaillée (08:00-20:00)
  * et blocs de cours positionnés selon leur horaire.
  *
  * @package App\Core
@@ -13,9 +13,9 @@ namespace App\Core;
 class DayScheduleManager
 {
     /**
-     * Heure de début de la journée (07:00)
+     * Heure de début de la journée (08:00)
      */
-    private const START_HOUR = 7;
+    private const START_HOUR = 8;
 
     /**
      * Heure de fin de la journée (20:00)

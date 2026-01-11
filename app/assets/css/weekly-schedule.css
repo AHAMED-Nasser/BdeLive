@@ -124,7 +124,7 @@
     border: 1px solid var(--border-color);
     border-radius: 4px;
     min-height: calc(13 * 60px + 60px);
-    /* 13 heures + header */
+    /* 13 heures (08:00-20:00) + header */
 }
 
 /* ===========================================
@@ -150,7 +150,7 @@
     position: relative;
     background: var(--bg-card);
     min-height: calc(13 * 60px);
-    /* 07:00-20:00 = 13 heures */
+    /* 08:00-20:00 = 13 heures */
 }
 
 /* Lignes horaires (background) */
