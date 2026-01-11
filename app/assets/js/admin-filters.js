@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const filterInput = searchForm.querySelector('input[name="filter"]');
             const roleInput = searchForm.querySelector('input[name="role"]');
             const searchInput = searchForm.querySelector('input[name="search"]');
-            
+
             if (filterInput) {
                 filterInput.value = currentFilter;
             }
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const currentUrl = new URL(window.location.href);
             const currentFilter = currentUrl.searchParams.get('filter') || 'active';
             const currentRole = currentUrl.searchParams.get('role') || 'all';
-            
+
             // Mettre à jour les paramètres avec les valeurs actuelles si elles ne sont pas dans le formulaire
             if (!params.has('filter') || params.get('filter') === '') {
                 params.set('filter', currentFilter);
