@@ -42,7 +42,7 @@ class EventController extends DefaultController
         }
     }
 
-    private function showCalendar($repository): void
+    private function showCalendar(EventRepository $repository): void
     {
         // Mode Calendrier : on récupère tout et on utilise le calendrier natif
         $events = $repository->findAll();
@@ -87,7 +87,7 @@ class EventController extends DefaultController
         ]);
     }
 
-    private function showList($repository): void
+    private function showList(EventRepository $repository): void
     {
         // Mode Liste : conservation de la logique de pagination existante
         $totalEvents = $repository->count();
