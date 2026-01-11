@@ -25,10 +25,10 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="/assets/css/calendar.css">
-<link rel="stylesheet" href="/assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="./assets/css/calendar.css">
+<link rel="stylesheet" href="./assets/css/weekly-schedule.css">
 <!-- Script modal requis pour les événements -->
-<script src="/assets/js/schedule-modal.js" defer></script>
+<script src="./assets/js/schedule-modal.js" defer></script>
 
 <div class="calendar-container" role="region" aria-label="Calendrier <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>">
     

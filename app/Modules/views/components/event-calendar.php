@@ -25,7 +25,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="/assets/css/calendar.css">
+<link rel="stylesheet" href="./assets/css/calendar.css">
 
 <div class="calendar-container event-calendar" role="region" aria-label="Calendrier <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>">
     

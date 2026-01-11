@@ -23,9 +23,9 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="/assets/css/weekly-schedule.css">
-<link rel="stylesheet" href="/assets/css/calendar.css">
-<script src="/assets/js/schedule-modal.js" defer></script>
+<link rel="stylesheet" href="./assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="./assets/css/calendar.css">
+<script src="./assets/js/schedule-modal.js" defer></script>
 
 <div class="weekly-schedule day-view" role="region" aria-label="Emploi du temps du <?= $daySchedule['formatted'] ?>">
     
