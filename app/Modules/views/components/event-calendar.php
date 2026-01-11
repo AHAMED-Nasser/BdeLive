@@ -38,9 +38,8 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         $isCurrentMonth = ($calendar['year'] == $currentYear && $calendar['month'] == $currentMonth);
         ?>
         <?php if ($isCurrentMonth) : ?>
-            <span class="nav-btn today-btn" 
-                  aria-label="Vous êtes déjà sur le mois actuel"
-                  style="opacity: 0.6; cursor: not-allowed;">
+            <span class="nav-btn today-btn disabled" 
+                  aria-label="Vous êtes déjà sur le mois actuel">
                 Aujourd'hui
             </span>
         <?php else : ?>
@@ -69,9 +68,8 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
             ?>
             
             <?php if ($isPrevCurrent) : ?>
-                <span class="nav-btn icon-btn" 
-                      aria-label="Vous êtes déjà sur ce mois"
-                      style="opacity: 0.6; cursor: not-allowed;">
+                <span class="nav-btn icon-btn disabled" 
+                      aria-label="Vous êtes déjà sur ce mois">
                     <i class="fas fa-chevron-left"></i>
                 </span>
             <?php else : ?>
@@ -90,9 +88,8 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
             </h2>
             
             <?php if ($isNextCurrent) : ?>
-                <span class="nav-btn icon-btn" 
-                      aria-label="Vous êtes déjà sur ce mois"
-                      style="opacity: 0.6; cursor: not-allowed;">
+                <span class="nav-btn icon-btn disabled" 
+                      aria-label="Vous êtes déjà sur ce mois">
                     <i class="fas fa-chevron-right"></i>
                 </span>
             <?php else : ?>

@@ -10,7 +10,18 @@ start_page("Nos articles", true, $user ?? null);
 
 <section class="articles-section">
     <div class="container">
-        <h1 class="title">Nos articles</h1>
+        <div class="page-header-with-action">
+            <h1 class="title">Nos articles</h1>
+            <?php
+            $auth = \App\Core\Application::getInstance()->auth();
+            $isAdmin = $auth->isAdmin();
+            if ($isAdmin) : ?>
+                <a href="index.php?page=createArticle" class="create-action-btn">
+                    <i class="fas fa-edit"></i>
+                    <span>Créer un article</span>
+                </a>
+            <?php endif; ?>
+        </div>
 
         <?php if (!empty($flash['success'])) : ?>
             <article style="color: #1d7630; text-align: center; margin-bottom: 20px;">

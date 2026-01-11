@@ -45,6 +45,23 @@
     text-decoration: none;
 }
 
+/* Style pour le bouton désactivé (meilleur contraste) */
+.today-btn.disabled,
+span.today-btn {
+    background-color: #e5e7eb; /* Gris clair avec bon contraste */
+    color: #374151; /* Gris foncé pour le texte - contraste 4.5:1 minimum */
+    cursor: not-allowed;
+    opacity: 1; /* Pas d'opacité pour maintenir le contraste */
+    border-color: #d1d5db;
+}
+
+.dark-mode .today-btn.disabled,
+.dark-mode span.today-btn {
+    background-color: #374151; /* Gris foncé en mode sombre */
+    color: #e5e7eb; /* Gris clair pour le texte - contraste suffisant */
+    border-color: #4b5563;
+}
+
 /* Center: Navigation Controls */
 .calendar-nav-center {
     display: flex;
@@ -99,6 +116,23 @@
 
 .icon-btn:active {
     transform: scale(0.95);
+}
+
+/* Style pour les boutons d'icône désactivés */
+.icon-btn.disabled,
+span.icon-btn {
+    background-color: #e5e7eb; /* Gris clair avec bon contraste */
+    color: #374151; /* Gris foncé pour l'icône - contraste 4.5:1 minimum */
+    cursor: not-allowed;
+    opacity: 1; /* Pas d'opacité pour maintenir le contraste */
+    border-color: #d1d5db;
+}
+
+.dark-mode .icon-btn.disabled,
+.dark-mode span.icon-btn {
+    background-color: #374151; /* Gris foncé en mode sombre */
+    color: #e5e7eb; /* Gris clair pour l'icône - contraste suffisant */
+    border-color: #4b5563;
 }
 
 /* Right: View Switcher */
