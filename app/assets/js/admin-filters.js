@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.history.pushState({}, '', url);
             }
 
-            // Mettre à jour les classes "active" dans la sidebar
-            updateActiveFilters(fetchUrl);
+            // Mettre à jour les classes "active" dans la sidebar (utiliser l'URL originale)
+            updateActiveFilters(new URL(url, window.location.origin));
         } catch (error) {
             console.error('Erreur lors du chargement:', error);
             // Fallback : recharger la page en cas d'erreur
@@ -57,12 +57,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Mettre à jour les classes actives dans la sidebar
+    // Mettre à jour les classes actives dans la sidebar et les champs cachés du formulaire
     function updateActiveFilters(url)
     {
         const params = url.searchParams;
         const currentRole = params.get('role') || 'all';
         const currentFilter = params.get('filter') || 'active';
+        const currentSearch = params.get('search') || '';
 
         // Mettre à jour les filtres de statut
         document.querySelectorAll('.admin-nav-list:not(.role-filters) .admin-nav-link').forEach(link => {
@@ -87,6 +88,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.classList.remove('active');
             }
         });
+
+        // Mettre à jour les champs cachés du formulaire de recherche
+        const searchForm = document.querySelector('.admin-search-form');
+        if (searchForm) {
+            const filterInput = searchForm.querySelector('input[name="filter"]');
+            const roleInput = searchForm.querySelector('input[name="role"]');
+            const searchInput = searchForm.querySelector('input[name="search"]');
+            
+            if (filterInput) {
+                filterInput.value = currentFilter;
+            }
+            if (roleInput) {
+                roleInput.value = currentRole;
+            }
+            if (searchInput) {
+                searchInput.value = currentSearch;
+            }
+        }
     }
 
     // Délégation d'événements pour les liens de pagination (qui sont recréés dynamiquement)
@@ -110,7 +129,20 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = new FormData(searchForm);
             const params = new URLSearchParams(formData);
 
-            // Construire l'URL avec les paramètres actuels
+            // S'assurer que les paramètres de filtre sont préservés depuis l'URL actuelle
+            const currentUrl = new URL(window.location.href);
+            const currentFilter = currentUrl.searchParams.get('filter') || 'active';
+            const currentRole = currentUrl.searchParams.get('role') || 'all';
+            
+            // Mettre à jour les paramètres avec les valeurs actuelles si elles ne sont pas dans le formulaire
+            if (!params.has('filter') || params.get('filter') === '') {
+                params.set('filter', currentFilter);
+            }
+            if (!params.has('role') || params.get('role') === '') {
+                params.set('role', currentRole);
+            }
+
+            // Construire l'URL avec tous les paramètres
             const url = 'index.php?' + params.toString();
 
             loadContent(url);
