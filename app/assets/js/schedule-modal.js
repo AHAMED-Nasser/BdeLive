@@ -1,15 +1,19 @@
 /**
  * Schedule Modal - Gestion de la modal mobile pour détails cours
  * Avec scroll lock pour éviter les bugs
+ * Accessible au clavier et à la souris
  */
 
 /**
  * Ouvre la modal avec les détails d'un cours
  * @param {HTMLElement} courseBlock L'élément cours cliqué
  */
-function openCourseModal(courseBlock) {
+function openCourseModal(courseBlock)
+{
     const modal = document.getElementById('course-modal');
-    if (!modal) return;
+    if (!modal) {
+        return;
+    }
 
     // Extraire les données du cours
     const time = courseBlock.getAttribute('data-time') || '';
@@ -31,14 +35,23 @@ function openCourseModal(courseBlock) {
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
     document.body.style.width = '100%';
+
+    // Focus sur le bouton de fermeture pour l'accessibilité
+    const closeBtn = modal.querySelector('.modal-close');
+    if (closeBtn) {
+        closeBtn.focus();
+    }
 }
 
 /**
  * Ferme la modal
  */
-function closeCourseModal() {
+function closeCourseModal()
+{
     const modal = document.getElementById('course-modal');
-    if (!modal) return;
+    if (!modal) {
+        return;
+    }
 
     // Cacher la modal
     modal.classList.remove('active');
@@ -51,6 +64,90 @@ function closeCourseModal() {
 }
 
 /**
+ * Gestionnaire d'événements accessible (souris et clavier)
+ * Vérifie si l'événement est un clic ou une touche Enter/Space
+ * @param {Event} e L'événement (click ou keydown)
+ * @returns {boolean} true si l'événement doit déclencher l'action
+ */
+function isAccessibleEvent(e)
+{
+    // Gérer les clics de souris
+    if (e.type === 'click') {
+        return true;
+    }
+    // Gérer les événements clavier (Enter ou Space)
+    if (e.type === 'keydown' && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Initialiser les event listeners accessibles pour les cours
+ */
+function initAccessibleCourseListeners()
+{
+    // Gérer les clics sur les blocs de cours (course-block et calendar-event)
+    document.querySelectorAll('.course-block, .calendar-event').forEach(courseBlock => {
+        // Supprimer l'ancien onclick s'il existe
+        courseBlock.removeAttribute('onclick');
+
+        // Ajouter les event listeners accessibles
+        courseBlock.addEventListener('click', function (e) {
+            if (isAccessibleEvent(e)) {
+                openCourseModal(courseBlock);
+            }
+        });
+
+        courseBlock.addEventListener('keydown', function (e) {
+            if (isAccessibleEvent(e)) {
+                openCourseModal(courseBlock);
+            }
+        });
+    });
+
+    // Gérer le modal overlay
+    const modalOverlay = document.querySelector('.modal-overlay');
+    if (modalOverlay) {
+        modalOverlay.removeAttribute('onclick');
+        modalOverlay.setAttribute('tabindex', '0');
+        modalOverlay.setAttribute('role', 'button');
+        modalOverlay.setAttribute('aria-label', 'Fermer la modal');
+
+        modalOverlay.addEventListener('click', function (e) {
+            if (isAccessibleEvent(e)) {
+                closeCourseModal();
+            }
+        });
+
+        modalOverlay.addEventListener('keydown', function (e) {
+            if (isAccessibleEvent(e)) {
+                closeCourseModal();
+            }
+        });
+    }
+
+    // Gérer le bouton de fermeture
+    const closeBtn = document.querySelector('.modal-close');
+    if (closeBtn) {
+        closeBtn.removeAttribute('onclick');
+
+        closeBtn.addEventListener('click', function (e) {
+            if (isAccessibleEvent(e)) {
+                closeCourseModal();
+            }
+        });
+
+        closeBtn.addEventListener('keydown', function (e) {
+            if (isAccessibleEvent(e)) {
+                closeCourseModal();
+            }
+        });
+    }
+}
+
+/**
  * Fermer au clic sur Escape
  */
 document.addEventListener('keydown', function (e) {
@@ -59,12 +156,30 @@ document.addEventListener('keydown', function (e) {
     }
 });
 
+// Initialiser les listeners accessibles au chargement de la page
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAccessibleCourseListeners);
+} else {
+    initAccessibleCourseListeners();
+}
+
+/**
+ * Réinitialiser les listeners après un chargement AJAX
+ */
+function resetModalListeners()
+{
+    initAccessibleCourseListeners();
+}
+
 /**
  * Update de l'indicateur de temps actuel (chaque minute)
  */
-function updateCurrentTimeIndicator() {
+function updateCurrentTimeIndicator()
+{
     const indicator = document.querySelector('.current-time-indicator');
-    if (!indicator) return;
+    if (!indicator) {
+        return;
+    }
 
     const now = new Date();
     const hours = now.getHours();

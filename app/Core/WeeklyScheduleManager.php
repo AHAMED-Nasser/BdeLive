@@ -4,10 +4,10 @@ namespace App\Core;
 
 /**
  * WeeklyScheduleManager - Gestionnaire d'emploi du temps hebdomadaire
- * 
+ *
  * Génère des vues hebdomadaires avec timeline verticale (07:00-20:00)
  * et blocs de cours positionnés selon leur horaire.
- * 
+ *
  * @package App\Core
  */
 class WeeklyScheduleManager
@@ -62,10 +62,10 @@ class WeeklyScheduleManager
 
         // Calculer les dates de la semaine
         $weekDates = $this->getWeekDates($year, $week);
-        
+
         // Grouper les événements par jour
         $eventsByDay = $this->groupEventsByDay($events, $weekDates);
-        
+
         // Calculer semaine précédente/suivante
         $prevWeek = $week - 1;
         $prevYear = $year;
@@ -73,14 +73,14 @@ class WeeklyScheduleManager
             $prevWeek = 52; // Approximation
             $prevYear--;
         }
-        
+
         $nextWeek = $week + 1;
         $nextYear = $year;
         if ($nextWeek > 52) {
             $nextWeek = 1;
             $nextYear++;
         }
-        
+
         // Générer la liste des heures
         $hours = [];
         for ($h = self::START_HOUR; $h <= self::END_HOUR; $h++) {
@@ -110,11 +110,11 @@ class WeeklyScheduleManager
     private function getWeekDates(int $year, int $week): array
     {
         $dates = [];
-        
+
         // Créer une date au début de l'année
         $dto = new \DateTime();
         $dto->setISODate($year, $week, 1); // ISO: 1 = Lundi
-        
+
         // Générer Lundi à Vendredi (ou Dimanche selon besoin)
         for ($day = 1; $day <= 5; $day++) { // Lun-Ven
             $dates[$day] = [
@@ -125,7 +125,7 @@ class WeeklyScheduleManager
             ];
             $dto->modify('+1 day');
         }
-        
+
         return $dates;
     }
 
@@ -139,12 +139,12 @@ class WeeklyScheduleManager
     private function groupEventsByDay(array $events, array $weekDates): array
     {
         $grouped = [];
-        
+
         // Initialiser avec les dates de la semaine
         foreach ($weekDates as $dayInfo) {
             $grouped[$dayInfo['date']] = [];
         }
-        
+
         // Grouper les événements
         foreach ($events as $event) {
             // Extraire la date de début
@@ -154,16 +154,16 @@ class WeeklyScheduleManager
             } elseif (isset($event['date'])) {
                 $eventDate = date('Y-m-d', strtotime($event['date']));
             }
-            
+
             if ($eventDate && isset($grouped[$eventDate])) {
                 // Calculer la position CSS
                 $position = $this->calculateEventPosition($event['start'] ?? '', $event['end'] ?? '');
                 $event['cssPosition'] = $position;
-                
+
                 $grouped[$eventDate][] = $event;
             }
         }
-        
+
         return $grouped;
     }
 
@@ -180,25 +180,25 @@ class WeeklyScheduleManager
             // Parser les timestamps
             $start = new \DateTimeImmutable($startTime);
             $end = new \DateTimeImmutable($endTime);
-            
+
             // Extraire heures et minutes
             $startHour = (int)$start->format('H');
             $startMinute = (int)$start->format('i');
             $endHour = (int)$end->format('H');
             $endMinute = (int)$end->format('i');
-            
+
             // Calculer les minutes depuis START_HOUR (07:00)
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;
             $endMinutes = ($endHour - self::START_HOUR) * 60 + $endMinute;
-            
+
             // Convertir en pixels (1 minute = 1 pixel avec PIXELS_PER_HOUR = 60)
             $top = $startMinutes;
             $height = $endMinutes - $startMinutes;
-            
+
             // S'assurer que les valeurs sont positives
             $top = max(0, $top);
             $height = max(30, $height); // Hauteur minimale de 30px
-            
+
             return [
                 'top' => $top . 'px',
                 'height' => $height . 'px'

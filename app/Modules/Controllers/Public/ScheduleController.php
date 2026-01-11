@@ -66,8 +66,109 @@ class ScheduleController extends DefaultController
             exit;
         }
 
+        // Si c'est une requête AJAX pour charger une vue
+        if ($this->request->get('action') === 'load-view') {
+            $this->loadViewAjax();
+            exit;
+        }
+
         // Afficher la page principale
         $this->showSchedulePage();
+    }
+
+    /**
+     * Charge une vue spécifique via AJAX (retourne uniquement le HTML de la vue)
+     */
+    private function loadViewAjax(): void
+    {
+        header('Content-Type: application/json');
+
+        $selectedYear = $this->request->get('year', '1ere');
+        $selectedGroup = $this->request->get('group', '');
+        $view = $this->request->get('view', 'week');
+
+        if (!in_array($view, ['day', 'week', 'month'])) {
+            echo json_encode(['error' => 'Vue invalide']);
+            exit;
+        }
+
+        if (!$selectedGroup) {
+            echo json_encode(['error' => 'Groupe non sélectionné']);
+            exit;
+        }
+
+        // Paramètres temporels selon la vue
+        $week = (int)($this->request->get('week') ?? date('W'));
+        $dateParam = $this->request->get('date');
+        // S'assurer que $date est une string
+        $date = is_array($dateParam) ? ($dateParam[0] ?? date('Y-m-d')) : ($dateParam ?? date('Y-m-d'));
+        $calYear = (int)($this->request->get('calyear') ?? date('Y'));
+        $calMonth = (int)($this->request->get('calmonth') ?? date('n'));
+
+        $extraParams = [
+            'year' => $selectedYear,
+            'group' => $selectedGroup
+        ];
+        $pageUrl = 'index.php?page=schedule';
+
+        // Générer la vue demandée
+        ob_start();
+
+        try {
+            if ($view === 'day') {
+                $events = $this->getEventsForDay($selectedYear, $selectedGroup, $date);
+                $dayManager = new \App\Core\DayScheduleManager();
+                $daySchedule = $dayManager->generateDaySchedule($date, $events);
+                // Calculer la période pour l'affichage (s'assurer que $date est une string)
+                if (is_string($date)) {
+                    $timestamp = strtotime($date);
+                    $weekPeriod = ($timestamp !== false) ? date('d/m', $timestamp) : date('d/m');
+                } else {
+                    $weekPeriod = date('d/m');
+                }
+                // Passer la variable $view au template
+                include __DIR__ . '/../../views/components/day-schedule.php';
+            } elseif ($view === 'month') {
+                $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $calMonth, $calYear);
+                $calendarManager = new \App\Core\CalendarManager();
+                $calendar = $calendarManager->generateMonthCalendar($calYear, $calMonth, $events);
+                // Passer la variable $view au template
+                include __DIR__ . '/../../views/components/calendar.php';
+            } else {
+                // Vue semaine
+                $weekEvents = $this->getEventsForWeeklySchedule($selectedYear, $selectedGroup, $week, $calYear);
+                $weeklyManager = new \App\Core\WeeklyScheduleManager();
+                $schedule = $weeklyManager->generateWeeklySchedule($calYear, $week, $weekEvents);
+                // Calculer la période pour l'affichage
+                $weekPeriod = '';
+                if (!empty($schedule['weekDates'])) {
+                    $firstDate = reset($schedule['weekDates']);
+                    $lastDate = end($schedule['weekDates']);
+                    $weekPeriod = $firstDate['formatted'] . ' - ' . $lastDate['formatted'];
+                }
+                // Passer la variable $view au template
+                include __DIR__ . '/../../views/components/weekly-schedule.php';
+            }
+
+            $html = ob_get_clean();
+
+            if (empty($html)) {
+                throw new \Exception('Le template n\'a généré aucun contenu');
+            }
+
+            echo json_encode([
+                'success' => true,
+                'html' => $html,
+                'view' => $view
+            ]);
+        } catch (\Throwable $e) {
+            $output = ob_get_clean();
+            error_log('Erreur loadViewAjax: ' . $e->getMessage() . ' | Output: ' . $output);
+            echo json_encode([
+                'success' => false,
+                'error' => 'Erreur lors du chargement: ' . $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -77,10 +178,10 @@ class ScheduleController extends DefaultController
     {
         $selectedYear = $this->request->get('year', '1ere');
         $selectedGroup = $this->request->get('group', '');
-        
+
         // Nouveau : détection du type de calendrier (FullCalendar vs Native)
         $calendarType = $this->request->get('calendar', 'fullcalendar'); // 'native' ou 'fullcalendar'
-        
+
         // Paramètres pour le calendrier natif (IMPORTANT: "calmonth" pour éviter confusion avec year du groupe)
         $month = (int)($this->request->get('calmonth') ?? date('n'));
         $calYear = (int)($this->request->get('calyear') ?? date('Y'));
@@ -99,7 +200,7 @@ class ScheduleController extends DefaultController
         if ($selectedGroup && !array_key_exists($selectedGroup, self::GROUPS[$selectedYear]['groups'])) {
             $selectedGroup = '';
         }
-        
+
         // Gestion des vues (jour, semaine, mois)
         $view = $this->request->get('view', 'week');
         if (!in_array($view, ['day', 'week', 'month'])) {
@@ -110,31 +211,31 @@ class ScheduleController extends DefaultController
         $weeklySchedule = null;
         $daySchedule = null;
         $monthCalendar = null;
-        
+
         // Paramètres temporels
         $week = (int)($this->request->get('week') ?? date('W'));
-        if ($week < 1 || $week > 53) $week = (int)date('W');
-        
+        if ($week < 1 || $week > 53) {
+            $week = (int)date('W');
+        }
+
         $date = $this->request->get('date') ?? date('Y-m-d');
-        
+
         if ($selectedGroup) {
             if ($view === 'day') {
                 // VUE JOUR
                 $events = $this->getEventsForDay($selectedYear, $selectedGroup, $date);
                 $dayManager = new \App\Core\DayScheduleManager();
                 $daySchedule = $dayManager->generateDaySchedule($date, $events);
-            } 
-            elseif ($view === 'month') {
+            } elseif ($view === 'month') {
                 // VUE MOIS
                 // Utilise calmonth/calyear ou le mois courant
                 $targetMonth = (int)($this->request->get('calmonth') ?? date('n'));
                 $targetYear = (int)($this->request->get('calyear') ?? date('Y'));
-                
+
                 $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $targetMonth, $targetYear);
                 $calendarManager = new \App\Core\CalendarManager();
                 $monthCalendar = $calendarManager->generateMonthCalendar($targetYear, $targetMonth, $events);
-            } 
-            else {
+            } else {
                 // VUE SEMAINE (Défaut)
                 $weekEvents = $this->getEventsForWeeklySchedule($selectedYear, $selectedGroup, $week, $calYear);
                 $weeklyManager = new \App\Core\WeeklyScheduleManager();
@@ -159,6 +260,8 @@ class ScheduleController extends DefaultController
 
     /**
      * Récupère les événements pour une journée spécifique
+     *
+     * @return array<int, array<string, mixed>>
      */
     private function getEventsForDay(string $yearLevel, string $group, string $date): array
     {
@@ -167,9 +270,9 @@ class ScheduleController extends DefaultController
         $dateObj = new \DateTimeImmutable($date);
         $month = (int)$dateObj->format('n');
         $year = (int)$dateObj->format('Y');
-        
+
         $monthEvents = $this->getEventsForNativeCalendar($yearLevel, $group, $month, $year);
-        
+
         $dayEvents = [];
         foreach ($monthEvents as $event) {
             $eventStart = isset($event['start']) ? substr($event['start'], 0, 10) : '';
@@ -177,7 +280,7 @@ class ScheduleController extends DefaultController
                 $dayEvents[] = $event;
             }
         }
-        
+
         return $dayEvents;
     }
 
@@ -393,27 +496,28 @@ class ScheduleController extends DefaultController
      */
     private function getEventColor(string $summary): string
     {
+        // Couleurs optimisées pour un meilleur contraste avec le texte blanc (WCAG AA)
         if (stripos($summary, 'TD') !== false) {
-            return '#3788d8'; // Bleu
+            return '#2563eb'; // Bleu plus foncé (contraste amélioré)
         }
         if (stripos($summary, 'TP') !== false) {
-            return '#28a745'; // Vert
+            return '#15803d'; // Vert plus foncé (contraste amélioré)
         }
         if (stripos($summary, 'CM') !== false || stripos($summary, 'Cours') !== false) {
-            return '#dc3545'; // Rouge
+            return '#b91c1c'; // Rouge plus foncé (contraste amélioré)
         }
         if (stripos($summary, 'Examen') !== false || stripos($summary, 'Test') !== false) {
-            return '#fd7e14'; // Orange
+            return '#d97706'; // Orange plus foncé (contraste amélioré)
         }
         if (stripos($summary, 'Soutenance') !== false) {
-            return '#6f42c1'; // Violet
+            return '#5b21b6'; // Violet plus foncé (contraste amélioré)
         }
         if (stripos($summary, 'Support') !== false || stripos($summary, 'autonomie') !== false) {
-            return '#17a2b8'; // Cyan
+            return '#0e7490'; // Cyan plus foncé (contraste amélioré)
         }
         return '#6c757d'; // Gris par défaut
     }
-    
+
     /**
      * Récupère les événements pour le calendrier natif (filtrés par mois)
      *
@@ -440,16 +544,16 @@ class ScheduleController extends DefaultController
 
         // Parser tous les événements
         $allEvents = $this->parseIcsFile($icsFile, $group, $year);
-        
+
         // Filtrer par mois
         $monthStart = sprintf('%04d-%02d-01', $calYear, $month);
         $lastDay = cal_days_in_month(CAL_GREGORIAN, $month, $calYear);
         $monthEnd = sprintf('%04d-%02d-%02d', $calYear, $month, $lastDay);
-        
+
         $filteredEvents = [];
         foreach ($allEvents as $event) {
             $eventDate = substr($event['start'] ?? '', 0, 10); // Extract YYYY-MM-DD
-            
+
             if ($eventDate >= $monthStart && $eventDate <= $monthEnd) {
                 // Adapter le format pour le calendrier natif
                 $filteredEvents[] = [
@@ -464,24 +568,36 @@ class ScheduleController extends DefaultController
                 ];
             }
         }
-        
+
         return $filteredEvents;
     }
-    
+
     /**
      * Détermine le type d'événement à partir du titre
      */
     private function getEventType(string $title): string
     {
-        if (stripos($title, 'TD') !== false) return 'td';
-        if (stripos($title, 'TP') !== false) return 'tp';
-        if (stripos($title, 'CM') !== false) return 'cm';
-        if (stripos($title, 'Examen') !== false) return 'exam';
-        if (stripos($title, 'Soutenance') !== false) return 'soutenance';
-        if (stripos($title, 'Support') !== false || stripos($title, 'autonomie') !== false) return 'support';
+        if (stripos($title, 'TD') !== false) {
+            return 'td';
+        }
+        if (stripos($title, 'TP') !== false) {
+            return 'tp';
+        }
+        if (stripos($title, 'CM') !== false) {
+            return 'cm';
+        }
+        if (stripos($title, 'Examen') !== false) {
+            return 'exam';
+        }
+        if (stripos($title, 'Soutenance') !== false) {
+            return 'soutenance';
+        }
+        if (stripos($title, 'Support') !== false || stripos($title, 'autonomie') !== false) {
+            return 'support';
+        }
         return 'default';
     }
-    
+
     /**
      * Récupère les événements pour la vue hebdomadaire (filtrés par semaine)
      *
@@ -508,22 +624,22 @@ class ScheduleController extends DefaultController
 
         // Parser tous les événements
         $allEvents = $this->parseIcsFile($icsFile, $group, $year);
-        
+
         // Utiliser WeeklyScheduleManager pour obtenir les dates de la semaine
         $weeklyManager = new \App\Core\WeeklyScheduleManager();
         $weekDates = $weeklyManager->generateWeeklySchedule($calYear, $week, [])['weekDates'];
-        
+
         // Créer un array des dates de la semaine pour filtre rapide
         $weekDateStrings = [];
         foreach ($weekDates as $dayInfo) {
             $weekDateStrings[] = $dayInfo['date'];
         }
-        
+
         // Filtrer les événements par semaine
         $filteredEvents = [];
         foreach ($allEvents as $event) {
             $eventDate = substr($event['start'] ?? '', 0, 10); // Extract YYYY-MM-DD
-            
+
             if (in_array($eventDate, $weekDateStrings, true)) {
                 // Adapter le format pour la vue hebdomadaire
                 $filteredEvents[] = [
@@ -538,8 +654,7 @@ class ScheduleController extends DefaultController
                 ];
             }
         }
-        
+
         return $filteredEvents;
     }
 }
-

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Template HTML pour la vue journalière
- * 
+ *
  * Variables attendues :
  * - $daySchedule : array retourné par DayScheduleManager::generateDaySchedule()
  * - $pageUrl : string
@@ -13,7 +14,7 @@ $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
 // Helper URL
-$buildUrl = function($date) use ($pageUrl, $extraParams) {
+$buildUrl = function ($date) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
         'view' => 'day',
         'date' => $date
@@ -23,43 +24,67 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
 ?>
 
 <link rel="stylesheet" href="/assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="/assets/css/calendar.css">
 <script src="/assets/js/schedule-modal.js" defer></script>
 
 <div class="weekly-schedule day-view" role="region" aria-label="Emploi du temps du <?= $daySchedule['formatted'] ?>">
     
-    <!-- Boutons de Vue -->
-    <div class="view-switcher">
-        <a href="<?= $buildUrl($daySchedule['date']) ?>" 
-           class="view-btn active">
-            📅 Jour
-        </a>
-        <a href="<?= str_replace('view=day', 'view=week', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
-           class="view-btn">
-            📆 Semaine
-        </a>
-        <a href="<?= str_replace('view=day', 'view=month', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
-           class="view-btn">
-            🗓️ Mois
-        </a>
-    </div>
-
-    <!-- Navigation Jour -->
-    <div class="schedule-nav">
-        <a href="<?= $buildUrl($daySchedule['prevDate']) ?>" 
-           class="week-nav-btn"
-           aria-label="Jour précédent">
-            ← Précédent
+    <!-- Toolbar Navigation Pro -->
+    <div class="calendar-header">
+        <!-- Left: Today Button -->
+        <?php
+        $todayDate = date('Y-m-d');
+        $todayUrl = $pageUrl . '&view=day&date=' . $todayDate . '&' . http_build_query($extraParams);
+        ?>
+        <a href="<?= $todayUrl ?>" 
+           class="nav-btn today-btn"
+           aria-label="Retour à aujourd'hui"
+           data-view="day"
+           data-date="<?= $todayDate ?>">
+            Aujourd'hui
         </a>
         
-        <h2>
-            <?= $daySchedule['dayName'] ?> <?= $daySchedule['formatted'] ?>
-        </h2>
+        <!-- Center: Navigation Controls -->
+        <div class="calendar-nav-center">
+            <a href="<?= $buildUrl($daySchedule['prevDate']) ?>" 
+               class="nav-btn icon-btn"
+               aria-label="Jour précédent"
+               data-view="day"
+               data-date="<?= $daySchedule['prevDate'] ?>">
+                <i class="fas fa-chevron-left"></i>
+            </a>
+            
+            <h2 class="calendar-title">
+                <?= $daySchedule['dayName'] ?> <?= $daySchedule['formatted'] ?>
+            </h2>
+            
+            <a href="<?= $buildUrl($daySchedule['nextDate']) ?>" 
+               class="nav-btn icon-btn"
+               aria-label="Jour suivant"
+               data-view="day"
+               data-date="<?= $daySchedule['nextDate'] ?>">
+                <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
         
-        <a href="<?= $buildUrl($daySchedule['nextDate']) ?>" 
-           class="week-nav-btn"
-           aria-label="Jour suivant">
-            Suivant →
-        </a>
+        <!-- Right: View Switcher -->
+        <div class="view-switcher">
+            <a href="<?= $buildUrl($daySchedule['date']) ?>" 
+               class="view-btn active"
+               data-view="day">
+                Jour
+            </a>
+            <a href="<?= str_replace('view=day', 'view=week', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
+               class="view-btn"
+               data-view="week">
+                Semaine
+            </a>
+            <a href="<?= str_replace('view=day', 'view=month', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
+               class="view-btn"
+               data-view="month">
+                Mois
+            </a>
+        </div>
     </div>
 
     <!-- Conteneur Grille -->
@@ -67,7 +92,7 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
         
         <!-- Axe Heures -->
         <div class="time-axis">
-            <?php foreach ($daySchedule['hours'] as $hour): ?>
+            <?php foreach ($daySchedule['hours'] as $hour) : ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
@@ -86,23 +111,23 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
                 <div class="day-column" data-date="<?= $daySchedule['date'] ?>">
                     
                     <!-- Lignes horaires -->
-                    <?php foreach ($daySchedule['hours'] as $index => $hour): ?>
+                    <?php foreach ($daySchedule['hours'] as $index => $hour) : ?>
                         <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                     <?php endforeach; ?>
 
                     <!-- Événements -->
-                    <?php if (!empty($daySchedule['events'])): ?>
-                        <?php foreach ($daySchedule['events'] as $event): 
+                    <?php if (!empty($daySchedule['events'])) : ?>
+                        <?php foreach ($daySchedule['events'] as $event) :
                             $title = $event['title'] ?? 'Cours';
                             $location = $event['location'] ?? '';
                             $teacher = $event['teacher'] ?? '';
                             $type = $event['type'] ?? 'default';
                             $cssPos = $event['cssPosition'] ?? ['top' => '0px', 'height' => '60px'];
-                            
+
                             $startTime = isset($event['start']) ? date('H:i', strtotime($event['start'])) : '';
                             $endTime = isset($event['end']) ? date('H:i', strtotime($event['end'])) : '';
                             $timeRange = "$startTime - $endTime";
-                        ?>
+                            ?>
                             <div class="course-block"
                                  data-type="<?= htmlspecialchars($type) ?>"
                                  data-time="<?= htmlspecialchars($timeRange) ?>"
@@ -111,12 +136,11 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
                                  data-teacher="<?= htmlspecialchars($teacher) ?>"
                                  style="top: <?= htmlspecialchars($cssPos['top']) ?>; height: <?= htmlspecialchars($cssPos['height']) ?>;"
                                  tabindex="0"
-                                 role="button"
-                                 onclick="openCourseModal(this)">
+                                 role="button">
                                 
                                 <div class="course-time"><?= htmlspecialchars($timeRange) ?></div>
                                 <div class="course-title"><?= htmlspecialchars($title) ?></div>
-                                <?php if ($location): ?>
+                                <?php if ($location) : ?>
                                     <div class="course-location">📍 <?= htmlspecialchars($location) ?></div>
                                 <?php endif; ?>
                             </div>
@@ -124,10 +148,10 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
                     <?php endif; ?>
 
                     <!-- Indicateur temps réel -->
-                    <?php 
+                    <?php
                     $ct = $daySchedule['currentTime'];
-                    if ($ct): 
-                    ?>
+                    if ($ct) :
+                        ?>
                         <div class="current-time-indicator" 
                              style="top: <?= $ct['top'] ?>px;"
                              data-time="<?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?>">
@@ -143,9 +167,9 @@ $buildUrl = function($date) use ($pageUrl, $extraParams) {
 
 <!-- Modal Mobile (Réutilisée) -->
 <div id="course-modal" class="course-modal" role="dialog" aria-hidden="true">
-    <div class="modal-overlay" onclick="closeCourseModal()"></div>
+    <div class="modal-overlay" tabindex="0" role="button" aria-label="Fermer la modal"></div>
     <div class="modal-content">
-        <button class="modal-close" onclick="closeCourseModal()">✕</button>
+        <button class="modal-close" aria-label="Fermer">✕</button>
         <div class="modal-body">
             <div class="modal-time" id="modal-time"></div>
             <div class="modal-title" id="modal-title"></div>
