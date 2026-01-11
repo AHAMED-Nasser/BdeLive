@@ -13,11 +13,11 @@ $calendar = $calendar ?? ['days' => [], 'monthName' => '', 'year' => date('Y'), 
 $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
-// Construction de l'URL avec paramètres
+// Construction de l'URL avec paramètres (IMPORTANT: utiliser calyear/calmonth pour éviter collision avec year du groupe)
 $buildUrl = function($year, $month) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
-        'year' => $year,
-        'month' => $month
+        'calyear' => $year,
+        'calmonth' => $month
     ]);
     return $pageUrl . '&' . http_build_query($params);
 };
