@@ -1,7 +1,7 @@
 /**
  * Event Calendar - FullCalendar Implementation
  * Gestion du calendrier des événements avec FullCalendar
- * 
+ *
  * Ce fichier gère l'initialisation et le comportement du calendrier des événements.
  * Il inclut des corrections d'accessibilité pour les alertes WAVE.
  */
@@ -14,7 +14,8 @@
      * @param {string} containerId - L'ID du conteneur du calendrier
      * @param {Array} events - La liste des événements à afficher
      */
-    function initEventCalendar(containerId, events) {
+    function initEventCalendar(containerId, events)
+    {
         const calendarEl = document.getElementById(containerId);
 
         if (!calendarEl) {
@@ -120,7 +121,8 @@
      * Corrige les problèmes d'accessibilité du calendrier FullCalendar
      * @param {HTMLElement} calendarEl - L'élément du calendrier
      */
-    function fixCalendarAccessibility(calendarEl) {
+    function fixCalendarAccessibility(calendarEl)
+    {
         // Attendre que FullCalendar ait fini de rendre le calendrier
         setTimeout(function () {
             // ==============================================
@@ -212,7 +214,8 @@
      * @param {HTMLElement} calendarEl - L'élément du calendrier
      * @param {boolean} isMobile - Si l'appareil est mobile
      */
-    function handleMobileLayout(calendar, calendarEl, isMobile) {
+    function handleMobileLayout(calendar, calendarEl, isMobile)
+    {
         const fcElement = document.querySelector('.fc');
 
         if (isMobile && fcElement) {
@@ -253,7 +256,8 @@
     /**
      * Applique les styles de secours pour mobile
      */
-    function applyMobileFallbackStyles() {
+    function applyMobileFallbackStyles()
+    {
         if (document.getElementById('fc-mobile-fallback-styles')) {
             return;
         }
@@ -320,7 +324,8 @@
      * @param {Date} start - La date de début
      * @param {string} url - L'URL de l'événement
      */
-    function showEventModal(title, start, url) {
+    function showEventModal(title, start, url)
+    {
         // Créer la modal si elle n'existe pas
         let modal = document.getElementById('event-mobile-modal');
         if (!modal) {
@@ -411,7 +416,8 @@
      * @param {FullCalendar.Calendar} calendar - L'instance du calendrier
      * @param {HTMLElement} calendarEl - L'élément du calendrier
      */
-    function addMobileViewSelector(calendar, calendarEl) {
+    function addMobileViewSelector(calendar, calendarEl)
+    {
         const toolbar = calendarEl.querySelector('.fc-toolbar');
         if (!toolbar) {
             return;
@@ -464,7 +470,8 @@
      * @param {FullCalendar.Calendar} calendar - L'instance du calendrier
      * @param {boolean} initialIsMobile - Si l'appareil était mobile à l'initialisation
      */
-    function handleWindowResize(calendar, initialIsMobile) {
+    function handleWindowResize(calendar, initialIsMobile)
+    {
         let resizeTimer;
         window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
