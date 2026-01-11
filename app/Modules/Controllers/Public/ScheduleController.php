@@ -110,6 +110,20 @@ class ScheduleController extends DefaultController
             $calendarManager = new \App\Core\CalendarManager();
             $nativeCalendar = $calendarManager->generateMonthCalendar($calYear, $month, $events);
         }
+        
+        // NOUVEAU : Vue hebdomadaire
+        $week = (int)($this->request->get('week') ?? date('W'));
+        if ($week < 1 || $week > 53) $week = (int)date('W');
+        
+        $weeklySchedule = null;
+        if ($selectedGroup) {
+            // Récupérer les événements de la semaine
+            $weekEvents = $this->getEventsForWeeklySchedule($selectedYear, $selectedGroup, $week, $calYear);
+            
+            // Générer l'emploi du temps
+            $weeklyManager = new \App\Core\WeeklyScheduleManager();
+            $weeklySchedule = $weeklyManager->generateWeeklySchedule($calYear, $week, $weekEvents);
+        }
 
         $this->render('public/scheduleView', [
             'groups' => self::GROUPS,
@@ -119,6 +133,8 @@ class ScheduleController extends DefaultController
             'nativeCalendar' => $nativeCalendar,
             'calMonth' => $month,
             'calYear' => $calYear,
+            'weeklySchedule' => $weeklySchedule,
+            'week' => $week,
         ]);
     }
 
@@ -421,6 +437,66 @@ class ScheduleController extends DefaultController
         if (stripos($title, 'Soutenance') !== false) return 'soutenance';
         if (stripos($title, 'Support') !== false || stripos($title, 'autonomie') !== false) return 'support';
         return 'default';
+    }
+    
+    /**
+     * Récupère les événements pour la vue hebdomadaire (filtrés par semaine)
+     *
+     * @param string $year Année du groupe ('1ere', '2eme', '3eme')
+     * @param string $group Groupe sélectionné
+     * @param int $week Numéro de semaine (1-53)
+     * @param int $calYear Année calendaire (ex: 2026)
+     * @return array<int, array<string, mixed>> Événements formatés pour la vue hebdomadaire
+     */
+    private function getEventsForWeeklySchedule(string $year, string $group, int $week, int $calYear): array
+    {
+        // Mapper l'année vers le fichier .ics correspondant
+        $icsFiles = [
+            '1ere' => 'ADE1ereAnnee.ics',
+            '2eme' => 'ADE2emeAnnee.ics',
+            '3eme' => 'ADE3emeAnnee.ics',
+        ];
+
+        $icsFile = self::ICS_DIRECTORY . ($icsFiles[$year] ?? '');
+
+        if (!file_exists($icsFile)) {
+            return [];
+        }
+
+        // Parser tous les événements
+        $allEvents = $this->parseIcsFile($icsFile, $group, $year);
+        
+        // Utiliser WeeklyScheduleManager pour obtenir les dates de la semaine
+        $weeklyManager = new \App\Core\WeeklyScheduleManager();
+        $weekDates = $weeklyManager->generateWeeklySchedule($calYear, $week, [])['weekDates'];
+        
+        // Créer un array des dates de la semaine pour filtre rapide
+        $weekDateStrings = [];
+        foreach ($weekDates as $dayInfo) {
+            $weekDateStrings[] = $dayInfo['date'];
+        }
+        
+        // Filtrer les événements par semaine
+        $filteredEvents = [];
+        foreach ($allEvents as $event) {
+            $eventDate = substr($event['start'] ?? '', 0, 10); // Extract YYYY-MM-DD
+            
+            if (in_array($eventDate, $weekDateStrings, true)) {
+                // Adapter le format pour la vue hebdomadaire
+                $filteredEvents[] = [
+                    'id' => md5($event['start'] . $event['title']),
+                    'title' => $event['title'],
+                    'start' => $event['start'],
+                    'end' => $event['end'],
+                    'color' => $event['backgroundColor'],
+                    'location' => $event['location'] ?? '',
+                    'teacher' => $event['teacher'] ?? '',
+                    'type' => $this->getEventType($event['title']),
+                ];
+            }
+        }
+        
+        return $filteredEvents;
     }
 }
 
