@@ -1,0 +1,389 @@
+/**
+ * Custom Calendar Styles - Calendrier Natif PHP
+ * Remplace FullCalendar avec CSS Grid pour accessibilité et performance
+ */
+
+/* ===========================================
+   CONTENEUR PRINCIPAL
+   =========================================== */
+.calendar-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+/* ===========================================
+   EN-TÊTE AVEC NAVIGATION
+   =========================================== */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.calendar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.calendar-nav-btn {
+    padding: 0.5rem 1rem;
+    background: var(--color-primary);
+    color: var(--text-inverse);
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    font-weight: 500;
+}
+
+.calendar-nav-btn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.calendar-nav-btn:active {
+    transform: translateY(0);
+}
+
+/* ===========================================
+   EN-TÊTES JOURS DE LA SEMAINE
+   =========================================== */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    margin-bottom: 1px;
+    background: var(--border-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px 4px 0 0;
+}
+
+.calendar-weekday {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+    text-align: center;
+    padding: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.calendar-weekday:first-child {
+    border-radius: 4px 0 0 0;
+}
+
+.calendar-weekday:last-child {
+    border-radius: 0 4px 0 0;
+}
+
+/* ===========================================
+   GRILLE DES JOURS
+   =========================================== */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: var(--border-color);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    min-height: 600px;
+}
+
+/* ===========================================
+   CASE JOUR
+   =========================================== */
+.calendar-day {
+    background: var(--bg-card);
+    min-height: 100px;
+    padding: 0.5rem;
+    position: relative;
+    transition: background 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.calendar-day:hover {
+    background: var(--bg-hover);
+}
+
+/* Jours des autres mois (début/fin) */
+.calendar-day.other-month {
+    opacity: 0.4;
+    background: var(--bg-secondary);
+}
+
+.calendar-day.other-month:hover {
+    opacity: 0.5;
+}
+
+/* Aujourd'hui */
+.calendar-day.today {
+    background: rgba(102, 126, 234, 0.1);
+    border: 2px solid var(--color-primary);
+}
+
+.calendar-day-number {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.25rem;
+}
+
+.calendar-day.today .calendar-day-number {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* ===========================================
+   ÉVÉNEMENTS DANS LES CASES
+   =========================================== */
+.calendar-events {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 80px;
+}
+
+.calendar-event {
+    display: block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #ffffff !important;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.3;
+}
+
+.calendar-event:hover {
+    transform: translateX(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+}
+
+.event-time {
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+.event-title {
+    font-weight: 400;
+}
+
+/* Couleurs par défaut des événements */
+.calendar-event[data-type="td"] {
+    background-color: #3788d8;
+}
+
+.calendar-event[data-type="tp"] {
+    background-color: #28a745;
+}
+
+.calendar-event[data-type="cm"] {
+    background-color: #dc3545;
+}
+
+.calendar-event[data-type="exam"] {
+    background-color: #fd7e14;
+}
+
+.calendar-event[data-type="soutenance"] {
+    background-color: #6f42c1;
+}
+
+.calendar-event[data-type="support"] {
+    background-color: #17a2b8;
+}
+
+/* ===========================================
+   MODE SOMBRE
+   =========================================== */
+.dark-mode .calendar-container {
+    background: var(--bg-card);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .calendar-day {
+    background: var(--bg-card);
+}
+
+.dark-mode .calendar-day:hover {
+    background: var(--bg-hover);
+}
+
+.dark-mode .calendar-day.other-month {
+    background: var(--bg-secondary);
+    opacity: 0.5;
+}
+
+.dark-mode .calendar-day.today {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+/* ===========================================
+   RESPONSIVE - TABLETTE (768px - 1024px)
+   =========================================== */
+@media (max-width: 1024px) {
+    .calendar-container {
+        padding: 1rem;
+    }
+
+    .calendar-day {
+        min-height: 80px;
+    }
+
+    .calendar-event {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* ===========================================
+   RESPONSIVE - MOBILE (< 768px)
+   =========================================== */
+@media (max-width: 767px) {
+    .calendar-container {
+        padding: 0.75rem;
+        margin: 1rem auto;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .calendar-title {
+        font-size: 1.25rem;
+        text-align: center;
+    }
+
+    .calendar-nav-btn {
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .calendar-weekday {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .calendar-day {
+        min-height: 60px;
+        padding: 0.25rem;
+    }
+
+    .calendar-day-number {
+        font-size: 0.85rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .calendar-events {
+        gap: 0.15rem;
+        max-height: 40px;
+    }
+
+    .calendar-event {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.3rem;
+    }
+
+    .event-time {
+        display: none;
+        /* Masquer l'heure sur mobile pour gagner de la place */
+    }
+}
+
+/* ===========================================
+   RESPONSIVE - PETIT MOBILE (< 480px)
+   =========================================== */
+@media (max-width: 480px) {
+    .calendar-container {
+        padding: 0.5rem;
+    }
+
+    .calendar-title {
+        font-size: 1.1rem;
+    }
+
+    .calendar-weekday {
+        padding: 0.4rem 0.2rem;
+        font-size: 0.7rem;
+    }
+
+    .calendar-day {
+        min-height: 50px;
+        padding: 0.2rem;
+    }
+
+    .calendar-day-number {
+        font-size: 0.8rem;
+    }
+
+    .calendar-events {
+        max-height: 35px;
+    }
+
+    .calendar-event {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.25rem;
+    }
+}
+
+/* ===========================================
+   SCROLLBAR PERSONNALISÉE
+   =========================================== */
+.calendar-events::-webkit-scrollbar {
+    width: 4px;
+}
+
+.calendar-events::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.calendar-events::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 2px;
+}
+
+.calendar-events::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+/* ===========================================
+   ACCESSIBILITÉ
+   =========================================== */
+/* Focus visible pour navigation clavier */
+.calendar-nav-btn:focus,
+.calendar-event:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Amélioration du contraste pour lecteurs d'écran */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
