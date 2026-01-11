@@ -27,6 +27,22 @@ $buildUrl = function($year, $month) use ($pageUrl, $extraParams) {
 
 <div class="calendar-container" role="region" aria-label="Calendrier <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>">
     
+    <!-- Boutons de Vue -->
+    <div class="view-switcher">
+        <a href="<?= $pageUrl ?>&view=day&date=<?= date('Y-m-d') ?>&<?= http_build_query($extraParams) ?>" 
+           class="view-btn">
+            📅 Jour
+        </a>
+        <a href="<?= $pageUrl ?>&view=week&<?= http_build_query($extraParams) ?>" 
+           class="view-btn">
+            📆 Semaine
+        </a>
+        <a href="<?= $pageUrl ?>&view=month&<?= http_build_query($extraParams) ?>" 
+           class="view-btn active">
+            🗓️ Mois
+        </a>
+    </div>
+
     <!-- En-tête Navigation -->
     <div class="calendar-header">
         <a href="<?= $buildUrl($calendar['prevYear'], $calendar['prevMonth']) ?>" 
