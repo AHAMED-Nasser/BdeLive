@@ -86,10 +86,7 @@ if (!empty($schedule['weekDates'])) {
         </a>
         
         <h2>
-            Semaine <?= $schedule['week'] ?><br>
-            <small style="font-size: 0.8em; font-weight: 400; opacity: 0.8;">
-                <?= $weekPeriod ?>, <?= $schedule['year'] ?>
-            </small>
+            <?= $weekPeriod ?>, <?= $schedule['year'] ?>
         </h2>
         
         <a href="<?= $buildUrl($schedule['nextYear'], $schedule['nextWeek']) ?>" 
