@@ -37,7 +37,6 @@
         try {
             return localStorage.getItem(DARK_MODE_KEY);
         } catch (e) {
-            console.warn('localStorage non disponible:', e);
             return null;
         }
     }
@@ -51,7 +50,7 @@
         try {
             localStorage.setItem(DARK_MODE_KEY, isDark ? 'true' : 'false');
         } catch (e) {
-            console.warn('Impossible de sauvegarder dans localStorage:', e);
+            // localStorage non disponible, ignorer silencieusement
         }
     }
 

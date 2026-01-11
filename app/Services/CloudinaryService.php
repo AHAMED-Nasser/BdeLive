@@ -106,10 +106,6 @@ class CloudinaryService
                 ]
             ]);
 
-            // Log succès
-            error_log('CloudinaryService::uploadImage - SUCCESS: ' . $result['secure_url']);
-            // if upload success, return url and public_id in JSON format
-            // else return NULL and write error log in PHP error log
             return [
                 'url' => $result['secure_url'],
                 'public_id' => $result['public_id']
@@ -120,7 +116,6 @@ class CloudinaryService
             return null;
         } catch (Exception $e) {
             error_log('CloudinaryService::uploadImage - ERROR: ' . $e->getMessage());
-            error_log('CloudinaryService::uploadImage - File details: ' . print_r($file, true));
             return null;
         }
     }
@@ -173,17 +168,7 @@ class CloudinaryService
                     $result = $this->uploadImage($file, $folder); // call uploadImage to upload each file on Cloudinary
                     if ($result) {
                         $uploadedImages[] = $result; // stock result to uploadedImages array
-                        error_log("CloudinaryService::uploadMultipleImages - File $i uploaded successfully");
-                    } else {
-                        error_log(
-                            "CloudinaryService::uploadMultipleImages - File $i upload FAILED"
-                        );
                     }
-                } else {
-                    error_log(
-                        "CloudinaryService::uploadMultipleImages - File $i has upload error: " .
-                        $this->getUploadErrorMessage($file['error'])
-                    );
                 }
             }
         }
@@ -207,7 +192,6 @@ class CloudinaryService
     {
         try {
             $this->uploadApi->destroy($publicId);
-            error_log('CloudinaryService::deleteImage - SUCCESS: ' . $publicId);
             return true;
         } catch (Exception $e) {
             error_log('CloudinaryService::deleteImage - ERROR: ' . $e->getMessage());

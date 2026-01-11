@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // Mettre à jour les classes "active" dans la sidebar (utiliser l'URL originale)
             updateActiveFilters(new URL(url, window.location.origin));
         } catch (error) {
-            console.error('Erreur lors du chargement:', error);
             // Fallback : recharger la page en cas d'erreur
             window.location.href = url;
         } finally {
