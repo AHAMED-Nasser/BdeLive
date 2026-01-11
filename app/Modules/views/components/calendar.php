@@ -10,7 +10,7 @@
  */
 
 //Valeurs par défaut si non définies
-$calendar = $calendar ?? ['days' => [], 'monthName' => '', 'year' => date('Y'), 'month' => (int)date('n'), 'prevYear' => (int)date('Y'), 'prevMonth' => (int)date('n') - 1, 'nextYear' => (int)date('Y'), 'nextMonth' => (int)date('n') + 1];
+$calendar = $calendar ?? ['days' => [], 'monthName' => '', 'year' => date('Y'), 'month' => (int) date('n'), 'prevYear' => (int) date('Y'), 'prevMonth' => (int) date('n') - 1, 'nextYear' => (int) date('Y'), 'nextMonth' => (int) date('n') + 1];
 $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
@@ -25,82 +25,71 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="/assets/css/calendar.css">
-<link rel="stylesheet" href="/assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="./assets/css/calendar.css">
+<link rel="stylesheet" href="./assets/css/weekly-schedule.css">
 <!-- Script modal requis pour les événements -->
-<script src="/assets/js/schedule-modal.js" defer></script>
+<script src="./assets/js/schedule-modal.js" defer></script>
 
-<div class="calendar-container" role="region" aria-label="Calendrier <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>">
-    
+<div class="calendar-container" role="region"
+    aria-label="Calendrier <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>">
+
     <!-- Toolbar Navigation Pro -->
     <div class="calendar-header">
         <!-- Left: Today Button -->
         <?php
-        $currentYear = (int)date('Y');
-        $currentMonth = (int)date('n');
+        $currentYear = (int) date('Y');
+        $currentMonth = (int) date('n');
         $isCurrentMonth = ($calendar['year'] == $currentYear && $calendar['month'] == $currentMonth);
         ?>
-        <?php if ($isCurrentMonth) : ?>
-            <span class="nav-btn today-btn disabled" 
-                  aria-label="Vous êtes déjà sur le mois actuel">
+        <?php if ($isCurrentMonth): ?>
+            <span class="nav-btn today-btn disabled" aria-label="Vous êtes déjà sur le mois actuel">
                 Aujourd'hui
             </span>
-        <?php else : ?>
-            <a href="<?= $buildUrl($currentYear, $currentMonth) ?>" 
-               class="nav-btn today-btn"
-               aria-label="Retour à aujourd'hui"
-               data-view="month"
-               data-calyear="<?= $currentYear ?>"
-               data-calmonth="<?= $currentMonth ?>">
+        <?php else: ?>
+            <a href="<?= $buildUrl($currentYear, $currentMonth) ?>" class="nav-btn today-btn"
+                aria-label="Retour à aujourd'hui" data-view="month" data-calyear="<?= $currentYear ?>"
+                data-calmonth="<?= $currentMonth ?>">
                 Aujourd'hui
             </a>
         <?php endif; ?>
-        
+
         <!-- Center: Navigation Controls -->
         <div class="calendar-nav-center">
-            <a href="<?= $buildUrl($calendar['prevYear'], $calendar['prevMonth']) ?>" 
-               class="nav-btn icon-btn"
-               aria-label="Mois précédent : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['prevMonth'])) ?> <?= $calendar['prevYear'] ?>"
-               data-view="month"
-               data-calyear="<?= $calendar['prevYear'] ?>"
-               data-calmonth="<?= $calendar['prevMonth'] ?>">
+            <a href="<?= $buildUrl($calendar['prevYear'], $calendar['prevMonth']) ?>" class="nav-btn icon-btn"
+                aria-label="Mois précédent : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['prevMonth'])) ?> <?= $calendar['prevYear'] ?>"
+                data-view="month" data-calyear="<?= $calendar['prevYear'] ?>"
+                data-calmonth="<?= $calendar['prevMonth'] ?>">
                 <i class="fas fa-chevron-left"></i>
             </a>
-            
+
             <h2 class="calendar-title">
                 <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>
             </h2>
-            
-            <a href="<?= $buildUrl($calendar['nextYear'], $calendar['nextMonth']) ?>" 
-               class="nav-btn icon-btn"
-               aria-label="Mois suivant : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['nextMonth'])) ?> <?= $calendar['nextYear'] ?>"
-               data-view="month"
-               data-calyear="<?= $calendar['nextYear'] ?>"
-               data-calmonth="<?= $calendar['nextMonth'] ?>">
+
+            <a href="<?= $buildUrl($calendar['nextYear'], $calendar['nextMonth']) ?>" class="nav-btn icon-btn"
+                aria-label="Mois suivant : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['nextMonth'])) ?> <?= $calendar['nextYear'] ?>"
+                data-view="month" data-calyear="<?= $calendar['nextYear'] ?>"
+                data-calmonth="<?= $calendar['nextMonth'] ?>">
                 <i class="fas fa-chevron-right"></i>
             </a>
         </div>
-        
+
         <!-- Right: View Switcher -->
         <div class="view-switcher">
-            <a href="<?= $pageUrl ?>&view=day&date=<?= date('Y-m-d') ?>&<?= http_build_query($extraParams) ?>" 
-               class="view-btn"
-               data-view="day">
+            <a href="<?= $pageUrl ?>&view=day&date=<?= date('Y-m-d') ?>&<?= http_build_query($extraParams) ?>"
+                class="view-btn" data-view="day">
                 Jour
             </a>
-            <a href="<?= $pageUrl ?>&view=week&<?= http_build_query($extraParams) ?>" 
-               class="view-btn"
-               data-view="week">
+            <a href="<?= $pageUrl ?>&view=week&<?= http_build_query($extraParams) ?>" class="view-btn" data-view="week">
                 Semaine
             </a>
-            <a href="<?= $pageUrl ?>&view=month&<?= http_build_query($extraParams) ?>" 
-               class="view-btn active"
-               data-view="month">
+            <a href="<?= $pageUrl ?>&view=month&<?= http_build_query($extraParams) ?>" class="view-btn active"
+                data-view="month">
                 Mois
             </a>
         </div>
     </div>
-    
+
     <!-- En-têtes des jours de la semaine -->
     <div class="calendar-weekdays">
         <div class="calendar-weekday" aria-label="Lundi">Lun</div>
@@ -111,10 +100,10 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         <div class="calendar-weekday" aria-label="Samedi">Sam</div>
         <div class="calendar-weekday" aria-label="Dimanche">Dim</div>
     </div>
-    
+
     <!-- Grille des jours -->
     <div class="calendar-grid">
-        <?php foreach ($calendar['days'] as $day) : ?>
+        <?php foreach ($calendar['days'] as $day): ?>
             <?php
             $dayClasses = ['calendar-day'];
             if ($day['isCurrentMonth']) {
@@ -136,16 +125,15 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                 $dayLabel .= ', ' . $eventCount . ' événement' . ($eventCount > 1 ? 's' : '');
             }
             ?>
-            
-            <div class="<?= implode(' ', $dayClasses) ?>" 
-                 data-date="<?= htmlspecialchars($day['date']) ?>"
-                 aria-label="<?= htmlspecialchars($dayLabel) ?>">
-                
+
+            <div class="<?= implode(' ', $dayClasses) ?>" data-date="<?= htmlspecialchars($day['date']) ?>"
+                aria-label="<?= htmlspecialchars($dayLabel) ?>">
+
                 <div class="calendar-day-number"><?= $day['number'] ?></div>
-                
-                <?php if (!empty($day['events'])) : ?>
+
+                <?php if (!empty($day['events'])): ?>
                     <div class="calendar-events">
-                        <?php foreach ($day['events'] as $event) : ?>
+                        <?php foreach ($day['events'] as $event): ?>
                             <?php
                             // Déterminer la couleur de l'événement
                             $eventColor = $event['color'] ?? $event['backgroundColor'] ?? '#3788d8';
@@ -176,19 +164,14 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                                 $eventAriaLabel .= ", salle $location";
                             }
                             ?>
-                            
-                            <div class="calendar-event"
-                                 role="button"
-                                 tabindex="0"
-                                 data-type="<?= htmlspecialchars($eventType) ?>"
-                                 data-time="<?= htmlspecialchars($timeRange) ?>"
-                                 data-title="<?= htmlspecialchars($eventTitle) ?>"
-                                 data-location="<?= htmlspecialchars($location) ?>"
-                                 data-teacher="<?= htmlspecialchars($teacher) ?>"
-                                 style="background-color: <?= htmlspecialchars($eventColor) ?>;"
-                                 aria-label="<?= htmlspecialchars($eventAriaLabel) ?>"
-                                 title="<?= htmlspecialchars($eventTitle . ($timeRange ? ' - ' . $timeRange : '') . ($location ? ' - ' . $location : '')) ?>">
-                                <?php if ($start) : ?>
+
+                            <div class="calendar-event" role="button" tabindex="0" data-type="<?= htmlspecialchars($eventType) ?>"
+                                data-time="<?= htmlspecialchars($timeRange) ?>" data-title="<?= htmlspecialchars($eventTitle) ?>"
+                                data-location="<?= htmlspecialchars($location) ?>" data-teacher="<?= htmlspecialchars($teacher) ?>"
+                                style="background-color: <?= htmlspecialchars($eventColor) ?>;"
+                                aria-label="<?= htmlspecialchars($eventAriaLabel) ?>"
+                                title="<?= htmlspecialchars($eventTitle . ($timeRange ? ' - ' . $timeRange : '') . ($location ? ' - ' . $location : '')) ?>">
+                                <?php if ($start): ?>
                                     <span class="event-time"><?= htmlspecialchars($start) ?></span>
                                 <?php endif; ?>
                                 <span class="event-title"><?= htmlspecialchars($eventTitle) ?></span>

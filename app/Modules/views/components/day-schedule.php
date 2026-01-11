@@ -23,12 +23,12 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="/assets/css/weekly-schedule.css">
-<link rel="stylesheet" href="/assets/css/calendar.css">
-<script src="/assets/js/schedule-modal.js" defer></script>
+<link rel="stylesheet" href="./assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="./assets/css/calendar.css">
+<script src="./assets/js/schedule-modal.js" defer></script>
 
 <div class="weekly-schedule day-view" role="region" aria-label="Emploi du temps du <?= $daySchedule['formatted'] ?>">
-    
+
     <!-- Toolbar Navigation Pro -->
     <div class="calendar-header">
         <!-- Left: Today Button -->
@@ -36,52 +36,39 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
         $todayDate = date('Y-m-d');
         $todayUrl = $pageUrl . '&view=day&date=' . $todayDate . '&' . http_build_query($extraParams);
         ?>
-        <a href="<?= $todayUrl ?>" 
-           class="nav-btn today-btn"
-           aria-label="Retour à aujourd'hui"
-           data-view="day"
-           data-date="<?= $todayDate ?>">
+        <a href="<?= $todayUrl ?>" class="nav-btn today-btn" aria-label="Retour à aujourd'hui" data-view="day"
+            data-date="<?= $todayDate ?>">
             Aujourd'hui
         </a>
-        
+
         <!-- Center: Navigation Controls -->
         <div class="calendar-nav-center">
-            <a href="<?= $buildUrl($daySchedule['prevDate']) ?>" 
-               class="nav-btn icon-btn"
-               aria-label="Jour précédent"
-               data-view="day"
-               data-date="<?= $daySchedule['prevDate'] ?>">
+            <a href="<?= $buildUrl($daySchedule['prevDate']) ?>" class="nav-btn icon-btn" aria-label="Jour précédent"
+                data-view="day" data-date="<?= $daySchedule['prevDate'] ?>">
                 <i class="fas fa-chevron-left"></i>
             </a>
-            
+
             <h2 class="calendar-title">
                 <?= $daySchedule['dayName'] ?> <?= $daySchedule['formatted'] ?>
             </h2>
-            
-            <a href="<?= $buildUrl($daySchedule['nextDate']) ?>" 
-               class="nav-btn icon-btn"
-               aria-label="Jour suivant"
-               data-view="day"
-               data-date="<?= $daySchedule['nextDate'] ?>">
+
+            <a href="<?= $buildUrl($daySchedule['nextDate']) ?>" class="nav-btn icon-btn" aria-label="Jour suivant"
+                data-view="day" data-date="<?= $daySchedule['nextDate'] ?>">
                 <i class="fas fa-chevron-right"></i>
             </a>
         </div>
-        
+
         <!-- Right: View Switcher -->
         <div class="view-switcher">
-            <a href="<?= $buildUrl($daySchedule['date']) ?>" 
-               class="view-btn active"
-               data-view="day">
+            <a href="<?= $buildUrl($daySchedule['date']) ?>" class="view-btn active" data-view="day">
                 Jour
             </a>
-            <a href="<?= str_replace('view=day', 'view=week', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
-               class="view-btn"
-               data-view="week">
+            <a href="<?= str_replace('view=day', 'view=week', $pageUrl) . '&' . http_build_query($extraParams) ?>"
+                class="view-btn" data-view="week">
                 Semaine
             </a>
-            <a href="<?= str_replace('view=day', 'view=month', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
-               class="view-btn"
-               data-view="month">
+            <a href="<?= str_replace('view=day', 'view=month', $pageUrl) . '&' . http_build_query($extraParams) ?>"
+                class="view-btn" data-view="month">
                 Mois
             </a>
         </div>
@@ -89,10 +76,10 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
 
     <!-- Conteneur Grille -->
     <div class="schedule-grid-container">
-        
+
         <!-- Axe Heures -->
         <div class="time-axis">
-            <?php foreach ($daySchedule['hours'] as $hour) : ?>
+            <?php foreach ($daySchedule['hours'] as $hour): ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
@@ -100,24 +87,25 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
         <!-- Colonne Jour Unique -->
         <div class="schedule-grid-wrapper">
             <div class="schedule-grid" style="grid-template-columns: 1fr;">
-                
+
                 <!-- En-tête -->
                 <div class="day-header">
                     <?= htmlspecialchars($daySchedule['dayName']) ?><br>
-                    <small style="font-weight: 400; opacity: 0.8;"><?= htmlspecialchars($daySchedule['formatted']) ?></small>
+                    <small
+                        style="font-weight: 400; opacity: 0.8;"><?= htmlspecialchars($daySchedule['formatted']) ?></small>
                 </div>
 
                 <!-- Colonne -->
                 <div class="day-column" data-date="<?= $daySchedule['date'] ?>">
-                    
+
                     <!-- Lignes horaires -->
-                    <?php foreach ($daySchedule['hours'] as $index => $hour) : ?>
+                    <?php foreach ($daySchedule['hours'] as $index => $hour): ?>
                         <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                     <?php endforeach; ?>
 
                     <!-- Événements -->
-                    <?php if (!empty($daySchedule['events'])) : ?>
-                        <?php foreach ($daySchedule['events'] as $event) :
+                    <?php if (!empty($daySchedule['events'])): ?>
+                        <?php foreach ($daySchedule['events'] as $event):
                             $title = $event['title'] ?? 'Cours';
                             $location = $event['location'] ?? '';
                             $teacher = $event['teacher'] ?? '';
@@ -128,19 +116,16 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
                             $endTime = isset($event['end']) ? date('H:i', strtotime($event['end'])) : '';
                             $timeRange = "$startTime - $endTime";
                             ?>
-                            <div class="course-block"
-                                 data-type="<?= htmlspecialchars($type) ?>"
-                                 data-time="<?= htmlspecialchars($timeRange) ?>"
-                                 data-title="<?= htmlspecialchars($title) ?>"
-                                 data-location="<?= htmlspecialchars($location) ?>"
-                                 data-teacher="<?= htmlspecialchars($teacher) ?>"
-                                 style="top: <?= htmlspecialchars($cssPos['top']) ?>; height: <?= htmlspecialchars($cssPos['height']) ?>;"
-                                 tabindex="0"
-                                 role="button">
-                                
+                            <div class="course-block" data-type="<?= htmlspecialchars($type) ?>"
+                                data-time="<?= htmlspecialchars($timeRange) ?>" data-title="<?= htmlspecialchars($title) ?>"
+                                data-location="<?= htmlspecialchars($location) ?>"
+                                data-teacher="<?= htmlspecialchars($teacher) ?>"
+                                style="top: <?= htmlspecialchars($cssPos['top']) ?>; height: <?= htmlspecialchars($cssPos['height']) ?>;"
+                                tabindex="0" role="button">
+
                                 <div class="course-time"><?= htmlspecialchars($timeRange) ?></div>
                                 <div class="course-title"><?= htmlspecialchars($title) ?></div>
-                                <?php if ($location) : ?>
+                                <?php if ($location): ?>
                                     <div class="course-location">📍 <?= htmlspecialchars($location) ?></div>
                                 <?php endif; ?>
                             </div>
@@ -150,11 +135,10 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
                     <!-- Indicateur temps réel -->
                     <?php
                     $ct = $daySchedule['currentTime'];
-                    if ($ct) :
+                    if ($ct):
                         ?>
-                        <div class="current-time-indicator" 
-                             style="top: <?= $ct['top'] ?>px;"
-                             data-time="<?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?>">
+                        <div class="current-time-indicator" style="top: <?= $ct['top'] ?>px;"
+                            data-time="<?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?>">
                             <span class="time-label"><?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?></span>
                         </div>
                     <?php endif; ?>

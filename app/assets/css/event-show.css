@@ -1,0 +1,91 @@
+/**
+ * Event Show Page Styles
+ * 
+ * Styles for the event detail page (showEventView.php)
+ */
+
+/* Flash messages */
+.event-flash-success {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px;
+    margin: 20px 0;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.event-flash-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    margin: 20px 0;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Registration section */
+.registration-section {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Group registration button */
+.btn-group-register {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.btn-group-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Individual registration button */
+.btn-individual-register {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-individual-register:hover {
+    background-color: #218838;
+}
+
+/* Admin zone */
+.admin-zone {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.admin-zone h2 {
+    color: var(--text-primary);
+}
+
+.admin-zone-actions {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}

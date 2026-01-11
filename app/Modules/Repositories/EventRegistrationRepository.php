@@ -111,6 +111,45 @@ class EventRegistrationRepository
     }
 
     /**
+     * Get team ID for a user in a specific event
+     *
+     * Checks if the user is part of a team for the given event.
+     *
+     * @param int $userId The user identifier
+     * @param int $eventId The event identifier
+     * @return int|null Team ID if user is in a team, null otherwise
+     */
+    public function getTeamIdByUserAndEvent(int $userId, int $eventId): ?int
+    {
+        $stmt = $this->pdo->prepare(
+            'SELECT team_id FROM EVENT_REGISTRATIONS WHERE user_id = ? AND event_id = ? AND team_id IS NOT NULL'
+        );
+        $stmt->execute([$userId, $eventId]);
+        $result = $stmt->fetchColumn();
+        return $result !== false ? (int) $result : null;
+    }
+
+    /**
+     * Delete all registrations for a specific team
+     *
+     * Removes all member registrations associated with a team.
+     *
+     * @param int $teamId The team identifier
+     * @return int Number of registrations deleted
+     */
+    public function deleteRegistrationsByTeam(int $teamId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM EVENT_REGISTRATIONS WHERE team_id = ?');
+            $stmt->execute([$teamId]);
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::deleteRegistrationsByTeam - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
      * Retrieves detailed information about users registered for a specific event.
      *
      * This method joins the USERS table with the EVENT_REGISTRATIONS table to provide

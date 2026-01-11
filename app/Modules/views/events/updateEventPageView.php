@@ -107,7 +107,7 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                             <label for="<?= strtolower(str_replace(' ', '', $status)) ?>"><?= htmlspecialchars($status) ?></label>
                         </article>
                     <?php endforeach; ?>
-                </fieldset>
+                </div>
 
                 <label for="description">Description de l'événement</label>
                 <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event['description']) ?></textarea>
