@@ -144,9 +144,11 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                             <?php if ($isAdmin) : ?>
                                 <a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a>
                                 <a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a>
+                            <?php else : ?>
+                                <div class="dropdown-divider"></div>
                             <?php endif; ?>
-                            <div class="dropdown-divider"></div>
-                            <a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a>
                             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                             <a href="index.php?page=deleteAccount" class="dropdown-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a>
                         </div>
