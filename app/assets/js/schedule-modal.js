@@ -185,14 +185,14 @@ function updateCurrentTimeIndicator()
     const hours = now.getHours();
     const minutes = now.getMinutes();
 
-    // Seulement entre 07:00 et 20:00
-    if (hours < 7 || hours > 20) {
+    // Seulement entre 08:00 et 20:00
+    if (hours < 8 || hours > 20) {
         indicator.style.display = 'none';
         return;
     }
 
-    // Calculer position (minutes depuis 07:00)
-    const top = ((hours - 7) * 60) + minutes;
+    // Calculer position (minutes depuis 08:00)
+    const top = ((hours - 8) * 60) + minutes;
 
     indicator.style.top = top + 'px';
     indicator.style.display = 'block';

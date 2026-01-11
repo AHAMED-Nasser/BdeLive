@@ -49,7 +49,7 @@ if (!empty($schedule['weekDates'])) {
         if ($dayInfo['date'] === $today) {
             $hour = (int)date('H');
             $minute = (int)date('i');
-            $currentTimePosition = (($hour - 7) * 60) + $minute; // Minutes depuis 07:00
+            $currentTimePosition = (($hour - 8) * 60) + $minute; // Minutes depuis 08:00
             $currentTimeLabel = date('H:i');
             break;
         }

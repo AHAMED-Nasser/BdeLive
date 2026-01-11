@@ -5,7 +5,7 @@ namespace App\Core;
 /**
  * WeeklyScheduleManager - Gestionnaire d'emploi du temps hebdomadaire
  *
- * Génère des vues hebdomadaires avec timeline verticale (07:00-20:00)
+ * Génère des vues hebdomadaires avec timeline verticale (08:00-20:00)
  * et blocs de cours positionnés selon leur horaire.
  *
  * @package App\Core
@@ -26,9 +26,9 @@ class WeeklyScheduleManager
     ];
 
     /**
-     * Heure de début de la journée (07:00)
+     * Heure de début de la journée (08:00)
      */
-    private const START_HOUR = 7;
+    private const START_HOUR = 8;
 
     /**
      * Heure de fin de la journée (20:00)
@@ -187,7 +187,7 @@ class WeeklyScheduleManager
             $endHour = (int)$end->format('H');
             $endMinute = (int)$end->format('i');
 
-            // Calculer les minutes depuis START_HOUR (07:00)
+            // Calculer les minutes depuis START_HOUR (08:00)
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;
             $endMinutes = ($endHour - self::START_HOUR) * 60 + $endMinute;
 
