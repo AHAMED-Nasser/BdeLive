@@ -85,22 +85,22 @@ class AdminSectionController extends AdminController
                 $manager->setBlockStatus($id, 0);
                 break;
         }
-        
+
         // Préserver tous les filtres lors de la redirection
         $params = [
             'page' => 'adminSection',
             'filter' => $_GET['filter'] ?? 'active',
             'role' => $_GET['role'] ?? 'all',
         ];
-        
+
         if (!empty($_GET['search'])) {
             $params['search'] = $_GET['search'];
         }
-        
+
         if (!empty($_GET['p'])) {
             $params['p'] = $_GET['p'];
         }
-        
+
         header('Location: index.php?' . http_build_query($params));
         exit;
     }
