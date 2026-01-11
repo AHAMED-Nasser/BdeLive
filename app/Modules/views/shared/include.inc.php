@@ -89,6 +89,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <link rel="stylesheet" href="./assets/css/homepage-articles.css">
     <link rel="stylesheet" href="./assets/css/admin.css">
     <link rel="stylesheet" href="./assets/css/schedule.css">
+    <link rel="stylesheet" href="./assets/css/event.css">
     <title><?= $title ?></title>
 </head>
 <body>
