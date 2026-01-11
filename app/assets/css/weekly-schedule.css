@@ -364,3 +364,233 @@
     margin-bottom: 1rem;
     opacity: 0.5;
 }
+
+/* =========================================== 
+   BOUTONS DE VUE (JOUR/SEMAINE/MOIS)
+   =========================================== */
+.view-switcher {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.view-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.view-btn:hover {
+    background: var(--bg-hover);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.view-btn.active {
+    background: var(--color-primary);
+    color: var(--text-inverse);
+    border-color: var(--color-primary);
+}
+
+@media (max-width: 767px) {
+    .view-switcher {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .view-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* =========================================== 
+   INDICATEUR DE TEMPS ACTUEL (LIGNE ROUGE)
+   =========================================== */
+.current-time-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #ff3333;
+    z-index: 100;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+}
+
+.current-time-indicator::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    background: #ff3333;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+}
+
+.time-label {
+    position: absolute;
+    left: -50px;
+    top: -10px;
+    background: #ff3333;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+    .time-label {
+        left: 4px;
+        font-size: 0.65rem;
+        padding: 1px 4px;
+    }
+}
+
+/* =========================================== 
+   MODAL MOBILE POUR DÉTAILS COURS
+   =========================================== */
+.course-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.course-modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    max-width: 90%;
+    width: 450px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding-top: 1rem;
+}
+
+.modal-time {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.75rem;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.modal-location,
+.modal-teacher {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+/* Touch improvements for mobile */
+@media (max-width: 767px) {
+    .course-block {
+        min-height: 40px;
+        /* Zone tactile minimum */
+        padding: 0.4rem;
+        font-size: 0.7rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.25rem;
+    }
+
+    .modal-time {
+        font-size: 1rem;
+    }
+
+    .modal-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* Dark mode adjustments for modal */
+.dark-mode .modal-overlay {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.dark-mode .modal-content {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
