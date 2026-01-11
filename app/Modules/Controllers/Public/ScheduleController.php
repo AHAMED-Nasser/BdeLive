@@ -81,8 +81,8 @@ class ScheduleController extends DefaultController
         // Nouveau : détection du type de calendrier (FullCalendar vs Native)
         $calendarType = $this->request->get('calendar', 'fullcalendar'); // 'native' ou 'fullcalendar'
         
-        // Paramètres pour le calendrier natif
-        $month = (int)($this->request->get('month') ?? date('n'));
+        // Paramètres pour le calendrier natif (IMPORTANT: "calmonth" pour éviter confusion avec year du groupe)
+        $month = (int)($this->request->get('calmonth') ?? date('n'));
         $calYear = (int)($this->request->get('calyear') ?? date('Y'));
 
         // Validation des paramètres du calendrier natif
