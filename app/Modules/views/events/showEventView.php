@@ -51,7 +51,12 @@ $userId = $user['user_id'] ?? null;
             <p><?= nl2br(htmlspecialchars($event['description'])) ?></p>
         </div>
 
-        <div class="registration-section">
+        <div class="registration-section" style="text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid #eee;">
+            <?php
+            $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+            $teamSize = (int) ($event['team_size'] ?? 1);
+            ?>
+
             <?php if ($userId) : ?>
                 <?php
                     // Vérification de l'inscription
@@ -63,10 +68,19 @@ $userId = $user['user_id'] ?? null;
                         Se désinscrire
                     </a>
                 <?php else : ?>
-                    <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>"
-                       class="btn-success">
-                        S'inscrire à l'événement
-                    </a>
+                    <?php if ($isGroupEvent) : ?>
+                        <!-- Événement en groupe -->
+                        <a href="index.php?page=groupRegistration&event_id=<?= $event['event_id'] ?>"
+                           style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 14px 30px; border-radius: 8px; text-decoration: none; display: inline-block; font-weight: bold; transition: transform 0.2s;">
+                            <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
+                        </a>
+                    <?php else : ?>
+                        <!-- Événement individuel -->
+                        <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>"
+                           style="background-color: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 4px; text-decoration: none; display: inline-block; font-weight: bold;">
+                            S'inscrire à l'événement
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
             <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
                 <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>

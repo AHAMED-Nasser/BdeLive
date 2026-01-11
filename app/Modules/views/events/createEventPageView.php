@@ -39,6 +39,26 @@ start_page("Créer un événement", true, $user ?? null) ?>
             <label for="event-theme">Thème de l'événement</label>
             <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
+            <!-- Type d'inscription -->
+            <label>Type d'inscription</label>
+            <div class="checkbox-container">
+                <article>
+                    <input id="event-solo" type="radio" name="event_type" value="solo" checked onchange="toggleTeamSize()">
+                    <label for="event-solo">Inscription individuelle</label>
+                </article>
+                <article>
+                    <input id="event-group" type="radio" name="event_type" value="group" onchange="toggleTeamSize()">
+                    <label for="event-group">Inscription en groupe</label>
+                </article>
+            </div>
+
+            <!-- Taille de l'équipe (visible uniquement pour les événements en groupe) -->
+            <div id="team-size-container" style="display: none; margin-top: 15px;">
+                <label for="team-size">Nombre de personnes par groupe</label>
+                <input id="team-size" type="number" name="team_size" min="2" max="20" value="2" placeholder="Ex: 4">
+                <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour former un groupe</small>
+            </div>
+
             <!-- checkbox -->
             <!-- checkbox -->
             <fieldset class="checkbox-container">
@@ -97,6 +117,16 @@ start_page("Créer un événement", true, $user ?? null) ?>
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
         document.getElementById('event-time').value = `${hours}:${minutes}`;
+
+        // Toggle team size visibility based on event type
+        function toggleTeamSize() {
+            const isGroup = document.getElementById('event-group').checked;
+            const container = document.getElementById('team-size-container');
+            container.style.display = isGroup ? 'block' : 'none';
+            if (!isGroup) {
+                document.getElementById('team-size').value = '1';
+            }
+        }
     </script>
 </section>
 
