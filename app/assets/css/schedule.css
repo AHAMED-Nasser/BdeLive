@@ -136,7 +136,50 @@
     margin: 2px 0;
 }
 
-/* ===== STYLES POUR LES ÉVÉNEMENTS EN MODE SOMBRE ===== */
+/* ===========================================
+   FIX CONTRASTE MODE LIGHT - WCAG AA
+   =========================================== */
+/* En mode light, on force un texte FONCÉ pour avoir un bon contraste sur les fonds colorés */
+:not(.dark-mode) .fc-event {
+    color: #1f2937 !important;
+    /* Gris très foncé pour contraste >4.5:1 */
+}
+
+:not(.dark-mode) .fc-event-main,
+:not(.dark-mode) .fc-event-title,
+:not(.dark-mode) .fc-event-time,
+:not(.dark-mode) .fc-event-title-container,
+:not(.dark-mode) .fc-event-main-frame {
+    color: #1f2937 !important;
+}
+
+/* Vue timegrid en mode light */
+:not(.dark-mode) .fc-timegrid-event,
+:not(.dark-mode) .fc-timegrid-event .fc-event-main,
+:not(.dark-mode) .fc-timegrid-event .fc-event-title,
+:not(.dark-mode) .fc-timegrid-event .fc-event-time {
+    color: #1f2937 !important;
+}
+
+/* Vue liste en mode light */
+:not(.dark-mode) .fc-list-event,
+:not(.dark-mode) .fc-list-event *,
+:not(.dark-mode) .fc-list-event td,
+:not(.dark-mode) .fc-list-event-title,
+:not(.dark-mode) .fc-list-event-time {
+    color: #1f2937 !important;
+}
+
+/* Style de la localisation des événements */
+.fc-event-location {
+    font-size: 0.85em;
+    /* Mode light : couleur légèrement plus claire mais avec bon contraste */
+    color: #374151 !important;
+    /* Gris foncé, contraste >4.5:1 sur fonds colorés */
+    margin-top: 2px;
+}
+
+/* =========================================== */
 /* En mode sombre, on préserve les couleurs personnalisées des événements */
 .dark-mode .fc-event {
     /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
@@ -164,6 +207,10 @@
 }
 
 .dark-mode .fc-event-main-frame {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-location {
     color: var(--text-inverse) !important;
 }
 
@@ -549,7 +596,7 @@
 
 /* Ne pas appliquer de couleur générale à tous les enfants,
    laisser les événements définir leur propre couleur */
-.dark-mode .fc-list > * {
+.dark-mode .fc-list>* {
     color: var(--text-primary) !important;
 }
 
@@ -752,6 +799,7 @@
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -872,6 +920,7 @@
 
 /* Mobile (max-width: 767px) */
 @media (max-width: 767px) {
+
     /* Container et header */
     .schedule-container {
         padding: 0 0.5rem;
@@ -1044,7 +1093,8 @@
 
     .fc-timeGridWeek-view .fc-event-time {
         font-size: 0.6rem;
-        display: none; /* Cacher l'heure en semaine sur mobile pour gagner de l'espace */
+        display: none;
+        /* Cacher l'heure en semaine sur mobile pour gagner de l'espace */
     }
 
     .fc-timeGridWeek-view .fc-col-header-cell {
