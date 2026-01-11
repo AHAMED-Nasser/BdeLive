@@ -63,7 +63,7 @@ class EventTeamInvitationRepository
                 'INSERT INTO EVENT_TEAM_INVITATIONS (team_id, email, user_id, validation_token, validation_status) 
                  VALUES (:team_id, :email, :user_id, :validation_token, :validation_status)'
             );
-            
+
             $stmt->execute([
                 ':team_id' => $teamId,
                 ':email' => $email,
@@ -94,7 +94,7 @@ class EventTeamInvitationRepository
                     JOIN EVENT_TEAMS et ON eti.team_id = et.team_id
                     JOIN EVENTS e ON et.event_id = e.event_id
                     WHERE eti.validation_token = :token';
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':token' => $token]);
             $invitation = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -137,11 +137,11 @@ class EventTeamInvitationRepository
         try {
             $sql = 'UPDATE EVENT_TEAM_INVITATIONS 
                     SET validation_status = :status, validated_at = NOW()';
-            
+
             if ($userId !== null) {
                 $sql .= ', user_id = :user_id';
             }
-            
+
             $sql .= ' WHERE invitation_id = :id';
 
             $stmt = $this->pdo->prepare($sql);
@@ -149,11 +149,11 @@ class EventTeamInvitationRepository
                 ':status' => $status,
                 ':id' => $invitationId
             ];
-            
+
             if ($userId !== null) {
                 $params[':user_id'] = $userId;
             }
-            
+
             return $stmt->execute($params);
         } catch (PDOException $e) {
             error_log('EventTeamInvitationRepository::updateValidationStatus - ' . $e->getMessage());
@@ -175,7 +175,7 @@ class EventTeamInvitationRepository
                     LEFT JOIN USERS u ON eti.user_id = u.user_id
                     WHERE eti.team_id = :team_id
                     ORDER BY eti.invited_at ASC';
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':team_id' => $teamId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
@@ -302,7 +302,7 @@ class EventTeamInvitationRepository
                     LEFT JOIN USERS u ON eti.user_id = u.user_id
                     WHERE eti.team_id = :team_id AND eti.validation_status = 'confirmed'
                     ORDER BY eti.validated_at ASC";
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':team_id' => $teamId]);
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
@@ -314,4 +314,3 @@ class EventTeamInvitationRepository
 }
 
 \class_alias(__NAMESPACE__ . '\\EventTeamInvitationRepository', 'EventTeamInvitationRepository');
-

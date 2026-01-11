@@ -8,6 +8,7 @@ use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventTeamInvitationRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Config\Mailer;
 
 /**
  * ValidateTeamInvitationController - Team Invitation Validation
@@ -141,7 +142,7 @@ class ValidateTeamInvitationController extends DefaultController
         // Check if user is logged in and link them
         $user = $this->auth->getUser();
         $userId = null;
-        
+
         if ($user && strtolower($user['email']) === strtolower($invitation['email'])) {
             $userId = (int) $user['user_id'];
         } elseif ($invitation['user_id']) {
@@ -162,9 +163,12 @@ class ValidateTeamInvitationController extends DefaultController
         if ($this->invitationRepo->areAllInvitationsConfirmed($teamId)) {
             // Update team status to confirmed
             $this->teamRepo->updateStatus($teamId, 'confirmed');
-            
+
             // Register all confirmed members to the event
             $this->registerTeamMembers($teamId, $eventId);
+
+            // Send notification email to the group creator
+            $this->notifyTeamCreator($teamId);
         }
 
         // Refresh invitation data
@@ -221,7 +225,7 @@ class ValidateTeamInvitationController extends DefaultController
         foreach ($members as $member) {
             if (!empty($member['user_id'])) {
                 $userId = (int) $member['user_id'];
-                
+
                 // Check if not already registered individually
                 if (!$this->registrationRepo->isUserRegistered($eventId, $userId)) {
                     $this->registrationRepo->registerUserWithTeam($eventId, $userId, $teamId);
@@ -229,5 +233,31 @@ class ValidateTeamInvitationController extends DefaultController
             }
         }
     }
-}
 
+    /**
+     * Send notification email to the team creator
+     *
+     * Retrieves team and creator info, then sends an email notifying
+     * the creator that all members have confirmed.
+     *
+     * @param int $teamId The team identifier
+     * @return void
+     */
+    private function notifyTeamCreator(int $teamId): void
+    {
+        $teamWithCreator = $this->teamRepo->findByIdWithCreator($teamId);
+
+        if ($teamWithCreator === null) {
+            error_log("ValidateTeamInvitationController::notifyTeamCreator - Team not found: " . $teamId);
+            return;
+        }
+
+        $mailer = new Mailer();
+        $mailer->sendTeamConfirmedEmail(
+            $teamWithCreator['email'],
+            $teamWithCreator['first_name'] . ' ' . $teamWithCreator['last_name'],
+            $teamWithCreator['event_name'],
+            (int) $teamWithCreator['team_number']
+        );
+    }
+}

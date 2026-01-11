@@ -49,7 +49,7 @@ start_page("Invitation à rejoindre un groupe", true, $user ?? null);
             
             <ul style="list-style: none; padding: 0; margin: 0;">
                 <?php foreach ($members as $member) : ?>
-                    <?php 
+                    <?php
                     $isCurrentUser = strtolower($member['email']) === strtolower($invitation['email']);
                     $statusIcon = $member['validation_status'] === 'confirmed' ? '✅' : ($member['validation_status'] === 'declined' ? '❌' : '⏳');
                     $statusText = $member['validation_status'] === 'confirmed' ? 'Confirmé' : ($member['validation_status'] === 'declined' ? 'Refusé' : 'En attente');

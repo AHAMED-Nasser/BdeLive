@@ -62,7 +62,7 @@ class EventTeamRepository
                 'INSERT INTO EVENT_TEAMS (event_id, team_number, creator_user_id, status) 
                  VALUES (:event_id, :team_number, :creator_user_id, :status)'
             );
-            
+
             $stmt->execute([
                 ':event_id' => $eventId,
                 ':team_number' => $teamNumber,
@@ -117,6 +117,33 @@ class EventTeamRepository
     }
 
     /**
+     * Find a team by ID with creator info and event name
+     *
+     * Returns team data along with creator's name, email, and event name
+     * for sending notification emails.
+     *
+     * @param int $teamId The team identifier
+     * @return array<string, mixed>|null Team data with creator info or null if not found
+     */
+    public function findByIdWithCreator(int $teamId): ?array
+    {
+        try {
+            $sql = 'SELECT et.*, u.first_name, u.last_name, u.email, e.event_name
+                    FROM EVENT_TEAMS et
+                    JOIN USERS u ON et.creator_user_id = u.user_id
+                    JOIN EVENTS e ON et.event_id = e.event_id
+                    WHERE et.team_id = :team_id';
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':team_id' => $teamId]);
+            $team = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $team ?: null;
+        } catch (PDOException $e) {
+            error_log('EventTeamRepository::findByIdWithCreator - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Update team status
      *
      * @param int $teamId The team identifier
@@ -153,20 +180,20 @@ class EventTeamRepository
                     FROM EVENT_TEAMS et
                     JOIN USERS u ON et.creator_user_id = u.user_id
                     WHERE et.event_id = :event_id';
-            
+
             if ($status !== null) {
                 $sql .= ' AND et.status = :status';
             }
-            
+
             $sql .= ' ORDER BY et.team_number ASC';
 
             $stmt = $this->pdo->prepare($sql);
             $params = [':event_id' => $eventId];
-            
+
             if ($status !== null) {
                 $params[':status'] = $status;
             }
-            
+
             $stmt->execute($params);
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
         } catch (PDOException $e) {
@@ -253,20 +280,40 @@ class EventTeamRepository
                     WHERE et.event_id = :event_id 
                     AND eti.user_id = :user_id 
                     AND eti.validation_status != 'declined'";
-            
+
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 ':event_id' => $eventId,
                 ':user_id' => $userId
             ]);
-            
+
             return (int) $stmt->fetchColumn() > 0;
         } catch (PDOException $e) {
             error_log('EventTeamRepository::isUserInAnyTeam - ' . $e->getMessage());
             return false;
         }
     }
+
+    /**
+     * Delete all teams for an event
+     *
+     * Used when event type or team size changes to clear all existing teams.
+     * Cascades to delete team invitations via foreign key.
+     *
+     * @param int $eventId The event identifier
+     * @return int Number of teams deleted
+     */
+    public function deleteTeamsByEvent(int $eventId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM EVENT_TEAMS WHERE event_id = :event_id');
+            $stmt->execute([':event_id' => $eventId]);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            error_log('EventTeamRepository::deleteTeamsByEvent - ' . $e->getMessage());
+            return 0;
+        }
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventTeamRepository', 'EventTeamRepository');
-

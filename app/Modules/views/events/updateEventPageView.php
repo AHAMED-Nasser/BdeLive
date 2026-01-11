@@ -59,11 +59,20 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                        value="<?= htmlspecialchars($event['event_theme']) ?>">
 
                 <!-- Type d'inscription -->
-                <?php 
+                <?php
                 $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
                 $teamSize = (int) ($event['team_size'] ?? 1);
+                $teamCount = $teamCount ?? 0;
                 ?>
                 <label>Type d'inscription</label>
+                
+                <?php if ($teamCount > 0) : ?>
+                <div class="alert alert-warning" style="background-color: #fff3cd; border: 1px solid #ffc107; color: #856404; padding: 12px; border-radius: 5px; margin-bottom: 15px;">
+                    <strong>Attention :</strong> Cet evenement a <?= $teamCount ?> groupe(s) inscrit(s). 
+                    Modifier le type d'inscription ou la taille des groupes supprimera tous les groupes inscrits.
+                </div>
+                <?php endif; ?>
+                
                 <div class="checkbox-container">
                     <article>
                         <input id="event-solo" type="radio" name="event_type" value="solo" <?= !$isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
@@ -147,9 +156,19 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
     function toggleTeamSizeUpdate() {
         const isGroup = document.getElementById('event-group').checked;
         const container = document.getElementById('team-size-container');
+        const teamSizeInput = document.getElementById('team-size');
         container.style.display = isGroup ? 'block' : 'none';
         if (!isGroup) {
-            document.getElementById('team-size').value = '1';
+            // Set to valid value and remove min constraint to prevent hidden field validation error
+            teamSizeInput.value = '2';
+            teamSizeInput.removeAttribute('min');
+            teamSizeInput.removeAttribute('required');
+        } else {
+            // Restore constraints for group mode
+            teamSizeInput.setAttribute('min', '2');
+            if (teamSizeInput.value < 2) {
+                teamSizeInput.value = '2';
+            }
         }
     }
 </script>

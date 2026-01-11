@@ -91,6 +91,26 @@ class EventRegistrationRepository
     }
 
     /**
+     * Delete all registrations for an event
+     *
+     * Used when event type or team size changes to clear all existing registrations.
+     *
+     * @param int $eventId The event identifier
+     * @return int Number of registrations deleted
+     */
+    public function deleteRegistrationsByEvent(int $eventId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare('DELETE FROM EVENT_REGISTRATIONS WHERE event_id = ?');
+            $stmt->execute([$eventId]);
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::deleteRegistrationsByEvent - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
      * Retrieves detailed information about users registered for a specific event.
      *
      * This method joins the USERS table with the EVENT_REGISTRATIONS table to provide
@@ -108,14 +128,19 @@ class EventRegistrationRepository
                 WHERE er.event_id = ?
                 ORDER BY u.last_name ASC';
 
-        $stmt = $this -> pdo -> prepare($sql);
-        $stmt -> execute([$eventId]);
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([$eventId]);
 
-        $results = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $results ?: [];
     }
 
-    // get inscription user by event ID
+    /**
+     * Get registrations by event ID
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array{firstname: string, lastname: string, email: string, registration_date: string}>
+     */
     public function getRegistrationsByEventId(int $eventId): array
     {
         $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
@@ -124,9 +149,10 @@ class EventRegistrationRepository
             WHERE er.event_id = :event_id
             ORDER BY er.registration_date DESC";
 
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['event_id' => $eventId]);
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        /** @var array<int, array{firstname: string, lastname: string, email: string, registration_date: string}> */
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
     }
 
     /**
@@ -151,7 +177,7 @@ class EventRegistrationRepository
     /**
      * Get registered users grouped by team for an event
      *
-     * Returns individual registrations (team_id IS NULL) followed by 
+     * Returns individual registrations (team_id IS NULL) followed by
      * team registrations grouped by team number.
      *
      * @param int $eventId The event identifier
@@ -169,7 +195,7 @@ class EventRegistrationRepository
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$eventId]);
-        
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $results ?: [];
     }
@@ -194,14 +220,18 @@ class EventRegistrationRepository
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$eventId]);
-        
+
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
-        
+
+        /** @var array<int, array<string, mixed>> $individual */
         $individual = [];
+        /** @var array<int, array<int, array<string, mixed>>> $teams */
         $teams = [];
-        
+
         foreach ($results as $row) {
-            if (empty($row['team_id']) || $row['team_id'] === null) {
+            /** @var array<string, mixed> $row */
+            $teamId = $row['team_id'] ?? null;
+            if ($teamId === null || $teamId === '') {
                 $individual[] = $row;
             } else {
                 $teamNumber = (int) ($row['team_number'] ?? 0);
@@ -216,7 +246,8 @@ class EventRegistrationRepository
                 }
             }
         }
-        
+
+        /** @var array{individual: array<int, array<string, mixed>>, teams: array<int, array<string, mixed>>} */
         return [
             'individual' => $individual,
             'teams' => $teams

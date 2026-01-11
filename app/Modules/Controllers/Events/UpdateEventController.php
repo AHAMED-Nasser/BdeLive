@@ -5,6 +5,8 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Models\Admin\EventCreationModel;
 use App\Modules\Repositories\EventRepository;
+use App\Modules\Repositories\EventTeamRepository;
+use App\Modules\Repositories\EventRegistrationRepository;
 use DateTime;
 use Exception;
 
@@ -26,6 +28,8 @@ class UpdateEventController extends AdminController
 {
     private EventCreationModel $eventModel;
     private EventRepository $eventRepository;
+    private EventTeamRepository $teamRepository;
+    private EventRegistrationRepository $registrationRepository;
     private const REDIRECT_URL = 'index.php?page=event';
     private const REDIRECT_VIEW = 'events/updateEventPageView';
 
@@ -39,8 +43,10 @@ class UpdateEventController extends AdminController
 
         $this->eventModel = new EventCreationModel();
         $this->eventRepository = new EventRepository();
+        $this->teamRepository = new EventTeamRepository();
+        $this->registrationRepository = new EventRegistrationRepository();
 
-        $eventId = (int) $this -> request -> post('event_id', $this->request->get('id', 0));
+        $eventId = (int) $this->request->post('event_id', $this->request->get('id', 0));
 
         if ($eventId <= 0) {
             $this->redirectWithError(self::REDIRECT_URL, "ID d'événement non spécifié ou invalide.");
@@ -68,8 +74,15 @@ class UpdateEventController extends AdminController
             $this->redirectWithError(self::REDIRECT_URL, "L'événement à modifier n'existe pas.");
         }
 
+        // Get team count to show warning if teams exist
+        $teams = $this->teamRepository->getTeamsByEvent($eventId);
+        $teamCount = count($teams);
+
         // Passage des données de l'événement à la vue
-        $this->render(self::REDIRECT_VIEW, ['event' => $event]);
+        $this->render(self::REDIRECT_VIEW, [
+            'event' => $event,
+            'teamCount' => $teamCount
+        ]);
     }
 
     /**
@@ -81,27 +94,27 @@ class UpdateEventController extends AdminController
         $eventId = $this->request->get('id');
 
         if (!$eventId || !is_numeric($eventId)) {
-            $this -> session->flash('error', "ID d'événement non spécifié ou invalide.");
-            $this -> response -> redirect('/events');
+            $this->session->flash('error', "ID d'événement non spécifié ou invalide.");
+            $this->response->redirect('/events');
         }
 
         $eventId = (int) $eventId;
-        $event = $this -> eventRepository -> findById($eventId);
+        $event = $this->eventRepository->findById($eventId);
 
         if (!$event) {
-            $this -> session -> flash('error', "L'événement modifié n'existe pas.");
-            $this -> response -> redirect('/events');
+            $this->session->flash('error', "L'événement modifié n'existe pas.");
+            $this->response->redirect('/events');
         }
 
         // POST traitement (form submit)
-        if ($this -> request -> isPost()) {
-            $this -> processUpdate($eventId);
+        if ($this->request->isPost()) {
+            $this->processUpdate($eventId);
             return;
         }
 
         // GET request (display form)
         // Event datas are passed at view to pre-fill the form
-        $this -> render('events/updateEventPageView', ['event' => $event]);
+        $this->render('events/updateEventPageView', ['event' => $event]);
     }
 
     /**
@@ -122,18 +135,18 @@ class UpdateEventController extends AdminController
 //        }
 
         // 2. Récupération des données POST
-        $eventName = (string)$this->request->post('event-name', '');
-        $eventDateStr = (string)$this->request->post('event-date', '');
-        $eventTimeStr = (string)$this->request->post('event-time', '');
-        $eventLocation = (string)$this->request->post('event-location', '');
-        $eventTheme = (string)$this->request->post('event-theme', '');
+        $eventName = (string) $this->request->post('event-name', '');
+        $eventDateStr = (string) $this->request->post('event-date', '');
+        $eventTimeStr = (string) $this->request->post('event-time', '');
+        $eventLocation = (string) $this->request->post('event-location', '');
+        $eventTheme = (string) $this->request->post('event-theme', '');
         $statusParticipatingArray = $this->request->post('status_participating', []);
-        $description = (string)$this->request->post('description', '');
+        $description = (string) $this->request->post('description', '');
 
         // Group event fields
-        $eventType = (string)$this->request->post('event_type', 'solo');
+        $eventType = (string) $this->request->post('event_type', 'solo');
         $isGroupEvent = ($eventType === 'group');
-        $teamSize = $isGroupEvent ? (int)$this->request->post('team_size', 2) : 1;
+        $teamSize = $isGroupEvent ? (int) $this->request->post('team_size', 2) : 1;
 
         // Validate team size for group events
         if ($isGroupEvent && ($teamSize < 2 || $teamSize > 20)) {
@@ -188,6 +201,27 @@ class UpdateEventController extends AdminController
             // Conversion en objets DateTime
             $eventDate = new DateTime($eventDateStr);
             $eventTime = new DateTime($eventTimeStr);
+
+            // Check if event type or team size changed - delete teams if so
+            $oldIsGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+            $oldTeamSize = (int) ($event['team_size'] ?? 1);
+
+            $typeChanged = $oldIsGroupEvent !== $isGroupEvent;
+            $sizeChanged = $isGroupEvent && $oldIsGroupEvent && ($oldTeamSize !== $teamSize);
+
+            if ($typeChanged || $sizeChanged) {
+                // Delete all registrations first (before deleting teams due to FK)
+                $deletedRegs = $this->registrationRepository->deleteRegistrationsByEvent($eventId);
+                if ($deletedRegs > 0) {
+                    error_log("UpdateEventController: Deleted {$deletedRegs} registrations for event {$eventId}");
+                }
+
+                // Then delete all teams
+                $deletedTeams = $this->teamRepository->deleteTeamsByEvent($eventId);
+                if ($deletedTeams > 0) {
+                    error_log("UpdateEventController: Deleted {$deletedTeams} teams for event {$eventId}");
+                }
+            }
 
             // 4. Appel du modèle de mise à jour
             $success = $this->eventModel->updateEvent(

@@ -141,7 +141,7 @@ class GroupRegistrationController extends AuthenticatedController
     private function processGroupRegistration(array $event): void
     {
         $user = $this->auth->getUser();
-        
+
         if (!$user || !isset($user['user_id'])) {
             $this->redirectWithError(
                 'index.php?page=groupRegistration&event_id=' . $event['event_id'],
@@ -163,7 +163,7 @@ class GroupRegistrationController extends AuthenticatedController
 
         // Get member emails from form
         $memberEmails = $this->request->post('member_emails', []);
-        
+
         if (!is_array($memberEmails)) {
             $memberEmails = [];
         }
@@ -177,7 +177,7 @@ class GroupRegistrationController extends AuthenticatedController
 
         // Validate email count (must be teamSize - 1 because creator is included)
         $requiredMembers = $teamSize - 1;
-        
+
         if (count($memberEmails) !== $requiredMembers) {
             $this->redirectWithError(
                 'index.php?page=groupRegistration&event_id=' . $eventId,
@@ -197,7 +197,7 @@ class GroupRegistrationController extends AuthenticatedController
 
         // Create the team
         $teamId = $this->teamRepo->createTeam($eventId, $userId);
-        
+
         if ($teamId === null) {
             $this->redirectWithError(
                 'index.php?page=groupRegistration&event_id=' . $eventId,
@@ -223,10 +223,10 @@ class GroupRegistrationController extends AuthenticatedController
         foreach ($memberEmails as $email) {
             // Check if this email corresponds to a registered user
             $memberUserId = $this->invitationRepo->getUserIdByEmail($email);
-            
+
             // Create the invitation
             $token = $this->invitationRepo->createInvitation($teamId, $email, $memberUserId);
-            
+
             if ($token) {
                 // Send the invitation email
                 $sent = $mailer->sendTeamInvitationEmail(
@@ -238,7 +238,7 @@ class GroupRegistrationController extends AuthenticatedController
                     $team ? (int) $team['team_number'] : 1,
                     $teamSize
                 );
-                
+
                 if ($sent) {
                     $invitationsSent++;
                 }
@@ -272,4 +272,3 @@ class GroupRegistrationController extends AuthenticatedController
         return $invitation ? (int) $invitation['invitation_id'] : 0;
     }
 }
-

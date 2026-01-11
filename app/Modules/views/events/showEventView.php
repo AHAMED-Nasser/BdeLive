@@ -50,7 +50,7 @@ $userId = $user['user_id'] ?? null;
         </div>
 
         <div class="registration-section" style="text-align: center; margin: 30px 0; padding: 20px; border-top: 1px solid #eee;">
-            <?php 
+            <?php
             $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
             $teamSize = (int) ($event['team_size'] ?? 1);
             ?>
