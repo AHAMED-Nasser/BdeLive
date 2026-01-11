@@ -3,7 +3,7 @@
  * Utilise les variables CSS existantes pour dark/light mode
  */
 
-/* =========================================== 
+/* ===========================================
    CONTENEUR PRINCIPAL
    =========================================== */
 .weekly-schedule {
@@ -15,23 +15,38 @@
     box-shadow: 0 2px 8px var(--shadow-sm);
 }
 
-/* =========================================== 
-   NAVIGATION SEMAINE
+/* ===========================================
+   NAVIGATION COMMUNE (Jour/Semaine/Mois)
    =========================================== */
 .schedule-nav {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 2px solid var(--border-color);
+    gap: 1rem;
 }
 
-.schedule-nav h2 {
+.schedule-nav h2,
+.schedule-nav .calendar-title {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
+    text-align: center;
+    text-transform: capitalize;
+    flex: 1;
+}
+
+/* Wrapper pour les boutons de navigation - Desktop : côte à côte */
+.week-nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    flex: 0 0 auto;
 }
 
 .week-nav-btn {
@@ -44,6 +59,10 @@
     transition: all 0.3s;
     border: none;
     cursor: pointer;
+    flex: 0 1 auto;
+    min-width: 140px;
+    text-align: center;
+    white-space: nowrap;
 }
 
 .week-nav-btn:hover {
@@ -53,7 +72,7 @@
     text-decoration: none;
 }
 
-/* =========================================== 
+/* ===========================================
    CONTENEUR GRILLE
    =========================================== */
 .schedule-grid-container {
@@ -63,7 +82,7 @@
     position: relative;
 }
 
-/* =========================================== 
+/* ===========================================
    AXE DES HEURES (GAUCHE)
    =========================================== */
 .time-axis {
@@ -86,7 +105,7 @@
     text-align: right;
 }
 
-/* =========================================== 
+/* ===========================================
    GRILLE DES JOURS
    =========================================== */
 .schedule-grid-wrapper {
@@ -106,7 +125,7 @@
     /* 13 heures + header */
 }
 
-/* =========================================== 
+/* ===========================================
    EN-TÊTES JOURS
    =========================================== */
 .day-header {
@@ -122,7 +141,7 @@
     z-index: 2;
 }
 
-/* =========================================== 
+/* ===========================================
    COLONNES JOUR
    =========================================== */
 .day-column {
@@ -143,7 +162,7 @@
     pointer-events: none;
 }
 
-/* =========================================== 
+/* ===========================================
    BLOCS COURS
    =========================================== */
 .course-block {
@@ -190,7 +209,7 @@
     margin-top: 0.15rem;
 }
 
-/* =========================================== 
+/* ===========================================
    COULEURS PAR TYPE DE COURS
    =========================================== */
 .course-block[data-type="td"] {
@@ -236,7 +255,7 @@
     }
 }
 
-/* =========================================== 
+/* ===========================================
    RESPONSIVE - TABLETTE
    =========================================== */
 @media (max-width: 1024px) {
@@ -258,60 +277,141 @@
     }
 }
 
-/* =========================================== 
+/* ===========================================
    RESPONSIVE - MOBILE
    =========================================== */
 @media (max-width: 767px) {
-    .weekly-schedule {
+    /* Conteneurs communs */
+    .weekly-schedule,
+    .calendar-container {
         padding: 0.75rem;
         margin: 1rem auto;
     }
 
+    /* Navigation commune (Jour/Semaine/Mois) - Disposition optimisée mobile */
     .schedule-nav {
+        display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.75rem;
+        align-items: stretch;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
     }
 
-    .schedule-nav h2 {
-        font-size: 1.25rem;
+    /* Titre centré en haut, avant les boutons */
+    .schedule-nav h2,
+    .schedule-nav .calendar-title {
+        font-size: 1.1rem;
         text-align: center;
+        margin: 0;
+        padding: 0.5rem 0;
+        font-weight: 600;
+        color: var(--text-primary);
+        width: 100%;
     }
 
+    /* Wrapper pour les boutons de navigation - côte à côte */
+    .week-nav-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    /* Boutons de navigation côte à côte avec espacement égal */
     .week-nav-btn {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.9rem;
+        padding: 0.65rem 1rem;
+        font-size: 0.85rem;
+        flex: 1;
+        text-align: center;
+        min-width: 0;
     }
 
+    /* Conteneur avec scroll horizontal pour la grille */
     .schedule-grid-container {
-        grid-template-columns: 60px 1fr;
+        grid-template-columns: 40px 1fr;
+        gap: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .time-axis {
+        padding-top: 40px;
+        position: sticky;
+        left: 0;
+        z-index: 10;
+        background: var(--bg-primary);
     }
 
     .time-slot {
-        font-size: 0.75rem;
-        padding-right: 0.25rem;
+        font-size: 0.65rem;
+        padding-right: 0.2rem;
+        height: 40px;
+        line-height: 1;
+    }
+
+    /* Grille avec colonnes plus petites et scroll horizontal */
+    .schedule-grid-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
     }
 
     .schedule-grid {
-        grid-template-columns: repeat(5, minmax(100px, 1fr));
+        grid-template-columns: repeat(5, minmax(70px, 1fr));
+        min-height: calc(13 * 40px + 40px);
+        min-width: max-content;
     }
 
     .day-header {
-        padding: 0.75rem 0.25rem;
-        font-size: 0.8rem;
+        padding: 0.5rem 0.15rem;
+        font-size: 0.7rem;
+        line-height: 1.2;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: var(--bg-primary);
+    }
+
+    .day-header small {
+        font-size: 0.6rem;
+        display: block;
+        margin-top: 0.15rem;
+    }
+
+    .day-column {
+        min-height: calc(13 * 40px);
+    }
+
+    .hour-line {
+        height: 1px;
     }
 
     .course-block {
-        left: 2px;
-        right: 2px;
-        padding: 0.35rem;
+        left: 1px;
+        right: 1px;
+        padding: 0.25rem;
+        font-size: 0.6rem;
+        border-radius: 3px;
+        line-height: 1.1;
     }
 
     .course-time {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
+        margin-bottom: 0.15rem;
+        font-weight: 600;
     }
 
     .course-title {
-        font-size: 0.7rem;
+        font-size: 0.6rem;
+        line-height: 1.1;
+        margin-bottom: 0.1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .course-location,
@@ -319,9 +419,58 @@
         display: none;
         /* Masquer sur mobile */
     }
+
+    /* Amélioration pour très petits écrans */
+    @media (max-width: 480px) {
+        .schedule-grid-container {
+            grid-template-columns: 35px 1fr;
+        }
+
+        .time-axis {
+            padding-top: 35px;
+        }
+
+        .time-slot {
+            font-size: 0.6rem;
+            height: 35px;
+        }
+
+        .schedule-grid {
+            grid-template-columns: repeat(5, minmax(60px, 1fr));
+            min-height: calc(13 * 35px + 35px);
+        }
+
+        .day-header {
+            padding: 0.4rem 0.1rem;
+            font-size: 0.65rem;
+        }
+
+        .day-header small {
+            font-size: 0.55rem;
+        }
+
+        .day-column {
+            min-height: calc(13 * 35px);
+        }
+
+        .course-block {
+            padding: 0.2rem;
+            font-size: 0.55rem;
+        }
+
+        .course-time {
+            font-size: 0.55rem;
+        }
+
+        .course-title {
+            font-size: 0.55rem;
+            -webkit-line-clamp: 1;
+            line-clamp: 1;
+        }
+    }
 }
 
-/* =========================================== 
+/* ===========================================
    MODE SOMBRE - AJUSTEMENTS
    =========================================== */
 .dark-mode .weekly-schedule {
@@ -342,7 +491,7 @@
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-/* =========================================== 
+/* ===========================================
    ACCESSIBILITÉ
    =========================================== */
 .week-nav-btn:focus,
@@ -365,7 +514,7 @@
     opacity: 0.5;
 }
 
-/* =========================================== 
+/* ===========================================
    BOUTONS DE VUE (JOUR/SEMAINE/MOIS)
    =========================================== */
 .view-switcher {
@@ -402,17 +551,31 @@
 
 @media (max-width: 767px) {
     .view-switcher {
-        flex-direction: column;
+        display: flex;
+        flex-direction: row;
+        /* Force row layout */
         gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: nowrap;
+        justify-content: center;
+        /* Centrer les boutons restants */
     }
 
     .view-btn {
-        width: 100%;
+        flex: 1;
+        width: auto;
+        min-width: fit-content;
         text-align: center;
+        padding: 0.6rem 0.5rem;
+        font-size: 0.85rem;
+        white-space: nowrap;
     }
+
+    /* Afficher tous les boutons sur mobile - le calendrier natif est optimisé */
+    /* Le bouton Mois n'est plus masqué car le calendrier natif est responsive */
 }
 
-/* =========================================== 
+/* ===========================================
    INDICATEUR DE TEMPS ACTUEL (LIGNE ROUGE)
    =========================================== */
 .current-time-indicator {
@@ -459,7 +622,7 @@
     }
 }
 
-/* =========================================== 
+/* ===========================================
    MODAL MOBILE POUR DÉTAILS COURS
    =========================================== */
 .course-modal {

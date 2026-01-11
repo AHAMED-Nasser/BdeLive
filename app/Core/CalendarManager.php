@@ -4,10 +4,10 @@ namespace App\Core;
 
 /**
  * CalendarManager - Gestionnaire de calendrier natif
- * 
+ *
  * Génère des calendriers mensuels au format CSS Grid sans dépendances externes.
  * Remplace FullCalendar pour une meilleure accessibilité et performance.
- * 
+ *
  * @package App\Core
  */
 class CalendarManager
@@ -63,13 +63,13 @@ class CalendarManager
         // Calculs de base
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $firstDayOfWeek = $this->getFirstDayOfWeek($year, $month);
-        
+
         // Grouper les événements par date
         $eventsByDate = $this->groupEventsByDate($events);
-        
+
         // Construire le tableau des jours
         $days = [];
-        
+
         // 1. Cases vides au début (jours du mois précédent)
         $emptyDaysAtStart = $firstDayOfWeek - 1; // Lundi = 0 cases vides, Dimanche = 6
         $prevMonth = $month - 1;
@@ -79,7 +79,7 @@ class CalendarManager
             $prevYear--;
         }
         $daysInPrevMonth = cal_days_in_month(CAL_GREGORIAN, $prevMonth, $prevYear);
-        
+
         for ($i = $emptyDaysAtStart; $i > 0; $i--) {
             $dayNumber = $daysInPrevMonth - $i + 1;
             $date = sprintf('%04d-%02d-%02d', $prevYear, $prevMonth, $dayNumber);
@@ -92,14 +92,14 @@ class CalendarManager
                 'events' => []
             ];
         }
-        
+
         // 2. Jours du mois actuel
         $today = date('Y-m-d');
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
             $timestamp = mktime(0, 0, 0, $month, $day, $year);
             $dayOfWeek = $timestamp !== false ? (int)date('N', $timestamp) : 1;
-            
+
             $days[] = [
                 'number' => $day,
                 'date' => $date,
@@ -109,18 +109,18 @@ class CalendarManager
                 'events' => $eventsByDate[$date] ?? []
             ];
         }
-        
+
         // 3. Cases vides à la fin (jours du mois suivant)
         $totalDays = count($days);
         $emptyDaysAtEnd = (7 - ($totalDays % 7)) % 7;
-        
+
         $nextMonth = $month + 1;
         $nextYear = $year;
         if ($nextMonth > 12) {
             $nextMonth = 1;
             $nextYear++;
         }
-        
+
         for ($day = 1; $day <= $emptyDaysAtEnd; $day++) {
             $date = sprintf('%04d-%02d-%02d', $nextYear, $nextMonth, $day);
             $days[] = [
@@ -132,7 +132,7 @@ class CalendarManager
                 'events' => []
             ];
         }
-        
+
         return [
             'year' => $year,
             'month' => $month,
@@ -167,11 +167,11 @@ class CalendarManager
     private function groupEventsByDate(array $events): array
     {
         $grouped = [];
-        
+
         foreach ($events as $event) {
             // Extraire la date de l'événement
             $eventDate = null;
-            
+
             if (isset($event['event_date'])) {
                 $eventDate = $event['event_date'];
             } elseif (isset($event['date'])) {
@@ -180,19 +180,19 @@ class CalendarManager
                 // Format ISO ou datetime
                 $eventDate = date('Y-m-d', strtotime($event['start']));
             }
-            
+
             if ($eventDate) {
                 // Normaliser au format YYYY-MM-DD
                 $normalizedDate = date('Y-m-d', strtotime($eventDate));
-                
+
                 if (!isset($grouped[$normalizedDate])) {
                     $grouped[$normalizedDate] = [];
                 }
-                
+
                 $grouped[$normalizedDate][] = $event;
             }
         }
-        
+
         return $grouped;
     }
 
