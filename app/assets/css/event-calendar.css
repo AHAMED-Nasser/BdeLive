@@ -1,0 +1,614 @@
+/**
+ * Event Calendar Styles
+ * Styles spécifiques pour le calendrier des événements FullCalendar
+ */
+
+/* ===========================================
+   CONTENEUR DU CALENDRIER
+   =========================================== */
+.event-calendar-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--shadow-sm);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ===========================================
+   VARIABLES DE COULEUR FULLCALENDAR
+   =========================================== */
+#event-calendar {
+    --fc-border-color: var(--border-color);
+    --fc-page-bg-color: var(--bg-card);
+}
+
+/* ===========================================
+   GRILLE DU CALENDRIER
+   =========================================== */
+/* Force l'épaisseur des lignes de la grille */
+.fc-theme-standard td,
+.fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid {
+    border: 1.5px solid var(--border-color) !important;
+}
+
+/* Améliore la visibilité des noms des jours (Lundi, Mardi...) */
+.fc-col-header-cell {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: bold;
+}
+
+/* Rend le numéro du jour plus visible */
+.fc-daygrid-day-number {
+    color: var(--text-primary) !important;
+    font-weight: bold;
+    padding: 5px !important;
+}
+
+/* ===========================================
+   ICÔNES DE NAVIGATION
+   =========================================== */
+/* Cache les codes texte E900/E901 s'ils apparaissent en brut */
+.fc-icon-chevron-left::before {
+    content: "‹" !important;
+    font-family: sans-serif !important;
+}
+
+.fc-icon-chevron-right::before {
+    content: "›" !important;
+    font-family: sans-serif !important;
+}
+
+/* ===========================================
+   BOUTONS DE NAVIGATION
+   =========================================== */
+.fc-prev-button,
+.fc-next-button {
+    background-color: var(--color-primary) !important;
+    border: none !important;
+    opacity: 1 !important;
+    color: var(--text-inverse) !important;
+}
+
+.fc-button-primary:hover {
+    background-color: var(--color-primary-hover) !important;
+}
+
+/* ===========================================
+   MODE SOMBRE
+   =========================================== */
+.dark-mode #event-calendar {
+    background: var(--bg-card) !important;
+}
+
+.dark-mode .fc-event {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-title,
+.dark-mode .fc-event-time {
+    color: var(--text-inverse) !important;
+}
+
+/* ===========================================
+   FIX CONTRASTE MODE SOMBRE - WCAG AA
+   =========================================== */
+/* CRITICAL FIX: Force une couleur avec bon contraste pour les numéros de jour en mode dark */
+.dark-mode .fc-daygrid-day-number {
+    /* Forcer blanc/gris très clair pour un contraste minimum de 4.5:1 */
+    color: #E5E7EB !important;
+    /* Retirer tout background-color inline qui pourrait être appliqué par JS */
+    background-color: transparent !important;
+    /* S'assurer que le texte est bien visible */
+    opacity: 1 !important;
+}
+
+/* Jour d'aujourd'hui - surbrillance visible en mode dark */
+.dark-mode .fc-day-today .fc-daygrid-day-number {
+    color: #FFFFFF !important;
+    background-color: rgba(102, 126, 234, 0.3) !important;
+    border-radius: 4px;
+    padding: 4px 6px !important;
+}
+
+/* Jours du mois actuel - contraste élevé */
+.dark-mode .fc-day:not(.fc-day-other) .fc-daygrid-day-number {
+    color: #F3F4F6 !important;
+}
+
+/* Jours des autres mois - contraste réduit mais suffisant */
+.dark-mode .fc-day-other .fc-daygrid-day-number {
+    color: #9CA3AF !important;
+}
+
+/* Jour cliquable/hover - feedback visuel */
+.dark-mode .fc-daygrid-day-number:hover {
+    background-color: rgba(102, 126, 234, 0.15) !important;
+    border-radius: 4px;
+}
+
+/* ===========================================
+   MODAL MOBILE POUR LES ÉVÉNEMENTS
+   =========================================== */
+.event-mobile-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.event-mobile-modal.active {
+    display: block;
+    pointer-events: auto;
+}
+
+.event-mobile-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+}
+
+.event-mobile-modal-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem;
+    padding-top: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.event-mobile-modal-header {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding-top: 0.5rem;
+}
+
+.event-mobile-modal-close {
+    position: relative;
+    top: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin-left: 1rem;
+}
+
+.event-mobile-modal-close:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--color-primary);
+}
+
+.event-mobile-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+    flex: 1;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding-right: 0.5rem;
+}
+
+.event-mobile-modal-date {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin: 0 0 1.5rem 0;
+}
+
+.event-mobile-modal-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.event-mobile-modal-btn {
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+    width: 100%;
+}
+
+.event-mobile-modal-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.event-mobile-modal-btn-primary:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+}
+
+.event-mobile-modal-btn-secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.event-mobile-modal-btn-secondary:hover {
+    background: var(--bg-hover);
+    text-decoration: none;
+}
+
+/* ===========================================
+   ÉVÉNEMENTS DU CALENDRIER
+   =========================================== */
+.fc-event {
+    cursor: pointer;
+}
+
+.fc-event:hover {
+    opacity: 0.9;
+}
+
+/* ===========================================
+   BLOQUER LE SCROLL QUAND MODAL OUVERTE
+   =========================================== */
+body.modal-open,
+html.modal-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ===========================================
+   RESPONSIVE - TABLETTE ET MOBILE (< 768px)
+   =========================================== */
+@media (max-width: 767px) {
+    .event-calendar-container {
+        margin: 15px auto;
+        padding: 8px;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #event-calendar {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    /* Assurer que le calendrier prend toute la largeur */
+    .fc-view-harness {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .fc-scrollgrid {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .fc {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* FullCalendar toolbar - Mobile */
+    .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .fc-toolbar-chunk {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.1rem !important;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+
+    .fc-button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        justify-content: center;
+    }
+
+    .fc-button {
+        font-size: 0.75rem !important;
+        padding: 0.4rem 0.6rem !important;
+        border-radius: 4px !important;
+    }
+
+    .fc-prev-button,
+    .fc-next-button,
+    .fc-today-button {
+        font-size: 0.7rem !important;
+        padding: 0.35rem 0.5rem !important;
+    }
+
+    /* Vue Mois (dayGridMonth) - Mobile */
+    .fc-dayGridMonth-view .fc-daygrid-day {
+        min-height: 75px !important;
+        padding: 2px !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day-number {
+        font-size: 0.85rem !important;
+        padding: 3px 4px !important;
+        font-weight: 600;
+    }
+
+    .fc-dayGridMonth-view .fc-event {
+        font-size: 0.7rem !important;
+        padding: 5px 6px !important;
+        margin: 3px 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-height: 22px !important;
+        line-height: 1.5 !important;
+        display: block !important;
+        width: calc(100% - 4px) !important;
+        box-sizing: border-box !important;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+
+    /* Empêcher l'agrandissement des cases d'événements */
+    .fc-dayGridMonth-view .fc-daygrid-day-events {
+        margin-top: 3px !important;
+        max-height: 55px !important;
+        overflow: hidden !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-event {
+        margin: 2px 0 !important;
+    }
+
+    .fc-dayGridMonth-view .fc-event-title {
+        font-size: 0.7rem !important;
+        display: block !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        width: 100% !important;
+        font-weight: 500;
+    }
+
+    /* Masquer l'heure dans les événements sur mobile pour plus d'espace */
+    .fc-dayGridMonth-view .fc-event-time {
+        display: none !important;
+    }
+
+    /* Ajuster les colonnes pour plus d'espace */
+    .fc-dayGridMonth-view .fc-col-header-cell {
+        padding: 0.6rem 0.15rem !important;
+        font-size: 0.7rem !important;
+        min-width: 40px;
+    }
+
+    .fc-dayGridMonth-view .fc-scrollgrid-sync-table {
+        width: 100% !important;
+        table-layout: fixed !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day-frame {
+        min-height: 75px !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day-top {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    /* S'assurer que les cellules ont une largeur fixe */
+    .fc-dayGridMonth-view .fc-daygrid-day {
+        width: 14.28% !important;
+        min-width: 40px !important;
+    }
+
+    /* Vue Semaine (timeGridWeek) - Mobile */
+    .fc-timeGridWeek-view {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .fc-timeGridWeek-view .fc-timegrid-col-header {
+        min-width: 80px;
+    }
+
+    .fc-timeGridWeek-view .fc-timegrid-col {
+        min-width: 80px;
+    }
+
+    .fc-timeGridWeek-view .fc-timegrid-slot-label {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.25rem;
+        width: 2.5rem;
+    }
+
+    .fc-timeGridWeek-view .fc-timegrid-event {
+        font-size: 0.7rem;
+        padding: 1px 2px;
+        margin: 0.5px 0;
+    }
+
+    .fc-timeGridWeek-view .fc-event-title {
+        font-size: 0.65rem;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .fc-timeGridWeek-view .fc-event-time {
+        font-size: 0.6rem;
+        display: none;
+    }
+
+    .fc-timeGridWeek-view .fc-col-header-cell {
+        font-size: 0.75rem;
+        padding: 0.5rem 0.25rem;
+    }
+
+    .fc-timeGridWeek-view .fc-col-header-cell-cushion {
+        padding: 0.25rem;
+        font-weight: 600;
+    }
+
+    /* Scrollbar personnalisée pour mobile */
+    #event-calendar::-webkit-scrollbar {
+        height: 6px;
+        width: 6px;
+    }
+
+    #event-calendar::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    #event-calendar::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 3px;
+    }
+
+    /* Sélecteur de vue mobile */
+    .fc-view-selector-mobile {
+        width: 100%;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+        background: var(--bg-secondary);
+        border-radius: 8px;
+    }
+
+    .fc-view-selector-mobile button {
+        flex: 1;
+        min-width: 80px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .fc-view-selector-mobile button.fc-button-active {
+        background-color: var(--color-primary) !important;
+        border-color: var(--color-primary) !important;
+        color: var(--text-inverse) !important;
+        font-weight: 600;
+        transform: scale(1.05);
+    }
+
+    .fc-view-selector-mobile button:hover {
+        transform: translateY(-1px);
+    }
+}
+
+/* ===========================================
+   RESPONSIVE - PETIT MOBILE (< 480px)
+   =========================================== */
+@media (max-width: 480px) {
+    .event-calendar-container {
+        padding: 0.5rem;
+    }
+
+    .fc-toolbar-title {
+        font-size: 1rem !important;
+    }
+
+    .fc-button {
+        font-size: 0.7rem !important;
+        padding: 0.35rem 0.5rem !important;
+    }
+
+    .fc-timeGridWeek-view .fc-timegrid-col-header,
+    .fc-timeGridWeek-view .fc-timegrid-col {
+        min-width: 70px;
+    }
+
+    .fc-timeGridWeek-view .fc-col-header-cell {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.2rem;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day {
+        min-height: 65px !important;
+        padding: 1px !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day-number {
+        font-size: 0.8rem !important;
+        padding: 2px 3px !important;
+    }
+
+    .fc-dayGridMonth-view .fc-event {
+        font-size: 0.6rem !important;
+        padding: 3px 5px !important;
+        max-height: 18px !important;
+        line-height: 1.3 !important;
+    }
+
+    .fc-dayGridMonth-view .fc-daygrid-day-events {
+        max-height: 50px !important;
+    }
+
+    .fc-dayGridMonth-view .fc-col-header-cell {
+        padding: 0.5rem 0.1rem !important;
+        font-size: 0.65rem !important;
+    }
+}
