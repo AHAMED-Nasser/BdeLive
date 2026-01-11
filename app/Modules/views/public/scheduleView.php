@@ -9,7 +9,6 @@
 start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
 ?>
 
-    <link rel="stylesheet" href="/assets/css/schedule.css">
     <script src="/assets/js/schedule-ajax.js" defer></script>
 
     <main class="schedule-container">
