@@ -162,8 +162,7 @@ class ScheduleController extends DefaultController
                 'view' => $view
             ]);
         } catch (\Throwable $e) {
-            $output = ob_get_clean();
-            error_log('Erreur loadViewAjax: ' . $e->getMessage() . ' | Output: ' . $output);
+            ob_end_clean();
             echo json_encode([
                 'success' => false,
                 'error' => 'Erreur lors du chargement: ' . $e->getMessage()

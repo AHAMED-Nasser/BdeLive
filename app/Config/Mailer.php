@@ -66,7 +66,6 @@ class Mailer
             $mail->AltBody = $this->getEmailTextVersion($to_name, $token);
 
             $mail->send();
-            error_log("Mailer::sendEmail - Email sent successfully to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
             error_log("Mailer::sendEmail (PHPMailer) - " . $e->getMessage());
@@ -120,7 +119,6 @@ class Mailer
             $mail->AltBody = $this->getVerificationEmailText($to_name, $verifyUrl);
 
             $mail->send();
-            error_log("Mailer::sendVerificationEmail - Email sent successfully to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
             error_log("Mailer::sendVerificationEmail (PHPMailer) - " . $e->getMessage());
@@ -563,7 +561,6 @@ TEXT;
             $mail->AltBody = $this->getSecurityAlertEmailText($to_name, $alertType);
 
             $mail->send();
-            error_log("Mailer::sendSecurityAlertEmail - Security alert sent to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
             error_log("Mailer::sendSecurityAlertEmail (PHPMailer) - " . $e->getMessage());
@@ -609,7 +606,6 @@ TEXT;
             $mail->AltBody = $this->getEmailVerificationCodeText($to_name, $code);
 
             $mail->send();
-            error_log("Mailer::sendEmailVerificationCodeEmail - Code sent to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
             error_log("Mailer::sendEmailVerificationCodeEmail (PHPMailer) - " . $e->getMessage());
@@ -654,7 +650,6 @@ TEXT;
             $mail->AltBody = $this->getPasswordChangeCodeEmailText($to_name, $code);
 
             $mail->send();
-            error_log("Mailer::sendPasswordChangeCodeEmail - Code sent to: " . $to_email);
             return true;
         } catch (PHPMailerException $e) {
             error_log("Mailer::sendPasswordChangeCodeEmail (PHPMailer) - " . $e->getMessage());

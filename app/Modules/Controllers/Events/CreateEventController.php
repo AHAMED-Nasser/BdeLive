@@ -104,9 +104,8 @@ class CreateEventController extends AdminController
         $files = $this->request->file('event-images');
 
         if ($files === null) {
-            // Si vous entrez ici, le nom 'event-images' ne correspond pas au 'name' de votre <input>
-            error_log("DEBUG: Aucun fichier reçu sous le nom event-images");
-            die("DEBUG: Aucun fichier reçu sous le nom event-images");
+            // Aucun fichier reçu
+            $files = [];
         }
 
         if (!empty($files['name'][0])) {
