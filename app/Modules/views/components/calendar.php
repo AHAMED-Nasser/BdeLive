@@ -41,9 +41,8 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         $isCurrentMonth = ($calendar['year'] == $currentYear && $calendar['month'] == $currentMonth);
         ?>
         <?php if ($isCurrentMonth) : ?>
-            <span class="nav-btn today-btn" 
-                  aria-label="Vous êtes déjà sur le mois actuel"
-                  style="opacity: 0.6; cursor: not-allowed;">
+            <span class="nav-btn today-btn disabled" 
+                  aria-label="Vous êtes déjà sur le mois actuel">
                 Aujourd'hui
             </span>
         <?php else : ?>

@@ -7,6 +7,8 @@
  * @var \App\Modules\Helpers\Pagination $pagination L'objet pagination (passé par EventController)
  */
 start_page('Liste des Événements', true, $user ?? null);
+$auth = \App\Core\Application::getInstance()->auth();
+$isAdmin = $auth->isAdmin();
 
 $viewMode = $viewMode ?? 'list'; ?>
 
@@ -39,7 +41,15 @@ $userId = $user['user_id'] ?? null;
 ?>
 
 <div class="container event-list">
-    <h1 style="text-align: center;">Nos Événements</h1>
+    <div class="page-header-with-action">
+        <h1 style="text-align: center;">Nos Événements</h1>
+        <?php if ($isAdmin) : ?>
+            <a href="index.php?page=createEvent" class="create-action-btn">
+                <i class="fas fa-plus-circle"></i>
+                <span>Créer un événement</span>
+            </a>
+        <?php endif; ?>
+    </div>
 
     <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color) : ?>
         <?php if (!empty($flash[$type])) : ?>

@@ -185,6 +185,82 @@ a:focus {
 
 
 
+/* === BOUTONS DE CRÉATION (Admin) === */
+.page-header-with-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.create-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-md);
+    white-space: nowrap;
+}
+
+.create-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px var(--shadow-lg);
+    text-decoration: none;
+    color: var(--text-inverse);
+}
+
+.create-action-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.create-action-btn i {
+    font-size: 1.1rem;
+}
+
+/* Responsive pour les boutons de création */
+@media (max-width: 768px) {
+    .page-header-with-action {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .page-header-with-action h1,
+    .page-header-with-action .title {
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .create-action-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+        font-size: 1rem;
+        min-height: 44px; /* Accessibilité tactile */
+    }
+}
+
+@media (max-width: 480px) {
+    .create-action-btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+
+    .create-action-btn span {
+        display: inline;
+    }
+}
+
 /* === STYLES POUR LES ÉVÉNEMENTS === */
 .event-detail-page {
     max-width: 1200px;
