@@ -64,7 +64,7 @@
             <ul class="pagination" id="users-pagination">
                 <?php if ($pagination->hasPrevious()) : ?>
                     <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>&src=prev">&laquo; Précédent</a>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" class="pagination-link">&laquo; Précédent</a>
                     </li>
                 <?php endif; ?>
                 
@@ -74,7 +74,7 @@
 
                 <?php if ($pagination->hasNext()) : ?>
                     <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>&src=next">Suivant &raquo;</a>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>" class="pagination-link">Suivant &raquo;</a>
                     </li>
                 <?php endif; ?>
             </ul>
