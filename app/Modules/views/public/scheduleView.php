@@ -56,22 +56,35 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
         <div class="calendar-wrapper">
             <?php if ($selectedGroup) : ?>
                 
-                <!-- VUE HEBDOMADAIRE (EMPLOI DU TEMPS) -->
-                <?php if (isset($weeklySchedule)) : ?>
-                    <?php
-                    $pageUrl = 'index.php?page=schedule';
-                    $extraParams = [
-                        'year' => $selectedYear,
-                        'group' => $selectedGroup
-                    ];
+                <!-- SWITCH DES VUES (JOUR / SEMAINE / MOIS) -->
+                <?php
+                $pageUrl = 'index.php?page=schedule';
+                $extraParams = [
+                    'year' => $selectedYear,
+                    'group' => $selectedGroup
+                ];
+                
+                // Déterminer la vue active
+                $activeView = $view ?? 'week';
+                
+                if ($activeView === 'day' && isset($daySchedule)) {
+                    // VUE JOUR
+                    include __DIR__ . '/../components/day-schedule.php';
+                }
+                elseif ($activeView === 'month' && isset($nativeCalendar)) {
+                    // VUE MOIS
+                    $calendar = $nativeCalendar;
+                    include __DIR__ . '/../components/calendar.php';
+                }
+                elseif (isset($weeklySchedule)) {
+                    // VUE SEMAINE (Défaut)
                     $schedule = $weeklySchedule;
                     include __DIR__ . '/../components/weekly-schedule.php';
-                    ?>
-                <?php else : ?>
-                    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                        <p>Impossible de charger l'emploi du temps</p>
-                    </div>
-                <?php endif; ?>
+                }
+                else {
+                    echo '<div style="text-align: center; padding: 3rem; color: var(--text-secondary);"><p>Impossible de charger l\'emploi du temps</p></div>';
+                }
+                ?>
 
                 <div class="calendar-legend">
                     <div class="legend-item">

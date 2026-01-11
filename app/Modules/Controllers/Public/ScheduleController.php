@@ -100,42 +100,85 @@ class ScheduleController extends DefaultController
             $selectedGroup = '';
         }
         
-        // Si calendrier natif est demandé ET un groupe est sélectionné
-        $nativeCalendar = null;
-        if ($calendarType === 'native' && $selectedGroup) {
-            // Récupérer les événements du mois pour le groupe
-            $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $month, $calYear);
-            
-            // Générer le calendrier
-            $calendarManager = new \App\Core\CalendarManager();
-            $nativeCalendar = $calendarManager->generateMonthCalendar($calYear, $month, $events);
+        // Gestion des vues (jour, semaine, mois)
+        $view = $this->request->get('view', 'week');
+        if (!in_array($view, ['day', 'week', 'month'])) {
+            $view = 'week';
         }
+
+        // Variables pour les vues
+        $weeklySchedule = null;
+        $daySchedule = null;
+        $monthCalendar = null;
         
-        // NOUVEAU : Vue hebdomadaire
+        // Paramètres temporels
         $week = (int)($this->request->get('week') ?? date('W'));
         if ($week < 1 || $week > 53) $week = (int)date('W');
         
-        $weeklySchedule = null;
+        $date = $this->request->get('date') ?? date('Y-m-d');
+        
         if ($selectedGroup) {
-            // Récupérer les événements de la semaine
-            $weekEvents = $this->getEventsForWeeklySchedule($selectedYear, $selectedGroup, $week, $calYear);
-            
-            // Générer l'emploi du temps
-            $weeklyManager = new \App\Core\WeeklyScheduleManager();
-            $weeklySchedule = $weeklyManager->generateWeeklySchedule($calYear, $week, $weekEvents);
+            if ($view === 'day') {
+                // VUE JOUR
+                $events = $this->getEventsForDay($selectedYear, $selectedGroup, $date);
+                $dayManager = new \App\Core\DayScheduleManager();
+                $daySchedule = $dayManager->generateDaySchedule($date, $events);
+            } 
+            elseif ($view === 'month') {
+                // VUE MOIS
+                // Utilise calmonth/calyear ou le mois courant
+                $targetMonth = (int)($this->request->get('calmonth') ?? date('n'));
+                $targetYear = (int)($this->request->get('calyear') ?? date('Y'));
+                
+                $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $targetMonth, $targetYear);
+                $calendarManager = new \App\Core\CalendarManager();
+                $monthCalendar = $calendarManager->generateMonthCalendar($targetYear, $targetMonth, $events);
+            } 
+            else {
+                // VUE SEMAINE (Défaut)
+                $weekEvents = $this->getEventsForWeeklySchedule($selectedYear, $selectedGroup, $week, $calYear);
+                $weeklyManager = new \App\Core\WeeklyScheduleManager();
+                $weeklySchedule = $weeklyManager->generateWeeklySchedule($calYear, $week, $weekEvents);
+            }
         }
 
         $this->render('public/scheduleView', [
             'groups' => self::GROUPS,
             'selectedYear' => $selectedYear,
             'selectedGroup' => $selectedGroup,
-            'calendarType' => $calendarType,
-            'nativeCalendar' => $nativeCalendar,
+            'view' => $view,
+            'weeklySchedule' => $weeklySchedule,
+            'daySchedule' => $daySchedule,
+            'nativeCalendar' => $monthCalendar, // On réutilise la variable existante pour la vue mois
             'calMonth' => $month,
             'calYear' => $calYear,
-            'weeklySchedule' => $weeklySchedule,
             'week' => $week,
+            'currentDate' => $date
         ]);
+    }
+
+    /**
+     * Récupère les événements pour une journée spécifique
+     */
+    private function getEventsForDay(string $yearLevel, string $group, string $date): array
+    {
+        // On récupère tous les événements du mois car le parsing ICS est optimisé par mois
+        // Puis on filtre pour le jour spécifique
+        $dateObj = new \DateTimeImmutable($date);
+        $month = (int)$dateObj->format('n');
+        $year = (int)$dateObj->format('Y');
+        
+        $monthEvents = $this->getEventsForNativeCalendar($yearLevel, $group, $month, $year);
+        
+        $dayEvents = [];
+        foreach ($monthEvents as $event) {
+            $eventStart = isset($event['start']) ? substr($event['start'], 0, 10) : '';
+            if ($eventStart === $date) {
+                $dayEvents[] = $event;
+            }
+        }
+        
+        return $dayEvents;
     }
 
     /**

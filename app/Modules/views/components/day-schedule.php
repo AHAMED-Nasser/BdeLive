@@ -1,0 +1,156 @@
+<?php
+/**
+ * Template HTML pour la vue journalière
+ * 
+ * Variables attendues :
+ * - $daySchedule : array retourné par DayScheduleManager::generateDaySchedule()
+ * - $pageUrl : string
+ * - $extraParams : array
+ */
+
+$daySchedule = $daySchedule ?? [];
+$pageUrl = $pageUrl ?? 'index.php';
+$extraParams = $extraParams ?? [];
+
+// Helper URL
+$buildUrl = function($date) use ($pageUrl, $extraParams) {
+    $params = array_merge($extraParams, [
+        'view' => 'day',
+        'date' => $date
+    ]);
+    return $pageUrl . '&' . http_build_query($params);
+};
+?>
+
+<link rel="stylesheet" href="/assets/css/weekly-schedule.css">
+<script src="/assets/js/schedule-modal.js" defer></script>
+
+<div class="weekly-schedule day-view" role="region" aria-label="Emploi du temps du <?= $daySchedule['formatted'] ?>">
+    
+    <!-- Boutons de Vue -->
+    <div class="view-switcher">
+        <a href="<?= $buildUrl($daySchedule['date']) ?>" 
+           class="view-btn active">
+            📅 Jour
+        </a>
+        <a href="<?= str_replace('view=day', 'view=week', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
+           class="view-btn">
+            📆 Semaine
+        </a>
+        <a href="<?= str_replace('view=day', 'view=month', $pageUrl) . '&' . http_build_query($extraParams) ?>" 
+           class="view-btn">
+            🗓️ Mois
+        </a>
+    </div>
+
+    <!-- Navigation Jour -->
+    <div class="schedule-nav">
+        <a href="<?= $buildUrl($daySchedule['prevDate']) ?>" 
+           class="week-nav-btn"
+           aria-label="Jour précédent">
+            ← Précédent
+        </a>
+        
+        <h2>
+            <?= $daySchedule['dayName'] ?> <?= $daySchedule['formatted'] ?>
+        </h2>
+        
+        <a href="<?= $buildUrl($daySchedule['nextDate']) ?>" 
+           class="week-nav-btn"
+           aria-label="Jour suivant">
+            Suivant →
+        </a>
+    </div>
+
+    <!-- Conteneur Grille -->
+    <div class="schedule-grid-container">
+        
+        <!-- Axe Heures -->
+        <div class="time-axis">
+            <?php foreach ($daySchedule['hours'] as $hour): ?>
+                <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Colonne Jour Unique -->
+        <div class="schedule-grid-wrapper">
+            <div class="schedule-grid" style="grid-template-columns: 1fr;">
+                
+                <!-- En-tête -->
+                <div class="day-header">
+                    <?= htmlspecialchars($daySchedule['dayName']) ?><br>
+                    <small style="font-weight: 400; opacity: 0.8;"><?= htmlspecialchars($daySchedule['formatted']) ?></small>
+                </div>
+
+                <!-- Colonne -->
+                <div class="day-column" data-date="<?= $daySchedule['date'] ?>">
+                    
+                    <!-- Lignes horaires -->
+                    <?php foreach ($daySchedule['hours'] as $index => $hour): ?>
+                        <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
+                    <?php endforeach; ?>
+
+                    <!-- Événements -->
+                    <?php if (!empty($daySchedule['events'])): ?>
+                        <?php foreach ($daySchedule['events'] as $event): 
+                            $title = $event['title'] ?? 'Cours';
+                            $location = $event['location'] ?? '';
+                            $teacher = $event['teacher'] ?? '';
+                            $type = $event['type'] ?? 'default';
+                            $cssPos = $event['cssPosition'] ?? ['top' => '0px', 'height' => '60px'];
+                            
+                            $startTime = isset($event['start']) ? date('H:i', strtotime($event['start'])) : '';
+                            $endTime = isset($event['end']) ? date('H:i', strtotime($event['end'])) : '';
+                            $timeRange = "$startTime - $endTime";
+                        ?>
+                            <div class="course-block"
+                                 data-type="<?= htmlspecialchars($type) ?>"
+                                 data-time="<?= htmlspecialchars($timeRange) ?>"
+                                 data-title="<?= htmlspecialchars($title) ?>"
+                                 data-location="<?= htmlspecialchars($location) ?>"
+                                 data-teacher="<?= htmlspecialchars($teacher) ?>"
+                                 style="top: <?= htmlspecialchars($cssPos['top']) ?>; height: <?= htmlspecialchars($cssPos['height']) ?>;"
+                                 tabindex="0"
+                                 role="button"
+                                 onclick="openCourseModal(this)">
+                                
+                                <div class="course-time"><?= htmlspecialchars($timeRange) ?></div>
+                                <div class="course-title"><?= htmlspecialchars($title) ?></div>
+                                <?php if ($location): ?>
+                                    <div class="course-location">📍 <?= htmlspecialchars($location) ?></div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                    <!-- Indicateur temps réel -->
+                    <?php 
+                    $ct = $daySchedule['currentTime'];
+                    if ($ct): 
+                    ?>
+                        <div class="current-time-indicator" 
+                             style="top: <?= $ct['top'] ?>px;"
+                             data-time="<?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?>">
+                            <span class="time-label"><?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?></span>
+                        </div>
+                    <?php endif; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Mobile (Réutilisée) -->
+<div id="course-modal" class="course-modal" role="dialog" aria-hidden="true">
+    <div class="modal-overlay" onclick="closeCourseModal()"></div>
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeCourseModal()">✕</button>
+        <div class="modal-body">
+            <div class="modal-time" id="modal-time"></div>
+            <div class="modal-title" id="modal-title"></div>
+            <div class="modal-location" id="modal-location"></div>
+            <div class="modal-teacher" id="modal-teacher"></div>
+        </div>
+    </div>
+</div>
