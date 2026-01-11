@@ -173,9 +173,11 @@
 /* Style de la localisation des événements */
 .fc-event-location {
     font-size: 0.85em;
-    /* Mode light : couleur légèrement plus claire mais avec bon contraste */
-    color: #374151 !important;
-    /* Gris foncé, contraste >4.5:1 sur fonds colorés */
+    /* IMPORTANT : Cette div hérite du background-color de l'événement parent (coloré)
+       Donc on force le texte en BLANC pour garantir un bon contraste sur tous les fonds */
+    color: #ffffff !important;
+    background-color: transparent !important;
+    /* Éviter d'hériter d'un 2ème fond */
     margin-top: 2px;
 }
 
