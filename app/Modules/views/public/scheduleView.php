@@ -76,7 +76,37 @@ start_page("Emploi du temps - BDE Inform'Aix", true, $user ?? null);
 
         <div class="calendar-wrapper">
             <?php if ($selectedGroup) : ?>
-                <div id='calendar'></div>
+                
+                <!-- Toggle pour choisir le type de calendrier (TEST) -->
+                <div style="margin-bottom: 1rem; text-align: center;">
+                    <span style="margin-right: 1rem; color: var(--text-secondary);">Type de calendrier :</span>
+                    <a href="?page=schedule&year=<?= urlencode($selectedYear) ?>&group=<?= urlencode($selectedGroup) ?>&calendar=fullcalendar" 
+                       class="<?= ($calendarType ?? 'fullcalendar') === 'fullcalendar' ? 'fc-button fc-button-active' : 'fc-button' ?>"
+                       style="padding: 0.5rem 1rem; margin: 0 0.25rem; text-decoration: none; border-radius: 4px;">
+                        FullCalendar (Ancien)
+                    </a>
+                    <a href="?page=schedule&year=<?= urlencode($selectedYear) ?>&group=<?= urlencode($selectedGroup) ?>&calendar=native" 
+                       class="<?= ($calendarType ?? 'fullcalendar') === 'native' ? 'fc-button fc-button-active' : 'fc-button' ?>"
+                       style="padding: 0.5rem 1rem; margin: 0.25rem; text-decoration: none; border-radius: 4px;">
+                        Calendrier Natif (Nouveau)
+                    </a>
+                </div>
+                
+                <?php if (($calendarType ?? 'fullcalendar') === 'native' && isset($nativeCalendar)) : ?>
+                    <!-- CALENDRIER NATIF PHP -->
+                    <?php
+                    $pageUrl = 'index.php?page=schedule&calendar=native';
+                    $extraParams = [
+                        'year' => $selectedYear,
+                        'group' => $selectedGroup
+                    ];
+                    $calendar = $nativeCalendar;
+                    include __DIR__ . '/../components/calendar.php';
+                    ?>
+                <?php else : ?>
+                    <!-- FULLCALENDAR (ANCIEN) -->
+                    <div id='calendar'></div>
+                <?php endif; ?>
 
                 <div class="calendar-legend">
                     <div class="legend-item">

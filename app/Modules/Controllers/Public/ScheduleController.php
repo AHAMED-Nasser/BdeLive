@@ -77,8 +77,20 @@ class ScheduleController extends DefaultController
     {
         $selectedYear = $this->request->get('year', '1ere');
         $selectedGroup = $this->request->get('group', '');
+        
+        // Nouveau : détection du type de calendrier (FullCalendar vs Native)
+        $calendarType = $this->request->get('calendar', 'fullcalendar'); // 'native' ou 'fullcalendar'
+        
+        // Paramètres pour le calendrier natif
+        $month = (int)($this->request->get('month') ?? date('n'));
+        $calYear = (int)($this->request->get('calyear') ?? date('Y'));
 
-        // Valider l'année sélectionnée
+        // Validation des paramètres du calendrier natif
+        if ($month < 1 || $month > 12) {
+            $month = (int)date('n');
+        }
+
+        // Valider l'année sélectionnée (groupe)
         if (!array_key_exists($selectedYear, self::GROUPS)) {
             $selectedYear = '1ere';
         }
@@ -87,11 +99,26 @@ class ScheduleController extends DefaultController
         if ($selectedGroup && !array_key_exists($selectedGroup, self::GROUPS[$selectedYear]['groups'])) {
             $selectedGroup = '';
         }
+        
+        // Si calendrier natif est demandé ET un groupe est sélectionné
+        $nativeCalendar = null;
+        if ($calendarType === 'native' && $selectedGroup) {
+            // Récupérer les événements du mois pour le groupe
+            $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $month, $calYear);
+            
+            // Générer le calendrier
+            $calendarManager = new \App\Core\CalendarManager();
+            $nativeCalendar = $calendarManager->generateMonthCalendar($calYear, $month, $events);
+        }
 
         $this->render('public/scheduleView', [
             'groups' => self::GROUPS,
             'selectedYear' => $selectedYear,
             'selectedGroup' => $selectedGroup,
+            'calendarType' => $calendarType,
+            'nativeCalendar' => $nativeCalendar,
+            'calMonth' => $month,
+            'calYear' => $calYear,
         ]);
     }
 
@@ -327,4 +354,73 @@ class ScheduleController extends DefaultController
         }
         return '#6c757d'; // Gris par défaut
     }
+    
+    /**
+     * Récupère les événements pour le calendrier natif (filtrés par mois)
+     *
+     * @param string $year Année du groupe ('1ere', '2eme', '3eme')
+     * @param string $group Groupe sélectionné
+     * @param int $month Mois (1-12)
+     * @param int $calYear Année calendaire (ex: 2026)
+     * @return array<int, array<string, mixed>> Événements formatés pour le calendrier natif
+     */
+    private function getEventsForNativeCalendar(string $year, string $group, int $month, int $calYear): array
+    {
+        // Mapper l'année vers le fichier .ics correspondant
+        $icsFiles = [
+            '1ere' => 'ADE1ereAnnee.ics',
+            '2eme' => 'ADE2emeAnnee.ics',
+            '3eme' => 'ADE3emeAnnee.ics',
+        ];
+
+        $icsFile = self::ICS_DIRECTORY . ($icsFiles[$year] ?? '');
+
+        if (!file_exists($icsFile)) {
+            return [];
+        }
+
+        // Parser tous les événements
+        $allEvents = $this->parseIcsFile($icsFile, $group, $year);
+        
+        // Filtrer par mois
+        $monthStart = sprintf('%04d-%02d-01', $calYear, $month);
+        $lastDay = cal_days_in_month(CAL_GREGORIAN, $month, $calYear);
+        $monthEnd = sprintf('%04d-%02d-%02d', $calYear, $month, $lastDay);
+        
+        $filteredEvents = [];
+        foreach ($allEvents as $event) {
+            $eventDate = substr($event['start'] ?? '', 0, 10); // Extract YYYY-MM-DD
+            
+            if ($eventDate >= $monthStart && $eventDate <= $monthEnd) {
+                // Adapter le format pour le calendrier natif
+                $filteredEvents[] = [
+                    'id' => md5($event['start'] . $event['title']),
+                    'title' => $event['title'],
+                    'start' => $event['start'],
+                    'end' => $event['end'],
+                    'color' => $event['backgroundColor'],
+                    'location' => $event['location'] ?? '',
+                    'teacher' => $event['teacher'] ?? '',
+                    'type' => $this->getEventType($event['title']),
+                ];
+            }
+        }
+        
+        return $filteredEvents;
+    }
+    
+    /**
+     * Détermine le type d'événement à partir du titre
+     */
+    private function getEventType(string $title): string
+    {
+        if (stripos($title, 'TD') !== false) return 'td';
+        if (stripos($title, 'TP') !== false) return 'tp';
+        if (stripos($title, 'CM') !== false) return 'cm';
+        if (stripos($title, 'Examen') !== false) return 'exam';
+        if (stripos($title, 'Soutenance') !== false) return 'soutenance';
+        if (stripos($title, 'Support') !== false || stripos($title, 'autonomie') !== false) return 'support';
+        return 'default';
+    }
 }
+
