@@ -19,7 +19,7 @@ $neededConstantes = [
 ];
 
 foreach ($neededConstantes as $constant => $defaultValue) {
-    if (!define($constant)) {
+    if (!defined($constant)) {
         define($constant, $defaultValue);
     }
 }
