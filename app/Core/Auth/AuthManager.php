@@ -183,6 +183,7 @@ class AuthManager
         $this->session->remove(self::USER_EMAIL_KEY);
         $this->session->remove(self::USER_FIRST_NAME_KEY);
         $this->session->remove(self::USER_LAST_NAME_KEY);
+        $this->session->remove('user');
     }
 
     /**
