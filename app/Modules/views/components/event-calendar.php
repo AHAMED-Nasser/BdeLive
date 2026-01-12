@@ -38,11 +38,11 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         $currentMonth = (int) date('n');
         $isCurrentMonth = ($calendar['year'] == $currentYear && $calendar['month'] == $currentMonth);
         ?>
-        <?php if ($isCurrentMonth): ?>
+        <?php if ($isCurrentMonth) : ?>
             <span class="nav-btn today-btn disabled" aria-label="Vous êtes déjà sur le mois actuel">
                 Aujourd'hui
             </span>
-        <?php else: ?>
+        <?php else : ?>
             <a href="<?= $buildUrl($currentYear, $currentMonth) ?>" class="nav-btn today-btn"
                 aria-label="Retour à aujourd'hui" data-view="calendar" data-calyear="<?= $currentYear ?>"
                 data-calmonth="<?= $currentMonth ?>">
@@ -64,11 +64,11 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
             $isNextCurrent = ($nextUrl === $currentUrl || $nextUrl === $todayUrl);
             ?>
 
-            <?php if ($isPrevCurrent): ?>
+            <?php if ($isPrevCurrent) : ?>
                 <span class="nav-btn icon-btn disabled" aria-label="Vous êtes déjà sur ce mois">
                     <i class="fas fa-chevron-left"></i>
                 </span>
-            <?php else: ?>
+            <?php else : ?>
                 <a href="<?= $prevUrl ?>" class="nav-btn icon-btn"
                     aria-label="Mois précédent : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['prevMonth'])) ?> <?= $calendar['prevYear'] ?>"
                     data-view="calendar" data-calyear="<?= $calendar['prevYear'] ?>"
@@ -81,11 +81,11 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                 <?= htmlspecialchars($calendar['monthName']) ?> <?= $calendar['year'] ?>
             </h2>
 
-            <?php if ($isNextCurrent): ?>
+            <?php if ($isNextCurrent) : ?>
                 <span class="nav-btn icon-btn disabled" aria-label="Vous êtes déjà sur ce mois">
                     <i class="fas fa-chevron-right"></i>
                 </span>
-            <?php else: ?>
+            <?php else : ?>
                 <a href="<?= $nextUrl ?>" class="nav-btn icon-btn"
                     aria-label="Mois suivant : <?= htmlspecialchars((new \App\Core\CalendarManager())->getMonthName($calendar['nextMonth'])) ?> <?= $calendar['nextYear'] ?>"
                     data-view="calendar" data-calyear="<?= $calendar['nextYear'] ?>"
@@ -108,14 +108,14 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 
     <!-- Grille du calendrier -->
     <div class="calendar-grid">
-        <?php foreach ($calendar['days'] as $day): ?>
+        <?php foreach ($calendar['days'] as $day) : ?>
             <div
                 class="calendar-day <?= $day['isCurrentMonth'] ? '' : 'other-month' ?> <?= $day['isToday'] ? 'today' : '' ?>">
                 <div class="calendar-day-number"><?= htmlspecialchars((string) $day['number']) ?></div>
 
-                <?php if (!empty($day['events']) && $day['isCurrentMonth']): ?>
+                <?php if (!empty($day['events']) && $day['isCurrentMonth']) : ?>
                     <div class="calendar-events">
-                        <?php foreach ($day['events'] as $event): ?>
+                        <?php foreach ($day['events'] as $event) : ?>
                             <?php
                             $eventId = $event['id'] ?? null;
                             $eventTitle = htmlspecialchars($event['title'] ?? '');
@@ -132,7 +132,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                                 data-event-id="<?= htmlspecialchars((string) $eventId) ?>"
                                 aria-label="<?= htmlspecialchars($ariaLabel) ?>"
                                 title="<?= htmlspecialchars($eventTitle . ($eventTime ? ' - ' . $eventTime : '')) ?>">
-                                <?php if ($eventTime): ?>
+                                <?php if ($eventTime) : ?>
                                     <span class="event-time"><?= htmlspecialchars($eventTime) ?></span>
                                 <?php endif; ?>
                                 <span class="event-title"><?= $eventTitle ?></span>
