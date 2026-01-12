@@ -19,21 +19,21 @@ start_page("Team - BDE Inform'Aix", true, $user ?? null);
             <div class="team-box">
                 <div class="team-box1">
                     <div class="member">
-                        <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/Nasser.jpg" alt="Photo Nasser – Scrum Master" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Nasser AHAMED</h3>
                             <p class="member-role"><strong>Scrum Master/Développeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/Mohamed-Amine.jpg" alt="Photo Mohamed – Product Owner" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/Mohamed-Amine.jpg" alt="Photo Mohamed – Product Owner" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Mohamed-Amine BOUDHIB</h3>
                             <p class="member-role"><strong>Product owner/Dévelopeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/Thomas.jpg" alt="Photo Thomas – Développeur" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/Thomas.jpg" alt="Photo Thomas – Développeur" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Thomas PALOT</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
@@ -42,21 +42,21 @@ start_page("Team - BDE Inform'Aix", true, $user ?? null);
                 </div>
                 <div class="team-box2">
                     <div class="member">
-                        <img src="assets/img/Romain.jpg" alt="Photo Romain – Développeur" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/Romain.jpg" alt="Photo Romain – Développeur" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Romain CANTOR</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/WIllem.jpg" alt="Photo Willem – Développeur" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/WIllem.jpg" alt="Photo Willem – Développeur" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Willem CHETIOUI</h3>
                             <p class="member-role"><strong>Développeur</strong></p>
                         </div>
                     </div>
                     <div class="member">
-                        <img src="assets/img/amin.jpg" alt="Photo Amin – Développeur" loading="lazy" width="240" height="240" decoding="async">
+                        <img src="assets/img/amin.jpg" alt="Photo Amin – Développeur" loading="lazy" decoding="async">
                         <div class="member-info">
                             <h3 class="member-name">Amin HELALI</h3>
                             <p class="member-role"><strong>Développeur</strong></p>

@@ -89,7 +89,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                         <img src="<?= htmlspecialchars($eventImage) ?>" 
                                              class="carousel-image" 
                                              alt="<?= htmlspecialchars($event['event_name']) ?>"
-                                             <?= $index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' ?>
+                                             <?= $index > 0 ? 'loading="lazy"' : '' ?>
                                              decoding="async">
                                     <?php else : ?>
                                         <div class="carousel-no-image">
@@ -153,8 +153,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                     src="<?= htmlspecialchars($article['image_url']) ?>"
                                     alt="<?= htmlspecialchars($article['title']) ?>"
                                     class="article-image-home"
-                                    loading="lazy"
-                                    decoding="async">
+                                    loading="lazy">
                             </div>
                         <?php endif; ?>
 

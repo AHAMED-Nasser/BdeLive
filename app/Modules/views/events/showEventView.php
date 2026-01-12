@@ -48,7 +48,8 @@ $userId = $user['user_id'] ?? null;
             foreach ($images as $index => $img) :
                 $src = is_array($img) ? $img['url'] : $img;
                 $altText = htmlspecialchars($event['event_name']) . ' - Photo ' . ($index + 1);
-                echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image" loading="lazy" decoding="async">';
+                $lazyAttr = $index > 0 ? ' loading="lazy"' : '';
+                echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image"' . $lazyAttr . ' decoding="async">';
             endforeach;
         else :
             // No images available
