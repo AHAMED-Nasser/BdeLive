@@ -42,7 +42,6 @@ class Mailer
     public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool
     {
         try {
-            // ✅ plus besoin de require_once, Composer autoload s'en charge
             $mail = new PHPMailer(true);
 
             // SMTP Configuration for AlwaysData

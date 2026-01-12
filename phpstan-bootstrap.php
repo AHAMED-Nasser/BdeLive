@@ -6,12 +6,23 @@ if (file_exists(__DIR__ . '/app/Config/config.php')) {
     require_once __DIR__ . '/app/Config/config.php';
 }
 
-if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
-if (!defined('DB_NAME')) define('DB_NAME', 'test');
-if (!defined('DB_USER')) define('DB_USER', 'user');
-if (!defined('DB_PASSWORD')) define('DB_PASSWORD', 'pass_test');
-if (!defined('DB_CHARSET')) define('DB_CHARSET', 'utf8mb4');
+$neededConstantes = [
+    'DB_HOST' => 'localhost',
+    'DB_NAME' => 'test',
+    'DB_USER' => 'user',
+    'DB_PASSWORD' => 'pass_test',
+    'DB_CHARSET' => 'utf8mb4',
+    'SMTP_HOST' => 'smpt@smtp.com',
+    'SMTP_USER' => 'smtp.user',
+    'SMTP_PASSWORD' => '......',
+    'FROM_EMAIL' => 'no_reply@exemple.com'
+];
 
+foreach ($neededConstantes as $constant => $defaultValue) {
+    if (!define($constant)) {
+        define($constant, $defaultValue);
+    }
+}
 
 // Stub pour App\Config\Mailer (si nécessaire pour l'analyse)
 // Note: Maintenant que app/Config/* n'est plus exclu, ce stub ne devrait plus être nécessaire
