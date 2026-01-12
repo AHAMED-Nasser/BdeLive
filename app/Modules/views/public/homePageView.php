@@ -209,7 +209,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                 ensemble pour proposer des événements et projets autour de l'informatique.
             </p>
             <ul>
-                <li><a href="index.php?page=team">En savoir plus</a></li>
+                <li><a href="index.php?page=bde_members">En savoir plus</a></li>
             </ul>
         </div>
     </section>
