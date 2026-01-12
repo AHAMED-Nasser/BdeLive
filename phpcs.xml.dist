@@ -8,13 +8,21 @@
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
     </rule>
 
-    <!-- Paths to scan -->
-    <file>app</file>
+    <!-- Paths to scan - exclude assets directory which contains JS/CSS files -->
+    <file>app/Core</file>
+    <file>app/Config</file>
+    <file>app/Modules</file>
+    <file>app/Services</file>
+    <file>app/include</file>
+    <file>app/index.php</file>
+    <file>app/rooter.php</file>
+    <file>app/robots.txt</file>
+    <file>app/sitemap.xml</file>
 
     <!-- Ignore files that intentionally contain no PHP code -->
     <exclude-pattern>app/modules/models/public/PaginationModel.php</exclude-pattern>
 
     <!-- Coding style settings -->
-    <arg name="extensions" value="php,js,css"/>
+    <arg name="extensions" value="php"/>
 </ruleset>
 
