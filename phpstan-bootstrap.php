@@ -2,10 +2,6 @@
 // phpstan-bootstrap.php
 require_once __DIR__ . '/vendor/autoload.php';
 
-if (file_exists(__DIR__ . '/app/Config/config.php')) {
-    require_once __DIR__ . '/app/Config/config.php';
-}
-
 $neededConstantes = [
     'DB_HOST' => 'localhost',
     'DB_NAME' => 'test',
