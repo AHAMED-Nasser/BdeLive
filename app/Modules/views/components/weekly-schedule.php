@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Template HTML pour la vue hebdomadaire d'emploi du temps
+ * Weekly Schedule View HTML Template
  *
- * Variables attendues :
- * - $schedule : array retourné par WeeklyScheduleManager::generateWeeklySchedule()
- * - $pageUrl : string - URL de base (ex: 'index.php?page=schedule')
- * - $extraParams : array - Paramètres URL supplémentaires
+ * Expected variables:
+ * - $schedule : array returned by WeeklyScheduleManager::generateWeeklySchedule()
+ * - $pageUrl : string - Base URL (e.g., 'index.php?page=schedule')
+ * - $extraParams : array - Additional URL parameters
  */
 
 // Valeurs par défaut si non définies
@@ -24,7 +24,7 @@ $schedule = $schedule ?? [
 $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
-// Construction URL navigation
+// Navigation URL construction
 $buildUrl = function ($year, $week) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
         'calyear' => $year,
@@ -33,14 +33,14 @@ $buildUrl = function ($year, $week) use ($pageUrl, $extraParams) {
     return $pageUrl . '&' . http_build_query($params);
 };
 
-// Formater la période de la semaine
+// Format the week period
 $firstDate = !empty($schedule['weekDates']) ? reset($schedule['weekDates']) : null;
 $lastDate = !empty($schedule['weekDates']) ? end($schedule['weekDates']) : null;
 $weekPeriod = $firstDate && $lastDate
     ? $firstDate['formatted'] . ' - ' . $lastDate['formatted']
     : 'Semaine ' . $schedule['week'];
 
-// Calculer position de l'heure actuelle (si aujourd'hui dans la semaine)
+// Calculate current time position (if today is in the week)
 $currentTimePosition = null;
 $currentTimeLabel = '';
 if (!empty($schedule['weekDates'])) {
@@ -49,7 +49,7 @@ if (!empty($schedule['weekDates'])) {
         if ($dayInfo['date'] === $today) {
             $hour = (int) date('H');
             $minute = (int) date('i');
-            $currentTimePosition = (($hour - 8) * 60) + $minute; // Minutes depuis 08:00
+            $currentTimePosition = (($hour - 8) * 60) + $minute; // Minutes since 08:00
             $currentTimeLabel = date('H:i');
             break;
         }

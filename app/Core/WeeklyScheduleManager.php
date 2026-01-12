@@ -3,17 +3,18 @@
 namespace App\Core;
 
 /**
- * WeeklyScheduleManager - Gestionnaire d'emploi du temps hebdomadaire
+ * WeeklyScheduleManager - Weekly Schedule Manager
  *
- * Génère des vues hebdomadaires avec timeline verticale (08:00-20:00)
- * et blocs de cours positionnés selon leur horaire.
+ * Generates weekly views with vertical timeline (08:00-20:00)
+ * and course blocks positioned according to their schedule.
  *
  * @package App\Core
+ * @version 1.0.0
  */
 class WeeklyScheduleManager
 {
     /**
-     * Jours de la semaine
+     * Days of the week
      */
     private const WEEKDAYS = [
         1 => 'Lundi',
@@ -26,21 +27,21 @@ class WeeklyScheduleManager
     ];
 
     /**
-     * Heure de début de la journée (08:00)
+     * Start hour of the day (08:00)
      */
     private const START_HOUR = 8;
 
     /**
-     * Heure de fin de la journée (20:00)
+     * End hour of the day (20:00)
      */
     private const END_HOUR = 20;
 
     /**
-     * Génère la structure complète d'un emploi du temps hebdomadaire
+     * Generates the complete structure of a weekly schedule
      *
-     * @param int $year L'année
-     * @param int $week Le numéro de semaine (1-53)
-     * @param array<int, array<string, mixed>> $events Liste des événements de la semaine
+     * @param int $year The year
+     * @param int $week The week number (1-53)
+     * @param array<int, array<string, mixed>> $events List of events for the week
      * @return array{
      *   year: int,
      *   week: int,
@@ -57,16 +58,16 @@ class WeeklyScheduleManager
     {
         // Validation
         if ($week < 1 || $week > 53) {
-            throw new \InvalidArgumentException("Le numéro de semaine doit être entre 1 et 53");
+            throw new \InvalidArgumentException("Week number must be between 1 and 53");
         }
 
-        // Calculer les dates de la semaine
+        // Calculate week dates
         $weekDates = $this->getWeekDates($year, $week);
 
-        // Grouper les événements par jour
+        // Group events by day
         $eventsByDay = $this->groupEventsByDay($events, $weekDates);
 
-        // Calculer semaine précédente/suivante
+        // Calculate previous/next week
         $prevWeek = $week - 1;
         $prevYear = $year;
         if ($prevWeek < 1) {
@@ -81,7 +82,7 @@ class WeeklyScheduleManager
             $nextYear++;
         }
 
-        // Générer la liste des heures
+        // Generate the list of hours
         $hours = [];
         for ($h = self::START_HOUR; $h <= self::END_HOUR; $h++) {
             $hours[] = sprintf('%02d:00', $h);
@@ -101,27 +102,27 @@ class WeeklyScheduleManager
     }
 
     /**
-     * Calcule les dates des jours de la semaine
+     * Calculates the dates of the days of the week
      *
-     * @param int $year L'année
-     * @param int $week Le numéro de semaine
+     * @param int $year The year
+     * @param int $week The week number
      * @return array<int, array{day: int, date: string, dayName: string, formatted: string}>
      */
     private function getWeekDates(int $year, int $week): array
     {
         $dates = [];
 
-        // Créer une date au début de l'année
+        // Create a date at the beginning of the year
         $dto = new \DateTime();
-        $dto->setISODate($year, $week, 1); // ISO: 1 = Lundi
+        $dto->setISODate($year, $week, 1); // ISO: 1 = Monday
 
-        // Générer Lundi à Vendredi (ou Dimanche selon besoin)
-        for ($day = 1; $day <= 5; $day++) { // Lun-Ven
+        // Generate Monday to Friday (or Sunday as needed)
+        for ($day = 1; $day <= 5; $day++) { // Mon-Fri
             $dates[$day] = [
                 'day' => $day,
                 'date' => $dto->format('Y-m-d'),
                 'dayName' => self::WEEKDAYS[$day],
-                'formatted' => $dto->format('d/m') // Ex: 02/12
+                'formatted' => $dto->format('d/m') // e.g., 02/12
             ];
             $dto->modify('+1 day');
         }
@@ -130,24 +131,24 @@ class WeeklyScheduleManager
     }
 
     /**
-     * Groupe les événements par jour de la semaine
+     * Groups events by day of the week
      *
-     * @param array<int, array<string, mixed>> $events Liste d'événements
-     * @param array<int, array{date: string}> $weekDates Dates de la semaine
-     * @return array<string, array<int, array<string, mixed>>> Événements groupés par date
+     * @param array<int, array<string, mixed>> $events List of events
+     * @param array<int, array{date: string}> $weekDates Week dates
+     * @return array<string, array<int, array<string, mixed>>> Events grouped by date
      */
     private function groupEventsByDay(array $events, array $weekDates): array
     {
         $grouped = [];
 
-        // Initialiser avec les dates de la semaine
+        // Initialize with week dates
         foreach ($weekDates as $dayInfo) {
             $grouped[$dayInfo['date']] = [];
         }
 
         // Grouper les événements
         foreach ($events as $event) {
-            // Extraire la date de début
+            // Extract start date
             $eventDate = null;
             if (isset($event['start'])) {
                 $eventDate = substr($event['start'], 0, 10); // YYYY-MM-DD
@@ -156,7 +157,7 @@ class WeeklyScheduleManager
             }
 
             if ($eventDate && isset($grouped[$eventDate])) {
-                // Calculer la position CSS
+                // Calculate CSS position
                 $position = $this->calculateEventPosition($event['start'] ?? '', $event['end'] ?? '');
                 $event['cssPosition'] = $position;
 
@@ -168,43 +169,43 @@ class WeeklyScheduleManager
     }
 
     /**
-     * Calcule la position et hauteur CSS d'un événement
+     * Calculates the CSS position and height of an event
      *
-     * @param string $startTime Heure de début (format: "YYYY-MM-DD HH:MM:SS" ou "HH:MM")
-     * @param string $endTime Heure de fin
+     * @param string $startTime Start time (format: "YYYY-MM-DD HH:MM:SS" or "HH:MM")
+     * @param string $endTime End time
      * @return array{top: string, height: string}
      */
     public function calculateEventPosition(string $startTime, string $endTime): array
     {
         try {
-            // Parser les timestamps
+            // Parse timestamps
             $start = new \DateTimeImmutable($startTime);
             $end = new \DateTimeImmutable($endTime);
 
-            // Extraire heures et minutes
+            // Extract hours and minutes
             $startHour = (int)$start->format('H');
             $startMinute = (int)$start->format('i');
             $endHour = (int)$end->format('H');
             $endMinute = (int)$end->format('i');
 
-            // Calculer les minutes depuis START_HOUR (08:00)
+            // Calculate minutes since START_HOUR (08:00)
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;
             $endMinutes = ($endHour - self::START_HOUR) * 60 + $endMinute;
 
-            // Convertir en pixels (1 minute = 1 pixel avec PIXELS_PER_HOUR = 60)
+            // Convert to pixels (1 minute = 1 pixel with PIXELS_PER_HOUR = 60)
             $top = $startMinutes;
             $height = $endMinutes - $startMinutes;
 
-            // S'assurer que les valeurs sont positives
+            // Ensure values are positive
             $top = max(0, $top);
-            $height = max(30, $height); // Hauteur minimale de 30px
+            $height = max(30, $height); // Minimum height of 30px
 
             return [
                 'top' => $top . 'px',
                 'height' => $height . 'px'
             ];
         } catch (\Exception $e) {
-            // Valeurs par défaut en cas d'erreur
+            // Default values in case of error
             return [
                 'top' => '0px',
                 'height' => '60px'
@@ -213,10 +214,10 @@ class WeeklyScheduleManager
     }
 
     /**
-     * Obtient le nom du jour de la semaine
+     * Gets the weekday name
      *
-     * @param int $day Le jour (1-7, 1=Lundi)
-     * @return string Le nom du jour
+     * @param int $day The day (1-7, 1=Monday)
+     * @return string The day name
      */
     public function getWeekdayName(int $day): string
     {
@@ -224,7 +225,7 @@ class WeeklyScheduleManager
     }
 
     /**
-     * Obtient la plage horaire de la timeline
+     * Gets the timeline time range
      *
      * @return array{start: int, end: int}
      */

@@ -30,7 +30,6 @@ jobs:
       - name: 🧹 Vérifier le style avec PHP CodeSniffer (PSR-12)
         run: |
           echo "Installation de PHP CodeSniffer..."
-          composer global require "squizlabs/php_codesniffer=*"
-          export PATH="$PATH:$(composer global config bin-dir --absolute)"
+          composer install --no-progress --prefer-dist --optimize-autoloader
           echo "Analyse du code avec la norme PSR-12..."
-          phpcs --standard=PSR12 --extensions=php app
+          ./scripts/phpcs-no-assets.sh

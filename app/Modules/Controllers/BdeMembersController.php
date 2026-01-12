@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers;
 
 /**
- * BdeMembersController - Affiche la liste des membres du BDE (sans photos),
- * réservée aux utilisateurs connectés.
+ * BdeMembersController - Displays the list of BDE members (without photos),
+ * reserved for authenticated users.
  *
  * @package BdeLive\Controllers
  * @version 1.0.0
@@ -14,60 +14,61 @@ namespace App\Modules\Controllers;
  */
 class BdeMembersController extends AuthenticatedController
 {
-    // Dans le constructeur de tes contrôleurs :
+    /**
+     * Constructor - Initializes the controller and renders the BDE members view
+     */
     public function __construct()
     {
-        // parent::__construct($params); <-- ERREUR ICI
-        parent::__construct(); // <-- SOLUTION : Enlever $params
+        parent::__construct();
 
-        // Membres actifs du Bureau
+        // Active BDE board members
         $bdeMembers = [
             [
                 'firstname' => 'Ewan',
                 'lastname' => 'EL KIHAL',
-                'role' => 'Président',
-                'description' => 'Responsable de l\'équipe et de la vision globale.'
+                'role' => 'President',
+                'description' => 'Team leader and overall vision.'
             ],
             [
                 'firstname' => 'Matteo',
                 'lastname' => 'BELZ',
-                'role' => 'Co-président',
-                'description' => 'Gestion de la communication et des réunions.'
+                'role' => 'Co-President',
+                'description' => 'Communication and meeting management.'
             ],
             [
                 'firstname' => 'Nassim',
                 'lastname' => 'BUCHMULLER',
-                'role' => 'Secrétaire',
-                'description' => 'Responsable marketing et design.'
+                'role' => 'Secretary',
+                'description' => 'Marketing and design manager.'
             ],
             [
                 'firstname' => 'Valentin',
                 'lastname' => 'GORGODIAN',
-                'role' => 'Trésorier',
-                'description' => 'Gestion du budget et des finances.'
+                'role' => 'Treasurer',
+                'description' => 'Budget and finance management.'
             ],
             [
                 'firstname' => 'Claire',
                 'lastname' => 'ARSENA',
-                'role' => 'Responsable événements et communication',
-                'description' => 'Relations inter-associations et partenariats.'
+                'role' => 'Events and Communication Manager',
+                'description' => 'Inter-association relations and partnerships.'
             ],
             [
                 'firstname' => 'Pablo',
                 'lastname' => 'SENE',
-                'role' => 'Pôle événements',
-                'description' => 'Membre actif du pôle événementiel.'
+                'role' => 'Events Team',
+                'description' => 'Active member of the events team.'
             ],
         ];
 
-        // Membres d'honneur
+        // Honorary members
         $honorMembers = [
             ['firstname' => 'Baptiste', 'lastname' => 'TURMO'],
             ['firstname' => 'Cyril', 'lastname' => 'TAMINE'],
             ['firstname' => 'Naël', 'lastname' => 'TURLURE'],
         ];
 
-        // Affiche la nouvelle vue sans photos.
+        // Render the new view without photos.
         $this->render('public/bdeMembersView', [
             'bdeMembers' => $bdeMembers,
             'honorMembers' => $honorMembers,

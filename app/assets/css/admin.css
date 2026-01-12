@@ -74,6 +74,19 @@
     font-weight: bold;
 }
 
+.admin-nav-link.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+    background: var(--bg-tertiary);
+}
+
+.admin-nav-link.disabled:hover {
+    background: var(--bg-tertiary);
+    text-decoration: none;
+    transform: none;
+}
+
 /* Table Card */
 .table-card {
     background: var(--bg-card);

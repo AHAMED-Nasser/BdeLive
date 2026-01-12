@@ -3,17 +3,18 @@
 namespace App\Core;
 
 /**
- * CalendarManager - Gestionnaire de calendrier natif
+ * CalendarManager - Native Calendar Manager
  *
- * Génère des calendriers mensuels au format CSS Grid sans dépendances externes.
- * Remplace FullCalendar pour une meilleure accessibilité et performance.
+ * Generates monthly calendars in CSS Grid format without external dependencies.
+ * Replaces FullCalendar for better accessibility and performance.
  *
  * @package App\Core
+ * @version 1.0.0
  */
 class CalendarManager
 {
     /**
-     * Noms des mois en français
+     * French month names
      */
     private const MONTH_NAMES = [
         1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril',
@@ -22,7 +23,7 @@ class CalendarManager
     ];
 
     /**
-     * Noms des jours de la semaine (Lundi = 1, Dimanche = 7)
+     * Weekday names (Monday = 1, Sunday = 7)
      */
     private const WEEKDAY_NAMES = [
         1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi', 4 => 'Jeudi',
@@ -30,11 +31,11 @@ class CalendarManager
     ];
 
     /**
-     * Génère la structure complète d'un calendrier mensuel
+     * Generates the complete structure of a monthly calendar
      *
-     * @param int $year L'année (ex: 2026)
-     * @param int $month Le mois (1-12)
-     * @param array<int, array<string, mixed>> $events Liste des événements du mois
+     * @param int $year The year (e.g., 2026)
+     * @param int $month The month (1-12)
+     * @param array<int, array<string, mixed>> $events List of events for the month
      * @return array{
      *   year: int,
      *   month: int,
@@ -55,23 +56,23 @@ class CalendarManager
      */
     public function generateMonthCalendar(int $year, int $month, array $events = []): array
     {
-        // Validation des paramètres
+        // Parameter validation
         if ($month < 1 || $month > 12) {
-            throw new \InvalidArgumentException("Le mois doit être entre 1 et 12");
+            throw new \InvalidArgumentException("Month must be between 1 and 12");
         }
 
-        // Calculs de base
+        // Basic calculations
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
         $firstDayOfWeek = $this->getFirstDayOfWeek($year, $month);
 
-        // Grouper les événements par date
+        // Group events by date
         $eventsByDate = $this->groupEventsByDate($events);
 
-        // Construire le tableau des jours
+        // Build the days array
         $days = [];
 
-        // 1. Cases vides au début (jours du mois précédent)
-        $emptyDaysAtStart = $firstDayOfWeek - 1; // Lundi = 0 cases vides, Dimanche = 6
+        // 1. Empty cells at the beginning (previous month days)
+        $emptyDaysAtStart = $firstDayOfWeek - 1; // Monday = 0 empty cells, Sunday = 6
         $prevMonth = $month - 1;
         $prevYear = $year;
         if ($prevMonth < 1) {
@@ -93,7 +94,7 @@ class CalendarManager
             ];
         }
 
-        // 2. Jours du mois actuel
+        // 2. Current month days
         $today = date('Y-m-d');
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
@@ -110,7 +111,7 @@ class CalendarManager
             ];
         }
 
-        // 3. Cases vides à la fin (jours du mois suivant)
+        // 3. Empty cells at the end (next month days)
         $totalDays = count($days);
         $emptyDaysAtEnd = (7 - ($totalDays % 7)) % 7;
 
@@ -146,11 +147,11 @@ class CalendarManager
     }
 
     /**
-     * Calcule le jour de la semaine du 1er du mois
+     * Calculates the day of the week for the first day of the month
      *
-     * @param int $year L'année
-     * @param int $month Le mois (1-12)
-     * @return int Le jour de la semaine (1=Lundi, 7=Dimanche)
+     * @param int $year The year
+     * @param int $month The month (1-12)
+     * @return int The day of the week (1=Monday, 7=Sunday)
      */
     private function getFirstDayOfWeek(int $year, int $month): int
     {
@@ -159,17 +160,17 @@ class CalendarManager
     }
 
     /**
-     * Groupe les événements par date
+     * Groups events by date
      *
-     * @param array<int, array<string, mixed>> $events Liste d'événements
-     * @return array<string, array<int, array<string, mixed>>> Événements groupés par date (YYYY-MM-DD)
+     * @param array<int, array<string, mixed>> $events List of events
+     * @return array<string, array<int, array<string, mixed>>> Events grouped by date (YYYY-MM-DD)
      */
     private function groupEventsByDate(array $events): array
     {
         $grouped = [];
 
         foreach ($events as $event) {
-            // Extraire la date de l'événement
+            // Extract the event date
             $eventDate = null;
 
             if (isset($event['event_date'])) {
@@ -177,12 +178,12 @@ class CalendarManager
             } elseif (isset($event['date'])) {
                 $eventDate = $event['date'];
             } elseif (isset($event['start'])) {
-                // Format ISO ou datetime
+                // ISO or datetime format
                 $eventDate = date('Y-m-d', strtotime($event['start']));
             }
 
             if ($eventDate) {
-                // Normaliser au format YYYY-MM-DD
+                // Normalize to YYYY-MM-DD format
                 $normalizedDate = date('Y-m-d', strtotime($eventDate));
 
                 if (!isset($grouped[$normalizedDate])) {
@@ -197,10 +198,10 @@ class CalendarManager
     }
 
     /**
-     * Obtient le nom du mois
+     * Gets the month name
      *
-     * @param int $month Le mois (1-12)
-     * @return string Le nom du mois en français
+     * @param int $month The month (1-12)
+     * @return string The month name in French
      */
     public function getMonthName(int $month): string
     {
@@ -208,10 +209,10 @@ class CalendarManager
     }
 
     /**
-     * Obtient le nom du jour de la semaine
+     * Gets the weekday name
      *
-     * @param int $dayOfWeek Le jour de la semaine (1-7)
-     * @return string Le nom du jour en français
+     * @param int $dayOfWeek The day of the week (1-7)
+     * @return string The day name in French
      */
     public function getWeekdayName(int $dayOfWeek): string
     {
@@ -219,9 +220,9 @@ class CalendarManager
     }
 
     /**
-     * Obtient la liste des noms de jours de la semaine
+     * Gets the list of weekday names
      *
-     * @return array<int, string> Les noms des jours (1=Lundi à 7=Dimanche)
+     * @return array<int, string> The day names (1=Monday to 7=Sunday)
      */
     public function getWeekdayNames(): array
     {

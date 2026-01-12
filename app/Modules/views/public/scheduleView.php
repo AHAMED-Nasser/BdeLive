@@ -1,6 +1,14 @@
 <?php
 /**
- * Vue de la page emploi du temps
+ * Schedule View
+ *
+ * Displays the class schedule with support for day, week, and month views.
+ * Allows filtering by year level and group.
+ *
+ * @package BdeLive\Views\Public
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var array<string, array{name: string, groups: array<string, string>}> $groups
  * @var string $selectedYear
  * @var string $selectedGroup

@@ -164,6 +164,16 @@ class Request
     }
 
     /**
+     * Get all query (GET) parameters
+     *
+     * @return array<string, mixed> All GET parameters
+     */
+    public function getQuery(): array
+    {
+        return $this->query;
+    }
+
+    /**
      * Get all parameters (GET + POST merged)
      *
      * @return array<string, mixed> All request parameters
