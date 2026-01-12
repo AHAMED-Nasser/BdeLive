@@ -3,30 +3,31 @@
 namespace App\Core;
 
 /**
- * DayScheduleManager - Gestionnaire d'emploi du temps journalier
+ * DayScheduleManager - Daily Schedule Manager
  *
- * Génère des vues journalières avec timeline verticale détaillée (08:00-20:00)
- * et blocs de cours positionnés selon leur horaire.
+ * Generates daily views with detailed vertical timeline (08:00-20:00)
+ * and course blocks positioned according to their schedule.
  *
  * @package App\Core
+ * @version 1.0.0
  */
 class DayScheduleManager
 {
     /**
-     * Heure de début de la journée (08:00)
+     * Start hour of the day (08:00)
      */
     private const START_HOUR = 8;
 
     /**
-     * Heure de fin de la journée (20:00)
+     * End hour of the day (20:00)
      */
     private const END_HOUR = 20;
 
     /**
-     * Génère la structure complète d'un emploi du temps journalier
+     * Generates the complete structure of a daily schedule
      *
-     * @param string $date Date au format 'Y-m-d'
-     * @param array<int, array<string, mixed>> $events Liste des événements du jour
+     * @param string $date Date in 'Y-m-d' format
+     * @param array<int, array<string, mixed>> $events List of events for the day
      * @return array{
      *   date: string,
      *   dayName: string,
@@ -40,30 +41,30 @@ class DayScheduleManager
      */
     public function generateDaySchedule(string $date, array $events = []): array
     {
-        // Parser la date
+        // Parse the date
         $dateObj = new \DateTimeImmutable($date);
 
-        // Informations du jour
+        // Day information
         $dayInfo = [
             'date' => $date,
             'dayName' => $this->getFrenchDayName($dateObj->format('N')),
             'formatted' => $dateObj->format('d/m/Y'),
         ];
 
-        // Calculer jour précédent/suivant
+        // Calculate previous/next day
         $prevDate = $dateObj->modify('-1 day')->format('Y-m-d');
         $nextDate = $dateObj->modify('+2 days')->format('Y-m-d'); // +2 car on a fait -1 avant
 
-        // Générer la liste des heures
+        // Generate the list of hours
         $hours = [];
         for ($h = self::START_HOUR; $h <= self::END_HOUR; $h++) {
             $hours[] = sprintf('%02d:00', $h);
         }
 
-        // Filtrer et positionner les événements pour ce jour
+        // Filter and position events for this day
         $dayEvents = $this->filterAndPositionEvents($events, $date);
 
-        // Calculer position de l'heure actuelle si c'est aujourd'hui
+        // Calculate current time position if it's today
         $currentTime = null;
         if ($date === date('Y-m-d')) {
             $currentTime = $this->calculateCurrentTimePosition();
@@ -82,10 +83,10 @@ class DayScheduleManager
     }
 
     /**
-     * Filtre et positionne les événements pour un jour spécifique
+     * Filters and positions events for a specific day
      *
-     * @param array<int, array<string, mixed>> $events Tous les événements
-     * @param string $targetDate Date cible
+     * @param array<int, array<string, mixed>> $events All events
+     * @param string $targetDate Target date
      * @return array<int, array<string, mixed>>
      */
     private function filterAndPositionEvents(array $events, string $targetDate): array
@@ -96,7 +97,7 @@ class DayScheduleManager
             $eventDate = isset($event['start']) ? substr($event['start'], 0, 10) : '';
 
             if ($eventDate === $targetDate) {
-                // Calculer la position CSS
+                // Calculate CSS position
                 $position = $this->calculateEventPosition($event['start'] ?? '', $event['end'] ?? '');
                 $event['cssPosition'] = $position;
 
@@ -104,7 +105,7 @@ class DayScheduleManager
             }
         }
 
-        // Trier par heure de début
+        // Sort by start time
         usort($filtered, function ($a, $b) {
             return strcmp($a['start'] ?? '', $b['start'] ?? '');
         });
@@ -113,10 +114,10 @@ class DayScheduleManager
     }
 
     /**
-     * Calcule la position et hauteur CSS d'un événement
+     * Calculates the CSS position and height of an event
      *
-     * @param string $startTime Heure de début
-     * @param string $endTime Heure de fin
+     * @param string $startTime Start time
+     * @param string $endTime End time
      * @return array{top: string, height: string}
      */
     private function calculateEventPosition(string $startTime, string $endTime): array
@@ -130,7 +131,7 @@ class DayScheduleManager
             $endHour = (int)$end->format('H');
             $endMinute = (int)$end->format('i');
 
-            // Calculer les minutes depuis START_HOUR
+            // Calculate minutes since START_HOUR
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;
             $endMinutes = ($endHour - self::START_HOUR) * 60 + $endMinute;
 
@@ -150,7 +151,7 @@ class DayScheduleManager
     }
 
     /**
-     * Calcule la position de l'heure actuelle
+     * Calculates the current time position
      *
      * @return array{hour: int, minute: int, top: int}
      */
@@ -159,20 +160,20 @@ class DayScheduleManager
         $hour = (int)date('H');
         $minute = (int)date('i');
 
-        // Calculer position en minutes depuis START_HOUR
+        // Calculate position in minutes since START_HOUR
         $top = (($hour - self::START_HOUR) * 60) + $minute;
 
         return [
             'hour' => $hour,
             'minute' => $minute,
-            'top' => max(0, $top) // S'assurer que c'est positif
+            'top' => max(0, $top) // Ensure it's positive
         ];
     }
 
     /**
-     * Obtient le nom français du jour de la semaine
+     * Gets the French name of the day of the week
      *
-     * @param string|int $dayNumber Le jour (1-7, 1=Lundi)
+     * @param string|int $dayNumber The day (1-7, 1=Monday)
      * @return string
      */
     private function getFrenchDayName($dayNumber): string
@@ -191,7 +192,7 @@ class DayScheduleManager
     }
 
     /**
-     * Obtient la plage horaire de la timeline
+     * Gets the timeline time range
      *
      * @return array{start: int, end: int}
      */

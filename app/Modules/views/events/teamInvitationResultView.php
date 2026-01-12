@@ -2,7 +2,12 @@
 /**
  * Team Invitation Result View
  *
- * Displays a minimal confirmation message after invitation validation.
+ * Displays the result of team invitation actions (success/failure).
+ * Shows confirmation messages and next steps after invitation validation.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var array<string, mixed> $invitation Invitation data with event info
  * @var bool $alreadyProcessed Whether the invitation was already processed

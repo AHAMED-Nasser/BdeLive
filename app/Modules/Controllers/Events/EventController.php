@@ -29,7 +29,7 @@ class EventController extends DefaultController
         try {
             // 1. MODEL (Repository)
             $repository = new EventRepository();
-            $viewMode = $_GET['view'] ?? 'list'; // Détection du mode
+            $viewMode = $this->request->get('view', 'list'); // View mode detection
 
             if ($viewMode === 'calendar') {
                 $this->showCalendar($repository);
@@ -37,21 +37,27 @@ class EventController extends DefaultController
                 $this->showList($repository);
             }
         } catch (Exception $e) {
-            $this->setError('Erreur lors du chargement : ' . $e->getMessage());
+            $this->setError('Error loading events: ' . $e->getMessage());
             $this->redirect('index.php?page=home');
         }
     }
 
+    /**
+     * Displays the calendar view with all events
+     *
+     * @param EventRepository $repository Event repository instance
+     * @return void
+     */
     private function showCalendar(EventRepository $repository): void
     {
-        // Mode Calendrier : on récupère tout et on utilise le calendrier natif
+        // Calendar mode: fetch all events and use native calendar
         $events = $repository->findAll();
 
-        // Paramètres du calendrier (année et mois)
-        $calYear = isset($_GET['calyear']) ? (int)$_GET['calyear'] : (int)date('Y');
-        $calMonth = isset($_GET['calmonth']) ? (int)$_GET['calmonth'] : (int)date('n');
+        // Calendar parameters (year and month)
+        $calYear = (int)$this->request->get('calyear', date('Y'));
+        $calMonth = (int)$this->request->get('calmonth', date('n'));
 
-        // Valider les paramètres
+        // Validate parameters
         if ($calMonth < 1 || $calMonth > 12) {
             $calMonth = (int)date('n');
         }
@@ -59,7 +65,7 @@ class EventController extends DefaultController
             $calYear = (int)date('Y');
         }
 
-        // Formater les événements pour le CalendarManager
+        // Format events for CalendarManager
         $formattedEvents = [];
         foreach ($events as $event) {
             $eventDate = $event['event_date'] ?? null;
@@ -74,7 +80,7 @@ class EventController extends DefaultController
             }
         }
 
-        // Générer le calendrier avec CalendarManager
+        // Generate calendar with CalendarManager
         $calendarManager = new \App\Core\CalendarManager();
         $nativeCalendar = $calendarManager->generateMonthCalendar($calYear, $calMonth, $formattedEvents);
 
@@ -87,9 +93,15 @@ class EventController extends DefaultController
         ]);
     }
 
+    /**
+     * Displays the list view with pagination
+     *
+     * @param EventRepository $repository Event repository instance
+     * @return void
+     */
     private function showList(EventRepository $repository): void
     {
-        // Mode Liste : conservation de la logique de pagination existante
+        // List mode: maintain existing pagination logic
         $totalEvents = $repository->count();
 
         // 2. HELPER (Pagination)

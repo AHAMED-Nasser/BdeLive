@@ -1,5 +1,14 @@
 <?php
 /**
+ * Create Event Page View
+ *
+ * Displays the form for creating a new event with all necessary fields
+ * including name, date, time, location, description, team settings, and image upload.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash

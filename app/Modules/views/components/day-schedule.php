@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Template HTML pour la vue journalière
+ * Daily View HTML Template
  *
- * Variables attendues :
- * - $daySchedule : array retourné par DayScheduleManager::generateDaySchedule()
+ * Expected variables:
+ * - $daySchedule : array returned by DayScheduleManager::generateDaySchedule()
  * - $pageUrl : string
  * - $extraParams : array
  */
@@ -13,7 +13,7 @@ $daySchedule = $daySchedule ?? [];
 $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
-// Helper URL
+// URL helper
 $buildUrl = function ($date) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
         'view' => 'day',

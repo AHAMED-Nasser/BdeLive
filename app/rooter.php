@@ -21,7 +21,9 @@ require_once __DIR__ . '/include/autoload.php';
 // require_once __DIR__ . '/include/auth.php';  // Remplacé par AuthManager
 // require_once __DIR__ . '/include/csrf.php';  // Remplacé par CsrfProtection
 
-$page = $_GET['page'] ?? 'home';
+use App\Core\Application;
+
+$page = (string) Application::getInstance()->request()->get('page', 'home');
 
 /**
  * Keep only allowed characters for the page token and default to 'home' if empty.

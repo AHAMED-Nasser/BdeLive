@@ -15,23 +15,23 @@ class AdminSectionController extends AdminController
         parent::__construct();
         $userManager = new UserManager();
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['user_id'])) {
+        if ($this->request->isPost() && $this->request->has('action') && $this->request->has('user_id')) {
             $this->handleAction($userManager);
         }
 
         // Get and validate parameters
-        $filter = $_GET['filter'] ?? 'active';
+        $filter = $this->request->get('filter', 'active');
         $showBlocked = ($filter === 'blocked');
 
         // Validate role filter (security - whitelist validation)
         $allowedRoles = ['all', 'admin', 'user'];
-        $roleFilter = $_GET['role'] ?? 'all';
+        $roleFilter = $this->request->get('role', 'all');
         if (!in_array($roleFilter, $allowedRoles, true)) {
             $roleFilter = 'all';
         }
 
         // Clean search term
-        $search = trim($_GET['search'] ?? '');
+        $search = trim((string)$this->request->get('search', ''));
 
         // Use unified methods with all filters
         $total = $userManager->countUsers($showBlocked, $roleFilter, $search);
@@ -45,7 +45,7 @@ class AdminSectionController extends AdminController
             $search
         );
 
-        if (isset($_GET['ajax']) && $_GET['ajax'] === '1') {
+        if ($this->request->get('ajax') === '1') {
             $this->render("admin/partials/usersTablePartial", [
                 'users' => $users,
                 'pagination' => $pagination,
@@ -67,8 +67,8 @@ class AdminSectionController extends AdminController
 
     private function handleAction(UserManager $manager): void
     {
-        $id = (int)$_POST['user_id'];
-        $action = $_POST['action'];
+        $id = (int)$this->request->post('user_id');
+        $action = (string)$this->request->post('action');
 
         switch ($action) {
             case 'promote':
@@ -89,16 +89,18 @@ class AdminSectionController extends AdminController
         // Préserver tous les filtres lors de la redirection
         $params = [
             'page' => 'adminSection',
-            'filter' => $_GET['filter'] ?? 'active',
-            'role' => $_GET['role'] ?? 'all',
+            'filter' => $this->request->get('filter', 'active'),
+            'role' => $this->request->get('role', 'all'),
         ];
 
-        if (!empty($_GET['search'])) {
-            $params['search'] = $_GET['search'];
+        $search = $this->request->get('search');
+        if (!empty($search)) {
+            $params['search'] = $search;
         }
 
-        if (!empty($_GET['p'])) {
-            $params['p'] = $_GET['p'];
+        $p = $this->request->get('p');
+        if (!empty($p)) {
+            $params['p'] = $p;
         }
 
         header('Location: index.php?' . http_build_query($params));

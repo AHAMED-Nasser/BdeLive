@@ -1,5 +1,14 @@
 <?php
 /**
+ * Event Details View
+ *
+ * Displays detailed information about a specific event including
+ * description, date, time, location, registration options, and admin controls.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var bool $isAdmin
  * @var array<string, mixed> $event
  * @var int|null $userId

@@ -1,5 +1,14 @@
 <?php
 /**
+ * Create Article View
+ *
+ * Displays the form for creating a new article/news post
+ * with title, content, author, and optional image upload.
+ *
+ * @package BdeLive\Views\Articles
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash

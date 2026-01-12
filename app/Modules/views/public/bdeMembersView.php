@@ -1,6 +1,13 @@
 <?php
 /**
- * Vue : Liste des Membres du BDE (sans photos)
+ * BDE Members View
+ *
+ * Displays the list of current BDE board members and honorary members
+ * with their roles and descriptions (without photos).
+ *
+ * @package BdeLive\Views\Public
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var array<string, mixed>|null $user
  * @var array<int, array<string, string>>|null $bdeMembers

@@ -7,10 +7,10 @@ namespace App\Modules\Controllers\Public;
 use App\Modules\Controllers\AuthenticatedController;
 
 /**
- * AboutController - Affiche la page d'information "À propos" pour les membres.
+ * AboutController - Displays the "About" information page for members
  *
- * Hérite d'AuthenticatedController pour s'assurer que seuls les membres connectés
- * peuvent y accéder. Les utilisateurs non connectés seront redirigés.
+ * Extends AuthenticatedController to ensure only logged-in members
+ * can access this page. Unauthenticated users will be redirected.
  *
  * @package BdeLive\Controllers
  * @version 1.0.0
@@ -18,12 +18,14 @@ use App\Modules\Controllers\AuthenticatedController;
  */
 class AboutController extends AuthenticatedController
 {
-    // Dans le constructeur de tes contrôleurs :
+    /**
+     * Constructor - Initializes the controller and renders the About view
+     */
     public function __construct()
     {
         parent::__construct();
 
-        // Charge la vue de la page "À propos" sans les photos
+        // Load the "About" page view without photos
         $this->render('public/aboutView');
     }
 }

@@ -1,6 +1,13 @@
 <?php
 /**
- * Affiche un carousel d’images.
+ * Carousel Component
+ *
+ * Reusable carousel component for displaying sliding image content.
+ * Used on homepage and other pages for featured content display.
+ *
+ * @package BdeLive\Views\Shared
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @param string $carouselLabel
  * @param array<int, array{src: string, alt?: string}> $imageMap

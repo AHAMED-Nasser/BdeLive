@@ -1,11 +1,18 @@
 <?php
 /**
- * Vue pour la modification d'un événement
+ * Update Event Page View
+ *
+ * Displays the form for editing an existing event.
+ * Pre-populates fields with current event data and handles image management.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
- * @var array<string, mixed> $event L'événement à modifier (passé par UpdateEventController)
+ * @var array<string, mixed> $event The event to modify (passed by UpdateEventController)
  */
 start_page("Modifier l'événement : " . htmlspecialchars($event['event_name']), true, $user ?? null);
 
