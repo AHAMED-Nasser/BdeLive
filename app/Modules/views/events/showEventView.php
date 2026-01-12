@@ -86,16 +86,13 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
-            <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
         <?php elseif (!isset($userId)) : ?>
             <p>Veuillez vous <a href="index.php?page=login"
                     style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
-
         <?php endif; ?>
     </div>
 
-    <?php if ($isAdmin) : ?>
+    <?php if ($userId && $isAdmin) : ?>
         <div class="admin-zone">
             <h2>Administration de l'événement</h2>
             <div class="admin-zone-actions">
