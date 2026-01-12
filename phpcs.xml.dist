@@ -22,6 +22,9 @@
     <!-- Ignore files that intentionally contain no PHP code -->
     <exclude-pattern>app/modules/models/public/PaginationModel.php</exclude-pattern>
 
+    <!-- Explicitly exclude assets directory (contains JS/CSS files that PHPCS cannot analyze) -->
+    <exclude-pattern>app/assets</exclude-pattern>
+
     <!-- Coding style settings -->
     <arg name="extensions" value="php"/>
 </ruleset>
