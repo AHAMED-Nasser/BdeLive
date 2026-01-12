@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Core\Exception\AuthenticationException;
 use App\Modules\Controllers\AuthenticatedController;
 use App\Modules\Models\Users\UserManager;
 use App\Modules\Models\Users\PrivacyManager;
@@ -63,6 +64,7 @@ class PrivacyController extends AuthenticatedController
      * - default: Display privacy page
      *
      * @return void
+     * @throws AuthenticationException
      */
     public function __construct()
     {
