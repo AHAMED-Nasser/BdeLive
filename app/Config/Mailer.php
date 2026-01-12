@@ -112,7 +112,7 @@ class Mailer
 
             // Construire l'URL de vérification
             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') .
-                       '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+                '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
             $verifyUrl = rtrim($baseUrl, '/') . '/index.php?page=verify_email&token=' . urlencode($token);
 
             $mail->Body = $this->getVerificationEmailHTML($to_name, $verifyUrl);
@@ -982,6 +982,366 @@ Cordialement,
 L'équipe du BDE Inform'Aix
 
 Cet email a été envoyé automatiquement
+TEXT;
+    }
+
+    /**
+     * Send a team invitation email for group registration
+     *
+     * Sends an email inviting someone to join a team for a group event.
+     *
+     * @param string $to_email Recipient email address
+     * @param string $to_name Recipient name
+     * @param string $token Validation token
+     * @param string $eventName Name of the event
+     * @param string $creatorName Name of the team creator
+     * @param int $teamNumber Team number
+     * @param int $teamSize Total team size
+     * @return bool True if email sent successfully, false otherwise
+     */
+    public function sendTeamInvitationEmail(
+        string $to_email,
+        string $to_name,
+        string $token,
+        string $eventName,
+        string $creatorName,
+        int $teamNumber,
+        int $teamSize
+    ): bool {
+        try {
+            $mail = new PHPMailer(true);
+
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bdelivesae@alwaysdata.net';
+            $mail->Password = 'bdelive+6';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($this->from_email, $this->from_name);
+            $mail->addAddress($to_email, $to_name);
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = "Invitation à rejoindre le Groupe {$teamNumber} - {$eventName} - BDE Inform'Aix";
+
+            // Build validation URL
+            $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') .
+                '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
+            $validationUrl = rtrim($baseUrl, '/') . '/index.php?page=validateTeamInvitation&token=' . urlencode($token);
+
+            $mail->Body = $this->getTeamInvitationEmailHTML($to_name, $eventName, $creatorName, $teamNumber, $teamSize, $validationUrl);
+            $mail->AltBody = $this->getTeamInvitationEmailText($to_name, $eventName, $creatorName, $teamNumber, $teamSize, $validationUrl);
+
+            $mail->send();
+            error_log("Mailer::sendTeamInvitationEmail - Email sent to: " . $to_email);
+            return true;
+        } catch (PHPMailerException $e) {
+            error_log("Mailer::sendTeamInvitationEmail (PHPMailer) - " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Mailer::sendTeamInvitationEmail - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Generate HTML email content for team invitation
+     *
+     * @param string $name Recipient name
+     * @param string $eventName Event name
+     * @param string $creatorName Team creator name
+     * @param int $teamNumber Team number
+     * @param int $teamSize Team size
+     * @param string $validationUrl Validation URL
+     * @return string Email content in HTML format
+     */
+    private function getTeamInvitationEmailHTML(
+        string $name,
+        string $eventName,
+        string $creatorName,
+        int $teamNumber,
+        int $teamSize,
+        string $validationUrl
+    ): string {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $escapedEventName = htmlspecialchars($eventName, ENT_QUOTES, 'UTF-8');
+        $escapedCreatorName = htmlspecialchars($creatorName, ENT_QUOTES, 'UTF-8');
+        $escapedUrl = htmlspecialchars($validationUrl, ENT_QUOTES, 'UTF-8');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitation à rejoindre un groupe</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f7fa;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f5f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 600px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px;">👥 Invitation au Groupe {$teamNumber}</h1>
+                            <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px;">BDE Inform'Aix</p>
+                        </td>
+                    </tr>
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding: 40px;">
+                            <p style="margin: 0 0 20px 0; color: #2d3748; font-size: 18px;">
+                                Bonjour <strong>{$escapedName}</strong>,
+                            </p>
+                            <p style="margin: 0 0 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                <strong>{$escapedCreatorName}</strong> vous invite à rejoindre son groupe pour l'événement :
+                            </p>
+                            
+                            <!-- Event box -->
+                            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 10px; margin: 25px 0; text-align: center;">
+                                <h2 style="margin: 0; color: #ffffff; font-size: 22px;">{$escapedEventName}</h2>
+                                <p style="margin: 15px 0 0 0; color: rgba(255,255,255,0.9);">
+                                    🏆 Groupe {$teamNumber} • {$teamSize} membres
+                                </p>
+                            </div>
+                            
+                            <!-- CTA Button -->
+                            <div style="text-align: center; margin: 35px 0;">
+                                <a href="{$escapedUrl}" style="display: inline-block; padding: 18px 40px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: #ffffff; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 17px; box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);">
+                                    ✓ Voir l'invitation et répondre
+                                </a>
+                            </div>
+                            
+                            <!-- Info box -->
+                            <div style="padding: 20px; background-color: #ebf8ff; border-left: 5px solid #3182ce; border-radius: 8px; margin: 25px 0;">
+                                <p style="margin: 0; color: #2c5282; font-size: 14px; line-height: 1.7;">
+                                    <strong>ℹ️ Comment ça fonctionne ?</strong><br>
+                                    En cliquant sur le bouton ci-dessus, vous pourrez voir les détails du groupe et choisir d'accepter ou de refuser l'invitation. Le groupe sera validé uniquement lorsque tous les membres auront confirmé leur participation.
+                                </p>
+                            </div>
+                            
+                            <!-- Warning box -->
+                            <div style="padding: 20px; background-color: #fffbeb; border-left: 5px solid #f59e0b; border-radius: 8px;">
+                                <p style="margin: 0; color: #92400e; font-size: 14px; line-height: 1.7;">
+                                    <strong>⚠️ Important :</strong><br>
+                                    Si vous refusez l'invitation, le groupe entier sera annulé. Les autres membres devront reformer un nouveau groupe.
+                                </p>
+                            </div>
+                            
+                            <!-- Alternative link -->
+                            <div style="margin-top: 30px; text-align: center;">
+                                <p style="margin: 0; color: #718096; font-size: 13px;">
+                                    Le bouton ne fonctionne pas ?<br>
+                                    Copiez ce lien : <a href="{$escapedUrl}" style="color: #667eea; word-break: break-all;">{$escapedUrl}</a>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 30px; text-align: center; border-top: 1px solid #e9ecef;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                L'équipe du BDE Inform'Aix<br>
+                                <span style="font-size: 12px; color: #adb5bd;">Cet email a été envoyé automatiquement</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+HTML;
+    }
+
+    /**
+     * Generate plain text email content for team invitation
+     *
+     * @param string $name Recipient name
+     * @param string $eventName Event name
+     * @param string $creatorName Team creator name
+     * @param int $teamNumber Team number
+     * @param int $teamSize Team size
+     * @param string $validationUrl Validation URL
+     * @return string Email content in plain text
+     */
+    private function getTeamInvitationEmailText(
+        string $name,
+        string $eventName,
+        string $creatorName,
+        int $teamNumber,
+        int $teamSize,
+        string $validationUrl
+    ): string {
+        return <<<TEXT
+👥 INVITATION AU GROUPE {$teamNumber} - BDE INFORM'AIX
+
+Bonjour {$name},
+
+{$creatorName} vous invite à rejoindre son groupe pour l'événement :
+
+🎉 {$eventName}
+🏆 Groupe {$teamNumber} • {$teamSize} membres
+
+VOIR L'INVITATION ET RÉPONDRE :
+{$validationUrl}
+
+COMMENT ÇA FONCTIONNE ?
+En cliquant sur le lien ci-dessus, vous pourrez voir les détails du groupe et choisir d'accepter ou de refuser l'invitation. Le groupe sera validé uniquement lorsque tous les membres auront confirmé leur participation.
+
+IMPORTANT :
+Si vous refusez l'invitation, le groupe entier sera annulé. Les autres membres devront reformer un nouveau groupe.
+
+Cordialement,
+L'équipe du BDE Inform'Aix
+
+Cet email a été envoyé automatiquement
+TEXT;
+    }
+
+    /**
+     * Send a notification email to the group creator when all members confirmed
+     *
+     * Notifies the creator that the team is now fully confirmed and registered
+     * for the event.
+     *
+     * @param string $to_email Creator's email address
+     * @param string $to_name Creator's name
+     * @param string $eventName Name of the event
+     * @param int $teamNumber Team/group number
+     * @return bool True if email sent successfully, false otherwise
+     */
+    public function sendTeamConfirmedEmail(
+        string $to_email,
+        string $to_name,
+        string $eventName,
+        int $teamNumber
+    ): bool {
+        try {
+            $mail = new PHPMailer(true);
+
+            // SMTP Configuration
+            $mail->isSMTP();
+            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'bdelivesae@alwaysdata.net';
+            $mail->Password = 'bdelive+6';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            $mail->setFrom($this->from_email, $this->from_name);
+            $mail->addAddress($to_email, $to_name);
+
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';
+            $mail->Subject = 'Groupe confirme - ' . $eventName . ' - BDE Inform\'Aix';
+            $mail->Body = $this->getTeamConfirmedEmailHTML($to_name, $eventName, $teamNumber);
+            $mail->AltBody = $this->getTeamConfirmedEmailText($to_name, $eventName, $teamNumber);
+
+            $mail->send();
+            error_log("Mailer::sendTeamConfirmedEmail - Sent to: " . $to_email);
+            return true;
+        } catch (PHPMailerException $e) {
+            error_log("Mailer::sendTeamConfirmedEmail (PHPMailer) - " . $e->getMessage());
+            return false;
+        } catch (Exception $e) {
+            error_log("Mailer::sendTeamConfirmedEmail - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Generate HTML email content for team confirmed notification
+     *
+     * @param string $name Creator's name
+     * @param string $eventName Event name
+     * @param int $teamNumber Team number
+     * @return string Email content in HTML format
+     */
+    private function getTeamConfirmedEmailHTML(string $name, string $eventName, int $teamNumber): string
+    {
+        $escapedName = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $escapedEvent = htmlspecialchars($eventName, ENT_QUOTES, 'UTF-8');
+
+        return <<<HTML
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupe confirme</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f5f7fa;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; background-color: #f5f7fa; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 500px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 40px; text-align: center;">
+                            <h1 style="margin: 0; color: #ffffff; font-size: 24px;">Groupe {$teamNumber} confirme</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 40px; text-align: center;">
+                            <p style="margin: 0 0 20px 0; color: #2d3748; font-size: 18px;">
+                                Bonjour <strong>{$escapedName}</strong>,
+                            </p>
+                            <p style="margin: 0 0 25px 0; color: #4a5568; font-size: 16px; line-height: 1.7;">
+                                Tous les membres de votre groupe ont confirme leur participation.
+                            </p>
+                            <div style="padding: 20px; background-color: #d4edda; border-radius: 8px; margin: 20px 0;">
+                                <p style="margin: 0; color: #155724; font-size: 16px; font-weight: bold;">
+                                    Votre groupe est maintenant inscrit a :
+                                </p>
+                                <p style="margin: 10px 0 0 0; color: #155724; font-size: 18px;">
+                                    {$escapedEvent}
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="background-color: #f8f9fa; padding: 25px; text-align: center; border-top: 1px solid #e9ecef;">
+                            <p style="margin: 0; color: #6c757d; font-size: 14px;">
+                                L'equipe du BDE Inform'Aix
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+HTML;
+    }
+
+    /**
+     * Generate plain text email content for team confirmed notification
+     *
+     * @param string $name Creator's name
+     * @param string $eventName Event name
+     * @param int $teamNumber Team number
+     * @return string Email content in plain text
+     */
+    private function getTeamConfirmedEmailText(string $name, string $eventName, int $teamNumber): string
+    {
+        return <<<TEXT
+GROUPE {$teamNumber} CONFIRME - BDE INFORM'AIX
+
+Bonjour {$name},
+
+Tous les membres de votre groupe ont confirme leur participation.
+
+Votre groupe est maintenant inscrit a :
+{$eventName}
+
+Cordialement,
+L'equipe du BDE Inform'Aix
 TEXT;
     }
 }

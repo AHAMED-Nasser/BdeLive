@@ -6,6 +6,7 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AuthenticatedController;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Modules\Repositories\EventTeamRepository;
 
 /**
  * RegisterEventController - Event Registration Management
@@ -15,13 +16,13 @@ use App\Modules\Repositories\EventRegistrationRepository;
  *
  * Features:
  * - User registration to events
- * - User unregistration from events
+ * - User unregistration from events (deletes entire team if group event)
  * - Duplicate registration prevention
  * - User authentication verification
  * - Success/error feedback with flash messages
  *
  * @package BdeLive\Controllers\Events
- * @version 1.0.0
+ * @version 1.1.0
  * @author BdeLive Team
  *
  * @see AuthenticatedController For authentication requirements
@@ -35,6 +36,13 @@ class RegisterEventController extends AuthenticatedController
      * @var EventRegistrationRepository
      */
     private EventRegistrationRepository $repo;
+
+    /**
+     * Event team repository instance
+     *
+     * @var EventTeamRepository
+     */
+    private EventTeamRepository $teamRepo;
 
     /**
      * Constructor - Handle event registration actions
@@ -51,6 +59,7 @@ class RegisterEventController extends AuthenticatedController
     {
         parent::__construct();
         $this->repo = new EventRegistrationRepository();
+        $this->teamRepo = new EventTeamRepository();
 
         $action = $this->request->get('action', '');
         $eventId = (int) $this->request->get('event_id', 0);
@@ -98,7 +107,8 @@ class RegisterEventController extends AuthenticatedController
     /**
      * Unregister the current user from an event
      *
-     * Verifies user is registered before removing them from the event.
+     * If user is part of a team, the entire team is deleted.
+     * All team members are unregistered when any member leaves.
      *
      * @param int $eventId The event ID to unregister from
      * @return void Redirects to event page with flash message
@@ -118,8 +128,19 @@ class RegisterEventController extends AuthenticatedController
             return;
         }
 
-        $this->repo->unregisterUser($eventId, $userId);
-        $this->redirectWithMessage($eventId, 'Désinscription réussie');
+        // Check if user is part of a team
+        $teamId = $this->repo->getTeamIdByUserAndEvent($userId, $eventId);
+
+        if ($teamId !== null) {
+            // User is in a team - delete entire team and all member registrations
+            $this->repo->deleteRegistrationsByTeam($teamId);
+            $this->teamRepo->deleteTeam($teamId);
+            $this->redirectWithMessage($eventId, 'Désinscription réussie. Le groupe entier a été supprimé.');
+        } else {
+            // Individual registration
+            $this->repo->unregisterUser($eventId, $userId);
+            $this->redirectWithMessage($eventId, 'Désinscription réussie');
+        }
     }
 
     /**

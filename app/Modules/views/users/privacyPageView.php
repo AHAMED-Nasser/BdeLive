@@ -96,11 +96,12 @@ $step = $_GET['step'] ?? null;
                     <?php if ($editField === 'email' && $step === 'verify') : ?>
                         <!-- Step 2: Enter verification code sent to new email -->
                         <div class="profile-field-header">
-                            <span class="profile-field-label"><i class="fas fa-envelope"></i> Vérification de la nouvelle adresse</span>
+                            <span class="profile-field-label"><i class="fas fa-envelope"></i> Vérification de la nouvelle
+                                adresse</span>
                         </div>
                         <form method="POST" action="index.php?page=privacy&action=verifyEmailCode" class="profile-edit-form">
                             <?= $csrf->getTokenField() ?>
-                            
+
                             <?php if ($pendingEmail) : ?>
                                 <div class="privacy-current-value">
                                     <span>Nouvelle adresse : </span>
@@ -112,19 +113,12 @@ $step = $_GET['step'] ?? null;
                                 <label class="privacy-label">
                                     <i class="fas fa-shield-alt"></i> Code de vérification (6 chiffres)
                                 </label>
-                                <input 
-                                    type="text" 
-                                    name="verification_code" 
-                                    class="profile-input privacy-code-input" 
-                                    placeholder="000000"
-                                    maxlength="6"
-                                    pattern="[0-9]{6}"
-                                    required
-                                    autofocus
-                                >
+                                <input type="text" name="verification_code" class="profile-input privacy-code-input"
+                                    placeholder="000000" maxlength="6" pattern="[0-9]{6}" required autofocus>
                                 <div class="privacy-notice">
                                     <i class="fas fa-envelope"></i>
-                                    <span>Un code a été envoyé à votre nouvelle adresse email pour vérifier qu'elle existe.</span>
+                                    <span>Un code a été envoyé à votre nouvelle adresse email pour vérifier qu'elle
+                                        existe.</span>
                                 </div>
                             </div>
 
@@ -147,13 +141,16 @@ $step = $_GET['step'] ?? null;
                                     <span>Nombre maximum de renvois atteint.</span>
                                 </div>
                             <?php else : ?>
-                                <form method="POST" action="index.php?page=privacy&action=resendEmailCode" class="privacy-resend-form" id="email-resend-form">
+                                <form method="POST" action="index.php?page=privacy&action=resendEmailCode"
+                                    class="privacy-resend-form" id="email-resend-form">
                                     <?= $csrf->getTokenField() ?>
-                                    <button type="submit" class="privacy-resend-btn" id="email-resend-btn" <?= !$emailResendStatus['can_resend'] ? 'disabled' : '' ?>>
-                                        <i class="fas fa-redo"></i> 
+                                    <button type="submit" class="privacy-resend-btn" id="email-resend-btn"
+                                        <?= !$emailResendStatus['can_resend'] ? 'disabled' : '' ?>>
+                                        <i class="fas fa-redo"></i>
                                         <span id="email-resend-text">
                                             <?php if (!$emailResendStatus['can_resend']) : ?>
-                                                Renvoyer dans <span id="email-countdown"><?= $emailResendStatus['wait_seconds'] ?></span>s
+                                                Renvoyer dans <span
+                                                    id="email-countdown"><?= $emailResendStatus['wait_seconds'] ?></span>s
                                             <?php else : ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
@@ -179,29 +176,19 @@ $step = $_GET['step'] ?? null;
                                 <span>Email actuel : </span>
                                 <strong><?= htmlspecialchars($user['email'] ?? 'Non renseigné') ?></strong>
                             </div>
-                            <input 
-                                type="email" 
-                                name="new_email" 
-                                class="profile-input" 
-                                placeholder="Nouvelle adresse email"
-                                required
-                                autofocus
-                            >
+                            <input type="email" name="new_email" class="profile-input" placeholder="Nouvelle adresse email"
+                                required autofocus>
                             <div class="privacy-password-confirm">
                                 <label class="privacy-label">
                                     <i class="fas fa-key"></i> Confirmez avec votre mot de passe
                                 </label>
-                                <input 
-                                    type="password" 
-                                    name="password" 
-                                    class="profile-input" 
-                                    placeholder="Votre mot de passe actuel"
-                                    required
-                                >
+                                <input type="password" name="password" class="profile-input"
+                                    placeholder="Votre mot de passe actuel" required>
                             </div>
                             <div class="privacy-notice privacy-notice-info">
                                 <i class="fas fa-info-circle"></i>
-                                <span>Un code de vérification sera envoyé à votre nouvelle adresse email pour confirmer qu'elle existe.</span>
+                                <span>Un code de vérification sera envoyé à votre nouvelle adresse email pour confirmer qu'elle
+                                    existe.</span>
                             </div>
                             <div class="profile-form-actions">
                                 <button type="submit" class="profile-btn-save">
@@ -234,21 +221,13 @@ $step = $_GET['step'] ?? null;
                         </div>
                         <form method="POST" action="index.php?page=privacy&action=verifyPasswordCode" class="profile-edit-form">
                             <?= $csrf->getTokenField() ?>
-                            
+
                             <div class="privacy-code-section">
                                 <label class="privacy-label">
                                     <i class="fas fa-shield-alt"></i> Code de vérification (6 chiffres)
                                 </label>
-                                <input 
-                                    type="text" 
-                                    name="verification_code" 
-                                    class="profile-input privacy-code-input" 
-                                    placeholder="000000"
-                                    maxlength="6"
-                                    pattern="[0-9]{6}"
-                                    required
-                                    autofocus
-                                >
+                                <input type="text" name="verification_code" class="profile-input privacy-code-input"
+                                    placeholder="000000" maxlength="6" pattern="[0-9]{6}" required autofocus>
                                 <div class="privacy-notice">
                                     <i class="fas fa-envelope"></i>
                                     <span>Un code a été envoyé à votre adresse email.</span>
@@ -259,20 +238,10 @@ $step = $_GET['step'] ?? null;
                                 <label class="privacy-label">
                                     <i class="fas fa-lock"></i> Nouveau mot de passe
                                 </label>
-                                <input 
-                                    type="password" 
-                                    name="new_password" 
-                                    class="profile-input" 
-                                    placeholder="Nouveau mot de passe"
-                                    required
-                                >
-                                <input 
-                                    type="password" 
-                                    name="confirm_password" 
-                                    class="profile-input" 
-                                    placeholder="Confirmer le nouveau mot de passe"
-                                    required
-                                >
+                                <input type="password" name="new_password" class="profile-input"
+                                    placeholder="Nouveau mot de passe" required>
+                                <input type="password" name="confirm_password" class="profile-input"
+                                    placeholder="Confirmer le nouveau mot de passe" required>
                                 <div class="privacy-password-requirements">
                                     <p><strong>Le mot de passe doit contenir :</strong></p>
                                     <ul>
@@ -280,7 +249,8 @@ $step = $_GET['step'] ?? null;
                                         <li><i class="fas fa-check-circle"></i> Au moins 1 lettre majuscule</li>
                                         <li><i class="fas fa-check-circle"></i> Au moins 1 chiffre</li>
                                         <li><i class="fas fa-check-circle"></i> Au moins 1 caractère spécial</li>
-                                        <li><i class="fas fa-exclamation-circle"></i> Être différent de l'ancien mot de passe</li>
+                                        <li><i class="fas fa-exclamation-circle"></i> Être différent de l'ancien mot de passe
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -304,13 +274,16 @@ $step = $_GET['step'] ?? null;
                                     <span>Nombre maximum de renvois atteint.</span>
                                 </div>
                             <?php else : ?>
-                                <form method="POST" action="index.php?page=privacy&action=resendPasswordCode" class="privacy-resend-form" id="password-resend-form">
+                                <form method="POST" action="index.php?page=privacy&action=resendPasswordCode"
+                                    class="privacy-resend-form" id="password-resend-form">
                                     <?= $csrf->getTokenField() ?>
-                                    <button type="submit" class="privacy-resend-btn" id="password-resend-btn" <?= !$passwordResendStatus['can_resend'] ? 'disabled' : '' ?>>
-                                        <i class="fas fa-redo"></i> 
+                                    <button type="submit" class="privacy-resend-btn" id="password-resend-btn"
+                                        <?= !$passwordResendStatus['can_resend'] ? 'disabled' : '' ?>>
+                                        <i class="fas fa-redo"></i>
                                         <span id="password-resend-text">
                                             <?php if (!$passwordResendStatus['can_resend']) : ?>
-                                                Renvoyer dans <span id="password-countdown"><?= $passwordResendStatus['wait_seconds'] ?></span>s
+                                                Renvoyer dans <span
+                                                    id="password-countdown"><?= $passwordResendStatus['wait_seconds'] ?></span>s
                                             <?php else : ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
@@ -330,11 +303,13 @@ $step = $_GET['step'] ?? null;
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-key"></i> Modification du mot de passe</span>
                         </div>
-                        <form method="POST" action="index.php?page=privacy&action=requestPasswordCode" class="profile-edit-form">
+                        <form method="POST" action="index.php?page=privacy&action=requestPasswordCode"
+                            class="profile-edit-form">
                             <?= $csrf->getTokenField() ?>
                             <div class="privacy-notice privacy-notice-info">
                                 <i class="fas fa-info-circle"></i>
-                                <span>Pour modifier votre mot de passe, un code de vérification à 6 chiffres sera envoyé à votre adresse email.</span>
+                                <span>Pour modifier votre mot de passe, un code de vérification à 6 chiffres sera envoyé à votre
+                                    adresse email.</span>
                             </div>
                             <div class="profile-form-actions">
                                 <button type="submit" class="profile-btn-save">
@@ -368,60 +343,60 @@ $step = $_GET['step'] ?? null;
 
 <!-- JavaScript for real-time countdown -->
 <script>
-(function() {
-    'use strict';
-    
-    /**
-     * Initialize countdown timer for resend button
-     * @param {string} type - 'email' or 'password'
-     * @param {number} initialSeconds - Initial countdown value in seconds
-     */
-    function initCountdown(type, initialSeconds) {
-        var countdownEl = document.getElementById(type + '-countdown');
-        var btnEl = document.getElementById(type + '-resend-btn');
-        var textEl = document.getElementById(type + '-resend-text');
-        
-        if (!countdownEl || !btnEl || !textEl || initialSeconds <= 0) {
-            return;
-        }
-        
-        var seconds = initialSeconds;
-        
-        var interval = setInterval(function() {
-            seconds--;
-            
-            if (seconds <= 0) {
-                clearInterval(interval);
-                btnEl.disabled = false;
-                textEl.innerHTML = 'Renvoyer le code';
-                btnEl.classList.add('privacy-resend-btn-ready');
-            } else {
-                countdownEl.textContent = seconds;
+    (function () {
+        'use strict';
+
+        /**
+         * Initialize countdown timer for resend button
+         * @param {string} type - 'email' or 'password'
+         * @param {number} initialSeconds - Initial countdown value in seconds
+         */
+        function initCountdown(type, initialSeconds) {
+            var countdownEl = document.getElementById(type + '-countdown');
+            var btnEl = document.getElementById(type + '-resend-btn');
+            var textEl = document.getElementById(type + '-resend-text');
+
+            if (!countdownEl || !btnEl || !textEl || initialSeconds <= 0) {
+                return;
             }
-        }, 1000);
-    }
-    
-    // Initialize countdowns on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Email countdown
-        var emailCountdown = document.getElementById('email-countdown');
-        if (emailCountdown) {
-            var emailSeconds = parseInt(emailCountdown.textContent, 10);
-            if (!isNaN(emailSeconds) && emailSeconds > 0) {
-                initCountdown('email', emailSeconds);
-            }
+
+            var seconds = initialSeconds;
+
+            var interval = setInterval(function () {
+                seconds--;
+
+                if (seconds <= 0) {
+                    clearInterval(interval);
+                    btnEl.disabled = false;
+                    textEl.innerHTML = 'Renvoyer le code';
+                    btnEl.classList.add('privacy-resend-btn-ready');
+                } else {
+                    countdownEl.textContent = seconds;
+                }
+            }, 1000);
         }
-        
-        // Password countdown
-        var passwordCountdown = document.getElementById('password-countdown');
-        if (passwordCountdown) {
-            var passwordSeconds = parseInt(passwordCountdown.textContent, 10);
-            if (!isNaN(passwordSeconds) && passwordSeconds > 0) {
-                initCountdown('password', passwordSeconds);
+
+        // Initialize countdowns on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Email countdown
+            var emailCountdown = document.getElementById('email-countdown');
+            if (emailCountdown) {
+                var emailSeconds = parseInt(emailCountdown.textContent, 10);
+                if (!isNaN(emailSeconds) && emailSeconds > 0) {
+                    initCountdown('email', emailSeconds);
+                }
             }
-        }
-    });
-})();
+
+            // Password countdown
+            var passwordCountdown = document.getElementById('password-countdown');
+            if (passwordCountdown) {
+                var passwordSeconds = parseInt(passwordCountdown.textContent, 10);
+                if (!isNaN(passwordSeconds) && passwordSeconds > 0) {
+                    initCountdown('password', passwordSeconds);
+                }
+            }
+        });
+    })();
 </script>
 
 <?php

@@ -26,15 +26,15 @@ class EventCreationModelTest extends TestCase
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-        
+
         $mockDatabase = $this->createMock(Database::class);
         $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
-        
+
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->model = new EventCreationModel();
     }
 
@@ -56,6 +56,8 @@ class EventCreationModelTest extends TestCase
         $statusParticipating = 'BUT 1,BUT 2';
         $description = 'Test description';
         $images = '["image1.jpg","image2.jpg"]';
+        $isGroupEvent = false;
+        $teamSize = 1;
 
         $this->mockStmt->expects($this->once())
             ->method('execute')
@@ -67,7 +69,9 @@ class EventCreationModelTest extends TestCase
                 ':event_theme' => $eventTheme,
                 ':status_participating' => $statusParticipating,
                 ':description' => $description,
-                ':images' => $images
+                ':images' => $images,
+                ':is_group_event' => 0,
+                ':team_size' => 1
             ])
             ->willReturn(true);
 
@@ -83,7 +87,9 @@ class EventCreationModelTest extends TestCase
             $eventTheme,
             $statusParticipating,
             $description,
-            $images
+            $images,
+            $isGroupEvent,
+            $teamSize
         );
 
         $this->assertTrue($result);
@@ -184,7 +190,7 @@ class EventCreationModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) {
                 return $params[':event_date'] === '2025-01-01' &&
-                       $params[':event_time'] === '23:59';
+                    $params[':event_time'] === '23:59';
             }))
             ->willReturn(true);
 
