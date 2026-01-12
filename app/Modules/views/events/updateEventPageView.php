@@ -58,8 +58,41 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)"
                        value="<?= htmlspecialchars($event['event_theme']) ?>">
 
-                <fieldset class="checkbox-container">
-                    <legend class="form-label">Qui peut venir</legend>
+                <!-- Type d'inscription -->
+                <?php
+                $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+                $teamSize = (int) ($event['team_size'] ?? 1);
+                $teamCount = $teamCount ?? 0;
+                ?>
+                <label>Type d'inscription</label>
+
+                <?php if ($teamCount > 0) : ?>
+                <div class="alert alert-warning" style="background-color: #fff3cd; border: 1px solid #ffc107; color: #856404; padding: 12px; border-radius: 5px; margin-bottom: 15px;">
+                    <strong>Attention :</strong> Cet evenement a <?= $teamCount ?> groupe(s) inscrit(s).
+                    Modifier le type d'inscription ou la taille des groupes supprimera tous les groupes inscrits.
+                </div>
+                <?php endif; ?>
+
+                <div class="checkbox-container">
+                    <article>
+                        <input id="event-solo" type="radio" name="event_type" value="solo" <?= !$isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
+                        <label for="event-solo">Inscription individuelle</label>
+                    </article>
+                    <article>
+                        <input id="event-group" type="radio" name="event_type" value="group" <?= $isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
+                        <label for="event-group">Inscription en groupe</label>
+                    </article>
+                </div>
+
+                <!-- Taille de l'équipe -->
+                <div id="team-size-container" style="<?= $isGroupEvent ? 'display: block;' : 'display: none;' ?> margin-top: 15px;">
+                    <label for="team-size">Nombre de personnes par groupe</label>
+                    <input id="team-size" type="number" name="team_size" min="2" max="20" value="<?= $teamSize > 1 ? $teamSize : 2 ?>" placeholder="Ex: 4">
+                    <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour former un groupe</small>
+                </div>
+
+                <label for="status_participating">Qui peut venir</label>
+                <div class="checkbox-container">
                     <?php
                     $statuses = ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'];
                     foreach ($statuses as $status) :
@@ -74,7 +107,7 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                             <label for="<?= strtolower(str_replace(' ', '', $status)) ?>"><?= htmlspecialchars($status) ?></label>
                         </article>
                     <?php endforeach; ?>
-                </fieldset>
+                </div>
 
                 <label for="description">Description de l'événement</label>
                 <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event['description']) ?></textarea>
@@ -117,5 +150,27 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
 
         </div>
     </section>
+
+<script>
+    // Toggle team size visibility based on event type
+    function toggleTeamSizeUpdate() {
+        const isGroup = document.getElementById('event-group').checked;
+        const container = document.getElementById('team-size-container');
+        const teamSizeInput = document.getElementById('team-size');
+        container.style.display = isGroup ? 'block' : 'none';
+        if (!isGroup) {
+            // Set to valid value and remove min constraint to prevent hidden field validation error
+            teamSizeInput.value = '2';
+            teamSizeInput.removeAttribute('min');
+            teamSizeInput.removeAttribute('required');
+        } else {
+            // Restore constraints for group mode
+            teamSizeInput.setAttribute('min', '2');
+            if (teamSizeInput.value < 2) {
+                teamSizeInput.value = '2';
+            }
+        }
+    }
+</script>
 
 <?php end_page() ?>
