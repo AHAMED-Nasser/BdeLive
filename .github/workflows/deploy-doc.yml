@@ -1,0 +1,28 @@
+name: Deploy Documentation
+on:
+  push:
+    branches: [ main, dev ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: intl, xsl
+
+      - name: Generate Doc
+        run: |
+          curl -LO https://phpdoc.org/phpDocumentor.phar
+          php phpDocumentor.phar -d ./app -t ./public_doc --config=none
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public_doc # Le dossier généré à publier
+          branch: gh-pages   # La branche où GitHub Pages va lire le site

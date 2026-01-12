@@ -67,3 +67,7 @@ app/config/*.local.php
 .gemini/
 gha-creds-*.json
 pentest_results/
+
+# Ignore docbuilder
+phpDocumentor.phar
+/docs/api/
