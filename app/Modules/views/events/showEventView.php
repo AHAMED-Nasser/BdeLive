@@ -23,7 +23,7 @@ $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
 ?>
 
-<link rel="stylesheet" href="app/assets/css/event-show.css">
+<link rel="stylesheet" href="assets/css/event-show.css">
 
 <div class="container event-detail-page">
     <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event['event_name']) ?></h1>

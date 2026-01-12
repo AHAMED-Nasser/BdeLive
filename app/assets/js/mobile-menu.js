@@ -1,11 +1,11 @@
 /**
  * Mobile Menu Handler
- * 
+ *
  * Manages the mobile sidebar menu behavior:
  * - Closes menu when clicking on navigation links
  * - Prevents body scroll when menu is open
  * - Handles menu toggle state
- * 
+ *
  * @author BdeLive Team
  * @version 1.0.0
  */

@@ -1,9 +1,9 @@
 /**
  * Privacy Page - Countdown Timer for Resend Buttons
- * 
+ *
  * Manages countdown timers for email and password verification code resend buttons.
  * Prevents users from spamming resend requests by enforcing a cooldown period.
- * 
+ *
  * @author BdeLive Team
  * @version 1.0.0
  */
@@ -15,7 +15,8 @@
      * @param {string} type - 'email' or 'password'
      * @param {number} initialSeconds - Initial countdown value in seconds
      */
-    function initCountdown(type, initialSeconds) {
+    function initCountdown(type, initialSeconds)
+    {
         var countdownEl = document.getElementById(type + '-countdown');
         var btnEl = document.getElementById(type + '-resend-btn');
         var textEl = document.getElementById(type + '-resend-text');
