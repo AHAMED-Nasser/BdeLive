@@ -142,10 +142,15 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <div class="profile-dropdown-menu">
                             <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
                             <a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a>
-                            <a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a>
-                            <a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a>
+                            <?php
+                            // Vérification supplémentaire de sécurité pour les liens admin
+                            // @phpstan-ignore-next-line
+                            if ($isAdmin) : ?>
+                                <a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a>
+                                <a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a>
+                            <?php endif; ?>
                             <a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                             <a href="index.php?page=deleteAccount" class="dropdown-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a>
                         </div>
@@ -356,34 +361,7 @@ function end_page(): void
         <script src="./assets/js/dropImageArea.js"></script>
         
         <!-- Script pour fermer le menu mobile au clic sur un lien -->
-        <script>
-            (function() {
-                const menuToggle = document.getElementById('menu-toggle');
-                const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-                
-                if (menuToggle && sidebarLinks.length > 0) {
-                    sidebarLinks.forEach(link => {
-                        link.addEventListener('click', function() {
-                            // Fermer le menu après un court délai pour permettre la navigation
-                            setTimeout(function() {
-                                menuToggle.checked = false;
-                            }, 100);
-                        });
-                    });
-                }
-                
-                // Empêcher le scroll du body quand le menu est ouvert
-                if (menuToggle) {
-                    menuToggle.addEventListener('change', function() {
-                        if (this.checked) {
-                            document.body.style.overflow = 'hidden';
-                        } else {
-                            document.body.style.overflow = '';
-                        }
-                    });
-                }
-            })();
-        </script>
+        <script src="./app/assets/js/mobile-menu.js"></script>
 
     <?php
     // Display the cookie popup on all pages (autoload Composer)

@@ -29,48 +29,85 @@
     text-align: center;
     margin: 30px 0;
     padding: 20px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #4A4B56;
+    position: relative;
 }
 
-/* Group registration button */
+.dark-mode .registration-section {
+    border-top: 1px solid #4A4B56;
+}
+
+/* Group registration button - Light Mode */
 .btn-group-register {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background-color: #15803d;
+    color: #fff;
     border: none;
     padding: 14px 30px;
     border-radius: 8px;
     text-decoration: none;
     display: inline-block;
     font-weight: bold;
-    transition: transform 0.2s;
+    font-family: "JetBrains Mono", monospace;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn-group-register:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
 }
 
-/* Individual registration button */
-.btn-individual-register {
-    background-color: #28a745;
-    color: white;
+/* Group registration button - Dark Mode */
+.dark-mode .btn-group-register {
+    background-color: #39E07F;
+    color: #000;
+}
+
+.dark-mode .btn-group-register:hover {
+    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+}
+
+/* Individual registration button - Light Mode */
+.btn-individual-register,
+.registration-section .btn-success {
+    background-color: #15803d !important;
+    color: #fff !important;
     border: none;
-    padding: 12px 25px;
-    border-radius: 4px;
+    padding: 14px 30px;
+    border-radius: 8px;
     text-decoration: none;
     display: inline-block;
     font-weight: bold;
-    transition: background-color 0.2s;
+    font-family: "JetBrains Mono", monospace;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.btn-individual-register:hover {
-    background-color: #218838;
+.btn-individual-register:hover,
+.registration-section .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
+    background-color: #15803d !important;
+    color: #fff !important;
+    filter: none !important;
 }
 
-/* Admin zone */
+/* Individual registration button - Dark Mode */
+.dark-mode .btn-individual-register,
+.dark-mode .registration-section .btn-success {
+    background-color: #39E07F !important;
+    color: #000 !important;
+}
+
+.dark-mode .btn-individual-register:hover,
+.dark-mode .registration-section .btn-success:hover {
+    background-color: #39E07F !important;
+    color: #000 !important;
+    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+}
+
+/* Admin zone - Light Mode */
 .admin-zone {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
+    background: #f8f9fa !important;
+    border: 1px solid #ddd !important;
     padding: 25px;
     border-radius: 8px;
     text-align: center;
@@ -78,13 +115,163 @@
 }
 
 .admin-zone h2 {
-    color: var(--text-primary);
+    color: #333 !important;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Admin zone - Dark Mode */
+.dark-mode .admin-zone {
+    background: #20212C !important;
+    border: 1px solid #4A4B56 !important;
+}
+
+.dark-mode .admin-zone h2 {
+    color: #ffffff !important;
 }
 
 .admin-zone-actions {
     margin-top: 15px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
+    align-items: center;
+}
+
+/* Admin Event Buttons - Base Styles */
+.btn-edit,
+.btn-delete,
+.btn-view {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    white-space: nowrap;
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Button Colors - Light Mode */
+.btn-edit,
+.admin-zone .btn-edit {
+    background-color: #FFC107 !important;
+    color: #333 !important;
+}
+
+.btn-edit:hover,
+.admin-zone .btn-edit:hover {
+    background-color: #FFB300 !important;
+    color: #333 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.btn-delete,
+.admin-zone .btn-delete {
+    background-color: #D32F2F !important;
+    color: #fff !important;
+}
+
+.btn-delete:hover,
+.admin-zone .btn-delete:hover {
+    background-color: #C62828 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+}
+
+.btn-view,
+.admin-zone .btn-view {
+    background-color: #673AB7 !important;
+    color: #fff !important;
+}
+
+.btn-view:hover,
+.admin-zone .btn-view:hover {
+    background-color: #5E35B1 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
+}
+
+/* Button Colors - Dark Mode */
+.dark-mode .btn-edit,
+.admin-zone .btn-edit {
+    background-color: #FFC107 !important;
+    color: #000 !important;
+}
+
+.dark-mode .btn-edit:hover,
+.admin-zone .btn-edit:hover {
+    background-color: #FFB300 !important;
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.dark-mode .btn-delete,
+.admin-zone .btn-delete {
+    background-color: #F44336 !important;
+    color: #000 !important;
+}
+
+.dark-mode .btn-delete:hover,
+.admin-zone .btn-delete:hover {
+    background-color: #E53935 !important;
+    color: #000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
+}
+
+.dark-mode .btn-view,
+.admin-zone .btn-view {
+    background-color: #673AB7 !important;
+    color: #fff !important;
+}
+
+.dark-mode .btn-view:hover,
+.admin-zone .btn-view:hover {
+    background-color: #5E35B1 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
+}
+
+/* Desktop Layout - Horizontal (default) */
+@media (min-width: 769px) {
+    .admin-zone-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-view {
+        min-width: auto;
+        flex: 0 0 auto;
+    }
+}
+
+/* Mobile Layout - Vertical Stack */
+@media (max-width: 768px) {
+    .admin-zone-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .admin-zone-actions form {
+        width: 100%;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-view {
+        width: 100%;
+        white-space: normal;
+    }
 }

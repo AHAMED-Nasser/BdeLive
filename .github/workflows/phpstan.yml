@@ -46,7 +46,8 @@ jobs:
       - run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       # 4️⃣ Run PHPCS (only fail on errors, not warnings)
-      - run: vendor/bin/phpcs --standard=PSR12 app --error-severity=1 --warning-severity=0
+      # Use wrapper script to exclude JavaScript/CSS files from analysis
+      - run: ./scripts/phpcs-no-assets.sh
 
   phpunit:
     name: PHPUnit Tests

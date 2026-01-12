@@ -1,7 +1,13 @@
 <?php
 /**
- * Vue "À Propos" (membre uniquement).
- * Structure similaire à la page de l'équipe (teamView.php) mais sans affichage des photos.
+ * About Page View
+ *
+ * Displays information about the BDE organization, its history, and mission.
+ * Accessible to authenticated members only. Similar structure to team page but without photos.
+ *
+ * @package BdeLive\Views\Public
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var array<string, mixed>|null $user
  */

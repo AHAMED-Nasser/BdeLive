@@ -1,6 +1,13 @@
 <?php
 /**
- * Group Registration Form View
+ * Group Registration View
+ *
+ * Displays the form for team/group registration for events.
+ * Handles team member email input, validation, and invitation sending.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var array<string, mixed> $event Event data
  * @var int $teamSize Maximum team size

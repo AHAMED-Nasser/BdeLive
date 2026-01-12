@@ -1,5 +1,14 @@
 <?php
 /**
+ * Update Article View
+ *
+ * Displays the form for editing an existing article.
+ * Pre-populates fields with current article data and handles image updates.
+ *
+ * @package BdeLive\Views\Articles
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash

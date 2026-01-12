@@ -1,5 +1,14 @@
 <?php
 /**
+ * Articles List View
+ *
+ * Displays a paginated list of all articles with filtering and sorting options.
+ * Includes admin controls for editing and deleting articles.
+ *
+ * @package BdeLive\Views\Articles
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var array<int, array<string, mixed>> $articles
  * @var \App\Modules\Helpers\Pagination $pagination
  * @var array<string, mixed>|null $user

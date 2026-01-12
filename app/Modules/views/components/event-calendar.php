@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Template HTML pour le calendrier natif des événements
+ * Native Event Calendar HTML Template
  *
- * Variables attendues :
- * - $calendar : array retourné par CalendarManager::generateMonthCalendar()
- * - $pageUrl : string - URL de base (ex: 'index.php?page=event')
- * - $extraParams : array - Paramètres URL supplémentaires
+ * Expected variables:
+ * - $calendar : array returned by CalendarManager::generateMonthCalendar()
+ * - $pageUrl : string - Base URL (e.g., 'index.php?page=event')
+ * - $extraParams : array - Additional URL parameters
  */
 
 // Valeurs par défaut si non définies
@@ -14,7 +14,7 @@ $calendar = $calendar ?? ['days' => [], 'monthName' => '', 'year' => date('Y'), 
 $pageUrl = $pageUrl ?? 'index.php?page=event';
 $extraParams = $extraParams ?? [];
 
-// Construction de l'URL avec paramètres
+// URL construction with parameters
 $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
         'view' => 'calendar',

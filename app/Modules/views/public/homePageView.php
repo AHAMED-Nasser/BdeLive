@@ -1,5 +1,14 @@
 <?php
 /**
+ * Homepage View
+ *
+ * Displays the main landing page with featured events carousel,
+ * latest articles, welcome message, and quick navigation to key sections.
+ *
+ * @package BdeLive\Views\Public
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var array<int, array<string, mixed>> $articles
  * @var array<int, array<string, mixed>> $events
  * @var array<string, mixed>|null $user

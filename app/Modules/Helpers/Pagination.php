@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Helpers;
 
+use App\Core\Application;
+
 /**
  * Pagination Helper - Reusable pagination class
  *
@@ -61,7 +63,7 @@ class Pagination
         $this->totalPages = max(1, (int) ceil($this->totalItems / $this->itemsPerPage));
 
         if ($currentPage === null) {
-            $currentPage = (int) ($_GET['p'] ?? 1);
+            $currentPage = (int) (Application::getInstance()->request()->get('p', 1));
         }
         $this->currentPage = max(1, min($currentPage, $this->totalPages));
     }
@@ -170,7 +172,7 @@ class Pagination
      */
     public function getLink(int $pageNumber): string
     {
-        $params = $_GET;
+        $params = Application::getInstance()->request()->getQuery();
         $params['p'] = $pageNumber;
         return 'index.php?' . http_build_query($params);
     }
