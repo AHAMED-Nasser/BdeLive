@@ -22,12 +22,12 @@ class Mailer
     /**
      * Sender email address
      */
-    private string $from_email = 'noreply@bdelivesae.alwaysdata.net';
+    private string $from_email = FROM_EMAIL;
 
     /**
      * Sender display name
      */
-    private string $from_name = 'BDE Inform\'Aix';
+    private string $from_name = 'BDELive';
 
     /**
      * Send a password reset email
@@ -42,17 +42,10 @@ class Mailer
     public function sendPasswordResetEmail(string $to_email, string $to_name, string $token): bool
     {
         try {
-            // ✅ plus besoin de require_once, Composer autoload s'en charge
             $mail = new PHPMailer(true);
 
             // SMTP Configuration for AlwaysData
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             // Sender configuration
             $mail->setFrom($this->from_email, $this->from_name);
@@ -93,13 +86,7 @@ class Mailer
             $mail = new PHPMailer(true);
 
             // SMTP Configuration for AlwaysData
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             // Sender configuration
             $mail->setFrom($this->from_email, $this->from_name);
@@ -543,13 +530,7 @@ TEXT;
             $mail = new PHPMailer(true);
 
             // SMTP Configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
@@ -588,13 +569,7 @@ TEXT;
             $mail = new PHPMailer(true);
 
             // SMTP Configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
@@ -632,13 +607,7 @@ TEXT;
             $mail = new PHPMailer(true);
 
             // SMTP Configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
@@ -1012,13 +981,7 @@ TEXT;
             $mail = new PHPMailer(true);
 
             // SMTP Configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
@@ -1226,13 +1189,7 @@ TEXT;
             $mail = new PHPMailer(true);
 
             // SMTP Configuration
-            $mail->isSMTP();
-            $mail->Host = 'smtp-bdelivesae.alwaysdata.net';
-            $mail->SMTPAuth = true;
-            $mail->Username = 'bdelivesae@alwaysdata.net';
-            $mail->Password = 'bdelive+6';
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = 587;
+            $this->smtpConfiguration($mail);
 
             $mail->setFrom($this->from_email, $this->from_name);
             $mail->addAddress($to_email, $to_name);
@@ -1328,20 +1285,34 @@ HTML;
      * @param int $teamNumber Team number
      * @return string Email content in plain text
      */
+    /**
+     * Generate plain text email content for team confirmed notification
+     */
     private function getTeamConfirmedEmailText(string $name, string $eventName, int $teamNumber): string
     {
         return <<<TEXT
-GROUPE {$teamNumber} CONFIRME - BDE INFORM'AIX
+    GROUPE {$teamNumber} CONFIRME - BDE INFORM'AIX
+    
+    Bonjour {$name},
+    
+    Tous les membres de votre groupe ont confirme leur participation.
+    
+    Votre groupe est maintenant inscrit a :
+    {$eventName}
+    
+    Cordialement,
+    L'equipe du BDE Inform'Aix
+    TEXT;
+    }
 
-Bonjour {$name},
-
-Tous les membres de votre groupe ont confirme leur participation.
-
-Votre groupe est maintenant inscrit a :
-{$eventName}
-
-Cordialement,
-L'equipe du BDE Inform'Aix
-TEXT;
+    private function smtpConfiguration(PHPMailer $mail): void
+    {
+        $mail->isSMTP();
+        $mail->Host = SMTP_HOST;
+        $mail->SMTPAuth = true;
+        $mail->Username = SMTP_USER;
+        $mail->Password = SMTP_PASSWORD;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
     }
 }

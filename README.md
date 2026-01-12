@@ -30,8 +30,8 @@ BDELive provides the following functionalities:
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
-cd BdeLive
+  git clone <repository-url>
+  cd BdeLive
 ```
 
 ### 2. Install PHP Extensions
@@ -100,6 +100,18 @@ Point your web server document root to the `app/` directory.
 </VirtualHost>
 ```
 
+### 7. Generate index.html documentation
+
+For generate the documentation, you have to install composer, with the following commande
+
+```bash
+  composer install
+```
+After that :
+- ```phpDocumentor.phar``` file will appear in your project root.
+- ```docs/api``` folder will be created, and you'll find ```index.html```.
+
+
 ## Project Structure
 
 The project follows a clean MVC architecture with PSR-4 namespaces:
@@ -109,8 +121,9 @@ BdeLive/
 │
 ├── app/
 │   ├── assets/          # Static assets (CSS, JS, images)
-│   ├── config/          # Configuration files
-│   │   ├── config.php   # Database configuration
+│   ├── Config/          # Configuration files
+│   ├── ├── cloudinary.php # Cloudinary service configuration
+│   │   ├── config.php   # Database and SMTP configuration
 │   │   └── Mailer.php   # Email service
 │   ├── core/            # Core classes
 │   │   └── Database.php # PDO singleton

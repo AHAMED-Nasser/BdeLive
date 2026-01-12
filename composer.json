@@ -24,9 +24,19 @@
     "phpstan": "phpstan analyse --level=8 app",
     "lint": "phpcs --standard=PSR12 app",
     "lint:fix": "phpcbf --standard=PSR12 app",
-    "test": "phpunit"
+    "test": "phpunit",
+    "doc": [
+      "test -f phpDocumentor.phar || curl -LO https://phpdoc.org/phpDocumentor.phar",
+      "php phpDocumentor.phar --config=none -d ./app -t ./docs/api --ignore \"vendor/,app/assets/\""
+    ],
+    "post-install-cmd" : [
+      "@doc"
+    ]
   },
   "config": {
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }
