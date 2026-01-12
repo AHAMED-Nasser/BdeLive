@@ -61,7 +61,9 @@ start_page("Nos articles", true, $user ?? null);
                             <img
                                 src="<?= htmlspecialchars($article['image_url']) ?>"
                                 alt="<?= htmlspecialchars($article['title']) ?>"
-                                class="article-image">
+                                class="article-image"
+                                loading="lazy"
+                                decoding="async">
                         <?php endif; ?>
                         <!-- PAS d'image par defaut si vide ! -->
 

@@ -74,7 +74,9 @@ start_page("Modifier un article", true, $user ?? null) ?>
                         <img 
                             src="<?= htmlspecialchars($article['image_url']) ?>" 
                             alt="Image actuelle" 
-                            style="max-width: 300px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
+                            style="max-width: 300px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;"
+                            loading="lazy"
+                            decoding="async">
                     </div>
                 <?php endif; ?>
                 <label for="article-image" id="drop-area">

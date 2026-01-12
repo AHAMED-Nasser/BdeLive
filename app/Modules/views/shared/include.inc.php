@@ -99,7 +99,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <ul>
                 <li>
                     <a href="index.php?page=home" class="nav-logo" aria-label="BDE Inform'Aix - Accueil">
-                        <img src="./assets/img/logo.png" alt="Logo BDE Inform'Aix">
+                        <img src="./assets/img/logo.png" alt="Logo BDE Inform'Aix" loading="eager" fetchpriority="high" width="60" height="60">
                     </a>
                 </li>
             </ul>

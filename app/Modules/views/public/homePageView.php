@@ -88,7 +88,9 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                     <?php if ($eventImage) : ?>
                                         <img src="<?= htmlspecialchars($eventImage) ?>" 
                                              class="carousel-image" 
-                                             alt="<?= htmlspecialchars($event['event_name']) ?>">
+                                             alt="<?= htmlspecialchars($event['event_name']) ?>"
+                                             <?= $index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' ?>
+                                             decoding="async">
                                     <?php else : ?>
                                         <div class="carousel-no-image">
                                             <span class="event-name-display"><?= htmlspecialchars($event['event_name']) ?></span>
@@ -151,7 +153,8 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                     src="<?= htmlspecialchars($article['image_url']) ?>"
                                     alt="<?= htmlspecialchars($article['title']) ?>"
                                     class="article-image-home"
-                                    loading="lazy">
+                                    loading="lazy"
+                                    decoding="async">
                             </div>
                         <?php endif; ?>
 
@@ -207,7 +210,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                 ensemble pour proposer des événements et projets autour de l'informatique.
             </p>
             <ul>
-                <li><a href="index.php?page=bde_members">En savoir plus</a></li>
+                <li><a href="index.php?page=team">En savoir plus</a></li>
             </ul>
         </div>
     </section>
