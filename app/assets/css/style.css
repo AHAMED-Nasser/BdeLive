@@ -1265,3 +1265,152 @@ a {
     transform: scale(1.02);
     box-shadow: 0 8px 12px var(--shadow-md);
 }
+
+/* ===== EVENT SHOW PAGE SPECIFIC STYLES ===== */
+/* Registration button - Light Mode: Dark green with white text */
+.registration-section .btn-success,
+.registration-section .btn-individual-register,
+.registration-section .btn-group-register {
+    background-color: #15803d !important;
+    color: #fff !important;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    font-family: "JetBrains Mono", monospace;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.registration-section .btn-success:hover,
+.registration-section .btn-individual-register:hover,
+.registration-section .btn-group-register:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
+    background-color: #15803d !important;
+    color: #fff !important;
+    filter: none !important;
+}
+
+/* Registration button - Dark Mode: Bright green #39E07F with black text */
+.dark-mode .registration-section .btn-success,
+.dark-mode .registration-section .btn-individual-register,
+.dark-mode .registration-section .btn-group-register {
+    background-color: #39E07F !important;
+    color: #000 !important;
+}
+
+.dark-mode .registration-section .btn-success:hover,
+.dark-mode .registration-section .btn-individual-register:hover,
+.dark-mode .registration-section .btn-group-register:hover {
+    background-color: #39E07F !important;
+    color: #000 !important;
+    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+}
+
+/* Admin zone - Light Mode: Light gray background */
+.event-detail-page .admin-zone {
+    background: #f8f9fa !important;
+    border: 1px solid #ddd !important;
+    padding: 25px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.event-detail-page .admin-zone h2 {
+    color: #333 !important;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Admin zone - Dark Mode: Dark background #20212C */
+.dark-mode .event-detail-page .admin-zone {
+    background: #20212C !important;
+    border: 1px solid #4A4B56 !important;
+}
+
+.dark-mode .event-detail-page .admin-zone h2 {
+    color: #ffffff !important;
+}
+
+/* Admin buttons - Light Mode */
+.event-detail-page .admin-zone .btn-edit {
+    background-color: #FFC107 !important;
+    color: #333 !important;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.event-detail-page .admin-zone .btn-edit:hover {
+    background-color: #FFB300 !important;
+    color: #333 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+    filter: none !important;
+}
+
+.event-detail-page .admin-zone .btn-delete {
+    background-color: #D32F2F !important;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.event-detail-page .admin-zone .btn-delete:hover {
+    background-color: #C62828 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
+    filter: none !important;
+}
+
+.event-detail-page .admin-zone .btn-view {
+    background-color: #673AB7 !important;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: "JetBrains Mono", monospace;
+}
+
+.event-detail-page .admin-zone .btn-view:hover {
+    background-color: #5E35B1 !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
+    filter: none !important;
+}
+
+/* Admin buttons - Dark Mode */
+.dark-mode .event-detail-page .admin-zone .btn-edit {
+    background-color: #FFC107 !important;
+    color: #000 !important;
+}
+
+.dark-mode .event-detail-page .admin-zone .btn-edit:hover {
+    background-color: #FFB300 !important;
+    color: #000 !important;
+}
+
+.dark-mode .event-detail-page .admin-zone .btn-delete {
+    background-color: #F44336 !important;
+    color: #000 !important;
+}
+
+.dark-mode .event-detail-page .admin-zone .btn-delete:hover {
+    background-color: #E53935 !important;
+    color: #000 !important;
+}
+
+.dark-mode .event-detail-page .admin-zone .btn-view {
+    background-color: #673AB7 !important;
+    color: #fff !important;
+}
+
+.dark-mode .event-detail-page .admin-zone .btn-view:hover {
+    background-color: #5E35B1 !important;
+    color: #fff !important;
+}
