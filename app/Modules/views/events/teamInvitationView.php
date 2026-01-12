@@ -2,7 +2,12 @@
 /**
  * Team Invitation View
  *
- * Displays invitation details and allows user to confirm or decline.
+ * Displays the team invitation interface for event participants.
+ * Allows users to view team details, member status, and accept/decline invitations.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
  *
  * @var array<string, mixed> $invitation Invitation data with event info
  * @var array<string, mixed>|null $team Team data

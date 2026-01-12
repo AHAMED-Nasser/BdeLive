@@ -1,23 +1,23 @@
 <?php
 
 /**
- * Template HTML pour le calendrier natif
+ * Native Calendar HTML Template
  *
- * Variables attendues :
- * - $calendar : array retourné par CalendarManager::generateMonthCalendar()
- * - $pageUrl : string - URL de base (ex: 'index.php?page=schedule')
- * - $extraParams : array - Paramètres URL supplémentaires (ex: ['group' => 'GA2-2'])
+ * Expected variables:
+ * - $calendar : array returned by CalendarManager::generateMonthCalendar()
+ * - $pageUrl : string - Base URL (e.g., 'index.php?page=schedule')
+ * - $extraParams : array - Additional URL parameters (e.g., ['group' => 'GA2-2'])
  */
 
-//Valeurs par défaut si non définies
+// Default values if not defined
 $calendar = $calendar ?? ['days' => [], 'monthName' => '', 'year' => date('Y'), 'month' => (int) date('n'), 'prevYear' => (int) date('Y'), 'prevMonth' => (int) date('n') - 1, 'nextYear' => (int) date('Y'), 'nextMonth' => (int) date('n') + 1];
 $pageUrl = $pageUrl ?? 'index.php';
 $extraParams = $extraParams ?? [];
 
-// Construction de l'URL avec paramètres (IMPORTANT: utiliser calyear/calmonth pour éviter collision avec year du groupe)
+// URL construction with parameters (IMPORTANT: use calyear/calmonth to avoid collision with group year)
 $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
     $params = array_merge($extraParams, [
-        'view' => 'month', // Force la vue mois
+        'view' => 'month', // Force month view
         'calyear' => $year,
         'calmonth' => $month
     ]);

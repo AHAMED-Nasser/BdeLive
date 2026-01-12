@@ -356,34 +356,7 @@ function end_page(): void
         <script src="./assets/js/dropImageArea.js"></script>
         
         <!-- Script pour fermer le menu mobile au clic sur un lien -->
-        <script>
-            (function() {
-                const menuToggle = document.getElementById('menu-toggle');
-                const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
-                
-                if (menuToggle && sidebarLinks.length > 0) {
-                    sidebarLinks.forEach(link => {
-                        link.addEventListener('click', function() {
-                            // Fermer le menu après un court délai pour permettre la navigation
-                            setTimeout(function() {
-                                menuToggle.checked = false;
-                            }, 100);
-                        });
-                    });
-                }
-                
-                // Empêcher le scroll du body quand le menu est ouvert
-                if (menuToggle) {
-                    menuToggle.addEventListener('change', function() {
-                        if (this.checked) {
-                            document.body.style.overflow = 'hidden';
-                        } else {
-                            document.body.style.overflow = '';
-                        }
-                    });
-                }
-            })();
-        </script>
+        <script src="./app/assets/js/mobile-menu.js"></script>
 
     <?php
     // Display the cookie popup on all pages (autoload Composer)

@@ -1,4 +1,16 @@
 <?php
+
+/**
+ * Sitemap View
+ *
+ * Displays the sitemap with links to all major sections of the website.
+ * Helps with navigation and SEO.
+ *
+ * @package BdeLive\Views\Public
+ * @version 1.0.0
+ * @author BdeLive Team
+ */
+
 start_page("Plan du site - BDE Live", true, $user ?? null);
 ?>
     <div class="legal-terms-page">

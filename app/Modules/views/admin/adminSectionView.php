@@ -2,12 +2,23 @@
 
 declare(strict_types=1);
 
-/** @var array<int, array<string, mixed>> $users */
-/** @var string $currentFilter */
-/** @var string $roleFilter */
-/** @var string $search */
-/** @var \App\Modules\Helpers\Pagination $pagination */
-/** @var array<string, mixed>|null $user */
+/**
+ * Admin Section View
+ *
+ * Displays the admin dashboard with user management options including
+ * search, filtering by status (active/blocked), and role-based filtering.
+ *
+ * @package BdeLive\Views\Admin
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
+ * @var array<int, array<string, mixed>> $users
+ * @var string $currentFilter
+ * @var string $roleFilter
+ * @var string $search
+ * @var \App\Modules\Helpers\Pagination $pagination
+ * @var array<string, mixed>|null $user
+ */
 
 start_page("Administration", true, $user ?? null);
 ?>

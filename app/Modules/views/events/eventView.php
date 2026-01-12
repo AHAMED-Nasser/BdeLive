@@ -1,10 +1,19 @@
 <?php
 /**
+ * Events List/Calendar View
+ *
+ * Displays events in either list or calendar format with pagination support.
+ * Supports switching between list view and native calendar view.
+ *
+ * @package BdeLive\Views\Events
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
- * @var array<int, array<string, mixed>> $events La liste des événements (passée par EventController)
- * @var \App\Modules\Helpers\Pagination $pagination L'objet pagination (passé par EventController)
+ * @var array<int, array<string, mixed>> $events The list of events (passed by EventController)
+ * @var \App\Modules\Helpers\Pagination $pagination The pagination object (passed by EventController)
  */
 start_page('Liste des Événements', true, $user ?? null);
 $auth = \App\Core\Application::getInstance()->auth();

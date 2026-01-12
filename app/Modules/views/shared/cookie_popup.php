@@ -1,8 +1,14 @@
 <?php
 
 /**
- * Fichier : views/shared/cookie_popup.php
- * Description : Popup cookies
+ * Cookie Consent Popup
+ *
+ * Displays the GDPR-compliant cookie consent popup for user privacy compliance.
+ *
+ * @package BdeLive\Views\Shared
+ * @version 1.0.0
+ * @author BdeLive Team
+ *
  * @var Application $app
  */
 
