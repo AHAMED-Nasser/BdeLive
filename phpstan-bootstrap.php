@@ -1,5 +1,6 @@
 <?php
 // phpstan-bootstrap.php
+require_once __DIR__ . '/app/Config/config.php';
 require_once __DIR__ . '/vendor/autoload.php';
 if (!defined('DB_HOST')) define('DB_HOST', 'localhost');
 if (!defined('DB_NAME')) define('DB_NAME', 'test');
