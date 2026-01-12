@@ -22,7 +22,9 @@ start_page(htmlspecialchars($article['title'] ?? 'Article'), true, $user ?? null
                 <div class="article-full-image">
                     <img
                         src="<?= htmlspecialchars($article['image_url']) ?>"
-                        alt="<?= htmlspecialchars($article['title']) ?>">
+                        alt="<?= htmlspecialchars($article['title']) ?>"
+                        loading="lazy"
+                        decoding="async">
                 </div>
             <?php endif; ?>
 

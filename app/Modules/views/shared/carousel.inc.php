@@ -29,7 +29,11 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
         <div class="carousel-inner">
             <?php foreach ($imageMap as $index => $image) : ?>
                 <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                    <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image" alt="<?= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?>">
+                    <img src="<?= htmlspecialchars($image['src']) ?>" 
+                         class="carousel-image" 
+                         alt="<?= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?>"
+                         <?= $index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' ?>
+                         decoding="async">
                 </div>
             <?php endforeach ?>
         </div>
