@@ -24,7 +24,8 @@
     "phpstan": "phpstan analyse --level=8 app",
     "lint": "phpcs --standard=PSR12 app",
     "lint:fix": "phpcbf --standard=PSR12 app",
-    "test": "phpunit"
+    "test": "phpunit",
+    "doc": "php phpDocumentor.phar -d ./app -t ./docs/api"
   },
   "config": {
     "optimize-autoloader": true
