@@ -217,14 +217,7 @@ if (!empty($schedule['weekDates'])) {
                     </div>
                 <?php endforeach; ?>
                 
-                <!-- Indicateur de temps actuel (ligne rouge) -->
-                <?php if ($currentTimePosition !== null && $currentTimePosition >= 0 && $currentTimePosition <= 780) : ?>
-                    <div class="current-time-indicator" 
-                         style="top: <?= $currentTimePosition ?>px;"
-                         data-time="<?= $currentTimeLabel ?>">
-                        <span class="time-label"><?= $currentTimeLabel ?></span>
-                    </div>
-                <?php endif; ?>
+
                 
             </div>
         </div>
