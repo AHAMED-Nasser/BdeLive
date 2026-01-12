@@ -129,7 +129,7 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                             $pId = is_array($img) ? $img['public_id'] : '';
                             ?>
                             <div class="img-item" style="text-align: center; width: 120px;">
-                                <img src="<?= htmlspecialchars($url) ?>" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;" loading="lazy" decoding="async" width="100" height="100">
+                                <img src="<?= htmlspecialchars($url) ?>" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
                                 <?php if ($pId) : ?>
                                     <label style="font-size: 0.8em; color: #dc3545; cursor: pointer;">
                                         <input type="checkbox" name="delete_images[]" value="<?= htmlspecialchars($pId) ?>"> Supprimer

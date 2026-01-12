@@ -32,7 +32,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
                     <img src="<?= htmlspecialchars($image['src']) ?>" 
                          class="carousel-image" 
                          alt="<?= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?>"
-                         <?= $index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"' ?>
+                         <?= $index > 0 ? 'loading="lazy"' : '' ?>
                          decoding="async">
                 </div>
             <?php endforeach ?>
