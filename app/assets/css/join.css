@@ -16,6 +16,7 @@
     letter-spacing: 1px;
     padding-left: 15px;
     color: var(--text-primary);
+    font-family: var(--font-heading);
 }
 
 .join-text {
@@ -26,6 +27,7 @@
     line-height: 1.7;
     font-size: 1.1rem;
     padding: 10px 20px;
+    font-family: var(--font-body);
 }
 
 .join-text p {
@@ -34,6 +36,7 @@
     margin-bottom: 0;
     color: var(--text-secondary);
     font-weight: normal;
+    font-family: var(--font-body);
 }
 
 .join-text p strong {

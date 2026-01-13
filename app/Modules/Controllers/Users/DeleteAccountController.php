@@ -61,7 +61,7 @@ class DeleteAccountController extends AuthenticatedController
     /**
      * Process account deletion
      *
-     * Validates CSRF token, deletes the user account from database,
+     * Validates CSRF token, validates email confirmation, deletes the user account from database,
      * logs out the user, and redirects to home page with success message.
      *
      * @return void Redirects to home page or delete_account page on error
@@ -76,11 +76,24 @@ class DeleteAccountController extends AuthenticatedController
         }
 
         $userId = (int) $user['user_id'];
+        $userEmail = strtolower(trim($user['email'] ?? ''));
 
         // Validate CSRF token
         $csrfToken = $this->request->post('csrf_token', '');
         if (!$this->csrf->validateToken((string) $csrfToken)) {
             $this->setError('Jeton invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=delete_account');
+        }
+
+        // Validate email confirmation
+        $confirmEmail = strtolower(trim($this->request->post('confirm_email', '')));
+        if (empty($confirmEmail)) {
+            $this->setError('Veuillez confirmer votre email en le tapant manuellement.');
+            $this->redirect('index.php?page=delete_account');
+        }
+
+        if ($confirmEmail !== $userEmail) {
+            $this->setError('L\'email saisi ne correspond pas à votre email actuel. Veuillez réessayer.');
             $this->redirect('index.php?page=delete_account');
         }
 

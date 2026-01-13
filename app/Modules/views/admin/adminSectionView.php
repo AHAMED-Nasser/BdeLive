@@ -20,12 +20,12 @@ declare(strict_types=1);
  * @var array<string, mixed>|null $user
  */
 
-start_page("Administration", true, $user ?? null);
+start_page("Administration | BDE Live", true, $user ?? null);
 ?>
 
     <section class="admin-hero">
         <div class="admin-hero-content">
-            <h1>Espace Administration</h1>
+            <h1>Administration | BDE Live</h1>
             <p>Gérez les utilisateurs, les rôles et les accès à la plateforme BdeLive.</p>
         </div>
     </section>

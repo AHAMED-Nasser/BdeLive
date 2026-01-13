@@ -197,14 +197,14 @@ document.addEventListener('DOMContentLoaded', function () {
             // Show reset button if it doesn't exist
             if (!resetBtn && searchGroup) {
                 const resetLink = document.createElement('a');
-                resetLink.href = `index.php?page=adminSection&filter=${currentFilter}&role=${currentRole}`;
+                resetLink.href = `index.php ? page = adminSection & filter = ${currentFilter} & role = ${currentRole}`;
                 resetLink.className = 'admin-reset-btn';
                 resetLink.title = 'Clear search';
                 resetLink.innerHTML = '<i class="fas fa-times"></i>';
                 searchGroup.appendChild(resetLink);
             } else if (resetBtn) {
                 // Update reset button URL
-                resetBtn.href = `index.php?page=adminSection&filter=${currentFilter}&role=${currentRole}`;
+                resetBtn.href = `index.php ? page = adminSection & filter = ${currentFilter} & role = ${currentRole}`;
             }
 
             // Show search indicator
@@ -213,12 +213,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 indicator.className = 'search-indicator';
                 // Escape HTML to prevent XSS and display properly
                 const escapedValue = searchValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-                indicator.innerHTML = `Recherche : <strong>${escapedValue}</strong>`;
+                indicator.innerHTML = `Recherche : < strong > ${escapedValue} < / strong > `;
                 searchForm.appendChild(indicator);
             } else {
                 // Escape HTML to prevent XSS and display properly
                 const escapedValue = searchValue.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-                searchIndicator.innerHTML = `Recherche : <strong>${escapedValue}</strong>`;
+                searchIndicator.innerHTML = `Recherche : < strong > ${escapedValue} < / strong > `;
                 searchIndicator.style.display = 'block';
             }
         } else {

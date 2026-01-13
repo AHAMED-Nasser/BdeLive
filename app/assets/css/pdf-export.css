@@ -9,12 +9,13 @@
  */
 
 body {
-    font-family: sans-serif;
+    font-family: 'Georgia', 'Times New Roman', serif;
 }
 
 h1 {
     color: #333;
     margin-bottom: 5px;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 h2 {
@@ -22,12 +23,14 @@ h2 {
     font-weight: bold;
     margin-top: 30px;
     margin-bottom: 15px;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 h3 {
     color: #333;
     margin-top: 25px;
     margin-bottom: 10px;
+    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 }
 
 table {

@@ -2,9 +2,9 @@
 .admin-hero {
     background: var(--gradient-hero);
     color: var(--text-inverse);
-    padding: 80px 20px;
+    padding: 100px 30px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
     box-shadow: 0 4px 15px var(--shadow-sm);
 }
 
@@ -13,6 +13,7 @@
     font-weight: 800;
     margin-bottom: 15px;
     letter-spacing: 1px;
+    font-family: var(--font-heading);
 }
 
 .admin-hero p {
@@ -20,15 +21,16 @@
     opacity: 0.9;
     max-width: 700px;
     margin: 0 auto;
+    font-family: var(--font-body);
 }
 
 /* --- Layout Principal --- */
 .admin-layout {
     display: flex;
-    max-width: 1200px;
-    margin: 0 auto 60px;
-    gap: 30px;
-    padding: 0 20px;
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    gap: 40px;
+    padding: 0 30px;
 }
 
 /* Sidebar */
@@ -36,7 +38,7 @@
     width: 380px;
     background: var(--bg-card);
     border-radius: 15px;
-    padding: 25px;
+    padding: 30px;
     height: fit-content;
     box-shadow: 10px 10px 20px var(--shadow-sm);
 }
@@ -45,6 +47,7 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
     color: var(--text-primary);
+    font-family: var(--font-heading);
 }
 
 .admin-nav-list {
@@ -97,9 +100,13 @@
 }
 
 .table-header {
-    padding: 20px 25px;
+    padding: 25px 30px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
+}
+
+.table-header h2 {
+    font-family: var(--font-heading);
 }
 
 .admin-table {
@@ -113,12 +120,14 @@
     background: var(--bg-tertiary);
     color: var(--text-primary);
     font-weight: 700;
+    font-family: var(--font-heading);
 }
 
 .admin-table td {
     padding: 15px 25px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-secondary);
+    font-family: var(--font-body);
 }
 
 /* Badges */
