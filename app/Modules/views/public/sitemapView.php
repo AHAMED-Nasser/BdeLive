@@ -67,7 +67,6 @@ start_page("Plan du site - BDELive", true, $user ?? null);
         <h2>À propos</h2>
         <ul>
             <li><a href="index.php?page=about">À propos</a></li>
-            <li><a href="index.php?page=history">Notre histoire</a></li>
         </ul>
     </section>
 

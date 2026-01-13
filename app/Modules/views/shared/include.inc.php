@@ -327,7 +327,6 @@ function end_page(): void
                 <li><a href="index.php?page=about">À propos</a></li>
                 <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
                 <li><a href="index.php?page=sitemap">Plan du site</a></li>
-                <li><a href="index.php?page=history">Notre histoire</a></li>
             </ul>
         </nav>
 
