@@ -18,10 +18,13 @@ use App\Core\Exception\CsrfException;
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
 
+// Ne pas définir de domaine explicite pour permettre le fonctionnement
+// sur tous les sous-domaines et éviter les problèmes de cookies
+// Le domaine vide permet à PHP d'utiliser automatiquement le domaine de la requête
 session_set_cookie_params([
     'lifetime' => 1800,                      // 30 minutes
     'path' => '/',
-    'domain' => $isProduction ? 'bdelivesae.alwaysdata.net' : '',
+    'domain' => '',                          // Domaine vide = domaine automatique
     'secure' => $isProduction,               // HTTPS only in production
     'httponly' => true,                      // Inaccessible by JavaScript
     'samesite' => 'Lax',                     // CSRF protection

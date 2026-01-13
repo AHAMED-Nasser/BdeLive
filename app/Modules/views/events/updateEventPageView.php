@@ -144,7 +144,7 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 </div>
 
                 <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">
-                    <button type="submit" name="action" value="submitUpdate" style="width: 100%; padding: 12px; background-color: #5a6fd8; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    <button type="submit" name="action" value="submitUpdate" data-loading-text="Modification en cours..." style="width: 100%; padding: 12px; background-color: #5a6fd8; color: white; border: none; border-radius: 5px; cursor: pointer;">
                         Enregistrer les modifications
                     </button>
 

@@ -16,8 +16,7 @@ start_page("À propos - BDELive", true, $user ?? null);
 
 <main>
     <section class="Equip" aria-labelledby="about-title">
-        <h1 id="about-title"
-            style="text-align: left; color: #444; font-size: 2.4rem; font-weight: 700; margin-bottom: 20px; letter-spacing: 1px; padding-left: 15px;">
+        <h1 id="about-title" class="about-page-title">
             <strong>À propos du BDE Inform'Aix</strong>
         </h1>
         <div class="bde-text" style="max-width: 100%; text-align: left; padding: 10px 20px;">

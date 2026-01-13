@@ -64,11 +64,20 @@ class CsrfProtection
      */
     public function validateToken(string $token): bool
     {
+        // Empty token is always invalid
+        if (empty($token)) {
+            return false;
+        }
+
         if (!$this->session->has(self::TOKEN_KEY)) {
             return false;
         }
 
         $sessionToken = $this->session->get(self::TOKEN_KEY);
+
+        if (empty($sessionToken)) {
+            return false;
+        }
 
         if (!hash_equals((string) $sessionToken, $token)) {
             return false;

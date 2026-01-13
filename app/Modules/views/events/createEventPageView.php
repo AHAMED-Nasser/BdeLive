@@ -115,7 +115,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             </div>
 
 
-            <button type="submit">Créer un événement</button>
+            <button type="submit" data-loading-text="Création en cours...">Créer un événement</button>
 
         </form>
 
