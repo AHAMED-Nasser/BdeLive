@@ -22,7 +22,7 @@ start_page("Plan du site - BDELive", true, $user ?? null);
             <li><a href="index.php?page=home">Accueil</a></li>
             <li><a href="index.php?page=articles">Nos articles</a></li>
             <li><a href="index.php?page=event">Événements</a></li>
-            <li><a href="index.php?page=team">Équipe</a></li>
+            <li><a href="index.php?page=bde_members">Équipe</a></li>
         </ul>
     </section>
 
