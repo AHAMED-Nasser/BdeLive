@@ -26,38 +26,44 @@ class BdeMembersController extends AuthenticatedController
             [
                 'firstname' => 'Ewan',
                 'lastname' => 'EL KIHAL',
-                'role' => 'President',
-                'description' => 'Team leader and overall vision.'
+                'role' => 'Président',
+                'description' => 'Chef d\'équipe et vision globale.'
             ],
             [
                 'firstname' => 'Matteo',
                 'lastname' => 'BELZ',
-                'role' => 'Co-President',
-                'description' => 'Communication and meeting management.'
+                'role' => 'Co-président',
+                'description' => 'Communication et gestion des réunions.'
             ],
             [
-                'firstname' => 'Nassim',
-                'lastname' => 'BUCHMULLER',
-                'role' => 'Secretary',
-                'description' => 'Marketing and design manager.'
+                'firstname' => 'Jules',
+                'lastname' => 'RIBBE',
+                'role' => 'Vice-président, responsable logistique',
+                'description' => 'Coordination logistique et support opérationnel.'
             ],
             [
                 'firstname' => 'Valentin',
                 'lastname' => 'GORGODIAN',
-                'role' => 'Treasurer',
-                'description' => 'Budget and finance management.'
+                'role' => 'Trésorier',
+                'description' => 'Gestion du budget et des finances.'
+            ],
+            [
+                'firstname' => 'Nassim',
+                'lastname' => 'BUCHMULLER',
+                'role' => 'Secrétaire, responsable marketing et design',
+                'description' => 'Gestion administrative, marketing et identité visuelle.'
             ],
             [
                 'firstname' => 'Claire',
                 'lastname' => 'ARSENA',
-                'role' => 'Events and Communication Manager',
-                'description' => 'Inter-association relations and partnerships.'
+                'role' => 'Responsable événements et communication, relations inter-associations, partenariats/sponsoring',
+                'description' => 'Organisation des événements, communication externe et développement des partenariats.'
             ],
             [
                 'firstname' => 'Pablo',
                 'lastname' => 'SENE',
-                'role' => 'Events Team',
-                'description' => 'Active member of the events team.'
+                'role' => 'Pôle événements',
+                'description' => 'Membre actif du pôle événementiel.'
             ],
         ];
 
