@@ -18,6 +18,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
 ?>
 
     <script src="/assets/js/schedule-ajax.js" defer></script>
+    <script src="/assets/js/schedule-filters.js" defer></script>
 
     <main class="schedule-container">
         <?php if (!empty($flash['error'])) : ?>
@@ -61,7 +62,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
             </div>
         </div>
 
-        <div class="calendar-wrapper">
+        <div class="calendar-wrapper" id="calendar-view">
             <?php if ($selectedGroup) : ?>
                 <!-- SWITCH DES VUES (JOUR / SEMAINE / MOIS) -->
                 <?php
@@ -127,43 +128,8 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const yearSelect = document.getElementById('year-select');
-            const groupSelect = document.getElementById('group-select');
-
-            // Groupes disponibles par année (avec labels)
-            const groupsByYear = <?= json_encode(array_map(fn($y) => $y['groups'], $groups)) ?>;
-
-            yearSelect.addEventListener('change', function() {
-                const selectedYear = this.value;
-                groupSelect.innerHTML = '<option value="">-- Sélectionner un groupe --</option>';
-
-                if (selectedYear && groupsByYear[selectedYear]) {
-                    Object.entries(groupsByYear[selectedYear]).forEach(function([key, label]) {
-                        const option = document.createElement('option');
-                        option.value = key;
-                        option.textContent = label;
-                        groupSelect.appendChild(option);
-                    });
-                }
-                updateUrl();
-            });
-
-            groupSelect.addEventListener('change', updateUrl);
-
-            function updateUrl() {
-                const year = yearSelect.value;
-                const group = groupSelect.value;
-                if (year) {
-                    const params = new URLSearchParams();
-                    params.set('page', 'schedule');
-                    params.set('year', year);
-                    if (group) params.set('group', group);
-                    window.location.href = 'index.php?' + params.toString();
-                }
-            }
-
-        });
+        // Injecter les données des groupes pour le fichier schedule-filters.js
+        window.scheduleGroupsData = <?= json_encode(array_map(fn($y) => $y['groups'], $groups)) ?>;
     </script>
 
 <?php end_page(); ?>

@@ -8,7 +8,7 @@
     right: 1rem;
     max-width: 1000px;
     margin: 0 auto;
-    background: #fff;
+    background: var(--bg-card, #fff);
     padding: 1rem 1.25rem;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.12);
@@ -18,17 +18,20 @@
     gap: 1rem;
     z-index: 9999;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text-primary, #0b1220);
+    border: 1px solid var(--border-color, rgba(0,0,0,0.1));
 }
 
 #cookieConsent .text h4 {
     margin: 0 0 .25rem 0;
     font-size: 1rem;
+    color: var(--text-primary, #0b1220);
 }
 
 #cookieConsent .text p {
     margin: 0;
     font-size: .9rem;
-    color: #555;
+    color: var(--text-secondary, #555);
 }
 
 #cookieConsent .actions {
@@ -44,18 +47,66 @@
     font-weight: 600;
     background: #0b84ff;
     color: #fff;
+    transition: all 0.3s ease;
+}
+
+#cookieConsent .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 132, 255, 0.3);
 }
 
 #cookieConsent .btn.secondary {
     background: transparent;
-    border: 1px solid #ccc;
-    color: #0b1220;
+    border: 1px solid var(--border-color, #ccc);
+    color: var(--text-primary, #0b1220);
+}
+
+#cookieConsent .btn.secondary:hover {
+    background: var(--bg-hover, rgba(0,0,0,0.05));
+    box-shadow: none;
 }
 
 #cookieConsent .btn.link {
     background: transparent;
-    color: #555;
+    color: var(--text-secondary, #555);
     font-weight: 600;
+}
+
+#cookieConsent .btn.link:hover {
+    color: var(--color-primary, #0b84ff);
+    box-shadow: none;
+}
+
+/* Dark mode spécifique pour le cookie popup */
+.dark-mode #cookieConsent {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.dark-mode #cookieConsent .text h4 {
+    color: var(--text-primary);
+}
+
+.dark-mode #cookieConsent .text p {
+    color: var(--text-secondary);
+}
+
+.dark-mode #cookieConsent .btn.secondary {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+}
+
+.dark-mode #cookieConsent .btn.secondary:hover {
+    background: var(--bg-hover);
+}
+
+.dark-mode #cookieConsent .btn.link {
+    color: var(--text-secondary);
+}
+
+.dark-mode #cookieConsent .btn.link:hover {
+    color: var(--color-primary);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */

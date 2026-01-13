@@ -1,10 +1,14 @@
-const dropArea = document.getElementById('drop-area');
-const inputFile = document.getElementById('event-images');
-const imageViewText = document.getElementById('image-view-text');
-const imageRecap = document.getElementById('image-recap');
+// Fonction pour initialiser le drop area pour un formulaire spécifique
+function initDropImageArea(inputId, maxFiles = null) {
+    const dropArea = document.getElementById('drop-area');
+    const inputFile = document.getElementById(inputId);
+    const imageViewText = document.getElementById('image-view-text');
+    const imageRecap = document.getElementById('image-recap');
 
-// Vérifier que les éléments existent
-if (dropArea && inputFile && imageViewText && imageRecap) {
+    // Vérifier que les éléments existent
+    if (!dropArea || !inputFile || !imageViewText || !imageRecap) {
+        return;
+    }
     // Stocker les fichiers sélectionnés
     let selectedFiles = [];
 
@@ -18,29 +22,16 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
         reader.onload = function (e) {
             let div = document.createElement('div');
             div.classList.add('img-recap');
-            div.style.display = 'inline-block';
-            div.style.margin = '5px';
-            div.style.position = 'relative';
 
             let img = document.createElement("img");
             img.src = e.target.result;
-            img.style.width = '100px';
-            img.style.height = '100px';
-            img.style.objectFit = 'cover';
+            img.alt = file.name || 'Image preview';
 
             // Bouton pour supprimer l'image
             let removeBtn = document.createElement('button');
             removeBtn.innerHTML = '×';
             removeBtn.type = 'button'; // IMPORTANT: empêche la soumission du formulaire
-            removeBtn.style.position = 'absolute';
-            removeBtn.style.top = '0';
-            removeBtn.style.right = '0';
-            removeBtn.style.background = 'red';
-            removeBtn.style.color = 'white';
-            removeBtn.style.border = 'none';
-            removeBtn.style.cursor = 'pointer';
-            removeBtn.style.width = '25px';
-            removeBtn.style.height = '25px';
+            removeBtn.setAttribute('aria-label', 'Supprimer cette image');
             removeBtn.onclick = function () {
                 selectedFiles.splice(index, 1);
                 updateFileInput();
@@ -57,11 +48,28 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
     function uploadImage(files)
     {
         if (files && files.length > 0) {
-            // Ajouter les nouveaux fichiers
-            Array.from(files).forEach((file, index) => {
-                selectedFiles.push(file);
-                displayRecapImage(file, selectedFiles.length - 1);
-            });
+            // Si maxFiles est défini (ex: 1 pour les articles), limiter le nombre
+            if (maxFiles !== null) {
+                // Si on a déjà atteint la limite, vider d'abord
+                if (selectedFiles.length >= maxFiles) {
+                    selectedFiles = [];
+                    // Supprimer toutes les images affichées
+                    const existingImages = imageRecap.querySelectorAll('.img-recap');
+                    existingImages.forEach(imgDiv => imgDiv.remove());
+                }
+                // Ne prendre que le premier fichier si limite à 1
+                const filesToAdd = maxFiles === 1 ? [files[0]] : Array.from(files).slice(0, maxFiles - selectedFiles.length);
+                filesToAdd.forEach((file) => {
+                    selectedFiles.push(file);
+                    displayRecapImage(file, selectedFiles.length - 1);
+                });
+            } else {
+                // Ajouter les nouveaux fichiers (pas de limite)
+                Array.from(files).forEach((file, index) => {
+                    selectedFiles.push(file);
+                    displayRecapImage(file, selectedFiles.length - 1);
+                });
+            }
 
             // Mettre à jour l'affichage
             if (selectedFiles.length > 0) {
@@ -112,4 +120,14 @@ if (dropArea && inputFile && imageViewText && imageRecap) {
             inputFile.click();
         }
     });
+}
+
+// Initialiser pour les événements (multiple images, pas de limite)
+if (document.getElementById('event-images')) {
+    initDropImageArea('event-images');
+}
+
+// Initialiser pour les articles (une seule image)
+if (document.getElementById('article-image')) {
+    initDropImageArea('article-image', 1);
 }

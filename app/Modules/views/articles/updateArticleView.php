@@ -67,18 +67,26 @@ start_page("Modifier un article", true, $user ?? null) ?>
                 required>
 
             <div class="insert-image">
-                <div class="form-label">Image de l'article (optionnel - laisser vide pour conserver l'image actuelle)</div>
                 <?php if (!empty($article['image_url'])) : ?>
-                    <div style="margin-bottom: 15px;">
-                        <p style="margin-bottom: 10px; font-weight: bold;">Image actuelle :</p>
-                        <img 
-                            src="<?= htmlspecialchars($article['image_url']) ?>" 
-                            alt="Image actuelle" 
-                            loading="lazy"
-                            decoding="async"
-                            style="max-width: 300px; max-height: 200px; border: 1px solid #ddd; border-radius: 4px;">
+                    <div class="image-management" style="margin-top: 20px; margin-bottom: 20px;">
+                        <p class="form-label">Images actuelles (cocher pour supprimer) :</p>
+                        <div class="current-images" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
+                            <div class="img-item" style="text-align: center; width: 120px;">
+                                <img 
+                                    src="<?= htmlspecialchars($article['image_url']) ?>" 
+                                    alt="Image actuelle" 
+                                    loading="lazy"
+                                    decoding="async"
+                                    style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                                <label style="font-size: 0.8em; color: #dc3545; cursor: pointer; display: block; margin-top: 5px;">
+                                    <input type="checkbox" name="delete-image" value="1"> Supprimer
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 <?php endif; ?>
+                
+                <div class="form-label"><?= !empty($article['image_url']) ? 'Ajouter une nouvelle image :' : 'Image de l\'article (optionnel)' ?></div>
                 <label for="article-image" id="drop-area">
                     <input id="article-image" name="article-image" type="file" accept="image/*" hidden>
                     <div id="image-view">
@@ -89,11 +97,47 @@ start_page("Modifier un article", true, $user ?? null) ?>
                 <div id="image-recap"></div>
             </div>
 
-            <button type="submit">Modifier l'article</button>
+            <button type="submit" data-loading-text="Modification en cours...">Modifier l'article</button>
 
         </form>
 
     </div>
 </section>
+
+<script>
+// Gestion visuelle de la suppression d'image avec checkbox
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteCheckbox = document.querySelector('input[name="delete-image"]');
+    const articleImageInput = document.getElementById('article-image');
+    
+    if (deleteCheckbox) {
+        const imgItem = deleteCheckbox.closest('.img-item');
+        const img = imgItem ? imgItem.querySelector('img') : null;
+        
+        deleteCheckbox.addEventListener('change', function() {
+            if (this.checked && img) {
+                img.style.opacity = '0.5';
+                img.style.filter = 'grayscale(100%)';
+            } else if (img) {
+                img.style.opacity = '1';
+                img.style.filter = 'none';
+            }
+        });
+        
+        // Si une nouvelle image est sélectionnée, décocher la suppression
+        if (articleImageInput) {
+            articleImageInput.addEventListener('change', function() {
+                if (this.files && this.files.length > 0 && deleteCheckbox.checked) {
+                    deleteCheckbox.checked = false;
+                    if (img) {
+                        img.style.opacity = '1';
+                        img.style.filter = 'none';
+                    }
+                }
+            });
+        }
+    }
+});
+</script>
 
 <?php end_page() ?>

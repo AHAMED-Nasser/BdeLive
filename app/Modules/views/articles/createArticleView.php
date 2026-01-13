@@ -64,7 +64,7 @@ start_page("Créer un article", true, $user ?? null) ?>
                 <div id="image-recap"></div>
             </div>
 
-            <button type="submit">Créer l'article</button>
+            <button type="submit" data-loading-text="Création en cours...">Créer l'article</button>
 
         </form>
 

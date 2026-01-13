@@ -139,6 +139,7 @@
     {
         const toggle = document.getElementById('dark-mode-toggle');
         const toggleMobile = document.getElementById('dark-mode-toggle-mobile');
+        const textMobile = document.getElementById('dark-mode-text-mobile');
 
         if (!toggle && !toggleMobile) {
             return;
@@ -163,6 +164,19 @@
             if (sunIcon && moonIcon) {
                 sunIcon.style.removeProperty('display');
                 moonIcon.style.removeProperty('display');
+            }
+            
+            // Mettre à jour le texte et l'aria-label
+            if (isDark) {
+                toggleMobile.setAttribute('aria-label', 'Basculer en mode clair');
+                if (textMobile) {
+                    textMobile.textContent = 'Mode clair';
+                }
+            } else {
+                toggleMobile.setAttribute('aria-label', 'Basculer en mode sombre');
+                if (textMobile) {
+                    textMobile.textContent = 'Mode sombre';
+                }
             }
         }
     }

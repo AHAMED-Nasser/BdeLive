@@ -272,8 +272,22 @@ class ArticleModel
                 $slug = $this->generateUniqueSlugForUpdate($title, $articleId);
             }
 
-            // Build query - only update image_url if a new one is provided
-            if (!empty($imageUrl)) {
+            // Build query - handle image update, deletion, or keep existing
+            if ($imageUrl === 'DELETE') {
+                // Supprimer l'image (mettre à NULL)
+                $query = "UPDATE ARTICLES 
+                         SET title = :title, slug = :slug, description = :description, 
+                             image_url = NULL, author = :author 
+                         WHERE id = :id";
+                $params = [
+                    ':title' => $title,
+                    ':slug' => $slug,
+                    ':description' => $description,
+                    ':author' => $author,
+                    ':id' => $articleId
+                ];
+            } elseif (!empty($imageUrl)) {
+                // Mettre à jour avec une nouvelle image
                 $query = "UPDATE ARTICLES 
                          SET title = :title, slug = :slug, description = :description, 
                              image_url = :image_url, author = :author 
@@ -287,6 +301,7 @@ class ArticleModel
                     ':id' => $articleId
                 ];
             } else {
+                // Conserver l'image existante (ne pas modifier image_url)
                 $query = "UPDATE ARTICLES 
                          SET title = :title, slug = :slug, description = :description, 
                              author = :author 
