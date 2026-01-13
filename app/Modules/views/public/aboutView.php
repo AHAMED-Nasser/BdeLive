@@ -21,7 +21,7 @@ start_page("À propos - BDELive", true, $user ?? null);
             <strong>À propos du BDE Inform'Aix</strong>
         </h1>
         <div class="bde-text" style="max-width: 100%; text-align: left; padding: 10px 20px;">
-            <h2>Qui sommes-nous ?</h2>
+            <h2>Le bureau des étudiants</h2>
             <p>
                 Le <strong>BDE Informatique d’Aix</strong> est l'association étudiante dédiée à la
                 vie de la filière informatique. Nous sommes des étudiants bénévoles
