@@ -90,6 +90,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <link rel="stylesheet" href="./assets/css/admin.css">
     <link rel="stylesheet" href="./assets/css/schedule.css">
     <link rel="stylesheet" href="./assets/css/event.css">
+    <link rel="stylesheet" href="./assets/css/modal.css">
+    <link rel="stylesheet" href="./assets/css/group-registration.css">
     <title><?= $title ?></title>
 </head>
 <body>
@@ -364,6 +366,7 @@ function end_page(): void
         <script src="./assets/js/dropImageArea.js"></script>
         <script src="./assets/js/back-to-top.js"></script>
         <script src="./assets/js/form-submit-protection.js"></script>
+        <script src="./assets/js/modal.js"></script>
         
         <!-- Script pour fermer le menu mobile au clic sur un lien -->
         <script src="./app/assets/js/mobile-menu.js"></script>

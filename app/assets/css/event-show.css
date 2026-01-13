@@ -118,6 +118,7 @@
     color: #333 !important;
     margin-bottom: 20px;
     font-weight: 600;
+    font-family: var(--font-heading);
 }
 
 /* Admin zone - Dark Mode */

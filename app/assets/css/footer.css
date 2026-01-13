@@ -25,6 +25,7 @@ footer nav {
     display: inline-block;
     transition: all 0.3s ease;
     text-decoration: none;
+    font-family: var(--font-body);
 }
 
 .footer-nav a:hover {
@@ -47,6 +48,7 @@ footer p {
     font-weight: 400;
     letter-spacing: 0.5px;
     line-height: 1.4;
+    font-family: var(--font-body);
 }
 
 

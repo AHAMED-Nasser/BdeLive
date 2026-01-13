@@ -10,6 +10,10 @@
 
 /* ===== MODE CLAIR (Défaut) ===== */
 :root {
+    /* Typography */
+    --font-heading: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'Georgia', 'Times New Roman', serif;
+
     /* Backgrounds */
     --bg-primary: #ffffff;
     --bg-secondary: #f8f9fa;

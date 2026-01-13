@@ -35,20 +35,21 @@
     text-align: center;
     background-color: var(--bg-secondary);
     border-radius: 0 0 20px 20px;
-    font-family: Impact, fantasy;
+    font-family: var(--font-body);
 }
 
 .member-name {
     margin: 8px 0 4px;
     font-size: 1.1rem;
     color: var(--text-primary);
-
+    font-family: var(--font-heading);
 }
 
 .member-role {
     margin: 0;
     font-size: 0.9rem;
     color: var(--text-tertiary);
+    font-family: var(--font-body);
 }
 
 /* Transition */

@@ -1,5 +1,6 @@
 // Fonction pour initialiser le drop area pour un formulaire spécifique
-function initDropImageArea(inputId, maxFiles = null) {
+function initDropImageArea(inputId, maxFiles = null)
+{
     const dropArea = document.getElementById('drop-area');
     const inputFile = document.getElementById(inputId);
     const imageViewText = document.getElementById('image-view-text');
@@ -29,7 +30,7 @@ function initDropImageArea(inputId, maxFiles = null) {
 
             // Bouton pour supprimer l'image
             let removeBtn = document.createElement('button');
-            removeBtn.innerHTML = '×';
+            removeBtn.innerHTML = '<i class="fas fa-times" aria-hidden="true"></i>';
             removeBtn.type = 'button'; // IMPORTANT: empêche la soumission du formulaire
             removeBtn.setAttribute('aria-label', 'Supprimer cette image');
             removeBtn.onclick = function () {

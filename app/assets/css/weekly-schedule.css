@@ -38,6 +38,7 @@
     text-align: center;
     text-transform: capitalize;
     flex: 1;
+    font-family: var(--font-heading);
 }
 
 /* Wrapper pour les boutons de navigation - Desktop : côte à côte */
@@ -104,6 +105,7 @@
     font-weight: 500;
     padding-right: 0.5rem;
     text-align: right;
+    font-family: var(--font-body);
 }
 
 /* ===========================================
@@ -141,6 +143,7 @@
     position: sticky;
     top: 0;
     z-index: 2;
+    font-family: var(--font-heading);
 }
 
 /* ===========================================
@@ -195,6 +198,7 @@
     font-size: 0.8rem;
     margin-bottom: 0.25rem;
     opacity: 0.95;
+    font-family: var(--font-body);
 }
 
 .course-title {
@@ -202,6 +206,7 @@
     font-size: 0.85rem;
     margin-bottom: 0.25rem;
     line-height: 1.2;
+    font-family: var(--font-heading);
 }
 
 .course-location,
@@ -209,6 +214,7 @@
     font-size: 0.7rem;
     opacity: 0.9;
     margin-top: 0.15rem;
+    font-family: var(--font-body);
 }
 
 /* ===========================================

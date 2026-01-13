@@ -4,6 +4,7 @@
     font-weight: 700;
     color: var(--text-primary);
     margin: 0;
+    font-family: var(--font-heading);
 }
 
 .events-title {
@@ -105,6 +106,7 @@
     border-radius: 12px 12px 0 0;
     letter-spacing: 0.5px;
     text-decoration: none !important;
+    font-family: var(--font-heading);
 }
 
 .carousel-event-link .carousel-image {
@@ -117,6 +119,7 @@
     padding: 2rem;
     color: var(--text-secondary);
     font-size: 1.1rem;
+    font-family: var(--font-body);
 }
 
 
@@ -296,6 +299,7 @@
     font-size: 2.5rem;
     font-weight: 700;
     color: white;
+    font-family: var(--font-heading);
     text-align: center;
     text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
     padding: 40px;

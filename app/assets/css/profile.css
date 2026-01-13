@@ -76,7 +76,7 @@
 .profile-card-header h2 {
     margin: 0;
     font-size: 1.5rem;
-    font-family: "JetBrains Mono ExtraBold", monospace;
+    font-family: var(--font-heading);
 }
 
 .profile-card-header .profile-status {
@@ -121,6 +121,7 @@
     font-size: 1.1rem;
     color: var(--text-primary);
     padding: 10px 0;
+    font-family: var(--font-body);
 }
 
 .profile-field-readonly {
@@ -203,6 +204,8 @@
     margin-bottom: 15px;
     background-color: var(--bg-card);
     color: var(--text-primary);
+    font-family: var(--font-body);
+    text-align: left;
 }
 
 .profile-input:focus {
@@ -221,6 +224,8 @@
     background: var(--bg-card);
     color: var(--text-primary);
     cursor: pointer;
+    font-family: var(--font-body);
+    text-align: left;
 }
 
 .profile-select:focus {
@@ -292,7 +297,7 @@
 
 /* ===== LEGACY STYLES (for compatibility) ===== */
 ::placeholder {
-    text-align: center;
+    text-align: left;
 }
 
 .change-user form {

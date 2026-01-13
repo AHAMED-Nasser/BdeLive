@@ -16,6 +16,7 @@
     margin-bottom: 20px;
     letter-spacing: 1px;
     padding-left: 15px;
+    font-family: var(--font-heading);
 }
 
 .equip-text {
@@ -26,6 +27,7 @@
     line-height: 1.7;
     font-size: 1.1rem;
     padding: 10px 20px;
+    font-family: var(--font-body);
 }
 
 .equip-text p {
@@ -34,6 +36,7 @@
     margin-bottom: 15px;
     color: var(--text-secondary);
     font-weight: normal;
+    font-family: var(--font-body);
 }
 
 .equip-text p:last-child {
@@ -70,6 +73,7 @@
     margin-bottom: 30px;
     letter-spacing: 1px;
     padding-left: 15px;
+    font-family: var(--font-heading);
 }
 
 .bde-grid {
@@ -94,6 +98,7 @@
     border-bottom: 2px solid var(--color-primary);
     padding-bottom: 10px;
     margin-bottom: 20px;
+    font-family: var(--font-heading);
 }
 
 .bde-members-list {
@@ -120,12 +125,14 @@
     font-size: 1.5rem;
     margin: 0;
     color: var(--color-primary);
+    font-family: var(--font-heading);
 }
 
 .bde-member-role {
     font-size: 1rem;
     color: var(--text-secondary);
     margin: 5px 0;
+    font-family: var(--font-body);
 }
 
 .bde-member-desc {
@@ -133,6 +140,7 @@
     color: var(--text-tertiary);
     line-height: 1.4;
     margin-bottom: 0;
+    font-family: var(--font-body);
 }
 
 /* Membres d'Honneur */
@@ -149,6 +157,7 @@
     border-bottom: 2px solid #b7791f;
     padding-bottom: 10px;
     margin-bottom: 20px;
+    font-family: var(--font-heading);
 }
 
 :root[class~="dark-mode"] .bde-honor-title {
@@ -175,6 +184,7 @@
     color: var(--text-primary);
     font-weight: bold;
     font-size: 1.1rem;
+    font-family: var(--font-body);
 }
 
 .bde-honor-item:last-child {

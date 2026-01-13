@@ -82,6 +82,7 @@ span.today-btn {
     white-space: nowrap;
     min-width: 0;
     flex-shrink: 0;
+    font-family: var(--font-heading);
 }
 
 /* Icon Buttons (Previous/Next) */
@@ -184,6 +185,7 @@ span.icon-btn {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    font-family: var(--font-heading);
 }
 
 /* Grille principale */
@@ -233,6 +235,7 @@ span.icon-btn {
     justify-content: center;
     border-radius: 50%;
     flex-shrink: 0;
+    font-family: var(--font-body);
 }
 
 .calendar-day.today .calendar-day-number {
@@ -285,6 +288,7 @@ span.icon-btn {
     flex-shrink: 1;
     background-color: #4c51bf; /* Couleur par défaut pour les événements */
     border: none;
+    font-family: var(--font-body);
 }
 
 /* Supprimer le soulignement des liens dans les événements */
@@ -321,6 +325,7 @@ span.icon-btn {
     opacity: 1; /* Contraste amélioré - opacité à 1 pour meilleure lisibilité */
     flex-shrink: 0;
     color: #ffffff !important; /* Blanc pur pour meilleur contraste */
+    font-family: var(--font-body);
 }
 
 .event-title {
@@ -328,6 +333,7 @@ span.icon-btn {
     text-overflow: ellipsis;
     white-space: nowrap;
     flex: 1;
+    font-family: var(--font-heading);
     min-width: 0;
     color: #ffffff !important; /* Blanc pur pour meilleur contraste */
 }

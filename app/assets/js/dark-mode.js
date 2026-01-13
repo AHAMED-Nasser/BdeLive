@@ -165,7 +165,7 @@
                 sunIcon.style.removeProperty('display');
                 moonIcon.style.removeProperty('display');
             }
-            
+
             // Mettre à jour le texte et l'aria-label
             if (isDark) {
                 toggleMobile.setAttribute('aria-label', 'Basculer en mode clair');

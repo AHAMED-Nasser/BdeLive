@@ -16,7 +16,7 @@
 start_page("Créer un article", true, $user ?? null) ?>
 
 <section class="createEvent">
-    <div class="forgot-container">
+    <div class="form-container-wide">
         <h1 class="title">Création d'un article</h1>
 
         <?php if (!empty($flash['success'])) : ?>
