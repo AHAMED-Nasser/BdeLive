@@ -56,7 +56,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Reinitialisation de votre mot de passe - BDE Inform\'Aix';
+            $mail->Subject = 'Réinitialisation de votre mot de passe - BDE Inform\'Aix';
             $mail->Body = $this->getPasswordResetEmailText($to_name, $token);
 
             $mail->send();
@@ -93,7 +93,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Verification de votre adresse email - BDE Inform\'Aix';
+            $mail->Subject = 'Vérification de votre adresse email - BDE Inform\'Aix';
 
             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') .
                 '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
@@ -135,7 +135,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Alerte de securite - BDE Inform\'Aix';
+            $mail->Subject = 'Alerte de sécurité - BDE Inform\'Aix';
             $mail->Body = $this->getSecurityAlertEmailText($to_name, $alertType);
 
             $mail->send();
@@ -172,7 +172,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Code de verification - Modification d\'email - BDE Inform\'Aix';
+            $mail->Subject = 'Code de vérification - Modification d\'email - BDE Inform\'Aix';
             $mail->Body = $this->getEmailVerificationCodeText($to_name, $code);
 
             $mail->send();
@@ -208,7 +208,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Code de verification - Modification du mot de passe - BDE Inform\'Aix';
+            $mail->Subject = 'Code de vérification - Modification du mot de passe - BDE Inform\'Aix';
             $mail->Body = $this->getPasswordChangeCodeEmailText($to_name, $code);
 
             $mail->send();
@@ -255,7 +255,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = "Invitation a rejoindre le Groupe {$teamNumber} - {$eventName} - BDE Inform'Aix";
+            $mail->Subject = "Invitation à rejoindre le Groupe {$teamNumber} - {$eventName} - BDE Inform'Aix";
 
             $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') .
                 '://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
@@ -310,7 +310,7 @@ class Mailer
 
             $mail->isHTML(false);
             $mail->CharSet = 'UTF-8';
-            $mail->Subject = 'Groupe confirme - ' . $eventName . ' - BDE Inform\'Aix';
+            $mail->Subject = 'Groupe confirmé - ' . $eventName . ' - BDE Inform\'Aix';
             $mail->Body = $this->getTeamConfirmedEmailText($to_name, $eventName, $teamNumber);
 
             $mail->send();
@@ -336,32 +336,32 @@ class Mailer
     {
         return <<<TEXT
 BDE INFORM'AIX
-Reinitialisation de mot de passe
+Réinitialisation de mot de passe
 ================================
 
 Bonjour {$name},
 
-Vous avez demande la reinitialisation de votre mot de passe.
+Vous avez demandé la réinitialisation de votre mot de passe.
 
-VOTRE CODE DE VERIFICATION :
+VOTRE CODE DE VÉRIFICATION :
 {$token}
 
 Ce code est valable pendant 3 heures.
 
 COMMENT L'UTILISER ?
-1. Retournez sur la page de verification
+1. Retournez sur la page de vérification
 2. Saisissez ce code
-3. Definissez votre nouveau mot de passe
+3. Définissez votre nouveau mot de passe
 
-IMPORTANT : Si vous n'avez pas demande cette reinitialisation,
-ignorez cet email. Votre mot de passe actuel reste inchange.
+IMPORTANT : Si vous n'avez pas demandé cette réinitialisation,
+ignorez cet email. Votre mot de passe actuel reste inchangé.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-(c) 2025 BDE Inform'Aix - Tous droits reserves
-Cet email a ete envoye automatiquement
+(c) 2025 BDE Inform'Aix - Tous droits réservés
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -376,28 +376,28 @@ TEXT;
     {
         return <<<TEXT
 BDE INFORM'AIX
-Verification de votre adresse email
+Vérification de votre adresse email
 ====================================
 
 Bonjour {$name},
 
-Merci de vous etre inscrit sur le site du BDE Inform'Aix !
+Merci de vous être inscrit sur le site du BDE Inform'Aix !
 
 Pour activer votre compte, veuillez cliquer sur le lien ci-dessous :
 
 {$verifyUrl}
 
-Ce lien est valable de maniere permanente jusqu'a verification.
+Ce lien est valable de manière permanente jusqu'à vérification.
 
-IMPORTANT : Si vous n'avez pas cree de compte sur notre site,
-ignorez cet email. Aucune action ne sera effectuee.
+IMPORTANT : Si vous n'avez pas créé de compte sur notre site,
+ignorez cet email. Aucune action ne sera effectuée.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-(c) 2025 BDE Inform'Aix - Tous droits reserves
-Cet email a ete envoye automatiquement
+(c) 2025 BDE Inform'Aix - Tous droits réservés
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -415,29 +415,29 @@ TEXT;
             : "de modification de votre mot de passe";
 
         return <<<TEXT
-ALERTE DE SECURITE - BDE INFORM'AIX
+ALERTE DE SÉCURITÉ - BDE INFORM'AIX
 ===================================
 
 Bonjour {$name},
 
-Nous avons detecte plusieurs tentatives infructueuses {$alertMessage} sur votre compte.
+Nous avons détecté plusieurs tentatives infructueuses {$alertMessage} sur votre compte.
 
-MESURE DE SECURITE APPLIQUEE :
-La modification des informations de confidentialite a ete temporairement
-bloquee sur votre compte pour une duree de 30 minutes.
+MESURE DE SÉCURITÉ APPLIQUÉE :
+La modification des informations de confidentialité a été temporairement
+bloquée sur votre compte pour une durée de 30 minutes.
 
-Si vous etes a l'origine de ces tentatives, vous pourrez reessayer
-apres la fin du blocage.
+Si vous êtes à l'origine de ces tentatives, vous pourrez réessayer
+après la fin du blocage.
 
 IMPORTANT :
-Si vous n'etes pas a l'origine de ces tentatives, nous vous recommandons
-de changer votre mot de passe des que possible.
+Si vous n'êtes pas à l'origine de ces tentatives, nous vous recommandons
+de changer votre mot de passe dès que possible.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-Cet email a ete envoye automatiquement
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -451,15 +451,15 @@ TEXT;
     private function getEmailVerificationCodeText(string $name, string $code): string
     {
         return <<<TEXT
-VERIFICATION D'EMAIL - BDE INFORM'AIX
+VÉRIFICATION D'EMAIL - BDE INFORM'AIX
 Confirmez votre nouvelle adresse
 =================================
 
 Bonjour {$name},
 
-Vous avez demande a modifier votre adresse email sur votre compte BDE Inform'Aix.
+Vous avez demandé à modifier votre adresse email sur votre compte BDE Inform'Aix.
 
-VOTRE CODE DE VERIFICATION :
+VOTRE CODE DE VÉRIFICATION :
 {$code}
 
 Ce code expire dans 10 minutes.
@@ -468,14 +468,14 @@ Saisissez-le sur la page de modification pour confirmer votre nouvelle
 adresse email.
 
 IMPORTANT :
-Si vous n'avez pas demande cette modification, ignorez cet email.
-Votre adresse email actuelle reste inchangee.
+Si vous n'avez pas demandé cette modification, ignorez cet email.
+Votre adresse email actuelle reste inchangée.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-Cet email a ete envoye automatiquement
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -489,28 +489,28 @@ TEXT;
     private function getPasswordChangeCodeEmailText(string $name, string $code): string
     {
         return <<<TEXT
-CODE DE VERIFICATION - BDE INFORM'AIX
+CODE DE VÉRIFICATION - BDE INFORM'AIX
 Modification du mot de passe
 =============================
 
 Bonjour {$name},
 
-Vous avez demande a modifier votre mot de passe.
+Vous avez demandé à modifier votre mot de passe.
 
-VOTRE CODE DE VERIFICATION :
+VOTRE CODE DE VÉRIFICATION :
 {$code}
 
 Ce code expire dans 10 minutes.
 
 Saisissez-le sur la page de modification pour confirmer le changement de mot de passe.
 
-IMPORTANT : Si vous n'avez pas demande cette modification, ignorez cet email. Votre mot de passe actuel reste inchange.
+IMPORTANT : Si vous n'avez pas demandé cette modification, ignorez cet email. Votre mot de passe actuel reste inchangé.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-Cet email a ete envoye automatiquement
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -539,28 +539,28 @@ INVITATION AU GROUPE {$teamNumber} - BDE INFORM'AIX
 
 Bonjour {$name},
 
-{$creatorName} vous invite a rejoindre son groupe pour l'evenement :
+{$creatorName} vous invite à rejoindre son groupe pour l'événement :
 
-EVENEMENT : {$eventName}
+ÉVÉNEMENT : {$eventName}
 GROUPE : {$teamNumber}
 NOMBRE DE MEMBRES : {$teamSize}
 
-VOIR L'INVITATION ET REPONDRE :
+VOIR L'INVITATION ET RÉPONDRE :
 {$validationUrl}
 
-COMMENT CA FONCTIONNE ?
-En cliquant sur le lien ci-dessus, vous pourrez voir les details du groupe
-et choisir d'accepter ou de refuser l'invitation. Le groupe sera valide
-uniquement lorsque tous les membres auront confirme leur participation.
+COMMENT ÇA FONCTIONNE ?
+En cliquant sur le lien ci-dessus, vous pourrez voir les détails du groupe
+et choisir d'accepter ou de refuser l'invitation. Le groupe sera validé
+uniquement lorsque tous les membres auront confirmé leur participation.
 
 IMPORTANT :
-Si vous refusez l'invitation, le groupe entier sera annule. Les autres membres devront reformer un nouveau groupe.
+Si vous refusez l'invitation, le groupe entier sera annulé. Les autres membres devront reformer un nouveau groupe.
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-Cet email a ete envoye automatiquement
+Cet email a été envoyé automatiquement
 TEXT;
     }
 
@@ -575,23 +575,23 @@ TEXT;
     private function getTeamConfirmedEmailText(string $name, string $eventName, int $teamNumber): string
     {
         return <<<TEXT
-GROUPE {$teamNumber} CONFIRME - BDE INFORM'AIX
+GROUPE {$teamNumber} CONFIRMÉ - BDE INFORM'AIX
 ==============================================
 
 Bonjour {$name},
 
-Bonne nouvelle ! Tous les membres de votre groupe ont confirme leur participation.
+Bonne nouvelle ! Tous les membres de votre groupe ont confirmé leur participation.
 
-VOTRE GROUPE EST MAINTENANT INSCRIT A :
+VOTRE GROUPE EST MAINTENANT INSCRIT À :
 {$eventName}
 
-Rendez-vous le jour de l'evenement !
+Rendez-vous le jour de l'événement !
 
 Cordialement,
-L'equipe du BDE Inform'Aix
+L'équipe du BDE Inform'Aix
 
 ---
-Cet email a ete envoye automatiquement
+Cet email a été envoyé automatiquement
 TEXT;
     }
 

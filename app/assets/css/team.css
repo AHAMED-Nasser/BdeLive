@@ -181,112 +181,6 @@
     border-bottom: none;
 }
 
-/* History Styles */
-.history-container {
-    max-width: 900px;
-    margin: 0 auto;
-    font-family: inherit;
-    /* Utilise la font globale */
-    padding: 20px;
-}
-
-.history-title {
-    text-align: left;
-    color: var(--text-primary);
-    font-size: 2.6rem;
-    font-weight: 800;
-    margin-bottom: 30px;
-    border-left: 10px solid var(--color-primary);
-    padding-left: 20px;
-    line-height: 1.2;
-}
-
-.history-title span {
-    color: var(--color-primary);
-}
-
-.history-intro {
-    margin-bottom: 40px;
-    font-style: italic;
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-}
-
-.history-timeline-item {
-    margin-bottom: 50px;
-    position: relative;
-    padding-left: 40px;
-    border-left: 3px solid var(--color-primary);
-}
-
-.history-marker {
-    position: absolute;
-    left: -11px;
-    top: 0;
-    width: 20px;
-    height: 20px;
-    background: var(--color-primary);
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 86, 179, 0.5);
-    /* Ombre légère de la couleur primaire */
-}
-
-.history-year-title {
-    color: var(--color-primary);
-    margin-top: 0;
-    font-size: 1.6rem;
-}
-
-.history-text {
-    line-height: 1.8;
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-}
-
-.history-cta-card {
-    background: var(--bg-tertiary);
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    margin-top: 60px;
-    border: 1px solid var(--border-light);
-}
-
-.history-cta-title {
-    margin-top: 0;
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-}
-
-.history-cta-text {
-    color: var(--text-tertiary);
-    margin-bottom: 25px;
-}
-
-.history-cta-button {
-    display: inline-block;
-    padding: 12px 25px;
-    background: var(--color-primary);
-    color: white !important;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px var(--shadow-sm);
-}
-
-.history-cta-button:hover {
-    background: var(--bg-hover);
-    /* Peut nécessiter ajustement si bg-hover est trop clair/sombre */
-    filter: brightness(1.1);
-    /* Alternative simple pour éclaircir */
-    transform: translateY(-2px);
-    text-decoration: none;
-    color: white !important;
-}
-
-
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Tablet (max-width: 992px) */
@@ -297,14 +191,12 @@
     }
 
     #equip-title,
-    .bde-title,
-    .history-title {
+    .bde-title {
         font-size: 2rem;
         padding-left: 10px;
     }
 
-    .equip-text,
-    .history-text {
+    .equip-text {
         font-size: 1rem;
         padding: 8px 15px;
     }
@@ -322,15 +214,13 @@
     }
 
     #equip-title,
-    .bde-title,
-    .history-title {
+    .bde-title {
         font-size: 1.6rem;
         padding-left: 5px;
         margin-bottom: 15px;
     }
 
-    .equip-text,
-    .history-text {
+    .equip-text {
         font-size: 0.95rem;
         padding: 5px 10px;
     }
@@ -352,16 +242,6 @@
         width: 100%;
         min-width: 0;
     }
-
-    .history-timeline-item {
-        padding-left: 20px;
-    }
-
-    .history-marker {
-        width: 15px;
-        height: 15px;
-        left: -8px;
-    }
 }
 
 /* Small mobile (max-width: 480px) */
@@ -372,8 +252,7 @@
     }
 
     #equip-title,
-    .bde-title,
-    .history-title {
+    .bde-title {
         font-size: 1.4rem;
         padding-left: 10px;
         border-left-width: 5px;
@@ -381,8 +260,7 @@
         hyphens: auto;
     }
 
-    .equip-text,
-    .history-text {
+    .equip-text {
         font-size: 0.9rem;
         padding: 5px;
     }
