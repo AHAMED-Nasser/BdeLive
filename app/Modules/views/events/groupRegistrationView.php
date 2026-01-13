@@ -16,7 +16,7 @@
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("Inscription en groupe : " . htmlspecialchars($event['event_name']), true, $user ?? null);
+start_page("BDELive - Inscription en groupe : " . htmlspecialchars($event['event_name']), true, $user ?? null);
 
 $requiredMembers = $teamSize - 1; // Creator is auto-included
 ?>
@@ -38,8 +38,8 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
     </div>
 
     <!-- Flash messages -->
-    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da', 'warning' => '#fff3cd'] as $type => $color) : ?>
-        <?php if (!empty($flash[$type])) : ?>
+    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da', 'warning' => '#fff3cd'] as $type => $color): ?>
+        <?php if (!empty($flash[$type])): ?>
             <div
                 style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : ($type === 'error' ? '721c24' : '856404') ?>; padding: 12px; margin: 20px 0; border-radius: 4px; text-align: center;">
                 <?= htmlspecialchars($flash[$type]) ?>
@@ -87,7 +87,7 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
         </h4>
 
         <div id="members-container">
-            <?php for ($i = 1; $i <= $requiredMembers; $i++) : ?>
+            <?php for ($i = 1; $i <= $requiredMembers; $i++): ?>
                 <div class="member-input" style="margin-bottom: 15px;">
                     <label for="member-<?= $i ?>" style="display: block; margin-bottom: 5px; font-weight: 500;">
                         Membre <?= $i ?>
@@ -121,12 +121,12 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
         </div>
     </form>
 
-    <?php if (!empty($userTeams)) : ?>
+    <?php if (!empty($userTeams)): ?>
         <div class="existing-teams" style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #eee;">
             <h4 style="margin-bottom: 15px;">
                 <i class="fas fa-history"></i> Vos groupes en cours
             </h4>
-            <?php foreach ($userTeams as $team) : ?>
+            <?php foreach ($userTeams as $team): ?>
                 <div class="team-card"
                     style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid <?= $team['status'] === 'confirmed' ? '#28a745' : ($team['status'] === 'pending' ? '#ffc107' : '#dc3545') ?>;">
                     <strong>Groupe <?= $team['team_number'] ?></strong>

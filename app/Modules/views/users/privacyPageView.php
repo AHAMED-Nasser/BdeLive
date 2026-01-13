@@ -27,7 +27,7 @@
  * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $passwordResendStatus
  */
 
-start_page("Confidentialité - BDE Inform'Aix", true, $user ?? null);
+start_page("Confidentialité - BDELive", true, $user ?? null);
 
 $editField = $_GET['edit'] ?? null;
 $step = $_GET['step'] ?? null;
@@ -43,21 +43,21 @@ $step = $_GET['step'] ?? null;
 <div class="profile-page privacy-page">
     <h1><i class="fas fa-shield-alt"></i> Confidentialité</h1>
 
-    <?php if (!empty($flash['success'])) : ?>
+    <?php if (!empty($flash['success'])): ?>
         <div class="profile-alert profile-alert-success">
             <i class="fas fa-check-circle"></i>
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($flash['error'])) : ?>
+    <?php if (!empty($flash['error'])): ?>
         <div class="profile-alert profile-alert-error">
             <i class="fas fa-exclamation-circle"></i>
             <?= htmlspecialchars($flash['error']) ?>
         </div>
     <?php endif; ?>
 
-    <?php if ($isBlocked) : ?>
+    <?php if ($isBlocked): ?>
         <!-- Account Blocked Message -->
         <div class="profile-card">
             <div class="profile-card-header privacy-blocked-header">
@@ -76,7 +76,7 @@ $step = $_GET['step'] ?? null;
                 </div>
             </div>
         </div>
-    <?php else : ?>
+    <?php else: ?>
         <div class="profile-card">
             <!-- Privacy Header -->
             <div class="profile-card-header privacy-header">
@@ -93,7 +93,7 @@ $step = $_GET['step'] ?? null;
             <div class="profile-card-body">
                 <!-- Email Field -->
                 <div class="profile-field">
-                    <?php if ($editField === 'email' && $step === 'verify') : ?>
+                    <?php if ($editField === 'email' && $step === 'verify'): ?>
                         <!-- Step 2: Enter verification code sent to new email -->
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-envelope"></i> Vérification de la nouvelle
@@ -102,7 +102,7 @@ $step = $_GET['step'] ?? null;
                         <form method="POST" action="index.php?page=privacy&action=verifyEmailCode" class="profile-edit-form">
                             <?= $csrf->getTokenField() ?>
 
-                            <?php if ($pendingEmail) : ?>
+                            <?php if ($pendingEmail): ?>
                                 <div class="privacy-current-value">
                                     <span>Nouvelle adresse : </span>
                                     <strong><?= htmlspecialchars($pendingEmail) ?></strong>
@@ -135,12 +135,12 @@ $step = $_GET['step'] ?? null;
                         <!-- Resend Code Section -->
                         <div class="privacy-resend-section" id="email-resend-section">
                             <p>Vous n'avez pas reçu le code ?</p>
-                            <?php if ($emailResendStatus['resend_count'] >= 5) : ?>
+                            <?php if ($emailResendStatus['resend_count'] >= 5): ?>
                                 <div class="privacy-resend-disabled">
                                     <i class="fas fa-ban"></i>
                                     <span>Nombre maximum de renvois atteint.</span>
                                 </div>
-                            <?php else : ?>
+                            <?php else: ?>
                                 <form method="POST" action="index.php?page=privacy&action=resendEmailCode"
                                     class="privacy-resend-form" id="email-resend-form">
                                     <?= $csrf->getTokenField() ?>
@@ -148,16 +148,16 @@ $step = $_GET['step'] ?? null;
                                         <?= !$emailResendStatus['can_resend'] ? 'disabled' : '' ?>>
                                         <i class="fas fa-redo"></i>
                                         <span id="email-resend-text">
-                                            <?php if (!$emailResendStatus['can_resend']) : ?>
+                                            <?php if (!$emailResendStatus['can_resend']): ?>
                                                 Renvoyer dans <span
                                                     id="email-countdown"><?= $emailResendStatus['wait_seconds'] ?></span>s
-                                            <?php else : ?>
+                                            <?php else: ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
                                         </span>
                                     </button>
                                 </form>
-                                <?php if ($emailResendStatus['resend_count'] > 0) : ?>
+                                <?php if ($emailResendStatus['resend_count'] > 0): ?>
                                     <p class="privacy-resend-count">
                                         Renvois restants : <?= 5 - $emailResendStatus['resend_count'] ?>/5
                                     </p>
@@ -165,7 +165,7 @@ $step = $_GET['step'] ?? null;
                             <?php endif; ?>
                         </div>
 
-                    <?php elseif ($editField === 'email') : ?>
+                    <?php elseif ($editField === 'email'): ?>
                         <!-- Step 1: Enter new email and password -->
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-envelope"></i> Modifier l'adresse email</span>
@@ -199,7 +199,7 @@ $step = $_GET['step'] ?? null;
                                 </a>
                             </div>
                         </form>
-                    <?php else : ?>
+                    <?php else: ?>
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-envelope"></i> Adresse email</span>
                             <a href="index.php?page=privacy&edit=email" class="profile-edit-btn">
@@ -214,7 +214,7 @@ $step = $_GET['step'] ?? null;
 
                 <!-- Password Field -->
                 <div class="profile-field">
-                    <?php if ($editField === 'password' && $step === 'verify') : ?>
+                    <?php if ($editField === 'password' && $step === 'verify'): ?>
                         <!-- Step 2: Enter verification code and new password -->
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-key"></i> Modification du mot de passe</span>
@@ -268,12 +268,12 @@ $step = $_GET['step'] ?? null;
                         <!-- Resend Code Section -->
                         <div class="privacy-resend-section" id="password-resend-section">
                             <p>Vous n'avez pas reçu le code ?</p>
-                            <?php if ($passwordResendStatus['resend_count'] >= 5) : ?>
+                            <?php if ($passwordResendStatus['resend_count'] >= 5): ?>
                                 <div class="privacy-resend-disabled">
                                     <i class="fas fa-ban"></i>
                                     <span>Nombre maximum de renvois atteint.</span>
                                 </div>
-                            <?php else : ?>
+                            <?php else: ?>
                                 <form method="POST" action="index.php?page=privacy&action=resendPasswordCode"
                                     class="privacy-resend-form" id="password-resend-form">
                                     <?= $csrf->getTokenField() ?>
@@ -281,16 +281,16 @@ $step = $_GET['step'] ?? null;
                                         <?= !$passwordResendStatus['can_resend'] ? 'disabled' : '' ?>>
                                         <i class="fas fa-redo"></i>
                                         <span id="password-resend-text">
-                                            <?php if (!$passwordResendStatus['can_resend']) : ?>
+                                            <?php if (!$passwordResendStatus['can_resend']): ?>
                                                 Renvoyer dans <span
                                                     id="password-countdown"><?= $passwordResendStatus['wait_seconds'] ?></span>s
-                                            <?php else : ?>
+                                            <?php else: ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
                                         </span>
                                     </button>
                                 </form>
-                                <?php if ($passwordResendStatus['resend_count'] > 0) : ?>
+                                <?php if ($passwordResendStatus['resend_count'] > 0): ?>
                                     <p class="privacy-resend-count">
                                         Renvois restants : <?= 5 - $passwordResendStatus['resend_count'] ?>/5
                                     </p>
@@ -298,7 +298,7 @@ $step = $_GET['step'] ?? null;
                             <?php endif; ?>
                         </div>
 
-                    <?php elseif ($editField === 'password') : ?>
+                    <?php elseif ($editField === 'password'): ?>
                         <!-- Step 1: Request verification code -->
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-key"></i> Modification du mot de passe</span>
@@ -320,7 +320,7 @@ $step = $_GET['step'] ?? null;
                                 </a>
                             </div>
                         </form>
-                    <?php else : ?>
+                    <?php else: ?>
                         <div class="profile-field-header">
                             <span class="profile-field-label"><i class="fas fa-key"></i> Mot de passe</span>
                             <a href="index.php?page=privacy&edit=password" class="profile-edit-btn">

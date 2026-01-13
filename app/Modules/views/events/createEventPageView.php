@@ -13,25 +13,26 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
-start_page("Créer un événement", true, $user ?? null) ?>
+start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
 <section class="createEvent">
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <?php if (!empty($flash['success'])) : ?>
+        <?php if (!empty($flash['success'])): ?>
             <article style="color: #1d7630">
                 <?= htmlspecialchars($flash['success']) ?>
             </article>
         <?php endif ?>
 
-        <?php if (!empty($flash['error'])) : ?>
+        <?php if (!empty($flash['error'])): ?>
             <article style="color: #922222">
                 <?= htmlspecialchars($flash['error']) ?>
             </article>
         <?php endif ?>
 
-        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST" enctype="multipart/form-data">
+        <form id="form" action="index.php?page=createEvent&action=submitEvent" method="POST"
+            enctype="multipart/form-data">
             <?= $csrf->getTokenField() ?>
             <label for="event-name">Nom de l'événement</label>
             <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
@@ -46,13 +47,15 @@ start_page("Créer un événement", true, $user ?? null) ?>
             <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu">
 
             <label for="event-theme">Thème de l'événement</label>
-            <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)">
+            <input id="event-theme" type="text" name="event-theme"
+                placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
             <!-- Type d'inscription -->
             <label>Type d'inscription</label>
             <div class="checkbox-container">
                 <article>
-                    <input id="event-solo" type="radio" name="event_type" value="solo" checked onchange="toggleTeamSize()">
+                    <input id="event-solo" type="radio" name="event_type" value="solo" checked
+                        onchange="toggleTeamSize()">
                     <label for="event-solo">Inscription individuelle</label>
                 </article>
                 <article>
@@ -65,7 +68,8 @@ start_page("Créer un événement", true, $user ?? null) ?>
             <div id="team-size-container" style="display: none; margin-top: 15px;">
                 <label for="team-size">Nombre de personnes par groupe</label>
                 <input id="team-size" type="number" name="team_size" min="2" max="20" value="2" placeholder="Ex: 4">
-                <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour former un groupe</small>
+                <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour
+                    former un groupe</small>
             </div>
 
             <!-- checkbox -->

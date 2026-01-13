@@ -17,7 +17,7 @@
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("Invitation à rejoindre un groupe", true, $user ?? null);
+start_page("Invitation à rejoindre un groupe - BDELive", true, $user ?? null);
 ?>
 
 <div class="container" style="max-width: 600px; margin: 40px auto; padding: 20px;">
@@ -55,7 +55,7 @@ start_page("Invitation à rejoindre un groupe", true, $user ?? null);
             </p>
 
             <ul style="list-style: none; padding: 0; margin: 0;">
-                <?php foreach ($members as $member) : ?>
+                <?php foreach ($members as $member): ?>
                     <?php
                     $isCurrentUser = strtolower($member['email']) === strtolower($invitation['email']);
                     $statusIcon = $member['validation_status'] === 'confirmed' ? '✅' : ($member['validation_status'] === 'declined' ? '❌' : '⏳');
@@ -64,12 +64,12 @@ start_page("Invitation à rejoindre un groupe", true, $user ?? null);
                     <li
                         style="padding: 10px; margin-bottom: 8px; background: white; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; <?= $isCurrentUser ? 'border: 2px solid #667eea;' : '' ?>">
                         <span>
-                            <?php if ($member['first_name'] && $member['last_name']) : ?>
+                            <?php if ($member['first_name'] && $member['last_name']): ?>
                                 <?= htmlspecialchars($member['first_name'] . ' ' . $member['last_name']) ?>
-                            <?php else : ?>
+                            <?php else: ?>
                                 <?= htmlspecialchars($member['email']) ?>
                             <?php endif; ?>
-                            <?php if ($isCurrentUser) : ?>
+                            <?php if ($isCurrentUser): ?>
                                 <span style="color: #667eea; font-size: 12px;">(vous)</span>
                             <?php endif; ?>
                         </span>

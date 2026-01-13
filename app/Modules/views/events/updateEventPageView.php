@@ -14,7 +14,7 @@
  * @var array<string, string|null> $flash
  * @var array<string, mixed> $event The event to modify (passed by UpdateEventController)
  */
-start_page("Modifier l'événement : " . htmlspecialchars($event['event_name']), true, $user ?? null);
+start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event['event_name']), true, $user ?? null);
 
 // Prépare le tableau des statuts participants pour les cases à cocher
 $statusParticipatingArray = explode(',', $event['status_participating'] ?? '');
