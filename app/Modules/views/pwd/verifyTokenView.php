@@ -10,7 +10,7 @@ start_page("Vérification du code - BDELive", true, $user ?? null);
 <div class="forgot-container">
     <h1 class="title">Vérification du code</h1>
 
-    <?php if (!empty($flash['error'])): ?>
+    <?php if (!empty($flash['error'])) : ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($flash['error']) ?>
         </div>

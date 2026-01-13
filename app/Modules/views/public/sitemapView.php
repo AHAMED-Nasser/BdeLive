@@ -26,7 +26,7 @@ start_page("Plan du site - BDELive", true, $user ?? null);
         </ul>
     </section>
 
-    <?php if (isset($user) && $user !== null): ?>
+    <?php if (isset($user) && $user !== null) : ?>
         <section>
             <h2>Pages réservées aux membres</h2>
             <ul>
@@ -35,7 +35,7 @@ start_page("Plan du site - BDELive", true, $user ?? null);
         </section>
     <?php endif; ?>
 
-    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE'): ?>
+    <?php if (isset($user) && $user !== null && isset($user['user_status']) && $user['user_status'] === 'BDE') : ?>
         <section>
             <h2>Administration (BDE)</h2>
             <ul>
@@ -48,14 +48,14 @@ start_page("Plan du site - BDELive", true, $user ?? null);
     <section>
         <h2>Gestion de compte</h2>
         <ul>
-            <?php if (isset($user) && $user !== null): ?>
+            <?php if (isset($user) && $user !== null) : ?>
                 <li><a href="index.php?page=profile">Mon Profil</a></li>
                 <li><a href="index.php?page=privacy">Confidentialité</a></li>
                 <li><a href="index.php?page=logout">Déconnexion</a></li>
-                <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE'): ?>
+                <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE') : ?>
                     <li><a href="index.php?page=deleteAccount">Supprimer mon compte</a></li>
                 <?php endif; ?>
-            <?php else: ?>
+            <?php else : ?>
                 <li><a href="index.php?page=login">Connexion</a></li>
                 <li><a href="index.php?page=register">Inscription</a></li>
                 <li><a href="index.php?page=forgot_password">Mot de passe oublié</a></li>

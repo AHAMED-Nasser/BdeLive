@@ -10,13 +10,13 @@ start_page("Connexion - BDELive", true, $user ?? null);
 <div class="forgot-container">
     <h1 class="title">Connexion</h1>
 
-    <?php if (!empty($flash['success'])): ?>
+    <?php if (!empty($flash['success'])) : ?>
         <div class="alert alert-success">
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($flash['error'])): ?>
+    <?php if (!empty($flash['error'])) : ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($flash['error']) ?>
         </div>

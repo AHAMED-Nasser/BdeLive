@@ -10,7 +10,7 @@ start_page("Réinitialiser le mot de passe - BDELive ", true, $user ?? null);
 <div class="forgot-container">
     <h1 class="title">Nouveau mot de passe</h1>
 
-    <?php if (!empty($flash['error'])): ?>
+    <?php if (!empty($flash['error'])) : ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($flash['error']) ?>
         </div>

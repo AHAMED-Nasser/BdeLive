@@ -21,12 +21,12 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
     <h2>Supprimer mon compte</h2>
 
     <!-- Error Message -->
-    <?php if (!empty($flash['error'])): ?>
+    <?php if (!empty($flash['error'])) : ?>
         <div class="alert alert-danger"><?= htmlspecialchars($flash['error']) ?></div>
     <?php endif; ?>
 
     <!-- Success Message -->
-    <?php if (!empty($flash['success'])): ?>
+    <?php if (!empty($flash['success'])) : ?>
         <div class="alert alert-success"><?= htmlspecialchars($flash['success']) ?></div>
     <?php endif; ?>
 
