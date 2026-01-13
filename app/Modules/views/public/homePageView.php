@@ -16,7 +16,7 @@
  */
 $articles = $articles ?? [];
 
-start_page("BDE Inform'Aix - Site Officiel", true, $user ?? null);
+start_page("BDELive - Site Officiel", true, $user ?? null);
 
 
 if (session_status() === PHP_SESSION_NONE) {
