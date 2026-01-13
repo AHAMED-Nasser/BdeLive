@@ -19,13 +19,13 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
     <div class="forgot-container">
         <h1 class="title">Création d'un événement</h1>
 
-        <?php if (!empty($flash['success'])): ?>
+        <?php if (!empty($flash['success'])) : ?>
             <article style="color: #1d7630">
                 <?= htmlspecialchars($flash['success']) ?>
             </article>
         <?php endif ?>
 
-        <?php if (!empty($flash['error'])): ?>
+        <?php if (!empty($flash['error'])) : ?>
             <article style="color: #922222">
                 <?= htmlspecialchars($flash['error']) ?>
             </article>
