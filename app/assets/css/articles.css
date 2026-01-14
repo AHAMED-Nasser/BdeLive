@@ -77,7 +77,7 @@
 .article-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    gap: 10px;
     margin-top: auto;
     padding-top: 20px;
     border-top: 1px solid var(--border-light);
@@ -90,13 +90,10 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 6px 12px;
-    /* Réduit de 10px 16px */
+    padding: 8px 12px;
     border-radius: 6px;
-    /* Réduit de 8px */
     font-weight: 600;
-    font-size: 0.9rem;
-    /* Réduit de 0.95rem */
+    font-size: 0.85rem;
     text-decoration: none;
     transition: all 0.2s ease;
     border: none;
@@ -104,7 +101,11 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     width: 100%;
     box-sizing: border-box;
-    height: 100%;
+    min-height: 36px;
+    max-height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Bouton Voir l'article - Bleu violet */
