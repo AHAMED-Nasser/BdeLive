@@ -11,9 +11,14 @@ fieldset {
     min-width: 0;
 }
 
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
 html,
 body {
-    overflow-x: hidden;
     max-width: 100%;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
