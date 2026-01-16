@@ -1,0 +1,523 @@
+/* Section title styling */
+.section-title {
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    font-family: var(--font-heading);
+}
+
+.events-title {
+    font-size: 2.5rem;
+    padding: 45px 20px 30px 20px;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive section titles */
+@media (max-width: 768px) {
+    .events-title {
+        font-size: 1.8rem;
+        padding: 30px 15px 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-title {
+        font-size: 1.5rem;
+        padding: 25px 10px 15px 10px;
+        line-height: 1.3;
+    }
+}
+
+/* Event carousel link styling */
+.carousel-event-link {
+    display: block;
+    text-decoration: none !important;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.carousel-event-link:hover,
+.carousel-event-link:visited,
+.carousel-event-link:active,
+.carousel-event-link:focus {
+    text-decoration: none !important;
+}
+
+.carousel-event-link:hover {
+    transform: scale(1.02);
+}
+
+/* Hover overlay - appears when hovering over the image */
+.carousel-event-link::after {
+    content: "En savoir plus";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.137);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    backdrop-filter: blur(4px);
+}
+
+/* Only show hover effect on devices with fine pointer (mouse) */
+@media (hover: hover) and (pointer: fine) {
+    .carousel-event-link:hover::after {
+        opacity: 1;
+    }
+}
+
+/* Disable hover transform on touch devices */
+@media (hover: none) {
+    .carousel-event-link:hover {
+        transform: none;
+    }
+}
+
+.carousel-event-link .event-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+    color: white;
+    padding: 30px 20px;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.6);
+    border-radius: 12px 12px 0 0;
+    letter-spacing: 0.5px;
+    text-decoration: none !important;
+    font-family: var(--font-heading);
+}
+
+.carousel-event-link .carousel-image {
+    position: relative;
+    z-index: 1;
+}
+
+.no-events-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+}
+
+
+
+.events {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+    background-color: var(--bg-secondary);
+}
+
+.future-event {
+    width: 100%;
+    padding: 20px 0;
+    margin: 0 auto;
+}
+
+.carousel {
+    width: 100%;
+    max-width: 1200px;
+    overflow-x: visible;
+    overflow-y: visible;
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+.carousel .carousel-block {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    overflow: visible;
+}
+
+/* Zone centrale de l'image - AVEC HAUTEUR FIXE */
+.carousel-inner {
+    width: 100%;
+    max-width: 800px;
+    display: block;
+    position: relative;
+    min-height: 450px;
+    /* Hauteur fixe */
+}
+
+/* Items du carousel - POSITION ABSOLUTE */
+.carousel-item {
+    display: none;
+    width: 100%;
+    position: absolute;
+    /* CRITIQUE : superpose les items */
+    top: 0;
+    left: 0;
+    opacity: 0;
+    /* Cache complètement */
+    transition: opacity 0.5s ease;
+    /* Animation douce */
+}
+
+.carousel-item.active {
+    display: block;
+    position: relative;
+    /* L'item actif reprend le flux normal */
+    opacity: 1;
+}
+
+.carousel-image {
+    width: 100%;
+    height: 450px;
+    /* Hauteur fixe */
+    display: block;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    object-fit: cover;
+    /* Remplit l'espace en coupant si nécessaire */
+    object-position: center;
+    /* Centre l'image */
+}
+
+/* Boutons de contrôle */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: var(--bg-card) !important;
+    border: 2px solid var(--border-color) !important;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--shadow-sm);
+}
+
+.carousel-control:hover {
+    background: var(--bg-hover) !important;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px var(--shadow-md);
+}
+
+.carousel-control:active {
+    transform: translateY(-50%) scale(0.95);
+}
+
+.carousel-control.prev {
+    left: -70px;
+}
+
+.carousel-control.next {
+    right: -70px;
+}
+
+.carousel-control svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    pointer-events: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.carousel-control:hover svg {
+    color: var(--color-primary);
+}
+
+/* Fallback display for events without images */
+.carousel-no-image {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-no-image::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(45deg,
+            transparent,
+            transparent 10px,
+            rgba(255, 255, 255, 0.03) 10px,
+            rgba(255, 255, 255, 0.03) 20px);
+    animation: shimmer 20s linear infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.carousel-no-image .event-name-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    font-family: var(--font-heading);
+    text-align: center;
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+    padding: 40px;
+    z-index: 2;
+    position: relative;
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+/* Dots */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border-light);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    outline-offset: 2px;
+}
+
+.dot:hover {
+    background: var(--text-tertiary);
+    transform: scale(1.2);
+}
+
+.dot.active {
+    background: var(--color-primary);
+    width: 32px;
+    border-radius: 5px;
+}
+
+.dot:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+    .carousel-control {
+        width: 45px;
+        height: 45px;
+    }
+
+    .carousel-control.prev {
+        left: -60px;
+    }
+
+    .carousel-control.next {
+        right: -60px;
+    }
+
+    .carousel-control svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .carousel-inner {
+        min-height: 400px;
+    }
+
+    .carousel-image {
+        height: 400px;
+    }
+
+    .carousel-event-link .event-title {
+        font-size: 1.6rem;
+        padding: 25px 15px 20px 15px;
+    }
+
+    .carousel-event-link::after {
+        font-size: 1.3rem;
+        letter-spacing: 1.5px;
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .carousel {
+        max-width: 100%;
+        padding: 0 50px;
+        /* Add padding for controls */
+    }
+
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+    }
+
+    .carousel-control.prev {
+        left: 5px;
+    }
+
+    .carousel-control.next {
+        right: 5px;
+    }
+
+    .carousel-control svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .carousel-no-image {
+        height: 300px;
+    }
+
+    .carousel-no-image .event-name-display {
+        font-size: 2rem;
+        padding: 30px;
+    }
+
+    .carousel-inner {
+        min-height: 300px;
+        max-width: 100%;
+    }
+
+    .carousel-image {
+        height: 300px;
+    }
+
+    .carousel-event-link .event-title {
+        font-size: 1.3rem;
+        padding: 20px 10px 15px 10px;
+        letter-spacing: 0.3px;
+    }
+
+    .carousel-event-link::after {
+        font-size: 1rem;
+        letter-spacing: 1px;
+    }
+
+    .events {
+        padding: 30px 10px !important;
+    }
+
+    .future-event {
+        padding: 10px 0;
+    }
+
+    .carousel-dots {
+        margin-top: 20px;
+        gap: 8px;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .dot.active {
+        width: 24px;
+    }
+}
+
+/* Small mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .carousel-control {
+        width: 35px;
+        height: 35px;
+    }
+
+    .carousel-control.prev {
+        left: 2px;
+    }
+
+    .carousel-control.next {
+        right: 2px;
+    }
+
+    .carousel-control svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .carousel-no-image {
+        height: 250px;
+    }
+
+    .carousel-no-image .event-name-display {
+        font-size: 1.6rem;
+        padding: 20px;
+    }
+
+    .carousel-inner {
+        min-height: 250px;
+    }
+
+    .carousel-image {
+        height: 250px;
+    }
+
+    .carousel-event-link .event-title {
+        font-size: 1.1rem;
+        padding: 15px 8px 12px 8px;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+    }
+
+    .carousel-event-link::after {
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .events {
+        padding: 20px 5px !important;
+    }
+
+    .future-event {
+        padding: 5px 0;
+    }
+}

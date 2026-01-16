@@ -1,0 +1,492 @@
+/**
+ * Dark Mode CSS Variables
+ *
+ * Palette "Midnight Violet" - Gris colorés premium
+ * Contraste WCAG AA (4.5:1) respecté
+ *
+ * @author BdeLive Team
+ * @version 1.0.0
+ */
+
+/* ===== MODE CLAIR (Défaut) ===== */
+:root {
+    /* Typography */
+    --font-heading: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'Georgia', 'Times New Roman', serif;
+
+    /* Backgrounds */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #FAF9F6;
+    --bg-card: #ffffff;
+    --bg-hover: #e9ecef;
+
+    /* Text Colors */
+    --text-primary: #333333;
+    --text-secondary: #444444;
+    --text-tertiary: #666666;
+    --text-inverse: #ffffff;
+    --text-muted: #999999;
+
+    /* Accent Colors */
+    --color-primary: #5a67d8;
+    --color-primary-hover: #4c51bf;
+    --color-secondary: #764ba2;
+    --color-accent: #b523eb;
+    --color-warning: #ffc107;
+    --color-warning-text: #212529;
+    --color-danger: #c53030;
+    --color-danger-text: #ffffff;
+    --color-success: #15803d;
+    --color-success-text: #ffffff;
+
+    /* Borders & Shadows */
+    --border-color: #ddd;
+    --border-light: #e9ecef;
+    --shadow-sm: rgba(0, 0, 0, 0.08);
+    --shadow-md: rgba(0, 0, 0, 0.15);
+    --shadow-lg: rgba(0, 0, 0, 0.2);
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%);
+    --gradient-hero: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
+    --gradient-content: linear-gradient(180deg, #f8f9ff 0%, #dea4f1 100%);
+    --gradient-sidebar: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-profile: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    /* Alerts */
+    --alert-success-bg: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    --alert-success-text: #155724;
+    --alert-success-border: #c3e6cb;
+    --alert-error-bg: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+    --alert-error-text: #721c24;
+    --alert-error-border: #f5c6cb;
+    --alert-info-bg: #d1ecf1;
+    --alert-info-text: #0c5460;
+    --alert-warning-bg: #fff3cd;
+    --alert-warning-text: #856404;
+}
+
+/* ===== MODE SOMBRE (Premium - Gris colorés) ===== */
+.dark-mode {
+    --bg-primary: #0F111A;
+    --bg-secondary: #1A1D2B;
+    --bg-tertiary: #1A1D2B;
+    --bg-card: #252938;
+    --bg-hover: #2D3548;
+
+    /* Text Colors - Blanc légèrement bleuté */
+    --text-primary: #E2E8F0;
+    --text-secondary: #CBD5E1;
+    --text-tertiary: #94A3B8;
+    --text-inverse: #0F111A;
+    --text-muted: #64748B;
+
+    /* Accent Colors - Pastels qui "pop" */
+    --color-primary: #818CF8;
+    --color-primary-hover: #A5B4FC;
+    --color-secondary: #C084FC;
+    --color-accent: #C084FC;
+    --color-warning: #fbbf24;
+    --color-warning-text: #0F111A;
+    --color-danger: #f87171;
+    --color-danger-text: #0F111A;
+    --color-success: #4ade80;
+    --color-success-text: #0F111A;
+
+    /* Borders & Shadows */
+    --border-color: #334155;
+    --border-light: #475569;
+    --shadow-sm: rgba(0, 0, 0, 0.3);
+    --shadow-md: rgba(0, 0, 0, 0.4);
+    --shadow-lg: rgba(0, 0, 0, 0.5);
+
+    /* Gradients - Adaptés pour le mode sombre */
+    --gradient-primary: linear-gradient(90deg, rgba(192, 132, 252, 0.9) 0%, rgba(129, 140, 248, 0.9) 100%);
+    --gradient-hero: linear-gradient(90deg, rgba(192, 132, 252, 0.8) 0%, rgba(129, 140, 248, 0.8) 100%);
+    --gradient-content: linear-gradient(180deg, #1A1D2B 0%, #252938 100%);
+    --gradient-sidebar: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+    --gradient-profile: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+
+    /* Alerts - Adaptés pour le mode sombre */
+    --alert-success-bg: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+    --alert-success-text: #86EFAC;
+    --alert-success-border: rgba(34, 197, 94, 0.3);
+    --alert-error-bg: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+    --alert-error-text: #FCA5A5;
+    --alert-error-border: rgba(239, 68, 68, 0.3);
+    --alert-info-bg: rgba(59, 130, 246, 0.2);
+    --alert-info-text: #93C5FD;
+    --alert-warning-bg: rgba(245, 158, 11, 0.2);
+    --alert-warning-text: #FCD34D;
+}
+
+/* ===== DÉTECTION AUTOMATIQUE SYSTÈME ===== */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) {
+        /* Backgrounds */
+        --bg-primary: #0F111A;
+        --bg-secondary: #1A1D2B;
+        --bg-tertiary: #1A1D2B;
+        --bg-card: #252938;
+        --bg-hover: #2D3548;
+
+        /* Text Colors */
+        --text-primary: #E2E8F0;
+        --text-secondary: #CBD5E1;
+        --text-tertiary: #94A3B8;
+        --text-inverse: #0F111A;
+        --text-muted: #64748B;
+
+        /* Accent Colors */
+        --color-primary: #818CF8;
+        --color-primary-hover: #A5B4FC;
+        --color-secondary: #C084FC;
+        --color-accent: #C084FC;
+
+        /* Borders & Shadows */
+        --border-color: #334155;
+        --border-light: #475569;
+        --shadow-sm: rgba(0, 0, 0, 0.3);
+        --shadow-md: rgba(0, 0, 0, 0.4);
+        --shadow-lg: rgba(0, 0, 0, 0.5);
+
+        /* Gradients */
+        --gradient-primary: linear-gradient(90deg, rgba(192, 132, 252, 0.9) 0%, rgba(129, 140, 248, 0.9) 100%);
+        --gradient-hero: linear-gradient(90deg, rgba(192, 132, 252, 0.8) 0%, rgba(129, 140, 248, 0.8) 100%);
+        --gradient-content: linear-gradient(180deg, #1A1D2B 0%, #252938 100%);
+        --gradient-sidebar: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+        --gradient-profile: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+
+        /* Alerts */
+        --alert-success-bg: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+        --alert-success-text: #86EFAC;
+        --alert-success-border: rgba(34, 197, 94, 0.3);
+        --alert-error-bg: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+        --alert-error-text: #FCA5A5;
+        --alert-error-border: rgba(239, 68, 68, 0.3);
+        --alert-info-bg: rgba(59, 130, 246, 0.2);
+        --alert-info-text: #93C5FD;
+        --alert-warning-bg: rgba(245, 158, 11, 0.2);
+        --alert-warning-text: #FCD34D;
+    }
+}
+
+/* ===== STYLES GÉNÉRAUX POUR LES FORMULAIRES ===== */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="url"],
+textarea,
+select {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--color-primary);
+    outline-color: var(--color-primary);
+}
+
+/* ===== TRANSITION DOUCE ===== */
+html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== STYLES POUR LE CALENDRIER FULLCALENDAR EN MODE SOMBRE ===== */
+.dark-mode .fc-theme-standard .fc-scrollgrid {
+    border-color: var(--border-color);
+}
+
+.dark-mode .fc-theme-standard td,
+.dark-mode .fc-theme-standard th {
+    border-color: var(--border-color);
+}
+
+.dark-mode .fc-col-header-cell {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.dark-mode .fc-daygrid-day {
+    background-color: var(--bg-card);
+}
+
+.dark-mode .fc-daygrid-day-top {
+    color: var(--text-primary);
+}
+
+.dark-mode .fc-day-today {
+    background-color: var(--bg-hover) !important;
+}
+
+.dark-mode .fc-daygrid-day-number {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    color: var(--color-primary) !important;
+    font-weight: bold;
+}
+
+/* Force les numéros de jours en blanc pour la vue month */
+.dark-mode .fc-daygrid-day-top a,
+.dark-mode .fc-daygrid-day-number a {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-day-other .fc-daygrid-day-top {
+    opacity: 0.5;
+}
+
+.dark-mode .fc-button-group button {
+    background-color: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-button-group button:hover {
+    background-color: var(--color-primary-hover) !important;
+    border-color: var(--color-primary-hover) !important;
+}
+
+.dark-mode .fc-toolbar-title {
+    color: var(--text-primary) !important;
+}
+
+/* ===== STYLES COMPLÉMENTAIRES POUR TOUTES LES VUES ===== */
+/* Vue Week/Day - TimeGrid */
+.dark-mode .fc-timegrid-slot-label {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col-header {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col-header-cell {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col-header-cell-cushion {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-axis {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-axis-cushion {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-timegrid-col {
+    background-color: var(--bg-card) !important;
+}
+
+/* Vue Liste */
+.dark-mode .fc-list {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Ne pas appliquer de couleur générale à tous les enfants,
+   laisser les événements définir leur propre couleur */
+.dark-mode .fc-list>* {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-day {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-day * {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .fc-list-day-cushion {
+    color: var(--text-primary) !important;
+}
+
+/* En mode sombre, on préserve les couleurs personnalisées des événements dans la vue liste */
+.dark-mode .fc-list-event {
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event * {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .fc-list-event:hover * {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event:hover .fc-list-event-title {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event:hover .fc-list-event-time {
+    color: var(--text-inverse) !important;
+}
+
+/* Le dot utilise la couleur de bordure de l'événement (définie via borderColor) */
+
+.dark-mode .fc-list-event:hover td {
+    /* Ne pas forcer la couleur, juste l'effet hover */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event:hover td * {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event-title {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event-time {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-table {
+    border-color: var(--border-color) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Les éléments de structure de la table (hors événements) */
+.dark-mode .fc-list-table th {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary) !important;
+}
+
+/* Les cellules des événements héritent de la couleur de l'événement (blanc) */
+.dark-mode .fc-list-table td {
+    border-color: var(--border-color) !important;
+    /* Ne pas forcer la couleur, laisser les événements définir leur propre couleur */
+}
+
+/* Les cellules td héritent de la couleur de fond de l'événement */
+.dark-mode .fc-list-event td {
+    /* Ne pas forcer la couleur de fond, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+    background-color: inherit !important;
+}
+
+.dark-mode .fc-list-event td * {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-event:hover td {
+    /* Ne pas forcer la couleur, juste l'effet hover avec box-shadow */
+    color: var(--text-inverse) !important;
+    background-color: inherit !important;
+}
+
+.dark-mode .fc-list-event:hover td * {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-list-table th {
+    background-color: var(--bg-secondary) !important;
+}
+
+/* ===== STYLES POUR LES ÉVÉNEMENTS FULLCALENDAR EN MODE SOMBRE ===== */
+/* En mode sombre, on préserve les couleurs personnalisées des événements définies dans ScheduleController */
+/* Les couleurs sont appliquées via styles inline par FullCalendar (backgroundColor, borderColor) */
+.dark-mode .fc-event {
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-main {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-title {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-time {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-title-container {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event-main-frame {
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-event:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Événements dans la vue daygrid (month) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
+.dark-mode .fc-daygrid-event {
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-daygrid-event:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Événements dans la vue timegrid (week/day) */
+/* En mode sombre, on préserve les couleurs personnalisées des événements */
+.dark-mode .fc-timegrid-event {
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .fc-timegrid-event-short {
+    /* Ne pas forcer la couleur, laisser les couleurs définies par backgroundColor */
+    color: var(--text-inverse) !important;
+}
+
+.dark-mode .fc-timegrid-event-short:hover {
+    /* Garder la couleur de base, juste ajouter une ombre pour l'effet hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .fc-timegrid-event .fc-event-main,
+.dark-mode .fc-timegrid-event .fc-event-title,
+.dark-mode .fc-timegrid-event .fc-event-time {
+    color: var(--text-inverse) !important;
+}

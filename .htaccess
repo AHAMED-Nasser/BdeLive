@@ -1,5 +1,28 @@
 RewriteEngine On
+
+Options -MultiViews
+
 RewriteBase /
+
+Options -Indexes
+
+RedirectMatch 404 /\.git
+
+# Sécurité : Bloquer l'accès aux fichiers sensibles
+<FilesMatch "(\.(env|json|lock|yml|yaml|sql|log)|composer\.(json|lock))$">
+    Require all denied
+</FilesMatch>
+
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(app/)?(sitemap\.xml|robots\.txt)$ - [L]
+
+RewriteRule ^google0d2c8b071cff9901\.html$ - [L]
+
+RewriteCond %{REQUEST_URI} ^/app/
+RewriteCond %{REQUEST_URI} !^/app/assets/
+RewriteCond %{REQUEST_URI} !^/app/(index\.php|robots\.txt|sitemap\.xml)$
+RewriteRule ^ - [F,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?page=$1 [QSA,L]
+RewriteRule ^(.*)$ app/index.php?page=$1 [QSA,L]

@@ -1,0 +1,478 @@
+/* Styles pour la navbar */
+.nav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--gradient-primary);
+    position: relative;
+    padding: 8px 20px;
+    box-shadow: 0 2px 10px var(--shadow-md);
+    min-height: 55px;
+}
+
+
+.nav li {
+    list-style: none;
+    padding: 8px 12px;
+}
+
+.nav a {
+    font-size: 1.1rem;
+    color: var(--text-inverse);
+    padding: 6px 12px;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.nav a:hover {
+    color: var(--text-inverse);
+    background-color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.nav ul {
+    display: flex;
+    align-items: center;
+}
+
+.nav span {
+    color: var(--text-inverse);
+    font-family: "JetBrains Mono ExtraBold", monospace;
+    font-size: 1.1rem;
+}
+
+.nav-logo img {
+    height: 60px;
+    border-bottom-right-radius: 15px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Assurer la visibilité du logo en mode sombre */
+.dark-mode .nav-logo img {
+    opacity: 1;
+    filter: brightness(1);
+}
+
+/* ===== DARK MODE TOGGLE BUTTON ===== */
+.dark-mode-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: white !important;
+}
+
+.dark-mode-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.dark-mode-toggle:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+.dark-mode-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+    stroke: white;
+    fill: none;
+}
+
+.dark-mode-toggle:hover .dark-mode-icon {
+    transform: rotate(15deg);
+}
+
+/* Afficher l'icône appropriée selon le mode - CSS de secours si JS ne fonctionne pas */
+.dark-mode .dark-mode-toggle .sun-icon {
+    display: none !important;
+}
+
+.dark-mode .dark-mode-toggle .moon-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle .sun-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle .moon-icon {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Support pour @media prefers-color-scheme: dark (si la classe dark-mode n'est pas appliquée) */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .dark-mode-toggle .sun-icon {
+        display: none !important;
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle .moon-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not(.dark-mode) .dark-mode-toggle .sun-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    :root:not(.dark-mode) .dark-mode-toggle .moon-icon {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* ===== PROFILE DROPDOWN MENU (CSS Only) ===== */
+.profile-dropdown-container {
+    position: relative;
+}
+
+.profile-dropdown-toggle {
+    display: none;
+}
+
+.profile-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--text-inverse);
+    font-size: 1.05rem;
+    padding: 6px 12px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-family: "JetBrains Mono ExtraBold", monospace;
+}
+
+.profile-dropdown-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.profile-dropdown-trigger .dropdown-arrow {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.profile-dropdown-toggle:checked+.profile-dropdown-trigger .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.profile-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 220px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    box-shadow: 0 8px 25px var(--shadow-md);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.profile-dropdown-toggle:checked~.profile-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.profile-dropdown-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.profile-dropdown-menu a:hover {
+    background-color: var(--bg-hover);
+    color: var(--color-primary);
+    border-left-color: var(--color-primary);
+    transform: none;
+    text-decoration: none;
+}
+
+.profile-dropdown-menu a i {
+    width: 20px;
+    text-align: center;
+    color: var(--color-primary);
+}
+
+.profile-dropdown-menu .dropdown-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 5px 0;
+}
+
+.profile-dropdown-menu .dropdown-disabled {
+    color: var(--text-muted);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.profile-dropdown-menu .dropdown-disabled i {
+    color: var(--text-muted);
+}
+
+.profile-dropdown-menu .dropdown-danger {
+    color: #dc3545;
+}
+
+.profile-dropdown-menu .dropdown-danger:hover {
+    background-color: var(--alert-error-bg);
+    color: #dc3545;
+    border-left-color: #dc3545;
+}
+
+.profile-dropdown-menu .dropdown-danger i {
+    color: #dc3545;
+}
+
+/* Sidebar section title */
+.sidebar-section-title {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 0.75rem !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 24px 20px 8px 20px !important;
+    margin-top: 8px;
+    border-bottom: none !important;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.sidebar-menu ul li:first-child.sidebar-section-title {
+    margin-top: 0;
+    padding-top: 16px !important;
+}
+
+.sidebar-menu .dropdown-disabled {
+    color: rgba(255, 255, 255, 0.4) !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.sidebar-menu .sidebar-danger {
+    color: #ff6b6b !important;
+}
+
+.sidebar-menu .sidebar-danger:hover {
+    background-color: rgba(255, 107, 107, 0.25) !important;
+    color: #ff8787 !important;
+}
+
+.sidebar-menu .sidebar-danger i {
+    color: #ff6b6b !important;
+}
+
+.sidebar-menu .sidebar-danger:hover i {
+    color: #ff8787 !important;
+}
+
+/* Dark Mode Toggle Mobile dans le Sidebar */
+.dark-mode-toggle-mobile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-inverse);
+    font-size: 1.1rem;
+    border-radius: 0;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    font-family: inherit;
+    position: relative;
+}
+
+.dark-mode-toggle-mobile:hover {
+    color: var(--text-inverse);
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+    transform: translateX(8px);
+    padding-left: 28px;
+}
+
+.dark-mode-toggle-mobile::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: background 0.3s ease;
+}
+
+.dark-mode-toggle-mobile:hover::before {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.dark-mode-toggle-mobile:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+.dark-mode-toggle-mobile .dark-mode-icon {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    flex-shrink: 0;
+}
+
+.dark-mode-toggle-mobile span {
+    flex: 1;
+}
+
+/* Afficher l'icône appropriée dans le sidebar mobile */
+.dark-mode .dark-mode-toggle-mobile .sun-icon {
+    display: none !important;
+}
+
+.dark-mode .dark-mode-toggle-mobile .moon-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
+    display: block !important;
+    visibility: visible !important;
+}
+
+:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* Support pour @media prefers-color-scheme: dark dans le sidebar */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .dark-mode-toggle-mobile .sun-icon {
+        display: none !important;
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle-mobile .moon-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    :root:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    :root:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (max-width: 992px) */
+@media (max-width: 992px) {
+    .nav {
+        padding: 8px 15px;
+        min-height: 50px;
+    }
+
+    .nav a {
+        font-size: 1.05rem;
+        padding: 6px 10px;
+    }
+
+    .nav-logo img {
+        height: 55px;
+    }
+
+    .profile-dropdown-trigger {
+        font-size: 1rem;
+        padding: 6px 10px;
+    }
+}
+
+/* Mobile (max-width: 768px) */
+@media (max-width: 768px) {
+    .nav {
+        padding: 6px 12px;
+        min-height: 48px;
+    }
+
+    .nav li {
+        padding: 6px 8px;
+    }
+
+    .nav a {
+        font-size: 1rem;
+        padding: 6px 10px;
+    }
+
+    .nav span {
+        font-size: 0.95rem;
+    }
+
+    .nav-logo img {
+        height: 50px;
+    }
+
+    /* Hide profile dropdown on mobile (use sidebar instead) */
+    .profile-dropdown-container {
+        display: none;
+    }
+}
+
+/* Small mobile (max-width: 480px) */
+@media (max-width: 480px) {
+    .nav {
+        padding: 5px 10px;
+        min-height: 45px;
+    }
+
+    .nav-logo img {
+        height: 45px;
+    }
+
+    .nav span {
+        font-size: 0.85rem;
+    }
+}
+
+/* ===== ACCESSIBILITY UTILITY ===== */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}

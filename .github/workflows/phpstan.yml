@@ -1,0 +1,70 @@
+name: CI/CD Pipeline
+
+# Trigger workflow on push and pull request
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  phpstan:
+    name: PHPStan Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, mbstring, xml, curl
+
+      # 3️⃣ Install Composer dependencies
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Run PHPStan
+      - run: composer phpstan
+
+  phpcs:
+    name: PHPCS Code Style
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, mbstring, xml, curl
+
+      # 3️⃣ Install Composer dependencies
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Run PHPCS (only fail on errors, not warnings)
+      # Use wrapper script to exclude JavaScript/CSS files from analysis
+      - run: ./scripts/phpcs-no-assets.sh
+
+  phpunit:
+    name: PHPUnit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Checkout code
+      - uses: actions/checkout@v4
+
+      # 2️⃣ Setup PHP
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, mbstring, xml, curl
+
+      # 3️⃣ Install Composer dependencies
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4️⃣ Run PHPUnit tests
+      - run: composer test

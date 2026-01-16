@@ -1,0 +1,334 @@
+/*
+ * Articles Page Styles
+ * Responsive grid layout for articles with optional images
+ */
+
+.articles-section {
+    padding: 50px 30px;
+    min-height: 80vh;
+}
+
+.articles-section .title {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.article-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow-sm);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px var(--shadow-md);
+}
+
+/* Image optionnelle : hauteur flexible */
+.article-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 25px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.article-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+}
+
+.article-meta {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    margin-bottom: 15px;
+}
+
+.article-description {
+    flex: 1;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-family: var(--font-body);
+}
+
+/* Actions pour les administrateurs */
+.article-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Styles communs pour tous les boutons d'action */
+.btn-view,
+.article-actions .btn-edit,
+.article-actions .btn-delete {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 36px;
+    max-height: 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Bouton Voir l'article - Bleu violet */
+.btn-view {
+    background-color: var(--color-primary);
+    color: var(--text-inverse);
+    grid-column: span 1;
+}
+
+.btn-view:hover {
+    background-color: var(--color-primary-hover);
+    color: var(--text-inverse);
+    text-decoration: none;
+    /* Assure qu'il n'y a pas de soulignement */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(90, 103, 216, 0.3);
+}
+
+/* Bouton Modifier - Moutarde/Doré */
+.article-actions .btn-edit {
+    background-color: var(--color-warning);
+    color: var(--color-warning-text);
+    grid-column: span 1;
+}
+
+.article-actions .btn-edit:hover {
+    filter: brightness(0.9);
+    text-decoration: none;
+    color: var(--color-warning-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(214, 158, 46, 0.3);
+}
+
+/* Formulaire de suppression - Prend toute la largeur en bas */
+.delete-article-form {
+    grid-column: 1 / -1;
+    /* Pleine largeur */
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+/* Bouton Supprimer - Rouge */
+.article-actions .btn-delete {
+    background-color: var(--color-danger);
+    color: var(--color-danger-text);
+    width: 100%;
+}
+
+.article-actions .btn-delete:hover {
+    filter: brightness(0.9);
+    text-decoration: none;
+    color: var(--color-danger-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
+}
+
+/* Si "Voir l'article" n'est pas là, Modifier prend toute la largeur aussi ?
+   On peut utiliser :last-child selector si besoin, mais le grid layout est robuste.
+   Si .btn-view est absent, .btn-edit sera col 1, vide col 2.
+   Pour faire propre : si c'est le seul enfant avant le form.
+*/
+.article-actions .btn-edit:only-child {
+    /* Cas théorique rare, mais sécurité */
+    grid-column: 1 / -1;
+}
+
+/* Si on a seulement Modifier et Supprimer (pas de view) */
+.article-actions .btn-edit:first-child:nth-last-child(2) {
+    grid-column: 1 / -1;
+    /* Modifier prend toute la largeur */
+    /* Ou on le laisse en demi-largeur ? Mieux vaut pleine largeur pour l'harmonie avec supprimer */
+}
+
+/* Pagination styles now handled by style.css */
+
+.no-articles {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-tertiary);
+    padding: 60px 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .articles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .articles-section .title {
+        font-size: 2rem;
+    }
+
+    .article-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-view,
+    .btn-edit,
+    .btn-delete,
+    .admin-zone form {
+        width: 100%;
+        grid-column: 1 / -1 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .articles-section {
+        padding: 20px 10px;
+    }
+}
+
+/* Article individuel complet */
+.article-section {
+    padding: 40px 20px;
+    min-height: 80vh;
+}
+
+.article-section .container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 30px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+
+.article-full {
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow-sm);
+    overflow: hidden;
+}
+
+.article-full-image {
+    width: 100%;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.article-full-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+.article-full-content {
+    padding: 50px;
+}
+
+.article-full-title {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    line-height: 1.2;
+    font-family: var(--font-heading);
+}
+
+.article-full-meta {
+    font-size: 1rem;
+    color: var(--text-tertiary);
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.article-full-description {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: var(--font-body);
+}
+
+.article-full-actions {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Bouton Voir l'article */
+
+
+/* Responsive pour l'article complet */
+@media (max-width: 768px) {
+    .article-full-content {
+        padding: 25px;
+    }
+
+    .article-full-title {
+        font-size: 2rem;
+    }
+
+    .article-full-description {
+        font-size: 1rem;
+    }
+
+    .article-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-view,
+    .btn-edit,
+    .btn-delete {
+        width: 100%;
+        text-align: center;
+    }
+}

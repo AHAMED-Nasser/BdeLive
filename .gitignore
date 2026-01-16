@@ -1,0 +1,73 @@
+# IDE
+*.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment
+*.env
+.env.local
+.env.production
+
+# Dependencies
+vendor/
+node_modules/
+
+# Cache
+.php-cs-fixer.cache
+.phpstan.cache
+.phpdoc/
+.cursor/
+.phpunit.cache/
+.phpunit.result.cache
+
+# PHPUnit
+phpunit.xml
+tests/coverage/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Composer
+composer.phar
+
+# Database
+*.sql
+*.db
+*.sqlite
+
+# Config files with sensitive data
+app/config/config.php
+app/Config/*
+!app/Config/Mailer.php
+config/cloudinary.php
+.idea/php.xml
+
+# Local config overrides
+app/config/*.local.php
+
+# Builds
+/dist/
+/build/
+
+# App caches & storage
+/app/cache/
+/storage/
+/var/
+
+.gemini/
+gha-creds-*.json
+pentest_results/
+
+# Ignore docbuilder
+phpDocumentor.phar
+/docs/api/
