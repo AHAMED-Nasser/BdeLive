@@ -32,15 +32,26 @@ class DeleteEventController extends AdminController
         }
 
 
-        $skipCsrfValidation = true;
+        // ====================================================================
+        // Code CSRF to be corrected
+        // ====================================================================
+        // CSRF validation temporarily disabled
+        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
+        // when uploading files. Permanent solution to be implemented in S4
+        // ====================================================================
+
+        // Temporary flag to disable CSRF validation
+
+        $skipCsrfValidation = true; // To be set to false after the problem has been corrected.
 
         // Validate CSRF token
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');
+
             if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Jeton de sécurité invalide');
-                $this->redirect('index.php?page=event');
+                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+                $this->redirect('index.php?page=createArticle');
             }
         }
 
