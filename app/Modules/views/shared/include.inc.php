@@ -372,15 +372,16 @@ function end_page(): void
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>
 
-<?php
-// Display the cookie popup on all pages (autoload Composer)
-if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
-    $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
-    new $cls();
-}
-?>
+    <?php
+    // Display the cookie popup on all pages (autoload Composer)
+    if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
+        $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
+        new $cls();
+    }
+    ?>
 
     </body>
     </html>
-<?php }
+    <?php
+}
 ?>
