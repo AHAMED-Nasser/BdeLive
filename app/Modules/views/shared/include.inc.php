@@ -22,9 +22,9 @@ use App\Core\Application;
  */
 function start_page(string $title, bool $wouldNav = true, ?array $user = null): void
 {
-$auth = Application::getInstance()->auth();
-$isAdmin = $auth->isAdmin();
-?>
+    $auth = Application::getInstance()->auth();
+    $isAdmin = $auth->isAdmin();
+    ?>
 
     <!DOCTYPE html>
 <html lang="fr">
@@ -96,7 +96,7 @@ $isAdmin = $auth->isAdmin();
     <title><?= $title ?></title>
 </head>
 <body>
-<?php if ($wouldNav) : ?>
+    <?php if ($wouldNav) : ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
             <ul>
@@ -246,31 +246,31 @@ $isAdmin = $auth->isAdmin();
                     <li><a href="index.php?page=event"><i class="fas fa-calendar-alt"></i> Événements</a></li>
                     <li><a href="index.php?page=schedule"><i class="fas fa-calendar-week"></i> Emploi du temps</a></li>
 
-                    <?php if (isset($user) && $isAdmin) : ?>
+                        <?php if (isset($user) && $isAdmin) : ?>
                         <!-- Section Administration (BDE uniquement) -->
                         <li class="sidebar-section-title">Administration</li>
                         <li><a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a></li>
                         <li><a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a></li>
                         <li><a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a></li>
-                    <?php endif; ?>
+                        <?php endif; ?>
 
-                    <?php if (!isset($user)) : ?>
+                        <?php if (!isset($user)) : ?>
                         <!-- Section Authentification (non connecté) -->
                         <li class="sidebar-section-title">Connexion</li>
                         <li><a href="index.php?page=login"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
                         <li><a href="index.php?page=register"><i class="fas fa-user-plus"></i> Inscription</a></li>
-                    <?php endif; ?>
+                        <?php endif; ?>
 
-                    <?php if (isset($user) && $user !== null) : ?>
+                        <?php if (isset($user) && $user !== null) : ?>
                         <!-- Section Mon compte (utilisateurs connectés) -->
                         <li class="sidebar-section-title">Mon compte</li>
                         <li><a href="index.php?page=profile"><i class="fas fa-user-circle"></i> Mon Profil</a></li>
                         <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                         <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                        <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE') : ?>
+                            <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE') : ?>
                             <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i> Supprimer mon compte</a></li>
+                            <?php endif; ?>
                         <?php endif; ?>
-                    <?php endif; ?>
 
                     <!-- Section Informations -->
                     <li class="sidebar-section-title">Informations</li>
@@ -302,7 +302,7 @@ $isAdmin = $auth->isAdmin();
             </div>
         </nav>
     </header>
-<?php endif; ?>
+    <?php endif; ?>
 
 <!-- Bouton Back to Top -->
 <button id="back-to-top" aria-label="Retour en haut de la page">
@@ -328,7 +328,7 @@ $isAdmin = $auth->isAdmin();
  */
 function end_page(): void
 {
-?>
+    ?>
 <footer>
     <nav aria-label="Liens utiles">
         <ul class="footer-nav">
@@ -372,13 +372,13 @@ function end_page(): void
 <!-- Script pour fermer le menu mobile au clic sur un lien -->
 <script src="./app/assets/js/mobile-menu.js"></script>
 
-<?php
+    <?php
 // Display the cookie popup on all pages (autoload Composer)
-if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
-    $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
-    new $cls();
-}
-?>
+    if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
+        $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
+        new $cls();
+    }
+    ?>
 
 </body>
 </html>
