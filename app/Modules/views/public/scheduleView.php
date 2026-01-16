@@ -21,7 +21,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
 <script src="/assets/js/schedule-filters.js" defer></script>
 
 <main class="schedule-container">
-    <?php if (!empty($flash['error'])): ?>
+    <?php if (!empty($flash['error'])) : ?>
         <div class="alert alert-danger">
             <?= htmlspecialchars($flash['error']) ?>
         </div>
@@ -37,7 +37,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
             <label for="year-select">Année :</label>
             <select id="year-select" name="year">
                 <option value="">-- Sélectionner une année --</option>
-                <?php foreach ($groups as $yearKey => $yearData): ?>
+                <?php foreach ($groups as $yearKey => $yearData) : ?>
                     <option value="<?= htmlspecialchars((string) $yearKey) ?>" <?= $selectedYear === $yearKey ? 'selected' : '' ?>>
                         <?= htmlspecialchars($yearData['name']) ?>
                     </option>
@@ -49,8 +49,8 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
             <label for="group-select">Groupe :</label>
             <select id="group-select" name="group">
                 <option value="">-- Sélectionner un groupe --</option>
-                <?php if ($selectedYear && isset($groups[$selectedYear])): ?>
-                    <?php foreach ($groups[$selectedYear]['groups'] as $groupKey => $groupLabel): ?>
+                <?php if ($selectedYear && isset($groups[$selectedYear])) : ?>
+                    <?php foreach ($groups[$selectedYear]['groups'] as $groupKey => $groupLabel) : ?>
                         <option value="<?= htmlspecialchars((string) $groupKey) ?>" <?= $selectedGroup === $groupKey ? 'selected' : '' ?>>
                             <?= htmlspecialchars($groupLabel) ?>
                         </option>
@@ -61,7 +61,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
     </div>
 
     <div class="calendar-wrapper" id="calendar-view">
-        <?php if ($selectedGroup): ?>
+        <?php if ($selectedGroup) : ?>
             <!-- SWITCH DES VUES (JOUR / SEMAINE / MOIS) -->
             <?php
             $pageUrl = 'index.php?page=schedule';
@@ -115,7 +115,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
                     <span class="legend-label">Support/Autonomie</span>
                 </div>
             </div>
-        <?php else: ?>
+        <?php else : ?>
             <div class="no-group-selected">
                 <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
                 <h3>Aucun groupe sélectionné</h3>

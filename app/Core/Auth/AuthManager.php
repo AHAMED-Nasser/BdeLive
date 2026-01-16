@@ -43,7 +43,7 @@ class AuthManager
 
     /**
      * Check if user is authenticated
-     * 
+     *
      * @return bool True if user is logged in
      */
     public function isAuthenticated(): bool
@@ -53,7 +53,7 @@ class AuthManager
 
     /**
      * Check if user is blocked
-     * 
+     *
      * @return bool True if user is blocked
      */
     public function isBlocked(): bool

@@ -16,7 +16,7 @@ use Exception;
  * @version 1.0.0
  * @author BDELIVE - Group 8
  *
- * 
+ *
  */
 class EventController extends DefaultController
 {

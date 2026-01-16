@@ -42,14 +42,14 @@ class DatabaseTest extends TestCase
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
-        
+
         $mockPdo = $this->createMock(PDO::class);
         $mockDatabase = $this->getMockBuilder(Database::class)
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->expectException(Error::class);
         clone $mockDatabase;
     }
@@ -59,18 +59,18 @@ class DatabaseTest extends TestCase
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
-        
+
         $mockDatabase = $this->getMockBuilder(Database::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['__wakeup'])
             ->getMock();
-        
+
         $mockDatabase->expects($this->once())
             ->method('__wakeup')
             ->willThrowException(new Exception('Cannot unserialize singleton'));
-        
+
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Cannot unserialize singleton');
         $mockDatabase->__wakeup();

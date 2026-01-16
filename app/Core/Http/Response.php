@@ -16,7 +16,7 @@ namespace App\Core\Http;
  * - Redirections (302, 301, etc.)
  * - JSON responses
  * - Content-Type management
- * 
+ *
  * @author BDELIVE - Groupe 8
  * @package App\Core\Http
  * @version 1.0.0

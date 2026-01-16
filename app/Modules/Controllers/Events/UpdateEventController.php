@@ -22,10 +22,10 @@ use Exception;
  * - Updating event details including name, date, time, location, theme, and description.
  * - Handling input errors and server-side exceptions during the update process.
  *
- * @author BDELIVE - Group 8 
+ * @author BDELIVE - Group 8
  * @package App\Modules\Controllers\Events
  * @version 1.2.3
- * 
+ *
  * @see AdminController For admin authentication requirements
  * @see EventCreationModel For database operations
  * @see EventRepository For database operations

@@ -25,15 +25,15 @@ class PasswordResetTest extends TestCase
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-        
+
         $mockDatabase = $this->createMock(Database::class);
         $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
-        
+
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->passwordReset = new PasswordReset();
     }
 

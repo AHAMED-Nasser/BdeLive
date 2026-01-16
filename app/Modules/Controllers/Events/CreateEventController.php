@@ -122,7 +122,6 @@ class CreateEventController extends AdminController
         $files = $this->request->file('event-images');
 
         if ($files === null) {
-
             $files = [];
         }
 

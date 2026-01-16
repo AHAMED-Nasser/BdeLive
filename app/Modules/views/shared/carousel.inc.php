@@ -28,7 +28,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
             </button>
 
             <div class="carousel-inner">
-                <?php foreach ($imageMap as $index => $image): ?>
+                <?php foreach ($imageMap as $index => $image) : ?>
                     <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                         <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image"
                             alt="<?= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?>"
@@ -46,7 +46,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId): void
         </div>
 
         <div class="carousel-dots">
-            <?php foreach ($imageMap as $index => $image): ?>
+            <?php foreach ($imageMap as $index => $image) : ?>
                 <button class="dot <?= $index === 0 ? 'active' : '' ?>" type="button"
                     onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?>')" aria-label="Afficher l'image <?= $index + 1 ?>"
                     aria-current="<?= $index === 0 ? 'true' : 'false' ?>"></button>

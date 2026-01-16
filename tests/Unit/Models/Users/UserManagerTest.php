@@ -22,15 +22,15 @@ class UserManagerTest extends TestCase
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-        
+
         $mockDatabase = $this->createMock(Database::class);
         $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
-        
+
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->userManager = new UserManager();
     }
 
@@ -84,11 +84,11 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['email' => 'existing@example.com'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(['count' => 1]);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -103,11 +103,11 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['email' => 'nonexistent@example.com'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(['count' => 0]);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -131,11 +131,11 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['email' => 'john.doe@example.com'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($expectedUser);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -150,11 +150,11 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['email' => 'nonexistent@example.com'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(false);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -168,11 +168,11 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('lastInsertId')
             ->willReturn('42');
@@ -184,7 +184,7 @@ class UserManagerTest extends TestCase
             'john.doe@example.com',
             'password123'
         );
-        
+
         $this->assertEquals(42, $result);
     }
 
@@ -193,7 +193,7 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -205,7 +205,7 @@ class UserManagerTest extends TestCase
             'BUT 2',
             'jane.smith@example.com'
         );
-        
+
         $this->assertTrue($result);
     }
 
@@ -214,7 +214,7 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -229,7 +229,7 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['user_id' => 1])
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -244,7 +244,7 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['newFirstName' => 'Jane', 'user_id' => 1])
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -259,7 +259,7 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['newLastName' => 'Smith', 'user_id' => 1])
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -300,11 +300,11 @@ class UserManagerTest extends TestCase
                        strlen($params['verification_token']) === 64;
             }))
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('lastInsertId')
             ->willReturn('42');
@@ -316,7 +316,7 @@ class UserManagerTest extends TestCase
             'john.doe@example.com',
             'password123'
         );
-        
+
         $this->assertIsArray($result);
         $this->assertEquals(42, $result['user_id']);
         $this->assertIsString($result['token']);
@@ -328,7 +328,7 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(false);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
@@ -340,7 +340,7 @@ class UserManagerTest extends TestCase
             'john.doe@example.com',
             'password123'
         );
-        
+
         $this->assertFalse($result);
     }
 
@@ -363,17 +363,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['token' => 'validtoken123'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($mockUser);
-        
+
         $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
             ->willReturnOnConsecutiveCalls($this->mockStmt, $mockUpdateStmt);
 
         $result = $this->userManager->verifyEmailToken('validtoken123');
-        
+
         $this->assertTrue($result['success']);
         $this->assertEquals(123, $result['user_id']);
     }
@@ -384,17 +384,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['token' => 'invalidtoken'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(false);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->verifyEmailToken('invalidtoken');
-        
+
         $this->assertFalse($result['success']);
         $this->assertEquals('Token de vérification invalide', $result['message']);
     }
@@ -411,17 +411,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['token' => 'alreadyverifiedtoken'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($mockUser);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->verifyEmailToken('alreadyverifiedtoken');
-        
+
         $this->assertFalse($result['success']);
         $this->assertEquals('Cet email a déjà été vérifié', $result['message']);
     }
@@ -445,17 +445,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['token' => 'expiredtoken'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($mockUser);
-        
+
         $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
             ->willReturnOnConsecutiveCalls($this->mockStmt, $mockDeleteStmt);
 
         $result = $this->userManager->verifyEmailToken('expiredtoken');
-        
+
         $this->assertFalse($result['success']);
         $this->assertEquals('expired', $result['message']);
     }
@@ -470,17 +470,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['user_id' => 123])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($mockUser);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->isEmailVerified(123);
-        
+
         $this->assertTrue($result);
     }
 
@@ -494,17 +494,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['user_id' => 123])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($mockUser);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->isEmailVerified(123);
-        
+
         $this->assertFalse($result);
     }
 
@@ -514,17 +514,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['user_id' => 999])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn(false);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->isEmailVerified(999);
-        
+
         $this->assertFalse($result);
     }
 
@@ -540,13 +540,13 @@ class UserManagerTest extends TestCase
                        $params['user_id'] === 123;
             }))
             ->willReturn(true);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->resendVerificationToken(123);
-        
+
         $this->assertIsString($result);
         $this->assertEquals(64, strlen($result));
         $this->assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $result);
@@ -557,13 +557,13 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(false);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->resendVerificationToken(123);
-        
+
         $this->assertFalse($result);
     }
 
@@ -583,17 +583,17 @@ class UserManagerTest extends TestCase
             ->method('execute')
             ->with(['email' => 'john.doe@example.com'])
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetch')
             ->willReturn($expectedUser);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->findUserByEmail('john.doe@example.com');
-        
+
         $this->assertEquals($expectedUser, $result);
         $this->assertArrayHasKey('is_verified', $result);
     }
@@ -610,20 +610,20 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockStmt->expects($this->exactly(3))
             ->method('bindValue');
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'all', '');
-        
+
         $this->assertCount(2, $result);
         $this->assertEquals($expectedUsers, $result);
     }
@@ -637,21 +637,21 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockStmt->expects($this->exactly(4))
             ->method('bindValue');
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('AND role = :role'))
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'admin', '');
-        
+
         $this->assertCount(1, $result);
         $this->assertEquals('admin', $result[0]['role']);
     }
@@ -665,18 +665,18 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('AND role = :role'))
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'user', '');
-        
+
         $this->assertCount(1, $result);
         $this->assertEquals('user', $result[0]['role']);
     }
@@ -690,18 +690,18 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)'))
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'all', 'AHAMED');
-        
+
         $this->assertCount(1, $result);
         $this->assertStringContainsString('AHAMED', $result[0]['last_name']);
     }
@@ -715,17 +715,17 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'all', 'bonjour');
-        
+
         $this->assertCount(1, $result);
         $this->assertStringContainsString('bonjour', $result[0]['email']);
     }
@@ -739,11 +739,11 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->logicalAnd(
@@ -753,7 +753,7 @@ class UserManagerTest extends TestCase
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, false, 'admin', 'AHAMED');
-        
+
         $this->assertCount(1, $result);
         $this->assertEquals('admin', $result[0]['role']);
         $this->assertStringContainsString('AHAMED', $result[0]['last_name']);
@@ -768,18 +768,18 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         // Test avec apostrophe (devrait être échappé par PDO)
         $result = $this->userManager->getUsers(10, 0, false, 'all', "O'Brien");
-        
+
         $this->assertCount(1, $result);
     }
 
@@ -792,17 +792,17 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn($expectedUsers);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->getUsers(10, 0, true, 'all', '');
-        
+
         $this->assertCount(1, $result);
         $this->assertEquals(1, $result[0]['is_blocked']);
     }
@@ -814,17 +814,17 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(5);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->countUsers(false, 'all', '');
-        
+
         $this->assertEquals(5, $result);
     }
 
@@ -833,18 +833,18 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(2);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('AND role = :role'))
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->countUsers(false, 'admin', '');
-        
+
         $this->assertEquals(2, $result);
     }
 
@@ -853,18 +853,18 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(1);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->stringContains('AND (last_name LIKE :search1'))
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->countUsers(false, 'all', 'AHAMED');
-        
+
         $this->assertEquals(1, $result);
     }
 
@@ -873,11 +873,11 @@ class UserManagerTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(1);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->with($this->logicalAnd(
@@ -887,7 +887,7 @@ class UserManagerTest extends TestCase
             ->willReturn($this->mockStmt);
 
         $result = $this->userManager->countUsers(false, 'admin', 'AHAMED');
-        
+
         $this->assertEquals(1, $result);
     }
 
@@ -897,22 +897,22 @@ class UserManagerTest extends TestCase
     {
         // Tentative d'injection SQL
         $maliciousInput = "'; DROP TABLE USERS; --";
-        
+
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->willReturn([]);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         // Ne devrait pas lever d'exception car les paramètres sont bindés
         $result = $this->userManager->getUsers(10, 0, false, 'all', $maliciousInput);
-        
+
         $this->assertIsArray($result);
     }
 
@@ -920,22 +920,22 @@ class UserManagerTest extends TestCase
     {
         // Tentative d'injection SQL
         $maliciousInput = "' OR '1'='1";
-        
+
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(0);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         // Ne devrait pas lever d'exception car les paramètres sont bindés
         $result = $this->userManager->countUsers(false, 'all', $maliciousInput);
-        
+
         $this->assertIsInt($result);
     }
 }

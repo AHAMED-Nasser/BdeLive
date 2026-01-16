@@ -43,7 +43,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
 ?>
 
 <main>
-    <?php if (isset($user) && $user !== null): ?>
+    <?php if (isset($user) && $user !== null) : ?>
         <div class="alert alert-info">
             Bienvenue, <?= htmlspecialchars($user['first_name'] ?? '') ?>     <?= htmlspecialchars($user['last_name'] ?? '') ?>
             (<?= htmlspecialchars($user['user_status'] ?? '') ?>) !
@@ -82,7 +82,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
     <section class="future-event">
         <h2 class="section-title events-title">Événements à venir</h2>
 
-        <?php if (!empty($events)): ?>
+        <?php if (!empty($events)) : ?>
             <article class="carousel" id="carousel-future-event">
                 <div class="carousel-block">
                     <button class="carousel-control prev" onclick="moveSlide(-1, 'carousel-future-event')"
@@ -94,12 +94,12 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     </button>
 
                     <div class="carousel-inner">
-                        <?php foreach ($events as $index => $event): ?>
+                        <?php foreach ($events as $index => $event) : ?>
                             <?php
                             // Parse images JSON - handle both array and string format
                             $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
                             $eventImage = null; // No static fallback
-                    
+
                             if (!empty($images) && is_array($images)) {
                                 $firstImage = $images[0];
                                 // Check if it's an array with 'url' key or a direct string
@@ -111,10 +111,10 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                     class="carousel-event-link"
                                     aria-label="Voir les détails de <?= htmlspecialchars($event['event_name']) ?>">
                                     <h3 class="event-title"><?= htmlspecialchars($event['event_name']) ?></h3>
-                                    <?php if ($eventImage): ?>
+                                    <?php if ($eventImage) : ?>
                                         <img src="<?= htmlspecialchars($eventImage) ?>" class="carousel-image"
                                             alt="<?= htmlspecialchars($event['event_name']) ?>" <?= $index > 0 ? 'loading="lazy"' : '' ?> decoding="async">
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <div class="carousel-no-image">
                                             <span class="event-name-display"><?= htmlspecialchars($event['event_name']) ?></span>
                                         </div>
@@ -134,7 +134,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                 </div>
 
                 <div class="carousel-dots" role="group" aria-label="Indicateurs du carousel">
-                    <?php foreach ($events as $index => $event): ?>
+                    <?php foreach ($events as $index => $event) : ?>
                         <button class="dot <?= $index === 0 ? 'active' : '' ?>" type="button"
                             onclick="currentSlide(<?= $index ?>, 'carousel-future-event')"
                             aria-label="Aller à l'événement <?= $index + 1 ?>"
@@ -142,18 +142,18 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     <?php endforeach; ?>
                 </div>
             </article>
-        <?php else: ?>
+        <?php else : ?>
             <div class="no-events-message" style="text-align: center; padding: 2rem;">
                 <p>Aucun événement à venir pour le moment. Restez connectés !</p>
             </div>
         <?php endif; ?>
     </section>
 
-    <?php if (!empty($articles)): ?>
+    <?php if (!empty($articles)) : ?>
         <section class="latest-articles" aria-labelledby="articles-title">
             <h2 id="articles-title" class="title">Dernières actualités</h2>
             <div class="articles-grid-home">
-                <?php foreach ($articles as $index => $article): ?>
+                <?php foreach ($articles as $index => $article) : ?>
                     <?php
                     // Prepare article data
                     $fullDescription = strip_tags($article['description'] ?? '');
@@ -167,11 +167,11 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     $formattedDate = $date->format('d/m/Y');
                     ?>
                     <article class="article-card-home">
-                        <?php if ($index === 0): ?>
+                        <?php if ($index === 0) : ?>
                             <span class="article-badge-new">Nouveau</span>
                         <?php endif; ?>
 
-                        <?php if (!empty($article['image_url'])): ?>
+                        <?php if (!empty($article['image_url'])) : ?>
                             <div class="article-image-container">
                                 <img src="<?= htmlspecialchars($article['image_url']) ?>"
                                     alt="<?= htmlspecialchars($article['title']) ?>" class="article-image-home" loading="lazy">
@@ -188,7 +188,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                             </p>
                             <p class="article-description-home">
                                 <?= htmlspecialchars($preview) ?>
-                                <?php if ($isLong): ?>
+                                <?php if ($isLong) : ?>
                                     ...
                                 <?php endif; ?>
                             </p>

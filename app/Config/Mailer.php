@@ -76,7 +76,7 @@ class Mailer
      * Send a verification email
      *
      * Sends an email with a verification link to activate the user's account.
-     * 
+     *
      *
      * @param string $to_email Recipient email address
      * @param string $to_name Recipient name
@@ -332,7 +332,7 @@ class Mailer
      *
      * @param string $name Recipient name
      * @param string $token Password reset token
-     * @return string Email content 
+     * @return string Email content
      */
     private function getPasswordResetEmailText(string $name, string $token): string
     {
@@ -372,7 +372,7 @@ TEXT;
      *
      * @param string $name Recipient name
      * @param string $verifyUrl Verification URL with token
-     * @return string Email content 
+     * @return string Email content
      */
     private function getVerificationEmailText(string $name, string $verifyUrl): string
     {
@@ -408,7 +408,7 @@ TEXT;
      *
      * @param string $name Recipient name
      * @param string $alertType Type of alert (email_change or password_change)
-     * @return string Email content 
+     * @return string Email content
      */
     private function getSecurityAlertEmailText(string $name, string $alertType): string
     {
@@ -448,7 +448,7 @@ TEXT;
      *
      * @param string $name Recipient name
      * @param string $code The 6-digit verification code
-     * @return string Email content 
+     * @return string Email content
      */
     private function getEmailVerificationCodeText(string $name, string $code): string
     {
@@ -486,7 +486,7 @@ TEXT;
      *
      * @param string $name Recipient name
      * @param string $code The 6-digit verification code
-     * @return string Email content 
+     * @return string Email content
      */
     private function getPasswordChangeCodeEmailText(string $name, string $code): string
     {
@@ -525,7 +525,7 @@ TEXT;
      * @param int $teamNumber Team number
      * @param int $teamSize Team size
      * @param string $validationUrl Validation URL
-     * @return string Email content 
+     * @return string Email content
      */
     private function getTeamInvitationEmailText(
         string $name,
@@ -572,7 +572,7 @@ TEXT;
      * @param string $name Creator's name
      * @param string $eventName Event name
      * @param int $teamNumber Team number
-     * @return string Email content 
+     * @return string Email content
      */
     private function getTeamConfirmedEmailText(string $name, string $eventName, int $teamNumber): string
     {

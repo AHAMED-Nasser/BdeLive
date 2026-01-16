@@ -4,7 +4,7 @@ namespace App\Config;
 
 /**
  * Mailer stub for PHPStan analysis
- * 
+ *
  * This stub file allows PHPStan to understand the Mailer class
  * even though the actual implementation is in app/Config/ which is gitignored.
  */
@@ -12,7 +12,7 @@ class Mailer
 {
     /**
      * Send a password reset email
-     * 
+     *
      * @param string $to_email Recipient email address
      * @param string $to_name Recipient name
      * @param string $token Reset token
@@ -23,4 +23,3 @@ class Mailer
         return false;
     }
 }
-

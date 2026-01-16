@@ -133,4 +133,3 @@ class AuthFunctionsTest extends TestCase
         $this->assertTrue(function_exists('requireAdmin'));
     }
 }
-

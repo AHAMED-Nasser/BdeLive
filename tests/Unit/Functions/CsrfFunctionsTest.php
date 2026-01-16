@@ -167,4 +167,3 @@ class CsrfFunctionsTest extends TestCase
         $this->assertArrayHasKey('csrf_token', $_SESSION);
     }
 }
-

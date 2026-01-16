@@ -8,7 +8,6 @@ use App\Modules\Controllers\AdminController;
 use App\Modules\Helpers\Pagination;
 use App\Modules\Models\Users\UserManager;
 
-
 /**
  * Controller responsible for managing the administration section users.
  * Handles listing, filtering, and performing actions (promote, demote, block, unblock) on users.
