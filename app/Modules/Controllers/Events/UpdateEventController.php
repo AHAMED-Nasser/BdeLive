@@ -137,24 +137,26 @@ class UpdateEventController extends AdminController
     private function processUpdate(int $eventId): void
     {
         // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
+        // Code CSRF to be corrected
         // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : token CSRF non récupéré correctement avec multipart/form-data
-        // lors de l'upload de fichiers. Solution définitive à implémenter après la démo.
+        // CSRF validation temporarily disabled
+        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
+        // when uploading files.
+        // Permanent solution to be implemented in S4
         // ====================================================================
 
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        // Temporary flag to disable CSRF validation
 
-        // 1. Validation CSRF (désactivée temporairement)
+        $skipCsrfValidation = true; // To be set to false after the problem has been corrected.
+
+        // Validate CSRF token
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');
 
             if (!$this->csrf->validateToken((string) $csrfToken)) {
-                error_log('UpdateEventController: CSRF token validation failed. Token: ' . substr((string) $csrfToken, 0, 10) . '...');
-                $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Token de sécurité invalide. Veuillez réessayer.');
+                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+                $this->redirect('index.php?page=createArticle');
             }
         }
 

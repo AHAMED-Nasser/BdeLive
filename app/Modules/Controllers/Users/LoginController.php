@@ -49,25 +49,25 @@ class LoginController extends DefaultController
     private function processLogin(): void
     {
         // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
+        // Code CSRF to be corrected
         // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : JavaScript form-submit-protection désactivait les champs
-        // avec disabled=true, empêchant l'envoi des données POST.
-        // Solution appliquée : Utiliser readOnly=true au lieu de disabled=true.
+        // CSRF validation temporarily disabled
+        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
+        // when uploading files. Permanent solution to be implemented in S4
         // ====================================================================
 
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        // Temporary flag to disable CSRF validation
 
-        // Validate CSRF token (désactivée temporairement)
+        $skipCsrfValidation = true; // To be set to false after the problem has been corrected.
+
+        // Validate CSRF token
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');
+
             if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Jeton de sécurité invalide. Veuillez réessayer.');
-                $this->render('users/loginPageView');
-                return;
+                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+                $this->redirect('index.php?page=createArticle');
             }
         }
 
