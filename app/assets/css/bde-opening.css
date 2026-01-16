@@ -1,0 +1,16 @@
+.bde-opening {
+    font-size: 0.7rem;
+    color: white;
+    border-radius: 5px;
+    padding: 13px;
+
+    letter-spacing: 1px;
+}
+
+#open {
+    background-color: #25782d;
+}
+
+#close {
+    background-color: #b23232
+}
