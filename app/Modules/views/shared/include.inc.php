@@ -92,6 +92,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     <link rel="stylesheet" href="./assets/css/event.css">
     <link rel="stylesheet" href="./assets/css/modal.css">
     <link rel="stylesheet" href="./assets/css/group-registration.css">
+    <link rel="stylesheet" href="./assets/css/bde-opening.css">
     <title><?= $title ?></title>
 </head>
 <body>
