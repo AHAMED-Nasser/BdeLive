@@ -11,7 +11,7 @@ use App\Core\Application;
  * hamburger menu for mobile devices. Includes user-specific navigation
  * options based on authentication status and user role.
  *
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  * @version 1.1.0
  * @package BdeLive\Views\Shared
  *
@@ -224,14 +224,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                 <?php endif; ?>
             </ul>
 
-            <!-- Menu Hamburger -->
-            <input type="checkbox" id="menu-toggle" class="menu-toggle">
-            <label for="menu-toggle" class="hamburger-icon">
-                <span class="visually-hidden">Ouvrir ou fermer le menu de navigation</span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </label>
+                function determineDarkMode() {
+                    const stored = getStoredPreference();
+                    if (stored !== null) {
+                        return stored === 'true';
+                    }
+                    return isSystemDarkMode();
+                }
 
             <!-- Overlay pour fermer le menu -->
             <button type="button" class="sidebar-overlay" aria-label="Fermer le menu" onclick="document.getElementById('menu-toggle').checked = false"></button>
