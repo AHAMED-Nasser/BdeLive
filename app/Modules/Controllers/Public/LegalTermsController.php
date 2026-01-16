@@ -12,6 +12,8 @@ use App\Modules\Controllers\DefaultController;
  * Handles the display of legal terms and conditions page.
  *
  * @package BdeLive\Controllers
+ * @version 1.0.0
+ * @author BDELIVE - Group 8
  */
 class LegalTermsController extends DefaultController
 {

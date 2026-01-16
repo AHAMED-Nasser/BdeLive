@@ -8,6 +8,7 @@ namespace App\Core;
  * Generates weekly views with vertical timeline (08:00-20:00)
  * and course blocks positioned according to their schedule.
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core
  * @version 1.0.0
  */
@@ -183,10 +184,10 @@ class WeeklyScheduleManager
             $end = new \DateTimeImmutable($endTime);
 
             // Extract hours and minutes
-            $startHour = (int)$start->format('H');
-            $startMinute = (int)$start->format('i');
-            $endHour = (int)$end->format('H');
-            $endMinute = (int)$end->format('i');
+            $startHour = (int) $start->format('H');
+            $startMinute = (int) $start->format('i');
+            $endHour = (int) $end->format('H');
+            $endMinute = (int) $end->format('i');
 
             // Calculate minutes since START_HOUR (08:00)
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;

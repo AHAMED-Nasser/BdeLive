@@ -16,7 +16,9 @@ use PHPMailer\PHPMailer\Exception as PHPMailerException;
  * password reset emails and other application notifications.
  * All emails are sent in plain text format only.
  *
+ * @author BDELIVE - Group 8
  * @package BdeLive\Services
+ * @version 2.3.1
  */
 class Mailer
 {
@@ -37,7 +39,7 @@ class Mailer
     /**
      * Send a password reset email
      *
-     * Sends an email with a password reset token in plain text format.
+     * Sends an email with a password reset token.
      *
      * @param string $to_email Recipient email address
      * @param string $to_name Recipient name
@@ -74,7 +76,7 @@ class Mailer
      * Send a verification email
      *
      * Sends an email with a verification link to activate the user's account.
-     * The email is sent in plain text format.
+     * 
      *
      * @param string $to_email Recipient email address
      * @param string $to_name Recipient name
@@ -225,7 +227,7 @@ class Mailer
     /**
      * Send a team invitation email for group registration
      *
-     * Sends an email inviting someone to join a team for a group event.
+     * Sends an email inviting someone to join a team for a group event, with a link to join the team.
      *
      * @param string $to_email Recipient email address
      * @param string $to_name Recipient name
@@ -326,11 +328,11 @@ class Mailer
     }
 
     /**
-     * Generate plain text email content for password reset
+     * Generate email content for password reset operations
      *
      * @param string $name Recipient name
      * @param string $token Password reset token
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getPasswordResetEmailText(string $name, string $token): string
     {
@@ -366,11 +368,11 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for email verification
+     * Generate email content for email verification operations
      *
      * @param string $name Recipient name
      * @param string $verifyUrl Verification URL with token
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getVerificationEmailText(string $name, string $verifyUrl): string
     {
@@ -402,11 +404,11 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for security alert
+     * Generate email content for security alert operations
      *
      * @param string $name Recipient name
      * @param string $alertType Type of alert (email_change or password_change)
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getSecurityAlertEmailText(string $name, string $alertType): string
     {
@@ -442,11 +444,11 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for email verification code
+     * Generate email content for email verification code operations
      *
      * @param string $name Recipient name
      * @param string $code The 6-digit verification code
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getEmailVerificationCodeText(string $name, string $code): string
     {
@@ -480,11 +482,11 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for password change verification code
+     * Generate email content for password change verification code operations
      *
      * @param string $name Recipient name
      * @param string $code The 6-digit verification code
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getPasswordChangeCodeEmailText(string $name, string $code): string
     {
@@ -515,7 +517,7 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for team invitation
+     * Generate email content for team invitation operations
      *
      * @param string $name Recipient name
      * @param string $eventName Event name
@@ -523,7 +525,7 @@ TEXT;
      * @param int $teamNumber Team number
      * @param int $teamSize Team size
      * @param string $validationUrl Validation URL
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getTeamInvitationEmailText(
         string $name,
@@ -565,12 +567,12 @@ TEXT;
     }
 
     /**
-     * Generate plain text email content for team confirmed notification
+     * Generate email content for team confirmed notification operations
      *
      * @param string $name Creator's name
      * @param string $eventName Event name
      * @param int $teamNumber Team number
-     * @return string Email content in plain text
+     * @return string Email content 
      */
     private function getTeamConfirmedEmailText(string $name, string $eventName, int $teamNumber): string
     {

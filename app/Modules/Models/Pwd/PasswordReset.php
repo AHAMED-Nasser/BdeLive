@@ -16,7 +16,7 @@ use App\Core\Database;
  * password reset operations with time-limited tokens.
  *
  * @package BdeLive
- * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @author BdeLive - Group 8
  * @version 1.0.0
  */
 class PasswordReset
@@ -127,7 +127,7 @@ class PasswordReset
             $stmt->execute([$token]);
             $result = $stmt->fetch();
             // if the token is not valid (expired or not found), show an error message
-            if (! $result) {
+            if (!$result) {
                 return ['valid' => false, 'message' => 'Invalid code'];
             }
             // if the token is already used, show an error message

@@ -22,6 +22,7 @@ use App\Core\Exception\CsrfException;
  * - Timing-safe token comparison
  * - HTML field generation for forms
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Security
  * @version 1.0.0
  */
@@ -139,7 +140,7 @@ class CsrfProtection
     {
         $token = $this->getToken();
         return '<input type="hidden" name="csrf_token" value="' .
-               htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
+            htmlspecialchars($token, ENT_QUOTES, 'UTF-8') . '">';
     }
 
     /**

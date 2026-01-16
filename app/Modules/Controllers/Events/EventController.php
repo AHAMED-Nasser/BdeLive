@@ -14,6 +14,9 @@ use Exception;
  *
  * @package BdeLive\Controllers
  * @version 1.0.0
+ * @author BDELIVE - Group 8
+ *
+ * 
  */
 class EventController extends DefaultController
 {
@@ -27,7 +30,7 @@ class EventController extends DefaultController
         parent::__construct();
 
         try {
-            // 1. MODEL (Repository)
+            // Model
             $repository = new EventRepository();
             $viewMode = $this->request->get('view', 'list'); // View mode detection
 
@@ -54,15 +57,15 @@ class EventController extends DefaultController
         $events = $repository->findAll();
 
         // Calendar parameters (year and month)
-        $calYear = (int)$this->request->get('calyear', date('Y'));
-        $calMonth = (int)$this->request->get('calmonth', date('n'));
+        $calYear = (int) $this->request->get('calyear', date('Y'));
+        $calMonth = (int) $this->request->get('calmonth', date('n'));
 
         // Validate parameters
         if ($calMonth < 1 || $calMonth > 12) {
-            $calMonth = (int)date('n');
+            $calMonth = (int) date('n');
         }
         if ($calYear < 2000 || $calYear > 2100) {
-            $calYear = (int)date('Y');
+            $calYear = (int) date('Y');
         }
 
         // Format events for CalendarManager

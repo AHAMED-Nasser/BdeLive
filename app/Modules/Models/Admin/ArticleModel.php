@@ -17,7 +17,7 @@ use App\Modules\Helpers\SlugGenerator;
  *
  * @package App\Modules\Models\Admin
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  */
 class ArticleModel
 {
@@ -229,7 +229,7 @@ class ArticleModel
             }
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return (int)($result['total'] ?? 0);
+            return (int) ($result['total'] ?? 0);
         } catch (PDOException $e) {
             error_log('ArticleModel::countArticles - ' . $e->getMessage());
             return 0;
@@ -274,7 +274,6 @@ class ArticleModel
 
             // Build query - handle image update, deletion, or keep existing
             if ($imageUrl === 'DELETE') {
-                // Supprimer l'image (mettre à NULL)
                 $query = "UPDATE ARTICLES 
                          SET title = :title, slug = :slug, description = :description, 
                              image_url = NULL, author = :author 
@@ -287,7 +286,6 @@ class ArticleModel
                     ':id' => $articleId
                 ];
             } elseif (!empty($imageUrl)) {
-                // Mettre à jour avec une nouvelle image
                 $query = "UPDATE ARTICLES 
                          SET title = :title, slug = :slug, description = :description, 
                              image_url = :image_url, author = :author 
@@ -301,7 +299,6 @@ class ArticleModel
                     ':id' => $articleId
                 ];
             } else {
-                // Conserver l'image existante (ne pas modifier image_url)
                 $query = "UPDATE ARTICLES 
                          SET title = :title, slug = :slug, description = :description, 
                              author = :author 

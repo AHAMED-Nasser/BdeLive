@@ -24,7 +24,7 @@ use App\Services\CloudinaryService;
  *
  * @package BdeLive\Controllers\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
  * @see EventCreationModel For database operations
@@ -72,18 +72,10 @@ class CreateEventController extends AdminController
      */
     public function createEvent(): void
     {
-        // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
-        // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : token CSRF non récupéré correctement avec multipart/form-data
-        // lors de l'upload de fichiers. Solution définitive à implémenter après la démo.
-        // ====================================================================
 
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        $skipCsrfValidation = true;
 
-        // Validation CSRF (désactivée temporairement)
+        // Validation CSRF
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');
@@ -95,7 +87,6 @@ class CreateEventController extends AdminController
             }
         }
 
-        // Event creation logic goes here
         $eventName = (string) $this->request->post('event-name', '');
         $eventDate = (string) $this->request->post('event-date', '');
         $eventTime = (string) $this->request->post('event-time', '');
@@ -131,7 +122,7 @@ class CreateEventController extends AdminController
         $files = $this->request->file('event-images');
 
         if ($files === null) {
-            // Aucun fichier reçu
+
             $files = [];
         }
 
@@ -152,7 +143,7 @@ class CreateEventController extends AdminController
         $imagesJson = ($imagesJsonEncoded !== false) ? $imagesJsonEncoded : '[]';
 
         $creationModel = new EventCreationModel();
-        $event = $creationModel -> insertEvent(
+        $event = $creationModel->insertEvent(
             $eventName,
             new DateTime($eventDate),
             new DateTime($eventTime),

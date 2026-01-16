@@ -8,6 +8,7 @@ namespace App\Core;
  * Generates daily views with detailed vertical timeline (08:00-20:00)
  * and course blocks positioned according to their schedule.
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core
  * @version 1.0.0
  */
@@ -126,10 +127,10 @@ class DayScheduleManager
             $start = new \DateTimeImmutable($startTime);
             $end = new \DateTimeImmutable($endTime);
 
-            $startHour = (int)$start->format('H');
-            $startMinute = (int)$start->format('i');
-            $endHour = (int)$end->format('H');
-            $endMinute = (int)$end->format('i');
+            $startHour = (int) $start->format('H');
+            $startMinute = (int) $start->format('i');
+            $endHour = (int) $end->format('H');
+            $endMinute = (int) $end->format('i');
 
             // Calculate minutes since START_HOUR
             $startMinutes = ($startHour - self::START_HOUR) * 60 + $startMinute;
@@ -157,8 +158,8 @@ class DayScheduleManager
      */
     private function calculateCurrentTimePosition(): array
     {
-        $hour = (int)date('H');
-        $minute = (int)date('i');
+        $hour = (int) date('H');
+        $minute = (int) date('i');
 
         // Calculate position in minutes since START_HOUR
         $top = (($hour - self::START_HOUR) * 60) + $minute;
@@ -188,7 +189,7 @@ class DayScheduleManager
             7 => 'Dimanche'
         ];
 
-        return $days[(int)$dayNumber] ?? 'Lundi';
+        return $days[(int) $dayNumber] ?? 'Lundi';
     }
 
     /**

@@ -12,6 +12,7 @@ use Exception;
  * Used by AuthManager::requireAuthentication() when a user is not logged in.
  * HTTP status code: 401 Unauthorized
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Exception
  * @version 1.0.0
  */

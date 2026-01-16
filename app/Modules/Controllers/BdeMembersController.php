@@ -10,7 +10,7 @@ namespace App\Modules\Controllers;
  *
  * @package BdeLive\Controllers
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  */
 class BdeMembersController extends AuthenticatedController
 {

@@ -6,7 +6,7 @@
  * Allows users to permanently delete their account with CSRF protection.
  * Requires manual email confirmation (no copy-paste allowed).
  *
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  * @version 2.0.0
  * @package BdeLive\Views\Users
  *
@@ -28,12 +28,12 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
         </div>
 
         <!-- Error Message -->
-        <?php if (!empty($flash['error'])) : ?>
+        <?php if (!empty($flash['error'])): ?>
             <div class="alert alert-danger"><?= htmlspecialchars($flash['error']) ?></div>
         <?php endif; ?>
 
         <!-- Success Message -->
-        <?php if (!empty($flash['success'])) : ?>
+        <?php if (!empty($flash['success'])): ?>
             <div class="alert alert-success"><?= htmlspecialchars($flash['success']) ?></div>
         <?php endif; ?>
 
@@ -49,29 +49,24 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
         </div>
 
         <div class="delete-account-info">
-            <p>Pour confirmer la suppression, veuillez <strong>taper manuellement</strong> votre adresse email actuelle :</p>
+            <p>Pour confirmer la suppression, veuillez <strong>taper manuellement</strong> votre adresse email actuelle
+                :</p>
             <p class="user-email-hint"><strong><?= htmlspecialchars($user['email'] ?? '') ?></strong></p>
         </div>
 
         <form method="post" action="index.php?page=delete_account" id="deleteAccountForm" class="delete-account-form">
             <?= $csrf->getTokenField() ?>
-            
+
             <div class="form-group">
                 <label for="confirm-email" class="form-label">
                     <i class="fas fa-envelope"></i> Confirmez votre email
                 </label>
-                <input 
-                    type="email" 
-                    id="confirm-email" 
-                    name="confirm_email" 
-                    class="form-input email-confirm-input" 
-                    placeholder="Tapez votre email ici..."
-                    autocomplete="off"
-                    required
-                >
+                <input type="email" id="confirm-email" name="confirm_email" class="form-input email-confirm-input"
+                    placeholder="Tapez votre email ici..." autocomplete="off" required>
                 <div class="form-error" id="email-error"></div>
                 <div class="form-hint">
-                    <i class="fas fa-info-circle"></i> Vous devez taper votre email manuellement (copier-coller désactivé)
+                    <i class="fas fa-info-circle"></i> Vous devez taper votre email manuellement (copier-coller
+                    désactivé)
                 </div>
             </div>
 
@@ -90,7 +85,7 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
 <script src="./assets/js/delete-account.js"></script>
 <script>
     // Passer l'email de l'utilisateur au script
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         if (typeof initDeleteAccount !== 'undefined') {
             initDeleteAccount('<?= htmlspecialchars($user['email'] ?? '', ENT_QUOTES) ?>');
         }

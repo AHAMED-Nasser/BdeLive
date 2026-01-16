@@ -17,6 +17,7 @@ namespace App\Core\Http;
  * - HTTP method detection
  * - URL/host information
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Http
  * @version 1.0.0
  */

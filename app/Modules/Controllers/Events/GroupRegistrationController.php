@@ -24,7 +24,7 @@ use App\Config\Mailer;
  *
  * @package BdeLive\Controllers\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  *
  * @see AuthenticatedController For authentication requirements
  * @see EventTeamRepository For team database operations

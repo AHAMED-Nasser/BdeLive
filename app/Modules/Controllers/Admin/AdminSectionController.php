@@ -8,8 +8,23 @@ use App\Modules\Controllers\AdminController;
 use App\Modules\Helpers\Pagination;
 use App\Modules\Models\Users\UserManager;
 
+
+/**
+ * Controller responsible for managing the administration section users.
+ * Handles listing, filtering, and performing actions (promote, demote, block, unblock) on users.
+ *
+ * @author BDELIVE - Groupe 8
+ * @package App\Modules\Controllers\Admin
+ * @version 1.0.0
+ */
 class AdminSectionController extends AdminController
 {
+    /**
+     * Initializes the controller, handles user actions, and renders the administration view.
+     * Processes filters, search, and pagination for the user list.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -31,7 +46,7 @@ class AdminSectionController extends AdminController
         }
 
         // Clean search term
-        $search = trim((string)$this->request->get('search', ''));
+        $search = trim((string) $this->request->get('search', ''));
 
         // Use unified methods with all filters
         $total = $userManager->countUsers($showBlocked, $roleFilter, $search);
@@ -65,10 +80,17 @@ class AdminSectionController extends AdminController
         ]);
     }
 
+    /**
+     * Handles administrative actions performed on users.
+     * managed actions: promote, demote, block, unblock.
+     *
+     * @param UserManager $manager The user manager instance to perform operations.
+     * @return void
+     */
     private function handleAction(UserManager $manager): void
     {
-        $id = (int)$this->request->post('user_id');
-        $action = (string)$this->request->post('action');
+        $id = (int) $this->request->post('user_id');
+        $action = (string) $this->request->post('action');
 
         switch ($action) {
             case 'promote':

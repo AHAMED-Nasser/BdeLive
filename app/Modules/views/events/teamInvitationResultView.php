@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var array<string, mixed> $invitation Invitation data with event info
  * @var bool $alreadyProcessed Whether the invitation was already processed
@@ -26,7 +26,7 @@ $isDeclined = $status === 'declined';
 
 <div class="container" style="max-width: 500px; margin: 60px auto; padding: 20px; text-align: center;">
 
-    <?php if ($alreadyProcessed) : ?>
+    <?php if ($alreadyProcessed): ?>
         <div style="color: #6c757d; margin-bottom: 20px;">
             <i class="fas fa-info-circle" style="font-size: 48px;"></i>
         </div>
@@ -38,29 +38,29 @@ $isDeclined = $status === 'declined';
             </strong>
         </p>
 
-    <?php elseif ($isConfirmed) : ?>
+    <?php elseif ($isConfirmed): ?>
         <div style="color: #28a745; margin-bottom: 20px;">
             <i class="fas fa-check-circle" style="font-size: 48px;"></i>
         </div>
         <h2 style="color: #333; margin-bottom: 15px;">Inscription au groupe confirmee</h2>
 
-        <?php if (!empty($allConfirmed)) : ?>
+        <?php if (!empty($allConfirmed)): ?>
             <p style="color: #155724; background: #d4edda; padding: 15px; border-radius: 8px;">
                 Tous les membres ont confirme. Le groupe est maintenant inscrit.
             </p>
-        <?php else : ?>
+        <?php else: ?>
             <p style="color: #856404; background: #fff3cd; padding: 15px; border-radius: 8px;">
                 En attente de la confirmation des autres membres.
             </p>
         <?php endif; ?>
 
-    <?php else : ?>
+    <?php else: ?>
         <div style="color: #dc3545; margin-bottom: 20px;">
             <i class="fas fa-times-circle" style="font-size: 48px;"></i>
         </div>
         <h2 style="color: #333; margin-bottom: 15px;">Invitation refusee</h2>
 
-        <?php if (!empty($teamCancelled)) : ?>
+        <?php if (!empty($teamCancelled)): ?>
             <p style="color: #721c24; background: #f8d7da; padding: 15px; border-radius: 8px;">
                 Le groupe a ete annule.
             </p>

@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var bool $isAdmin
  * @var array<string, mixed> $event
@@ -16,7 +16,6 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  */
 start_page("BDELive - Evénement : " . $event['event_name'], true, $user ?? null);
-// Les variables $events et $pagination sont définies par EventController
 
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
@@ -29,13 +28,13 @@ $userId = $user['user_id'] ?? null;
     <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event['event_name']) ?></h1>
 
     <!-- Messages flash -->
-    <?php if (!empty($flash['success'])) : ?>
+    <?php if (!empty($flash['success'])): ?>
         <div class="event-flash-success">
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($flash['error'])) : ?>
+    <?php if (!empty($flash['error'])): ?>
         <div class="event-flash-error">
             <?= htmlspecialchars($flash['error']) ?>
         </div>
@@ -44,14 +43,14 @@ $userId = $user['user_id'] ?? null;
     <div class="event-grid-images">
         <?php
         $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
-        if (!empty($images)) :
-            foreach ($images as $index => $img) :
+        if (!empty($images)):
+            foreach ($images as $index => $img):
                 $src = is_array($img) ? $img['url'] : $img;
                 $altText = htmlspecialchars($event['event_name']) . ' - Photo ' . ($index + 1);
                 $lazyAttr = $index > 0 ? ' loading="lazy"' : '';
                 echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image"' . $lazyAttr . ' decoding="async">';
             endforeach;
-        else :
+        else:
             // No images available
         endif; ?>
     </div>
@@ -73,22 +72,22 @@ $userId = $user['user_id'] ?? null;
         $teamSize = (int) ($event['team_size'] ?? 1);
         ?>
 
-        <?php if ($userId) : ?>
+        <?php if ($userId): ?>
             <?php
             // Vérification de l'inscription
             $isRegistered = $registrationRepo->isUserRegistered((int) $event['event_id'], (int) $userId);
             ?>
-            <?php if ($isRegistered) : ?>
+            <?php if ($isRegistered): ?>
                 <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $event['event_id'] ?>" class="btn-delete">
                     Se désinscrire
                 </a>
-            <?php else : ?>
-                <?php if ($isGroupEvent) : ?>
+            <?php else: ?>
+                <?php if ($isGroupEvent): ?>
                     <!-- Événement en groupe -->
                     <a href="index.php?page=groupRegistration&event_id=<?= $event['event_id'] ?>" class="btn-group-register">
                         <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
                     </a>
-                <?php else : ?>
+                <?php else: ?>
                     <!-- Événement individuel -->
                     <a href="index.php?page=registerEvent&action=register&event_id=<?= $event['event_id'] ?>"
                         class="btn-individual-register">
@@ -96,16 +95,16 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
+        <?php elseif (isset($user) && $user['user_status'] === 'BDE'): ?>
             <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
-        <?php elseif (!isset($userId)) : ?>
+        <?php elseif (!isset($userId)): ?>
             <p>Veuillez vous <a href="index.php?page=login"
                     style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
 
         <?php endif; ?>
     </div>
 
-    <?php if ($isAdmin) : ?>
+    <?php if ($isAdmin): ?>
         <div class="admin-zone">
             <h2>Administration de l'événement</h2>
             <div class="admin-zone-actions">

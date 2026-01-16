@@ -25,6 +25,7 @@ use App\Core\Auth\AuthManager;
  * - Redirect shortcuts
  *
  * @package App\Modules\Controllers
+ * @author Bdelive - Group 8
  * @version 1.0.0
  */
 abstract class BaseController
@@ -66,15 +67,15 @@ abstract class BaseController
     protected function render(string $viewPath, array $data = []): void
     {
         $globalData = [
-            'csrf'  => $this->csrf,
-            'auth'  => $this->auth,
+            'csrf' => $this->csrf,
+            'auth' => $this->auth,
             'request' => $this->request,
 
             'flash' => [
                 'success' => $this->session->getFlash('success'),
-                'error'   => $this->session->getFlash('error'),
+                'error' => $this->session->getFlash('error'),
                 'warning' => $this->session->getFlash('warning'),
-                'info'    => $this->session->getFlash('info'),
+                'info' => $this->session->getFlash('info'),
                 'show_register_link' => $this->session->getFlash('show_register_link'),
             ],
 

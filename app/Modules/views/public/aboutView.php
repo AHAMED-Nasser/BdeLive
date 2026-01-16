@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Public
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var array<string, mixed>|null $user
  */

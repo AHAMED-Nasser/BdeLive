@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var array<string, mixed> $event Event data
  * @var int $teamSize Maximum team size
@@ -38,19 +38,19 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
     </div>
 
     <!-- Flash messages -->
-    <?php if (!empty($flash['success'])) : ?>
+    <?php if (!empty($flash['success'])): ?>
         <div class="group-flash-success">
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
-    
-    <?php if (!empty($flash['error'])) : ?>
+
+    <?php if (!empty($flash['error'])): ?>
         <div class="group-flash-error">
             <?= htmlspecialchars($flash['error']) ?>
         </div>
     <?php endif; ?>
-    
-    <?php if (!empty($flash['warning'])) : ?>
+
+    <?php if (!empty($flash['warning'])): ?>
         <div class="group-flash-warning">
             <?= htmlspecialchars($flash['warning']) ?>
         </div>
@@ -81,7 +81,7 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
         </h4>
 
         <div id="members-container">
-            <?php for ($i = 1; $i <= $requiredMembers; $i++) : ?>
+            <?php for ($i = 1; $i <= $requiredMembers; $i++): ?>
                 <div class="member-input">
                     <label for="member-<?= $i ?>">
                         Membre <?= $i ?>
@@ -103,15 +103,17 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
         </div>
     </form>
 
-    <?php if (!empty($userTeams)) : ?>
+    <?php if (!empty($userTeams)): ?>
         <div class="existing-teams">
             <h4>
                 <i class="fas fa-history"></i> Vos groupes en cours
             </h4>
-            <?php foreach ($userTeams as $team) : ?>
-                <div class="team-card <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
+            <?php foreach ($userTeams as $team): ?>
+                <div
+                    class="team-card <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
                     <strong>Groupe <?= $team['team_number'] ?></strong>
-                    <span class="status-badge <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
+                    <span
+                        class="status-badge <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
                         <?= $team['status'] === 'confirmed' ? 'Confirmé' : ($team['status'] === 'pending' ? 'En attente' : 'Annulé') ?>
                     </span>
                     <p>

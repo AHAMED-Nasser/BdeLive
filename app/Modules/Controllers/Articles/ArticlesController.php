@@ -17,7 +17,7 @@ use App\Modules\Helpers\Pagination;
  *
  * @package App\Modules\Controllers\Articles
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  */
 class ArticlesController extends BaseController
 {
@@ -74,7 +74,7 @@ class ArticlesController extends BaseController
     private function displayArticlesList(): void
     {
         $articlesPerPage = 9; // 9 articles par page (grille 3x3)
-        $currentPage = max(1, (int)$this->request->get('p', 1));
+        $currentPage = max(1, (int) $this->request->get('p', 1));
 
         $articleModel = new ArticleModel();
         $totalArticles = $articleModel->countArticles();

@@ -24,7 +24,7 @@ use App\Config\Mailer;
  *
  * @package BdeLive\Controllers\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  */
 class ValidateTeamInvitationController extends DefaultController
 {

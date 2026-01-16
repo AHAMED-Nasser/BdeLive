@@ -19,6 +19,12 @@ use JetBrains\PhpStorm\NoReturn;
  * and uses the Dompdf library to generate a downloadable participant list.
  *
  * @package App\Modules\Controllers\Events
+ * @version 1.0.0
+ * @author BDELIVE - Group 8
+ *
+ * @see AdminController For admin authentication requirements
+ * @see EventRepository For database operations
+ * @see EventRegistrationRepository For database operations
  */
 class ExportUserEventController extends AdminController
 {
@@ -107,7 +113,7 @@ class ExportUserEventController extends AdminController
             <p class="event-info">
                 Date : <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
                 a <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
-                <?php if ($isGroupEvent) : ?>
+                <?php if ($isGroupEvent): ?>
                     <br>Evenement en groupe (<?= htmlspecialchars((string) ($event['team_size'] ?? 1)) ?> personnes/groupe)
                 <?php endif; ?>
             </p>
@@ -120,16 +126,16 @@ class ExportUserEventController extends AdminController
                 $totalTeams = count($teamRegistrations);
                 $totalTeamMembers = array_sum(array_map('count', $teamRegistrations));
                 ?>
-                <?php if ($totalIndividual > 0) : ?>
+                <?php if ($totalIndividual > 0): ?>
                     <?= $totalIndividual ?> inscription(s) individuelle(s)
                 <?php endif; ?>
-                <?php if ($totalTeams > 0) : ?>
+                <?php if ($totalTeams > 0): ?>
                     | <?= $totalTeams ?> groupe(s) (<?= $totalTeamMembers ?> personnes)
                 <?php endif; ?>
                 | Total : <?= $totalIndividual + $totalTeamMembers ?> participant(s)
             </div>
 
-            <?php if (!empty($individualRegistrations)) : ?>
+            <?php if (!empty($individualRegistrations)): ?>
                 <h3>Inscriptions individuelles</h3>
                 <table>
                     <thead>
@@ -142,7 +148,7 @@ class ExportUserEventController extends AdminController
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($individualRegistrations as $user) : ?>
+                        <?php foreach ($individualRegistrations as $user): ?>
                             <tr>
                                 <td><?= htmlspecialchars($user['last_name'] ?? '') ?></td>
                                 <td><?= htmlspecialchars($user['first_name'] ?? '') ?></td>
@@ -159,10 +165,10 @@ class ExportUserEventController extends AdminController
                 </table>
             <?php endif; ?>
 
-            <?php if (!empty($teamRegistrations)) : ?>
+            <?php if (!empty($teamRegistrations)): ?>
                 <h2>Groupes inscrits</h2>
 
-                <?php foreach ($teamRegistrations as $teamNumber => $members) : ?>
+                <?php foreach ($teamRegistrations as $teamNumber => $members): ?>
                     <table>
                         <thead>
                             <tr class="group-title-row">
@@ -177,7 +183,7 @@ class ExportUserEventController extends AdminController
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($members as $user) : ?>
+                            <?php foreach ($members as $user): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($user['last_name'] ?? '') ?></td>
                                     <td><?= htmlspecialchars($user['first_name'] ?? '') ?></td>
@@ -196,7 +202,7 @@ class ExportUserEventController extends AdminController
                 <?php endforeach; ?>
             <?php endif; ?>
 
-            <?php if (empty($individualRegistrations) && empty($teamRegistrations)) : ?>
+            <?php if (empty($individualRegistrations) && empty($teamRegistrations)): ?>
                 <p class="empty-message">
                     Aucune inscription pour cet evenement.
                 </p>

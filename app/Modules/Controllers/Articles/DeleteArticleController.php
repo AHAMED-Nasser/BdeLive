@@ -21,7 +21,7 @@ use App\Modules\Models\Admin\ArticleModel;
  *
  * @package App\Modules\Controllers\Articles
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
  * @see ArticleModel For database operations
