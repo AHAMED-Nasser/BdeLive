@@ -1,8 +1,10 @@
 <?php
 declare(strict_types=1);
 
-// Load configuration
-require_once __DIR__ . '/Config/config.php';
+//// Load configuration
+//require_once __DIR__ . '/Config/config.php';
+//
+
 
 // Set timezone to France (Europe/Paris)
 date_default_timezone_set('Europe/Paris');
@@ -57,7 +59,20 @@ ini_set('display_errors', (string)1);
 ini_set('display_startup_errors', (string)1);
 
 // Composer autoload (PSR-4)
-require_once __DIR__ . '/../vendor/autoload.php';
+$projectRoot = dirname(__DIR__, 1);
+
+if (file_exists($projectRoot . '/vendor/autoload.php')) {
+    require_once $projectRoot . '/vendor/autoload.php';
+}
+
+// Chargement sécurisé du .env
+if (file_exists($projectRoot . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
+    $dotenv->load();
+} else {
+    // Si le fichier n'existe pas, on affiche un message clair pour le dev
+    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
+}
 
 // Initialiser l'application (démarre la session automatiquement)
 $app = Application::getInstance();
