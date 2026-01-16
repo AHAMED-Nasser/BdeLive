@@ -372,7 +372,6 @@ The site is hosted on **AlwaysData**, and the database is managed via **phpMyAdm
 
 ## Authors
 
->>>>>>> DEV
 - AHAMED Nasser
 - BOUDHIB Mohamed-Amine
 - CANTOR Romain
