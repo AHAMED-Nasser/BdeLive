@@ -76,7 +76,7 @@ class ResetPasswordController extends DefaultController
 
             if (!$this->csrf->validateToken((string) $csrfToken)) {
                 $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=createArticle');
+                $this->redirect('index.php?page=reste_password');
             }
         }
 
