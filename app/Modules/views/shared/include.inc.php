@@ -302,7 +302,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             </div>
         </nav>
     </header>
-<?php endif; ?>
+    <?php endif; ?>
 
     <!-- Bouton Back to Top -->
     <button id="back-to-top" aria-label="Retour en haut de la page">
