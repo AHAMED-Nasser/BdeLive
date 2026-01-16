@@ -7,7 +7,8 @@
     "phpmailer/phpmailer": "^7.0",
     "cloudinary/cloudinary_php": "^3.1",
     "ext-pdo": "*",
-    "dompdf/dompdf": "^3.1"
+    "dompdf/dompdf": "^3.1",
+    "vlucas/phpdotenv": "^5.6"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.11",

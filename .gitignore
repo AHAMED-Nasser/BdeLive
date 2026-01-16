@@ -50,6 +50,7 @@ app/config/config.php
 app/Config/*
 !app/Config/Mailer.php
 config/cloudinary.php
+Config/cloudinary.php
 .idea/php.xml
 
 # Local config overrides
