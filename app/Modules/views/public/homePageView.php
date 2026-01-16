@@ -58,15 +58,15 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
 
         <div class="opening-hour">
             <?php
-            $day = date('N');
+            $day = (int)date('N');
             $hour = date('H:i');
-            if (
-                $day >= 1 && $day <= 5 &&
-                ($hour >= '10:05' && $hour <= '10:25') ||
-                ($hour >= '12:15' && $hour <= '13:30') ||
-                ($hour >= '15:20' && $hour <= '15:40')
-            ) :
-                ?>
+
+            $openDay = [1, 2, 3, 4, 5];
+
+            $isOpenDay = in_array($day, $openDay, true);
+            $isOpenHour = ($hour >= '10:05' && $hour <= '10:25') || ($hour >= '12:15' && $hour <= '13:30') || ($hour >= '15:20' && $hour <= '15:40');
+
+            if ($isOpenDay && $isOpenHour) : ?>
             <span style="color: white; border-radius: 5px; padding: 13px; background-color: #25782d; letter-spacing: 1px">BDE Ouvert</span>
             <?php else : ?>
             <span style="color: white; border-radius: 5px; padding: 13px; background-color: #b23232; letter-spacing: 1px">BDE Fermé</span>
