@@ -3,7 +3,7 @@
 BDELive est le site d'internet du Bureau Des Etudiants du BUT Informatique d'Aix-en-Provence (aussi appelé Inform'Aix'), permettant de se renseigner sur les différentes actualités et événements du BDE.
 
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![Licence](https://img.shields.io/badge/licence-MIT-green.svg)
 
 ---
