@@ -223,15 +223,6 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     </li>
                 <?php endif; ?>
             </ul>
-
-                function determineDarkMode() {
-                    const stored = getStoredPreference();
-                    if (stored !== null) {
-                        return stored === 'true';
-                    }
-                    return isSystemDarkMode();
-                }
-
             <!-- Overlay pour fermer le menu -->
             <button type="button" class="sidebar-overlay" aria-label="Fermer le menu" onclick="document.getElementById('menu-toggle').checked = false"></button>
 
