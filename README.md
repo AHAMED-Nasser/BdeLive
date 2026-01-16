@@ -28,6 +28,7 @@ BDELive est le site d'internet du Bureau Des Etudiants du BUT Informatique d'Aix
 ## À propos
 
 BDELive est une solution numérique centralisant la communication et l'organisation pour optimiser les interactions entre le BDE et l’ensemble des acteurs du campus. Elle a été créer par un groupe d'étudiant concernant un projet universitaire dit "SAE" (Situation d'Apprentissage Evalué).
+
 ---
 
 ## Fonctionnalités
