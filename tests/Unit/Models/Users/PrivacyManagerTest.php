@@ -945,4 +945,3 @@ class PrivacyManagerTest extends TestCase
         $this->assertEquals(5, $result);
     }
 }
-

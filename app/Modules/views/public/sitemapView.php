@@ -8,7 +8,7 @@
  *
  * @package BdeLive\Views\Public
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  */
 
 start_page("Plan du site - BDELive", true, $user ?? null);

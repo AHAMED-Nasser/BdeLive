@@ -39,7 +39,7 @@ class ResponseTest extends TestCase
     public function testSetHeaderStoresHeader(): void
     {
         $this->response->setHeader('Content-Type', 'application/json');
-        
+
         $headers = $this->response->getHeaders();
         $this->assertArrayHasKey('Content-Type', $headers);
         $this->assertEquals('application/json', $headers['Content-Type']);
@@ -61,7 +61,7 @@ class ResponseTest extends TestCase
     public function testSetContentTypeSetsCorrectHeader(): void
     {
         $this->response->setContentType('text/html');
-        
+
         $headers = $this->response->getHeaders();
         $this->assertEquals('text/html; charset=UTF-8', $headers['Content-Type']);
     }
@@ -69,7 +69,7 @@ class ResponseTest extends TestCase
     public function testSetContentTypeWithCustomCharset(): void
     {
         $this->response->setContentType('text/plain', 'ISO-8859-1');
-        
+
         $headers = $this->response->getHeaders();
         $this->assertEquals('text/plain; charset=ISO-8859-1', $headers['Content-Type']);
     }
@@ -89,7 +89,7 @@ class ResponseTest extends TestCase
 
         $this->assertSame($this->response, $result);
         $this->assertEquals(201, $this->response->getStatusCode());
-        
+
         $headers = $this->response->getHeaders();
         $this->assertEquals('value', $headers['X-Custom']);
         $this->assertEquals('application/json; charset=UTF-8', $headers['Content-Type']);
@@ -103,7 +103,7 @@ class ResponseTest extends TestCase
             ->setHeader('X-Header-3', 'value3');
 
         $headers = $this->response->getHeaders();
-        
+
         $this->assertCount(3, $headers);
         $this->assertEquals('value1', $headers['X-Header-1']);
         $this->assertEquals('value2', $headers['X-Header-2']);
@@ -114,16 +114,16 @@ class ResponseTest extends TestCase
     {
         // This test verifies that send() can be called without errors
         // In CLI mode, headers_sent() returns false, so send() should work
-        
+
         // We can't test the actual header() calls in PHPUnit (CLI mode)
         // but we can verify the method doesn't throw exceptions
-        
+
         $this->response->setStatusCode(200);
         $this->response->setHeader('X-Test', 'value');
-        
+
         // Should not throw
         $this->response->send();
-        
+
         $this->assertTrue(true); // Assert we reach here
     }
 

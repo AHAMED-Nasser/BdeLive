@@ -12,6 +12,7 @@ use Exception;
  * Used by AuthManager::requireAdmin() when a user is not an administrator.
  * HTTP status code: 403 Forbidden
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Exception
  * @version 1.0.0
  */

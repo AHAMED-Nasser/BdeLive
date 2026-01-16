@@ -23,7 +23,7 @@ use App\Modules\Repositories\EventTeamRepository;
  *
  * @package BdeLive\Controllers\Events
  * @version 1.1.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  *
  * @see AuthenticatedController For authentication requirements
  * @see EventRegistrationRepository For database operations

@@ -18,12 +18,10 @@ namespace App\Modules\Helpers;
  * $uniqueSlug = SlugGenerator::generateUnique('Mon Article', function($slug) {
  *     // Check if slug exists in database
  *     return $this->slugExists($slug);
- * });
- * ```
  *
  * @package App\Modules\Helpers
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  */
 class SlugGenerator
 {
@@ -96,20 +94,59 @@ class SlugGenerator
     private static function removeAccents(string $string): string
     {
         $unwantedArray = [
-            'á' => 'a', 'à' => 'a', 'â' => 'a', 'ä' => 'a', 'ã' => 'a', 'å' => 'a',
-            'é' => 'e', 'è' => 'e', 'ê' => 'e', 'ë' => 'e',
-            'í' => 'i', 'ì' => 'i', 'î' => 'i', 'ï' => 'i',
-            'ó' => 'o', 'ò' => 'o', 'ô' => 'o', 'ö' => 'o', 'õ' => 'o',
-            'ú' => 'u', 'ù' => 'u', 'û' => 'u', 'ü' => 'u',
-            'ý' => 'y', 'ÿ' => 'y',
-            'ñ' => 'n', 'ç' => 'c',
-            'Á' => 'a', 'À' => 'a', 'Â' => 'a', 'Ä' => 'a', 'Ã' => 'a', 'Å' => 'a',
-            'É' => 'e', 'È' => 'e', 'Ê' => 'e', 'Ë' => 'e',
-            'Í' => 'i', 'Ì' => 'i', 'Î' => 'i', 'Ï' => 'i',
-            'Ó' => 'o', 'Ò' => 'o', 'Ô' => 'o', 'Ö' => 'o', 'Õ' => 'o',
-            'Ú' => 'u', 'Ù' => 'u', 'Û' => 'u', 'Ü' => 'u',
+            'á' => 'a',
+            'à' => 'a',
+            'â' => 'a',
+            'ä' => 'a',
+            'ã' => 'a',
+            'å' => 'a',
+            'é' => 'e',
+            'è' => 'e',
+            'ê' => 'e',
+            'ë' => 'e',
+            'í' => 'i',
+            'ì' => 'i',
+            'î' => 'i',
+            'ï' => 'i',
+            'ó' => 'o',
+            'ò' => 'o',
+            'ô' => 'o',
+            'ö' => 'o',
+            'õ' => 'o',
+            'ú' => 'u',
+            'ù' => 'u',
+            'û' => 'u',
+            'ü' => 'u',
+            'ý' => 'y',
+            'ÿ' => 'y',
+            'ñ' => 'n',
+            'ç' => 'c',
+            'Á' => 'a',
+            'À' => 'a',
+            'Â' => 'a',
+            'Ä' => 'a',
+            'Ã' => 'a',
+            'Å' => 'a',
+            'É' => 'e',
+            'È' => 'e',
+            'Ê' => 'e',
+            'Ë' => 'e',
+            'Í' => 'i',
+            'Ì' => 'i',
+            'Î' => 'i',
+            'Ï' => 'i',
+            'Ó' => 'o',
+            'Ò' => 'o',
+            'Ô' => 'o',
+            'Ö' => 'o',
+            'Õ' => 'o',
+            'Ú' => 'u',
+            'Ù' => 'u',
+            'Û' => 'u',
+            'Ü' => 'u',
             'Ý' => 'y',
-            'Ñ' => 'n', 'Ç' => 'c'
+            'Ñ' => 'n',
+            'Ç' => 'c'
         ];
 
         return strtr($string, $unwantedArray);

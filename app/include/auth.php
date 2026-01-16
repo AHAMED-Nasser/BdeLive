@@ -6,6 +6,7 @@
  * Checks if a user session is active and if the user is logged in.
  * Redirects to the login page with an error message if the user is not authenticated.
  *
+ * @author BDELIVE - Groupe 8
  * @return void
  * @throws void Exits execution if user is not authenticated
  */

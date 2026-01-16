@@ -15,6 +15,7 @@ use App\Core\Database;
  * Based on the EVENTS table structure from the SQL dump.
  *
  * @package BdeLive\Repositories
+ * @author BdeLive - Group 8
  * @version 1.0.0
  */
 class EventRepository
@@ -137,7 +138,7 @@ class EventRepository
             ]);
         } catch (PDOException $e) {
             error_log('EventRepository::updateEventImages - ' . $e->getMessage());
-            return  false;
+            return false;
         }
     }
 

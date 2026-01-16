@@ -11,7 +11,7 @@
  *
  * @package BdeLive\Include
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BDELIVE - Group 8
  *
  * @see \App\Core\Application For the OOP architecture
  * @see \App\Modules\Controllers\BaseController For controller base class

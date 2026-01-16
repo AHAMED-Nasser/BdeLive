@@ -17,6 +17,7 @@ namespace App\Core\Http;
  * - JSON responses
  * - Content-Type management
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Http
  * @version 1.0.0
  */

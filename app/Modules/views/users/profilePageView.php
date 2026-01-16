@@ -6,7 +6,7 @@
  * Users can modify their first name, last name, and status.
  * Email and password fields are displayed but cannot be modified on this page.
  *
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  * @version 1.1.0
  * @package BdeLive\Views\Users
  *

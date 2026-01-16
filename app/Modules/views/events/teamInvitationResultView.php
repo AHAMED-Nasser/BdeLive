@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var array<string, mixed> $invitation Invitation data with event info
  * @var bool $alreadyProcessed Whether the invitation was already processed

@@ -42,7 +42,7 @@ class SessionManagerTest extends TestCase
     {
         $this->session->set('to_remove', 'value');
         $this->assertTrue($this->session->has('to_remove'));
-        
+
         $this->session->remove('to_remove');
         $this->assertFalse($this->session->has('to_remove'));
     }
@@ -51,9 +51,9 @@ class SessionManagerTest extends TestCase
     {
         $this->session->flash('success', 'Test message');
         $message = $this->session->getFlash('success');
-        
+
         $this->assertEquals('Test message', $message);
-        
+
         // Flash message should be consumed after first retrieval
         $this->assertNull($this->session->getFlash('success'));
     }
@@ -63,7 +63,7 @@ class SessionManagerTest extends TestCase
         $this->session->flash('success', 'Success message');
         $this->session->flash('error', 'Error message');
         $this->session->flash('warning', 'Warning message');
-        
+
         $this->assertEquals('Success message', $this->session->getFlash('success'));
         $this->assertEquals('Error message', $this->session->getFlash('error'));
         $this->assertEquals('Warning message', $this->session->getFlash('warning'));

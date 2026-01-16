@@ -22,7 +22,15 @@ use Exception;
  * - Updating event details including name, date, time, location, theme, and description.
  * - Handling input errors and server-side exceptions during the update process.
  *
+ * @author BDELIVE - Group 8
  * @package App\Modules\Controllers\Events
+ * @version 1.2.3
+ *
+ * @see AdminController For admin authentication requirements
+ * @see EventCreationModel For database operations
+ * @see EventRepository For database operations
+ * @see EventTeamRepository For database operations
+ * @see EventRegistrationRepository For database operations
  */
 class UpdateEventController extends AdminController
 {
@@ -144,7 +152,7 @@ class UpdateEventController extends AdminController
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string)$csrfToken)) {
+            if (!$this->csrf->validateToken((string) $csrfToken)) {
                 error_log('UpdateEventController: CSRF token validation failed. Token: ' . substr((string) $csrfToken, 0, 10) . '...');
                 $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Token de sécurité invalide. Veuillez réessayer.');
             }

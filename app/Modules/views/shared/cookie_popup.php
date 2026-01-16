@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Shared
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var Application $app
  */
@@ -24,7 +24,8 @@ $app = Application::getInstance();
 <div id="cookieConsent" role="dialog" aria-live="polite">
     <div class="text">
         <h4>Nous utilisons des cookies</h4>
-        <p>Nous utilisons des cookies pour améliorer votre expérience, analyser le trafic et personnaliser le contenu</p>
+        <p>Nous utilisons des cookies pour améliorer votre expérience, analyser le trafic et personnaliser le contenu
+        </p>
     </div>
     <div class="actions">
         <button id="acceptBtn" class="btn">Accepter</button>

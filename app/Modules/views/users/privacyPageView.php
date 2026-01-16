@@ -9,7 +9,7 @@
  * - Account blocking display when security measures are active
  * - Real-time countdown for code resend cooldown
  *
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  * @version 1.2.0
  * @package BdeLive\Views\Users
  *

@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var array<string, mixed> $event Event data
  * @var int $teamSize Maximum team size
@@ -43,13 +43,13 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
-    
+
     <?php if (!empty($flash['error'])) : ?>
         <div class="group-flash-error">
             <?= htmlspecialchars($flash['error']) ?>
         </div>
     <?php endif; ?>
-    
+
     <?php if (!empty($flash['warning'])) : ?>
         <div class="group-flash-warning">
             <?= htmlspecialchars($flash['warning']) ?>
@@ -109,9 +109,11 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
                 <i class="fas fa-history"></i> Vos groupes en cours
             </h4>
             <?php foreach ($userTeams as $team) : ?>
-                <div class="team-card <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
+                <div
+                    class="team-card <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
                     <strong>Groupe <?= $team['team_number'] ?></strong>
-                    <span class="status-badge <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
+                    <span
+                        class="status-badge <?= $team['status'] === 'confirmed' ? 'confirmed' : ($team['status'] === 'pending' ? 'pending' : 'cancelled') ?>">
                         <?= $team['status'] === 'confirmed' ? 'Confirmé' : ($team['status'] === 'pending' ? 'En attente' : 'Annulé') ?>
                     </span>
                     <p>

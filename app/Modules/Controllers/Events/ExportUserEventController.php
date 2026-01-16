@@ -19,6 +19,12 @@ use JetBrains\PhpStorm\NoReturn;
  * and uses the Dompdf library to generate a downloadable participant list.
  *
  * @package App\Modules\Controllers\Events
+ * @version 1.0.0
+ * @author BDELIVE - Group 8
+ *
+ * @see AdminController For admin authentication requirements
+ * @see EventRepository For database operations
+ * @see EventRegistrationRepository For database operations
  */
 class ExportUserEventController extends AdminController
 {

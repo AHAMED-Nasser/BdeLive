@@ -102,18 +102,10 @@ class UpdateArticleController extends AdminController
         $articleId = (int) $article['id'];
         $slug = (string) $article['slug'];
 
-        // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
-        // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : token CSRF non récupéré correctement avec multipart/form-data
-        // lors de l'upload de fichiers. Solution définitive à implémenter après la démo.
-        // ====================================================================
 
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        $skipCsrfValidation = true;
 
-        // Validate CSRF token (désactivée temporairement)
+        // Validate CSRF token
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');

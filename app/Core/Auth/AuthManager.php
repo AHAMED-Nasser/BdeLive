@@ -24,9 +24,9 @@ use App\Core\Exception\AuthorizationException;
  * - Authorization checks (admin vs regular user)
  * - Session regeneration for security
  * - User data retrieval
- *
+ * @author BDELIVE - Groupe 8
  * @package App\Core\Auth
- * @version 1.0.0
+ * @version 1.5.6
  */
 class AuthManager
 {
@@ -51,6 +51,11 @@ class AuthManager
         return $this->session->has(self::USER_ID_KEY);
     }
 
+    /**
+     * Check if user is blocked
+     *
+     * @return bool True if user is blocked
+     */
     public function isBlocked(): bool
     {
         $user = $this->session->get('user');

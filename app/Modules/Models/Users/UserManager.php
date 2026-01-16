@@ -16,7 +16,7 @@ use App\Core\Database;
  * This class provides a data access layer for the USERS table.
  *
  * @package BdeLive\Models
- * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
+ * @author BdeLive - Group 8
  * @version 1.0.0
  */
 class UserManager
@@ -137,7 +137,7 @@ class UserManager
             ]);
 
             //Return the new user ID if successful, false otherwise
-            return $success ? (int)$this->pdo->lastInsertId() : false;
+            return $success ? (int) $this->pdo->lastInsertId() : false;
         } catch (PDOException $e) {
             error_log('UserManager::createUser - ' . $e->getMessage());
 
@@ -363,7 +363,7 @@ class UserManager
         $query = 'SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute(['is_blocked' => $blockedValue]);
-        return (int)$stmt->fetchColumn();
+        return (int) $stmt->fetchColumn();
     }
 
     /**
@@ -484,7 +484,7 @@ class UserManager
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute($params);
-            return (int)$stmt->fetchColumn();
+            return (int) $stmt->fetchColumn();
         } catch (\PDOException $e) {
             error_log('UserManager::countUsers - ' . $e->getMessage());
             throw $e;
@@ -578,7 +578,7 @@ class UserManager
 
             if ($success) {
                 return [
-                    'user_id' => (int)$this->pdo->lastInsertId(),
+                    'user_id' => (int) $this->pdo->lastInsertId(),
                     'token' => $verificationToken,
                 ];
             }
@@ -689,7 +689,7 @@ class UserManager
             $stmt->execute(['user_id' => $user_id]);
             $result = $stmt->fetch();
 
-            return $result && (int)$result['is_verified'] === 1;
+            return $result && (int) $result['is_verified'] === 1;
         } catch (PDOException $e) {
             error_log('UserManager::isEmailVerified - ' . $e->getMessage());
 

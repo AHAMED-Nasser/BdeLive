@@ -21,15 +21,15 @@ class EventRepositoryTest extends TestCase
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-        
+
         $mockDatabase = $this->createMock(Database::class);
         $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
-        
+
         $reflection = new ReflectionClass(Database::class);
         $instanceProperty = $reflection->getProperty('instance');
         $instanceProperty->setAccessible(true);
         $instanceProperty->setValue(null, $mockDatabase);
-        
+
         $this->repository = new EventRepository();
     }
 
@@ -46,14 +46,14 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('fetchColumn')
             ->willReturn(42);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('query')
             ->with('SELECT COUNT(*) FROM EVENTS')
             ->willReturn($this->mockStmt);
 
         $count = $this->repository->count();
-        
+
         $this->assertIsInt($count);
         $this->assertEquals(42, $count);
     }
@@ -66,7 +66,7 @@ class EventRepositoryTest extends TestCase
             ->willReturn(false);
 
         $count = $this->repository->count();
-        
+
         $this->assertEquals(0, $count);
     }
 
@@ -94,18 +94,18 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn($mockEvents);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(0, 10);
-        
+
         $this->assertIsArray($events);
         $this->assertCount(2, $events);
     }
@@ -126,18 +126,18 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn($mockEvents);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(0, 5);
-        
+
         $this->assertIsArray($events);
         $this->assertLessThanOrEqual(5, count($events));
     }
@@ -147,18 +147,18 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn([]);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(999999, 10);
-        
+
         $this->assertIsArray($events);
         $this->assertEmpty($events);
     }
@@ -179,21 +179,21 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn($mockEvents);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(0, 1);
-        
+
         $this->assertNotEmpty($events);
         $event = $events[0];
-        
+
         $expectedKeys = ['event_id', 'event_name', 'event_date', 'event_time', 'event_location', 'description'];
         foreach ($expectedKeys as $key) {
             $this->assertArrayHasKey($key, $event);
@@ -207,18 +207,18 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn($mockEvents);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(0, 5);
-        
+
         $this->assertIsArray($events);
     }
 
@@ -246,25 +246,25 @@ class EventRepositoryTest extends TestCase
         $this->mockStmt->expects($this->once())
             ->method('execute')
             ->willReturn(true);
-        
+
         $this->mockStmt->expects($this->once())
             ->method('fetchAll')
             ->with(PDO::FETCH_ASSOC)
             ->willReturn($mockEvents);
-        
+
         $this->mockPdo->expects($this->once())
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
         $events = $this->repository->findPaginated(0, 10);
-        
+
         if (count($events) >= 2) {
             $this->assertGreaterThanOrEqual(
                 strtotime($events[1]['event_date']),
                 strtotime($events[0]['event_date'])
             );
         }
-        
+
         $this->assertIsArray($events);
     }
 }

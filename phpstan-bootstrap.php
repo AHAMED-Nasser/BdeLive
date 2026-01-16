@@ -1,7 +1,7 @@
 <?php
+
 // phpstan-bootstrap.php
 require_once __DIR__ . '/vendor/autoload.php';
-
 $neededConstantes = [
     'DB_HOST' => 'localhost',
     'DB_NAME' => 'test',
@@ -13,7 +13,6 @@ $neededConstantes = [
     'SMTP_PASSWORD' => '......',
     'FROM_EMAIL' => 'no_reply@exemple.com'
 ];
-
 foreach ($neededConstantes as $constant => $defaultValue) {
     if (!defined($constant)) {
         define($constant, $defaultValue);
@@ -40,9 +39,13 @@ if (!class_exists('App\\Config\\Mailer')) {
 
 // Mock de Mailer (legacy)
 if (!class_exists('Mailer')) {
-    class Mailer {
-        public function sendPasswordResetEmail(string $to_email, string $to_name, string $token) {}
+    class Mailer
+    {
+        public function sendPasswordResetEmail(string $to_email, string $to_name, string $token)
+        {
+        }
     }
+
 }
 
 // Map namespaced classes to legacy names for PHPStan symbol discovery

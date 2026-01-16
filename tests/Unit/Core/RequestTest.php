@@ -68,7 +68,7 @@ class RequestTest extends TestCase
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $request = Request::createFromGlobals();
-        
+
         $this->assertTrue($request->isGet());
         $this->assertFalse($request->isPost());
     }
