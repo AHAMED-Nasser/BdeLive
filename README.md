@@ -170,7 +170,7 @@ BdeLive/
 
 ## Essayez le site 
 
-Essayez le site : <a href=bdelivesae.alwaysdata.net target="_blank">bdelivesae</a>
+Essayez le site : [bdelivesae](https://bdelivesae.alwaysdata.net/index.php?page=home)
 
 --
 
