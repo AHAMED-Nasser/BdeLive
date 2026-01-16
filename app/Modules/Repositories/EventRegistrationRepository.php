@@ -20,7 +20,7 @@ use App\Core\Database;
  *
  * @package BdeLive\Repositories
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  */
 class EventRegistrationRepository
 {

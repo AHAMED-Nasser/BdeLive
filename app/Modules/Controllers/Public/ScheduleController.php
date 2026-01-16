@@ -7,11 +7,12 @@ namespace App\Modules\Controllers\Public;
 use App\Modules\Controllers\DefaultController;
 
 /**
- * ScheduleController - Gestion des emplois du temps
+ * Controller responsible for managing schedules.
+ * Displays group schedules using FullCalendar.
  *
- * Affiche les emplois du temps par groupe avec FullCalendar
- *
- * @package App\Modules\Controllers
+ * @author BDELIVE - Group 8
+ * @package App\Modules\Controllers\Public
+ * @version 1.0.0
  */
 class ScheduleController extends DefaultController
 {
@@ -56,6 +57,13 @@ class ScheduleController extends DefaultController
         ]
     ];
 
+    /**
+     * Initializes the controller.
+     * Handles API requests for events and AJAX requests for views.
+     * Starts the session and sets up the environment.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -77,7 +85,9 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Charge une vue spécifique via AJAX (retourne uniquement le HTML de la vue)
+     * Loads a specific view via AJAX (returns only the HTML of the view).
+     *
+     * @return void
      */
     private function loadViewAjax(): void
     {
@@ -98,12 +108,12 @@ class ScheduleController extends DefaultController
         }
 
         // Paramètres temporels selon la vue
-        $week = (int)($this->request->get('week') ?? date('W'));
+        $week = (int) ($this->request->get('week') ?? date('W'));
         $dateParam = $this->request->get('date');
         // S'assurer que $date est une string
         $date = is_array($dateParam) ? ($dateParam[0] ?? date('Y-m-d')) : ($dateParam ?? date('Y-m-d'));
-        $calYear = (int)($this->request->get('calyear') ?? date('Y'));
-        $calMonth = (int)($this->request->get('calmonth') ?? date('n'));
+        $calYear = (int) ($this->request->get('calyear') ?? date('Y'));
+        $calMonth = (int) ($this->request->get('calmonth') ?? date('n'));
 
         $extraParams = [
             'year' => $selectedYear,
@@ -171,7 +181,9 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Affiche la page de sélection et visualisation des emplois du temps
+     * Displays the main schedule selection and visualization page.
+     *
+     * @return void
      */
     private function showSchedulePage(): void
     {
@@ -182,12 +194,12 @@ class ScheduleController extends DefaultController
         $calendarType = $this->request->get('calendar', 'fullcalendar'); // 'native' ou 'fullcalendar'
 
         // Paramètres pour le calendrier natif (IMPORTANT: "calmonth" pour éviter confusion avec year du groupe)
-        $month = (int)($this->request->get('calmonth') ?? date('n'));
-        $calYear = (int)($this->request->get('calyear') ?? date('Y'));
+        $month = (int) ($this->request->get('calmonth') ?? date('n'));
+        $calYear = (int) ($this->request->get('calyear') ?? date('Y'));
 
         // Validation des paramètres du calendrier natif
         if ($month < 1 || $month > 12) {
-            $month = (int)date('n');
+            $month = (int) date('n');
         }
 
         // Valider l'année sélectionnée (groupe)
@@ -212,9 +224,9 @@ class ScheduleController extends DefaultController
         $monthCalendar = null;
 
         // Paramètres temporels
-        $week = (int)($this->request->get('week') ?? date('W'));
+        $week = (int) ($this->request->get('week') ?? date('W'));
         if ($week < 1 || $week > 53) {
-            $week = (int)date('W');
+            $week = (int) date('W');
         }
 
         $date = $this->request->get('date') ?? date('Y-m-d');
@@ -228,8 +240,8 @@ class ScheduleController extends DefaultController
             } elseif ($view === 'month') {
                 // VUE MOIS
                 // Utilise calmonth/calyear ou le mois courant
-                $targetMonth = (int)($this->request->get('calmonth') ?? date('n'));
-                $targetYear = (int)($this->request->get('calyear') ?? date('Y'));
+                $targetMonth = (int) ($this->request->get('calmonth') ?? date('n'));
+                $targetYear = (int) ($this->request->get('calyear') ?? date('Y'));
 
                 $events = $this->getEventsForNativeCalendar($selectedYear, $selectedGroup, $targetMonth, $targetYear);
                 $calendarManager = new \App\Core\CalendarManager();
@@ -258,17 +270,20 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Récupère les événements pour une journée spécifique
+     * Retrieves events for a specific day.
      *
-     * @return array<int, array<string, mixed>>
+     * @param string $yearLevel Year level (e.g., '1ere', '2eme')
+     * @param string $group Group identifier
+     * @param string $date Date string (YYYY-MM-DD)
+     * @return array<int, array<string, mixed>> List of events for the day
      */
     private function getEventsForDay(string $yearLevel, string $group, string $date): array
     {
         // On récupère tous les événements du mois car le parsing ICS est optimisé par mois
         // Puis on filtre pour le jour spécifique
         $dateObj = new \DateTimeImmutable($date);
-        $month = (int)$dateObj->format('n');
-        $year = (int)$dateObj->format('Y');
+        $month = (int) $dateObj->format('n');
+        $year = (int) $dateObj->format('Y');
 
         $monthEvents = $this->getEventsForNativeCalendar($yearLevel, $group, $month, $year);
 
@@ -284,7 +299,9 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * API : Retourne les événements en JSON pour FullCalendar
+     * API: Returns events in JSON format for FullCalendar.
+     *
+     * @return void
      */
     private function getEvents(): void
     {
@@ -313,12 +330,12 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Parse un fichier .ics et retourne les événements filtrés par groupe
+     * Parses an .ics file and returns events filtered by group.
      *
-     * @param string $filePath Chemin du fichier .ics
-     * @param string $group Groupe à filtrer (ex: 'G1A')
-     * @param string $year Année sélectionnée (ex: '1ere')
-     * @return array<int, array<string, mixed>> Événements au format FullCalendar
+     * @param string $filePath Path to the .ics file
+     * @param string $group Group to filter (e.g., 'G1A')
+     * @param string $year Selected year (e.g., '1ere')
+     * @return array<int, array<string, mixed>> Events formatted for FullCalendar
      */
     private function parseIcsFile(string $filePath, string $group, string $year): array
     {
@@ -361,16 +378,16 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Vérifie si un événement concerne le demi-groupe spécifié
+     * Checks if an event belongs to the specified half-group.
      *
-     * Pour un demi-groupe sélectionné (ex: "G1A"), affiche :
-     * - Les cours spécifiques au demi-groupe : "G1A"
-     * - Les cours du groupe entier : "G1", "Groupe 1"
+     * For a selected half-group (e.g., "G1A"), matches:
+     * - Specific courses for the half-group: "G1A"
+     * - Whole group courses: "G1", "Groupe 1"
      *
-     * @param array<string, string> $event Événement .ics
-     * @param string $group Demi-groupe sélectionné (ex: "G1A")
-     * @param string $year Année sélectionnée (ex: "1ere") - non utilisé
-     * @return bool True si l'événement concerne ce demi-groupe
+     * @param array<string, string> $event .ics event data
+     * @param string $group Selected half-group (e.g., "G1A")
+     * @param string $year Selected year (e.g., "1ere")
+     * @return bool True if the event matches the group
      */
     private function eventMatchesGroup(array $event, string $group, string $year): bool
     {
@@ -422,9 +439,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Formate un événement .ics pour FullCalendar
-     * @param array<string,string> $event Événement .ics (clé/valeur)
-     * @return array<string, mixed> Événement formaté pour FullCalendar
+     * Formats an .ics event for FullCalendar.
+     *
+     * @param array<string,string> $event .ics event data (key/value)
+     * @return array<string, mixed> Event formatted for FullCalendar
      */
     private function formatEventForFullCalendar(array $event): array
     {
@@ -460,7 +478,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Parse une date au format .ics (YYYYMMDDTHHMMSSZ)
+     * Parses a date in .ics format (YYYYMMDDTHHMMSSZ).
+     *
+     * @param string $icsDate Date string in .ics format
+     * @return string Formatted date string (YYYY-MM-DDTHH:MM:SS)
      */
     private function parseIcsDate(string $icsDate): string
     {
@@ -479,7 +500,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Nettoie le texte extrait d'un fichier .ics
+     * Cleans text extracted from an .ics file.
+     *
+     * @param string $text Raw text from .ics
+     * @return string Cleaned text
      */
     private function cleanIcsText(string $text): string
     {
@@ -491,7 +515,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Retourne une couleur selon le type de cours
+     * Returns a color based on the course type.
+     *
+     * @param string $summary Event summary/title
+     * @return string Hex color code
      */
     private function getEventColor(string $summary): string
     {
@@ -518,13 +545,13 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Récupère les événements pour le calendrier natif (filtrés par mois)
+     * Retrieves events for the native calendar (filtered by month).
      *
-     * @param string $year Année du groupe ('1ere', '2eme', '3eme')
-     * @param string $group Groupe sélectionné
-     * @param int $month Mois (1-12)
-     * @param int $calYear Année calendaire (ex: 2026)
-     * @return array<int, array<string, mixed>> Événements formatés pour le calendrier natif
+     * @param string $year Year group ('1ere', '2eme', '3eme')
+     * @param string $group Selected group
+     * @param int $month Month (1-12)
+     * @param int $calYear Calendar year (e.g., 2026)
+     * @return array<int, array<string, mixed>> Events formatted for native calendar
      */
     private function getEventsForNativeCalendar(string $year, string $group, int $month, int $calYear): array
     {
@@ -572,7 +599,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Détermine le type d'événement à partir du titre
+     * Determines the event type from the title.
+     *
+     * @param string $title Event title
+     * @return string Event type
      */
     private function getEventType(string $title): string
     {
@@ -598,13 +628,13 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Récupère les événements pour la vue hebdomadaire (filtrés par semaine)
+     * Retrieves events for the weekly view (filtered by week).
      *
-     * @param string $year Année du groupe ('1ere', '2eme', '3eme')
-     * @param string $group Groupe sélectionné
-     * @param int $week Numéro de semaine (1-53)
-     * @param int $calYear Année calendaire (ex: 2026)
-     * @return array<int, array<string, mixed>> Événements formatés pour la vue hebdomadaire
+     * @param string $year Year group ('1ere', '2eme', '3eme')
+     * @param string $group Selected group
+     * @param int $week Week number (1-53)
+     * @param int $calYear Calendar year (e.g. 2026)
+     * @return array<int, array<string, mixed>> Events formatted for weekly view
      */
     private function getEventsForWeeklySchedule(string $year, string $group, int $week, int $calYear): array
     {

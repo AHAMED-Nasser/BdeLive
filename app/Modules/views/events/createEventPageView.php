@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user

@@ -8,6 +8,7 @@ namespace App\Core;
  * Generates monthly calendars in CSS Grid format without external dependencies.
  * Replaces FullCalendar for better accessibility and performance.
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core
  * @version 1.0.0
  */
@@ -17,17 +18,31 @@ class CalendarManager
      * French month names
      */
     private const MONTH_NAMES = [
-        1 => 'Janvier', 2 => 'Février', 3 => 'Mars', 4 => 'Avril',
-        5 => 'Mai', 6 => 'Juin', 7 => 'Juillet', 8 => 'Août',
-        9 => 'Septembre', 10 => 'Octobre', 11 => 'Novembre', 12 => 'Décembre'
+        1 => 'Janvier',
+        2 => 'Février',
+        3 => 'Mars',
+        4 => 'Avril',
+        5 => 'Mai',
+        6 => 'Juin',
+        7 => 'Juillet',
+        8 => 'Août',
+        9 => 'Septembre',
+        10 => 'Octobre',
+        11 => 'Novembre',
+        12 => 'Décembre'
     ];
 
     /**
      * Weekday names (Monday = 1, Sunday = 7)
      */
     private const WEEKDAY_NAMES = [
-        1 => 'Lundi', 2 => 'Mardi', 3 => 'Mercredi', 4 => 'Jeudi',
-        5 => 'Vendredi', 6 => 'Samedi', 7 => 'Dimanche'
+        1 => 'Lundi',
+        2 => 'Mardi',
+        3 => 'Mercredi',
+        4 => 'Jeudi',
+        5 => 'Vendredi',
+        6 => 'Samedi',
+        7 => 'Dimanche'
     ];
 
     /**
@@ -99,7 +114,7 @@ class CalendarManager
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $date = sprintf('%04d-%02d-%02d', $year, $month, $day);
             $timestamp = mktime(0, 0, 0, $month, $day, $year);
-            $dayOfWeek = $timestamp !== false ? (int)date('N', $timestamp) : 1;
+            $dayOfWeek = $timestamp !== false ? (int) date('N', $timestamp) : 1;
 
             $days[] = [
                 'number' => $day,
@@ -156,7 +171,7 @@ class CalendarManager
     private function getFirstDayOfWeek(int $year, int $month): int
     {
         $timestamp = mktime(0, 0, 0, $month, 1, $year);
-        return $timestamp !== false ? (int)date('N', $timestamp) : 1;
+        return $timestamp !== false ? (int) date('N', $timestamp) : 1;
     }
 
     /**

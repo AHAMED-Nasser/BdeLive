@@ -17,7 +17,7 @@ use App\Core\Database;
  *
  * @package BdeLive\Models\Admin
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @see EventRepository For event retrieval operations
  */
@@ -76,7 +76,7 @@ class EventCreationModel
                 "VALUES (:event_name, :event_date, :event_time, :event_location, " .
                 ":event_theme, :status_participating, :description, :images, :is_group_event, :team_size)";
             $stmt = $this->pdo->prepare($query);
-            return $stmt -> execute([
+            return $stmt->execute([
                 ':event_name' => $eventName,
                 ':event_date' => $eventDate->format('Y-m-d'),
                 ':event_time' => $eventTime->format('H:i'),

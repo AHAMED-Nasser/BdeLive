@@ -12,6 +12,7 @@ use App\Core\Application;
  * Provides pagination calculations and utilities for displaying paginated content.
  * Handles offset/limit calculations, page navigation, and URL generation.
  *
+ * @author Bdelive - Group 8
  * @package BdeLive\Helpers
  * @version 1.0.0
  */

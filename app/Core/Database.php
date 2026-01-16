@@ -42,6 +42,7 @@ if (file_exists($configPath)) {
  * - Exception mode for errors
  * - Prevents cloning and unserialization
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core
  * @version 1.0.0
  */
@@ -63,9 +64,9 @@ class Database
         try {
             $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=' . DB_CHARSET;
             $options = [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
+                PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
             ];
 

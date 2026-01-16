@@ -25,7 +25,7 @@ class CsrfProtectionTest extends TestCase
     public function testGenerateTokenReturnsString(): void
     {
         $token = $this->csrf->generateToken();
-        
+
         $this->assertIsString($token);
         $this->assertEquals(64, strlen($token)); // 32 bytes = 64 hex chars
     }
@@ -33,7 +33,7 @@ class CsrfProtectionTest extends TestCase
     public function testGenerateTokenStoresInSession(): void
     {
         $token = $this->csrf->generateToken();
-        
+
         $this->assertTrue($this->session->has('csrf_token'));
         $this->assertEquals($token, $this->session->get('csrf_token'));
     }
@@ -42,14 +42,14 @@ class CsrfProtectionTest extends TestCase
     {
         $token1 = $this->csrf->generateToken();
         $token2 = $this->csrf->getToken();
-        
+
         $this->assertEquals($token1, $token2);
     }
 
     public function testGetTokenGeneratesNewIfNotExists(): void
     {
         $token = $this->csrf->getToken();
-        
+
         $this->assertIsString($token);
         $this->assertEquals(64, strlen($token));
     }
@@ -57,14 +57,14 @@ class CsrfProtectionTest extends TestCase
     public function testValidateTokenWithValidToken(): void
     {
         $token = $this->csrf->generateToken();
-        
+
         $this->assertTrue($this->csrf->validateToken($token));
     }
 
     public function testValidateTokenWithInvalidToken(): void
     {
         $this->csrf->generateToken();
-        
+
         $this->assertFalse($this->csrf->validateToken('invalid_token'));
     }
 
@@ -76,7 +76,7 @@ class CsrfProtectionTest extends TestCase
     public function testGetTokenFieldReturnsHtmlInput(): void
     {
         $html = $this->csrf->getTokenField();
-        
+
         $this->assertStringContainsString('<input', $html);
         $this->assertStringContainsString('type="hidden"', $html);
         $this->assertStringContainsString('name="csrf_token"', $html);
@@ -87,7 +87,7 @@ class CsrfProtectionTest extends TestCase
     {
         $this->csrf->generateToken();
         $this->assertTrue($this->session->has('csrf_token'));
-        
+
         $this->csrf->invalidateToken();
         $this->assertFalse($this->session->has('csrf_token'));
     }
@@ -97,7 +97,7 @@ class CsrfProtectionTest extends TestCase
         $token1 = $this->csrf->generateToken();
         $this->csrf->invalidateToken();
         $token2 = $this->csrf->generateToken();
-        
+
         $this->assertNotEquals($token1, $token2);
     }
 }

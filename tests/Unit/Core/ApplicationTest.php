@@ -93,10 +93,10 @@ class ApplicationTest extends TestCase
     public function testBootStartsSession(): void
     {
         $app = Application::getInstance();
-        
+
         // Session should start without errors
         $app->boot();
-        
+
         $session = $app->session();
         $this->assertTrue($session->isStarted());
     }

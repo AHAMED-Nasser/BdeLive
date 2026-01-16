@@ -7,15 +7,12 @@ namespace App\Modules\Controllers\Cookie;
 use App\Modules\Controllers\DefaultController;
 
 /**
- * CookieConsentController - Cookie Consent Management
+ * Controller responsible for managing cookie consent.
+ * Handles user choices (accept/reject) and sets the appropriate cookie.
  *
- * Handles cookie consent preferences (accept/reject).
- * Sets a cookie to remember user's choice.
- *
- * @package BdeLive\Controllers\Cookie
+ * @author BDELIVE - Groupe 8
+ * @package App\Modules\Controllers\Cookie
  * @version 1.0.0
- * @author BdeLive Team
- *
  * @see DefaultController For base functionality
  */
 class CookieConsentController extends DefaultController
@@ -23,6 +20,12 @@ class CookieConsentController extends DefaultController
     private string $cookieName = 'cookie_consent';
     private int $cookieDays = 365;
 
+    /**
+     * Initializes the controller.
+     * Processes post requests and manages the display of the cookie popup.
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
@@ -31,6 +34,12 @@ class CookieConsentController extends DefaultController
         $this->renderCookiePopup();
     }
 
+    /**
+     * Handles the form submission for cookie consent.
+     * Sets the cookie with security parameters (Secure, HttpOnly, SameSite).
+     *
+     * @return void
+     */
     private function handlePost(): void
     {
         if ($this->request->isPost() && $this->request->post('cookie_consent') !== null) {
@@ -59,6 +68,11 @@ class CookieConsentController extends DefaultController
         }
     }
 
+    /**
+     * Checks if the consent cookie exists and renders the popup if necessary.
+     *
+     * @return void
+     */
     private function renderCookiePopup(): void
     {
         $consent = $this->request->cookie($this->cookieName);

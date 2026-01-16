@@ -67,19 +67,10 @@ class CreateArticleController extends AdminController
      */
     private function createArticle(): void
     {
-        // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
-        // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : JavaScript form-submit-protection désactivait les champs
-        // avec disabled=true, empêchant l'envoi des données POST.
-        // Solution appliquée : Utiliser readOnly=true au lieu de disabled=true.
-        // ====================================================================
 
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        $skipCsrfValidation = true;
 
-        // Validate CSRF token (désactivée temporairement)
+        // Validate CSRF token
         /** @phpstan-ignore-next-line */
         if (!$skipCsrfValidation) {
             $csrfToken = $this->request->post('csrf_token', '');

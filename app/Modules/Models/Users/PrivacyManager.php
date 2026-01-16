@@ -15,7 +15,7 @@ use App\Core\Database;
  * password change tokens, email change verification, and security tracking.
  * Manages the security aspects of user account modifications.
  *
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  * @version 1.0.0
  * @package BdeLive\Models\Users
  */
@@ -86,7 +86,7 @@ class PrivacyManager
             $stmt->execute(['user_id' => $userId]);
             $result = $stmt->fetch();
 
-            if (!$result || (int)$result['is_blocked'] !== 1) {
+            if (!$result || (int) $result['is_blocked'] !== 1) {
                 return false;
             }
 
@@ -130,7 +130,7 @@ class PrivacyManager
             $blockedUntil = strtotime($result['blocked_until']);
             $remaining = $blockedUntil - time();
 
-            return $remaining > 0 ? (int)ceil($remaining / 60) : 0;
+            return $remaining > 0 ? (int) ceil($remaining / 60) : 0;
         } catch (PDOException $e) {
             error_log('PrivacyManager::getRemainingBlockTime - ' . $e->getMessage());
             return 0;
@@ -194,7 +194,7 @@ class PrivacyManager
      */
     public function generateVerificationCode(): string
     {
-        return str_pad((string)random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        return str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -258,7 +258,7 @@ class PrivacyManager
                 return ['valid' => false, 'message' => 'Aucun code de vérification trouvé', 'attempts' => 0];
             }
 
-            $currentAttempts = (int)($result['attempts'] ?? 0) + 1;
+            $currentAttempts = (int) ($result['attempts'] ?? 0) + 1;
 
             // Update attempts count
             $updateQuery = "UPDATE PASSWORD_RESET_TOKEN SET attempts = :attempts WHERE id = :id";
@@ -276,7 +276,7 @@ class PrivacyManager
             }
 
             // Check if token expired (using MySQL's comparison result)
-            if ((int)$result['is_expired'] === 1) {
+            if ((int) $result['is_expired'] === 1) {
                 return ['valid' => false, 'message' => 'Le code a expiré', 'attempts' => $currentAttempts];
             }
 
@@ -322,8 +322,8 @@ class PrivacyManager
                 return ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
             }
 
-            $resendCount = (int)($result['resend_count'] ?? 0);
-            $secondsSinceLastResend = (int)($result['seconds_since_resend'] ?? self::RESEND_COOLDOWN_SECONDS);
+            $resendCount = (int) ($result['resend_count'] ?? 0);
+            $secondsSinceLastResend = (int) ($result['seconds_since_resend'] ?? self::RESEND_COOLDOWN_SECONDS);
             $waitSeconds = max(0, self::RESEND_COOLDOWN_SECONDS - $secondsSinceLastResend);
 
             // Check max resends
@@ -465,7 +465,7 @@ class PrivacyManager
             $stmt->execute(['user_id' => $userId]);
             $result = $stmt->fetch();
 
-            return (int)($result['email_change_attempts'] ?? 0);
+            return (int) ($result['email_change_attempts'] ?? 0);
         } catch (PDOException $e) {
             error_log('PrivacyManager::getEmailChangeAttempts - ' . $e->getMessage());
             return 0;
@@ -631,7 +631,7 @@ class PrivacyManager
                 return ['valid' => false, 'message' => 'Aucun code de vérification trouvé', 'attempts' => 0];
             }
 
-            $currentAttempts = (int)($result['attempts'] ?? 0) + 1;
+            $currentAttempts = (int) ($result['attempts'] ?? 0) + 1;
 
             // Update attempts count
             $updateQuery = "UPDATE PASSWORD_RESET_TOKEN SET attempts = :attempts WHERE id = :id";
@@ -649,7 +649,7 @@ class PrivacyManager
             }
 
             // Check if token expired (using MySQL's comparison result)
-            if ((int)$result['is_expired'] === 1) {
+            if ((int) $result['is_expired'] === 1) {
                 return ['valid' => false, 'message' => 'Le code a expiré', 'attempts' => $currentAttempts];
             }
 
@@ -699,8 +699,8 @@ class PrivacyManager
                 return ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
             }
 
-            $resendCount = (int)($result['resend_count'] ?? 0);
-            $secondsSinceLastResend = (int)($result['seconds_since_resend'] ?? self::RESEND_COOLDOWN_SECONDS);
+            $resendCount = (int) ($result['resend_count'] ?? 0);
+            $secondsSinceLastResend = (int) ($result['seconds_since_resend'] ?? self::RESEND_COOLDOWN_SECONDS);
             $waitSeconds = max(0, self::RESEND_COOLDOWN_SECONDS - $secondsSinceLastResend);
 
             // Check max resends

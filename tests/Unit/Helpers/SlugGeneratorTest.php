@@ -205,4 +205,3 @@ class SlugGeneratorTest extends TestCase
         $this->assertEquals('cafe-a-paris-pres-de-l-eglise', $result);
     }
 }
-

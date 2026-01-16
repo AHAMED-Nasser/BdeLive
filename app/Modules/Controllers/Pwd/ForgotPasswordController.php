@@ -24,6 +24,7 @@ class ForgotPasswordController extends DefaultController
 {
     /**
      * Handle forgot password page requests.
+     * @return void
      */
     public function __construct()
     {
@@ -39,6 +40,7 @@ class ForgotPasswordController extends DefaultController
 
     /**
      * Process password reset email request.
+     * @return void
      */
     private function sendResetEmail(): void
     {

@@ -26,8 +26,9 @@ use App\Core\Auth\AuthManager;
  * - CSRF protection
  * - Authentication/authorization
  *
+ * @author BDELIVE - Groupe 8
  * @package App\Core
- * @version 1.0.0
+ * @version 3.6.8
  */
 class Application
 {

@@ -15,6 +15,8 @@ use App\Modules\Repositories\EventRepository;
  * This is the main entry point for users visiting the application.
  *
  * @package BdeLive\Controllers
+ * @version 1.0.0
+ * @author BDELIVE - Group 8
  */
 class HomeController extends DefaultController
 {

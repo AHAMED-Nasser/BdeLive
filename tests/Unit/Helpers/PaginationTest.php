@@ -178,4 +178,3 @@ class PaginationTest extends TestCase
         $this->assertEquals(3, $pagination->getLastPage());
     }
 }
-

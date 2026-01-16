@@ -39,7 +39,7 @@ class AuthManagerTest extends TestCase
 
     public function testLoginStoresUserData(): void
     {
-        $this->auth->login(123, 'BUT 2', 'test@example.com', 'user', 0,  'John', 'Doe');
+        $this->auth->login(123, 'BUT 2', 'test@example.com', 'user', 0, 'John', 'Doe');
 
         $this->assertTrue($this->auth->isAuthenticated());
         $this->assertEquals(123, $this->auth->getUserId());
@@ -93,7 +93,7 @@ class AuthManagerTest extends TestCase
     public function testRequireAuthenticationThrowsWhenBlocked(): void
     {
         $this->auth->login(3, 'BUT 1', 'blocked@example.com', 'user', 1);
-        
+
         $this->expectException(AuthenticationException::class);
         $this->expectExceptionMessage('Votre compte a été bloqué');
 

@@ -7,7 +7,7 @@
  *
  * @package BdeLive\Views\Events
  * @version 1.0.0
- * @author BdeLive Team
+ * @author BdeLive - Group 8
  *
  * @var bool $isAdmin
  * @var array<string, mixed> $event
@@ -16,7 +16,6 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  */
 start_page("BDELive - Evénement : " . $event['event_name'], true, $user ?? null);
-// Les variables $events et $pagination sont définies par EventController
 
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
