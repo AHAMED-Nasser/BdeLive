@@ -302,7 +302,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             </div>
         </nav>
     </header>
-<?php endif; ?>
+    <?php endif; ?>
 
     <!-- Bouton Back to Top -->
     <button id="back-to-top" aria-label="Retour en haut de la page">
@@ -372,13 +372,13 @@ function end_page(): void
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>
 
-<?php
+    <?php
 // Display the cookie popup on all pages (autoload Composer)
-if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
-    $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
-    new $cls();
-}
-?>
+    if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
+        $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
+        new $cls();
+    }
+    ?>
 
     </body>
     </html>
