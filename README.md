@@ -60,7 +60,7 @@ Avant de commencer, assurez-vous d'avoir installé :
 1. **Cloner le dépôt**
 - Via bash
    ```bash
-   git clone https://github.com/utilisateur/projet.git
+   git clone https://github.com/AHAMED-Nasser/BdeLive.git
    cd projet
    ```
 Si vous utilisez un IDE, vous pouvez aussi le clonez via l'interface de l'IDE.

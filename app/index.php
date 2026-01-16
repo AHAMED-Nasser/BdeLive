@@ -54,6 +54,7 @@ ini_set('display_errors', (string)1);
 ini_set('display_startup_errors', (string)1);
 // Composer autoload (PSR-4)
 $projectRoot = dirname(__DIR__, 1);
+
 if (file_exists($projectRoot . '/vendor/autoload.php')) {
     require_once $projectRoot . '/vendor/autoload.php';
 }
@@ -63,7 +64,7 @@ if (file_exists($projectRoot . '/.env')) {
     $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
     $dotenv->load();
 } else {
-// Si le fichier n'existe pas, on affiche un message clair pour le dev
+    // Si le fichier n'existe pas, on affiche un message clair pour le dev
     die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
 }
 

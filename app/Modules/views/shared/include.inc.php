@@ -373,7 +373,7 @@ function end_page(): void
     <script src="./app/assets/js/mobile-menu.js"></script>
 
     <?php
-// Display the cookie popup on all pages (autoload Composer)
+    // Display the cookie popup on all pages (autoload Composer)
     if (class_exists('App\\Modules\\Controllers\\Cookie\\CookieConsentController')) {
         $cls = 'App\\Modules\\Controllers\\Cookie\\CookieConsentController';
         new $cls();
@@ -382,5 +382,6 @@ function end_page(): void
 
     </body>
     </html>
-<?php }
+    <?php
+}
 ?>
