@@ -446,9 +446,6 @@ a {
     min-height: 65px;
 }
 
-.hero-content {
-    flex: 1;
-}
 
 #hero-title {
     font-size: 1.4rem;
