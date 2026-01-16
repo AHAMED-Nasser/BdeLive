@@ -57,6 +57,23 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
             <p>Site officiel du BDE, BUT Informatique Aix-en-Provence</p>
         </div>
 
+        <div class="opening-hour">
+            <?php
+            $day = (int)date('N');
+            $hour = date('H:i');
+
+            $openDay = [1, 2, 3, 4, 5];
+
+            $isOpenDay = in_array($day, $openDay, true);
+            $isOpenHour = ($hour >= '10:05' && $hour <= '10:25') || ($hour >= '12:15' && $hour <= '13:30') || ($hour >= '15:20' && $hour <= '15:40');
+
+            if ($isOpenDay && $isOpenHour) : ?>
+            <span class="bde-opening" id="open">BDE Ouvert</span>
+            <?php else : ?>
+            <span class="bde-opening" id="close">BDE Fermé</span>
+            <?php endif ?>
+        </div>
+        
         <!-- Horaires d'ouverture -->
         <div class="hero-hours">
             <div class="hero-hours-title">Horaires d'ouverture</div>
