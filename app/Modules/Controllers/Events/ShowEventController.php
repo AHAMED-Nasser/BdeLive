@@ -26,20 +26,15 @@ class ShowEventController extends DefaultController
             // Priority 1: Slug (SEO-friendly URL)
             if (!empty($slug)) {
                 $event = $eventModel->findBySlug((string) $slug);
-
                 if (!$event) {
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
-            }
-            // Priority 2: ID (legacy, redirect to slug for SEO)
-            elseif ($eventId > 0) {
+            } elseif ($eventId > 0) {
+                // Priority 2: ID (legacy, redirect to slug for SEO)
                 $event = $eventModel->findById($eventId);
-
                 if (!$event) {
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
-
-                // 301 Permanent Redirect to slug URL for SEO
                 $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($event['slug']);
                 header('Location: ' . $slugUrl, true, 301);
                 exit;
