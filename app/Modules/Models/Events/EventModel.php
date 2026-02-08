@@ -7,6 +7,7 @@ namespace App\Modules\Models\Events;
 use PDO;
 use PDOException;
 use DateTime;
+use App\Modules\Helpers\SlugGenerator;
 
 /**
  * EventModel - Modèle unifié pour la gestion des événements
@@ -94,6 +95,73 @@ class EventModel
     }
 
     /**
+     * Retrieve an event by its SEO-friendly slug
+     *
+     * Searches for an event using its URL-friendly slug identifier.
+     * This method is used for SEO-optimized URLs instead of numeric IDs.
+     *
+     * @param string $slug URL-friendly slug (e.g., "mon-evenement-special")
+     * @return array<string, mixed>|null Event data or null if not found
+     */
+    public function findBySlug(string $slug): ?array
+    {
+        try {
+            $sql = "SELECT * FROM EVENTS WHERE slug = :slug";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([':slug' => $slug]);
+
+            $event = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $event ?: null;
+        } catch (PDOException $e) {
+            error_log('EventModel::findBySlug - ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Check if a slug already exists in the database
+     *
+     * Used to ensure slug uniqueness when creating new events.
+     * If a slug exists, SlugGenerator will append a number (e.g., "event-2").
+     *
+     * @param string $slug The slug to check
+     * @return bool True if exists, false otherwise
+     */
+    private function slugExists(string $slug): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM EVENTS WHERE slug = :slug');
+            $stmt->execute([':slug' => $slug]);
+            return (int) $stmt->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            error_log('EventModel::slugExists - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Check if a slug exists excluding a specific event ID
+     *
+     * Used during event updates to allow keeping the same slug
+     * while preventing conflicts with other events.
+     *
+     * @param string $slug The slug to check
+     * @param int $excludeId Event ID to exclude from check
+     * @return bool True if exists, false otherwise
+     */
+    private function slugExistsExcludingId(string $slug, int $excludeId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM EVENTS WHERE slug = :slug AND event_id != :id');
+            $stmt->execute([':slug' => $slug, ':id' => $excludeId]);
+            return (int) $stmt->fetchColumn() > 0;
+        } catch (PDOException $e) {
+            error_log('EventModel::slugExistsExcludingId - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Récupérer une liste paginée d'événements
      *
      * Récupère les événements avec support de la pagination.
@@ -106,7 +174,7 @@ class EventModel
     public function findPaginated(int $offset, int $limit): array
     {
         try {
-            $sql = 'SELECT event_id, event_name, event_date, event_time, event_location, description, images
+            $sql = 'SELECT event_id, event_name, slug, event_date, event_time, event_location, description, images
                     FROM EVENTS
                     ORDER BY event_date DESC, event_time DESC
                     LIMIT :offset, :limit';
@@ -131,7 +199,7 @@ class EventModel
     public function findAll(): array
     {
         try {
-            $sql = 'SELECT event_id, event_name, event_date, event_time, description FROM EVENTS';
+            $sql = 'SELECT event_id, event_name, slug, event_date, event_time, description FROM EVENTS';
             $stmt = $this->pdo->query($sql);
 
             if ($stmt === false) {
@@ -215,14 +283,20 @@ class EventModel
         bool $isGroupEvent = false,
         int $teamSize = 1
     ): bool {
+        // Generate unique slug from event name for SEO-friendly URLs
+        $slug = SlugGenerator::generateUnique($eventName, function ($slug) {
+            return $this->slugExists($slug);
+        });
+
         try {
-            $query = "INSERT INTO EVENTS (event_name, event_date, event_time, event_location, " .
+            $query = "INSERT INTO EVENTS (event_name, slug, event_date, event_time, event_location, " .
                 "event_theme, status_participating, description, images, is_group_event, team_size) " .
-                "VALUES (:event_name, :event_date, :event_time, :event_location, " .
+                "VALUES (:event_name, :slug, :event_date, :event_time, :event_location, " .
                 ":event_theme, :status_participating, :description, :images, :is_group_event, :team_size)";
             $stmt = $this->pdo->prepare($query);
             return $stmt->execute([
                 ':event_name' => $eventName,
+                ':slug' => $slug,
                 ':event_date' => $eventDate->format('Y-m-d'),
                 ':event_time' => $eventTime->format('H:i'),
                 ':event_location' => $eventLocation,
@@ -272,9 +346,15 @@ class EventModel
         bool $isGroupEvent = false,
         int $teamSize = 1
     ): bool {
+        // Regenerate slug from event name, ensuring uniqueness (excluding current event)
+        $slug = SlugGenerator::generateUnique($eventName, function ($testSlug) use ($eventId) {
+            return $this->slugExistsExcludingId($testSlug, $eventId);
+        });
+
         try {
             $sql = "UPDATE EVENTS SET
             event_name = :event_name,
+            slug = :slug,
             event_date = :event_date,
             event_time = :event_time,
             event_location = :event_location,
@@ -291,6 +371,7 @@ class EventModel
             return $stmt->execute([
                 ':event_id' => $eventId,
                 ':event_name' => $eventName,
+                ':slug' => $slug,
                 ':event_date' => $eventDate->format('Y-m-d'),
                 ':event_time' => $eventTime->format('H:i'),
                 ':event_location' => $eventLocation,

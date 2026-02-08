@@ -25,8 +25,10 @@ class ArticlesController extends BaseController
     /**
      * Constructor - Display articles list or single article
      *
-     * If 'slug' parameter is present, displays single article.
-     * Otherwise, displays paginated list.
+     * Priority handling:
+     * 1. If 'slug' parameter is present, displays single article (SEO-friendly)
+     * 2. If only 'id' parameter is present, redirects 301 to slug URL (backward compatibility)
+     * 3. Otherwise, displays paginated list
      *
      * @return void
      */
@@ -35,11 +37,28 @@ class ArticlesController extends BaseController
         parent::__construct();
 
         $slug = $this->request->get('slug', '');
+        $articleId = (int) $this->request->get('id', 0);
 
-        // If slug is provided, display single article
+        // Priority 1: Slug (SEO-friendly URL)
         if (!empty($slug)) {
             $this->displaySingleArticle((string) $slug);
             return;
+        }
+
+        // Priority 2: ID (legacy, redirect to slug for SEO)
+        if ($articleId > 0) {
+            $articleModel = new ArticleModel(Database::getInstance()->getConnection());
+            $article = $articleModel->getArticleById($articleId);
+
+            if ($article && isset($article['slug'])) {
+                // 301 Permanent Redirect to slug URL for SEO
+                $slugUrl = 'index.php?page=articles&slug=' . urlencode($article['slug']);
+                header('Location: ' . $slugUrl, true, 301);
+                exit;
+            }
+
+            $this->setError('Article introuvable.');
+            $this->redirect('index.php?page=articles');
         }
 
         // Otherwise, display articles list

@@ -17,19 +17,44 @@ class ShowEventController extends DefaultController
         parent::__construct();
 
         try {
+            $slug = $this->request->get('slug', '');
             $eventId = (int) $this->request->get('id', 0);
-            $eventModel = new EventModel(Database::getInstance()->getConnection());
-            $event = $eventModel->findById($eventId);
 
-            if (!$event) {
-                $this->redirectWithError('index.php?page=event', "L'événement en question n'a pas été trouvé");
+            $eventModel = new EventModel(Database::getInstance()->getConnection());
+            $event = null;
+
+            // Priority 1: Slug (SEO-friendly URL)
+            if (!empty($slug)) {
+                $event = $eventModel->findBySlug((string) $slug);
+
+                if (!$event) {
+                    $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
+                }
+            }
+            // Priority 2: ID (legacy, redirect to slug for SEO)
+            elseif ($eventId > 0) {
+                $event = $eventModel->findById($eventId);
+
+                if (!$event) {
+                    $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
+                }
+
+                // 301 Permanent Redirect to slug URL for SEO
+                $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($event['slug']);
+                header('Location: ' . $slugUrl, true, 301);
+                exit;
+            } else {
+                $this->redirectWithError('index.php?page=event', 'Paramètres invalides');
             }
 
-            // On passe l'ID de l'utilisateur et le repository d'inscription à la vue
+            // Instantiate repository once (cleaner code as per user recommendation)
+            $registrationRepo = new EventRegistrationRepository();
+
+            // Render event view
             $this->render('events/showEventView', [
                 'event' => $event,
-                'userId' => $this->user['user_id'] ?? null, // Récupère l'ID via BaseController
-                'registrationRepo' => new EventRegistrationRepository() // Instancie le repo
+                'userId' => $this->user['user_id'] ?? null,
+                'registrationRepo' => $registrationRepo
             ]);
         } catch (Exception $e) {
             $this->setError("Erreur : " . $e->getMessage());

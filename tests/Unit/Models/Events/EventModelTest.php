@@ -138,6 +138,68 @@ class EventModelTest extends TestCase
     }
 
     /**
+     * Test that findBySlug() returns an event when found
+     */
+    public function testFindBySlugReturnsEvent(): void
+    {
+        $slug = 'mon-evenement-special';
+        $expectedEvent = [
+            'event_id' => 1,
+            'event_name' => 'Mon Événement Spécial',
+            'slug' => $slug,
+            'event_date' => '2025-12-01',
+            'event_time' => '10:00:00',
+            'event_location' => 'Paris',
+            'description' => 'Test Description'
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':slug' => $slug])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn($expectedEvent);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with('SELECT * FROM EVENTS WHERE slug = :slug')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->model->findBySlug($slug);
+
+        $this->assertEquals($expectedEvent, $result);
+    }
+
+    /**
+     * Test that findBySlug() returns null when event not found
+     */
+    public function testFindBySlugReturnsNullWhenNotFound(): void
+    {
+        $slug = 'slug-inexistant';
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':slug' => $slug])
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn(false);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with('SELECT * FROM EVENTS WHERE slug = :slug')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->model->findBySlug($slug);
+
+        $this->assertNull($result);
+    }
+
+    /**
      * Test that findPaginated() returns an array of events
      */
     public function testFindPaginatedReturnsArray(): void
@@ -248,6 +310,7 @@ class EventModelTest extends TestCase
             [
                 'event_id' => 1,
                 'event_name' => 'Test Event',
+                'slug' => 'test-event',
                 'event_date' => '2025-12-01',
                 'event_time' => '10:00:00',
                 'event_location' => 'Test Location',
@@ -273,7 +336,7 @@ class EventModelTest extends TestCase
         $this->assertNotEmpty($events);
         $event = $events[0];
 
-        $expectedKeys = ['event_id', 'event_name', 'event_date', 'event_time', 'event_location', 'description'];
+        $expectedKeys = ['event_id', 'event_name', 'slug', 'event_date', 'event_time', 'event_location', 'description'];
         foreach ($expectedKeys as $key) {
             $this->assertArrayHasKey($key, $event);
         }
@@ -383,7 +446,7 @@ class EventModelTest extends TestCase
 
         $this->mockPdo->expects($this->once())
             ->method('query')
-            ->with('SELECT event_id, event_name, event_date, event_time, description FROM EVENTS')
+            ->with('SELECT event_id, event_name, slug, event_date, event_time, description FROM EVENTS')
             ->willReturn($this->mockStmt);
 
         $result = $this->model->findAll();
@@ -449,6 +512,9 @@ class EventModelTest extends TestCase
 
     /**
      * Test that insertEvent() returns true on successful insertion
+     *
+     * Since slug migration, insertEvent() generates a slug via SlugGenerator
+     * and checks uniqueness via slugExists(). Mock must handle both calls.
      */
     public function testInsertEventReturnsTrue(): void
     {
@@ -463,10 +529,17 @@ class EventModelTest extends TestCase
         $isGroupEvent = false;
         $teamSize = 1;
 
-        $this->mockStmt->expects($this->once())
+        // Mock slug existence check (slug doesn't exist)
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        $insertStmt = $this->createMock(PDOStatement::class);
+        $insertStmt->expects($this->once())
             ->method('execute')
             ->with([
                 ':event_name' => $eventName,
+                ':slug' => 'test-event',
                 ':event_date' => '2024-12-25',
                 ':event_time' => '18:00',
                 ':event_location' => $eventLocation,
@@ -479,9 +552,9 @@ class EventModelTest extends TestCase
             ])
             ->willReturn(true);
 
-        $this->mockPdo->expects($this->once())
+        $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturn($this->mockStmt);
+            ->willReturnOnConsecutiveCalls($checkStmt, $insertStmt);
 
         $result = $this->model->insertEvent(
             $eventName,
@@ -501,6 +574,8 @@ class EventModelTest extends TestCase
 
     /**
      * Test that insertEvent() works without images
+     *
+     * Slug migration: mock slug existence check before insert.
      */
     public function testInsertEventWithoutImages(): void
     {
@@ -512,16 +587,22 @@ class EventModelTest extends TestCase
         $statusParticipating = 'BUT 3';
         $description = 'Simple event description';
 
-        $this->mockStmt->expects($this->once())
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        $insertStmt = $this->createMock(PDOStatement::class);
+        $insertStmt->expects($this->once())
             ->method('execute')
             ->with($this->callback(function ($params) {
-                return $params[':images'] === '';
+                return $params[':images'] === '' &&
+                       $params[':slug'] === 'simple-event';
             }))
             ->willReturn(true);
 
-        $this->mockPdo->expects($this->once())
+        $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturn($this->mockStmt);
+            ->willReturnOnConsecutiveCalls($checkStmt, $insertStmt);
 
         $result = $this->model->insertEvent(
             $eventName,
@@ -537,24 +618,72 @@ class EventModelTest extends TestCase
     }
 
     /**
+     * Test that insertEvent() generates unique slug when base slug exists
+     *
+     * When "Test Event" slug already exists, should use "test-event-2"
+     */
+    public function testInsertEventGeneratesUniqueSlugWhenExists(): void
+    {
+        $checkStmt1 = $this->createMock(PDOStatement::class);
+        $checkStmt1->method('execute')->willReturn(true);
+        $checkStmt1->method('fetchColumn')->willReturn(1); // test-event exists
+
+        $checkStmt2 = $this->createMock(PDOStatement::class);
+        $checkStmt2->method('execute')->willReturn(true);
+        $checkStmt2->method('fetchColumn')->willReturn(0); // test-event-2 doesn't exist
+
+        $insertStmt = $this->createMock(PDOStatement::class);
+        $insertStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) {
+                return $params[':slug'] === 'test-event-2';
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($checkStmt1, $checkStmt2, $insertStmt);
+
+        $result = $this->model->insertEvent(
+            'Test Event',
+            new DateTime('2025-01-01'),
+            new DateTime('10:00'),
+            'Paris',
+            'Conference',
+            'BDE',
+            'Description'
+        );
+
+        $this->assertTrue($result);
+    }
+
+    /**
      * Test that insertEvent() formats DateTime correctly
+     *
+     * Slug migration: mock slug existence check before insert.
      */
     public function testInsertEventFormatsDateTimeCorrectly(): void
     {
         $eventDate = new DateTime('2025-01-01');
         $eventTime = new DateTime('23:59');
 
-        $this->mockStmt->expects($this->once())
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        $insertStmt = $this->createMock(PDOStatement::class);
+        $insertStmt->expects($this->once())
             ->method('execute')
             ->with($this->callback(function ($params) {
                 return $params[':event_date'] === '2025-01-01' &&
-                    $params[':event_time'] === '23:59';
+                    $params[':event_time'] === '23:59' &&
+                    $params[':slug'] === 'new-year-event';
             }))
             ->willReturn(true);
 
-        $this->mockPdo->expects($this->once())
+        $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturn($this->mockStmt);
+            ->willReturnOnConsecutiveCalls($checkStmt, $insertStmt);
 
         $result = $this->model->insertEvent(
             'New Year Event',
@@ -571,6 +700,9 @@ class EventModelTest extends TestCase
 
     /**
      * Test that updateEvent() returns true on successful update
+     *
+     * Slug migration: updateEvent() regenerates slug via slugExistsExcludingId().
+     * Mock must handle slug check call before update call.
      */
     public function testUpdateEventReturnsTrue(): void
     {
@@ -586,19 +718,25 @@ class EventModelTest extends TestCase
         $isGroupEvent = true;
         $teamSize = 5;
 
-        $this->mockStmt->expects($this->once())
+        $checkStmt = $this->createMock(PDOStatement::class);
+        $checkStmt->method('execute')->willReturn(true);
+        $checkStmt->method('fetchColumn')->willReturn(0);
+
+        $updateStmt = $this->createMock(PDOStatement::class);
+        $updateStmt->expects($this->once())
             ->method('execute')
             ->with($this->callback(function ($params) use ($eventId, $eventName) {
                 return $params[':event_id'] === $eventId &&
                     $params[':event_name'] === $eventName &&
+                    $params[':slug'] === 'updated-event' &&
                     $params[':event_date'] === '2025-01-15' &&
                     $params[':event_time'] === '16:00';
             }))
             ->willReturn(true);
 
-        $this->mockPdo->expects($this->once())
+        $this->mockPdo->expects($this->exactly(2))
             ->method('prepare')
-            ->willReturn($this->mockStmt);
+            ->willReturnOnConsecutiveCalls($checkStmt, $updateStmt);
 
         $result = $this->model->updateEvent(
             $eventId,

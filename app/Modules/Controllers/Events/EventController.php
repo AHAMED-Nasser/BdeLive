@@ -76,6 +76,7 @@ class EventController extends DefaultController
             if ($eventDate) {
                 $formattedEvents[] = [
                     'id' => $event['event_id'],
+                    'slug' => $event['slug'] ?? '',
                     'title' => $event['event_name'] ?? '',
                     'date' => $eventDate,
                     'time' => $event['event_time'] ?? '',

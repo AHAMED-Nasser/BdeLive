@@ -124,7 +124,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                             }
                             ?>
                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                <a href="index.php?page=showEvent&id=<?= htmlspecialchars((string) $event['event_id']) ?>"
+                                <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event['slug']) ?>"
                                     class="carousel-event-link"
                                     aria-label="Voir les détails de <?= htmlspecialchars($event['event_name']) ?>">
                                     <h3 class="event-title"><?= htmlspecialchars($event['event_name']) ?></h3>
