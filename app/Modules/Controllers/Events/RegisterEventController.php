@@ -7,7 +7,8 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AuthenticatedController;
 use App\Modules\Repositories\EventRegistrationRepository;
 use App\Modules\Repositories\EventTeamRepository;
-use App\Modules\Models\Events\EventModel;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 
 /**
@@ -15,6 +16,8 @@ use App\Core\Database;
  *
  * Handles user registration and unregistration for events.
  * Only accessible to authenticated users.
+ *
+ * Refactored to use Data Mapper pattern with Event entities.
  *
  * Features:
  * - User registration to events
@@ -24,7 +27,7 @@ use App\Core\Database;
  * - Success/error feedback with flash messages
  *
  * @package BdeLive\Controllers\Events
- * @version 1.1.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  *
  * @see AuthenticatedController For authentication requirements
@@ -47,11 +50,11 @@ class RegisterEventController extends AuthenticatedController
     private EventTeamRepository $teamRepo;
 
     /**
-     * Event model instance
+     * Event repository instance
      *
-     * @var EventModel
+     * @var EventRepositoryInterface
      */
-    private EventModel $eventModel;
+    private EventRepositoryInterface $eventRepository;
 
     /**
      * Constructor - Handle event registration actions
@@ -71,7 +74,7 @@ class RegisterEventController extends AuthenticatedController
         parent::__construct();
         $this->repo = new EventRegistrationRepository();
         $this->teamRepo = new EventTeamRepository();
-        $this->eventModel = new EventModel(Database::getInstance()->getConnection());
+        $this->eventRepository = new EventRepository(Database::getInstance()->getConnection());
 
         $action = $this->request->get('action', '');
         $eventId = (int) $this->request->get('event_id', 0);
@@ -81,29 +84,28 @@ class RegisterEventController extends AuthenticatedController
             return;
         }
 
-        // Validate event exists and is accessible
-        $event = $this->eventModel->findById($eventId);
+        // Validate event exists and is accessible (returns Event entity)
+        $event = $this->eventRepository->findById($eventId);
         if (!$event) {
             $this->setError('Événement introuvable');
             $this->redirect('index.php?page=event');
         }
 
         // Check if registrations are still open (event date not passed)
-        $eventDate = $event['event_date'] ?? '';
-        if ($eventDate && $eventDate < date('Y-m-d')) {
+        if ($event->getDate() < date('Y-m-d')) {
             $this->redirectWithMessage($eventId, 'Les inscriptions pour cet événement sont fermées', false);
         }
 
         // Check user eligibility (status_participating)
         $user = $this->auth->getUser();
-        if ($user && isset($event['status_participating']) && !empty($event['status_participating'])) {
-            $allowedStatuses = array_map('trim', explode(',', $event['status_participating']));
+        if ($user && !empty($event->getStatusParticipating())) {
+            $allowedStatuses = array_map('trim', explode(',', $event->getStatusParticipating()));
             $userStatus = $user['user_status'] ?? '';
 
             if (!in_array($userStatus, $allowedStatuses, true)) {
                 $this->redirectWithMessage(
                     $eventId,
-                    'Cet événement est réservé aux statuts : ' . $event['status_participating'],
+                    'Cet événement est réservé aux statuts : ' . $event->getStatusParticipating(),
                     false
                 );
             }

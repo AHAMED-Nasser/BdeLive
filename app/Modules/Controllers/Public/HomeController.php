@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Public;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Models\Articles\ArticleModel;
-use App\Modules\Models\Events\EventModel;
+use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\ArticleRepository;
+use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 
 /**
@@ -15,8 +17,10 @@ use App\Core\Database;
  * Handles the display of the application's home page.
  * This is the main entry point for users visiting the application.
  *
+ * Refactored to use Data Mapper pattern with entities and repositories.
+ *
  * @package BdeLive\Controllers
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  */
 class HomeController extends DefaultController
@@ -33,15 +37,17 @@ class HomeController extends DefaultController
     {
         parent::__construct();
 
-        // Retrieve the two latest articles
-        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
-        $articles = $articleModel->getLatestArticles(2);
+        // Retrieve the two latest articles (entities)
+        /** @var ArticleRepositoryInterface $articleRepository */
+        $articleRepository = new ArticleRepository(Database::getInstance()->getConnection());
+        $articles = $articleRepository->findLatestArticles(2);
 
-        // Retrieve upcoming events for the carousel
-        $eventModel = new EventModel(Database::getInstance()->getConnection());
-        $events = $eventModel->findLatestEvents(5);
+        // Retrieve events for carousel: upcoming first, then recent past if needed (max 5)
+        /** @var EventRepositoryInterface $eventRepository */
+        $eventRepository = new EventRepository(Database::getInstance()->getConnection());
+        $events = $eventRepository->findEventsForHomepage(5);
 
-        // Pass articles and events to the view (empty array if none exist)
+        // Pass articles and events entities to the view (empty array if none exist)
         $this->render('public/homePageView', [
             'articles' => $articles,
             'events' => $events

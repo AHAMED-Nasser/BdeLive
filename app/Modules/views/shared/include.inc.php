@@ -377,6 +377,7 @@ function end_page(): void
     <script src="./assets/js/slider.js"></script>
     <script src="./assets/js/dropImageArea.js"></script>
     <script src="./assets/js/back-to-top.js"></script>
+    <script src="./assets/js/delete-confirm.js"></script>
     <script src="./assets/js/form-submit-protection.js"></script>
     <script src="./assets/js/modal.js"></script>
 

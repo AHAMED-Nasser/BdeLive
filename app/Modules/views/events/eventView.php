@@ -12,7 +12,7 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
- * @var array<int, array<string, mixed>> $events The list of events (passed by EventController)
+ * @var array<int, \App\Modules\Entities\Event> $events Array of Event entities (passed by EventController)
  * @var \App\Modules\Helpers\Pagination $pagination The pagination object (passed by EventController)
  */
 start_page('Liste des Événements - BDELive', true, $user ?? null);
@@ -90,10 +90,10 @@ $userId = $user['user_id'] ?? null;
     <?php else : ?>
         <?php foreach ($events as $event) : ?>
             <?php
-            // Logique de décodage des images
-            $eventImages = !empty($event['images']) ? json_decode($event['images'], true) : [];
+            // Get images from entity and prepare for carousel
+            $eventImages = $event->getImagesArray();
             $carouselImages = [];
-            if (!empty($eventImages) && is_array($eventImages)) {
+            if (!empty($eventImages)) {
                 foreach ($eventImages as $image) {
                     if (is_array($image) && isset($image['url'])) {
                         $carouselImages[] = ['src' => $image['url']];
@@ -108,10 +108,10 @@ $userId = $user['user_id'] ?? null;
 
             <div class="event-item"
                 style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                <?php useCarousel($event['event_name'], $carouselImages, 'carousel-event-' . $event['event_id']); ?>
+                <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
 
                 <div style="margin-top: 15px;">
-                    <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event['slug']) ?>" class="btn-more"
+                    <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>" class="btn-more"
                         style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
                         Voir les détails
                     </a>

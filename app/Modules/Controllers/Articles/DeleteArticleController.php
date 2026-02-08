@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Articles\ArticleModel;
+use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Modules\Repositories\ArticleRepository;
 use App\Core\Database;
 
 /**
@@ -14,6 +15,8 @@ use App\Core\Database;
  * Handles the deletion of existing articles.
  * Only accessible to users with BDE (admin) status.
  *
+ * Refactored to use Data Mapper pattern with ArticleRepositoryInterface.
+ *
  * Features:
  * - CSRF token validation
  * - Article deletion by slug or ID
@@ -21,11 +24,11 @@ use App\Core\Database;
  * - Redirects to articles list after deletion
  *
  * @package App\Modules\Controllers\Articles
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
- * @see ArticleModel For database operations
+ * @see ArticleRepository For database operations
  */
 class DeleteArticleController extends AdminController
 {
@@ -92,11 +95,16 @@ class DeleteArticleController extends AdminController
             $this->redirect('index.php?page=articles');
         }
 
-        $articleId = (int) $article['id'];
+        $articleId = $article->getId();
+        if ($articleId === null) {
+            $this->setError('Article introuvable.');
+            $this->redirect('index.php?page=articles');
+        }
 
-        // Delete article from database
-        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
-        $result = $articleModel->deleteArticle($articleId);
+        // Delete article via repository
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
+        $result = $repository->delete($articleId);
 
         if ($result) {
             $this->setSuccess('Article supprimé avec succès.');
@@ -113,16 +121,17 @@ class DeleteArticleController extends AdminController
      * Retrieves the article slug or ID from GET or POST parameters and fetches the article.
      * Supports both 'slug' and 'id' parameters.
      *
-     * @return array<string, mixed>|null Article data if found, null otherwise
+     * @return \App\Modules\Entities\Article|null Article entity if found, null otherwise
      */
-    private function getArticleFromRequest(): ?array
+    private function getArticleFromRequest(): ?\App\Modules\Entities\Article
     {
-        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)
         $slug = $this->request->get('slug', '') ?: $this->request->post('slug', '');
         if (!empty($slug)) {
-            $article = $articleModel->getArticleBySlug((string) $slug);
+            $article = $repository->findBySlug((string) $slug);
             if ($article !== null) {
                 return $article;
             }
@@ -133,7 +142,7 @@ class DeleteArticleController extends AdminController
         if (!empty($id)) {
             $articleId = filter_var($id, FILTER_VALIDATE_INT);
             if ($articleId !== false && $articleId > 0) {
-                $article = $articleModel->getArticleById($articleId);
+                $article = $repository->findById($articleId);
                 if ($article !== null) {
                     return $article;
                 }

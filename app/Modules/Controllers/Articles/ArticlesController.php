@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\BaseController;
-use App\Modules\Models\Articles\ArticleModel;
+use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Modules\Repositories\ArticleRepository;
 use App\Modules\Helpers\Pagination;
 use App\Core\Database;
 
@@ -16,8 +17,10 @@ use App\Core\Database;
  * - List: index.php?page=articles (displays paginated list)
  * - Detail: index.php?page=articles&slug=... (displays single article)
  *
+ * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ *
  * @package App\Modules\Controllers\Articles
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  */
 class ArticlesController extends BaseController
@@ -47,12 +50,13 @@ class ArticlesController extends BaseController
 
         // Priority 2: ID (legacy, redirect to slug for SEO)
         if ($articleId > 0) {
-            $articleModel = new ArticleModel(Database::getInstance()->getConnection());
-            $article = $articleModel->getArticleById($articleId);
+            /** @var ArticleRepositoryInterface $repository */
+            $repository = new ArticleRepository(Database::getInstance()->getConnection());
+            $article = $repository->findById($articleId);
 
-            if ($article && isset($article['slug'])) {
+            if ($article) {
                 // 301 Permanent Redirect to slug URL for SEO
-                $slugUrl = 'index.php?page=articles&slug=' . urlencode($article['slug']);
+                $slugUrl = 'index.php?page=articles&slug=' . urlencode($article->getSlug());
                 header('Location: ' . $slugUrl, true, 301);
                 exit;
             }
@@ -73,8 +77,9 @@ class ArticlesController extends BaseController
      */
     private function displaySingleArticle(string $slug): void
     {
-        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
-        $article = $articleModel->getArticleBySlug($slug);
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
+        $article = $repository->findBySlug($slug);
 
         if ($article === null) {
             $this->setError('Article introuvable.');
@@ -96,11 +101,12 @@ class ArticlesController extends BaseController
         $articlesPerPage = 9; // 9 articles par page (grille 3x3)
         $currentPage = max(1, (int) $this->request->get('p', 1));
 
-        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
-        $totalArticles = $articleModel->countArticles();
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
+        $totalArticles = $repository->count();
 
         $pagination = new Pagination($totalArticles, $articlesPerPage, $currentPage);
-        $articles = $articleModel->getPaginatedArticles(
+        $articles = $repository->findPaginated(
             $pagination->getOffset(),
             $articlesPerPage
         );

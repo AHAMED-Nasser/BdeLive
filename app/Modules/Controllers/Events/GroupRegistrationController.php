@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AuthenticatedController;
-use App\Modules\Models\Events\EventModel;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventTeamInvitationRepository;
+use App\Modules\Entities\Event;
 use App\Core\Database;
 use App\Config\Mailer;
 
@@ -17,6 +19,8 @@ use App\Config\Mailer;
  * Handles user group registration for events with group mode enabled.
  * Allows users to create teams and invite members via email.
  *
+ * Refactored to use Data Mapper pattern with Event entities.
+ *
  * Features:
  * - Display group registration form
  * - Validate member emails
@@ -24,7 +28,7 @@ use App\Config\Mailer;
  * - Track team creation status
  *
  * @package BdeLive\Controllers\Events
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  *
  * @see AuthenticatedController For authentication requirements
@@ -34,11 +38,11 @@ use App\Config\Mailer;
 class GroupRegistrationController extends AuthenticatedController
 {
     /**
-     * Event model instance
+     * Event repository instance
      *
-     * @var EventModel
+     * @var EventRepositoryInterface
      */
-    private EventModel $eventModel;
+    private EventRepositoryInterface $eventRepository;
 
     /**
      * Team repository instance
@@ -67,7 +71,7 @@ class GroupRegistrationController extends AuthenticatedController
     {
         parent::__construct();
 
-        $this->eventModel = new EventModel(Database::getInstance()->getConnection());
+        $this->eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $this->teamRepo = new EventTeamRepository();
         $this->invitationRepo = new EventTeamInvitationRepository();
 
@@ -77,14 +81,14 @@ class GroupRegistrationController extends AuthenticatedController
             $this->redirectWithError('index.php?page=event', 'ID événement invalide');
         }
 
-        $event = $this->eventModel->findById($eventId);
+        $event = $this->eventRepository->findById($eventId);
 
         if (!$event) {
             $this->redirectWithError('index.php?page=event', 'Événement introuvable');
         }
 
         // Check if this is a group event
-        if (empty($event['is_group_event']) || $event['is_group_event'] == 0) {
+        if (!$event->isGroupEvent()) {
             $this->redirectWithError(
                 'index.php?page=showEvent&id=' . $eventId,
                 'Cet événement ne permet pas les inscriptions en groupe'
@@ -103,30 +107,31 @@ class GroupRegistrationController extends AuthenticatedController
     /**
      * Display the group registration form
      *
-     * @param array<string, mixed> $event Event data
+     * @param Event $event Event entity
      * @return void
      */
-    private function displayForm(array $event): void
+    private function displayForm(Event $event): void
     {
         $user = $this->auth->getUser();
 
         // Check if user is already in a team for this event
-        if ($user && $this->teamRepo->isUserInAnyTeam((int) $event['event_id'], (int) $user['user_id'])) {
+        $eventId = $event->getId();
+        if ($user && $eventId !== null && $this->teamRepo->isUserInAnyTeam($eventId, (int) $user['user_id'])) {
             $this->redirectWithError(
-                'index.php?page=showEvent&id=' . $event['event_id'],
+                'index.php?page=showEvent&id=' . $eventId,
                 'Vous êtes déjà inscrit à un groupe pour cet événement'
             );
         }
 
         // Get existing teams created by this user (if any pending)
-        $userTeams = $user ? $this->teamRepo->getUserTeamsForEvent(
-            (int) $event['event_id'],
+        $userTeams = ($user && $eventId !== null) ? $this->teamRepo->getUserTeamsForEvent(
+            $eventId,
             (int) $user['user_id']
         ) : [];
 
         $this->render('events/groupRegistrationView', [
             'event' => $event,
-            'teamSize' => (int) ($event['team_size'] ?? 2),
+            'teamSize' => $event->getTeamSize(),
             'userTeams' => $userTeams
         ]);
     }
@@ -136,23 +141,23 @@ class GroupRegistrationController extends AuthenticatedController
      *
      * Creates a team and sends invitations to all specified email addresses.
      *
-     * @param array<string, mixed> $event Event data
+     * @param Event $event Event entity
      * @return void
      */
-    private function processGroupRegistration(array $event): void
+    private function processGroupRegistration(Event $event): void
     {
         $user = $this->auth->getUser();
 
         if (!$user || !isset($user['user_id'])) {
             $this->redirectWithError(
-                'index.php?page=groupRegistration&event_id=' . $event['event_id'],
+                'index.php?page=groupRegistration&event_id=' . $event->getId(),
                 'Utilisateur non authentifié'
             );
         }
 
         $userId = (int) $user['user_id'];
-        $eventId = (int) $event['event_id'];
-        $teamSize = (int) ($event['team_size'] ?? 2);
+        $eventId = $event->getId() ?? 0;
+        $teamSize = $event->getTeamSize();
 
         // Check if user is already in a team
         if ($this->teamRepo->isUserInAnyTeam($eventId, $userId)) {
@@ -235,7 +240,7 @@ class GroupRegistrationController extends AuthenticatedController
                     $email,
                     $email, // Use email as name if user not registered
                     $token,
-                    $event['event_name'],
+                    $event->getName(),
                     $user['first_name'] . ' ' . $user['last_name'],
                     $team ? (int) $team['team_number'] : 1,
                     $teamSize
