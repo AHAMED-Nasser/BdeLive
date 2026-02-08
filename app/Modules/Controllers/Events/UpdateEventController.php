@@ -143,7 +143,7 @@ class UpdateEventController extends AdminController
         // ====================================================================
 
         // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        $skipCsrfValidation = false; // ⚠️ À REMETTRE À false après correction du problème
 
         // 1. Validation CSRF (désactivée temporairement)
 
@@ -233,39 +233,60 @@ class UpdateEventController extends AdminController
             $typeChanged = $oldIsGroupEvent !== $isGroupEvent;
             $sizeChanged = $isGroupEvent && $oldIsGroupEvent && ($oldTeamSize !== $teamSize);
 
-            if ($typeChanged || $sizeChanged) {
-                // Delete all registrations first (before deleting teams due to FK)
-                $deletedRegs = $this->registrationRepository->deleteRegistrationsByEvent($eventId);
-                if ($deletedRegs > 0) {
-                    error_log("UpdateEventController: Deleted {$deletedRegs} registrations for event {$eventId}");
+            // Wrap all database operations in a transaction for atomicity
+            // This prevents partial updates if any operation fails
+            $pdo = Database::getInstance()->getConnection();
+
+            try {
+                $pdo->beginTransaction();
+
+                if ($typeChanged || $sizeChanged) {
+                    // Delete all registrations first (before deleting teams due to FK)
+                    $deletedRegs = $this->registrationRepository->deleteRegistrationsByEvent($eventId);
+                    if ($deletedRegs > 0) {
+                        error_log("UpdateEventController: Deleted {$deletedRegs} registrations for event {$eventId}");
+                    }
+
+                    // Then delete all teams
+                    $deletedTeams = $this->teamRepository->deleteTeamsByEvent($eventId);
+                    if ($deletedTeams > 0) {
+                        error_log("UpdateEventController: Deleted {$deletedTeams} teams for event {$eventId}");
+                    }
                 }
 
-                // Then delete all teams
-                $deletedTeams = $this->teamRepository->deleteTeamsByEvent($eventId);
-                if ($deletedTeams > 0) {
-                    error_log("UpdateEventController: Deleted {$deletedTeams} teams for event {$eventId}");
+                // 4. Appel du modèle de mise à jour
+                $success = $this->eventModel->updateEvent(
+                    $eventId,
+                    $eventName,
+                    $eventDate,
+                    $eventTime,
+                    $eventLocation,
+                    $eventTheme,
+                    $statusParticipating,
+                    $description,
+                    $imageJson,
+                    $isGroupEvent,
+                    $teamSize
+                );
+
+                if (!$success) {
+                    throw new Exception('Event update failed in EventModel');
                 }
-            }
 
-            // 4. Appel du modèle de mise à jour
-            $success = $this->eventModel->updateEvent(
-                $eventId,
-                $eventName,
-                $eventDate,
-                $eventTime,
-                $eventLocation,
-                $eventTheme,
-                $statusParticipating,
-                $description,
-                $imageJson,
-                $isGroupEvent,
-                $teamSize
-            );
-
-            if ($success) {
+                // Commit all changes if everything succeeded
+                $pdo->commit();
                 $this->redirectWithSuccess(self::REDIRECT_URL, 'Événement mis à jour avec succès.');
-            } else {
-                $this->redirectWithError(self::REDIRECT_URL, 'Erreur lors de la mise à jour de l\'événement.');
+            } catch (Exception $transactionException) {
+                // Rollback all changes if any operation failed
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+
+                error_log('UpdateEventController transaction failed: ' . $transactionException->getMessage());
+                $this->redirectWithError(
+                    self::REDIRECT_URL,
+                    'Erreur lors de la mise à jour de l\'événement. Aucune modification n\'a été appliquée.'
+                );
             }
         } catch (Exception $e) {
             // Affiche l'erreur réelle au lieu du message générique pour tester

@@ -7,6 +7,8 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AuthenticatedController;
 use App\Modules\Repositories\EventRegistrationRepository;
 use App\Modules\Repositories\EventTeamRepository;
+use App\Modules\Models\Events\EventModel;
+use App\Core\Database;
 
 /**
  * RegisterEventController - Event Registration Management
@@ -45,6 +47,13 @@ class RegisterEventController extends AuthenticatedController
     private EventTeamRepository $teamRepo;
 
     /**
+     * Event model instance
+     *
+     * @var EventModel
+     */
+    private EventModel $eventModel;
+
+    /**
      * Constructor - Handle event registration actions
      *
      * Supports two actions via GET parameter 'action':
@@ -53,6 +62,8 @@ class RegisterEventController extends AuthenticatedController
      *
      * Requires GET parameter 'event_id' (positive integer).
      *
+     * Security: Validates event existence, registration status, and user eligibility.
+     *
      * @return void Redirects with appropriate flash message
      */
     public function __construct()
@@ -60,6 +71,7 @@ class RegisterEventController extends AuthenticatedController
         parent::__construct();
         $this->repo = new EventRegistrationRepository();
         $this->teamRepo = new EventTeamRepository();
+        $this->eventModel = new EventModel(Database::getInstance()->getConnection());
 
         $action = $this->request->get('action', '');
         $eventId = (int) $this->request->get('event_id', 0);
@@ -67,6 +79,34 @@ class RegisterEventController extends AuthenticatedController
         if ($eventId <= 0) {
             $this->redirectWithMessage($eventId, 'ID événement invalide', false);
             return;
+        }
+
+        // Validate event exists and is accessible
+        $event = $this->eventModel->findById($eventId);
+        if (!$event) {
+            $this->setError('Événement introuvable');
+            $this->redirect('index.php?page=event');
+        }
+
+        // Check if registrations are still open (event date not passed)
+        $eventDate = $event['event_date'] ?? '';
+        if ($eventDate && $eventDate < date('Y-m-d')) {
+            $this->redirectWithMessage($eventId, 'Les inscriptions pour cet événement sont fermées', false);
+        }
+
+        // Check user eligibility (status_participating)
+        $user = $this->auth->getUser();
+        if ($user && isset($event['status_participating']) && !empty($event['status_participating'])) {
+            $allowedStatuses = array_map('trim', explode(',', $event['status_participating']));
+            $userStatus = $user['user_status'] ?? '';
+
+            if (!in_array($userStatus, $allowedStatuses, true)) {
+                $this->redirectWithMessage(
+                    $eventId,
+                    'Cet événement est réservé aux statuts : ' . $event['status_participating'],
+                    false
+                );
+            }
         }
 
         match ($action) {
@@ -107,8 +147,8 @@ class RegisterEventController extends AuthenticatedController
     /**
      * Unregister the current user from an event
      *
-     * If user is part of a team, the entire team is deleted.
-     * All team members are unregistered when any member leaves.
+     * Security: If user is part of a team, only the team creator can delete the entire team.
+     * Other team members can only remove themselves from the team.
      *
      * @param int $eventId The event ID to unregister from
      * @return void Redirects to event page with flash message
@@ -132,10 +172,19 @@ class RegisterEventController extends AuthenticatedController
         $teamId = $this->repo->getTeamIdByUserAndEvent($userId, $eventId);
 
         if ($teamId !== null) {
-            // User is in a team - delete entire team and all member registrations
-            $this->repo->deleteRegistrationsByTeam($teamId);
-            $this->teamRepo->deleteTeam($teamId);
-            $this->redirectWithMessage($eventId, 'Désinscription réussie. Le groupe entier a été supprimé.');
+            // User is in a team - check if they are the creator
+            $team = $this->teamRepo->findById($teamId);
+
+            if ($team && isset($team['creator_user_id']) && (int) $team['creator_user_id'] === (int) $userId) {
+                // User is the team creator - can delete entire team
+                $this->repo->deleteRegistrationsByTeam($teamId);
+                $this->teamRepo->deleteTeam($teamId);
+                $this->redirectWithMessage($eventId, 'Désinscription réussie. Le groupe entier a été supprimé.');
+            } else {
+                // User is not the creator - only remove themselves
+                $this->repo->unregisterUser($eventId, $userId);
+                $this->redirectWithMessage($eventId, 'Vous avez quitté le groupe. Le créateur peut supprimer le groupe complet.');
+            }
         } else {
             // Individual registration
             $this->repo->unregisterUser($eventId, $userId);

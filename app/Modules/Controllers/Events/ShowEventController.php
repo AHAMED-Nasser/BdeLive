@@ -17,12 +17,12 @@ class ShowEventController extends DefaultController
         parent::__construct();
 
         try {
-            $eventId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+            $eventId = (int) $this->request->get('id', 0);
             $eventModel = new EventModel(Database::getInstance()->getConnection());
             $event = $eventModel->findById($eventId);
 
             if (!$event) {
-                $this->redirectWithError('index.php?page=event', "L'événement en question n'a pas été événement trouvé");
+                $this->redirectWithError('index.php?page=event', "L'événement en question n'a pas été trouvé");
             }
 
             // On passe l'ID de l'utilisateur et le repository d'inscription à la vue

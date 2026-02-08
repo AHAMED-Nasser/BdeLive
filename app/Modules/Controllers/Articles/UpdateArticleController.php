@@ -104,7 +104,7 @@ class UpdateArticleController extends AdminController
         $slug = (string) $article['slug'];
 
 
-        $skipCsrfValidation = true;
+        $skipCsrfValidation = false;
 
         // Validate CSRF token
         /** @phpstan-ignore-next-line */
