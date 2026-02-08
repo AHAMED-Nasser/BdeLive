@@ -21,6 +21,9 @@ require_once __DIR__ . '/include/autoload.php';
 // require_once __DIR__ . '/include/csrf.php';  // Remplacé par CsrfProtection
 
 use App\Core\Application;
+use App\Core\ContainerFactory;
+
+$container = ContainerFactory::create();
 $page = (string) Application::getInstance()->request()->get('page', 'home');
 /**
  * Keep only allowed characters for the page token and default to 'home' if empty.
@@ -71,7 +74,7 @@ foreach ($namespaces as $ns) {
 }
 
 if ($resolved !== null) {
-    new $resolved();
+    $container->get($resolved);
 } else {
 // Backward compatibility: non-namespaced class if present
     if (class_exists($shortName)) {

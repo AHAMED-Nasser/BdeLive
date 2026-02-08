@@ -6,9 +6,7 @@ namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\BaseController;
 use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
-use App\Modules\Repositories\ArticleRepository;
 use App\Modules\Helpers\Pagination;
-use App\Core\Database;
 
 /**
  * ArticlesController - Display articles list or single article
@@ -17,27 +15,20 @@ use App\Core\Database;
  * - List: index.php?page=articles (displays paginated list)
  * - Detail: index.php?page=articles&slug=... (displays single article)
  *
- * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ * Refactored to use Data Mapper + constructor injection (ArticleRepositoryInterface).
  *
  * @package App\Modules\Controllers\Articles
- * @version 2.0.0 - Data Mapper refactoring
+ * @version 2.0.0 - Data Mapper + DI
  * @author BDELIVE - Group 8
  */
 class ArticlesController extends BaseController
 {
-    /**
-     * Constructor - Display articles list or single article
-     *
-     * Priority handling:
-     * 1. If 'slug' parameter is present, displays single article (SEO-friendly)
-     * 2. If only 'id' parameter is present, redirects 301 to slug URL (backward compatibility)
-     * 3. Otherwise, displays paginated list
-     *
-     * @return void
-     */
-    public function __construct()
+    private ArticleRepositoryInterface $repository;
+
+    public function __construct(ArticleRepositoryInterface $repository)
     {
         parent::__construct();
+        $this->repository = $repository;
 
         $slug = $this->request->get('slug', '');
         $articleId = (int) $this->request->get('id', 0);
@@ -50,9 +41,7 @@ class ArticlesController extends BaseController
 
         // Priority 2: ID (legacy, redirect to slug for SEO)
         if ($articleId > 0) {
-            /** @var ArticleRepositoryInterface $repository */
-            $repository = new ArticleRepository(Database::getInstance()->getConnection());
-            $article = $repository->findById($articleId);
+            $article = $this->repository->findById($articleId);
 
             if ($article) {
                 // 301 Permanent Redirect to slug URL for SEO
@@ -77,9 +66,7 @@ class ArticlesController extends BaseController
      */
     private function displaySingleArticle(string $slug): void
     {
-        /** @var ArticleRepositoryInterface $repository */
-        $repository = new ArticleRepository(Database::getInstance()->getConnection());
-        $article = $repository->findBySlug($slug);
+        $article = $this->repository->findBySlug($slug);
 
         if ($article === null) {
             $this->setError('Article introuvable.');
@@ -101,12 +88,9 @@ class ArticlesController extends BaseController
         $articlesPerPage = 9; // 9 articles par page (grille 3x3)
         $currentPage = max(1, (int) $this->request->get('p', 1));
 
-        /** @var ArticleRepositoryInterface $repository */
-        $repository = new ArticleRepository(Database::getInstance()->getConnection());
-        $totalArticles = $repository->count();
-
+        $totalArticles = $this->repository->count();
         $pagination = new Pagination($totalArticles, $articlesPerPage, $currentPage);
-        $articles = $repository->findPaginated(
+        $articles = $this->repository->findPaginated(
             $pagination->getOffset(),
             $articlesPerPage
         );

@@ -6,9 +6,7 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
-use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
-use App\Core\Database;
 use Exception;
 
 /**
@@ -17,28 +15,20 @@ use Exception;
  * Refactored to use Data Mapper pattern with:
  * - EventRepositoryInterface (Dependency Inversion Principle)
  * - Event entity instead of raw arrays
- * - Type-safe getters for data access
+ * - Repository injected via constructor (DI Container)
  *
  * @package BdeLive\Controllers\Events
  * @author BdeLive - Group 8
- * @version 2.0.0 - Data Mapper refactoring
+ * @version 2.0.0 - Data Mapper + DI
  */
 class ShowEventController extends DefaultController
 {
-    /**
-     * Event repository instance (type-hinted with interface)
-     *
-     * @var EventRepositoryInterface
-     */
     private EventRepositoryInterface $eventRepository;
 
-    public function __construct()
+    public function __construct(EventRepositoryInterface $eventRepository)
     {
         parent::__construct();
-
-        // Instantiate concrete repository (no DI Container yet)
-        // Type-hint property with interface for SOLID compliance
-        $this->eventRepository = new EventRepository(Database::getInstance()->getConnection());
+        $this->eventRepository = $eventRepository;
 
         try {
             $slug = $this->request->get('slug', '');
@@ -66,13 +56,12 @@ class ShowEventController extends DefaultController
                 $this->redirectWithError('index.php?page=event', 'Paramètres invalides');
             }
 
-            // Instantiate repository once (cleaner code as per user recommendation)
             $registrationRepo = new EventRegistrationRepository();
+            $user = $this->auth->getUser();
 
-            // Render event view with Event entity
             $this->render('events/showEventView', [
                 'event' => $event,
-                'userId' => $this->user['user_id'] ?? null,
+                'userId' => $user !== null ? ($user['user_id'] ?? null) : null,
                 'registrationRepo' => $registrationRepo
             ]);
         } catch (Exception $e) {
