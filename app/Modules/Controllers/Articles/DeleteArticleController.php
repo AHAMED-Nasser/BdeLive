@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Models\Articles\ArticleModel;
+use App\Core\Database;
 
 /**
  * DeleteArticleController - Article Deletion for Administrators
@@ -94,7 +95,7 @@ class DeleteArticleController extends AdminController
         $articleId = (int) $article['id'];
 
         // Delete article from database
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
         $result = $articleModel->deleteArticle($articleId);
 
         if ($result) {
@@ -116,7 +117,7 @@ class DeleteArticleController extends AdminController
      */
     private function getArticleFromRequest(): ?array
     {
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)
         $slug = $this->request->get('slug', '') ?: $this->request->post('slug', '');

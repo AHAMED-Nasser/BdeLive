@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Repositories\EventRepository;
-use App\Modules\Repositories\EventRegistrationRepository; //
+use App\Modules\Models\Events\EventModel;
+use App\Modules\Repositories\EventRegistrationRepository;
+use App\Core\Database;
 use Exception;
 
 class ShowEventController extends DefaultController
@@ -17,8 +18,8 @@ class ShowEventController extends DefaultController
 
         try {
             $eventId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-            $repository = new EventRepository();
-            $event = $repository->findById($eventId);
+            $eventModel = new EventModel(Database::getInstance()->getConnection());
+            $event = $eventModel->findById($eventId);
 
             if (!$event) {
                 $this->redirectWithError('index.php?page=event', "L'événement en question n'a pas été événement trouvé");

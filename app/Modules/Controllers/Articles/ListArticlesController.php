@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\BaseController;
-use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Models\Articles\ArticleModel;
 use App\Modules\Helpers\Pagination;
+use App\Core\Database;
 
 /**
  * ListArticlesController - Display paginated list of articles
@@ -33,7 +34,7 @@ class ListArticlesController extends BaseController
         $articlesPerPage = 9; // 9 articles par page (grille 3x3)
         $currentPage = max(1, (int)$this->request->get('p', 1));
 
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
         $totalArticles = $articleModel->countArticles();
 
         $pagination = new Pagination($totalArticles, $articlesPerPage, $currentPage);

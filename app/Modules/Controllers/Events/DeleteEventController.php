@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\EventCreationModel;
+use App\Modules\Models\Events\EventModel;
+use App\Core\Database;
 use Exception;
 
 /**
@@ -17,7 +18,7 @@ use Exception;
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
- * @see EventCreationModel For database operations
+ * @see EventModel For database operations
  */
 class DeleteEventController extends AdminController
 {
@@ -73,7 +74,7 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            $model = new EventCreationModel();
+            $model = new EventModel(Database::getInstance()->getConnection());
             $success = $model->deleteEvent($eventId);
 
             if ($success) {

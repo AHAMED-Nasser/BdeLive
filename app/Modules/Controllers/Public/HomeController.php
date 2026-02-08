@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Public;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Models\Admin\ArticleModel;
-use App\Modules\Repositories\EventRepository;
+use App\Modules\Models\Articles\ArticleModel;
+use App\Modules\Models\Events\EventModel;
+use App\Core\Database;
 
 /**
  * Home Controller
@@ -33,12 +34,12 @@ class HomeController extends DefaultController
         parent::__construct();
 
         // Retrieve the two latest articles
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
         $articles = $articleModel->getLatestArticles(2);
 
         // Retrieve upcoming events for the carousel
-        $eventRepository = new EventRepository();
-        $events = $eventRepository->findLatestEvents(5);
+        $eventModel = new EventModel(Database::getInstance()->getConnection());
+        $events = $eventModel->findLatestEvents(5);
 
         // Pass articles and events to the view (empty array if none exist)
         $this->render('public/homePageView', [

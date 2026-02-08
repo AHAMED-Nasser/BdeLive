@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Models\Articles\ArticleModel;
 use App\Services\CloudinaryService;
+use App\Core\Database;
 
 /**
  * CreateArticleController - Article Creation for Administrators
@@ -127,7 +128,7 @@ class CreateArticleController extends AdminController
         }
 
         // Save article to database
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
         $result = $articleModel->insertArticle(
             $title,
             $description,

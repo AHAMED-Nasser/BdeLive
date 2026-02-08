@@ -7,7 +7,8 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\EventRegistrationRepository;
-use App\Modules\Repositories\EventRepository;
+use App\Modules\Models\Events\EventModel;
+use App\Core\Database;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use JetBrains\PhpStorm\NoReturn;
@@ -23,7 +24,7 @@ use JetBrains\PhpStorm\NoReturn;
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
- * @see EventRepository For database operations
+ * @see EventModel For database operations
  * @see EventRegistrationRepository For database operations
  */
 class ExportUserEventController extends AdminController
@@ -70,10 +71,10 @@ class ExportUserEventController extends AdminController
             }
         }
 
-        $eventRepo = new EventRepository();
+        $eventModel = new EventModel(Database::getInstance()->getConnection());
         $registrationRepo = new EventRegistrationRepository();
 
-        $event = $eventRepo->findById($eventId);
+        $event = $eventModel->findById($eventId);
 
         if (!$event) {
             $this->setError("Événement introuvable");

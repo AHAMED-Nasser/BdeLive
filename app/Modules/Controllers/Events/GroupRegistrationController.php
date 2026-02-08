@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AuthenticatedController;
-use App\Modules\Repositories\EventRepository;
+use App\Modules\Models\Events\EventModel;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventTeamInvitationRepository;
+use App\Core\Database;
 use App\Config\Mailer;
 
 /**
@@ -33,11 +34,11 @@ use App\Config\Mailer;
 class GroupRegistrationController extends AuthenticatedController
 {
     /**
-     * Event repository instance
+     * Event model instance
      *
-     * @var EventRepository
+     * @var EventModel
      */
-    private EventRepository $eventRepo;
+    private EventModel $eventModel;
 
     /**
      * Team repository instance
@@ -66,7 +67,7 @@ class GroupRegistrationController extends AuthenticatedController
     {
         parent::__construct();
 
-        $this->eventRepo = new EventRepository();
+        $this->eventModel = new EventModel(Database::getInstance()->getConnection());
         $this->teamRepo = new EventTeamRepository();
         $this->invitationRepo = new EventTeamInvitationRepository();
 
@@ -76,7 +77,7 @@ class GroupRegistrationController extends AuthenticatedController
             $this->redirectWithError('index.php?page=event', 'ID événement invalide');
         }
 
-        $event = $this->eventRepo->findById($eventId);
+        $event = $this->eventModel->findById($eventId);
 
         if (!$event) {
             $this->redirectWithError('index.php?page=event', 'Événement introuvable');

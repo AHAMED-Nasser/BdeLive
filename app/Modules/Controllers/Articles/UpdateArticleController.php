@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Models\Articles\ArticleModel;
 use App\Services\CloudinaryService;
+use App\Core\Database;
 
 /**
  * UpdateArticleController - Article Update for Administrators
@@ -159,7 +160,7 @@ class UpdateArticleController extends AdminController
         }
 
         // Update article in database
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
         $result = $articleModel->updateArticle(
             $articleId,
             $title,
@@ -191,7 +192,7 @@ class UpdateArticleController extends AdminController
      */
     private function getArticleFromRequest(): ?array
     {
-        $articleModel = new ArticleModel();
+        $articleModel = new ArticleModel(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)
         $slug = $this->request->get('slug', '');

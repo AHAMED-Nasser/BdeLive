@@ -3,10 +3,10 @@
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\EventCreationModel;
-use App\Modules\Repositories\EventRepository;
+use App\Modules\Models\Events\EventModel;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Core\Database;
 use DateTime;
 use Exception;
 
@@ -27,15 +27,13 @@ use Exception;
  * @version 1.2.3
  *
  * @see AdminController For admin authentication requirements
- * @see EventCreationModel For database operations
- * @see EventRepository For database operations
+ * @see EventModel For database operations
  * @see EventTeamRepository For database operations
  * @see EventRegistrationRepository For database operations
  */
 class UpdateEventController extends AdminController
 {
-    private EventCreationModel $eventModel;
-    private EventRepository $eventRepository;
+    private EventModel $eventModel;
     private EventTeamRepository $teamRepository;
     private EventRegistrationRepository $registrationRepository;
     private const REDIRECT_URL = 'index.php?page=event';
@@ -49,8 +47,7 @@ class UpdateEventController extends AdminController
     {
         parent::__construct(); // Verify that's it an admin
 
-        $this->eventModel = new EventCreationModel();
-        $this->eventRepository = new EventRepository();
+        $this->eventModel = new EventModel(Database::getInstance()->getConnection());
         $this->teamRepository = new EventTeamRepository();
         $this->registrationRepository = new EventRegistrationRepository();
 
@@ -76,7 +73,7 @@ class UpdateEventController extends AdminController
      */
     private function displayForm(int $eventId): void
     {
-        $event = $this->eventRepository->findById($eventId);
+        $event = $this->eventModel->findById($eventId);
 
         if (!$event) {
             $this->redirectWithError(self::REDIRECT_URL, "L'événement à modifier n'existe pas.");
@@ -107,7 +104,7 @@ class UpdateEventController extends AdminController
         }
 
         $eventId = (int) $eventId;
-        $event = $this->eventRepository->findById($eventId);
+        $event = $this->eventModel->findById($eventId);
 
         if (!$event) {
             $this->session->flash('error', "L'événement modifié n'existe pas.");
@@ -198,7 +195,7 @@ class UpdateEventController extends AdminController
 
         try {
             $cloudinary = new \App\Services\CloudinaryService();
-            $event = $this->eventRepository->findById($eventId);
+            $event = $this->eventModel->findById($eventId);
 
             // On décode les images actuelle, on renvoie un tableau vide dans le cas ou il n'y a rien
             $currentImages = json_decode($event['images'] ?? '[]', true) ?: [];

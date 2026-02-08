@@ -6,7 +6,8 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Helpers\Pagination;
-use App\Modules\Repositories\EventRepository;
+use App\Modules\Models\Events\EventModel;
+use App\Core\Database;
 use Exception;
 
 /**
@@ -31,13 +32,13 @@ class EventController extends DefaultController
 
         try {
             // Model
-            $repository = new EventRepository();
+            $eventModel = new EventModel(Database::getInstance()->getConnection());
             $viewMode = $this->request->get('view', 'list'); // View mode detection
 
             if ($viewMode === 'calendar') {
-                $this->showCalendar($repository);
+                $this->showCalendar($eventModel);
             } else {
-                $this->showList($repository);
+                $this->showList($eventModel);
             }
         } catch (Exception $e) {
             $this->setError('Error loading events: ' . $e->getMessage());
@@ -48,13 +49,13 @@ class EventController extends DefaultController
     /**
      * Displays the calendar view with all events
      *
-     * @param EventRepository $repository Event repository instance
+     * @param EventModel $eventModel Event model instance
      * @return void
      */
-    private function showCalendar(EventRepository $repository): void
+    private function showCalendar(EventModel $eventModel): void
     {
         // Calendar mode: fetch all events and use native calendar
-        $events = $repository->findAll();
+        $events = $eventModel->findAll();
 
         // Calendar parameters (year and month)
         $calYear = (int) $this->request->get('calyear', date('Y'));
@@ -99,19 +100,19 @@ class EventController extends DefaultController
     /**
      * Displays the list view with pagination
      *
-     * @param EventRepository $repository Event repository instance
+     * @param EventModel $eventModel Event model instance
      * @return void
      */
-    private function showList(EventRepository $repository): void
+    private function showList(EventModel $eventModel): void
     {
         // List mode: maintain existing pagination logic
-        $totalEvents = $repository->count();
+        $totalEvents = $eventModel->count();
 
         // 2. HELPER (Pagination)
         $pagination = new Pagination($totalEvents, self::ITEMS_PER_PAGE);
 
-        // 3. MODEL (Repository)
-        $events = $repository->findPaginated(
+        // 3. MODEL
+        $events = $eventModel->findPaginated(
             $pagination->getOffset(),
             $pagination->getLimit()
         );

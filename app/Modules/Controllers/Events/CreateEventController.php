@@ -6,8 +6,9 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
 use DateTime;
-use App\Modules\Models\Admin\EventCreationModel;
+use App\Modules\Models\Events\EventModel;
 use App\Services\CloudinaryService;
+use App\Core\Database;
 
 /**
  * CreateEventController - Event Creation for Administrators
@@ -27,7 +28,7 @@ use App\Services\CloudinaryService;
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
- * @see EventCreationModel For database operations
+ * @see EventModel For database operations
  * @see CloudinaryService For image upload handling
  */
 class CreateEventController extends AdminController
@@ -150,8 +151,8 @@ class CreateEventController extends AdminController
         $imagesJsonEncoded = !empty($imageUrls) ? json_encode($imageUrls) : '[]';
         $imagesJson = ($imagesJsonEncoded !== false) ? $imagesJsonEncoded : '[]';
 
-        $creationModel = new EventCreationModel();
-        $event = $creationModel->insertEvent(
+        $eventModel = new EventModel(Database::getInstance()->getConnection());
+        $event = $eventModel->insertEvent(
             $eventName,
             new DateTime($eventDate),
             new DateTime($eventTime),
