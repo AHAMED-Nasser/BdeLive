@@ -2,9 +2,9 @@
 /**
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
- * @var array<string, mixed> $article
+ * @var \App\Modules\Entities\Article $article Article entity
  */
-start_page(htmlspecialchars($article['title'] ?? 'Article'), true, $user ?? null);
+start_page(htmlspecialchars($article->getTitle()), true, $user ?? null);
 ?>
 
 <section class="article-section">
@@ -18,11 +18,11 @@ start_page(htmlspecialchars($article['title'] ?? 'Article'), true, $user ?? null
         <?php endif ?>
 
         <article class="article-full">
-            <?php if (!empty($article['image_url'])) : ?>
+            <?php if ($article->hasImage()) : ?>
                 <div class="article-full-image">
                     <img
-                        src="<?= htmlspecialchars($article['image_url']) ?>"
-                        alt="<?= htmlspecialchars($article['title']) ?>"
+                        src="<?= htmlspecialchars((string) ($article->getImageUrl() ?? '')) ?>"
+                        alt="<?= htmlspecialchars($article->getTitle()) ?>"
                         loading="lazy"
                         decoding="async">
                 </div>
@@ -30,21 +30,21 @@ start_page(htmlspecialchars($article['title'] ?? 'Article'), true, $user ?? null
 
             <div class="article-full-content">
                 <h1 class="article-full-title">
-                    <?= htmlspecialchars($article['title']) ?>
+                    <?= htmlspecialchars($article->getTitle()) ?>
                 </h1>
 
                 <p class="article-full-meta">
-                    Par <?= htmlspecialchars($article['author']) ?>
-                    le <?= date('d/m/Y', strtotime($article['created_at'])) ?>
+                    Par <?= htmlspecialchars($article->getAuthor()) ?>
+                    le <?= htmlspecialchars($article->getFormattedDate()) ?>
                 </p>
 
                 <div class="article-full-description">
-                    <?= nl2br(htmlspecialchars($article['description'])) ?>
+                    <?= nl2br(htmlspecialchars($article->getDescription())) ?>
                 </div>
 
                 <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
                     <div class="article-full-actions">
-                        <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                        <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
                            class="btn-edit">
                             Modifier
                         </a>

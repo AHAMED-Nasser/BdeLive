@@ -118,9 +118,10 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                         <?php foreach ($day['events'] as $event) : ?>
                             <?php
                             $eventId = $event['id'] ?? null;
+                            $eventSlug = $event['slug'] ?? null;
                             $eventTitle = htmlspecialchars($event['title'] ?? '');
                             $eventTime = $event['time'] ?? '';
-                            $eventUrl = $eventId ? 'index.php?page=showEvent&id=' . $eventId : '#';
+                            $eventUrl = $eventSlug ? 'index.php?page=showEvent&slug=' . urlencode($eventSlug) : '#';
 
                             // Construire le label accessible
                             $ariaLabel = $eventTitle;

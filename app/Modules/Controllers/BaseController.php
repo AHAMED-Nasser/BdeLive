@@ -159,13 +159,44 @@ abstract class BaseController
     /**
      * Validate the CSRF token from the request
      *
-     * @param string|null $token Token to validate (if null, retrieves from POST)
+     * Supports both traditional POST body tokens and modern AJAX header tokens.
+     * Checks in order:
+     * 1. Provided token parameter
+     * 2. POST body 'csrf_token' field
+     * 3. X-CSRF-Token HTTP header (for AJAX requests)
+     *
+     * @param string|null $token Token to validate (if null, retrieves from POST or header)
      * @return bool True if valid, false otherwise
      */
     protected function validateCsrf(?string $token = null): bool
     {
-        $token = $token ?? $this->request->post('csrf_token', '');
+        // Try provided token first
+        if ($token !== null) {
+            return $this->csrf->validateToken($token);
+        }
+
+        // Try POST body
+        $token = $this->request->post('csrf_token', '');
+
+        // If empty, try AJAX header
+        if (empty($token)) {
+            $token = $this->request->header('X-CSRF-Token', '');
+        }
+
         return $this->csrf->validateToken((string) $token);
+    }
+
+    /**
+     * Get the CSRF token for JavaScript usage
+     *
+     * This method is useful for embedding the token in JavaScript
+     * or as a meta tag for automatic AJAX injection.
+     *
+     * @return string The current CSRF token
+     */
+    protected function getCsrfTokenForJs(): string
+    {
+        return $this->csrf->getToken();
     }
 
     /**

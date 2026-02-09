@@ -3,6 +3,7 @@
 .vscode/
 *.swp
 *.swo
+.cursor/
 
 # Environment
 *.env
@@ -47,7 +48,8 @@ composer.phar
 
 # Config files with sensitive data
 app/config/config.php
-app/Config/
+app/Config/*
+!app/Config/Mailer.php
 config/cloudinary.php
 .idea/php.xml
 
@@ -65,3 +67,8 @@ app/config/*.local.php
 
 .gemini/
 gha-creds-*.json
+pentest_results/
+
+# Ignore docbuilder
+phpDocumentor.phar
+/docs/api/

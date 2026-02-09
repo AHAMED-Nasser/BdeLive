@@ -9,7 +9,7 @@
  * @version 1.0.0
  * @author BdeLive Team
  *
- * @var array<int, array<string, mixed>> $articles
+ * @var array<int, \App\Modules\Entities\Article> $articles Array of Article entities
  * @var \App\Modules\Helpers\Pagination $pagination
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
@@ -50,17 +50,16 @@ start_page("Nos articles", true, $user ?? null);
             <div class="articles-grid">
                 <?php foreach ($articles as $article) : ?>
                     <?php
-                    $fullDescription = strip_tags($article['description'] ?? '');
-                    $descriptionLength = mb_strlen($fullDescription);
-                    $previewLength = 150;
-                    $isLong = $descriptionLength > $previewLength;
-                    $preview = mb_substr($fullDescription, 0, $previewLength);
+                    // Use entity method for short description
+                    $preview = $article->getShortDescription(150);
+                    $fullDescription = strip_tags($article->getDescription());
+                    $isLong = mb_strlen($fullDescription) > 150;
                     ?>
                     <article class="article-card">
-                        <?php if (!empty($article['image_url'])) : ?>
+                        <?php if ($article->hasImage()) : ?>
                             <img
-                                src="<?= htmlspecialchars($article['image_url']) ?>"
-                                alt="<?= htmlspecialchars($article['title']) ?>"
+                                src="<?= htmlspecialchars((string) ($article->getImageUrl() ?? '')) ?>"
+                                alt="<?= htmlspecialchars($article->getTitle()) ?>"
                                 class="article-image"
                                 loading="lazy"
                                 decoding="async">
@@ -69,39 +68,35 @@ start_page("Nos articles", true, $user ?? null);
 
                         <div class="article-content">
                             <h2 class="article-title">
-                                <?= htmlspecialchars($article['title']) ?>
+                                <?= htmlspecialchars($article->getTitle()) ?>
                             </h2>
                             <p class="article-meta">
-                                Par <?= htmlspecialchars($article['author']) ?>
-                                le <?= date('d/m/Y', strtotime($article['created_at'])) ?>
+                                Par <?= htmlspecialchars($article->getAuthor()) ?>
+                                le <?= htmlspecialchars($article->getFormattedDate()) ?>
                             </p>
                             <p class="article-description">
                                 <?= htmlspecialchars($preview) ?>
-                                <?php if ($isLong) : ?>
-                                    ...
-                                <?php endif; ?>
                             </p>
                             
                             <div class="article-actions">
                                 <?php if ($isLong) : ?>
-                                    <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                    <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
                                        class="btn-view">
                                         Voir l'article
                                     </a>
                                 <?php endif; ?>
                                 
                                 <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
-                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
+                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
                                        class="btn-edit">
                                         Modifier
                                     </a>
                                     <form method="POST" 
-                                          action="index.php?page=deleteArticle&action=deleteArticle&slug=<?= htmlspecialchars(urlencode((string)($article['slug'] ?? ''))) ?>" 
-                                          class="delete-article-form"
-                                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.');">
+                                          action="index.php?page=deleteArticle&action=deleteArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
+                                          class="delete-article-form">
                                         <?= csrfField() ?>
-                                        <input type="hidden" name="slug" value="<?= htmlspecialchars((string)($article['slug'] ?? '')) ?>">
-                                        <button type="submit" class="btn-delete">
+                                        <input type="hidden" name="slug" value="<?= htmlspecialchars($article->getSlug()) ?>">
+                                        <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.');">
                                             Supprimer
                                         </button>
                                     </form>
