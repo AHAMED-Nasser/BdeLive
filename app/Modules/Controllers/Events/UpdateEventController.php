@@ -3,10 +3,11 @@
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\EventCreationModel;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Core\Database;
 use DateTime;
 use Exception;
 
@@ -16,6 +17,8 @@ use Exception;
  * This controller handles the logic for modifying existing events.
  * Access is restricted to users with administrative privileges via inheritance from AdminController.
  *
+ * Refactored to use Data Mapper pattern with Event entities and EventRepositoryInterface.
+ *
  * Main functionalities:
  * - Loading and pre-filling the update form (GET).
  * - Validating security tokens (CSRF) and input data (POST).
@@ -24,18 +27,16 @@ use Exception;
  *
  * @author BDELIVE - Group 8
  * @package App\Modules\Controllers\Events
- * @version 1.2.3
+ * @version 2.0.0 - Data Mapper refactoring
  *
  * @see AdminController For admin authentication requirements
- * @see EventCreationModel For database operations
  * @see EventRepository For database operations
  * @see EventTeamRepository For database operations
  * @see EventRegistrationRepository For database operations
  */
 class UpdateEventController extends AdminController
 {
-    private EventCreationModel $eventModel;
-    private EventRepository $eventRepository;
+    private EventRepositoryInterface $eventRepository;
     private EventTeamRepository $teamRepository;
     private EventRegistrationRepository $registrationRepository;
     private const REDIRECT_URL = 'index.php?page=event';
@@ -49,8 +50,7 @@ class UpdateEventController extends AdminController
     {
         parent::__construct(); // Verify that's it an admin
 
-        $this->eventModel = new EventCreationModel();
-        $this->eventRepository = new EventRepository();
+        $this->eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $this->teamRepository = new EventTeamRepository();
         $this->registrationRepository = new EventRegistrationRepository();
 
@@ -86,7 +86,7 @@ class UpdateEventController extends AdminController
         $teams = $this->teamRepository->getTeamsByEvent($eventId);
         $teamCount = count($teams);
 
-        // Passage des données de l'événement à la vue
+        // Passage des données de l'événement à la vue (Event entity)
         $this->render(self::REDIRECT_VIEW, [
             'event' => $event,
             'teamCount' => $teamCount
@@ -121,7 +121,7 @@ class UpdateEventController extends AdminController
         }
 
         // GET request (display form)
-        // Event datas are passed at view to pre-fill the form
+        // Event entity is passed to view to pre-fill the form
         $this->render('events/updateEventPageView', ['event' => $event]);
     }
 
@@ -146,7 +146,7 @@ class UpdateEventController extends AdminController
         // ====================================================================
 
         // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = true; // ⚠️ À REMETTRE À false après correction du problème
+        $skipCsrfValidation = false; // ⚠️ À REMETTRE À false après correction du problème
 
         // 1. Validation CSRF (désactivée temporairement)
 
@@ -200,10 +200,14 @@ class UpdateEventController extends AdminController
             $cloudinary = new \App\Services\CloudinaryService();
             $event = $this->eventRepository->findById($eventId);
 
-            // On décode les images actuelle, on renvoie un tableau vide dans le cas ou il n'y a rien
-            $currentImages = json_decode($event['images'] ?? '[]', true) ?: [];
+            if (!$event) {
+                $this->redirectWithError(self::REDIRECT_URL, "L'événement à modifier n'existe pas.");
+            }
 
-            // 1. Handle deletation
+            // On décode les images actuelles depuis l'entité
+            $currentImages = $event->getImagesArray();
+
+            // 1. Handle deletion
             $imageToDelete = $this->request->post('delete_images', []);
             if (!empty($imageToDelete) && is_array($imageToDelete)) {
                 foreach ($imageToDelete as $publicId) {
@@ -225,50 +229,71 @@ class UpdateEventController extends AdminController
 
             $imageJson = json_encode(array_values($currentImages)) ?: '[]';
 
-            // Conversion en objets DateTime
-            $eventDate = new DateTime($eventDateStr);
-            $eventTime = new DateTime($eventTimeStr);
+            // Format dates for entity
+            $dateFormatted = (new DateTime($eventDateStr))->format('Y-m-d');
+            $timeFormatted = (new DateTime($eventTimeStr))->format('H:i');
 
             // Check if event type or team size changed - delete teams if so
-            $oldIsGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
-            $oldTeamSize = (int) ($event['team_size'] ?? 1);
+            $oldIsGroupEvent = $event->isGroupEvent();
+            $oldTeamSize = $event->getTeamSize();
 
             $typeChanged = $oldIsGroupEvent !== $isGroupEvent;
             $sizeChanged = $isGroupEvent && $oldIsGroupEvent && ($oldTeamSize !== $teamSize);
 
-            if ($typeChanged || $sizeChanged) {
-                // Delete all registrations first (before deleting teams due to FK)
-                $deletedRegs = $this->registrationRepository->deleteRegistrationsByEvent($eventId);
-                if ($deletedRegs > 0) {
-                    error_log("UpdateEventController: Deleted {$deletedRegs} registrations for event {$eventId}");
+            // Wrap all database operations in a transaction for atomicity
+            // This prevents partial updates if any operation fails
+            $pdo = Database::getInstance()->getConnection();
+
+            try {
+                $pdo->beginTransaction();
+
+                if ($typeChanged || $sizeChanged) {
+                    // Delete all registrations first (before deleting teams due to FK)
+                    $deletedRegs = $this->registrationRepository->deleteRegistrationsByEvent($eventId);
+                    if ($deletedRegs > 0) {
+                        error_log("UpdateEventController: Deleted {$deletedRegs} registrations for event {$eventId}");
+                    }
+
+                    // Then delete all teams
+                    $deletedTeams = $this->teamRepository->deleteTeamsByEvent($eventId);
+                    if ($deletedTeams > 0) {
+                        error_log("UpdateEventController: Deleted {$deletedTeams} teams for event {$eventId}");
+                    }
                 }
 
-                // Then delete all teams
-                $deletedTeams = $this->teamRepository->deleteTeamsByEvent($eventId);
-                if ($deletedTeams > 0) {
-                    error_log("UpdateEventController: Deleted {$deletedTeams} teams for event {$eventId}");
+                // Update event entity with new values using setters
+                $event->setName($eventName);
+                $event->setDate($dateFormatted);
+                $event->setTime($timeFormatted);
+                $event->setLocation($eventLocation);
+                $event->setTheme($eventTheme);
+                $event->setStatusParticipating($statusParticipating);
+                $event->setDescription($description);
+                $event->setImages($imageJson);
+                $event->setIsGroupEvent($isGroupEvent);
+                $event->setTeamSize($teamSize);
+
+                // Save via repository (will detect update because entity has ID)
+                $success = $this->eventRepository->save($event);
+
+                if (!$success) {
+                    throw new Exception('Event update failed in EventRepository');
                 }
-            }
 
-            // 4. Appel du modèle de mise à jour
-            $success = $this->eventModel->updateEvent(
-                $eventId,
-                $eventName,
-                $eventDate,
-                $eventTime,
-                $eventLocation,
-                $eventTheme,
-                $statusParticipating,
-                $description,
-                $imageJson,
-                $isGroupEvent,
-                $teamSize
-            );
-
-            if ($success) {
+                // Commit all changes if everything succeeded
+                $pdo->commit();
                 $this->redirectWithSuccess(self::REDIRECT_URL, 'Événement mis à jour avec succès.');
-            } else {
-                $this->redirectWithError(self::REDIRECT_URL, 'Erreur lors de la mise à jour de l\'événement.');
+            } catch (Exception $transactionException) {
+                // Rollback all changes if any operation failed
+                if ($pdo->inTransaction()) {
+                    $pdo->rollBack();
+                }
+
+                error_log('UpdateEventController transaction failed: ' . $transactionException->getMessage());
+                $this->redirectWithError(
+                    self::REDIRECT_URL,
+                    'Erreur lors de la mise à jour de l\'événement. Aucune modification n\'a été appliquée.'
+                );
             }
         } catch (Exception $e) {
             // Affiche l'erreur réelle au lieu du message générique pour tester

@@ -135,6 +135,24 @@ class Request
     }
 
     /**
+     * Get an HTTP header value
+     *
+     * Headers are retrieved from $_SERVER with HTTP_ prefix.
+     * Example: 'X-CSRF-Token' becomes 'HTTP_X_CSRF_TOKEN' in $_SERVER
+     *
+     * @param string $key Header name (e.g., 'X-CSRF-Token')
+     * @param mixed $default Default value if not set
+     * @return mixed Header value or default
+     */
+    public function header(string $key, mixed $default = null): mixed
+    {
+        // Convert header name to $_SERVER format
+        // X-CSRF-Token -> HTTP_X_CSRF_TOKEN
+        $serverKey = 'HTTP_' . strtoupper(str_replace('-', '_', $key));
+        return $this->server($serverKey, $default);
+    }
+
+    /**
      * Get the HTTP method
      *
      * @return string HTTP method in uppercase (GET, POST, etc.)

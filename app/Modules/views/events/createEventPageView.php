@@ -103,13 +103,13 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             <textarea id="description" placeholder="Venez à notre événement pour ..." name="description"></textarea>
 
             <div class="insert-image">
-                <p class="form-label">Insérer des images d'illustration</p>
-                <label for="event-images" id="drop-area">
+                <p class="form-label">Ajouter des images :</p>
+                <div id="drop-area">
                     <input id="event-images" name="event-images[]" type="file" accept="image/*" multiple hidden>
                     <div id="image-view">
-                        <p id="image-view-text">Glissez dépossé ici <br> pour ajouter une image</p>
+                        <p id="image-view-text">Glissez déposez ici <br> pour ajouter des images</p>
                     </div>
-                </label>
+                </div>
                 <!-- image recap -->
                 <div id="image-recap"></div>
             </div>

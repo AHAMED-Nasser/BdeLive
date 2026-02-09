@@ -18,19 +18,20 @@ use App\Core\Exception\CsrfException;
  *
  * Features:
  * - Cryptographically secure token generation
- * - Time-based token expiration (1 hour)
+ * - Time-based token expiration (4 hours with sliding window)
  * - Timing-safe token comparison
  * - HTML field generation for forms
+ * - Automatic token refresh on valid usage
  *
  * @author BDELIVE - Groupe 8
  * @package App\Core\Security
- * @version 1.0.0
+ * @version 2.0.0
  */
 class CsrfProtection
 {
     private const TOKEN_KEY = 'csrf_token';
     private const TOKEN_TIME_KEY = 'csrf_token_time';
-    private const TOKEN_LIFETIME = 3600;
+    private const TOKEN_LIFETIME = 14400; // 4 hours (increased from 1 hour to prevent false positives)
 
     public function __construct(
         private SessionManager $session
@@ -57,8 +58,9 @@ class CsrfProtection
      * Validate a CSRF token
      *
      * Checks if the provided token matches the session token and
-     * hasn't expired (1 hour lifetime).
+     * hasn't expired (4 hour lifetime with sliding window).
      * Uses timing-safe comparison to prevent timing attacks.
+     * Automatically refreshes the token timestamp on successful validation.
      *
      * @param string $token The token to validate
      * @return bool True if valid, false otherwise
@@ -89,7 +91,27 @@ class CsrfProtection
             return false;
         }
 
+        // Sliding window: refresh token timestamp on successful validation
+        // This extends the lifetime for active users without regenerating the token
+        $this->refreshToken();
+
         return true;
+    }
+
+    /**
+     * Refresh the CSRF token timestamp
+     *
+     * Updates the token timestamp to the current time without regenerating
+     * the token itself. This implements a "sliding window" expiration strategy
+     * where active users don't experience token expiration.
+     *
+     * @return void
+     */
+    public function refreshToken(): void
+    {
+        if ($this->session->has(self::TOKEN_KEY)) {
+            $this->session->set(self::TOKEN_TIME_KEY, time());
+        }
     }
 
     /**

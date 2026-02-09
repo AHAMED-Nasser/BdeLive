@@ -9,14 +9,14 @@
  * @version 1.0.0
  * @author BdeLive - Group 8
  *
- * @var array<string, mixed> $event Event data
+ * @var \App\Modules\Entities\Event $event Event entity
  * @var int $teamSize Maximum team size
  * @var array<int, array<string, mixed>> $userTeams User's existing teams
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("BDELive - Inscription en groupe : " . htmlspecialchars($event['event_name']), true, $user ?? null);
+start_page("BDELive - Inscription en groupe : " . htmlspecialchars($event->getName()), true, $user ?? null);
 
 $requiredMembers = $teamSize - 1; // Creator is auto-included
 ?>
@@ -27,13 +27,13 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
     </h1>
 
     <div class="event-info">
-        <h3><?= htmlspecialchars($event['event_name']) ?></h3>
+        <h3><?= htmlspecialchars($event->getName()) ?></h3>
         <p>
-            <i class="fas fa-calendar-alt"></i> <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
-            à <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
+            <i class="fas fa-calendar-alt"></i> <?= htmlspecialchars($event->getFormattedDate()) ?>
+            à <?= htmlspecialchars($event->getFormattedTime()) ?>
         </p>
         <p>
-            <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($event['event_location']) ?>
+            <i class="fas fa-map-marker-alt"></i> <?= htmlspecialchars($event->getLocation()) ?>
         </p>
     </div>
 
@@ -56,7 +56,7 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
         </div>
     <?php endif; ?>
 
-    <form action="index.php?page=groupRegistration&event_id=<?= $event['event_id'] ?>" method="POST" class="group-form">
+    <form action="index.php?page=groupRegistration&event_id=<?= $event->getId() ?>" method="POST" class="group-form">
         <?= $csrf->getTokenField() ?>
         <input type="hidden" name="action" value="submitGroup">
 
@@ -97,7 +97,7 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
                 <i class="fas fa-paper-plane"></i> Créer le groupe et envoyer les invitations
             </button>
 
-            <a href="index.php?page=showEvent&id=<?= $event['event_id'] ?>">
+            <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>">
                 <i class="fas fa-arrow-left"></i> Retour à l'événement
             </a>
         </div>

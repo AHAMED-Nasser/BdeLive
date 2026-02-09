@@ -9,8 +9,8 @@
  * @version 1.0.0
  * @author BdeLive - Group 8
  *
- * @var array<int, array<string, mixed>> $articles
- * @var array<int, array<string, mixed>> $events
+ * @var array<int, \App\Modules\Entities\Article> $articles Array of Article entities
+ * @var array<int, \App\Modules\Entities\Event> $events Array of Event entities
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
@@ -113,27 +113,30 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                     <div class="carousel-inner">
                         <?php foreach ($events as $index => $event) : ?>
                             <?php
-                            // Parse images JSON - handle both array and string format
-                            $images = !empty($event['images']) ? json_decode($event['images'], true) : [];
+                            // Get images array from entity
+                            $images = $event->getImagesArray();
                             $eventImage = null; // No static fallback
 
-                            if (!empty($images) && is_array($images)) {
+                            if (!empty($images)) {
                                 $firstImage = $images[0];
                                 // Check if it's an array with 'url' key or a direct string
                                 $eventImage = is_array($firstImage) ? ($firstImage['url'] ?? null) : $firstImage;
                             }
                             ?>
                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                                <a href="index.php?page=showEvent&id=<?= htmlspecialchars((string) $event['event_id']) ?>"
+                                <?php if ($event->isPast()) : ?>
+                                    <span class="event-badge--past" aria-hidden="true">Passé</span>
+                                <?php endif; ?>
+                                <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>"
                                     class="carousel-event-link"
-                                    aria-label="Voir les détails de <?= htmlspecialchars($event['event_name']) ?>">
-                                    <h3 class="event-title"><?= htmlspecialchars($event['event_name']) ?></h3>
+                                    aria-label="Voir les détails de <?= htmlspecialchars($event->getName()) ?><?= $event->isPast() ? ' (événement passé)' : '' ?>">
+                                    <h3 class="event-title"><?= htmlspecialchars($event->getName()) ?></h3>
                                     <?php if ($eventImage) : ?>
                                         <img src="<?= htmlspecialchars($eventImage) ?>" class="carousel-image"
-                                            alt="<?= htmlspecialchars($event['event_name']) ?>" <?= $index > 0 ? 'loading="lazy"' : '' ?> decoding="async">
+                                            alt="<?= htmlspecialchars($event->getName()) ?>" <?= $index > 0 ? 'loading="lazy"' : '' ?> decoding="async">
                                     <?php else : ?>
                                         <div class="carousel-no-image">
-                                            <span class="event-name-display"><?= htmlspecialchars($event['event_name']) ?></span>
+                                            <span class="event-name-display"><?= htmlspecialchars($event->getName()) ?></span>
                                         </div>
                                     <?php endif; ?>
                                 </a>
@@ -172,46 +175,37 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
             <div class="articles-grid-home">
                 <?php foreach ($articles as $index => $article) : ?>
                     <?php
-                    // Prepare article data
-                    $fullDescription = strip_tags($article['description'] ?? '');
-                    $descriptionLength = mb_strlen($fullDescription);
-                    $previewLength = 150;
-                    $isLong = $descriptionLength > $previewLength;
-                    $preview = mb_substr($fullDescription, 0, $previewLength);
-
-                    // Format date using DateTime (POO)
-                    $date = new DateTime($article['created_at'] ?? 'now');
-                    $formattedDate = $date->format('d/m/Y');
+                    // Use entity method for short description
+                    $preview = $article->getShortDescription(150);
+                    $fullDescription = strip_tags($article->getDescription());
+                    $isLong = mb_strlen($fullDescription) > 150;
                     ?>
                     <article class="article-card-home">
                         <?php if ($index === 0) : ?>
                             <span class="article-badge-new">Nouveau</span>
                         <?php endif; ?>
 
-                        <?php if (!empty($article['image_url'])) : ?>
+                        <?php if ($article->hasImage()) : ?>
                             <div class="article-image-container">
-                                <img src="<?= htmlspecialchars($article['image_url']) ?>"
-                                    alt="<?= htmlspecialchars($article['title']) ?>" class="article-image-home" loading="lazy">
+                                <img src="<?= htmlspecialchars((string) ($article->getImageUrl() ?? '')) ?>"
+                                    alt="<?= htmlspecialchars($article->getTitle()) ?>" class="article-image-home" loading="lazy">
                             </div>
                         <?php endif; ?>
 
                         <div class="article-content-home">
                             <h3 class="article-title-home">
-                                <?= htmlspecialchars($article['title']) ?>
+                                <?= htmlspecialchars($article->getTitle()) ?>
                             </h3>
                             <p class="article-meta-home">
-                                Par <?= htmlspecialchars($article['author']) ?>
-                                le <?= htmlspecialchars($formattedDate) ?>
+                                Par <?= htmlspecialchars($article->getAuthor()) ?>
+                                le <?= htmlspecialchars($article->getFormattedDate()) ?>
                             </p>
                             <p class="article-description-home">
                                 <?= htmlspecialchars($preview) ?>
-                                <?php if ($isLong) : ?>
-                                    ...
-                                <?php endif; ?>
                             </p>
 
                             <div class="article-actions-home">
-                                <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode((string) ($article['slug'] ?? ''))) ?>"
+                                <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>"
                                     class="btn-read-more">
                                     Lire la suite
                                 </a>

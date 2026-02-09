@@ -37,7 +37,7 @@ start_page("Créer un article", true, $user ?? null) ?>
             method="POST"
             enctype="multipart/form-data">
             <?= $csrf->getTokenField() ?>
-            
+
             <label for="article-title">Titre de l'article</label>
             <input id="article-title" type="text" name="article-title" placeholder="Titre de l'article" required>
 
@@ -54,12 +54,12 @@ start_page("Créer un article", true, $user ?? null) ?>
 
             <div class="insert-image">
                 <div class="form-label">Image de l'article (optionnel)</div>
-                <label for="article-image" id="drop-area">
+                <div id="drop-area">
                     <input id="article-image" name="article-image" type="file" accept="image/*" hidden>
                     <div id="image-view">
                         <p id="image-view-text">Glissez déposez ici <br> pour ajouter une image</p>
                     </div>
-                </label>
+                </div>
                 <!-- image recap -->
                 <div id="image-recap"></div>
             </div>

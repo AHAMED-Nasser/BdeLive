@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\ArticleModel;
+use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Modules\Repositories\ArticleRepository;
 use App\Services\CloudinaryService;
+use App\Core\Database;
 
 /**
  * UpdateArticleController - Article Update for Administrators
@@ -14,19 +16,21 @@ use App\Services\CloudinaryService;
  * Handles the update of existing articles with image upload to Cloudinary.
  * Only accessible to users with BDE (admin) status.
  *
+ * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ *
  * Features:
  * - Article form display with pre-filled data
  * - Form validation (CSRF, required fields)
  * - Optional image upload to Cloudinary (keeps existing if not provided)
- * - Article data update in database
+ * - Article data update via repository
  * - Success/error feedback with flash messages
  *
  * @package App\Modules\Controllers\Articles
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BdeLive Team
  *
  * @see AdminController For admin authentication requirements
- * @see ArticleModel For database operations
+ * @see ArticleRepository For database operations
  * @see CloudinaryService For image upload handling
  */
 class UpdateArticleController extends AdminController
@@ -99,11 +103,11 @@ class UpdateArticleController extends AdminController
             $this->redirect('index.php?page=home');
         }
 
-        $articleId = (int) $article['id'];
-        $slug = (string) $article['slug'];
+        $articleId = $article->getId();
+        $slug = $article->getSlug();
 
 
-        $skipCsrfValidation = true;
+        $skipCsrfValidation = false;
 
         // Validate CSRF token
         /** @phpstan-ignore-next-line */
@@ -158,21 +162,25 @@ class UpdateArticleController extends AdminController
             }
         }
 
-        // Update article in database
-        $articleModel = new ArticleModel();
-        $result = $articleModel->updateArticle(
-            $articleId,
-            $title,
-            $description,
-            $imageUrl,
-            $author
-        );
+        // Update article entity with new values using setters
+        $article->setTitle($title);
+        $article->setDescription($description);
+        $article->setAuthor($author);
+
+        // Handle image URL update
+        if ($deleteImage) {
+            $article->setImageUrl(null);
+        } elseif (!empty($imageUrl)) {
+            $article->setImageUrl($imageUrl);
+        }
+        // If imageUrl is empty and deleteImage is false, keep existing image
+
+        // Save via repository (will detect update because entity has ID)
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
+        $result = $repository->save($article);
 
         if ($result) {
-            // Récupérer le nouveau slug après mise à jour (il peut avoir changé si le titre a changé)
-            $updatedArticle = $articleModel->getArticleById($articleId);
-            $newSlug = $updatedArticle !== null ? (string) $updatedArticle['slug'] : $slug;
-
             $this->setSuccess('Article modifié avec succès.');
             $this->redirect('index.php?page=home');
         } else {
@@ -187,16 +195,17 @@ class UpdateArticleController extends AdminController
      * Retrieves the article slug from GET or POST parameters and fetches the article.
      * Supports both 'slug' and 'id' parameters for backward compatibility.
      *
-     * @return array<string, mixed>|null Article data if found, null otherwise
+     * @return \App\Modules\Entities\Article|null Article entity if found, null otherwise
      */
-    private function getArticleFromRequest(): ?array
+    private function getArticleFromRequest(): ?\App\Modules\Entities\Article
     {
-        $articleModel = new ArticleModel();
+        /** @var ArticleRepositoryInterface $repository */
+        $repository = new ArticleRepository(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)
         $slug = $this->request->get('slug', '');
         if (!empty($slug)) {
-            $article = $articleModel->getArticleBySlug((string) $slug);
+            $article = $repository->findBySlug((string) $slug);
             if ($article !== null) {
                 return $article;
             }
@@ -207,7 +216,7 @@ class UpdateArticleController extends AdminController
         if (!empty($id)) {
             $articleId = filter_var($id, FILTER_VALIDATE_INT);
             if ($articleId !== false && $articleId > 0) {
-                $article = $articleModel->getArticleById($articleId);
+                $article = $repository->findById($articleId);
                 if ($article !== null) {
                     return $article;
                 }

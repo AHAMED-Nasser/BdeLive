@@ -1,0 +1,202 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Modules\Entities;
+
+use DateTime;
+
+/**
+ * Article Entity - Business object representing an article
+ *
+ * This entity encapsulates all article data and business logic following
+ * Domain-Driven Design principles. Properties are private to ensure
+ * data integrity and encapsulation.
+ *
+ * Business Logic:
+ * - getShortDescription(): Get truncated description for previews
+ * - getFormattedDate(): Get human-readable creation date
+ *
+ * @package BdeLive\Entities
+ * @author BdeLive - Group 8
+ * @version 1.0.0
+ */
+class Article
+{
+    /**
+     * @param int|null $id Unique identifier (null for new articles)
+     * @param string $title Article title
+     * @param string $slug SEO-friendly URL slug
+     * @param string $description Article content/description
+     * @param string|null $imageUrl Cloudinary image URL (nullable)
+     * @param string $author Author full name
+     * @param string $createdAt Creation timestamp
+     */
+    public function __construct(
+        private ?int $id,
+        private string $title,
+        private string $slug,
+        private string $description,
+        private ?string $imageUrl,
+        private string $author,
+        private string $createdAt
+    ) {
+    }
+
+    // =========================================================================
+    // GETTERS
+    // =========================================================================
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function getAuthor(): string
+    {
+        return $this->author;
+    }
+
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    // =========================================================================
+    // SETTERS (for updates)
+    // =========================================================================
+
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setImageUrl(?string $imageUrl): void
+    {
+        $this->imageUrl = $imageUrl;
+    }
+
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
+    }
+
+    // =========================================================================
+    // BUSINESS LOGIC METHODS
+    // =========================================================================
+
+    /**
+     * Get truncated description for article previews
+     *
+     * Returns a shortened version of the description with ellipsis
+     * if it exceeds the specified limit. Useful for article listings
+     * and previews where full content is not needed.
+     *
+     * @param int $limit Maximum character length (default: 150)
+     * @return string Truncated description with ellipsis if needed
+     */
+    public function getShortDescription(int $limit = 150): string
+    {
+        if (mb_strlen($this->description) <= $limit) {
+            return $this->description;
+        }
+
+        // Truncate and add ellipsis
+        $truncated = mb_substr($this->description, 0, $limit);
+
+        // Try to cut at last space to avoid cutting words
+        $lastSpace = mb_strrpos($truncated, ' ');
+        if ($lastSpace !== false && $lastSpace > ($limit * 0.8)) {
+            $truncated = mb_substr($truncated, 0, $lastSpace);
+        }
+
+        return $truncated . '...';
+    }
+
+    // =========================================================================
+    // UTILITY METHODS
+    // =========================================================================
+
+    /**
+     * Get formatted creation date for display (French format: dd/mm/YYYY)
+     *
+     * @return string Formatted date string
+     */
+    public function getFormattedDate(): string
+    {
+        try {
+            $dateTime = new DateTime($this->createdAt);
+            return $dateTime->format('d/m/Y');
+        } catch (\Exception $e) {
+            error_log('Article::getFormattedDate - Invalid date: ' . $e->getMessage());
+            return $this->createdAt;
+        }
+    }
+
+    /**
+     * Get formatted creation date with time (French format: dd/mm/YYYY à HH:MM)
+     *
+     * @return string Formatted datetime string
+     */
+    public function getFormattedDateTime(): string
+    {
+        try {
+            $dateTime = new DateTime($this->createdAt);
+            return $dateTime->format('d/m/Y à H:i');
+        } catch (\Exception $e) {
+            error_log('Article::getFormattedDateTime - Invalid datetime: ' . $e->getMessage());
+            return $this->createdAt;
+        }
+    }
+
+    /**
+     * Check if article has an image
+     *
+     * @return bool True if article has an image URL
+     */
+    public function hasImage(): bool
+    {
+        return !empty($this->imageUrl);
+    }
+
+    /**
+     * Get a safe image URL (returns placeholder if no image)
+     *
+     * @param string $placeholder Default placeholder URL
+     * @return string Image URL or placeholder
+     */
+    public function getImageUrlOrPlaceholder(string $placeholder = '/assets/img/default-article.jpg'): string
+    {
+        return $this->imageUrl ?? $placeholder;
+    }
+}
