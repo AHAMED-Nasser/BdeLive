@@ -7,7 +7,9 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
+use App\Core\Database;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use JetBrains\PhpStorm\NoReturn;
@@ -18,8 +20,10 @@ use JetBrains\PhpStorm\NoReturn;
  * This controller handles the authentication check, data retrieval for a specific event,
  * and uses the Dompdf library to generate a downloadable participant list.
  *
+ * Refactored to use Data Mapper pattern with Event entities.
+ *
  * @package App\Modules\Controllers\Events
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
@@ -70,10 +74,11 @@ class ExportUserEventController extends AdminController
             }
         }
 
-        $eventRepo = new EventRepository();
+        /** @var EventRepositoryInterface $eventRepository */
+        $eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $registrationRepo = new EventRegistrationRepository();
 
-        $event = $eventRepo->findById($eventId);
+        $event = $eventRepository->findById($eventId);
 
         if (!$event) {
             $this->setError("Événement introuvable");
@@ -81,7 +86,7 @@ class ExportUserEventController extends AdminController
         }
 
         // Check if this is a group event
-        $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
+        $isGroupEvent = $event->isGroupEvent();
 
         // Get registrations grouped for PDF
         $groupedRegistrations = $registrationRepo->getRegisteredUsersGroupedForPdf($eventId);
@@ -109,12 +114,12 @@ class ExportUserEventController extends AdminController
         </head>
 
         <body>
-            <h1>Liste des inscrits: <?= htmlspecialchars($event['event_name']) ?></h1>
+            <h1>Liste des inscrits: <?= htmlspecialchars($event->getName()) ?></h1>
             <p class="event-info">
-                Date : <?= htmlspecialchars(date('d/m/Y', strtotime($event['event_date']))) ?>
-                a <?= htmlspecialchars(date('H:i', strtotime($event['event_time']))) ?>
+                Date : <?= htmlspecialchars(date('d/m/Y', (int) strtotime($event->getDate()))) ?>
+                a <?= htmlspecialchars(date('H:i', (int) strtotime($event->getTime()))) ?>
                 <?php if ($isGroupEvent) : ?>
-                    <br>Evenement en groupe (<?= htmlspecialchars((string) ($event['team_size'] ?? 1)) ?> personnes/groupe)
+                    <br>Evenement en groupe (<?= htmlspecialchars((string) $event->getTeamSize()) ?> personnes/groupe)
                 <?php endif; ?>
             </p>
 
@@ -220,7 +225,7 @@ class ExportUserEventController extends AdminController
         $dompdf->render();
 
         // Send to navigator
-        $dompdf->stream("inscrits_evenement_" . $event['event_name'] . ".pdf", ["Attachment" => true]);
+        $dompdf->stream("inscrits_evenement_" . $event->getName() . ".pdf", ["Attachment" => true]);
         exit;
     }
 }

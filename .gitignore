@@ -1,39 +1,43 @@
-# IDE
+# IDE & IA (Cursor, VS Code, JetBrains)
+.cursor/
+.cursorrules
+.cursorignore
 *.idea/
 .vscode/
 *.swp
 *.swo
 
-# Environment
+# Environment & Secrets
 *.env
 .env.local
 .env.production
+gha-creds-*.json
+pentest_results/
 
 # Dependencies
 vendor/
 node_modules/
 
-# Cache
+# Cache & Logs
 .php-cs-fixer.cache
 .phpstan.cache
 .phpdoc/
-.cursor/
 .phpunit.cache/
 .phpunit.result.cache
+*.log
+logs/
+/app/cache/
+/storage/
+/var/
+.gemini/
 
 # PHPUnit
 phpunit.xml
 tests/coverage/
 
-# Logs
-*.log
-logs/
-
-# OS
+# OS Generated
 .DS_Store
 Thumbs.db
-
-# Temporary files
 *.tmp
 *.temp
 
@@ -45,11 +49,12 @@ composer.phar
 *.db
 *.sqlite
 
-# Config files with sensitive data
+# Config files (Ignore sensitive data, keep code)
 app/config/config.php
 app/Config/*
 !app/Config/Mailer.php
 config/cloudinary.php
+Config/cloudinary.php
 .idea/php.xml
 
 # Local config overrides
@@ -59,15 +64,6 @@ app/config/*.local.php
 /dist/
 /build/
 
-# App caches & storage
-/app/cache/
-/storage/
-/var/
-
-.gemini/
-gha-creds-*.json
-pentest_results/
-
-# Ignore docbuilder
+# Documentation
 phpDocumentor.phar
 /docs/api/

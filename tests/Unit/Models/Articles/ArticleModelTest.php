@@ -2,18 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Models\Admin;
+namespace Tests\Unit\Models\Articles;
 
 use PHPUnit\Framework\TestCase;
-use App\Modules\Models\Admin\ArticleModel;
-use App\Core\Database;
+use App\Modules\Models\Articles\ArticleModel;
 use PDO;
 use PDOStatement;
 use PDOException;
-use ReflectionClass;
 
 /**
  * Unit tests for ArticleModel
+ * 
+ * Tests the unified ArticleModel class that handles both read and write operations
+ * for articles using dependency injection with PDO mocking.
  */
 class ArticleModelTest extends TestCase
 {
@@ -21,28 +22,19 @@ class ArticleModelTest extends TestCase
     private PDO $mockPdo;
     private PDOStatement $mockStmt;
 
+    /**
+     * Set up test fixtures with PDO mocking
+     * 
+     * Uses direct PDO injection instead of Database singleton pattern
+     * for better testability and isolation.
+     */
     protected function setUp(): void
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-
-        $mockDatabase = $this->createMock(Database::class);
-        $mockDatabase->method('getConnection')->willReturn($this->mockPdo);
-
-        $reflection = new ReflectionClass(Database::class);
-        $instanceProperty = $reflection->getProperty('instance');
-        $instanceProperty->setAccessible(true);
-        $instanceProperty->setValue(null, $mockDatabase);
-
-        $this->model = new ArticleModel();
-    }
-
-    protected function tearDown(): void
-    {
-        $reflection = new ReflectionClass(Database::class);
-        $instanceProperty = $reflection->getProperty('instance');
-        $instanceProperty->setAccessible(true);
-        $instanceProperty->setValue(null, null);
+        
+        // Direct injection - no Database singleton needed
+        $this->model = new ArticleModel($this->mockPdo);
     }
 
     /**
@@ -50,10 +42,10 @@ class ArticleModelTest extends TestCase
      */
     public function testInsertArticleWithAllFields(): void
     {
-        $title = 'Mon Premier Article';
-        $description = 'Ceci est une description de test pour l\'article.';
+        $title = 'My First Article';
+        $description = 'This is a test description for the article.';
         $imageUrl = 'https://res.cloudinary.com/test/image/upload/v123/articles/test.jpg';
-        $author = 'Jean Dupont';
+        $author = 'John Doe';
 
         // Mock slug existence check (slug doesn't exist)
         $checkStmt = $this->createMock(PDOStatement::class);
@@ -65,7 +57,7 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) use ($title, $description, $imageUrl, $author) {
                 return $params[':title'] === $title &&
-                       $params[':slug'] === 'mon-premier-article' &&
+                       $params[':slug'] === 'my-first-article' &&
                        $params[':description'] === $description &&
                        $params[':image_url'] === $imageUrl &&
                        $params[':author'] === $author;
@@ -91,7 +83,7 @@ class ArticleModelTest extends TestCase
      */
     public function testSlugSanitization(): void
     {
-        $title = 'Article Spécial 2024';
+        $title = 'Special Article 2024';
         $description = 'Description test';
         $imageUrl = 'https://cloudinary.com/test.jpg';
         $author = 'Marie Martin';
@@ -107,8 +99,8 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) {
                 // Should convert accents and remove special characters
-                // é becomes e, special chars become hyphens
-                return $params[':slug'] === 'article-special-2024';
+                // special chars become hyphens
+                return $params[':slug'] === 'special-article-2024';
             }))
             ->willReturn(true);
 
@@ -131,7 +123,7 @@ class ArticleModelTest extends TestCase
      */
     public function testSlugWithMultipleSpaces(): void
     {
-        $title = 'Article   avec    espaces';
+        $title = 'Article   with    spaces';
         $description = 'Test';
         $imageUrl = 'https://cloudinary.com/test.jpg';
         $author = 'Paul Durand';
@@ -145,7 +137,7 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) {
                 // Should replace multiple spaces with single hyphen
-                return $params[':slug'] === 'article-avec-espaces';
+                return $params[':slug'] === 'article-with-spaces';
             }))
             ->willReturn(true);
 
@@ -249,7 +241,7 @@ class ArticleModelTest extends TestCase
             'slug' => 'test-article',
             'description' => 'Test description',
             'image_url' => 'https://cloudinary.com/test.jpg',
-                'author' => 'Jean Dupont',
+            'author' => 'John Doe',
             'created_at' => '2024-01-01 10:00:00',
             'updated_at' => '2024-01-01 10:00:00'
         ];
@@ -310,7 +302,7 @@ class ArticleModelTest extends TestCase
             'slug' => $slug,
             'description' => 'Test description',
             'image_url' => 'https://cloudinary.com/test.jpg',
-            'author' => 'Jean Dupont'
+            'author' => 'John Doe'
         ];
 
         $this->mockStmt->expects($this->once())
@@ -490,19 +482,19 @@ class ArticleModelTest extends TestCase
     public function testUpdateArticleWithNewImage(): void
     {
         $articleId = 1;
-        $title = 'Article Mis à Jour';
-        $description = 'Description mise à jour';
+        $title = 'Updated Article'; // Updated from French
+        $description = 'Updated description'; // Updated from French
         $imageUrl = 'https://cloudinary.com/new-image.jpg';
-        $author = 'Nouvel Auteur';
+        $author = 'New Author'; // Updated from French
 
         // Mock getArticleById to return existing article
         $existingArticle = [
             'id' => $articleId,
-            'title' => 'Ancien Titre',
-            'slug' => 'ancien-titre',
-            'description' => 'Ancienne description',
+            'title' => 'Old Title',
+            'slug' => 'old-title',
+            'description' => 'Old description',
             'image_url' => 'https://cloudinary.com/old-image.jpg',
-            'author' => 'Ancien Auteur'
+            'author' => 'Old Author'
         ];
 
         $getStmt = $this->createMock(PDOStatement::class);
@@ -526,7 +518,7 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) use ($title, $description, $imageUrl, $author, $articleId) {
                 return $params[':title'] === $title &&
-                       $params[':slug'] === 'article-mis-a-jour' &&
+                       $params[':slug'] === 'updated-article' &&
                        $params[':description'] === $description &&
                        $params[':image_url'] === $imageUrl &&
                        $params[':author'] === $author &&
@@ -555,19 +547,19 @@ class ArticleModelTest extends TestCase
     public function testUpdateArticleWithoutNewImage(): void
     {
         $articleId = 1;
-        $title = 'Article Mis à Jour';
-        $description = 'Description mise à jour';
+        $title = 'Updated Article';
+        $description = 'Updated description';
         $imageUrl = ''; // Empty means keep existing
-        $author = 'Nouvel Auteur';
+        $author = 'New Author';
 
         // Mock getArticleById to return existing article
         $existingArticle = [
             'id' => $articleId,
-            'title' => 'Ancien Titre',
-            'slug' => 'ancien-titre',
-            'description' => 'Ancienne description',
+            'title' => 'Old Title',
+            'slug' => 'old-title',
+            'description' => 'Old description',
             'image_url' => 'https://cloudinary.com/old-image.jpg',
-            'author' => 'Ancien Auteur'
+            'author' => 'Old Author'
         ];
 
         $getStmt = $this->createMock(PDOStatement::class);
@@ -591,7 +583,7 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) use ($title, $description, $author, $articleId) {
                 return $params[':title'] === $title &&
-                       $params[':slug'] === 'article-mis-a-jour' &&
+                       $params[':slug'] === 'updated-article' &&
                        $params[':description'] === $description &&
                        $params[':author'] === $author &&
                        $params[':id'] === $articleId &&
@@ -620,19 +612,19 @@ class ArticleModelTest extends TestCase
     public function testUpdateArticleKeepsSlugWhenTitleUnchanged(): void
     {
         $articleId = 1;
-        $title = 'Même Titre'; // Same as existing
-        $description = 'Nouvelle description';
+        $title = 'Same Title'; // Same as existing
+        $description = 'New description';
         $imageUrl = '';
-        $author = 'Nouvel Auteur';
+        $author = 'New Author';
 
         // Mock getArticleById to return existing article
         $existingArticle = [
             'id' => $articleId,
-            'title' => 'Même Titre',
-            'slug' => 'meme-titre',
-            'description' => 'Ancienne description',
+            'title' => 'Same Title',
+            'slug' => 'same-title',
+            'description' => 'Old description',
             'image_url' => 'https://cloudinary.com/image.jpg',
-            'author' => 'Ancien Auteur'
+            'author' => 'Old Author'
         ];
 
         $getStmt = $this->createMock(PDOStatement::class);
@@ -650,7 +642,7 @@ class ArticleModelTest extends TestCase
         $updateStmt->expects($this->once())
             ->method('execute')
             ->with($this->callback(function ($params) {
-                return $params[':slug'] === 'meme-titre'; // Same slug
+                return $params[':slug'] === 'same-title'; // Same slug
             }))
             ->willReturn(true);
 
@@ -816,7 +808,7 @@ class ArticleModelTest extends TestCase
     public function testUpdateArticleGeneratesUniqueSlugWhenTitleChanges(): void
     {
         $articleId = 1;
-        $title = 'Nouveau Titre';
+        $title = 'New Title';
         $description = 'Description';
         $imageUrl = '';
         $author = 'Author';
@@ -824,8 +816,8 @@ class ArticleModelTest extends TestCase
         // Mock getArticleById
         $existingArticle = [
             'id' => $articleId,
-            'title' => 'Ancien Titre',
-            'slug' => 'ancien-titre',
+            'title' => 'Old Title',
+            'slug' => 'old-title',
             'description' => 'Description',
             'image_url' => '',
             'author' => 'Author'
@@ -850,7 +842,7 @@ class ArticleModelTest extends TestCase
             ->method('execute')
             ->with($this->callback(function ($params) {
                 // Should append -2 since first slug exists
-                return $params[':slug'] === 'nouveau-titre-2';
+                return $params[':slug'] === 'new-title-2';
             }))
             ->willReturn(true);
 
@@ -877,20 +869,20 @@ class ArticleModelTest extends TestCase
         $expectedArticles = [
             [
                 'id' => 2,
-                'title' => 'Article Récent',
-                'slug' => 'article-recent',
-                'description' => 'Description récente',
+                'title' => 'Recent Article',
+                'slug' => 'recent-article',
+                'description' => 'Recent description',
                 'image_url' => 'https://cloudinary.com/recent.jpg',
-                'author' => 'Auteur Récent',
+                'author' => 'Recent Author',
                 'created_at' => '2024-01-15 10:00:00'
             ],
             [
                 'id' => 1,
-                'title' => 'Article Ancien',
-                'slug' => 'article-ancien',
-                'description' => 'Description ancienne',
-                'image_url' => 'https://cloudinary.com/ancien.jpg',
-                'author' => 'Auteur Ancien',
+                'title' => 'Old Article',
+                'slug' => 'old-article',
+                'description' => 'Old description',
+                'image_url' => 'https://cloudinary.com/old.jpg',
+                'author' => 'Old Author',
                 'created_at' => '2024-01-10 10:00:00'
             ]
         ];
@@ -975,7 +967,7 @@ class ArticleModelTest extends TestCase
                 'slug' => 'article-1',
                 'description' => 'Description 1',
                 'image_url' => 'https://cloudinary.com/image1.jpg',
-                'author' => 'Auteur 1',
+                'author' => 'Author 1',
                 'created_at' => '2024-01-01 10:00:00'
             ]
         ];
@@ -1009,9 +1001,9 @@ class ArticleModelTest extends TestCase
     public function testGetLatestArticlesRespectsCustomLimit(): void
     {
         $expectedArticles = [
-            ['id' => 1, 'title' => 'Article 1', 'slug' => 'article-1', 'description' => 'Desc 1', 'image_url' => '', 'author' => 'Auteur 1', 'created_at' => '2024-01-01 10:00:00'],
-            ['id' => 2, 'title' => 'Article 2', 'slug' => 'article-2', 'description' => 'Desc 2', 'image_url' => '', 'author' => 'Auteur 2', 'created_at' => '2024-01-02 10:00:00'],
-            ['id' => 3, 'title' => 'Article 3', 'slug' => 'article-3', 'description' => 'Desc 3', 'image_url' => '', 'author' => 'Auteur 3', 'created_at' => '2024-01-03 10:00:00']
+            ['id' => 1, 'title' => 'Article 1', 'slug' => 'article-1', 'description' => 'Desc 1', 'image_url' => '', 'author' => 'Author 1', 'created_at' => '2024-01-01 10:00:00'],
+            ['id' => 2, 'title' => 'Article 2', 'slug' => 'article-2', 'description' => 'Desc 2', 'image_url' => '', 'author' => 'Author 2', 'created_at' => '2024-01-02 10:00:00'],
+            ['id' => 3, 'title' => 'Article 3', 'slug' => 'article-3', 'description' => 'Desc 3', 'image_url' => '', 'author' => 'Author 3', 'created_at' => '2024-01-03 10:00:00']
         ];
 
         $stmt = $this->createMock(PDOStatement::class);

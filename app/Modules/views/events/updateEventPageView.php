@@ -12,21 +12,21 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
- * @var array<string, mixed> $event The event to modify (passed by UpdateEventController)
+ * @var \App\Modules\Entities\Event $event The event entity to modify (passed by UpdateEventController)
  */
-start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event['event_name']), true, $user ?? null);
+start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event->getName()), true, $user ?? null);
 
 // Prépare le tableau des statuts participants pour les cases à cocher
-$statusParticipatingArray = explode(',', $event['status_participating'] ?? '');
+$statusParticipatingArray = explode(',', $event->getStatusParticipating());
 
 // Assurez-vous que les dates sont au format YYYY-MM-DD pour les inputs HTML
-$eventDateValue = date('Y-m-d', strtotime($event['event_date']));
-$eventTimeValue = date('H:i', strtotime($event['event_time']));
+$eventDateValue = $event->getDate();
+$eventTimeValue = $event->getTime();
 ?>
 
     <section class="createEvent">
         <div class="forgot-container">
-            <h1 class="title">Modifier l'événement : <?= htmlspecialchars($event['event_name']) ?></h1>
+            <h1 class="title">Modifier l'événement : <?= htmlspecialchars($event->getName()) ?></h1>
 
             <?php if (!empty($flash['success'])) : ?>
                 <div class="alert alert-success">
@@ -40,14 +40,14 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 </div>
             <?php endif ?>
 
-            <form id="form" action="index.php?page=updateEvent&id=<?= $event['event_id'] ?>" method="POST" enctype="multipart/form-data">
+            <form id="form" action="index.php?page=updateEvent&id=<?= $event->getId() ?>" method="POST" enctype="multipart/form-data">
                 <?= $csrf->getTokenField() ?>
                 <input type="hidden" name="action" value="submitUpdate">
-                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                <input type="hidden" name="event_id" value="<?= $event->getId() ?>">
 
                 <label for="event-name">Nom de l'événement</label>
                 <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement"
-                       value="<?= htmlspecialchars($event['event_name']) ?>" required>
+                       value="<?= htmlspecialchars($event->getName()) ?>" required>
 
                 <label for="event-date">Date de l'événement</label>
                 <input id="event-date" type="date" name="event-date"
@@ -59,16 +59,16 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
 
                 <label for="event-location">Lieu de l'événement</label>
                 <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu"
-                       value="<?= htmlspecialchars($event['event_location']) ?>">
+                       value="<?= htmlspecialchars($event->getLocation()) ?>">
 
                 <label for="event-theme">Thème de l'événement</label>
                 <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)"
-                       value="<?= htmlspecialchars($event['event_theme']) ?>">
+                       value="<?= htmlspecialchars($event->getTheme()) ?>">
 
                 <!-- Type d'inscription -->
                 <?php
-                $isGroupEvent = !empty($event['is_group_event']) && $event['is_group_event'] == 1;
-                $teamSize = (int) ($event['team_size'] ?? 1);
+                $isGroupEvent = $event->isGroupEvent();
+                $teamSize = $event->getTeamSize();
                 $teamCount = $teamCount ?? 0;
                 ?>
                 <label>Type d'inscription</label>
@@ -117,13 +117,13 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                 </div>
 
                 <label for="description">Description de l'événement</label>
-                <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event['description']) ?></textarea>
+                <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event->getDescription()) ?></textarea>
 
                 <div class="image-management" style="margin-top: 20px;">
                     <p class="form-label">Images actuelles (cocher pour supprimer) :</p>
                     <div class="current-images" style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 15px;">
                         <?php
-                        $images = json_decode($event['images'] ?? '[]', true) ?: [];
+                        $images = $event->getImagesArray();
                         foreach ($images as $img) :
                             $url = is_array($img) ? $img['url'] : $img;
                             $pId = is_array($img) ? $img['public_id'] : '';
@@ -139,8 +139,16 @@ $eventTimeValue = date('H:i', strtotime($event['event_time']));
                         <?php endforeach; ?>
                     </div>
 
-                    <label for="event_images">Ajouter de nouvelles images :</label>
-                    <input type="file" name="event_images[]" id="event_images" multiple accept="image/*" class="form-control">
+                    <div class="insert-image">
+                        <p class="form-label">Ajouter de nouvelles images :</p>
+                        <div id="drop-area">
+                            <input type="file" name="event_images[]" id="event_images" multiple accept="image/*" hidden>
+                            <div id="image-view">
+                                <p id="image-view-text">Glissez déposez ici <br> pour ajouter des images</p>
+                            </div>
+                        </div>
+                        <div id="image-recap"></div>
+                    </div>
                 </div>
 
                 <div class="form-actions" style="margin-top: 30px; display: flex; flex-direction: column; gap: 10px;">

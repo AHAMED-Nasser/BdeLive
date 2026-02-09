@@ -521,3 +521,28 @@
         padding: 5px 0;
     }
 }
+/* Badge "Passé" pour événements passés (carousel homepage) */
+
+.event-badge--past {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 4;
+    display: inline-block;
+    padding: 0.28rem 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 9999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .event-badge--past {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
