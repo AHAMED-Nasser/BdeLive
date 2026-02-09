@@ -67,7 +67,7 @@ class ResetPasswordController extends DefaultController
 
         // Temporary flag to disable CSRF validation
 
-        $skipCsrfValidation = true; // To be set to false after the problem has been corrected.
+        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
 
         // Validate CSRF token
         /** @phpstan-ignore-next-line */

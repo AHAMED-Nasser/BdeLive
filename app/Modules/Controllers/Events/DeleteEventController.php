@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Models\Admin\EventCreationModel;
+use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\EventRepository;
+use App\Core\Database;
 use Exception;
 
 /**
  * Delete Event Controller
  * Handles event deletion for administrators
  *
+ * Refactored to use EventRepositoryInterface (Data Mapper pattern).
+ *
  * @package BdeLive\Controllers
- * @version 1.0.0
+ * @version 2.0.0 - Data Mapper refactoring
  * @author BDELIVE - Group 8
  *
  * @see AdminController For admin authentication requirements
- * @see EventCreationModel For database operations
+ * @see EventRepository For database operations
  */
 class DeleteEventController extends AdminController
 {
@@ -42,7 +46,7 @@ class DeleteEventController extends AdminController
 
         // Temporary flag to disable CSRF validation
 
-        $skipCsrfValidation = true; // To be set to false after the problem has been corrected.
+        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
 
         // Validate CSRF token
         /** @phpstan-ignore-next-line */
@@ -73,8 +77,9 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            $model = new EventCreationModel();
-            $success = $model->deleteEvent($eventId);
+            /** @var EventRepositoryInterface $repository */
+            $repository = new EventRepository(Database::getInstance()->getConnection());
+            $success = $repository->delete($eventId);
 
             if ($success) {
                 $this->setSuccess('Événement supprimé avec succès');

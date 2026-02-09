@@ -123,9 +123,14 @@ function initDropImageArea(inputId, maxFiles = null)
     });
 }
 
-// Initialiser pour les événements (multiple images, pas de limite)
+// Initialiser pour la création d'événement (multiple images)
 if (document.getElementById('event-images')) {
     initDropImageArea('event-images');
+}
+
+// Initialiser pour la modification d'événement (id event_images)
+if (document.getElementById('event_images')) {
+    initDropImageArea('event_images');
 }
 
 // Initialiser pour les articles (une seule image)
