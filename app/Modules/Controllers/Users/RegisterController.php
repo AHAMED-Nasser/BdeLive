@@ -88,6 +88,12 @@ class RegisterController extends DefaultController
         $email = trim((string) $this->request->post('email', ''));
         $pwd = (string) $this->request->post('password', '');
 
+        // old input values for repopulation in case of error
+        $this->session->set('old_last_name', $last_name);
+        $this->session->set('old_first_name', $first_name);
+        $this->session->set('old_user_status', $user_status);
+        $this->session->set('old_email', $email);
+
         // Validation
         if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
             $this->setError('Tous les champs sont obligatoires');
@@ -153,6 +159,11 @@ class RegisterController extends DefaultController
                         'Veuillez contacter l\'administrateur.'
                     );
                 }
+
+                $this->session->remove('old_email');
+                $this->session->remove('old_first_name');
+                $this->session->remove('old_last_name');
+                $this->session->remove('old_user_status');
 
                 $this->render('users/registerPageView');
             } else {

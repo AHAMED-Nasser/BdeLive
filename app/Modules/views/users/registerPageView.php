@@ -1,9 +1,20 @@
-<?php
+<?php global $app;
 /**
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
+
+$oldLastName = $app->session()->get('old_last_name');
+$oldFirstName = $app->session()->get('old_first_name');
+$oldEmail = $app->session()->get('old_email');
+$oldUserStatus = $app->session()->get('old_user_status');
+
+$app->session()->remove('old_last_name');
+$app->session()->remove('old_first_name');
+$app->session()->remove('old_email');
+$app->session()->remove('old_user_status');
+
 start_page("Inscription - BDELive", true, $user ?? null);
 ?>
 <div class="forgot-container">
@@ -23,21 +34,21 @@ start_page("Inscription - BDELive", true, $user ?? null);
 
     <form action="index.php?page=register" method="POST">
         <label for="last_name">Nom :</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" required>
+        <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" value="<?= htmlspecialchars((string)$oldLastName) ?>" required>
 
         <label for="first_name">Prénom :</label>
-        <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" required>
+        <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" value="<?= htmlspecialchars((string)$oldFirstName) ?>" required>
 
         <label for="email">Email :</label>
-        <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" required>
+        <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" value="<?= htmlspecialchars((string)$oldEmail) ?>" required>
 
         <label for="user_status">Statut :</label>
         <select id="user_status" name="user_status" required>
             <option value="">-- Sélectionnez --</option>
-            <option value="BUT 1">BUT 1</option>
-            <option value="BUT 2">BUT 2</option>
-            <option value="BUT 3">BUT 3</option>
-            <option value="Personnel Enseignant">Personnel Enseignant</option>
+            <option value="BUT 1" <?= $oldUserStatus === 'BUT 1' ? 'selected' : ''?>>BUT 1</option>
+            <option value="BUT 2" <?= $oldUserStatus === 'BUT 2' ? 'selected' : ''?>>BUT 2</option>
+            <option value="BUT 3" <?= $oldUserStatus === 'BUT 3' ? 'selected' : ''?>>BUT 3</option>
+            <option value="Personnel Enseignant" <?= $oldUserStatus === 'Personnel Enseignant' ? 'selected' : ''?>>Personnel Enseignant</option>
         </select>
 
         <label for="password">Mot de passe :</label>
