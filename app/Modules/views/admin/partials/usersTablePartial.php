@@ -34,10 +34,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($users as $u) :
+                <?php foreach ($users as $u) : ?>
+                    <?php
                     $isDeleted = !empty($u['deleted_at']);
-                    $isBlocked = (int)($u['is_blocked'] ?? 0) === 1;
-                ?>
+                    $isBlocked = (int) ($u['is_blocked'] ?? 0) === 1;
+                    ?>
                     <tr>
                         <td><strong><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></strong></td>
                         <td><?= htmlspecialchars($u['email']) ?></td>
