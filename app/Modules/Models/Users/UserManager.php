@@ -78,13 +78,14 @@ class UserManager
      * password: string,
      * role: string,
      * is_blocked: int|string,
-     * is_verified: int
+     * is_verified: int,
+     * deleted_at: string|null
      * }|false
      */
     public function findUserByEmail(string $email): array|false
     {
         try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, role, is_blocked
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, role, is_blocked, deleted_at
                       FROM USERS 
                       WHERE email = :email 
                       LIMIT 1";
@@ -223,6 +224,55 @@ class UserManager
         }
     }
 
+
+    /**
+     * Soft delete a user (logical deletion)
+     *
+     * Marks the user as deleted by setting deleted_at to the current timestamp.
+     * The user record remains in the database. The user cannot log in until restored.
+     *
+     * @param int $user_id The ID of the user to soft delete
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function softDeleteUser(int $user_id): bool
+    {
+        try {
+            $query = "UPDATE USERS SET deleted_at = NOW() WHERE user_id = :user_id";
+
+            $stmt = $this->pdo->prepare($query);
+
+            return $stmt->execute(['user_id' => $user_id]);
+        } catch (PDOException $e) {
+            error_log('UserManager::softDeleteUser - ' . $e->getMessage());
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Restore a soft-deleted user
+     *
+     * Resets deleted_at to NULL, allowing the user to log in again.
+     *
+     * @param int $user_id The ID of the user to restore
+     * @return bool True if update successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function restoreUser(int $user_id): bool
+    {
+        try {
+            $query = "UPDATE USERS SET deleted_at = NULL WHERE user_id = :user_id";
+
+            $stmt = $this->pdo->prepare($query);
+
+            return $stmt->execute(['user_id' => $user_id]);
+        } catch (PDOException $e) {
+            error_log('UserManager::restoreUser - ' . $e->getMessage());
+
+            throw $e;
+        }
+    }
 
     /**
      * Delete a user from the database
@@ -409,9 +459,10 @@ class UserManager
                 'offset' => $offset
             ];
 
-            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked
+            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked, deleted_at
                     FROM USERS
-                    WHERE is_blocked = :is_blocked";
+                    WHERE is_blocked = :is_blocked
+                      AND deleted_at IS NULL";
 
             // Role filter (validated by controller)
             if ($roleFilter !== 'all') {
@@ -466,7 +517,7 @@ class UserManager
     ): int {
         try {
             $params = ['is_blocked' => $isBlocked ? 1 : 0];
-            $sql = "SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked";
+            $sql = "SELECT COUNT(*) FROM USERS WHERE is_blocked = :is_blocked AND deleted_at IS NULL";
 
             if ($roleFilter !== 'all') {
                 $sql .= " AND role = :role";
@@ -491,6 +542,97 @@ class UserManager
         }
     }
 
+    /**
+     * Get deleted users with optional filters
+     *
+     * @param int $limit Number of users per page
+     * @param int $offset Offset for pagination
+     * @param string $roleFilter Filter by role ('all', 'admin', 'user')
+     * @param string $search Search term (searches in first_name, last_name, email)
+     * @return array<int, array<string, mixed>>
+     */
+    public function getDeletedUsers(
+        int $limit,
+        int $offset,
+        string $roleFilter = 'all',
+        string $search = ''
+    ): array {
+        try {
+            $params = [
+                'limit' => $limit,
+                'offset' => $offset,
+            ];
+
+            $sql = "SELECT user_id, last_name, first_name, user_status, email, role, is_blocked, deleted_at
+                    FROM USERS
+                    WHERE deleted_at IS NOT NULL";
+
+            if ($roleFilter !== 'all') {
+                $sql .= " AND role = :role";
+                $params['role'] = $roleFilter;
+            }
+
+            if (!empty($search)) {
+                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
+                $searchParam = "%$search%";
+                $params['search1'] = $searchParam;
+                $params['search2'] = $searchParam;
+                $params['search3'] = $searchParam;
+            }
+
+            $sql .= " ORDER BY last_name ASC LIMIT :limit OFFSET :offset";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            foreach ($params as $key => $val) {
+                $type = is_int($val) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
+                $stmt->bindValue(":$key", $val, $type);
+            }
+
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log('UserManager::getDeletedUsers - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Count deleted users with optional filters
+     *
+     * @param string $roleFilter
+     * @param string $search
+     * @return int
+     */
+    public function countDeletedUsers(
+        string $roleFilter = 'all',
+        string $search = ''
+    ): int {
+        try {
+            $params = [];
+            $sql = "SELECT COUNT(*) FROM USERS WHERE deleted_at IS NOT NULL";
+
+            if ($roleFilter !== 'all') {
+                $sql .= " AND role = :role";
+                $params['role'] = $roleFilter;
+            }
+
+            if (!empty($search)) {
+                $sql .= " AND (last_name LIKE :search1 OR first_name LIKE :search2 OR email LIKE :search3)";
+                $searchParam = "%$search%";
+                $params['search1'] = $searchParam;
+                $params['search2'] = $searchParam;
+                $params['search3'] = $searchParam;
+            }
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute($params);
+            return (int) $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            error_log('UserManager::countDeletedUsers - ' . $e->getMessage());
+            throw $e;
+        }
+    }
 
     /**
      * Update a user's status
@@ -774,7 +916,7 @@ class UserManager
     public function getUserById(int $user_id): array|false
     {
         try {
-            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified 
+            $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, deleted_at
                       FROM USERS 
                       WHERE user_id = :user_id 
                       LIMIT 1";

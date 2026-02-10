@@ -114,7 +114,7 @@ class DeleteAccountController extends AuthenticatedController
         }
 
         try {
-            $deleted = $this->userManager->deleteUser($userId);
+            $deleted = $this->userManager->softDeleteUser($userId);
 
             if ($deleted) {
                 // Logout user (destroys session)
