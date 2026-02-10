@@ -43,26 +43,24 @@
                         <td><strong><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></strong></td>
                         <td><?= htmlspecialchars($u['email']) ?></td>
                         <td>
-                            <span class="badge-role <?= $u['role'] === 'admin' ? 'badge-admin' : 'badge-user' ?>">
-                                <?= strtoupper(htmlspecialchars($u['role'] ?? 'user')) ?>
-                            </span>
+                            <span class="badge-role <?= $u['role'] === 'admin' ? 'badge-admin' : 'badge-user' ?>" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block;"><?= strtoupper(htmlspecialchars($u['role'] ?? 'user')) ?></span>
                         </td>
                         <td>
                             <?php if ($isDeleted) : ?>
-                                <span class="badge-role badge-deleted" style="background-color: #6c757d; color: #fff;">SUPPRIMÉ</span>
+                                <span class="badge-role badge-deleted" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #6c757d; color: #fff;">SUPPRIMÉ</span>
                             <?php elseif ($isBlocked) : ?>
-                                <span class="badge-role badge-banned" style="background-color: #dc3545; color: #fff;">BANNI</span>
+                                <span class="badge-role badge-banned" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #dc3545; color: #fff;">BANNI</span>
                             <?php else : ?>
-                                <span class="badge-role badge-active" style="background-color: #28a745; color: #fff;">ACTIF</span>
+                                <span class="badge-role badge-active" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #28a745; color: #fff;">ACTIF</span>
                             <?php endif; ?>
                         </td>
                         <td>
                             <form method="POST">
                                 <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
                                 <?php if ($isDeleted) : ?>
-                                    <button type="submit" name="action" value="restore" class="btn-unblock">Restaurer</button>
+                                    <button type="submit" name="action" value="restore" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Restaurer</button>
                                 <?php elseif ($isBlocked) : ?>
-                                    <button type="submit" name="action" value="unblock" class="btn-unblock">Débloquer</button>
+                                    <button type="submit" name="action" value="unblock" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Débloquer</button>
                                 <?php else : ?>
                                     <div class="action-group">
                                         <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
@@ -89,7 +87,7 @@
             <ul class="pagination" id="users-pagination">
                 <?php if ($pagination->hasPrevious()) : ?>
                     <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" class="pagination-link">&laquo; Précédent</a>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" class="pagination-link" style="font-size: 0.875rem; padding: 0.35em 0.75em;">&laquo; Précédent</a>
                     </li>
                 <?php endif; ?>
                 
@@ -99,7 +97,7 @@
 
                 <?php if ($pagination->hasNext()) : ?>
                     <li>
-                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>" class="pagination-link">Suivant &raquo;</a>
+                        <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>" class="pagination-link" style="font-size: 0.875rem; padding: 0.35em 0.75em;">Suivant &raquo;</a>
                     </li>
                 <?php endif; ?>
             </ul>

@@ -68,8 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * Update active filter states in the sidebar and hidden form fields
      *
      * Updates filter links to preserve current search, role, and filter parameters.
-     * Disables the "admin" role filter when "blocked" status filter is active,
-     * as blocked users cannot be admins.
+     * Role filters (Tous, Admins, Users) are always clickable for any status filter.
      *
      * @param {URL} url - The current URL with query parameters
      */
@@ -126,20 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             link.href = linkUrl.toString();
 
-            // Disable "admin" role filter when "blocked" status is active
-            // Blocked users cannot be admins, so this combination is invalid
-            if (currentFilter === 'blocked' && linkRole === 'admin') {
-                link.classList.add('disabled');
-                link.classList.remove('active');
-                link.style.opacity = '0.5';
-                link.style.pointerEvents = 'none';
-                link.title = 'Blocked users cannot be administrators';
-            } else {
-                link.classList.remove('disabled');
-                link.style.opacity = '';
-                link.style.pointerEvents = '';
-                link.title = '';
-            }
+            // Role filter links are always clickable (Bloqués + Admin is valid)
+            link.classList.remove('disabled');
+            link.style.opacity = '';
+            link.style.pointerEvents = '';
+            link.title = '';
 
             // Update active class
             if (linkRole === currentRole) {
@@ -236,12 +226,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * Event delegation for pagination links (dynamically recreated)
-     * and filter links (static)
-     *
-     * Prevents invalid filter combinations:
-     * - "blocked" + "admin" is not allowed (blocked users cannot be admins)
-     * - Automatically redirects to "all" role when selecting "admin" with "blocked" filter
-     * - Automatically redirects to "all" role when selecting "blocked" with "admin" role
+     * and filter links (static).
+     * All filter combinations are allowed (e.g. Bloqués + Admin).
      */
     document.addEventListener('click', function (e) {
         // Filter links and pagination
@@ -252,38 +238,6 @@ document.addEventListener('DOMContentLoaded', function () {
             if (link.classList.contains('disabled')) {
                 e.preventDefault();
                 return;
-            }
-
-            // Handle filter link clicks
-            if (link.classList.contains('admin-nav-link')) {
-                const linkUrl = new URL(link.href, window.location.origin);
-                const linkFilter = linkUrl.searchParams.get('filter');
-                const linkRole = linkUrl.searchParams.get('role');
-                const currentUrl = new URL(window.location.href);
-                const currentFilter = currentUrl.searchParams.get('filter') || 'active';
-                const currentRole = currentUrl.searchParams.get('role') || 'all';
-
-                // Prevent "blocked" + "admin" combination
-                // If trying to select "admin" role while "blocked" filter is active
-                if (linkRole === 'admin' && (linkFilter === 'blocked' || currentFilter === 'blocked')) {
-                    e.preventDefault();
-                    // Redirect to "all" role instead
-                    linkUrl.searchParams.set('role', 'all');
-                    if (linkFilter === 'blocked') {
-                        linkUrl.searchParams.set('filter', 'blocked');
-                    }
-                    loadContent(linkUrl.toString());
-                    return;
-                }
-
-                // If selecting "blocked" filter while "admin" role is active
-                if (linkFilter === 'blocked' && currentRole === 'admin') {
-                    e.preventDefault();
-                    // Redirect to "all" role instead
-                    linkUrl.searchParams.set('role', 'all');
-                    loadContent(linkUrl.toString());
-                    return;
-                }
             }
 
             e.preventDefault();
