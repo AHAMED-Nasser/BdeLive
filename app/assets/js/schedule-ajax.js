@@ -72,6 +72,14 @@
                     // Remplacer le contenu
                     calendarWrapper.innerHTML = data.html;
 
+                    const offset = 100;
+                    const elementPosition = calendarWrapper.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition
+                    });
+
                     if (typeof updateCurrentTimeIndicator === 'function') {
                         updateCurrentTimeIndicator();
                     }
