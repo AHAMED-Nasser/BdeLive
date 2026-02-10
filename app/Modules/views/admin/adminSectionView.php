@@ -33,41 +33,41 @@ start_page("Administration | BDE Live", true, $user ?? null);
     <div class="admin-layout">
         <aside class="admin-sidebar">
         <h2>Navigation</h2>
-        
+
         <!-- Formulaire de recherche -->
         <form method="GET" class="admin-search-form">
             <input type="hidden" name="page" value="adminSection">
             <input type="hidden" name="filter" value="<?= $currentFilter ?>">
             <input type="hidden" name="role" value="<?= $roleFilter ?>">
-            
+
             <div class="search-group">
                 <label for="admin-search-input" class="sr-only">Rechercher</label>
-                <input type="text" 
+                <input type="text"
                        id="admin-search-input"
-                       name="search" 
-                       placeholder="Rechercher par nom, email..." 
+                       name="search"
+                       placeholder="Rechercher par nom, email..."
                        value="<?= htmlspecialchars($search) ?>"
                        class="admin-search-input">
                 <button type="submit" class="admin-search-btn" title="Rechercher">
                     <i class="fas fa-search"></i>
                 </button>
-                
+
                 <?php if (!empty($search)) : ?>
-                    <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=<?= $roleFilter ?>" 
-                       class="admin-reset-btn" 
+                    <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=<?= $roleFilter ?>"
+                       class="admin-reset-btn"
                        title="Effacer la recherche">
                         <i class="fas fa-times"></i>
                     </a>
                 <?php endif; ?>
             </div>
-            
+
             <?php if (!empty($search)) : ?>
                 <div class="search-indicator">
                     Recherche : <strong><?= htmlspecialchars($search) ?></strong>
                 </div>
             <?php endif; ?>
         </form>
-        
+
         <!-- Filtres de Statut -->
         <nav class="filter-section">
             <h3 class="filter-title">Statut</h3>
@@ -92,7 +92,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
                 </li>
             </ul>
         </nav>
-        
+
         <!-- Filtres de Rôle -->
         <nav class="filter-section">
             <h3 class="filter-title">Rôle</h3>
