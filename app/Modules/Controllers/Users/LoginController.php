@@ -100,10 +100,17 @@ class LoginController extends DefaultController
             return;
         }
 
+        // Vérifier si le compte a été clôturé (soft delete)
+        if (!empty($user['deleted_at'])) {
+            $this->setError('Ce compte a été clôturé. Contactez le support pour le réactiver.');
+            $this->render('users/loginPageView');
+            return;
+        }
+
         $isBlocked = (int) $user['is_blocked'];
         // Verify if user blocked or not
         if ($isBlocked === 1) {
-            $this->setError('Votre compte a été bloqué. Veuillez contacter l\'administrateur.');
+            $this->setError('Votre compte a été suspendu par l\'administrateur.');
             $this->render('users/loginPageView');
             return;
         }

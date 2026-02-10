@@ -68,7 +68,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
             <?php endif; ?>
         </form>
         
-        <!-- Filtres Actif/Bloqué -->
+        <!-- Filtres de Statut -->
         <nav class="filter-section">
             <h3 class="filter-title">Statut</h3>
             <ul class="admin-nav-list">
@@ -82,6 +82,12 @@ start_page("Administration | BDE Live", true, $user ?? null);
                     <a href="index.php?page=adminSection&filter=blocked&role=<?= $roleFilter ?>&search=<?= urlencode($search) ?>"
                        class="admin-nav-link <?= $currentFilter === 'blocked' ? 'active' : '' ?>">
                         <i class="fas fa-user-slash"></i> Bloqués
+                    </a>
+                </li>
+                <li>
+                    <a href="index.php?page=adminSection&filter=deleted&role=<?= $roleFilter ?>&search=<?= urlencode($search) ?>"
+                       class="admin-nav-link <?= $currentFilter === 'deleted' ? 'active' : '' ?>">
+                        <i class="fas fa-user-times"></i> Supprimés
                     </a>
                 </li>
             </ul>
