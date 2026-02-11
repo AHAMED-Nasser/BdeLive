@@ -150,7 +150,7 @@ $step = $_GET['step'] ?? null;
                                         <span id="email-resend-text">
                                             <?php if (!$emailResendStatus['can_resend']) : ?>
                                                 Renvoyer dans <span
-                                                    id="email-countdown"><?= trim($emailResendStatus['wait_seconds']) ?></span>s
+                                                    id="email-countdown"><?= trim((string)$emailResendStatus['wait_seconds']) ?></span>s
                                             <?php else : ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
@@ -283,7 +283,7 @@ $step = $_GET['step'] ?? null;
                                         <span id="password-resend-text">
                                             <?php if (!$passwordResendStatus['can_resend']) : ?>
                                                 Renvoyer dans <span
-                                                    id="password-countdown"><?= trim($passwordResendStatus['wait_seconds']) ?></span>s
+                                                    id="password-countdown"><?= trim((string)$passwordResendStatus['wait_seconds']) ?></span>s
                                             <?php else : ?>
                                                 Renvoyer le code
                                             <?php endif; ?>
