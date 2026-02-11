@@ -33,16 +33,16 @@ start_page("Inscription - BDELive", true, $user ?? null);
     <?php endif; ?>
 
     <form action="index.php?page=register" method="POST">
-        <label for="last_name">Nom :</label>
+        <label for="last_name">Nom</label>
         <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" value="<?= htmlspecialchars((string)$oldLastName) ?>" required>
 
-        <label for="first_name">Prénom :</label>
+        <label for="first_name">Prénom</label>
         <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" value="<?= htmlspecialchars((string)$oldFirstName) ?>" required>
 
-        <label for="email">Email :</label>
+        <label for="email">Email</label>
         <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" value="<?= htmlspecialchars((string)$oldEmail) ?>" required>
 
-        <label for="user_status">Statut :</label>
+        <label for="user_status">Statut</label>
         <select id="user_status" name="user_status" required>
             <option value="">-- Sélectionnez --</option>
             <option value="BUT 1" <?= $oldUserStatus === 'BUT 1' ? 'selected' : ''?>>BUT 1</option>
@@ -51,8 +51,21 @@ start_page("Inscription - BDELive", true, $user ?? null);
             <option value="Personnel Enseignant" <?= $oldUserStatus === 'Personnel Enseignant' ? 'selected' : ''?>>Personnel Enseignant</option>
         </select>
 
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+        <label for="password">Mot de passe</label>
+        <div class="password-container">
+            <input id="password" type="password" name="password" placeholder="Entrez votre mot de passe" class="form-control" required>
+            <button type="button" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+
+        <label for="confirm-password">Confirmation mot de passe</label>
+        <div class="password-container">
+            <input id="confirm-password" type="password" name="confirm_password" placeholder="Confirmez votre mot de passe" class="form-control" required>
+            <button type="button" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
 
         <?= $csrf->getTokenField() ?>
         <button type="submit" name="ok">S'inscrire</button>

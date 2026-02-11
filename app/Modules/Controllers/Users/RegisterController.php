@@ -87,6 +87,7 @@ class RegisterController extends DefaultController
         $user_status = trim((string) $this->request->post('user_status', ''));
         $email = trim((string) $this->request->post('email', ''));
         $pwd = (string) $this->request->post('password', '');
+        $confirmPwd = trim((string) $this->request->post('confirm_password', ''));
 
         // old input values for repopulation in case of error
         $this->session->set('old_last_name', $last_name);
@@ -109,8 +110,8 @@ class RegisterController extends DefaultController
         }
 
         // Validate password length
-        if (strlen($pwd) < 6) {
-            $this->setError('Le mot de passe doit contenir au moins 6 caractères');
+        if (strlen($pwd) < 12) {
+            $this->setError('Le mot de passe doit contenir au moins 12 caractères');
             $this->render('users/registerPageView');
             return;
         }
@@ -125,6 +126,13 @@ class RegisterController extends DefaultController
         // Vérifier si l'email existe déjà
         if ($this->userManager->emailExists($email)) {
             $this->setError('Cette adresse email est déjà utilisée');
+            $this->render('users/registerPageView');
+            return;
+        }
+
+        // Vérifier que les mots de passe correspondent
+        if ($pwd !== $confirmPwd) {
+            $this->setError('Les mots de passe ne correspondent pas');
             $this->render('users/registerPageView');
             return;
         }

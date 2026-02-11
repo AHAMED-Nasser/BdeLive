@@ -1,12 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const O_togglePassword = document.getElementById('togglePassword');
-    const O_passwordInput = document.getElementById('password');
+    const containers = document.querySelectorAll('.password-container');
 
-    if (O_togglePassword && O_passwordInput) {
-        O_togglePassword.addEventListener('click', () => {
-            const type = O_passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            O_passwordInput.setAttribute('type', type);
-            O_togglePassword.innerHTML = type === 'password' ? '<i class="fa-regular fa-eye"></i>' : '<i class="fa-regular fa-eye-slash"></i>';
+    containers.forEach(container => {
+        const input = container.querySelector('input');
+        const toggle = container.querySelector('.password-toggle');
+
+        if (!input || !toggle) return;
+
+        toggle.addEventListener('click', () => {
+            const newType = input.type === 'password' ? 'text' : 'password';
+            input.type = newType;
+
+            toggle.innerHTML = newType === 'password'
+                ? '<i class="fa-regular fa-eye"></i>'
+                : '<i class="fa-regular fa-eye-slash"></i>';
         });
-    }
-})
+    });
+});
