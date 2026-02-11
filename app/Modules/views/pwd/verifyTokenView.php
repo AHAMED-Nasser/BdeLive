@@ -4,7 +4,7 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
-start_page("Vérification du code - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <div class="forgot-container">

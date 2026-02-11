@@ -17,7 +17,7 @@
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
  * @var \App\Core\Security\CsrfProtection $csrf
  */
-start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
+start_page("BDELive - Site officiel" . $event->getName(), true, $user ?? null);
 
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();

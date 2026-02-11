@@ -13,7 +13,7 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
-start_page("Créer un article", true, $user ?? null) ?>
+start_page("BDELive - Site officiel", true, $user ?? null) ?>
 
 <section class="createEvent">
     <div class="form-container-wide">

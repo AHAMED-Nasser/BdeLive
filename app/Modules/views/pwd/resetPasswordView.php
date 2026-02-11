@@ -4,7 +4,7 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
-start_page("Réinitialiser le mot de passe - BDELive ", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <div class="forgot-container">

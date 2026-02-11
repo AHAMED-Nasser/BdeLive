@@ -15,7 +15,7 @@
  * @var array<string, string|null> $flash Flash messages (success, error, etc.)
  */
 
-start_page('Supprimer mon compte - BDELive', true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <link rel="stylesheet" href="./assets/css/delete-account.css">

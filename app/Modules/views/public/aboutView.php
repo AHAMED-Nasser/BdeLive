@@ -11,7 +11,7 @@
  *
  * @var array<string, mixed>|null $user
  */
-start_page("À propos - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <main>

@@ -27,7 +27,7 @@
  * @var array{can_resend: bool, wait_seconds: int, resend_count: int} $passwordResendStatus
  */
 
-start_page("Confidentialité - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 
 $editField = $_GET['edit'] ?? null;
 $step = $_GET['step'] ?? null;

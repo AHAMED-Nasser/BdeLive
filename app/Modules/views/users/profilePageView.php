@@ -16,7 +16,7 @@
  * @var string|null $editField Field currently being edited (first_name, last_name, user_status)
  */
 
-start_page("Mon Profil - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 
 $editField = $_GET['edit'] ?? null;
 ?>

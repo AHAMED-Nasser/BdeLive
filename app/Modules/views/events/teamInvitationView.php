@@ -17,7 +17,7 @@
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("Invitation à rejoindre un groupe - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <div class="container" style="max-width: 600px; margin: 40px auto; padding: 20px;">
