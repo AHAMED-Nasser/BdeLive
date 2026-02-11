@@ -72,6 +72,13 @@ class RegisterController extends DefaultController
         $user_status = trim((string) $this->request->post('user_status', ''));
         $email = trim((string) $this->request->post('email', ''));
         $pwd = (string) $this->request->post('password', '');
+        $confirmPwd = trim((string) $this->request->post('confirm_password', ''));
+
+        // old input values for repopulation in case of error
+        $this->session->set('old_last_name', $last_name);
+        $this->session->set('old_first_name', $first_name);
+        $this->session->set('old_user_status', $user_status);
+        $this->session->set('old_email', $email);
 
         // Validation
         if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
@@ -88,8 +95,8 @@ class RegisterController extends DefaultController
         }
 
         // Validate password length
-        if (strlen($pwd) < 6) {
-            $this->setError('Le mot de passe doit contenir au moins 6 caractères');
+        if (strlen($pwd) < 12) {
+            $this->setError('Le mot de passe doit contenir au moins 12 caractères');
             $this->render('users/registerPageView');
             return;
         }
@@ -104,6 +111,21 @@ class RegisterController extends DefaultController
         // Vérifier si l'email existe déjà
         if ($this->userManager->emailExists($email)) {
             $this->setError('Cette adresse email est déjà utilisée');
+            $this->render('users/registerPageView');
+            return;
+        }
+
+        $pwdSecureRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$/";
+
+        if (!preg_match($pwdSecureRegex, $pwd)) {
+            $this->setError('Le mot de passe ne respecte pas les conditions de sécurité');
+            $this->render('users/registerPageView');
+            return;
+        }
+
+        // Vérifier que les mots de passe correspondent
+        if ($pwd !== $confirmPwd) {
+            $this->setError('Les mots de passe ne correspondent pas');
             $this->render('users/registerPageView');
             return;
         }
@@ -138,6 +160,11 @@ class RegisterController extends DefaultController
                         'Veuillez contacter l\'administrateur.'
                     );
                 }
+
+                $this->session->remove('old_email');
+                $this->session->remove('old_first_name');
+                $this->session->remove('old_last_name');
+                $this->session->remove('old_user_status');
 
                 $this->render('users/registerPageView');
             } else {

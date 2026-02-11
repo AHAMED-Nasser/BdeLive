@@ -60,6 +60,8 @@ class LoginController extends DefaultController
         $email = trim((string) $this->request->post('email', ''));
         $mdp = (string) $this->request->post('password', '');
 
+        $this->session->set('old_email', $email);
+
         // Validation
         if (empty($email) || empty($mdp)) {
             $this->setError('Veuillez remplir tous les champs');
@@ -109,6 +111,8 @@ class LoginController extends DefaultController
             $this->render('users/loginPageView');
             return;
         }
+
+        $this->session->remove('old_email');
 
         // Login successful - Use new AuthManager to store session
         $this->auth->login(
