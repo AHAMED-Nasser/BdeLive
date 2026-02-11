@@ -14,7 +14,7 @@
  * @var array<int, array<string, string>>|null $honorMembers
  */
 
-start_page("Membres BDE - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <main style="padding: 20px;">

@@ -20,7 +20,7 @@ declare(strict_types=1);
  * @var array<string, mixed>|null $user
  */
 
-start_page("Administration | BDE Live", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
     <section class="admin-hero">

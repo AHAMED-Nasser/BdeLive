@@ -18,7 +18,7 @@
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("Confirmation d'inscription - BDELive ", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 
 $isConfirmed = $status === 'confirmed';
 $isDeclined = $status === 'declined';

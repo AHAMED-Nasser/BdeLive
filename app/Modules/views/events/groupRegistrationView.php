@@ -16,7 +16,7 @@
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages
  */
-start_page("BDELive - Inscription en groupe : " . htmlspecialchars($event->getName()), true, $user ?? null);
+start_page("BDELive - Site officiel" . htmlspecialchars($event->getName()), true, $user ?? null);
 
 $requiredMembers = $teamSize - 1; // Creator is auto-included
 ?>

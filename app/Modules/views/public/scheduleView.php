@@ -14,7 +14,7 @@
  * @var string $selectedGroup
  */
 
-start_page("Emploi du temps - BDELive", true, $user ?? null);
+start_page("BDELive - Site officiel", true, $user ?? null);
 ?>
 
 <script src="/assets/js/schedule-ajax.js" defer></script>
