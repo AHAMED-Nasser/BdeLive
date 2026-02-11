@@ -83,6 +83,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="./assets/css/password-control.css">
         <link rel="stylesheet" href="./assets/css/style.css">
         <link rel="stylesheet" href="./assets/css/footer.css">
         <link rel="stylesheet" href="./assets/css/navbar.css">
@@ -380,6 +381,8 @@ function end_page(): void
     <script src="./assets/js/delete-confirm.js"></script>
     <script src="./assets/js/form-submit-protection.js"></script>
     <script src="./assets/js/modal.js"></script>
+    <script src="./assets/js/togglePassword.js"></script>
+    <script src="./assets/js/passwordControl.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>

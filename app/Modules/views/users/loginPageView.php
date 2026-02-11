@@ -1,9 +1,13 @@
-<?php
+<?php global $app;
 /**
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
+
+$oldEmail = $app->session()->get('old_email');
+$app->session()->remove('old_email');
+
 start_page("Connexion - BDELive", true, $user ?? null);
 ?>
 
@@ -22,12 +26,18 @@ start_page("Connexion - BDELive", true, $user ?? null);
         </div>
     <?php endif; ?>
 
-    <form id="form" action="index.php?page=login" method="POST">
+    <form class="form-authentification" id="form" action="index.php?page=login" method="POST">
         <label for="email">Adresse e-mail :</label>
-        <input id="email" type="email" name="email" placeholder="Entrez votre adresse mail" required>
+        <input id="email" type="email" name="email" placeholder="Entrez votre adresse mail" value="<?= htmlspecialchars((string)$oldEmail) ?>" required>
 
         <label for="password">Mot de passe :</label>
-        <input id="password" type="password" name="password" placeholder="Entrez votre mot de passe" required>
+        <div class="password-container">
+            <input id="password" type="password" name="password" placeholder="Entrez votre mot de passe" class="form-control" required>
+            <button type="button" id="togglePassword" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+
 
         <?= $csrf->getTokenField() ?>
         <button type="submit" name="ok">Se connecter</button>
