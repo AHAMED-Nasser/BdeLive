@@ -45,7 +45,9 @@
 
 .nav-logo img {
     height: 60px;
-    border-bottom-right-radius: 15px;
+    background-color: transparent !important;
+    border: none !important;
+    display: block;
     transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
@@ -53,9 +55,10 @@
 .dark-mode .nav-logo img {
     opacity: 1;
     filter: brightness(1);
+    background: transparent !important;
 }
 
-/* ===== DARK MODE TOGGLE BUTTON ===== */
+
 .dark-mode-toggle {
     background: transparent;
     border: none;
