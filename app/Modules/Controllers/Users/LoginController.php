@@ -48,27 +48,12 @@ class LoginController extends DefaultController
      */
     private function processLogin(): void
     {
-        // ====================================================================
-        // Code CSRF to be corrected
-        // ====================================================================
-        // CSRF validation temporarily disabled
-        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
-        // when uploading files. Permanent solution to be implemented in S4
-        // ====================================================================
-
-        // Temporary flag to disable CSRF validation
-
-        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('users/loginPageView');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('users/loginPageView');
         }
 
         // Get and sanitize inputs
@@ -100,10 +85,17 @@ class LoginController extends DefaultController
             return;
         }
 
+        // Vérifier si le compte a été clôturé (soft delete)
+        if (!empty($user['deleted_at'])) {
+            $this->setError('Ce compte a été clôturé. Contactez le support pour le réactiver.');
+            $this->render('users/loginPageView');
+            return;
+        }
+
         $isBlocked = (int) $user['is_blocked'];
         // Verify if user blocked or not
         if ($isBlocked === 1) {
-            $this->setError('Votre compte a été bloqué. Veuillez contacter l\'administrateur.');
+            $this->setError('Votre compte a été suspendu par l\'administrateur.');
             $this->render('users/loginPageView');
             return;
         }

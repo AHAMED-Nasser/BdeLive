@@ -14,7 +14,7 @@
  * @var array<string, string|null> $flash
  * @var \App\Modules\Entities\Event $event The event entity to modify (passed by UpdateEventController)
  */
-start_page("BDELive - Site officiel" . htmlspecialchars($event->getName()), true, $user ?? null);
+start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event->getName()), true, $user ?? null);
 
 // Prépare le tableau des statuts participants pour les cases à cocher
 $statusParticipatingArray = explode(',', $event->getStatusParticipating());

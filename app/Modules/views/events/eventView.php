@@ -15,7 +15,7 @@
  * @var array<int, \App\Modules\Entities\Event> $events Array of Event entities (passed by EventController)
  * @var \App\Modules\Helpers\Pagination $pagination The pagination object (passed by EventController)
  */
-start_page("BDELive - Site officiel", true, $user ?? null);
+start_page('Liste des Événements - BDELive', true, $user ?? null);
 $auth = \App\Core\Application::getInstance()->auth();
 $isAdmin = $auth->isAdmin();
 
