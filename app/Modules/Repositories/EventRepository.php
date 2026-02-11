@@ -159,7 +159,7 @@ class EventRepository implements EventRepositoryInterface
     public function findLatestEvents(int $limit): array
     {
         try {
-            $sql = 'SELECT event_id, event_name, event_date, event_time, event_location, description, images
+            $sql = 'SELECT event_id, event_name, slug, event_date, event_time, event_location, description, images
                     FROM EVENTS
                     WHERE event_date >= CURDATE()
                     ORDER BY event_date ASC, event_time ASC
@@ -338,6 +338,10 @@ class EventRepository implements EventRepositoryInterface
         $slug = SlugGenerator::generateUnique($event->getName(), function ($testSlug) use ($eventId) {
             return $this->slugExistsExcludingId($testSlug, $eventId);
         });
+        // Fallback: slug vide si le nom ne contient que espaces/caractères spéciaux
+        if ($slug === '') {
+            $slug = 'event-' . $eventId;
+        }
 
         try {
             $sql = "UPDATE EVENTS SET

@@ -43,17 +43,23 @@ class ShowEventController extends DefaultController
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
             } elseif ($eventId > 0) {
-                // Priority 2: ID (legacy, redirect to slug for SEO)
+                // Priority 2: ID (legacy, redirect to slug for SEO when slug présent)
                 $event = $this->eventRepository->findById($eventId);
                 if (!$event) {
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
-                // Use entity getter instead of array access
-                $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($event->getSlug());
-                header('Location: ' . $slugUrl, true, 301);
-                exit;
+                $eventSlug = $event->getSlug();
+                // Redirection vers slug uniquement si non vide (évite boucle infinie)
+                if ($eventSlug !== '') {
+                    $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($eventSlug);
+                    header('Location: ' . $slugUrl, true, 301);
+                    exit;
+                }
             } else {
-                $this->redirectWithError('index.php?page=event', 'Paramètres invalides');
+                $this->redirectWithError(
+                    'index.php?page=event',
+                    'Paramètres invalides. Veuillez sélectionner un événement depuis la liste.'
+                );
             }
 
             $registrationRepo = new EventRegistrationRepository();
