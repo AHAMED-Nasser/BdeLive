@@ -60,13 +60,13 @@ if (file_exists($projectRoot . '/vendor/autoload.php')) {
 }
 
 // Chargement sécurisé du .env
-if (file_exists($projectRoot . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
-    $dotenv->load();
-} else {
-    // Si le fichier n'existe pas, on affiche un message clair pour le dev
-    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
-}
+//if (file_exists($projectRoot . '/.env')) {
+//    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
+//    $dotenv->load();
+//} else {
+//    // Si le fichier n'existe pas, on affiche un message clair pour le dev
+//    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
+//}
 
 // Initialiser l'application (démarre la session automatiquement)
 $app = Application::getInstance();
