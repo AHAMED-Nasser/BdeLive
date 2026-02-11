@@ -45,16 +45,26 @@
 
 .nav-logo img {
     height: 60px;
+    /* On enlève l'arrondi qui force une forme */
+    border-radius: 0 !important;
+    /* On force le fond à être transparent au cas où le parent en aurait un */
     background-color: transparent !important;
     border: none !important;
     display: block;
     transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
+/* On s'assure que le lien autour de l'image n'a pas de fond blanc */
+.nav-logo {
+    background: transparent !important;
+    padding: 0;
+}
+
 /* Assurer la visibilité du logo en mode sombre */
+/* Dans navbar.css */
 .dark-mode .nav-logo img {
     opacity: 1;
-    filter: brightness(1);
+    filter: none !important; /* On retire les filtres de luminosité */
     background: transparent !important;
 }
 
