@@ -1,5 +1,5 @@
 <?php
-start_page("BDELive - Site officiel", true, $user ?? null);
+start_page("Mentions Légales - BDELive", true, $user ?? null);
 ?>
 <div class="legal-terms-page">
     <h1>Mentions Légales</h1>

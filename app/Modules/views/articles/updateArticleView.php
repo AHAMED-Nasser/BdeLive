@@ -14,7 +14,7 @@
  * @var array<string, string|null> $flash
  * @var \App\Modules\Entities\Article $article Article entity
  */
-start_page("BDELive - Site officiel", true, $user ?? null) ?>
+start_page("Modifier un article", true, $user ?? null) ?>
 
 <section class="createEvent">
     <div class="forgot-container">

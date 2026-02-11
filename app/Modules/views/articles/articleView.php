@@ -4,7 +4,7 @@
  * @var array<string, string|null> $flash
  * @var \App\Modules\Entities\Article $article Article entity
  */
-start_page("BDELive - Site officiel", true, $user ?? null);
+start_page(htmlspecialchars($article->getTitle()), true, $user ?? null);
 ?>
 
 <section class="article-section">

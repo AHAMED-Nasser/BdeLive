@@ -106,18 +106,12 @@ class UpdateArticleController extends AdminController
         $articleId = $article->getId();
         $slug = $article->getSlug();
 
-
-        $skipCsrfValidation = false;
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=updateArticle&slug=' . urlencode($slug));
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=updateArticle&slug=' . urlencode($slug));
         }
 
         // Get form data using Request object (not superglobals)

@@ -35,6 +35,10 @@ class AdminSectionController extends AdminController
 
         // Get and validate parameters
         $filter = $this->request->get('filter', 'active');
+        $allowedFilters = ['active', 'blocked', 'deleted'];
+        if (!in_array($filter, $allowedFilters, true)) {
+            $filter = 'active';
+        }
         $showBlocked = ($filter === 'blocked');
 
         // Validate role filter (security - whitelist validation)
@@ -48,16 +52,29 @@ class AdminSectionController extends AdminController
         $search = trim((string) $this->request->get('search', ''));
 
         // Use unified methods with all filters
-        $total = $userManager->countUsers($showBlocked, $roleFilter, $search);
+        if ($filter === 'deleted') {
+            $total = $userManager->countDeletedUsers($roleFilter, $search);
+        } else {
+            $total = $userManager->countUsers($showBlocked, $roleFilter, $search);
+        }
         $pagination = new Pagination($total, 15);
 
-        $users = $userManager->getUsers(
-            $pagination->getLimit(),
-            $pagination->getOffset(),
-            $showBlocked,
-            $roleFilter,
-            $search
-        );
+        if ($filter === 'deleted') {
+            $users = $userManager->getDeletedUsers(
+                $pagination->getLimit(),
+                $pagination->getOffset(),
+                $roleFilter,
+                $search
+            );
+        } else {
+            $users = $userManager->getUsers(
+                $pagination->getLimit(),
+                $pagination->getOffset(),
+                $showBlocked,
+                $roleFilter,
+                $search
+            );
+        }
 
         if ($this->request->get('ajax') === '1') {
             $this->render("admin/partials/usersTablePartial", [
@@ -100,10 +117,15 @@ class AdminSectionController extends AdminController
                 break;
             case 'block':
                 $manager->setBlockStatus($id, 1);
-                $manager->updateUserRole($id, 'user');
                 break;
             case 'unblock':
                 $manager->setBlockStatus($id, 0);
+                break;
+            case 'soft_delete':
+                $manager->softDeleteUser($id);
+                break;
+            case 'restore':
+                $manager->restoreUser($id);
                 break;
         }
 

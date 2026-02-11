@@ -11,7 +11,7 @@
  * @author BdeLive - Group 8
  */
 
-start_page("BDELive - Site officiel", true, $user ?? null);
+start_page("Plan du site - BDELive", true, $user ?? null);
 ?>
 <div class="legal-terms-page">
     <h1 class="title">Plan du site</h1>
