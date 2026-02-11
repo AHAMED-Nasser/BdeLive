@@ -145,7 +145,7 @@ class UpdateEventController extends AdminController
         }
 
         // 2. Récupération des données POST
-        $eventName = (string) $this->request->post('event-name', '');
+        $eventName = trim((string) $this->request->post('event-name', ''));
         $eventDateStr = (string) $this->request->post('event-date', '');
         $eventTimeStr = (string) $this->request->post('event-time', '');
         $eventLocation = (string) $this->request->post('event-location', '');

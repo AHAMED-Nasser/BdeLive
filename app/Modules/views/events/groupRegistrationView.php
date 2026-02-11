@@ -97,7 +97,12 @@ $requiredMembers = $teamSize - 1; // Creator is auto-included
                 <i class="fas fa-paper-plane"></i> Créer le groupe et envoyer les invitations
             </button>
 
-            <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>">
+            <?php
+            $groupEventHref = $event->getSlug() !== ''
+                ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                : 'index.php?page=showEvent&id=' . (int) $event->getId();
+            ?>
+            <a href="<?= htmlspecialchars($groupEventHref) ?>">
                 <i class="fas fa-arrow-left"></i> Retour à l'événement
             </a>
         </div>

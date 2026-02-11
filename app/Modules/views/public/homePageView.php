@@ -127,7 +127,12 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                 <?php if ($event->isPast()) : ?>
                                     <span class="event-badge--past" aria-hidden="true">Passé</span>
                                 <?php endif; ?>
-                                <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>"
+                                <?php
+                                $homeEventHref = $event->getSlug() !== ''
+                                    ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                                    : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                                ?>
+                                <a href="<?= htmlspecialchars($homeEventHref) ?>"
                                     class="carousel-event-link"
                                     aria-label="Voir les détails de <?= htmlspecialchars($event->getName()) ?><?= $event->isPast() ? ' (événement passé)' : '' ?>">
                                     <h3 class="event-title"><?= htmlspecialchars($event->getName()) ?></h3>

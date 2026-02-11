@@ -111,7 +111,12 @@ $userId = $user['user_id'] ?? null;
                 <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
 
                 <div style="margin-top: 15px;">
-                    <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>" class="btn-more"
+                    <?php
+                    $eventShowHref = $event->getSlug() !== ''
+                        ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                        : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                    ?>
+                    <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
                         style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
                         Voir les détails
                     </a>
