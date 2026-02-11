@@ -32,7 +32,7 @@ start_page("Inscription - BDELive", true, $user ?? null);
         </div>
     <?php endif; ?>
 
-    <form action="index.php?page=register" method="POST">
+    <form class="form-authentification" action="index.php?page=register" method="POST">
         <label for="last_name">Nom</label>
         <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" value="<?= htmlspecialchars((string)$oldLastName) ?>" required>
 
@@ -66,6 +66,8 @@ start_page("Inscription - BDELive", true, $user ?? null);
                 <i class="fa-regular fa-eye"></i>
             </button>
         </div>
+        <p class="confirm-pwd-message"></p>
+
 
         <?= $csrf->getTokenField() ?>
         <button type="submit" name="ok">S'inscrire</button>

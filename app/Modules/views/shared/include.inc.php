@@ -382,6 +382,7 @@ function end_page(): void
     <script src="./assets/js/form-submit-protection.js"></script>
     <script src="./assets/js/modal.js"></script>
     <script src="./assets/js/togglePassword.js"></script>
+    <script src="./assets/js/passwordControl.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>
