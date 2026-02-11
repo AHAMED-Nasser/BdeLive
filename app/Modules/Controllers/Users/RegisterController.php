@@ -130,6 +130,14 @@ class RegisterController extends DefaultController
             return;
         }
 
+        $pwdSecureRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$/";
+
+        if (!preg_match($pwdSecureRegex, $pwd)) {
+            $this->setError('Le mot de passe ne respecte pas les conditions de sécurité');
+            $this->render('users/registerPageView');
+            return;
+        }
+
         // Vérifier que les mots de passe correspondent
         if ($pwd !== $confirmPwd) {
             $this->setError('Les mots de passe ne correspondent pas');
