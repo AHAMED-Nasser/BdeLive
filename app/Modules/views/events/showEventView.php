@@ -16,7 +16,6 @@
  * @var int|null $userId
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
  * @var array $registrants Individual registrants list
- * @var array $groupRegistrants Group registrants grouped by team number
  * @var int $totalGroupRegistrants Total count of group registrants
  * @var \App\Core\Security\CsrfProtection $csrf
  */
