@@ -276,3 +276,36 @@
         white-space: normal;
     }
 }
+
+/* Event Registrants List */
+.registrants-list-section {
+    margin-top: 40px;
+}
+
+.registrants-list-section h2 {
+    margin-bottom: 20px;
+}
+
+.registrants-list-section .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.registrants-list-section thead tr {
+    background-color: var(--background-secondary);
+    text-align: left;
+}
+
+.registrants-list-section th {
+    padding: 12px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.registrants-list-section tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.registrants-list-section td {
+    padding: 12px;
+}

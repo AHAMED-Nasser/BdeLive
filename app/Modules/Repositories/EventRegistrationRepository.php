@@ -292,6 +292,34 @@ class EventRegistrationRepository
             'teams' => $teams
         ];
     }
+    /**
+     * Get individual registrations for an event
+     *
+     * Retrieves the list of users registered individually to an event.
+     * Includes first name, last name, promotion (status), and registration date.
+     * Join with USERS table to get user details.
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array{first_name: string, last_name: string, promotion: string, registration_date: string}>
+     */
+    public function getIndividualRegistrantsForEvent(int $eventId): array
+    {
+        $sql = "SELECT u.first_name, u.last_name, u.user_status as promotion, er.registration_date
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                WHERE er.event_id = :event_id
+                -- Ensure we only get individual registrations or where team logic doesn't apply
+                -- Based on the request 'unique individual events', we assume all registrations appearing
+                -- in this context are valid. If mixed, we might need 'AND er.team_id IS NULL'.
+                -- For now, fetching all for the event as requested for 'individual inscription events'.
+                ORDER BY er.registration_date DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['event_id' => $eventId]);
+
+        /** @var array<int, array{first_name: string, last_name: string, promotion: string, registration_date: string}> */
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');

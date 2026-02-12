@@ -59,10 +59,17 @@ class ShowEventController extends DefaultController
             $registrationRepo = new EventRegistrationRepository();
             $user = $this->auth->getUser();
 
+            $registrants = [];
+            // If it is an individual event, fetch the list of registrants
+            if (!$event->isGroupEvent()) {
+                $registrants = $registrationRepo->getIndividualRegistrantsForEvent((int) $event->getId());
+            }
+
             $this->render('events/showEventView', [
                 'event' => $event,
                 'userId' => $user !== null ? ($user['user_id'] ?? null) : null,
-                'registrationRepo' => $registrationRepo
+                'registrationRepo' => $registrationRepo,
+                'registrants' => $registrants
             ]);
         } catch (Exception $e) {
             $this->setError("Erreur : " . $e->getMessage());

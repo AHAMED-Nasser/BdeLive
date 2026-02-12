@@ -94,8 +94,7 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php else : ?>
                     <!-- Événement individuel -->
-                    <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>"
-                        class="btn-individual-register">
+                    <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>" class="btn-individual-register">
                         S'inscrire à l'événement
                     </a>
                 <?php endif; ?>
@@ -109,6 +108,39 @@ $userId = $user['user_id'] ?? null;
         <?php endif; ?>
     </div>
 
+    <?php if (!$event->isGroupEvent() && !empty($registrants)) : ?>
+        <div class="registrants-list-section">
+            <h2>Liste des inscrits (<?= count($registrants) ?>)</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Promotion</th>
+                            <th>Date d'inscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($registrants as $registrant) : ?>
+                            <tr>
+                                <td><?= htmlspecialchars($registrant['last_name']) ?></td>
+                                <td><?= htmlspecialchars($registrant['first_name']) ?></td>
+                                <td><?= htmlspecialchars($registrant['promotion'] ?? 'N/A') ?></td>
+                                <td>
+                                    <?php
+                                    $date = new DateTime($registrant['registration_date']);
+                                    echo $date->format('d/m/Y H:i');
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php if ($isAdmin) : ?>
         <div class="admin-zone">
             <h2>Administration de l'événement</h2>
@@ -118,7 +150,8 @@ $userId = $user['user_id'] ?? null;
                 <form method="post" action="index.php?page=deleteEvent" style="margin: 0;">
                     <input type="hidden" name="event_id" value="<?= $eventId ?>">
                     <?= $csrf->getTokenField() ?>
-                    <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.');">Supprimer</button>
+                    <button type="submit" class="btn-delete"
+                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.');">Supprimer</button>
                 </form>
 
                 <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">
