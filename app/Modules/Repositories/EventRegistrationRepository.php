@@ -308,10 +308,6 @@ class EventRegistrationRepository
                 FROM EVENT_REGISTRATIONS er
                 JOIN USERS u ON er.user_id = u.user_id
                 WHERE er.event_id = :event_id
-                -- Ensure we only get individual registrations or where team logic doesn't apply
-                -- Based on the request 'unique individual events', we assume all registrations appearing
-                -- in this context are valid. If mixed, we might need 'AND er.team_id IS NULL'.
-                -- For now, fetching all for the event as requested for 'individual inscription events'.
                 ORDER BY er.registration_date DESC";
 
         $stmt = $this->pdo->prepare($sql);
