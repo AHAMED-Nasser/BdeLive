@@ -309,3 +309,27 @@
 .registrants-list-section td {
     padding: 12px;
 }
+
+/* Group Registrants */
+.group-registrants-section h2 {
+    margin-bottom: 10px;
+}
+
+.group-block {
+    margin-bottom: 30px;
+}
+
+.group-header {
+    text-align: center;
+    padding: 14px 16px;
+    margin-bottom: 0;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Group Header - Dark Mode */
+.dark-mode .group-header {
+    color: #ffffff;
+}

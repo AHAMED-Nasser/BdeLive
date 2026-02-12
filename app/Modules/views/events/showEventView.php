@@ -15,6 +15,9 @@
  * @var \App\Modules\Entities\Event $event Event entity (not array anymore)
  * @var int|null $userId
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
+ * @var array $registrants Individual registrants list
+ * @var array $groupRegistrants Group registrants grouped by team number
+ * @var int $totalGroupRegistrants Total count of group registrants
  * @var \App\Core\Security\CsrfProtection $csrf
  */
 start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
@@ -30,13 +33,13 @@ $userId = $user['user_id'] ?? null;
     <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event->getName()) ?></h1>
 
     <!-- Messages flash -->
-    <?php if (!empty($flash['success'])) : ?>
+    <?php if (!empty($flash['success'])): ?>
         <div class="event-flash-success">
             <?= htmlspecialchars($flash['success']) ?>
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($flash['error'])) : ?>
+    <?php if (!empty($flash['error'])): ?>
         <div class="event-flash-error">
             <?= htmlspecialchars($flash['error']) ?>
         </div>
@@ -46,14 +49,14 @@ $userId = $user['user_id'] ?? null;
         <?php
         // Use entity method to get images array
         $images = $event->getImagesArray();
-        if ($event->hasImages()) :
-            foreach ($images as $index => $img) :
+        if ($event->hasImages()):
+            foreach ($images as $index => $img):
                 $src = is_array($img) ? $img['url'] : $img;
                 $altText = htmlspecialchars($event->getName()) . ' - Photo ' . ($index + 1);
                 $lazyAttr = $index > 0 ? ' loading="lazy"' : '';
                 echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image"' . $lazyAttr . ' decoding="async">';
             endforeach;
-        else :
+        else:
             // No images available
         endif; ?>
     </div>
@@ -77,38 +80,38 @@ $userId = $user['user_id'] ?? null;
         $eventId = $event->getId();
         ?>
 
-        <?php if ($userId) : ?>
+        <?php if ($userId): ?>
             <?php
             // Vérification de l'inscription
             $isRegistered = $registrationRepo->isUserRegistered((int) $eventId, (int) $userId);
             ?>
-            <?php if ($isRegistered) : ?>
+            <?php if ($isRegistered): ?>
                 <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $eventId ?>" class="btn-delete">
                     Se désinscrire
                 </a>
-            <?php else : ?>
-                <?php if ($isGroupEvent) : ?>
+            <?php else: ?>
+                <?php if ($isGroupEvent): ?>
                     <!-- Événement en groupe -->
                     <a href="index.php?page=groupRegistration&event_id=<?= $eventId ?>" class="btn-group-register">
                         <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
                     </a>
-                <?php else : ?>
+                <?php else: ?>
                     <!-- Événement individuel -->
                     <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>" class="btn-individual-register">
                         S'inscrire à l'événement
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
+        <?php elseif (isset($user) && $user['user_status'] === 'BDE'): ?>
             <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
-        <?php elseif (!isset($userId)) : ?>
+        <?php elseif (!isset($userId)): ?>
             <p>Veuillez vous <a href="index.php?page=login"
                     style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
 
         <?php endif; ?>
     </div>
 
-    <?php if (!$event->isGroupEvent() && !empty($registrants)) : ?>
+    <?php if (!$event->isGroupEvent() && !empty($registrants)): ?>
         <div class="registrants-list-section">
             <h2>Liste des inscrits (<?= count($registrants) ?>)</h2>
             <div class="table-responsive">
@@ -122,7 +125,7 @@ $userId = $user['user_id'] ?? null;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($registrants as $registrant) : ?>
+                        <?php foreach ($registrants as $registrant): ?>
                             <tr>
                                 <td><?= htmlspecialchars($registrant['last_name']) ?></td>
                                 <td><?= htmlspecialchars($registrant['first_name']) ?></td>
@@ -141,7 +144,39 @@ $userId = $user['user_id'] ?? null;
         </div>
     <?php endif; ?>
 
-    <?php if ($isAdmin) : ?>
+    <?php if ($event->isGroupEvent() && !empty($groupRegistrants)): ?>
+        <div class="registrants-list-section group-registrants-section">
+            <h2>Liste des inscrits (<?= $totalGroupRegistrants ?>) — <?= count($groupRegistrants) ?> groupe(s)</h2>
+
+            <?php foreach ($groupRegistrants as $teamNumber => $members): ?>
+                <div class="group-block">
+                    <h3 class="group-header">Groupe <?= (int) $teamNumber ?></h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Promotion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($members as $member): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($member['last_name']) ?></td>
+                                        <td><?= htmlspecialchars($member['first_name']) ?></td>
+                                        <td><?= htmlspecialchars($member['promotion'] ?? 'N/A') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($isAdmin): ?>
         <div class="admin-zone">
             <h2>Administration de l'événement</h2>
             <div class="admin-zone-actions">

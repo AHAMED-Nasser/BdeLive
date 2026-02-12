@@ -60,8 +60,17 @@ class ShowEventController extends DefaultController
             $user = $this->auth->getUser();
 
             $registrants = [];
-            // If it is an individual event, fetch the list of registrants
-            if (!$event->isGroupEvent()) {
+            $groupRegistrants = [];
+            $totalGroupRegistrants = 0;
+
+            if ($event->isGroupEvent()) {
+                // Fetch group registrants grouped by team number
+                $groupRegistrants = $registrationRepo->getGroupRegistrantsForEvent((int) $event->getId());
+                foreach ($groupRegistrants as $members) {
+                    $totalGroupRegistrants += count($members);
+                }
+            } else {
+                // Fetch individual registrants
                 $registrants = $registrationRepo->getIndividualRegistrantsForEvent((int) $event->getId());
             }
 
@@ -69,7 +78,9 @@ class ShowEventController extends DefaultController
                 'event' => $event,
                 'userId' => $user !== null ? ($user['user_id'] ?? null) : null,
                 'registrationRepo' => $registrationRepo,
-                'registrants' => $registrants
+                'registrants' => $registrants,
+                'groupRegistrants' => $groupRegistrants,
+                'totalGroupRegistrants' => $totalGroupRegistrants
             ]);
         } catch (Exception $e) {
             $this->setError("Erreur : " . $e->getMessage());

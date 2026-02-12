@@ -316,6 +316,48 @@ class EventRegistrationRepository
         /** @var array<int, array{first_name: string, last_name: string, promotion: string, registration_date: string}> */
         return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
+
+    /**
+     * Get group registrants for an event, grouped by team number
+     *
+     * Retrieves the list of users registered in teams for a group event.
+     * Results are grouped by team_number for display with group headers.
+     * Includes first name, last name, promotion (status), and registration date.
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array<int, array<string, mixed>>>
+     */
+    public function getGroupRegistrantsForEvent(int $eventId): array
+    {
+        $sql = "SELECT u.first_name, u.last_name, u.user_status AS promotion,
+                       er.registration_date, et.team_number
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                LEFT JOIN EVENT_TEAMS et ON er.team_id = et.team_id
+                WHERE er.event_id = :event_id
+                ORDER BY et.team_number ASC, u.last_name ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['event_id' => $eventId]);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        /** @var array<int, array<int, array{first_name: string, last_name: string, promotion: string, registration_date: string, team_number: int}>> $teams */
+        $teams = [];
+
+        foreach ($results as $row) {
+            /** @var array<string, mixed> $row */
+            $teamNumber = (int) ($row['team_number'] ?? 0);
+            if ($teamNumber > 0) {
+                if (!isset($teams[$teamNumber])) {
+                    $teams[$teamNumber] = [];
+                }
+                $teams[$teamNumber][] = $row;
+            }
+        }
+
+        return $teams;
+    }
 }
 
 \class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
