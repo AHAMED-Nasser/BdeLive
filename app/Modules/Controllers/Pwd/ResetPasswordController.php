@@ -83,7 +83,6 @@ class ResetPasswordController extends DefaultController
         if (!preg_match($pwdSecureRegex, $password)) {
             $this->setError('Le mot de passe ne respecte pas les conditions de sécurité');
             $this->redirect('index.php?page=reset_password');
-            return;
         }
         // Show an error message if the password and the confirm password do not match
         if ($password !== $confirm_password) {
