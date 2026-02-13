@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\BaseController;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Modules\Helpers\Pagination;
 use App\Core\Database;
@@ -37,7 +36,6 @@ class ListArticlesController extends BaseController
         $articlesPerPage = 9; // 9 articles par page (grille 3x3)
         $currentPage = max(1, (int)$this->request->get('p', 1));
 
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
         $totalArticles = $repository->count();
 

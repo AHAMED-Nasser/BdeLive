@@ -6,7 +6,6 @@ namespace App\Modules\Repositories;
 
 use App\Modules\Entities\Article;
 use App\Modules\Factories\ArticleFactory;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Helpers\SlugGenerator;
 use PDO;
 use PDOException;
@@ -18,14 +17,13 @@ use PDOException;
  * providing a clean separation between the domain layer (Article entities)
  * and the database layer (PDO).
  *
- * Implements ArticleRepositoryInterface following the Dependency Inversion Principle (SOLID).
  * Uses ArticleFactory to transform PDO arrays into Article entities.
  *
  * @package BdeLive\Repositories
  * @author BdeLive - Group 8
  * @version 2.0.0
  */
-class ArticleRepository implements ArticleRepositoryInterface
+class ArticleRepository
 {
     /**
      * PDO database connection instance
@@ -49,7 +47,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
 
     // =========================================================================
-    // READ OPERATIONS - Interface implementation
+    // READ OPERATIONS
     // =========================================================================
 
     /**
@@ -177,7 +175,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     }
 
     // =========================================================================
-    // WRITE OPERATIONS - Interface implementation
+    // WRITE OPERATIONS
     // =========================================================================
 
     /**

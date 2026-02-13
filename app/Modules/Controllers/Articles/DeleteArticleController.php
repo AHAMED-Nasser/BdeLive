@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Core\Database;
 
@@ -15,7 +14,7 @@ use App\Core\Database;
  * Handles the deletion of existing articles.
  * Only accessible to users with BDE (admin) status.
  *
- * Refactored to use Data Mapper pattern with ArticleRepositoryInterface.
+ * Refactored to use Data Mapper pattern with ArticleRepository.
  *
  * Features:
  * - CSRF token validation
@@ -87,7 +86,6 @@ class DeleteArticleController extends AdminController
         }
 
         // Delete article via repository
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
         $result = $repository->delete($articleId);
 
@@ -110,7 +108,6 @@ class DeleteArticleController extends AdminController
      */
     private function getArticleFromRequest(): ?\App\Modules\Entities\Article
     {
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)
