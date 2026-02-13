@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Public;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
@@ -38,12 +36,10 @@ class HomeController extends DefaultController
         parent::__construct();
 
         // Retrieve the two latest articles (entities)
-        /** @var ArticleRepositoryInterface $articleRepository */
         $articleRepository = new ArticleRepository(Database::getInstance()->getConnection());
         $articles = $articleRepository->findLatestArticles(2);
 
         // Retrieve events for carousel: upcoming first, then recent past if needed (max 5)
-        /** @var EventRepositoryInterface $eventRepository */
         $eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $events = $eventRepository->findEventsForHomepage(5);
 

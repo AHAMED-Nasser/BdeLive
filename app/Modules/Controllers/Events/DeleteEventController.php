@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 use Exception;
@@ -14,7 +13,7 @@ use Exception;
  * Delete Event Controller
  * Handles event deletion for administrators
  *
- * Refactored to use EventRepositoryInterface (Data Mapper pattern).
+ * Refactored to use EventRepository (Data Mapper pattern).
  *
  * @package BdeLive\Controllers
  * @version 2.0.0 - Data Mapper refactoring
@@ -60,7 +59,6 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            /** @var EventRepositoryInterface $repository */
             $repository = new EventRepository(Database::getInstance()->getConnection());
             $success = $repository->delete($eventId);
 
