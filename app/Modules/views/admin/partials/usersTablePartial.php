@@ -1,7 +1,11 @@
 <?php
 /** @var array<int, array<string, mixed>> $users */
 /** @var string $currentFilter */
+/** @var string $currentUserRole */
 /** @var \App\Modules\Helpers\Pagination $pagination */
+
+$isSuperAdmin = ($currentUserRole === 'super_admin');
+$isAdminUser  = ($currentUserRole === 'admin');
 ?>
 <div class="table-card" id="users-table-container">
     <div class="table-header">
@@ -36,14 +40,29 @@
                 <tbody>
                 <?php foreach ($users as $u) : ?>
                     <?php
-                    $isDeleted = !empty($u['deleted_at']);
-                    $isBlocked = (int) ($u['is_blocked'] ?? 0) === 1;
+                    $isDeleted   = !empty($u['deleted_at']);
+                    $isBlocked   = (int) ($u['is_blocked'] ?? 0) === 1;
+                    $targetRole  = $u['role'] ?? 'user';
+
+                    // Determine if the current user can act on this target
+                    $canShowActions = false;
+                    if ($isSuperAdmin && $targetRole !== 'super_admin') {
+                        $canShowActions = true;
+                    } elseif ($isAdminUser && $targetRole === 'user') {
+                        $canShowActions = true;
+                    }
                     ?>
                     <tr>
                         <td><strong><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></strong></td>
                         <td><?= htmlspecialchars($u['email']) ?></td>
                         <td>
-                            <span class="badge-role <?= $u['role'] === 'admin' ? 'badge-admin' : 'badge-user' ?>" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block;"><?= strtoupper(htmlspecialchars($u['role'] ?? 'user')) ?></span>
+                            <?php if ($targetRole === 'super_admin') : ?>
+                                <span class="badge-role badge-super-admin" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #dc3545; color: #fff;">SUPER ADMIN</span>
+                            <?php elseif ($targetRole === 'admin') : ?>
+                                <span class="badge-role badge-admin" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #fd7e14; color: #fff;">ADMIN</span>
+                            <?php else : ?>
+                                <span class="badge-role badge-user" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block;">USER</span>
+                            <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($isDeleted) : ?>
@@ -55,27 +74,39 @@
                             <?php endif; ?>
                         </td>
                         <td>
-                            <form method="POST">
-                                <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
-                                <?php if ($isDeleted) : ?>
-                                    <button type="submit" name="action" value="restore" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Restaurer</button>
-                                <?php elseif ($isBlocked) : ?>
-                                    <button type="submit" name="action" value="unblock" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Débloquer</button>
-                                <?php else : ?>
-                                    <div class="action-group">
-                                        <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
-                                        <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
-                                            <option value="">Choisir...</option>
-                                            <option value="<?= $u['role'] === 'admin' ? 'demote' : 'promote' ?>">
-                                                <?= $u['role'] === 'admin' ? 'Retirer Admin' : 'Nommer Admin' ?>
-                                            </option>
-                                            <option value="block">Bloquer</option>
-                                            <option value="soft_delete">Supprimer</option>
-                                        </select>
-                                        <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
-                                    </div>
-                                <?php endif; ?>
-                            </form>
+                            <?php if (!$canShowActions) : ?>
+                                <span style="color: var(--text-tertiary); font-size: 0.8125rem;">—</span>
+                            <?php else : ?>
+                                <form method="POST">
+                                    <input type="hidden" name="user_id" value="<?= $u['user_id'] ?>">
+                                    <?php if ($isDeleted) : ?>
+                                        <?php if ($isSuperAdmin) : ?>
+                                            <button type="submit" name="action" value="restore" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Restaurer</button>
+                                        <?php endif; ?>
+                                    <?php elseif ($isBlocked) : ?>
+                                        <button type="submit" name="action" value="unblock" class="btn-unblock" style="font-size: 0.8125rem; padding: 0.35em 0.75em;">Débloquer</button>
+                                    <?php else : ?>
+                                        <div class="action-group">
+                                            <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
+                                            <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
+                                                <option value="">Choisir...</option>
+                                                <?php if ($isSuperAdmin) : ?>
+                                                    <?php if ($targetRole === 'admin') : ?>
+                                                        <option value="demote">Retirer Admin</option>
+                                                    <?php else : ?>
+                                                        <option value="promote">Nommer Admin</option>
+                                                    <?php endif; ?>
+                                                <?php endif; ?>
+                                                <option value="block">Bloquer</option>
+                                                <?php if ($isSuperAdmin) : ?>
+                                                    <option value="soft_delete">Supprimer</option>
+                                                <?php endif; ?>
+                                            </select>
+                                            <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
+                                        </div>
+                                    <?php endif; ?>
+                                </form>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -90,7 +121,7 @@
                         <a href="<?= $pagination->getLink($pagination->getCurrentPage() - 1) ?>" class="pagination-link" style="font-size: 0.875rem; padding: 0.35em 0.75em;">&laquo; Précédent</a>
                     </li>
                 <?php endif; ?>
-                
+
                 <li>
                     <span class="pagination-info" aria-current="page">Page <?= $pagination->getCurrentPage() ?> / <?= $pagination->getTotalPages() ?></span>
                 </li>
