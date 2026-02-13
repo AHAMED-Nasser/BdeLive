@@ -16,17 +16,39 @@ start_page("Réinitialiser le mot de passe - BDELive ", true, $user ?? null);
         </div>
     <?php endif; ?>
 
-    <form action="index.php?page=reset_password" method="POST">
+    <form class="form-authentification" action="index.php?page=reset_password" method="POST">
         <?= $csrf->getTokenField() ?>
 
         <label for="password">Nouveau mot de passe :</label><br>
-        <input id="password" type="password" name="password" placeholder="Entrez votre nouveau mot de passe" required
-            minlength="6"><br><br>
+        <div class="password-container">
+            <input id="password" type="password" name="password" placeholder="Entrez votre nouveau mot de passe" class="form-control" required>
+            <button type="button" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
 
-        <label for="confirm_password">Confirmer le mot de passe :</label><br>
-        <input id="confirm_password" type="password" name="confirm_password" placeholder="Confirmez votre mot de passe"
-            required minlength="6"><br>
+        <div id="pwd-conditions" class="pwd-conditions" style="display: none">
+            <p class="pwd-conditions-message">Votre mot de passe doit contenir</p>
+            <ul class="pwd-conditions-list">
+                <li id="verifyLength" class="invalid"><span>*</span> Au moins 12 caractères</li>
+                <li id="verifyLower" class="invalid"><span>*</span> Au moins 1 minuscule</li>
+                <li id="verifyUpper" class="invalid"><span>*</span> Au moins 1 majuscule</li>
+                <li id="verifyDigit" class="invalid"><span>*</span> Au moins 1 chiffre</li>
+                <li id="verifySpecialChar" class="invalid"><span>*</span> Au moins 1 caractère spécial (ex: @, $, !, %, *, ?, &) </li>
+            </ul>
+        </div>
 
+
+
+        <label for="confirm-password">Confirmer le mot de passe :</label><br>
+        <div class="password-container">
+        <input id="confirm-password" type="password" name="confirm-password" placeholder="Confirmez votre mot de passe" class="form-control" required>
+        <button type="button" class="password-toggle">
+            <i class="fa-regular fa-eye"></i>
+        </button>
+        </div>
+
+        <p class="confirm-pwd-message"></p>
 
         <button type="submit" name="submit">Réinitialiser le mot de passe</button>
     </form>

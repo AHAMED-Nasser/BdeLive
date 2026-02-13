@@ -58,10 +58,10 @@ start_page("Inscription - BDELive", true, $user ?? null);
                 <i class="fa-regular fa-eye"></i>
             </button>
         </div>
-        <div id="pwd-conditions" class="pwd-conditions" style="display: none">
+        <div id="pwd-conditions" class="pwd-conditions">
             <p class="pwd-conditions-message">Votre mot de passe doit contenir</p>
             <ul class="pwd-conditions-list">
-                <li id="verifyLength" class="invalid"><span>*</span> Au moins 12 caractère</li>
+                <li id="verifyLength" class="invalid"><span>*</span> Au moins 12 caractères</li>
                 <li id="verifyLower" class="invalid"><span>*</span> Au moins 1 minuscule</li>
                 <li id="verifyUpper" class="invalid"><span>*</span> Au moins 1 majuscule</li>
                 <li id="verifyDigit" class="invalid"><span>*</span> Au moins 1 chiffre</li>
