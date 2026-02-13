@@ -1,0 +1,53 @@
+# Prompts réels / inférés – Feature suppression de compte (soft delete + admin)
+
+La conversation ayant été résumée, les prompts ci-dessous sont reconstitués à partir du résumé de la feature. Ce sont les formulations probables que tu as envoyées pour obtenir les changements décrits.
+
+**But de ces prompts :** demander de l'aide pour implémenter la feature (guidance, pistes, extraits de code), pas que l'assistant implémente tout à ma place.
+
+---
+
+## 1. Soft delete et états de compte
+
+- M'aider à mettre en place un soft delete pour la suppression de compte : ne plus supprimer définitivement l’utilisateur mais mettre un flag (ex. deleted_at).
+- M'aider à gérer la connexion : vérifier si le compte est supprimé (deleted_at) ou bloqué (is_blocked) et afficher un message adapté (compte clôturé / compte suspendu).
+- M'aider côté utilisateur : lors de la suppression de compte, appeler softDeleteUser au lieu de deleteUser, puis déconnecter.
+
+---
+
+## 2. Admin – tableau et filtres
+
+- M'aider à afficher dans le tableau admin le statut (ACTIF, BANNI, SUPPRIMÉ) avec des badges, et adapter les actions (Bloquer/Supprimer, Restaurer, Débloquer) selon l’état.
+- M'aider à ajouter un filtre « Supprimés » dans l’admin (lien + prise en charge filter=deleted avec getDeletedUsers / countDeletedUsers).
+- M'aider à ne plus dégrader le rôle au bannissement (pas d'updateUserRole en 'user'), seulement setBlockStatus, pour pouvoir filtrer « Bloqués + Admin ».
+
+---
+
+## 3. Filtre Bloqués + Admin (JS)
+
+- M'aider à corriger : avec le filtre Statut = Bloqués, le lien « Admins » ne doit pas être grisé ; au clic, le filtre doit bien passer à Bloqués + Admin (ne pas forcer role=all).
+
+---
+
+## 4. UI admin
+
+- M'aider à harmoniser la taille des badges (rôle et statut) dans le tableau des utilisateurs.
+- M'aider à ajuster la pagination (liens Précédent/Suivant) et les boutons Restaurer / Débloquer (tailles de police / padding).
+
+---
+
+## 5. Qualité de code
+
+- M'aider à corriger l'erreur PHPCS (indentation) dans usersTablePartial.php (bloc foreach avec $isDeleted / $isBlocked).
+
+---
+
+## 6. Git et co-auteur Cursor
+
+- Ne plus jamais ajouter Cursor en co-auteur aux commits.
+- Ajouter dans .cursor/plans/hooks.json ce qu’il faut pour ne plus te mettre en co-auteur (hook pour supprimer la ligne Co-authored-by: Cursor).
+
+---
+
+## 7. Ce fichier
+
+- Créer un fichier text dans lequel tu mets tout les prompts réels que je t’ai envoyés pour faire cette feature.

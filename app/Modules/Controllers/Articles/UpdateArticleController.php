@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Services\CloudinaryService;
 use App\Core\Database;
@@ -16,7 +15,7 @@ use App\Core\Database;
  * Handles the update of existing articles with image upload to Cloudinary.
  * Only accessible to users with BDE (admin) status.
  *
- * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Article entities and ArticleRepository.
  *
  * Features:
  * - Article form display with pre-filled data
@@ -170,7 +169,6 @@ class UpdateArticleController extends AdminController
         // If imageUrl is empty and deleteImage is false, keep existing image
 
         // Save via repository (will detect update because entity has ID)
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
         $result = $repository->save($article);
 
@@ -193,7 +191,6 @@ class UpdateArticleController extends AdminController
      */
     private function getArticleFromRequest(): ?\App\Modules\Entities\Article
     {
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
 
         // Try to get slug first (preferred method)

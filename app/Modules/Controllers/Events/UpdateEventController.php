@@ -3,7 +3,6 @@
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
@@ -17,7 +16,7 @@ use Exception;
  * This controller handles the logic for modifying existing events.
  * Access is restricted to users with administrative privileges via inheritance from AdminController.
  *
- * Refactored to use Data Mapper pattern with Event entities and EventRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Event entities and EventRepository.
  *
  * Main functionalities:
  * - Loading and pre-filling the update form (GET).
@@ -36,7 +35,7 @@ use Exception;
  */
 class UpdateEventController extends AdminController
 {
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
     private EventTeamRepository $teamRepository;
     private EventRegistrationRepository $registrationRepository;
     private const REDIRECT_URL = 'index.php?page=event';
