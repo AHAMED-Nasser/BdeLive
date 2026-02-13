@@ -64,7 +64,7 @@
                                 <?php else : ?>
                                     <div class="action-group">
                                         <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
-                                        <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
+                                        <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action js-admin-select">
                                             <option value="">Choisir...</option>
                                             <option value="<?= $u['role'] === 'admin' ? 'demote' : 'promote' ?>">
                                                 <?= $u['role'] === 'admin' ? 'Retirer Admin' : 'Nommer Admin' ?>
@@ -72,7 +72,7 @@
                                             <option value="block">Bloquer</option>
                                             <option value="soft_delete">Supprimer</option>
                                         </select>
-                                        <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
+                                        <!-- <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button> -->
                                     </div>
                                 <?php endif; ?>
                             </form>
