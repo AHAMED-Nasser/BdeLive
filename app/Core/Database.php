@@ -12,20 +12,21 @@ $configPath = __DIR__ . '/../Config/config.php';
 if (file_exists($configPath)) {
     require_once $configPath;
 } else {
+    // Au lieu de vérifier l'existence de config.php, définissez directement les constantes via $_ENV
     if (!defined('DB_HOST')) {
-        define('DB_HOST', $_ENV['DB_HOST'] ?? $_SERVER['DB_HOST'] ?? '127.0.0.1');
+        define('DB_HOST', $_ENV['DB_HOST'] ?? '127.0.0.1');
     }
     if (!defined('DB_NAME')) {
-        define('DB_NAME', $_ENV['DB_NAME'] ?? $_SERVER['DB_NAME'] ?? 'bdelive_test');
+        define('DB_NAME', $_ENV['DB_NAME'] ?? 'bdelive_test');
     }
     if (!defined('DB_USER')) {
-        define('DB_USER', $_ENV['DB_USER'] ?? $_SERVER['DB_USER'] ?? 'root');
+        define('DB_USER', $_ENV['DB_USER'] ?? 'root');
     }
     if (!defined('DB_PASSWORD')) {
-        define('DB_PASSWORD', $_ENV['DB_PASSWORD'] ?? $_SERVER['DB_PASSWORD'] ?? 'root');
+        define('DB_PASSWORD', $_ENV['DB_PASSWORD'] ?? 'root');
     }
     if (!defined('DB_CHARSET')) {
-        define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? $_SERVER['DB_CHARSET'] ?? 'utf8mb4');
+        define('DB_CHARSET', $_ENV['DB_CHARSET'] ?? 'utf8mb4');
     }
 }
 

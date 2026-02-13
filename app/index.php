@@ -5,8 +5,10 @@ declare(strict_types=1);
 //// Load configuration
 //require_once __DIR__ . '/Config/config.php';
 //
-
-
+require_once __DIR__ . '/../vendor/autoload.php';
+// Dans un fichier d'initialisation global
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 // Set timezone to France (Europe/Paris)
 date_default_timezone_set('Europe/Paris');
 use App\Core\Application;
