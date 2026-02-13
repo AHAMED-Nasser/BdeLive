@@ -124,7 +124,8 @@ start_page("Administration | BDE Live", true, $user ?? null);
         </main>
     </div>
 
-    <script src="./assets/js/admin-filters.js"></script>
+    <script src="./assets/js/admin/admin-filters.js"></script>
+    <script src="./assets/js/admin/admin-section.js"></script>
 
     </div>
 

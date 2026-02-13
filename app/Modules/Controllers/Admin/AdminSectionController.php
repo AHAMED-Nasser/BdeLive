@@ -107,26 +107,39 @@ class AdminSectionController extends AdminController
     {
         $id = (int) $this->request->post('user_id');
         $action = (string) $this->request->post('action');
+        $success = false;
 
         switch ($action) {
             case 'promote':
-                $manager->updateUserRole($id, 'admin');
+                $success = $manager->updateUserRole($id, 'admin');
                 break;
             case 'demote':
-                $manager->updateUserRole($id, 'user');
+                $success = $manager->updateUserRole($id, 'user');
                 break;
             case 'block':
-                $manager->setBlockStatus($id, 1);
+                $success = $manager->setBlockStatus($id, 1);
                 break;
             case 'unblock':
-                $manager->setBlockStatus($id, 0);
+                $success = $manager->setBlockStatus($id, 0);
                 break;
             case 'soft_delete':
-                $manager->softDeleteUser($id);
+                $success = $manager->softDeleteUser($id);
                 break;
             case 'restore':
-                $manager->restoreUser($id);
+                $success = $manager->restoreUser($id);
                 break;
+        }
+
+        // Modification pour AJAX
+        $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+
+        if ($isAjax) {
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => $success,
+                'message' => $success ? 'Action effectuée avec succès.' : 'Erreur lors de l\'opération'
+            ]);
+            exit();
         }
 
         // Préserver tous les filtres lors de la redirection
