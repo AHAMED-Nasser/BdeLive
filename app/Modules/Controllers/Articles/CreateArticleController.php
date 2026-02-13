@@ -6,7 +6,6 @@ namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
 use App\Modules\Entities\Article;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Services\CloudinaryService;
 use App\Core\Database;
@@ -17,7 +16,7 @@ use App\Core\Database;
  * Handles the creation of new articles with image upload to Cloudinary.
  * Only accessible to users with BDE (admin) status.
  *
- * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Article entities and ArticleRepository.
  *
  * Features:
  * - Article form display
@@ -128,7 +127,6 @@ class CreateArticleController extends AdminController
         );
 
         // Save via repository (will detect insert because id is null)
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
         $result = $repository->save($article);
 

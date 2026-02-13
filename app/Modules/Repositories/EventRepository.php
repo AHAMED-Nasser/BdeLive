@@ -6,7 +6,6 @@ namespace App\Modules\Repositories;
 
 use App\Modules\Entities\Event;
 use App\Modules\Factories\EventFactory;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Helpers\SlugGenerator;
 use PDO;
 use PDOException;
@@ -19,14 +18,13 @@ use DateTime;
  * providing a clean separation between the domain layer (Event entities)
  * and the database layer (PDO).
  *
- * Implements EventRepositoryInterface following the Dependency Inversion Principle (SOLID).
  * Uses EventFactory to transform PDO arrays into Event entities.
  *
  * @package BdeLive\Repositories
  * @author BdeLive - Group 8
  * @version 2.0.0
  */
-class EventRepository implements EventRepositoryInterface
+class EventRepository
 {
     /**
      * PDO database connection instance
@@ -50,7 +48,7 @@ class EventRepository implements EventRepositoryInterface
     }
 
     // =========================================================================
-    // READ OPERATIONS - Interface implementation
+    // READ OPERATIONS
     // =========================================================================
 
     /**
@@ -232,9 +230,7 @@ class EventRepository implements EventRepositoryInterface
         }
     }
 
-    // =========================================================================
-    // WRITE OPERATIONS - Interface implementation
-    // =========================================================================
+
 
     /**
      * Save an event (insert or update)

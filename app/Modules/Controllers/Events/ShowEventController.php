@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
 use Exception;
 
@@ -13,7 +13,7 @@ use Exception;
  * ShowEventController - Display single event details
  *
  * Refactored to use Data Mapper pattern with:
- * - EventRepositoryInterface (Dependency Inversion Principle)
+ * - EventRepository (injected via constructor)
  * - Event entity instead of raw arrays
  * - Repository injected via constructor (DI Container)
  *
@@ -23,9 +23,9 @@ use Exception;
  */
 class ShowEventController extends DefaultController
 {
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
 
-    public function __construct(EventRepositoryInterface $eventRepository)
+    public function __construct(EventRepository $eventRepository)
     {
         parent::__construct();
         $this->eventRepository = $eventRepository;

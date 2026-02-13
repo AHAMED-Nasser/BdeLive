@@ -7,7 +7,6 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\EventRegistrationRepository;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 use Dompdf\Dompdf;
@@ -74,7 +73,6 @@ class ExportUserEventController extends AdminController
             }
         }
 
-        /** @var EventRepositoryInterface $eventRepository */
         $eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $registrationRepo = new EventRegistrationRepository();
 
