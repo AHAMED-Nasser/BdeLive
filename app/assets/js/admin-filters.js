@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * @param {string} url - The URL to load content from
      * @param {boolean} updateHistory - Whether to update browser history (default: true)
      */
-    async function loadContent(url, updateHistory = true)
-    {
+    async function loadContent(url, updateHistory = true) {
         try {
             // Add loading indicator
             contentArea.style.opacity = '0.5';
@@ -73,8 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {URL} url - The current URL with query parameters
      */
-    function updateActiveFilters(url)
-    {
+    function updateActiveFilters(url) {
         const params = url.searchParams;
         const currentRole = params.get('role') || 'all';
         const currentFilter = params.get('filter') || 'active';
@@ -126,21 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             link.href = linkUrl.toString();
 
-            // Disable "admin" role filter when "blocked" status is active
-            // Blocked users cannot be admins, so this combination is invalid
-            if (currentFilter === 'blocked' && linkRole === 'admin') {
-                link.classList.add('disabled');
-                link.classList.remove('active');
-                link.style.opacity = '0.5';
-                link.style.pointerEvents = 'none';
-                link.title = 'Blocked users cannot be administrators';
-            } else {
-                link.classList.remove('disabled');
-                link.style.opacity = '';
-                link.style.pointerEvents = '';
-                link.title = '';
-            }
-
             // Update active class
             if (linkRole === currentRole) {
                 link.classList.add('active');
@@ -179,8 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
      *
      * @param {string} searchValue - The current search query value
      */
-    function updateSearchUI(searchValue)
-    {
+    function updateSearchUI(searchValue) {
         const searchForm = document.querySelector('.admin-search-form');
         if (!searchForm) {
             return;
@@ -254,38 +236,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Handle filter link clicks
-            if (link.classList.contains('admin-nav-link')) {
-                const linkUrl = new URL(link.href, window.location.origin);
-                const linkFilter = linkUrl.searchParams.get('filter');
-                const linkRole = linkUrl.searchParams.get('role');
-                const currentUrl = new URL(window.location.href);
-                const currentFilter = currentUrl.searchParams.get('filter') || 'active';
-                const currentRole = currentUrl.searchParams.get('role') || 'all';
-
-                // Prevent "blocked" + "admin" combination
-                // If trying to select "admin" role while "blocked" filter is active
-                if (linkRole === 'admin' && (linkFilter === 'blocked' || currentFilter === 'blocked')) {
-                    e.preventDefault();
-                    // Redirect to "all" role instead
-                    linkUrl.searchParams.set('role', 'all');
-                    if (linkFilter === 'blocked') {
-                        linkUrl.searchParams.set('filter', 'blocked');
-                    }
-                    loadContent(linkUrl.toString());
-                    return;
-                }
-
-                // If selecting "blocked" filter while "admin" role is active
-                if (linkFilter === 'blocked' && currentRole === 'admin') {
-                    e.preventDefault();
-                    // Redirect to "all" role instead
-                    linkUrl.searchParams.set('role', 'all');
-                    loadContent(linkUrl.toString());
-                    return;
-                }
-            }
-
             e.preventDefault();
             loadContent(link.href);
         }
@@ -306,8 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
          * Builds URL with current filters and search query, then loads content via AJAX.
          * Removes search parameter if search is empty.
          */
-        function submitSearch()
-        {
+        function submitSearch() {
             const formData = new FormData(searchForm);
             const params = new URLSearchParams();
 
@@ -374,20 +323,8 @@ document.addEventListener('DOMContentLoaded', function () {
      * Checks for invalid filter combinations and redirects if necessary.
      * Prevents "blocked" + "admin" combination by redirecting to "blocked" + "all".
      */
-    function initializeInterface()
-    {
+    function initializeInterface() {
         const currentUrl = new URL(window.location.href);
-        const currentFilter = currentUrl.searchParams.get('filter') || 'active';
-        const currentRole = currentUrl.searchParams.get('role') || 'all';
-
-        // Prevent invalid combination: "blocked" + "admin"
-        // Redirect to "blocked" + "all" if this combination is detected
-        if (currentFilter === 'blocked' && currentRole === 'admin') {
-            currentUrl.searchParams.set('role', 'all');
-            window.history.replaceState({}, '', currentUrl.toString());
-            loadContent(currentUrl.toString(), false);
-            return;
-        }
 
         updateActiveFilters(currentUrl);
         updateSearchUI(currentUrl.searchParams.get('search') || '');
