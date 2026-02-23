@@ -88,7 +88,7 @@ $isAdminUser  = ($currentUserRole === 'admin');
                                     <?php else : ?>
                                         <div class="action-group">
                                             <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
-                                            <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
+                                            <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action js-admin-select">
                                                 <option value="">Choisir...</option>
                                                 <?php if ($isSuperAdmin) : ?>
                                                     <?php if ($targetRole === 'super_admin') : ?>
@@ -109,7 +109,6 @@ $isAdminUser  = ($currentUserRole === 'admin');
                                                     <option value="block">Bloquer</option>
                                                 <?php endif; ?>
                                             </select>
-                                            <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
                                         </div>
                                     <?php endif; ?>
                                 </form>
