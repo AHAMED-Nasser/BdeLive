@@ -25,8 +25,8 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 };
 ?>
 
-<link rel="stylesheet" href="./assets/css/calendar.css">
-<link rel="stylesheet" href="./assets/css/weekly-schedule.css">
+<link rel="stylesheet" href="./assets/css/pages/calendar.css">
+<link rel="stylesheet" href="./assets/css/pages/weekly-schedule.css">
 <!-- Script modal requis pour les événements -->
 <script src="./assets/js/schedule-modal.js" defer></script>
 

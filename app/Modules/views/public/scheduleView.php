@@ -17,8 +17,8 @@
 start_page("Emploi du temps - BDELive", true, $user ?? null);
 ?>
 
-<script src="/assets/js/schedule-ajax.js" defer></script>
-<script src="/assets/js/schedule-filters.js" defer></script>
+<script src="./assets/js/schedule-ajax.js" defer></script>
+<script src="./assets/js/schedule-filters.js" defer></script>
 
 <main class="schedule-container">
     <?php if (!empty($flash['error'])) : ?>
