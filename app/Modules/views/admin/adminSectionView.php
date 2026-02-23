@@ -110,6 +110,12 @@ start_page("Administration | BDE Live", true, $user ?? null);
                     </a>
                 </li>
                 <li>
+                    <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=super_admin&search=<?= urlencode($search) ?>"
+                       class="admin-nav-link <?= $roleFilter === 'super_admin' ? 'active' : '' ?>">
+                        <i class="fas fa-crown"></i> Super Admins
+                    </a>
+                </li>
+                <li>
                     <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=user&search=<?= urlencode($search) ?>"
                        class="admin-nav-link <?= $roleFilter === 'user' ? 'active' : '' ?>">
                         <i class="fas fa-user"></i> Users

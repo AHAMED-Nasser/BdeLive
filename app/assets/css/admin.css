@@ -132,20 +132,42 @@
 
 /* Badges */
 .badge-role {
-    padding: 5px 12px;
-    border-radius: 20px;
     font-size: 0.75rem;
+    padding: 0.25em 0.5em;
+    display: inline-block;
+    white-space: nowrap;
+    border-radius: 20px;
     font-weight: 700;
 }
 
+.badge-super-admin {
+    background-color: #dc3545;
+    color: #fff;
+}
+
 .badge-admin {
-    background: #fee2e2;
-    color: #991b1b;
+    background-color: #fd7e14;
+    color: #fff;
 }
 
 .badge-user {
     background: #f3f4f6;
     color: #4b5563;
+}
+
+.badge-deleted {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.badge-banned {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.badge-active {
+    background-color: #28a745;
+    color: #fff;
 }
 
 /* Actions */

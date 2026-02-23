@@ -86,8 +86,8 @@ class UserManager
     {
         try {
             $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, role, is_blocked, deleted_at
-                      FROM USERS 
-                      WHERE email = :email 
+                      FROM USERS
+                      WHERE email = :email
                       LIMIT 1";
 
             $stmt = $this->pdo->prepare($query);
@@ -124,7 +124,7 @@ class UserManager
         try {
             $hashedPassword = $this->hashPassword($password);
 
-            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password) 
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password)
                       VALUES (:last_name, :first_name, :user_status, :email, :password)";
 
             $stmt = $this->pdo->prepare($query);
@@ -168,11 +168,11 @@ class UserManager
         string $email
     ): bool {
         try {
-            $query = "UPDATE USERS 
-                      SET last_name = :last_name, 
-                          first_name = :first_name, 
-                          user_status = :user_status, 
-                          email = :email 
+            $query = "UPDATE USERS
+                      SET last_name = :last_name,
+                          first_name = :first_name,
+                          user_status = :user_status,
+                          email = :email
                       WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
@@ -207,8 +207,8 @@ class UserManager
         try {
             $hashedPassword = $this->hashPassword($new_password);
 
-            $query = "UPDATE USERS 
-                      SET password = :password 
+            $query = "UPDATE USERS
+                      SET password = :password
                       WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
@@ -310,8 +310,8 @@ class UserManager
     public function emailExists(string $email): bool
     {
         try {
-            $query = "SELECT COUNT(*) as count 
-                      FROM USERS 
+            $query = "SELECT COUNT(*) as count
+                      FROM USERS
                       WHERE email = :email";
 
             $stmt = $this->pdo->prepare($query);
@@ -340,7 +340,7 @@ class UserManager
     {
         try {
             $query = 'UPDATE USERS
-                SET first_name = :newFirstName 
+                SET first_name = :newFirstName
                 WHERE user_id = :user_id';
 
             $stmt = $this->pdo->prepare($query);
@@ -365,7 +365,7 @@ class UserManager
     {
         try {
             $query = 'UPDATE USERS
-                SET last_name = :newLastName 
+                SET last_name = :newLastName
                 WHERE user_id = :user_id';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['newLastName' => $newLastName, 'user_id' => $user_id]);
@@ -429,6 +429,26 @@ class UserManager
     {
         $query = 'UPDATE USERS SET is_blocked = :status WHERE user_id = :id';
         return $this->pdo->prepare($query)->execute(['status' => $status, 'id' => $userId]);
+    }
+
+    /**
+     * Get the role of a user by their ID
+     *
+     * @param int $userId The user ID
+     * @return string The role ('user', 'admin', or 'super_admin'), defaults to 'user' if not found
+     */
+    public function getUserRoleById(int $userId): string
+    {
+        try {
+            $query = 'SELECT role FROM USERS WHERE user_id = :id LIMIT 1';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute(['id' => $userId]);
+            $result = $stmt->fetch();
+            return $result ? (string) $result['role'] : 'user';
+        } catch (\PDOException $e) {
+            error_log('UserManager::getUserRoleById - ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     /**
@@ -650,7 +670,7 @@ class UserManager
     {
         try {
             $query = 'UPDATE USERS
-                SET user_status = :newUserStatus 
+                SET user_status = :newUserStatus
                 WHERE user_id = :user_id';
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['newUserStatus' => $newUserStatus, 'user_id' => $user_id]);
@@ -704,7 +724,7 @@ class UserManager
             $now->modify('+24 hours');
             $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
-            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified, token_expires_at) 
+            $query = "INSERT INTO USERS (last_name, first_name, user_status, email, password, verification_token, is_verified, token_expires_at)
                       VALUES (:last_name, :first_name, :user_status, :email, :password, :verification_token, 0, :token_expires_at)";
 
             $stmt = $this->pdo->prepare($query);
@@ -750,8 +770,8 @@ class UserManager
     {
         try {
             // Find user by verification token
-            $query = "SELECT user_id, is_verified, token_expires_at FROM USERS 
-                      WHERE verification_token = :token 
+            $query = "SELECT user_id, is_verified, token_expires_at FROM USERS
+                      WHERE verification_token = :token
                       LIMIT 1";
 
             $stmt = $this->pdo->prepare($query);
@@ -790,8 +810,8 @@ class UserManager
             }
 
             // Activate account and clear token and expiration date
-            $updateQuery = "UPDATE USERS 
-                           SET is_verified = 1, verification_token = NULL, token_expires_at = NULL 
+            $updateQuery = "UPDATE USERS
+                           SET is_verified = 1, verification_token = NULL, token_expires_at = NULL
                            WHERE user_id = :user_id";
 
             $updateStmt = $this->pdo->prepare($updateQuery);
@@ -859,8 +879,8 @@ class UserManager
             $now->modify('+24 hours');
             $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
-            $query = "UPDATE USERS 
-                     SET verification_token = :token, is_verified = 0, token_expires_at = :token_expires_at 
+            $query = "UPDATE USERS
+                     SET verification_token = :token, is_verified = 0, token_expires_at = :token_expires_at
                      WHERE user_id = :user_id";
 
             $stmt = $this->pdo->prepare($query);
@@ -917,8 +937,8 @@ class UserManager
     {
         try {
             $query = "SELECT user_id, last_name, first_name, user_status, email, password, is_verified, deleted_at
-                      FROM USERS 
-                      WHERE user_id = :user_id 
+                      FROM USERS
+                      WHERE user_id = :user_id
                       LIMIT 1";
 
             $stmt = $this->pdo->prepare($query);
