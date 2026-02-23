@@ -57,20 +57,20 @@ $isAdminUser  = ($currentUserRole === 'admin');
                         <td><?= htmlspecialchars($u['email']) ?></td>
                         <td>
                             <?php if ($targetRole === 'super_admin') : ?>
-                                <span class="badge-role badge-super-admin" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #dc3545; color: #fff;">SUPER ADMIN</span>
+                                <span class="badge-role badge-super-admin">SUPER ADMIN</span>
                             <?php elseif ($targetRole === 'admin') : ?>
-                                <span class="badge-role badge-admin" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #fd7e14; color: #fff;">ADMIN</span>
+                                <span class="badge-role badge-admin">ADMIN</span>
                             <?php else : ?>
-                                <span class="badge-role badge-user" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block;">USER</span>
+                                <span class="badge-role badge-user">USER</span>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($isDeleted) : ?>
-                                <span class="badge-role badge-deleted" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #6c757d; color: #fff;">SUPPRIMÉ</span>
+                                <span class="badge-role badge-deleted">SUPPRIMÉ</span>
                             <?php elseif ($isBlocked) : ?>
-                                <span class="badge-role badge-banned" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #dc3545; color: #fff;">BANNI</span>
+                                <span class="badge-role badge-banned">BANNI</span>
                             <?php else : ?>
-                                <span class="badge-role badge-active" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #28a745; color: #fff;">ACTIF</span>
+                                <span class="badge-role badge-active">ACTIF</span>
                             <?php endif; ?>
                         </td>
                         <td>
