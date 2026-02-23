@@ -46,7 +46,7 @@ $isAdminUser  = ($currentUserRole === 'admin');
 
                     // Determine if the current user can act on this target
                     $canShowActions = false;
-                    if ($isSuperAdmin && $targetRole !== 'super_admin') {
+                    if ($isSuperAdmin) {
                         $canShowActions = true;
                     } elseif ($isAdminUser && $targetRole === 'user') {
                         $canShowActions = true;
@@ -91,15 +91,22 @@ $isAdminUser  = ($currentUserRole === 'admin');
                                             <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action">
                                                 <option value="">Choisir...</option>
                                                 <?php if ($isSuperAdmin) : ?>
-                                                    <?php if ($targetRole === 'admin') : ?>
+                                                    <?php if ($targetRole === 'super_admin') : ?>
+                                                        <option value="demote_super_admin">Retirer Super Admin</option>
+                                                    <?php elseif ($targetRole === 'admin') : ?>
                                                         <option value="demote">Retirer Admin</option>
-                                                    <?php else : ?>
+                                                        <option value="promote_super_admin">Nommer Super Admin</option>
+                                                        <option value="block">Bloquer</option>
+                                                        <option value="soft_delete">Supprimer</option>
+                                                    <?php elseif ($targetRole === 'user') : ?>
                                                         <option value="promote">Nommer Admin</option>
+                                                        <option value="promote_super_admin">Nommer Super Admin</option>
+                                                        <option value="block">Bloquer</option>
+                                                        <option value="soft_delete">Supprimer</option>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
-                                                <option value="block">Bloquer</option>
-                                                <?php if ($isSuperAdmin) : ?>
-                                                    <option value="soft_delete">Supprimer</option>
+                                                <?php if ($isAdminUser && $targetRole === 'user') : ?>
+                                                    <option value="block">Bloquer</option>
                                                 <?php endif; ?>
                                             </select>
                                             <button type="submit" class="btn-apply-action" title="Appliquer l'action">OK</button>
