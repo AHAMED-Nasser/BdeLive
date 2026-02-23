@@ -104,4 +104,3 @@ try {
         echo '<pre>' . $e->getMessage() . "\n\n" . $e->getTraceAsString() . '</pre>';
     }
 }
-
