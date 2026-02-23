@@ -1,56 +1,52 @@
+document.addEventListener('click', (e) => {
+
+    if (!e.target.classList.contains('btn-unblock')) return;
+
+    e.preventDefault();
+
+    const button = e.target;
+    const form = button.closest('form');
+
+    const input = document.createElement('input');
+
+    input.type = "hidden";
+    input.name = "action";
+    input.value = button.value;
+
+    form.appendChild(input);
+    //form.querySelector('[name="action"]')?.remove();
+
+    const action = button.value;
+
+    if (action === 'unblock' && !confirm('Débloquer cet utilisateur ?')) return;
+    if (action === 'restore' && !confirm('Réactiver cet utilisateur ?')) return;
+
+    submitAdminAction(form);
+});
+
 document.addEventListener('change', (e) => {
-    // Si l'élément qui a changé est notre select admin
-    if (e.target.classList.contains('js-admin-select')) {
-        const select = e.target;
-        const form = select.closest('form');
-        const action = select.value;
 
-        if (!action) return;
+    if (!e.target.classList.contains('js-admin-select')) return;
 
-        // Confirmation pour promouvoir un utilisateur en tant qu'admin
-        if (action === 'promote' && !confirm('Promouvoir cet utilisateur en tant qu\'admin ?')) {
-            select.value = "";
-            return;
-        }
+    e.preventDefault();
 
-        // Confirmation pour rétrograder un admin en utilisateur normal
-        if (action === 'demote' && !confirm('Rétrograder cet admin en utilisateur normal ?')) {
-            select.value = "";
-            return;
-        }
+    const select = e.target;
+    const form = select.closest('form');
+    const action = select.value;
 
-        // Confirmation pour bloquer un utilisateur
-        if (action === 'block' && !confirm('Bloquer cet utilisateur ?')) {
-            select.value = "";
-            return;
-        }
+    // Confirmation pour promouvoir un utilisateur en tant qu'admin
+    if (action === 'promote' && !confirm('Promouvoir cet utilisateur en tant qu\'admin ?')) return;
+    if (action === 'demote' && !confirm('Rétrograder cet admin en utilisateur normal ?')) return;
+    if (action === 'block' && !confirm('Bloquer cet utilisateur ?')) return;
+    if (action === 'soft_delete' && !confirm('Suppremier cet utilisateur ?')) return;
 
-        // Confirmation pour débloquer un utilisateur
-        if (action === 'unblock' && !confirm('Débloquer cet utilisateur ?')) {
-            select.value = "";
-            return;
-        }
-
-        // Optionnel : Confirmation pour la suppression d'un utilisateur (case sensible)
-        if (action === 'soft_delete' && !confirm('Suppremier cet utilisateur ?')) {
-            select.value = ""; // On reset le select pour éviter une action non désirée
-            return;
-        }
-
-        // Confirmation pour réactiver un utilisateur
-        if (action === 'restore' && !confirm('Réactiver cet utilisateur ?')) {
-            select.value = "";
-            return;
-        }
-
-        submitAdminAction(form);
-    }
+    submitAdminAction(form);
 });
 
 function submitAdminAction(form) {
     const formData = new FormData(form);
 
-    fetch(window.location.href, { // On envoie à l'URL actuelle
+    fetch(window.location.pathname + window.location.search, { // On envoie à l'URL actuelle
         method: 'POST',
         body: formData,
         headers: {
