@@ -105,7 +105,7 @@ class AdminSectionController extends AdminController
     /**
      * Handles administrative actions performed on users.
      * Enforces strict role hierarchy:
-     *  - super_admin: all actions on admin/user, no actions on other super_admins
+     *  - super_admin: all actions on admin/user (including promote to super_admin), no actions on other super_admins
      *  - admin: only block/unblock on user targets
      *
      * @param UserManager $manager The user manager instance to perform operations.
@@ -122,12 +122,15 @@ class AdminSectionController extends AdminController
 
         // --- Permission enforcement ---
         if ($currentRole === 'super_admin') {
-            // Super admin cannot act on other super admins
+            // Super admin can only demote_super_admin, unblock or restore on other super admins (including self)
             if ($targetRole === 'super_admin') {
-                $this->redirectWithError(
-                    'index.php?page=adminSection',
-                    'Action interdite : vous ne pouvez pas agir sur un autre Super Admin.'
-                );
+                $allowedOnSuperAdmin = ['demote_super_admin', 'unblock', 'restore'];
+                if (!in_array($action, $allowedOnSuperAdmin, true)) {
+                    $this->redirectWithError(
+                        'index.php?page=adminSection',
+                        'Action interdite : vous ne pouvez que retirer le rôle Super Admin, débloquer ou restaurer.'
+                    );
+                }
             }
         } elseif ($currentRole === 'admin') {
             // Admin can ONLY block/unblock, and ONLY on 'user' targets
@@ -152,8 +155,14 @@ class AdminSectionController extends AdminController
             case 'promote':
                 $manager->updateUserRole($id, 'admin');
                 break;
+            case 'promote_super_admin':
+                $manager->updateUserRole($id, 'super_admin');
+                break;
             case 'demote':
                 $manager->updateUserRole($id, 'user');
+                break;
+            case 'demote_super_admin':
+                $manager->updateUserRole($id, 'admin');
                 break;
             case 'block':
                 $manager->setBlockStatus($id, 1);
