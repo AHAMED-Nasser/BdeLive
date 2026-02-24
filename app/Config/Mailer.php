@@ -240,7 +240,13 @@ class Mailer
      *
      * Sends an email inviting someone to join a team for a group event, with a link to join the team.
      *
-     * @param string $to_email Recipient email address
+     * @param string $to_email Recipient email address}
+
+| |
+72
+ 
+
+
      * @param string $to_name Recipient name
      * @param string $token Validation token
      * @param string $eventName Name of the event
