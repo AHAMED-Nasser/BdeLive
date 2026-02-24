@@ -27,7 +27,7 @@ class Mailer
      *
      * @var string
      */
-    private string $from_email = FROM_EMAIL;
+    private string $from_email;
 
     /**
      * Sender display name
@@ -35,6 +35,12 @@ class Mailer
      * @var string
      */
     private string $from_name = 'BDELive';
+
+    public function __construct()
+    {
+        define('FROM_EMAIL', $_ENV['FROM_EMAIL']);
+        $this->from_email = $_ENV['FROM_EMAIL'];
+    }
 
     /**
      * Send a password reset email
@@ -608,10 +614,10 @@ TEXT;
     private function smtpConfiguration(PHPMailer $mail): void
     {
         $mail->isSMTP();
-        $mail->Host = SMTP_HOST;
+        $mail->Host = $_ENV['SMTP_HOST'] ?? '';
         $mail->SMTPAuth = true;
-        $mail->Username = SMTP_USER;
-        $mail->Password = SMTP_PASSWORD;
+        $mail->Username = $_ENV['SMTP_USER'] ?? '';
+        $mail->Password = $_ENV['SMTP_PASSWORD'] ?? '';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
     }
