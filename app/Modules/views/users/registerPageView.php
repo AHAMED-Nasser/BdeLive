@@ -3,7 +3,10 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
+ * @var string $recaptchaSiteKey Google reCAPTCHA v2 public site key
  */
+
+$recaptchaSiteKey = $recaptchaSiteKey ?? '';
 
 $oldLastName = $app->session()->get('old_last_name');
 $oldFirstName = $app->session()->get('old_first_name');
@@ -16,6 +19,10 @@ $app->session()->remove('old_email');
 $app->session()->remove('old_user_status');
 
 start_page("Inscription - BDELive", true, $user ?? null);
+
+if ($recaptchaSiteKey !== '') {
+    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+}
 ?>
 <div class="forgot-container">
     <h1 class="title">Inscription</h1>
@@ -30,6 +37,10 @@ start_page("Inscription - BDELive", true, $user ?? null);
         <div class="alert alert-success">
             <?= htmlspecialchars($flash['success']) ?>
         </div>
+    <?php endif; ?>
+
+    <?php if ($recaptchaSiteKey === '') : ?>
+        <div class="alert alert-danger">Configuration reCAPTCHA manquante (.env). Contactez l'administrateur.</div>
     <?php endif; ?>
 
     <form class="form-authentification" action="index.php?page=register" method="POST">
@@ -78,6 +89,9 @@ start_page("Inscription - BDELive", true, $user ?? null);
         </div>
         <p class="confirm-pwd-message"></p>
 
+        <?php if ($recaptchaSiteKey !== '') : ?>
+            <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars($recaptchaSiteKey) ?>"></div>
+        <?php endif; ?>
 
         <?= $csrf->getTokenField() ?>
         <button type="submit" name="ok">S'inscrire</button>
