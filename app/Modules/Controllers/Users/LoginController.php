@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Core\Security\RecaptchaValidator;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Models\Users\LoginAttemptManager;
 
@@ -25,9 +26,9 @@ use App\Modules\Models\Users\LoginAttemptManager;
 class LoginController extends DefaultController
 {
     private const ATTEMPT_THRESHOLD = 5;
-    private const RECAPTCHA_VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     private LoginAttemptManager $attemptManager;
+    private RecaptchaValidator $recaptchaValidator;
     private string $clientIp;
     private bool $isSuspect;
 
@@ -42,6 +43,7 @@ class LoginController extends DefaultController
         parent::__construct();
 
         $this->attemptManager = new LoginAttemptManager();
+        $this->recaptchaValidator = new RecaptchaValidator();
         $this->clientIp = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
 
         $email = trim((string) $this->request->post('email', ''));
@@ -106,7 +108,7 @@ class LoginController extends DefaultController
         if ($this->isSuspect) {
             $recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
 
-            if (empty($recaptchaToken) || !$this->validateRecaptcha($recaptchaToken)) {
+            if (empty($recaptchaToken) || !$this->recaptchaValidator->validate($recaptchaToken, $this->clientIp)) {
                 $this->setError('Please complete the anti-robot validation.');
                 $this->render('users/loginPageView', $this->buildViewData());
                 return;
@@ -183,48 +185,5 @@ class LoginController extends DefaultController
         $userName = trim($user['first_name'] . ' ' . $user['last_name']);
         $this->setSuccess('Connexion réussie ! Bienvenue ' . htmlspecialchars($userName) . ' !');
         $this->redirect('index.php?page=home');
-    }
-
-    /**
-     * Validate a Google reCAPTCHA v2 response token
-     *
-     * Sends a POST request to the Google siteverify endpoint and returns
-     * whether the token is valid. Reads the secret key from the environment.
-     *
-     * @param string $token The g-recaptcha-response value from the form
-     * @return bool True if Google confirms the token is valid
-     */
-    private function validateRecaptcha(string $token): bool
-    {
-        $secretKey = (string) ($_ENV['RECAPTCHA_SECRET_KEY'] ?? '');
-
-        if (empty($secretKey)) {
-            error_log('LoginController::validateRecaptcha - RECAPTCHA_SECRET_KEY is not set in the environment.');
-            return false;
-        }
-
-        $context = stream_context_create([
-            'http' => [
-                'method'  => 'POST',
-                'header'  => 'Content-Type: application/x-www-form-urlencoded',
-                'content' => http_build_query([
-                    'secret'   => $secretKey,
-                    'response' => $token,
-                    'remoteip' => $this->clientIp,
-                ]),
-                'timeout' => 3,
-            ],
-        ]);
-
-        $result = @file_get_contents(self::RECAPTCHA_VERIFY_URL, false, $context);
-
-        if ($result === false) {
-            error_log('LoginController::validateRecaptcha - Could not reach Google siteverify endpoint.');
-            return false;
-        }
-
-        $data = json_decode($result, true);
-
-        return isset($data['success']) && $data['success'] === true;
     }
 }
