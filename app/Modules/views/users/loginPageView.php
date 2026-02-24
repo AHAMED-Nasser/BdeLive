@@ -3,12 +3,19 @@
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
+ * @var bool   $isSuspect        True when the IP+email pair has >= 5 failed attempts in 15 min
+ * @var string $recaptchaSiteKey Google reCAPTCHA v2 public site key
  */
 
 $oldEmail = $app->session()->get('old_email');
 $app->session()->remove('old_email');
 
 start_page("Connexion - BDELive", true, $user ?? null);
+
+// Load reCAPTCHA script early in body so it is ready when the widget div is rendered
+if ($isSuspect && $recaptchaSiteKey !== '') {
+    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+}
 ?>
 
 <div class="forgot-container">
@@ -26,6 +33,10 @@ start_page("Connexion - BDELive", true, $user ?? null);
         </div>
     <?php endif; ?>
 
+    <?php if ($isSuspect && $recaptchaSiteKey === '') : ?>
+        <div class="alert alert-danger">Warning: reCAPTCHA Site Key is missing in .env</div>
+    <?php endif; ?>
+
     <form class="form-authentification" id="form" action="index.php?page=login" method="POST">
         <label for="email">Adresse e-mail :</label>
         <input id="email" type="email" name="email" placeholder="Entrez votre adresse mail" value="<?= htmlspecialchars((string)$oldEmail) ?>" required>
@@ -40,6 +51,11 @@ start_page("Connexion - BDELive", true, $user ?? null);
 
 
         <?= $csrf->getTokenField() ?>
+
+        <?php if ($isSuspect && $recaptchaSiteKey !== '') : ?>
+            <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars($recaptchaSiteKey) ?>"></div>
+        <?php endif; ?>
+
         <button type="submit" name="ok">Se connecter</button>
     </form>
 
