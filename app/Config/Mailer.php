@@ -38,10 +38,15 @@ class Mailer
 
     public function __construct()
     {
-        define('FROM_EMAIL', $_ENV['FROM_EMAIL']);
-        $this->from_email = $_ENV['FROM_EMAIL'];
+        // On vérifie si la constante existe avant de l'utiliser
+        if (defined('FROM_EMAIL')) {
+            $this->from_email = \FROM_EMAIL;
+        } else {
+            // Valeur par défaut ou log d'erreur pour éviter le Fatal Error
+            $this->from_email = 'default@bdelive.com';
+            error_log("Attention : La constante FROM_EMAIL n'est pas définie.");
+        }
     }
-
     /**
      * Send a password reset email
      *
@@ -235,7 +240,13 @@ class Mailer
      *
      * Sends an email inviting someone to join a team for a group event, with a link to join the team.
      *
-     * @param string $to_email Recipient email address
+     * @param string $to_email Recipient email address}
+
+| |
+72
+ 
+
+
      * @param string $to_name Recipient name
      * @param string $token Validation token
      * @param string $eventName Name of the event
@@ -614,11 +625,12 @@ TEXT;
     private function smtpConfiguration(PHPMailer $mail): void
     {
         $mail->isSMTP();
-        $mail->Host = $_ENV['SMTP_HOST'] ?? '';
-        $mail->SMTPAuth = true;
-        $mail->Username = $_ENV['SMTP_USER'] ?? '';
-        $mail->Password = $_ENV['SMTP_PASSWORD'] ?? '';
+        // On utilise $_ENV au lieu des constantes
+        $mail->Host       = $_ENV['SMTP_HOST'] ?? 'smtp-bdelivesae.alwaysdata.net';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USER'] ?? '';
+        $mail->Password   = $_ENV['SMTP_PASSWORD'] ?? '';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port       = 587;
     }
 }
