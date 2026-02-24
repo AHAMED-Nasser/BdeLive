@@ -16,6 +16,7 @@
 
 require_once __DIR__ . '/Modules/views/shared/carousel.inc.php';
 require_once __DIR__ . '/include/autoload.php';
+
 // Ces fichiers sont maintenant gérés par legacy_helpers.php et Application
 // require_once __DIR__ . '/include/auth.php';  // Remplacé par AuthManager
 // require_once __DIR__ . '/include/csrf.php';  // Remplacé par CsrfProtection
