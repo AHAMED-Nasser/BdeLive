@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Core\Security\RecaptchaValidator;
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Controllers\Users\AuthController;
+use App\Modules\Models\Users\LoginAttemptManager;
 
 /**
  * Login Controller
@@ -14,35 +15,70 @@ use App\Modules\Controllers\Users\AuthController;
  * and authentication processing. Works with AuthController to verify
  * user credentials and establish authenticated sessions.
  *
+ * Implements a conditional anti-brute-force mechanism: after 5 failed attempts
+ * from the same IP + email pair within 15 minutes, a Google reCAPTCHA v2 widget
+ * is shown and validated before credentials are checked.
+ *
  * @package BdeLive\Controllers
  * @author Mohamed-Amine Boudhib, Thomas Palot, Amin Helali, Willem Chetioui, Nasser Ahamed, Romain Cantor
- * @version 1.0.0
+ * @version 2.0.0
  */
 class LoginController extends DefaultController
 {
+    private const ATTEMPT_THRESHOLD = 5;
+
+    private LoginAttemptManager $attemptManager;
+    private RecaptchaValidator $recaptchaValidator;
+    private string $clientIp;
+    private bool $isSuspect;
+
     /**
      * Constructor - Initialize the LoginController
      *
-     * Displays the login form or processes the login submission.
+     * Resolves the client IP, checks the failed-attempt count, then either
+     * displays the login form or processes the submission.
      */
     public function __construct()
     {
         parent::__construct();
 
-        // Handle form submission
-        if ($this->request->isPost() && $this->request->post('ok') !== null) {
+        $this->attemptManager = new LoginAttemptManager();
+        $this->recaptchaValidator = new RecaptchaValidator();
+        $this->clientIp = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+
+        $email = trim((string) $this->request->post('email', ''));
+        $isPost = $this->request->isPost() && $this->request->post('ok') !== null;
+        // Skip DB on simple GET (no email): no need to count attempts for empty email
+        $this->isSuspect = $isPost || $email !== ''
+            ? $this->attemptManager->countRecentAttempts($this->clientIp, $email) >= self::ATTEMPT_THRESHOLD
+            : false;
+
+        if ($isPost) {
             $this->processLogin();
         } else {
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
         }
+    }
+
+    /**
+     * Build the data array passed to the login view
+     *
+     * @return array<string, mixed>
+     */
+    private function buildViewData(): array
+    {
+        return [
+            'isSuspect'        => $this->isSuspect,
+            'recaptchaSiteKey' => (string) ($_ENV['RECAPTCHA_SITE_KEY'] ?? ''),
+        ];
     }
 
     /**
      * Process the login form submission
      *
-     * Validates user input (email format, required fields), attempts authentication
-     * via AuthController, and handles success/failure scenarios with appropriate
-     * redirects and messages.
+     * Validates CSRF token, optionally validates reCAPTCHA, verifies credentials,
+     * and on success establishes the authenticated session. On failure, records
+     * the attempt and updates the suspect flag for the view.
      *
      * @return void
      */
@@ -58,63 +94,84 @@ class LoginController extends DefaultController
 
         // Get and sanitize inputs
         $email = trim((string) $this->request->post('email', ''));
-        $mdp = (string) $this->request->post('password', '');
+        $password = (string) $this->request->post('password', '');
 
         $this->session->set('old_email', $email);
 
-        // Validation
-        if (empty($email) || empty($mdp)) {
+        // Recalculate suspect flag with the actual submitted email
+        $this->isSuspect = $this->attemptManager->countRecentAttempts(
+            $this->clientIp,
+            $email
+        ) >= self::ATTEMPT_THRESHOLD;
+
+        // Validate reCAPTCHA before anything else when the user is suspect
+        if ($this->isSuspect) {
+            $recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
+
+            if (empty($recaptchaToken) || !$this->recaptchaValidator->validate($recaptchaToken, $this->clientIp)) {
+                $this->setError('Please complete the anti-robot validation.');
+                $this->render('users/loginPageView', $this->buildViewData());
+                return;
+            }
+        }
+
+        // Basic field validation
+        if (empty($email) || empty($password)) {
             $this->setError('Veuillez remplir tous les champs');
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setError('Format d\'email invalide');
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
-        // Attempt login with old system to verify credentials
+        // Verify credentials
         $userManager = new \App\Modules\Models\Users\UserManager();
         $user = $userManager->findUserByEmail($email);
 
-        if (!$user || !$userManager->verifyPassword($mdp, $user['password'])) {
-            // Login failed
+        if (!$user || !$userManager->verifyPassword($password, $user['password'])) {
+            $countBefore = $this->attemptManager->countRecentAttempts($this->clientIp, $email);
+            $this->attemptManager->recordFailedAttempt($this->clientIp, $email);
+            $this->isSuspect = ($countBefore + 1) >= self::ATTEMPT_THRESHOLD;
+
             $this->setError('Email ou mot de passe incorrect');
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
-        // Vérifier si le compte a été clôturé (soft delete)
+        // Check for soft-deleted account
         if (!empty($user['deleted_at'])) {
             $this->setError('Ce compte a été clôturé. Contactez le support pour le réactiver.');
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
         $isBlocked = (int) $user['is_blocked'];
-        // Verify if user blocked or not
+
         if ($isBlocked === 1) {
             $this->setError('Votre compte a été suspendu par l\'administrateur.');
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
-        // Vérifier si l'email est vérifié
-        if ((int)$user['is_verified'] === 0) {
+        // Check email verification
+        if ((int) $user['is_verified'] === 0) {
             $this->setError(
                 'Votre adresse email n\'a pas encore été vérifiée. ' .
                 'Veuillez vérifier votre boîte de réception et cliquer sur le lien de vérification dans l\'email que nous vous avons envoyé.'
             );
-            $this->render('users/loginPageView');
+            $this->render('users/loginPageView', $this->buildViewData());
             return;
         }
 
+        // Login successful — clear attempts and start session
+        $this->attemptManager->clearAttempts($this->clientIp, $email);
         $this->session->remove('old_email');
 
-        // Login successful - Use new AuthManager to store session
         $this->auth->login(
             (int) $user['user_id'],
             $user['user_status'],
