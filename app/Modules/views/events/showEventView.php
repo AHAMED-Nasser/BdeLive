@@ -26,6 +26,9 @@ $userId = $user['user_id'] ?? null;
 ?>
 
 <link rel="stylesheet" href="assets/css/pages/event-show.css">
+<?php if ($isAdmin && !$event->isGroupEvent()) : ?>
+    <link rel="stylesheet" href="assets/css/pages/manage-registrants.css">
+<?php endif; ?>
 
 <div class="container event-detail-page">
     <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event->getName()) ?></h1>
@@ -109,36 +112,92 @@ $userId = $user['user_id'] ?? null;
         <?php endif; ?>
     </div>
 
-    <?php if (!$event->isGroupEvent() && !empty($registrants)) : ?>
-        <div class="registrants-list-section">
+    <?php if (!$event->isGroupEvent() && (!empty($registrants) || $isAdmin)) : ?>
+        <div class="registrants-list-section" id="registrants-section" data-event-id="<?= $eventId ?>">
             <h2>Liste des inscrits (<?= count($registrants) ?>)</h2>
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Promotion</th>
-                            <th>Date d'inscription</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($registrants as $registrant) : ?>
-                            <tr>
-                                <td><?= htmlspecialchars($registrant['last_name']) ?></td>
-                                <td><?= htmlspecialchars($registrant['first_name']) ?></td>
-                                <td><?= htmlspecialchars($registrant['promotion'] ?? 'N/A') ?></td>
-                                <td>
-                                    <?php
-                                    $date = new DateTime($registrant['registration_date']);
-                                    echo $date->format('d/m/Y H:i');
-                                    ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+
+            <?php if ($isAdmin) : ?>
+                <form method="post" action="index.php?page=manageRegistrants" id="manage-registrants-form">
+                    <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                    <?= $csrf->getTokenField() ?>
+            <?php endif; ?>
+
+                <?php if (!empty($registrants)) : ?>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <?php if ($isAdmin) : ?>
+                                        <th class="manage-registrants-checkbox">
+                                            <input type="checkbox" id="select-all-registrants" title="Tout sélectionner">
+                                        </th>
+                                    <?php endif; ?>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Promotion</th>
+                                    <th>Date d'inscription</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($registrants as $registrant) : ?>
+                                    <tr>
+                                        <?php if ($isAdmin) : ?>
+                                            <td class="manage-registrants-checkbox">
+                                                <input type="checkbox" name="user_ids[]" value="<?= (int) $registrant['user_id'] ?>"
+                                                    class="registrant-checkbox">
+                                            </td>
+                                        <?php endif; ?>
+                                        <td><?= htmlspecialchars($registrant['last_name']) ?></td>
+                                        <td><?= htmlspecialchars($registrant['first_name']) ?></td>
+                                        <td><?= htmlspecialchars($registrant['promotion'] ?? 'N/A') ?></td>
+                                        <td>
+                                            <?php
+                                            $date = new DateTime($registrant['registration_date']);
+                                            echo $date->format('d/m/Y H:i');
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else : ?>
+                    <p class="empty-registrants-message">Aucun inscrit pour le moment.</p>
+                <?php endif; ?>
+
+                <?php if ($isAdmin) : ?>
+                    <div class="manage-registrants-actions">
+                        <?php if (!empty($registrants)) : ?>
+                            <button type="submit" class="btn-remove-registrants" id="btn-remove-registrants" disabled>
+                                <i class="fas fa-trash-alt"></i> Supprimer les inscrits sélectionnés
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                </form>
+
+                <!-- Add registrant panel (visible in manage mode) -->
+                <div class="add-registrant-panel" id="add-registrant-panel">
+                    <h3><i class="fas fa-user-plus"></i> Ajouter des inscrits</h3>
+
+                    <div class="search-container">
+                        <input type="text" id="search-user-input" class="search-input"
+                            placeholder="Rechercher par nom, prénom ou ID..." autocomplete="off">
+                        <div class="search-results-dropdown" id="search-results-dropdown"></div>
+                    </div>
+
+                    <div class="selected-users-chips" id="selected-users-chips"></div>
+
+                    <form method="post" action="index.php?page=manageRegistrants" id="add-registrants-form">
+                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                        <input type="hidden" name="action" value="add">
+                        <?= $csrf->getTokenField() ?>
+                        <div id="add-user-ids-container"></div>
+                        <button type="submit" class="btn-add-registrants" id="btn-add-registrants" disabled>
+                            <i class="fas fa-user-plus"></i> Ajouter les sélectionnés
+                        </button>
+                    </form>
+                </div>
+                <?php endif; ?>
         </div>
     <?php endif; ?>
 
@@ -180,6 +239,12 @@ $userId = $user['user_id'] ?? null;
             <div class="admin-zone-actions">
                 <a href="index.php?page=updateEvent&id=<?= $eventId ?>" class="btn-edit">Modifier</a>
 
+                <?php if (!$event->isGroupEvent()) : ?>
+                    <button type="button" class="btn-manage-registrants" id="btn-toggle-manage">
+                        <i class="fas fa-user-edit"></i> Modifier les inscrits
+                    </button>
+                <?php endif; ?>
+
                 <form method="post" action="index.php?page=deleteEvent" style="margin: 0;">
                     <input type="hidden" name="event_id" value="<?= $eventId ?>">
                     <?= $csrf->getTokenField() ?>
@@ -196,5 +261,9 @@ $userId = $user['user_id'] ?? null;
         </div>
     <?php endif; ?>
 </div>
+
+<?php if ($isAdmin && !$event->isGroupEvent()) : ?>
+    <script src="assets/js/manage-registrants.js"></script>
+<?php endif; ?>
 
 <?php end_page(); ?>
