@@ -106,6 +106,25 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             Pour exercer ces droits, vous pouvez contacter l'équipe de développement via le formulaire de contact du
             site.
         </p>
+        <p>
+            <strong>Suppression de compte :</strong><br>
+            Vous pouvez demander la suppression de votre compte depuis votre espace personnel. Lors de cette demande :
+        </p>
+        <ul>
+            <li>Votre compte est immédiatement marqué comme en cours de suppression et vous n'avez plus accès à la
+                connexion.</li>
+            <li>Vous êtes <strong>définitivement désinscrit de tous les événements à venir</strong> (les places libérées
+                sont à nouveau disponibles). Vos inscriptions aux événements déjà passés sont conservées à des fins
+                d'historique ou de statistiques.</li>
+            <li>Une <strong>période de rétention (délai de grâce) de 30 jours</strong> s'applique : pendant ce délai,
+                vos données restent stockées et vous pouvez contacter le support pour demander la réactivation de votre
+                compte.</li>
+            <li>À l'issue de ce délai de 30 jours, le traitement définitif de vos données sera appliqué. <strong>La
+                décision entre anonymisation des données (conservation du compte à des fins statistiques, avec suppression
+                des données personnelles identifiantes) et suppression définitive du compte n'est pas encore arrêtée ; elle
+                sera précisée dans les présentes mentions légales dès qu'elle sera fixée.</strong> En cas de doute, vous
+                pouvez nous contacter pour connaître la politique appliquée.</li>
+        </ul>
     </section>
 
     <section>
@@ -149,7 +168,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             L'utilisateur s'engage donc à la consulter régulièrement.
         </p>
         <p>
-            <strong>Dernière mise à jour :</strong> Octobre 2025
+            <strong>Dernière mise à jour :</strong> Février 2026
         </p>
     </section>
 
