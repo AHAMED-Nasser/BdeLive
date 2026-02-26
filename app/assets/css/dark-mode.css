@@ -48,7 +48,7 @@
     --shadow-lg: rgba(0, 0, 0, 0.2);
 
     /* Gradients */
-    --gradient-primary: linear-gradient(90deg, rgba(181, 35, 235, 1) 0%, rgba(87, 89, 199, 1) 100%);
+    --gradient-primary: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
     --gradient-hero: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
     --gradient-content: linear-gradient(180deg, #f8f9ff 0%, #dea4f1 100%);
     --gradient-sidebar: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
