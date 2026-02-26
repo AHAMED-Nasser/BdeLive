@@ -64,7 +64,8 @@
 /* Dans navbar.css */
 .dark-mode .nav-logo img {
     opacity: 1;
-    filter: none !important; /* On retire les filtres de luminosité */
+    filter: none !important;
+    /* On retire les filtres de luminosité */
     background: transparent !important;
 }
 
