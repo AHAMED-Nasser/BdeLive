@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Models\Users;
 
+use DateTime;
+use DateTimeZone;
 use PDO;
 use PDOException;
 use App\Core\Database;
@@ -720,7 +722,7 @@ class UserManager
             $hashedPassword = $this->hashPassword($password);
             $verificationToken = $this->generateVerificationToken();
             // Token expires 24 hours after creation
-            $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
             $now->modify('+24 hours');
             $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
@@ -795,8 +797,8 @@ class UserManager
 
             // Validate token expiration if present
             if ($user['token_expires_at'] !== null) {
-                $expirationDate = new \DateTime($user['token_expires_at'], new \DateTimeZone('Europe/Paris'));
-                $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+                $expirationDate = new DateTime($user['token_expires_at'], new DateTimeZone('Europe/Paris'));
+                $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
 
                 if ($now > $expirationDate) {
                     // Token expired: delete the user so they can register again
@@ -875,7 +877,7 @@ class UserManager
         try {
             $newToken = $this->generateVerificationToken();
             // Token expires 24 hours after resend
-            $now = new \DateTime('now', new \DateTimeZone('Europe/Paris'));
+            $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
             $now->modify('+24 hours');
             $tokenExpiresAt = $now->format('Y-m-d H:i:s');
 
@@ -947,6 +949,68 @@ class UserManager
             return $stmt->fetch();
         } catch (PDOException $e) {
             error_log('UserManager::getUserById - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Retrieve users whose soft-delete grace period has expired
+     *
+     * Returns users where deleted_at is older than the specified number of days,
+     * meaning their 30-day grace period is over and they are eligible for cleanup.
+     *
+     * @param int $days Number of days for the grace period (default: 30)
+     * @return array<int, array<string, mixed>> List of expired deleted users
+     * @throws PDOException If database query fails
+     */
+    public function getExpiredDeletedUsers(int $days = 30): array
+    {
+        try {
+            $sql = "SELECT user_id, email, first_name, last_name, deleted_at
+                    FROM USERS
+                    WHERE deleted_at IS NOT NULL
+                      AND deleted_at <= NOW() - INTERVAL :days DAY";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':days', $days, PDO::PARAM_INT);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        } catch (PDOException $e) {
+            error_log('UserManager::getExpiredDeletedUsers - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
+     * Anonymize a user record while preserving it for statistical purposes
+     *
+     * Replaces personally identifiable information (email, first name, last name,
+     * password) with placeholder values. The record is kept to maintain referential
+     * integrity and allow statistics to remain accurate.
+     *
+     * @param int $userId The ID of the user to anonymize
+     * @return bool True if the update was successful, false otherwise
+     * @throws PDOException If database query fails
+     */
+    public function anonymizeUser(int $userId): bool
+    {
+        try {
+            $sql = "UPDATE USERS
+                    SET email              = CONCAT('deleted_', user_id, '@anonymous.local'),
+                        first_name         = 'deleted_user',
+                        last_name          = 'anonymous',
+                        password           = :placeholder,
+                        verification_token = NULL
+                    WHERE user_id = :user_id";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':placeholder', password_hash(bin2hex(random_bytes(16)), PASSWORD_DEFAULT));
+            $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log('UserManager::anonymizeUser - ' . $e->getMessage());
             throw $e;
         }
     }

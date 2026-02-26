@@ -7,6 +7,8 @@ namespace App\Modules\Controllers\Users;
 use App\Core\Security\RecaptchaValidator;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Models\Users\LoginAttemptManager;
+use App\Modules\Models\Users\UserManager;
+use DateTime;
 
 /**
  * Login Controller
@@ -130,7 +132,7 @@ class LoginController extends DefaultController
         }
 
         // Verify credentials
-        $userManager = new \App\Modules\Models\Users\UserManager();
+        $userManager = new UserManager();
         $user = $userManager->findUserByEmail($email);
 
         if (!$user || !$userManager->verifyPassword($password, $user['password'])) {
@@ -143,9 +145,16 @@ class LoginController extends DefaultController
             return;
         }
 
-        // Check for soft-deleted account
+        // Check for soft-deleted account (30-day grace period)
         if (!empty($user['deleted_at'])) {
-            $this->setError('Ce compte a été clôturé. Contactez le support pour le réactiver.');
+            $deletedAt = new DateTime($user['deleted_at']);
+            $expiresAt = (clone $deletedAt)->modify('+30 days');
+            $now = new DateTime();
+            $daysLeft = max(0, (int) $now->diff($expiresAt)->days);
+            $this->setError(
+                "Votre compte est en cours de suppression (période de grâce : {$daysLeft} jour(s) restant(s)). "
+                . 'Contactez le support pour le réactiver.'
+            );
             $this->render('users/loginPageView', $this->buildViewData());
             return;
         }

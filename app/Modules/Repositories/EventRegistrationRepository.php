@@ -182,7 +182,7 @@ class EventRegistrationRepository
      */
     public function getRegistrationsByEventId(int $eventId): array
     {
-        $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date 
+        $sql = "SELECT u.firstname, u.lastname, u.email, er.registration_date
             FROM event_registrations er
             JOIN users u ON er.user_id = u.id
             WHERE er.event_id = :event_id
@@ -207,7 +207,7 @@ class EventRegistrationRepository
     public function registerUserWithTeam(int $eventId, int $userId, int $teamId): bool
     {
         $stmt = $this->pdo->prepare(
-            'INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status, team_id) 
+            'INSERT INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status, team_id)
              VALUES (?, ?, ?, ?)'
         );
         return $stmt->execute([$eventId, $userId, 'Confirmé', $teamId]);
@@ -292,6 +292,30 @@ class EventRegistrationRepository
             'teams' => $teams
         ];
     }
-}
 
-\class_alias(__NAMESPACE__ . '\\EventRegistrationRepository', 'EventRegistrationRepository');
+    /**
+     * Unregister a user from all future events
+     *
+     * Deletes all registration records for events whose date is today or later.
+     * Intended to be called when a user account is soft-deleted, to free up
+     * spots in upcoming events.
+     *
+     * @param int $userId The user identifier
+     * @return int Number of registrations removed
+     */
+    public function unregisterUserFromFutureEvents(int $userId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'DELETE er FROM EVENT_REGISTRATIONS er
+                 JOIN EVENTS e ON er.event_id = e.event_id
+                 WHERE er.user_id = ? AND e.event_date >= CURDATE()'
+            );
+            $stmt->execute([$userId]);
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::unregisterUserFromFutureEvents - ' . $e->getMessage());
+            return 0;
+        }
+    }
+}
