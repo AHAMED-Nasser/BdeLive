@@ -286,6 +286,7 @@
 /* Responsive Tablette */
 @media (max-width: 992px) {
     .admin-layout {
+        display: flex;
         flex-direction: column;
     }
 
@@ -335,11 +336,13 @@
     .admin-nav-list {
         margin-top: 10px;
         display: flex;
-        gap: 10px;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     .admin-nav-list li {
-        flex: 1;
+        flex: 1 1 calc(33% - 8px);
+        min-width: 0;
     }
 
     .admin-nav-link {
@@ -490,12 +493,15 @@
     }
 
     .admin-search-input {
+        flex: 1 1 auto;
+        min-width: 0;
         font-size: 0.9rem;
         padding: 10px 12px;
     }
 
     .admin-search-btn,
     .admin-reset-btn {
+        flex-shrink: 0;
         padding: 10px 12px;
     }
 
@@ -507,18 +513,19 @@
         margin-bottom: 15px;
     }
 
-    /* Grille pour les filtres de rôle (3 colonnes) */
+    /* Grille pour les filtres de rôle (2 colonnes) */
     .role-filters {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 8px;
     }
 
     .role-filters .admin-nav-link {
         padding: 10px 8px;
         font-size: 0.85rem;
-        flex-direction: column;
-        gap: 5px;
+        flex-direction: row;
+        gap: 6px;
+        justify-content: center;
     }
 }
 
@@ -544,5 +551,13 @@
     .admin-table td::before {
         width: 80px;
         font-size: 0.85rem;
+    }
+
+    .admin-search-input {
+        flex: 1 1 100%;
+    }
+
+    .role-filters {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
