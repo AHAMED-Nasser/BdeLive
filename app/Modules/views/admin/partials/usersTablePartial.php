@@ -61,12 +61,20 @@ $isAdminUser  = ($currentUserRole === 'admin');
                             <?php elseif ($targetRole === 'admin') : ?>
                                 <span class="badge-role badge-admin">ADMIN</span>
                             <?php else : ?>
-                                <span class="badge-role badge-user">USER</span>
+                                <span class="badge-role badge-user">MEMBRE</span>
                             <?php endif; ?>
                         </td>
                         <td>
                             <?php if ($isDeleted) : ?>
-                                <span class="badge-role badge-deleted">SUPPRIMÉ</span>
+                                <?php
+                                $deletedAt = new \DateTime($u['deleted_at']);
+                                $expiresAt = (clone $deletedAt)->modify('+30 days');
+                                $daysLeft  = max(0, (int) (new \DateTime())->diff($expiresAt)->days);
+                                ?>
+                                <span class="badge-role badge-deleted"
+                                      title="Supprimé le <?= htmlspecialchars($u['deleted_at']) ?>">
+                                    EN ATTENTE (<?= $daysLeft ?> j. restant<?= $daysLeft > 1 ? 's' : '' ?>)
+                                </span>
                             <?php elseif ($isBlocked) : ?>
                                 <span class="badge-role badge-banned">BANNI</span>
                             <?php else : ?>

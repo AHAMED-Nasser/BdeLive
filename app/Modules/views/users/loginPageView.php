@@ -48,7 +48,7 @@ if ($isSuspect && $recaptchaSiteKey !== '') {
                 <i class="fa-regular fa-eye"></i>
             </button>
         </div>
-
+        <a href="index.php?page=forgot_password" class="link-forgot-pwd">Mot de passe oublié ?</a>
 
         <?= $csrf->getTokenField() ?>
 
@@ -59,9 +59,12 @@ if ($isSuspect && $recaptchaSiteKey !== '') {
         <button type="submit" name="ok">Se connecter</button>
     </form>
 
-    <a href="index.php?page=home">← Retour à l'accueil</a>
-    <a href="index.php?page=forgot_password">Mot de passe oublié ?</a>
-    <a href="index.php?page=register">Pas de compte ? Inscrivez-vous</a>
+    <div class="auth-links-footer">
+        <a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a>
+        <div class="right-links">
+            <a href="index.php?page=register">Pas de compte ? S'inscrire</a>
+        </div>
+    </div>
 </div>
 
 <?php end_page(); ?>

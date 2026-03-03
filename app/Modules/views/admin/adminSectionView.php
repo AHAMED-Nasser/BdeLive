@@ -118,7 +118,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
                 <li>
                     <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=user&search=<?= urlencode($search) ?>"
                        class="admin-nav-link <?= $roleFilter === 'user' ? 'active' : '' ?>">
-                        <i class="fas fa-user"></i> Users
+                        <i class="fas fa-user"></i> Membres
                     </a>
                 </li>
             </ul>

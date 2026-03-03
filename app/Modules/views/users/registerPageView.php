@@ -97,8 +97,12 @@ if ($recaptchaSiteKey !== '') {
         <button type="submit" name="ok">S'inscrire</button>
     </form>
 
-    <a href="index.php?page=login">Déjà un compte ? Se connecter</a>
-    <a href="index.php?page=home">← Retour à l'accueil</a>
+    <div class="auth-links-footer">
+        <a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a>
+        <div class="right-links">
+            <a href="index.php?page=login">Déjà un compte ? Se connecter</a>
+        </div>
+    </div>
 </div>
 
 <?php end_page(); ?>

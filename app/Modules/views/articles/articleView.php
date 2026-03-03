@@ -9,7 +9,7 @@ start_page(htmlspecialchars($article->getTitle()), true, $user ?? null);
 
 <section class="article-section">
     <div class="container">
-        <a href="index.php?page=articles" class="back-link">← Retour aux articles</a>
+        <a href="index.php?page=articles" class="back-link"><i class="fa-solid fa-arrow-left"></i> Retour aux articles</a>
 
         <?php if (!empty($flash['error'])) : ?>
             <article style="color: #922222; text-align: center; margin-bottom: 20px;">
