@@ -26,7 +26,7 @@ start_page("Vérification du code - BDELive", true, $user ?? null);
         <button type="submit" name="submit">Vérifier le code</button>
     </form>
 
-    <a href="index.php?page=login"> <--- Retour page de connexion</a>
+    <a href="index.php?page=login"><i class="fa-solid fa-arrow-left"></i> Retour à la connexion</a>
 </div>
 
 <?php

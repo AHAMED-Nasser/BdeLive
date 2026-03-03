@@ -85,27 +85,40 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
 
     <section>
         <h2>Données personnelles et RGPD</h2>
+
         <p>
-            Soucieux du respect de la vie privée des utilisateurs du site Web, les éditeurs, responsables de traitement,
-            s'engagent à ce que la collecte et le traitement des informations soient effectués conformément au Règlement
-            Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.
+            <strong>Collecte et finalité :</strong> Ce projet pédagogique collecte des données personnelles (nom,
+            prénom, adresse e-mail) uniquement pour le fonctionnement du site. Elles ne sont jamais cédées ou utilisées
+            à des fins commerciales. Le traitement respecte le RGPD et la loi Informatique et Libertés.
         </p>
+
         <p>
-            <strong>Collecte des données :</strong><br>
-            Ce projet pédagogique peut collecter des données personnelles (nom, prénom, adresse e-mail) uniquement dans
-            le cadre de démonstrations et d'apprentissage. Ces données ne sont en aucun cas utilisées à des fins
-            commerciales.
+            <strong>Sécurité :</strong> Pour prévenir les attaques malveillantes (force brute), votre adresse IP et
+            votre e-mail sont enregistrés temporairement lors d'un échec de connexion. Ces données sont purgées
+            automatiquement après 15 minutes ou lors d'une connexion réussie.
         </p>
+
         <p>
-            <strong>Vos droits :</strong><br>
-            Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de
-            rectification, de suppression, de limitation du traitement, de portabilité et d'opposition au traitement de
-            vos données personnelles.
+            <strong>Vos droits :</strong> Vous disposez d'un droit d'accès, de rectification, de suppression et de
+            portabilité de vos données. Pour l'exercer, vous pouvez contacter l'équipe de développement via le
+            formulaire de contact.
         </p>
+
         <p>
-            Pour exercer ces droits, vous pouvez contacter l'équipe de développement via le formulaire de contact du
-            site.
+            <strong>Politique de suppression de compte (Droit à l'oubli) :</strong><br>
+            Vous pouvez supprimer votre compte à tout moment depuis votre profil. Cette action déclenche le processus
+            suivant :
         </p>
+        <ul>
+            <li><strong>Immédiatement :</strong> Votre compte est suspendu et vous êtes désinscrit automatiquement de
+                tous les événements à venir.</li>
+            <li><strong>Pendant 30 jours (Délai de grâce) :</strong> Vos données sont conservées en "corbeille". Vous
+                pouvez contacter le support pour annuler la suppression.</li>
+            <li><strong>Après 30 jours :</strong> Vos données personnelles (nom, prénom, e-mail, mot de passe) sont
+                <strong>définitivement et irréversiblement anonymisées</strong>. Votre profil devient un utilisateur
+                générique. Ce procédé nous permet de respecter votre droit à l'oubli tout en préservant l'exactitude
+                des statistiques historiques de l'association.</li>
+        </ul>
     </section>
 
     <section>
@@ -149,7 +162,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             L'utilisateur s'engage donc à la consulter régulièrement.
         </p>
         <p>
-            <strong>Dernière mise à jour :</strong> Octobre 2025
+            <strong>Dernière mise à jour :</strong> Mars 2026
         </p>
     </section>
 
@@ -162,7 +175,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
         </p>
     </section>
 
-    <p><a href="index.php?page=home">← Retour à l'accueil</a></p>
+    <p><a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a></p>
 </div>
 
 <?php
