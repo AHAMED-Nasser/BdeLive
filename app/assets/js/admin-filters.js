@@ -80,6 +80,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentFilter = params.get('filter') || 'active';
         const currentSearch = params.get('search') || '';
 
+        const exportForm = document.getElementById('exportForm');
+        if (exportForm) {
+            exportForm.querySelector('#hidden-filter').value = currentFilter;
+            exportForm.querySelector('#hidden-role').value = currentRole;
+            exportForm.querySelector('#hidden-search').value = currentSearch;
+        }
+
         // Update status filter links with current search and role
         document.querySelectorAll('.admin-nav-list:not(.role-filters) .admin-nav-link').forEach(link => {
             const linkUrl = new URL(link.href, window.location.origin);

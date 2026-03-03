@@ -34,6 +34,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
         <aside class="admin-sidebar">
         <h2>Navigation</h2>
 
+
         <!-- Formulaire de recherche -->
         <form method="GET" class="admin-search-form">
             <input type="hidden" name="page" value="adminSection">
@@ -67,6 +68,20 @@ start_page("Administration | BDE Live", true, $user ?? null);
                 </div>
             <?php endif; ?>
         </form>
+
+        <!-- Actions d'exportation-->
+        <nav class="filter-section">
+            <h3 class="filter-title">Actions</h3>
+            <ul class="admin-nav-list">
+                <li>
+                    <a href="javascript:void(0);"
+                       onclick="submitExport()"
+                       class="admin-nav-link">
+                        <i class="fas fa-file-pdf"></i> Exporter la liste
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
         <!-- Filtres de Statut -->
         <nav class="filter-section">
@@ -126,6 +141,24 @@ start_page("Administration | BDE Live", true, $user ?? null);
 
     <script src="./assets/js/admin-filters.js"></script>
 
-    </div>
+    <form id="exportForm" action="index.php?page=exportUserList" method="POST" target="downloadFrame" style="display:none;">
+        <input type="hidden" name="filter" id="hidden-filter">
+        <input type="hidden" name="role" id="hidden-role">
+        <input type="hidden" name="search" id="hidden-search">
+    </form>
+
+    <iframe id="downloadFrame" style="display:none;"></iframe>
+
+    <script>
+        function submitExport() {
+            const form = document.getElementById('exportForm');
+            if (form) {
+                form.submit();
+            } else {
+                console.error("Le formulaire d'export est introuvable.");
+            }
+        }
+    </script>
+
 
 <?php end_page(); ?>
