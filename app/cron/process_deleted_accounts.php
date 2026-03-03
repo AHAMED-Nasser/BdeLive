@@ -3,10 +3,10 @@
 /**
  * Cron script to process accounts whose 30-day grace period has expired.
  *
- * Depending on CLEANUP_STRATEGY:
- *   - 'DELETE'    : permanently removes the user record from the database.
- *   - 'ANONYMIZE' : replaces PII with placeholder values, keeping the record
- *                   for statistical/referential integrity purposes.
+ * All expired accounts are anonymized: personally identifiable information
+ * (email, first name, last name, password, verification token) is replaced
+ * with non-identifying placeholder values. The record itself is kept to
+ * preserve statistical integrity and referential consistency.
  *
  * Suggested crontab entry (runs every night at midnight):
  *   0 0 * * * php /path/to/app/cron/process_deleted_accounts.php >> /var/log/bdelive_cleanup.log 2>&1
@@ -22,12 +22,6 @@ date_default_timezone_set('Europe/Paris');
 require_once __DIR__ . '/../Config/config.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-/**
- * Strategy applied to accounts that have exceeded the grace period.
- * Accepted values: 'DELETE' (hard delete) | 'ANONYMIZE' (replace PII with placeholders).
- */
-const CLEANUP_STRATEGY = 'ANONYMIZE';
-
 try {
     $userManager = new UserManager();
 
@@ -39,13 +33,7 @@ try {
         $userId = (int) $user['user_id'];
 
         try {
-            /** @var 'DELETE'|'ANONYMIZE' $strategy */
-            $strategy = CLEANUP_STRATEGY;
-            if ($strategy === 'DELETE') {
-                $userManager->deleteUser($userId);
-            } else {
-                $userManager->anonymizeUser($userId);
-            }
+            $userManager->anonymizeUser($userId);
             $processedCount++;
         } catch (Throwable $e) {
             $errorCount++;

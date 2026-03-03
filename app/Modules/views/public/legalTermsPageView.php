@@ -85,45 +85,39 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
 
     <section>
         <h2>Données personnelles et RGPD</h2>
+
         <p>
-            Soucieux du respect de la vie privée des utilisateurs du site Web, les éditeurs, responsables de traitement,
-            s'engagent à ce que la collecte et le traitement des informations soient effectués conformément au Règlement
-            Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés.
+            <strong>Collecte et finalité :</strong> Ce projet pédagogique collecte des données personnelles (nom,
+            prénom, adresse e-mail) uniquement pour le fonctionnement du site. Elles ne sont jamais cédées ou utilisées
+            à des fins commerciales. Le traitement respecte le RGPD et la loi Informatique et Libertés.
         </p>
+
         <p>
-            <strong>Collecte des données :</strong><br>
-            Ce projet pédagogique peut collecter des données personnelles (nom, prénom, adresse e-mail) uniquement dans
-            le cadre de démonstrations et d'apprentissage. Ces données ne sont en aucun cas utilisées à des fins
-            commerciales.
+            <strong>Sécurité :</strong> Pour prévenir les attaques malveillantes (force brute), votre adresse IP et
+            votre e-mail sont enregistrés temporairement lors d'un échec de connexion. Ces données sont purgées
+            automatiquement après 15 minutes ou lors d'une connexion réussie.
         </p>
+
         <p>
-            <strong>Vos droits :</strong><br>
-            Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de
-            rectification, de suppression, de limitation du traitement, de portabilité et d'opposition au traitement de
-            vos données personnelles.
+            <strong>Vos droits :</strong> Vous disposez d'un droit d'accès, de rectification, de suppression et de
+            portabilité de vos données. Pour l'exercer, vous pouvez contacter l'équipe de développement via le
+            formulaire de contact.
         </p>
+
         <p>
-            Pour exercer ces droits, vous pouvez contacter l'équipe de développement via le formulaire de contact du
-            site.
-        </p>
-        <p>
-            <strong>Suppression de compte :</strong><br>
-            Vous pouvez demander la suppression de votre compte depuis votre espace personnel. Lors de cette demande :
+            <strong>Politique de suppression de compte (Droit à l'oubli) :</strong><br>
+            Vous pouvez supprimer votre compte à tout moment depuis votre profil. Cette action déclenche le processus
+            suivant :
         </p>
         <ul>
-            <li>Votre compte est immédiatement marqué comme en cours de suppression et vous n'avez plus accès à la
-                connexion.</li>
-            <li>Vous êtes <strong>définitivement désinscrit de tous les événements à venir</strong> (les places libérées
-                sont à nouveau disponibles). Vos inscriptions aux événements déjà passés sont conservées à des fins
-                d'historique ou de statistiques.</li>
-            <li>Une <strong>période de rétention (délai de grâce) de 30 jours</strong> s'applique : pendant ce délai,
-                vos données restent stockées et vous pouvez contacter le support pour demander la réactivation de votre
-                compte.</li>
-            <li>À l'issue de ce délai de 30 jours, le traitement définitif de vos données sera appliqué. <strong>La
-                décision entre anonymisation des données (conservation du compte à des fins statistiques, avec suppression
-                des données personnelles identifiantes) et suppression définitive du compte n'est pas encore arrêtée ; elle
-                sera précisée dans les présentes mentions légales dès qu'elle sera fixée.</strong> En cas de doute, vous
-                pouvez nous contacter pour connaître la politique appliquée.</li>
+            <li><strong>Immédiatement :</strong> Votre compte est suspendu et vous êtes désinscrit automatiquement de
+                tous les événements à venir.</li>
+            <li><strong>Pendant 30 jours (Délai de grâce) :</strong> Vos données sont conservées en "corbeille". Vous
+                pouvez contacter le support pour annuler la suppression.</li>
+            <li><strong>Après 30 jours :</strong> Vos données personnelles (nom, prénom, e-mail, mot de passe) sont
+                <strong>définitivement et irréversiblement anonymisées</strong>. Votre profil devient un utilisateur
+                générique. Ce procédé nous permet de respecter votre droit à l'oubli tout en préservant l'exactitude
+                des statistiques historiques de l'association.</li>
         </ul>
     </section>
 
@@ -168,7 +162,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             L'utilisateur s'engage donc à la consulter régulièrement.
         </p>
         <p>
-            <strong>Dernière mise à jour :</strong> Février 2026
+            <strong>Dernière mise à jour :</strong> Mars 2026
         </p>
     </section>
 
@@ -181,7 +175,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
         </p>
     </section>
 
-    <p><a href="index.php?page=home">← Retour à l'accueil</a></p>
+    <p><a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a></p>
 </div>
 
 <?php
