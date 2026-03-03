@@ -8,7 +8,7 @@
  * @version 1.0.0
  */
 
-/* ===== MODE CLAIR (Défaut) ===== */
+/* ===== MODE CLAIR (Défaut - Mis à jour avec la palette Coolors) ===== */
 :root {
     /* Typography */
     --font-heading: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
@@ -19,20 +19,20 @@
     --bg-secondary: #f8f9fa;
     --bg-tertiary: #FAF9F6;
     --bg-card: #ffffff;
-    --bg-hover: #e9ecef;
+    --bg-hover: #F1F3F5; /* Plus doux que l'ancien e9ecef */
 
     /* Text Colors */
-    --text-primary: #333333;
-    --text-secondary: #444444;
-    --text-tertiary: #666666;
+    --text-primary: #4E4B5C;   /* Charcoal : Plus doux que le noir pur pour le mode clair */
+    --text-secondary: #5F5C6D;
+    --text-tertiary: #7E7B8A;
     --text-inverse: #ffffff;
     --text-muted: #999999;
 
-    /* Accent Colors */
-    --color-primary: #5a67d8;
-    --color-primary-hover: #4c51bf;
-    --color-secondary: #764ba2;
-    --color-accent: #b523eb;
+    /* Accent Colors - Intégration de votre palette Coolors */
+    --color-primary: #4381C1;        /* Steel Blue */
+    --color-primary-hover: #3669A0;  /* Steel Blue assombri pour le contraste au survol */
+    --color-secondary: #BDADEA;      /* Wisteria */
+    --color-accent: #BEA2C2;         /* Lilac */
     --color-warning: #ffc107;
     --color-warning-text: #212529;
     --color-danger: #c53030;
@@ -41,18 +41,18 @@
     --color-success-text: #ffffff;
 
     /* Borders & Shadows */
-    --border-color: #ddd;
-    --border-light: #e9ecef;
-    --shadow-sm: rgba(0, 0, 0, 0.08);
-    --shadow-md: rgba(0, 0, 0, 0.15);
-    --shadow-lg: rgba(0, 0, 0, 0.2);
+    --border-color: #DEE2E6;
+    --border-light: #E9ECEF;
+    --shadow-sm: rgba(67, 129, 193, 0.1); /* Ombre légère teintée Steel Blue */
+    --shadow-md: rgba(0, 0, 0, 0.08);
+    --shadow-lg: rgba(0, 0, 0, 0.12);
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
-    --gradient-hero: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
-    --gradient-content: linear-gradient(180deg, #f8f9ff 0%, #dea4f1 100%);
-    --gradient-sidebar: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-profile: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Gradients - Adaptés avec Steel Blue, Wisteria et Lilac */
+    --gradient-primary: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-hero: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-content: linear-gradient(180deg, #f8f9ff 0%, #BEA2C2 100%); /* Lilac en bas */
+    --gradient-sidebar: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-profile: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
 
     /* Alerts */
     --alert-success-bg: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
@@ -67,60 +67,60 @@
     --alert-warning-text: #856404;
 }
 
-/* ===== MODE SOMBRE (Premium - Gris colorés) ===== */
+/* ===== MODE SOMBRE (Premium - Dégradé vertical comme le mode jour) ===== */
 .dark-mode {
+    /* Backgrounds */
     --bg-primary: #0F111A;
     --bg-secondary: #1A1D2B;
     --bg-tertiary: #1A1D2B;
     --bg-card: #252938;
-    --bg-hover: #2D3548;
+    --bg-hover: #4E4B5C; /* Charcoal pour les survol de listes */
 
-    /* Text Colors - Blanc légèrement bleuté */
+    /* Text Colors */
     --text-primary: #E2E8F0;
     --text-secondary: #CBD5E1;
     --text-tertiary: #94A3B8;
     --text-inverse: #0F111A;
     --text-muted: #64748B;
 
-    /* Accent Colors - Pastels qui "pop" */
-    --color-primary: #818CF8;
-    --color-primary-hover: #A5B4FC;
-    --color-secondary: #C084FC;
-    --color-accent: #C084FC;
+    /* Accent Colors - Votre palette Coolors */
+    --color-primary: #4381C1;        /* Steel Blue */
+    --color-primary-hover: #BDADEA;  /* Wisteria */
+    --color-secondary: #BEA2C2;      /* Lilac */
+    --color-accent: #A37871;         /* Taupe */
+
+    /* Status Colors */
     --color-warning: #fbbf24;
-    --color-warning-text: #0F111A;
     --color-danger: #f87171;
-    --color-danger-text: #0F111A;
     --color-success: #4ade80;
-    --color-success-text: #0F111A;
 
     /* Borders & Shadows */
     --border-color: #334155;
     --border-light: #475569;
     --shadow-sm: rgba(0, 0, 0, 0.3);
     --shadow-md: rgba(0, 0, 0, 0.4);
-    --shadow-lg: rgba(0, 0, 0, 0.5);
 
-    /* Gradients - Adaptés pour le mode sombre */
-    --gradient-primary: linear-gradient(90deg, rgba(192, 132, 252, 0.9) 0%, rgba(129, 140, 248, 0.9) 100%);
-    --gradient-hero: linear-gradient(90deg, rgba(192, 132, 252, 0.8) 0%, rgba(129, 140, 248, 0.8) 100%);
-    --gradient-content: linear-gradient(180deg, #1A1D2B 0%, #252938 100%);
-    --gradient-sidebar: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
-    --gradient-profile: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+    /* === DÉGRADÉS (Identiques à la structure du mode jour) === */
 
-    /* Alerts - Adaptés pour le mode sombre */
-    --alert-success-bg: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(22, 163, 74, 0.2) 100%);
+    /* Dégradé principal (Boutons, Sidebar) */
+    --gradient-primary: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+
+    /* Dégradé Hero (Bannière) */
+    --gradient-hero: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+
+    /* LE DÉGRADÉ DE FOND : Fond sombre vers Lilas (comme sur le mode jour) */
+    --gradient-content: linear-gradient(180deg, #1A1D2B 0%, #BEA2C2 100%);
+
+    /* Dégradé Sidebar & Profil */
+    --gradient-sidebar: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-profile: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+
+    /* Alerts */
+    --alert-success-bg: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(34, 197, 94, 0.15) 100%);
     --alert-success-text: #86EFAC;
-    --alert-success-border: rgba(34, 197, 94, 0.3);
-    --alert-error-bg: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+    --alert-error-bg: linear-gradient(135deg, rgba(248, 113, 113, 0.15) 0%, rgba(239, 68, 68, 0.15) 100%);
     --alert-error-text: #FCA5A5;
-    --alert-error-border: rgba(239, 68, 68, 0.3);
-    --alert-info-bg: rgba(59, 130, 246, 0.2);
-    --alert-info-text: #93C5FD;
-    --alert-warning-bg: rgba(245, 158, 11, 0.2);
-    --alert-warning-text: #FCD34D;
 }
-
 /* ===== DÉTECTION AUTOMATIQUE SYSTÈME ===== */
 @media (prefers-color-scheme: dark) {
     :root:not(.light-mode) {
