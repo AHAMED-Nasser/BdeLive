@@ -26,7 +26,7 @@ $userId = $user['user_id'] ?? null;
 ?>
 
 <link rel="stylesheet" href="assets/css/pages/event-show.css">
-<?php if ($isAdmin && !$event->isGroupEvent()) : ?>
+<?php if ($isAdmin) : ?>
     <link rel="stylesheet" href="assets/css/pages/manage-registrants.css">
 <?php endif; ?>
 
@@ -201,35 +201,141 @@ $userId = $user['user_id'] ?? null;
         </div>
     <?php endif; ?>
 
-    <?php if ($event->isGroupEvent() && !empty($groupRegistrants)) : ?>
-        <div class="registrants-list-section group-registrants-section">
+    <?php if ($event->isGroupEvent() && (!empty($groupRegistrants) || $isAdmin)) : ?>
+        <div class="registrants-list-section group-registrants-section" id="group-registrants-section"
+            data-event-id="<?= $eventId ?>">
             <h2>Liste des inscrits (<?= $totalGroupRegistrants ?>) — <?= count($groupRegistrants) ?> groupe(s)</h2>
 
-            <?php foreach ($groupRegistrants as $teamNumber => $members) : ?>
-                <div class="group-block">
-                    <h3 class="group-header">Groupe <?= (int) $teamNumber ?></h3>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Prénom</th>
-                                    <th>Promotion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($members as $member) : ?>
+            <?php if (!empty($groupRegistrants)) : ?>
+                <?php foreach ($groupRegistrants as $teamNumber => $members) : ?>
+                    <?php
+                    // Get team_id from the first member
+                    $currentTeamId = (int) ($members[0]['team_id'] ?? 0);
+                    ?>
+                    <div class="group-block" data-team-id="<?= $currentTeamId ?>" data-team-number="<?= (int) $teamNumber ?>">
+                        <h3 class="group-header">Groupe <?= (int) $teamNumber ?></h3>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
                                     <tr>
-                                        <td><?= htmlspecialchars($member['last_name']) ?></td>
-                                        <td><?= htmlspecialchars($member['first_name']) ?></td>
-                                        <td><?= htmlspecialchars($member['promotion'] ?? 'N/A') ?></td>
+                                        <?php if ($isAdmin) : ?>
+                                            <th class="manage-registrants-checkbox">
+                                                <input type="checkbox" class="select-all-group" title="Tout sélectionner">
+                                            </th>
+                                        <?php endif; ?>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Promotion</th>
+                                        <?php if ($isAdmin) : ?>
+                                            <th class="manage-group-move-col" style="display:none">Déplacer</th>
+                                        <?php endif; ?>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($members as $member) : ?>
+                                        <tr data-user-id="<?= (int) $member['user_id'] ?>">
+                                            <?php if ($isAdmin) : ?>
+                                                <td class="manage-registrants-checkbox">
+                                                    <input type="checkbox" name="user_ids[]" value="<?= (int) $member['user_id'] ?>"
+                                                        class="registrant-checkbox group-registrant-checkbox"
+                                                        form="group-remove-form-<?= $currentTeamId ?>">
+                                                </td>
+                                            <?php endif; ?>
+                                            <td><?= htmlspecialchars($member['last_name']) ?></td>
+                                            <td><?= htmlspecialchars($member['first_name']) ?></td>
+                                            <td><?= htmlspecialchars($member['promotion'] ?? 'N/A') ?></td>
+                                            <?php if ($isAdmin) : ?>
+                                                <td class="manage-group-move-col" style="display:none">
+                                                    <select class="group-move-select" data-user-id="<?= (int) $member['user_id'] ?>"
+                                                        title="Déplacer vers">
+                                                        <option value="">—</option>
+                                                        <?php foreach ($groupRegistrants as $otherTeamNum => $otherMembers) : ?>
+                                                            <?php if ((int) $otherTeamNum !== (int) $teamNumber) : ?>
+                                                                <option value="<?= (int) ($otherMembers[0]['team_id'] ?? 0) ?>">
+                                                                    Groupe <?= (int) $otherTeamNum ?>
+                                                                </option>
+                                                            <?php endif; ?>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </td>
+                                            <?php endif; ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <?php if ($isAdmin) : ?>
+                            <!-- Remove from group form -->
+                            <form method="post" action="index.php?page=manageRegistrants" id="group-remove-form-<?= $currentTeamId ?>"
+                                class="group-manage-form" style="display:none">
+                                <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                <input type="hidden" name="action" value="group_remove">
+                                <?= $csrf->getTokenField() ?>
+                                <div class="group-actions-bar" style="display:flex">
+                                    <button type="submit" class="btn-remove-registrants btn-group-remove" disabled>
+                                        <i class="fas fa-user-minus"></i> Retirer les sélectionnés
+                                    </button>
+                                </div>
+                            </form>
+
+                            <!-- Delete group form -->
+                            <form method="post" action="index.php?page=manageRegistrants" class="group-delete-form"
+                                style="display:none">
+                                <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                <input type="hidden" name="action" value="group_delete">
+                                <input type="hidden" name="team_id" value="<?= $currentTeamId ?>">
+                                <?= $csrf->getTokenField() ?>
+                                <button type="submit" class="btn-delete-group">
+                                    <i class="fas fa-trash-alt"></i> Supprimer le groupe <?= (int) $teamNumber ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
                     </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p class="empty-registrants-message">Aucun groupe inscrit pour le moment.</p>
+            <?php endif; ?>
+
+            <?php if ($isAdmin) : ?>
+                <!-- Add to group panel (visible in manage mode) -->
+                <div class="add-registrant-panel" id="group-add-panel" style="display:none">
+                    <h3><i class="fas fa-user-plus"></i> Ajouter des inscrits à un groupe</h3>
+
+                    <div class="search-container">
+                        <input type="text" id="group-search-user-input" class="search-input"
+                            placeholder="Rechercher par nom, prénom ou ID..." autocomplete="off">
+                        <div class="search-results-dropdown" id="group-search-results-dropdown"></div>
+                    </div>
+
+                    <div class="selected-users-chips" id="group-selected-users-chips"></div>
+
+                    <form method="post" action="index.php?page=manageRegistrants" id="group-add-form">
+                        <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                        <input type="hidden" name="action" value="group_add">
+                        <?= $csrf->getTokenField() ?>
+                        <div id="group-add-user-ids-container"></div>
+
+                        <div class="group-team-selector">
+                            <label for="group-team-select">Groupe de destination :</label>
+                            <select name="team_id" id="group-team-select" class="group-move-select" required>
+                                <option value="">— Sélectionner un groupe —</option>
+                                <?php foreach ($groupRegistrants as $teamNum => $teamMembers) : ?>
+                                    <option value="<?= (int) ($teamMembers[0]['team_id'] ?? 0) ?>">
+                                        Groupe <?= (int) $teamNum ?>
+                                    </option>
+                                <?php endforeach; ?>
+                                <option value="new">＋ Créer un nouveau groupe</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn-add-registrants" id="group-btn-add" disabled>
+                            <i class="fas fa-user-plus"></i> Ajouter au groupe
+                        </button>
+                    </form>
                 </div>
-            <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 
@@ -242,6 +348,12 @@ $userId = $user['user_id'] ?? null;
                 <?php if (!$event->isGroupEvent()) : ?>
                     <button type="button" class="btn-manage-registrants" id="btn-toggle-manage">
                         <i class="fas fa-user-edit"></i> Modifier les inscrits
+                    </button>
+                <?php endif; ?>
+
+                <?php if ($event->isGroupEvent()) : ?>
+                    <button type="button" class="btn-manage-registrants" id="btn-toggle-group-manage">
+                        <i class="fas fa-users-cog"></i> Modifier les groupes
                     </button>
                 <?php endif; ?>
 
@@ -262,7 +374,7 @@ $userId = $user['user_id'] ?? null;
     <?php endif; ?>
 </div>
 
-<?php if ($isAdmin && !$event->isGroupEvent()) : ?>
+<?php if ($isAdmin) : ?>
     <script src="assets/js/manage-registrants.js"></script>
 <?php endif; ?>
 

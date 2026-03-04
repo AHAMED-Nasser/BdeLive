@@ -498,3 +498,177 @@
         padding: 16px;
     }
 }
+
+/* ===================================================================
+ * Group management — action bars and delete group button
+ * =================================================================== */
+
+.group-actions-bar {
+    display: none;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 12px 0;
+}
+
+.manage-mode .group-actions-bar {
+    display: flex;
+}
+
+.group-delete-form {
+    display: none;
+    margin-top: 8px;
+}
+
+.manage-mode .group-delete-form {
+    display: block;
+}
+
+.btn-delete-group {
+    padding: 8px 16px;
+    border: 2px solid #D32F2F;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: "JetBrains Mono", monospace;
+    background-color: transparent;
+    color: #D32F2F;
+}
+
+.btn-delete-group:hover {
+    background-color: #D32F2F;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(211, 47, 47, 0.25);
+}
+
+.dark-mode .btn-delete-group {
+    border-color: #F44336;
+    color: #F44336;
+}
+
+.dark-mode .btn-delete-group:hover {
+    background-color: #F44336;
+    color: #000;
+    box-shadow: 0 3px 6px rgba(244, 67, 54, 0.3);
+}
+
+/* ===================================================================
+ * Group management — move column and select
+ * =================================================================== */
+
+.manage-group-move-col {
+    display: none;
+    width: 140px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.manage-mode .manage-group-move-col {
+    display: table-cell;
+}
+
+.group-move-select {
+    padding: 6px 10px;
+    border: 2px solid var(--border-color, #dee2e6);
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: "JetBrains Mono", monospace;
+    background-color: var(--bg-primary, #fff);
+    color: var(--text-primary, #212529);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    width: 100%;
+}
+
+.group-move-select:focus {
+    outline: none;
+    border-color: #1976D2;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
+}
+
+.dark-mode .group-move-select {
+    background-color: var(--bg-secondary, #2a2a3d);
+    color: var(--text-primary, #e1e1e6);
+    border-color: var(--border-color, #3a3a5c);
+}
+
+.dark-mode .group-move-select:focus {
+    border-color: #42A5F5;
+}
+
+/* ===================================================================
+ * Group management — team selector in add panel
+ * =================================================================== */
+
+.group-team-selector {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.group-team-selector label {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    color: var(--text-primary, #212529);
+}
+
+.group-team-selector .group-move-select {
+    max-width: 280px;
+}
+
+/* ===================================================================
+ * Group block separator in manage mode
+ * =================================================================== */
+
+.manage-mode .group-block {
+    border: 2px solid var(--border-color, #dee2e6);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s ease;
+}
+
+.manage-mode .group-block:hover {
+    border-color: #1976D2;
+}
+
+.dark-mode .manage-mode .group-block {
+    border-color: var(--border-color, #3a3a5c);
+}
+
+.dark-mode .manage-mode .group-block:hover {
+    border-color: #42A5F5;
+}
+
+/* ===================================================================
+ * Group mobile responsive
+ * =================================================================== */
+
+@media (max-width: 768px) {
+    .group-actions-bar {
+        flex-direction: column;
+    }
+
+    .group-move-select {
+        font-size: 12px;
+    }
+
+    .manage-group-move-col {
+        width: 100px;
+    }
+
+    .group-team-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .group-team-selector .group-move-select {
+        max-width: 100%;
+        width: 100%;
+    }
+}
