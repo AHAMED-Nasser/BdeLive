@@ -23,6 +23,7 @@ start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
+$totalGroupRegistrants = $totalGroupRegistrants ?? 0;
 ?>
 
 <link rel="stylesheet" href="assets/css/pages/event-show.css">
