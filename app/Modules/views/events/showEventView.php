@@ -16,6 +16,8 @@
  * @var int|null $userId
  * @var \App\Modules\Repositories\EventRegistrationRepository $registrationRepo
  * @var int $totalGroupRegistrants Total count of group registrants
+ * @var array $registrants List of individual registrants
+ * @var array $groupRegistrants List of team/group registrants
  * @var \App\Core\Security\CsrfProtection $csrf
  */
 start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
