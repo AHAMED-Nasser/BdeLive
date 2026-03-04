@@ -99,7 +99,7 @@ class ExportUserEventController extends AdminController
         $dompdf = new Dompdf($options);
 
         // Load external CSS for PDF styling
-        $cssPath = __DIR__ . '/../../../assets/css/pdf-export.css';
+        $cssPath = __DIR__ . '/../../../assets/css/pages/pdf-export.css';
         $cssContent = file_exists($cssPath) ? (string) file_get_contents($cssPath) : '';
 
         // HTML build of the pdf
@@ -143,6 +143,13 @@ class ExportUserEventController extends AdminController
             <?php if (!empty($individualRegistrations)) : ?>
                 <h3>Inscriptions individuelles</h3>
                 <table>
+                    <colgroup>
+                        <col style="width: 25%">
+                        <col style="width: 25%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Nom</th>
@@ -175,6 +182,13 @@ class ExportUserEventController extends AdminController
 
                 <?php foreach ($teamRegistrations as $teamNumber => $members) : ?>
                     <table>
+                        <colgroup>
+                            <col style="width: 25%">
+                            <col style="width: 25%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                        </colgroup>
                         <thead>
                             <tr class="group-title-row">
                                 <td colspan="5">Groupe <?= htmlspecialchars((string) $teamNumber) ?></td>
