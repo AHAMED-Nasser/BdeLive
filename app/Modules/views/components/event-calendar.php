@@ -99,7 +99,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
     <!-- En-têtes des jours de la semaine -->
     <div class="calendar-weekdays">
         <?php
-        $weekdays = ['Lund', 'Mard', 'Mer', 'Jeud', 'Vend', 'Sam', 'Dim'];
+        $weekdays = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
         foreach ($weekdays as $day) {
             echo '<div class="calendar-weekday">' . htmlspecialchars($day) . '</div>';
         }
