@@ -1592,7 +1592,7 @@ a {
 /* Réutilisable pour les événements */
 .btn-edit {
     background-color: var(--color-warning);
-    color: var(--color-warning-text);
+    color: #f5f5f5;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -1605,7 +1605,7 @@ a {
 .btn-edit:hover {
     filter: brightness(0.9);
     text-decoration: none;
-    color: var(--color-warning-text);
+    color: #f5f5f5;
 }
 
 .btn-delete {
@@ -1739,16 +1739,16 @@ a {
 
 /* Admin buttons - Light Mode */
 .event-detail-page .admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #333 !important;
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
     padding: 12px 24px;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
 }
 
 .event-detail-page .admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #333 !important;
+    background-color: #9a7009 !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
     filter: none !important;
@@ -1786,35 +1786,21 @@ a {
     filter: none !important;
 }
 
-/* Admin buttons - Dark Mode */
-.dark-mode .event-detail-page .admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #000 !important;
-}
-
+/* Admin buttons - Dark Mode (géré globalement dans themes/dark-mode.css) */
+.dark-mode .event-detail-page .admin-zone .btn-edit,
 .dark-mode .event-detail-page .admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #000 !important;
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
 }
 
-.dark-mode .event-detail-page .admin-zone .btn-delete {
-    background-color: #F44336 !important;
-    color: #000 !important;
-}
-
+.dark-mode .event-detail-page .admin-zone .btn-delete,
 .dark-mode .event-detail-page .admin-zone .btn-delete:hover {
-    background-color: #E53935 !important;
-    color: #000 !important;
+    color: #f5f5f5 !important;
 }
 
-.dark-mode .event-detail-page .admin-zone .btn-view {
-    background-color: #673AB7 !important;
-    color: #fff !important;
-}
-
+.dark-mode .event-detail-page .admin-zone .btn-view,
 .dark-mode .event-detail-page .admin-zone .btn-view:hover {
-    background-color: #5E35B1 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
 }
 
 /* === Bouton Back to Top === */

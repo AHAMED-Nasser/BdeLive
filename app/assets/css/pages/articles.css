@@ -127,14 +127,14 @@
 /* Bouton Modifier - Moutarde/Doré */
 .article-actions .btn-edit {
     background-color: var(--color-warning);
-    color: var(--color-warning-text);
+    color: #f5f5f5;
     grid-column: span 1;
 }
 
 .article-actions .btn-edit:hover {
     filter: brightness(0.9);
     text-decoration: none;
-    color: var(--color-warning-text);
+    color: #f5f5f5;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(214, 158, 46, 0.3);
 }
