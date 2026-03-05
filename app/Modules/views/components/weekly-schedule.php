@@ -57,9 +57,6 @@ if (!empty($schedule['weekDates'])) {
 }
 ?>
 
-<link rel="stylesheet" href="./assets/css/pages/weekly-schedule.css">
-<link rel="stylesheet" href="./assets/css/pages/calendar.css">
-<script src="./assets/js/schedule-modal.js" defer></script>
 
 <div class="weekly-schedule" role="region" aria-label="Emploi du temps semaine <?= $schedule['week'] ?>">
 

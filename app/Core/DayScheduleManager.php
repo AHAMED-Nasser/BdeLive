@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core;
 
 /**
@@ -52,9 +54,9 @@ class DayScheduleManager
             'formatted' => $dateObj->format('d/m/Y'),
         ];
 
-        // Calculate previous/next day
+        // DateTimeImmutable::modify() retourne un nouvel objet sans altérer $dateObj
         $prevDate = $dateObj->modify('-1 day')->format('Y-m-d');
-        $nextDate = $dateObj->modify('+2 days')->format('Y-m-d'); // +2 car on a fait -1 avant
+        $nextDate = $dateObj->modify('+1 day')->format('Y-m-d');
 
         // Generate the list of hours
         $hours = [];
