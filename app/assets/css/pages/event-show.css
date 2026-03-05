@@ -293,7 +293,7 @@
 }
 
 .registrants-list-section thead tr {
-    background-color: var(--background-secondary);
+    background-color: var(--bg-secondary);
     text-align: left;
 }
 
@@ -332,4 +332,27 @@
 /* Group Header - Dark Mode */
 .dark-mode .group-header {
     color: #ffffff;
+}
+
+/* ===== Registrants Table - Text Visibility ===== */
+
+.registrants-list-section thead tr {
+    background-color: var(--bg-secondary);
+}
+
+.registrants-list-section th {
+    color: var(--text-primary);
+}
+
+.registrants-list-section td {
+    color: var(--text-primary);
+}
+
+/* Registrants Table - Dark Mode overrides */
+.dark-mode .registrants-list-section thead tr {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-mode .registrants-list-section tbody tr:hover {
+    background-color: var(--bg-hover);
 }
