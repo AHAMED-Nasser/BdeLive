@@ -318,6 +318,15 @@ a:focus {
     color: var(--text-primary);
 }
 
+.event-description-container img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
 .event-description-container h2 {
     color: var(--text-primary);
     font-weight: bold;
