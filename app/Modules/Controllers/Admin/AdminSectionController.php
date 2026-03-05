@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Admin;
 
-use App\Core\Application;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Helpers\Pagination;
 use App\Modules\Models\Users\UserManager;
@@ -43,14 +42,11 @@ class AdminSectionController extends AdminController
         $showBlocked = ($filter === 'blocked');
 
         // Validate role filter (security - whitelist validation)
-        $allowedRoles = ['all', 'admin', 'user', 'super_admin'];
+        $allowedRoles = ['all', 'admin', 'user'];
         $roleFilter = $this->request->get('role', 'all');
         if (!in_array($roleFilter, $allowedRoles, true)) {
             $roleFilter = 'all';
         }
-
-        // Get current user role for view permissions
-        $currentUserRole = Application::getInstance()->auth()->getUserRole();
 
         // Clean search term
         $search = trim((string) $this->request->get('search', ''));
@@ -86,8 +82,7 @@ class AdminSectionController extends AdminController
                 'pagination' => $pagination,
                 'currentFilter' => $filter,
                 'roleFilter' => $roleFilter,
-                'search' => $search,
-                'currentUserRole' => $currentUserRole,
+                'search' => $search
             ]);
             exit;
         }
@@ -97,16 +92,13 @@ class AdminSectionController extends AdminController
             'pagination' => $pagination,
             'currentFilter' => $filter,
             'roleFilter' => $roleFilter,
-            'search' => $search,
-            'currentUserRole' => $currentUserRole,
+            'search' => $search
         ]);
     }
 
     /**
      * Handles administrative actions performed on users.
-     * Enforces strict role hierarchy:
-     *  - super_admin: all actions on admin/user (including promote to super_admin), no actions on other super_admins
-     *  - admin: only block/unblock on user targets
+     * managed actions: promote, demote, block, unblock.
      *
      * @param UserManager $manager The user manager instance to perform operations.
      * @return void
@@ -115,80 +107,26 @@ class AdminSectionController extends AdminController
     {
         $id = (int) $this->request->post('user_id');
         $action = (string) $this->request->post('action');
-        $success = false;
 
-        $auth = Application::getInstance()->auth();
-        $currentRole = $auth->getUserRole();
-        $targetRole = $manager->getUserRoleById($id);
-
-        // --- Permission enforcement ---
-        if ($currentRole === 'super_admin') {
-            // Super admin can only demote_super_admin, unblock or restore on other super admins (including self)
-            if ($targetRole === 'super_admin') {
-                $allowedOnSuperAdmin = ['demote_super_admin', 'unblock', 'restore'];
-                if (!in_array($action, $allowedOnSuperAdmin, true)) {
-                    $this->redirectWithError(
-                        'index.php?page=adminSection',
-                        'Action interdite : vous ne pouvez que retirer le rôle Super Admin, débloquer ou restaurer.'
-                    );
-                }
-            }
-        } elseif ($currentRole === 'admin') {
-            // Admin can ONLY block/unblock, and ONLY on 'user' targets
-            $allowedAdminActions = ['block', 'unblock'];
-            if (!in_array($action, $allowedAdminActions, true) || $targetRole !== 'user') {
-                $this->redirectWithError(
-                    'index.php?page=adminSection',
-                    'Action interdite : vous n\'avez pas les droits nécessaires.'
-                );
-            }
-        } else {
-            // Regular users should never reach here (AdminController blocks them),
-            // but just in case:
-            $this->redirectWithError(
-                'index.php?page=home',
-                'Accès refusé.'
-            );
-        }
-
-        // --- Execute action ---
         switch ($action) {
             case 'promote':
-                $success = $manager->updateUserRole($id, 'admin');
-                break;
-            case 'promote_super_admin':
-                $manager->updateUserRole($id, 'super_admin');
-                break;
-            case 'demote':
-                $success = $manager->updateUserRole($id, 'user');
-                break;
-            case 'demote_super_admin':
                 $manager->updateUserRole($id, 'admin');
                 break;
+            case 'demote':
+                $manager->updateUserRole($id, 'user');
+                break;
             case 'block':
-                $success = $manager->setBlockStatus($id, 1);
+                $manager->setBlockStatus($id, 1);
                 break;
             case 'unblock':
-                $success = $manager->setBlockStatus($id, 0);
+                $manager->setBlockStatus($id, 0);
                 break;
             case 'soft_delete':
-                $success = $manager->softDeleteUser($id);
+                $manager->softDeleteUser($id);
                 break;
             case 'restore':
-                $success = $manager->restoreUser($id);
+                $manager->restoreUser($id);
                 break;
-        }
-
-        // Modification pour AJAX
-        $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
-
-        if ($isAjax) {
-            header('Content-Type: application/json');
-            echo json_encode([
-                'success' => $success,
-                'message' => $success ? 'Action effectuée avec succès.' : 'Erreur lors de l\'opération'
-            ]);
-            exit();
         }
 
         // Préserver tous les filtres lors de la redirection

@@ -47,6 +47,12 @@
     --shadow-md: rgba(0, 0, 0, 0.15);
     --shadow-lg: rgba(0, 0, 0, 0.2);
 
+    /* Gradients - Adaptés avec Steel Blue, Wisteria et Lilac */
+    --gradient-primary: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-hero: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-content: linear-gradient(180deg, #f8f9ff 0%, #BEA2C2 100%); /* Lilac en bas */
+    --gradient-sidebar: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-profile: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
     /* Gradients */
     --gradient-primary: linear-gradient(90deg, #b523eb 0%, #5759c7 100%);
     --gradient-hero: linear-gradient(90deg, rgba(181, 35, 235, 0.9) 0%, rgba(87, 89, 199, 0.9) 100%);
@@ -101,6 +107,7 @@
     --shadow-md: rgba(0, 0, 0, 0.4);
     --shadow-lg: rgba(0, 0, 0, 0.5);
 
+    /* === DÉGRADÉS (Identiques à la structure du mode jour) === */
     /* Gradients - Adaptés pour le mode sombre */
     --gradient-primary: linear-gradient(90deg, #c084fc 0%, #818cf8 100%);
     --gradient-hero: linear-gradient(90deg, rgba(192, 132, 252, 0.8) 0%, rgba(129, 140, 248, 0.8) 100%);
@@ -121,6 +128,26 @@
     --alert-warning-text: #FCD34D;
 }
 
+
+    /* Dégradé principal (Boutons, Sidebar) */
+    --gradient-primary: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+
+    /* Dégradé Hero (Bannière) */
+    --gradient-hero: linear-gradient(90deg, #4381C1 0%, #BDADEA 100%);
+
+    /* LE DÉGRADÉ DE FOND : Fond sombre vers Lilas (comme sur le mode jour) */
+    --gradient-content: linear-gradient(180deg, #1A1D2B 0%, #BEA2C2 100%);
+
+    /* Dégradé Sidebar & Profil */
+    --gradient-sidebar: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+    --gradient-profile: linear-gradient(135deg, #4381C1 0%, #BDADEA 100%);
+
+    /* Alerts */
+    --alert-success-bg: linear-gradient(135deg, rgba(74, 222, 128, 0.15) 0%, rgba(34, 197, 94, 0.15) 100%);
+    --alert-success-text: #86EFAC;
+    --alert-error-bg: linear-gradient(135deg, rgba(248, 113, 113, 0.15) 0%, rgba(239, 68, 68, 0.15) 100%);
+    --alert-error-text: #FCA5A5;
+}
 /* ===== DÉTECTION AUTOMATIQUE SYSTÈME ===== */
 @media (prefers-color-scheme: dark) {
     :root:not(.light-mode) {

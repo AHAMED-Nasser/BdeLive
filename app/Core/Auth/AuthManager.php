@@ -26,7 +26,7 @@ use App\Core\Exception\AuthorizationException;
  * - User data retrieval
  * @author BDELIVE - Groupe 8
  * @package App\Core\Auth
- * @version 1.6.0
+ * @version 1.5.6
  */
 class AuthManager
 {
@@ -118,7 +118,7 @@ class AuthManager
     }
 
     /**
-     * Check if the user is an administrator (admin or super_admin)
+     * Check if the user is an administrator (admin)
      *
      * @return bool True if user has admin rights and not blocked
      */
@@ -128,34 +128,8 @@ class AuthManager
 
         return $user !== null
             && isset($user['role'])
-            && in_array($user['role'], ['admin', 'super_admin'], true)
+            && $user['role'] === 'admin'
             && (int) ($user['is_blocked'] ?? 0) === 0;
-    }
-
-    /**
-     * Check if the user is a super administrator
-     *
-     * @return bool True if user has super_admin role and not blocked
-     */
-    public function isSuperAdmin(): bool
-    {
-        $user = $this->session->get('user');
-
-        return $user !== null
-            && isset($user['role'])
-            && $user['role'] === 'super_admin'
-            && (int) ($user['is_blocked'] ?? 0) === 0;
-    }
-
-    /**
-     * Get the current user's role
-     *
-     * @return string The role ('user', 'admin', or 'super_admin')
-     */
-    public function getUserRole(): string
-    {
-        $user = $this->session->get('user');
-        return ($user !== null && isset($user['role'])) ? $user['role'] : 'user';
     }
 
     /**
@@ -278,8 +252,6 @@ class AuthManager
             'first_name' => $this->getUserFirstName(),
             'last_name' => $this->getUserLastName(),
             'is_admin' => $this->isAdmin(),
-            'is_super_admin' => $this->isSuperAdmin(),
-            'role' => $this->getUserRole(),
         ];
     }
 }

@@ -5,8 +5,10 @@ declare(strict_types=1);
 //// Load configuration
 //require_once __DIR__ . '/Config/config.php';
 //
-
-
+require_once __DIR__ . '/../vendor/autoload.php';
+// Dans un fichier d'initialisation global
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 // Set timezone to France (Europe/Paris)
 date_default_timezone_set('Europe/Paris');
 use App\Core\Application;
@@ -62,13 +64,13 @@ if (file_exists($projectRoot . '/vendor/autoload.php')) {
 }
 
 // Chargement sécurisé du .env
-if (file_exists($projectRoot . '/.env')) {
-    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
-    $dotenv->load();
-} else {
-    // Si le fichier n'existe pas, on affiche un message clair pour le dev
-    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
-}
+//if (file_exists($projectRoot . '/.env')) {
+//    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
+//    $dotenv->load();
+//} else {
+//    // Si le fichier n'existe pas, on affiche un message clair pour le dev
+//    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
+//}
 
 // Define FROM_EMAIL for App\Config\Mailer (uses constant in constructor)
 if (!defined('FROM_EMAIL') && !empty($_ENV['FROM_EMAIL'])) {
