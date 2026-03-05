@@ -82,6 +82,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
 
         <!-- Dark Mode CSS - Doit être chargé en premier -->
         <link rel="stylesheet" href="./assets/css/themes/dark-mode.css">
@@ -394,6 +395,7 @@ function end_page(): void
     <script src="./assets/js/togglePassword.js"></script>
     <script src="./assets/js/passwordControl.js"></script>
     <script src="./assets/js/navbar-scroll.js"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>

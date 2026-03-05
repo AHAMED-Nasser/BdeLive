@@ -312,18 +312,18 @@ a:focus {
     font-weight: 600;
 }
 
-.event-description {
+.event-description-container {
     margin-bottom: 50px;
     line-height: 1.6;
     color: var(--text-primary);
 }
 
-.event-description h2 {
+.event-description-container h2 {
     color: var(--text-primary);
     font-weight: bold;
 }
 
-.event-description p {
+.event-description-container p {
     color: var(--text-secondary);
     font-size: 17px;
 }

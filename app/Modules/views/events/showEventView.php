@@ -22,6 +22,8 @@ start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
+$parsedown = new \Parsedown();
+$descriptionHtml = $parsedown->text($event->getDescription());
 ?>
 
     <link rel="stylesheet" href="assets/css/pages/event-show.css">
@@ -64,9 +66,9 @@ $userId = $user['user_id'] ?? null;
         <p><strong>📍 Lieu :</strong> <?= htmlspecialchars($event->getLocation()) ?></p>
     </div>
 
-    <div class="event-description">
+    <div class="event-description-container">
         <h2>Description</h2>
-        <p><?= nl2br(htmlspecialchars($event->getDescription())) ?></p>
+        <p><?= $descriptionHtml ?></p>
     </div>
 
     <div class="registration-section">
@@ -100,8 +102,6 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
-            <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
         <?php elseif (!isset($userId)) : ?>
             <p>Veuillez vous <a href="index.php?page=login"
                     style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>

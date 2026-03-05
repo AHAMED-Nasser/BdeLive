@@ -4,6 +4,10 @@
  */
 
 /* Flash messages */
+.event-description-container h1 { font-size: 2rem; border-bottom: 1px solid #ccc; }
+.event-description-container ul { padding-left: 20px; list-style-type: disc; }
+.event-description-container code { background: #f4f4f4; padding: 2px 5px; }
+
 .event-flash-success {
     background-color: #d4edda;
     color: #155724;
