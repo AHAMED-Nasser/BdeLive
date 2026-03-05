@@ -12,7 +12,7 @@
 :root {
     /* Typography */
     --font-heading: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    --font-body: 'Georgia', 'Times New Roman', serif;
+    --font-body: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
 
     /* Backgrounds */
     --bg-primary: #ffffff;
@@ -198,6 +198,16 @@ textarea:focus,
 select:focus {
     border-color: var(--color-primary);
     outline-color: var(--color-primary);
+}
+
+/* ===== DARK MODE: Textes spécifiques en blanc ===== */
+.dark-mode .create-action-btn,
+.dark-mode .btn-read-more,
+.dark-mode .latest-articles .title,
+.dark-mode .page-header-with-action .title,
+.dark-mode .article-meta,
+.dark-mode .article-meta-home {
+    color: #f5f5f5;
 }
 
 /* ===== TRANSITION DOUCE ===== */

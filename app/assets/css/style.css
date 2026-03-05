@@ -1255,8 +1255,8 @@ a {
         min-height: 60px;
     }
 
-    /* Hide ONLY the inline nav links (second top-level UL), not the sidebar menu */
-    .nav>ul:nth-of-type(2) {
+    /* Hide ONLY the inline nav links (second UL in .nav-inner), not the sidebar menu */
+    .nav .nav-inner > ul:nth-of-type(2) {
         display: none;
     }
 
