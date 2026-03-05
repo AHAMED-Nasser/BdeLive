@@ -211,23 +211,27 @@ composer lint:fix
 
 ## Auteurs & Remerciements
 
-Ce projet a été réalisé dans le cadre d'une **SAÉ (Situation d'Apprentissage Évaluée) — Semestre 3**
-du **BUT Informatique** à l'IUT Aix-Marseille.
+> Projet réalisé dans le cadre d'une **SAÉ — Semestre 3**, BUT Informatique · IUT Aix-Marseille
 
-<p align="center">
-  <strong>AHAMED Nasser</strong> &nbsp;·&nbsp;
-  <strong>BOUDHIB Mohamed-Amine</strong> &nbsp;·&nbsp;
-  <strong>CANTOR Romain</strong> &nbsp;·&nbsp;
-  <strong>CHETIOUI Willem</strong> &nbsp;·&nbsp;
-  <strong>HELALI Amin</strong> &nbsp;·&nbsp;
-  <strong>PALOT Thomas</strong>
-</p>
+<table align="center">
+  <tr>
+    <td align="center"><b>AHAMED Nasser</b></td>
+    <td align="center"><b>BOUDHIB Mohamed-Amine</b></td>
+    <td align="center"><b>CANTOR Romain</b></td>
+  </tr>
+  <tr>
+    <td align="center"><b>CHETIOUI Willem</b></td>
+    <td align="center"><b>HELALI Amin</b></td>
+    <td align="center"><b>PALOT Thomas</b></td>
+  </tr>
+</table>
 
 ### Remerciements
 
 - **M. Olivier Gérard** — encadrement pédagogique et suivi du projet
 - **M. Samir Chtioui** — accompagnement méthodologique et organisation
 - L'ensemble du **corps enseignant** du département Informatique, IUT Aix-Marseille
+- **Maxence Torchin** — inspiration pour la fonctionnalité d'emploi du temps ([Site ETU](https://torchin-maxence-24020376.github.io/Site-ETU/index.html))
 
 ---
 
