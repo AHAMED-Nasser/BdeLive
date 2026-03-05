@@ -10,7 +10,7 @@
 [![PHPStan](https://img.shields.io/badge/PHPStan-Level%208-%238892BF)](https://phpstan.org/)
 [![PHPUnit](https://img.shields.io/badge/PHPUnit-12-%2323A9E1?logo=php&logoColor=white)](https://phpunit.de/)
 [![PSR-12](https://img.shields.io/badge/Code%20Style-PSR--12-blue)](https://www.php-fig.org/psr/psr-12/)
-[![Licence](https://img.shields.io/badge/Licence-Académique-lightgrey)](LICENSE)
+[![Licence](https://img.shields.io/badge/Licence-Académique-blue)](LICENSE)
 
 **[🌐 Accéder au site →](https://bdelivesae.alwaysdata.net/index.php?page=home)**
 
@@ -234,4 +234,4 @@ composer lint:fix
 
 *Projet académique — usage pédagogique uniquement · IUT Aix-Marseille · BUT Informatique · 2025–2026*
 
-[![Licence MIT](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
+
