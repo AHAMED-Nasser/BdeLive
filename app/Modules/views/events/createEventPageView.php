@@ -120,9 +120,10 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
             </fieldset>
 
-
-            <label for="description">Description de l'événement</label>
-            <textarea id="description" placeholder="Venez à notre événement pour ..." name="description"></textarea>
+            <div class="description-event">
+                <label for="markdown-editor">Description de l'événement</label>
+                <textarea id="markdown-editor" placeholder="Venez à notre événement pour ..." name="description"></textarea>
+            </div>
 
             <div class="insert-image">
                 <p class="form-label">Ajouter des images :</p>
@@ -163,6 +164,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             }
         }
     </script>
+    <script src="./app/assets/js/event/markdownEditor.js"></script>
 </section>
 
 
