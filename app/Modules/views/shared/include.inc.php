@@ -78,35 +78,41 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             })();
         </script>
 
+        <!-- Google Fonts: Roboto -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
         <!-- Dark Mode CSS - Doit être chargé en premier -->
-        <link rel="stylesheet" href="./assets/css/dark-mode.css">
+        <link rel="stylesheet" href="./assets/css/themes/dark-mode.css">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="./assets/css/password-control.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <link rel="stylesheet" href="./assets/css/footer.css">
-        <link rel="stylesheet" href="./assets/css/navbar.css">
-        <link rel="stylesheet" href="./assets/css/member.css">
-        <link rel="stylesheet" href="./assets/css/team.css">
-        <link rel="stylesheet" href="./assets/css/join.css">
-        <link rel="stylesheet" href="./assets/css/caroussel.css">
-        <link rel="stylesheet" href="./assets/css/createEvent.css">
-        <link rel="stylesheet" href="./assets/css/profile.css">
-        <link rel="stylesheet" href="./assets/css/articles.css">
-        <link rel="stylesheet" href="./assets/css/homepage-articles.css">
-        <link rel="stylesheet" href="./assets/css/admin.css">
-        <link rel="stylesheet" href="./assets/css/schedule.css">
-        <link rel="stylesheet" href="./assets/css/event.css">
-        <link rel="stylesheet" href="./assets/css/modal.css">
-        <link rel="stylesheet" href="./assets/css/group-registration.css">
-        <link rel="stylesheet" href="./assets/css/bde-opening.css">
+        <link rel="stylesheet" href="./assets/css/base/password-control.css">
+        <link rel="stylesheet" href="./assets/css/base/style.css">
+        <link rel="stylesheet" href="./assets/css/layout/footer.css">
+        <link rel="stylesheet" href="./assets/css/layout/navbar.css">
+        <link rel="stylesheet" href="./assets/css/pages/member.css">
+        <link rel="stylesheet" href="./assets/css/pages/team.css">
+        <link rel="stylesheet" href="./assets/css/pages/join.css">
+        <link rel="stylesheet" href="./assets/css/pages/caroussel.css">
+        <link rel="stylesheet" href="./assets/css/pages/createEvent.css">
+        <link rel="stylesheet" href="./assets/css/pages/profile.css">
+        <link rel="stylesheet" href="./assets/css/pages/articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/homepage-articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/admin.css">
+        <link rel="stylesheet" href="./assets/css/pages/schedule.css">
+        <link rel="stylesheet" href="./assets/css/pages/event.css">
+        <link rel="stylesheet" href="./assets/css/components/modal.css">
+        <link rel="stylesheet" href="./assets/css/pages/group-registration.css">
+        <link rel="stylesheet" href="./assets/css/pages/bde-opening.css">
         <title><?= $title ?></title>
     </head>
     <body>
     <?php if ($wouldNav) : ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
+            <div class="nav-inner">
             <ul>
                 <li>
                     <a href="index.php?page=home" class="nav-logo" aria-label="BDE Inform'Aix - Accueil">
@@ -143,7 +149,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
                             <span class="visually-hidden">Ouvrir le menu de profil</span>
-                            <i class="fas fa-user" aria-hidden="true"></i>
+                            <svg class="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
@@ -192,7 +200,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
                             <span class="visually-hidden">Ouvrir le menu de profil</span>
-                            <i class="fas fa-user" aria-hidden="true"></i>
+                            <svg class="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
@@ -231,6 +241,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     </li>
                 <?php endif; ?>
             </ul>
+            </div>
 
             <!-- Menu Hamburger -->
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
@@ -338,27 +349,32 @@ function end_page(): void
 {
     ?>
     <footer>
-        <nav aria-label="Liens utiles">
-            <ul class="footer-nav">
-                <li><a href="index.php?page=about">À propos</a></li>
-                <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
-                <li><a href="index.php?page=sitemap">Plan du site</a></li>
-            </ul>
-        </nav>
-
-        <div class="social-logos">
-            <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram - Ouvrir dans un nouvel onglet">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord - Ouvrir dans un nouvel onglet">
-                <i class="fa-brands fa-discord"></i>
-            </a>
-            <a href="https://www.tiktok.com/@informaix" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok - Ouvrir dans un nouvel onglet">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>&copy; <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.</p>
+                <nav aria-label="Liens utiles">
+                    <ul class="footer-nav">
+                        <li><a href="index.php?page=about">À propos</a></li>
+                        <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                        <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-right">
+                <div class="social-logos">
+                    <h3>Suivez-nous</h3>
+                    <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@informaix" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-
-        <p>&copy; <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.</p>
     </footer>
 
     <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
@@ -377,6 +393,7 @@ function end_page(): void
     <script src="./assets/js/modal.js"></script>
     <script src="./assets/js/togglePassword.js"></script>
     <script src="./assets/js/passwordControl.js"></script>
+    <script src="./assets/js/navbar-scroll.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>

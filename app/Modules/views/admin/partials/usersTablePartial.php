@@ -43,11 +43,33 @@
                         <td><strong><?= htmlspecialchars($u['first_name'] . ' ' . $u['last_name']) ?></strong></td>
                         <td><?= htmlspecialchars($u['email']) ?></td>
                         <td>
+<<<<<<< HEAD
                             <span class="badge-role <?= $u['role'] === 'admin' ? 'badge-admin' : 'badge-user' ?>" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block;"><?= strtoupper(htmlspecialchars($u['role'] ?? 'user')) ?></span>
                         </td>
                         <td>
                             <?php if ($isDeleted) : ?>
                                 <span class="badge-role badge-deleted" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #6c757d; color: #fff;">SUPPRIMÉ</span>
+=======
+                            <?php if ($targetRole === 'super_admin') : ?>
+                                <span class="badge-role badge-super-admin">SUPER ADMIN</span>
+                            <?php elseif ($targetRole === 'admin') : ?>
+                                <span class="badge-role badge-admin">ADMIN</span>
+                            <?php else : ?>
+                                <span class="badge-role badge-user">MEMBRE</span>
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($isDeleted) : ?>
+                                <?php
+                                $deletedAt = new \DateTime($u['deleted_at']);
+                                $expiresAt = (clone $deletedAt)->modify('+30 days');
+                                $daysLeft  = max(0, (int) (new \DateTime())->diff($expiresAt)->days);
+                                ?>
+                                <span class="badge-role badge-deleted"
+                                      title="Supprimé le <?= htmlspecialchars($u['deleted_at']) ?>">
+                                    EN ATTENTE (<?= $daysLeft ?> j. restant<?= $daysLeft > 1 ? 's' : '' ?>)
+                                </span>
+>>>>>>> 7b7d45f521142f7fa8b3d0a46f7e2c275fd2520a
                             <?php elseif ($isBlocked) : ?>
                                 <span class="badge-role badge-banned" style="font-size: 0.75rem; padding: 0.25em 0.5em; display: inline-block; background-color: #dc3545; color: #fff;">BANNI</span>
                             <?php else : ?>

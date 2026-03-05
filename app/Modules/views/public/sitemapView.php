@@ -78,7 +78,7 @@ start_page("Plan du site - BDELive", true, $user ?? null);
         </ul>
     </section>
 
-    <p><a href="index.php?page=home">← Retour à l'accueil</a></p>
+    <p><a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a></p>
 </div>
 
 <?php
