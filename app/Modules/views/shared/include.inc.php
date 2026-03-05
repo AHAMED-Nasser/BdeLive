@@ -84,28 +84,28 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- Dark Mode CSS - Doit être chargé en premier -->
-        <link rel="stylesheet" href="./assets/css/dark-mode.css">
+        <link rel="stylesheet" href="./assets/css/themes/dark-mode.css">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="./assets/css/password-control.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <link rel="stylesheet" href="./assets/css/footer.css">
-        <link rel="stylesheet" href="./assets/css/navbar.css">
-        <link rel="stylesheet" href="./assets/css/member.css">
-        <link rel="stylesheet" href="./assets/css/team.css">
-        <link rel="stylesheet" href="./assets/css/join.css">
-        <link rel="stylesheet" href="./assets/css/caroussel.css">
-        <link rel="stylesheet" href="./assets/css/createEvent.css">
-        <link rel="stylesheet" href="./assets/css/profile.css">
-        <link rel="stylesheet" href="./assets/css/articles.css">
-        <link rel="stylesheet" href="./assets/css/homepage-articles.css">
-        <link rel="stylesheet" href="./assets/css/admin.css">
-        <link rel="stylesheet" href="./assets/css/schedule.css">
-        <link rel="stylesheet" href="./assets/css/event.css">
-        <link rel="stylesheet" href="./assets/css/modal.css">
-        <link rel="stylesheet" href="./assets/css/group-registration.css">
-        <link rel="stylesheet" href="./assets/css/bde-opening.css">
+        <link rel="stylesheet" href="./assets/css/base/password-control.css">
+        <link rel="stylesheet" href="./assets/css/base/style.css">
+        <link rel="stylesheet" href="./assets/css/layout/footer.css">
+        <link rel="stylesheet" href="./assets/css/layout/navbar.css">
+        <link rel="stylesheet" href="./assets/css/pages/member.css">
+        <link rel="stylesheet" href="./assets/css/pages/team.css">
+        <link rel="stylesheet" href="./assets/css/pages/join.css">
+        <link rel="stylesheet" href="./assets/css/pages/caroussel.css">
+        <link rel="stylesheet" href="./assets/css/pages/createEvent.css">
+        <link rel="stylesheet" href="./assets/css/pages/profile.css">
+        <link rel="stylesheet" href="./assets/css/pages/articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/homepage-articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/admin.css">
+        <link rel="stylesheet" href="./assets/css/pages/schedule.css">
+        <link rel="stylesheet" href="./assets/css/pages/event.css">
+        <link rel="stylesheet" href="./assets/css/components/modal.css">
+        <link rel="stylesheet" href="./assets/css/pages/group-registration.css">
+        <link rel="stylesheet" href="./assets/css/pages/bde-opening.css">
         <title><?= $title ?></title>
     </head>
     <body>
@@ -393,6 +393,7 @@ function end_page(): void
     <script src="./assets/js/modal.js"></script>
     <script src="./assets/js/togglePassword.js"></script>
     <script src="./assets/js/passwordControl.js"></script>
+    <script src="./assets/js/navbar-scroll.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>

@@ -268,7 +268,8 @@ a:focus {
         justify-content: center;
         padding: 14px 24px;
         font-size: 1rem;
-        min-height: 44px; /* Accessibilité tactile */
+        min-height: 44px;
+        /* Accessibilité tactile */
     }
 }
 
@@ -1256,7 +1257,7 @@ a {
     }
 
     /* Hide ONLY the inline nav links (second UL in .nav-inner), not the sidebar menu */
-    .nav .nav-inner > ul:nth-of-type(2) {
+    .nav .nav-inner>ul:nth-of-type(2) {
         display: none;
     }
 

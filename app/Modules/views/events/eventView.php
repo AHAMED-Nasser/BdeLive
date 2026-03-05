@@ -36,7 +36,7 @@ $viewMode = $viewMode ?? 'list'; ?>
     </div>
 </div>
 
-<link rel="stylesheet" href="./assets/css/event.css">
+    <link rel="stylesheet" href="./assets/css/pages/event.css">
 
 <?php
 

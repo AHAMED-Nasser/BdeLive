@@ -18,7 +18,7 @@
 start_page('Supprimer mon compte - BDELive', true, $user ?? null);
 ?>
 
-<link rel="stylesheet" href="./assets/css/delete-account.css">
+    <link rel="stylesheet" href="./assets/css/pages/delete-account.css">
 
 <div class="delete-account-container">
     <div class="delete-account-card">
