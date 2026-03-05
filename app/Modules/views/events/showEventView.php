@@ -118,7 +118,9 @@ $userId = $user['user_id'] ?? null;
                 <form method="post" action="index.php?page=deleteEvent" style="margin: 0;">
                     <input type="hidden" name="event_id" value="<?= $eventId ?>">
                     <?= $csrf->getTokenField() ?>
-                    <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.');">Supprimer</button>
+                    <button type="button" class="btn-delete"
+                            data-confirm-title="Supprimer l'événement"
+                            data-confirm-msg="Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.">Supprimer</button>
                 </form>
 
                 <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">
