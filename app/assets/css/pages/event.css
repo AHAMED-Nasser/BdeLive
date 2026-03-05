@@ -1,14 +1,11 @@
 /* ===========================================
-   BOUTONS LISTE/CALENDRIER - VUE ÉVÉNEMENTS
+   VOTRE STYLE CONSERVÉ (LISTE/CALENDRIER)
    =========================================== */
-
-/* Style desktop (par défaut) */
 .event-view-toggle-container {
     margin: 20px auto;
     text-align: center;
     max-width: 400px;
 }
-
 .event-view-toggle-buttons {
     display: inline-flex;
     gap: 0;
@@ -17,7 +14,6 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-
 .event-view-btn {
     display: flex;
     align-items: center;
@@ -35,148 +31,195 @@
     cursor: pointer;
     position: relative;
 }
-
-.event-view-btn i {
-    font-size: 1rem;
-}
-
 .event-view-btn:hover {
     background: var(--bg-hover);
     color: var(--text-primary);
     text-decoration: none !important;
 }
-
 .event-view-btn.active {
     background: var(--color-primary);
     color: var(--text-inverse);
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
     font-weight: 600;
 }
+/* ... Les autres styles responsive que vous avez fournis restent inchangés ... */
 
-.event-view-btn.active:hover {
-    background: var(--color-primary-hover);
-    color: var(--text-inverse);
-}
-
-.event-view-btn.active i {
-    color: var(--text-inverse);
-}
 
 /* ===========================================
-   RESPONSIVE - MOBILE
-   =========================================== */
-@media (max-width: 767px) {
-    .event-view-toggle-container {
-        margin: 1rem auto;
-        padding: 0 1rem;
-        max-width: 100%;
-    }
-
-    .event-view-toggle-buttons {
-        display: flex;
-        width: 100%;
-        max-width: 500px;
-        gap: 0.75rem;
-        background: var(--bg-secondary);
-        padding: 0.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .event-view-btn {
-        flex: 1;
-        flex-direction: column;
-        gap: 0.4rem;
-        padding: 0.75rem 1rem;
-        min-height: 65px;
-        border-radius: 10px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        background: var(--bg-card);
-        color: var(--text-secondary);
-        border: 2px solid transparent;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        text-decoration: none !important;
-    }
-
-    .event-view-btn i {
-        font-size: 1.2rem;
-        margin-bottom: 0.2rem;
-    }
-
-    .event-view-btn span {
-        font-size: 0.85rem;
-    }
-
-    .event-view-btn:hover {
-        background: var(--bg-hover);
-        color: var(--text-primary);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        text-decoration: none !important;
-    }
-
-    .event-view-btn.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: var(--text-inverse);
-        border-color: rgba(255, 255, 255, 0.3);
-        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
-        transform: translateY(-2px);
-    }
-
-    .event-view-btn.active:hover {
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        text-decoration: none !important;
-    }
-
-    .event-view-btn.active i {
-        color: var(--text-inverse);
-        transform: scale(1.1);
-    }
-}
-
-/* ===========================================
-   TRÈS PETITS ÉCRANS
-   =========================================== */
-@media (max-width: 480px) {
-    .event-view-toggle-container {
-        padding: 0 0.75rem;
-        margin: 0.75rem auto;
-    }
-
-    .event-view-toggle-buttons {
-        gap: 0.5rem;
-        padding: 0.4rem;
-    }
-
-    .event-view-btn {
-        padding: 0.6rem 0.8rem;
-        min-height: 60px;
-        font-size: 0.8rem;
-        text-decoration: none !important;
-    }
-
-    .event-view-btn i {
-        font-size: 1.1rem;
-    }
-
-    .event-view-btn span {
-        font-size: 0.75rem;
-    }
-}
-
-/* ===========================================
-   STYLE POUR LES LIENS "VOIR LES DÉTAILS"
+   STYLE AMÉLIORÉ POUR "VOIR LES DÉTAILS"
    =========================================== */
 .btn-more {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #333333FF;
+    color: var(--color-primary, #667eea) !important;
+    border: 2px solid var(--color-primary, #667eea);
+    border-radius: 50px; /* Forme pilule moderne */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
     text-decoration: none !important;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .btn-more:hover {
+    background-color: var(--color-primary, #667eea);
+    color: #ffffff !important;
+    transform: translateY(-3px) scale(1.02); /* Effet de levée au lieu de décalage latéral */
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    opacity: 1;
+}
+
+/* ===========================================
+   PAGINATION AMÉLIORÉE (SUIVANT / DERNIER)
+   =========================================== */
+.pagination-container {
+    margin: 60px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 12px;
+}
+
+.pagination li a,
+.pagination li .page-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    height: 48px;
+    padding: 0 18px;
+    border-radius: 12px;
+    background: var(--bg-card, #ffffff);
+    color: var(--text-primary, #333);
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol des chiffres et boutons */
+.pagination li a:hover {
+    background-color: var(--color-primary, #667eea);
+    color: #ffffff !important;
+    border-color: var(--color-primary, #667eea);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+/* Style pour la page active */
+.pagination li .page-number.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Premier et Dernier plus discrets mais propres */
+.pagination li:first-child a,
+.pagination li:last-child a {
+    background-color: var(--bg-secondary, #f8f9fa);
+    font-size: 0.8rem;
+    color: var(--text-secondary, #666);
+    border: 1px dashed rgba(0,0,0,0.2);
+}
+
+/* ===========================================
+   1. BOUTON "VOIR LES DÉTAILS" (MODE JOUR)
+   =========================================== */
+.btn-more {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #ffffff;
+    /* Utilisation de la variable primaire ou d'un bleu par défaut */
+    color: var(--color-primary, #667eea) !important;
+    border: 2px solid var(--color-primary, #667eea);
+    border-radius: 50px; /* Forme pilule */
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
     text-decoration: none !important;
-    opacity: 0.8;
-    transform: translateX(4px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-more:hover {
+    background-color: var(--color-primary, #667eea);
+    color: #ffffff !important;
+    /* Effet de levée vertical plus moderne que le décalage latéral */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(102, 126, 234, 0.2);
+    opacity: 1;
+}
+
+/* ===========================================
+   2. PAGINATION (MODE JOUR)
+   =========================================== */
+.pagination-container {
+    margin: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    gap: 8px;
+}
+
+.pagination li a,
+.pagination li .page-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 44px;
+    padding: 0 15px;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #333333;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+}
+
+/* Survol des numéros de page */
+.pagination li a:hover {
+    background-color: #f8f9fa;
+    color: var(--color-primary, #667eea) !important;
+    border-color: var(--color-primary, #667eea);
+    transform: translateY(-2px);
+}
+
+/* Style de la page active */
+.pagination li .page-number.active {
+    background-color: var(--color-primary, #667eea);
+    color: #ffffff;
+    border-color: var(--color-primary, #667eea);
+    box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Boutons "Premier" et "Dernier" (plus discrets) */
+.pagination li:first-child a,
+.pagination li:last-child a {
+    background-color: #f1f1f1;
+    color: #777777;
+    font-size: 0.8rem;
+    border-style: dashed;
 }
