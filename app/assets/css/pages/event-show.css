@@ -136,7 +136,17 @@
     display: flex;
     gap: 12px;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+/* Les <form> dans la zone admin ne s'étirent pas */
+.admin-zone-actions form {
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: stretch;
 }
 
 /* Admin Event Buttons - Base Styles */
@@ -151,37 +161,51 @@
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
-    display: inline-block;
-    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     white-space: nowrap;
+    line-height: 1;
+    box-sizing: border-box;
+    height: 46px;
     font-family: "JetBrains Mono", monospace;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/* Normaliser les <button> dans un <form> pour qu'ils aient le même rendu */
+.admin-zone-actions form .btn-view,
+.admin-zone-actions form .btn-delete,
+.admin-zone-actions form .btn-edit {
+    height: 100%;
+    width: 100%;
 }
 
 /* Button Colors - Light Mode */
 .btn-edit,
 .admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #333 !important;
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
 }
 
 .btn-edit:hover,
 .admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #333 !important;
+    background-color: #9a7009 !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.4);
 }
 
 .btn-delete,
 .admin-zone .btn-delete {
     background-color: #D32F2F !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
 }
 
 .btn-delete:hover,
 .admin-zone .btn-delete:hover {
     background-color: #C62828 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
 }
@@ -189,76 +213,27 @@
 .btn-view,
 .admin-zone .btn-view {
     background-color: #673AB7 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
 }
 
 .btn-view:hover,
 .admin-zone .btn-view:hover {
     background-color: #5E35B1 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
 }
 
-/* Button Colors - Dark Mode */
+/* Button Colors - Dark Mode (géré globalement dans themes/dark-mode.css) */
 .dark-mode .btn-edit,
-.admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #000 !important;
-}
-
 .dark-mode .btn-edit:hover,
-.admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #000 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+.dark-mode .admin-zone .btn-edit,
+.dark-mode .admin-zone .btn-edit:hover {
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
 }
 
-.dark-mode .btn-delete,
-.admin-zone .btn-delete {
-    background-color: #F44336 !important;
-    color: #000 !important;
-}
-
-.dark-mode .btn-delete:hover,
-.admin-zone .btn-delete:hover {
-    background-color: #E53935 !important;
-    color: #000 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(244, 67, 54, 0.3);
-}
-
-.dark-mode .btn-view,
-.admin-zone .btn-view {
-    background-color: #673AB7 !important;
-    color: #fff !important;
-}
-
-.dark-mode .btn-view:hover,
-.admin-zone .btn-view:hover {
-    background-color: #5E35B1 !important;
-    color: #fff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
-}
-
-/* Desktop Layout - Horizontal (default) */
-@media (min-width: 769px) {
-    .admin-zone-actions {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .btn-edit,
-    .btn-delete,
-    .btn-view {
-        min-width: auto;
-        flex: 0 0 auto;
-    }
-}
-
-/* Mobile Layout - Vertical Stack */
+/* Mobile Layout */
 @media (max-width: 768px) {
     .admin-zone-actions {
         flex-direction: column;
@@ -267,12 +242,15 @@
 
     .admin-zone-actions form {
         width: 100%;
+        display: flex;
     }
 
     .btn-edit,
     .btn-delete,
     .btn-view {
         width: 100%;
+        height: auto;
+        padding: 14px 24px;
         white-space: normal;
     }
 }
