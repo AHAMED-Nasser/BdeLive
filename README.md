@@ -231,8 +231,6 @@ composer lint:fix
 - **M. Olivier Gérard** — encadrement pédagogique et suivi du projet
 - **M. Samir Chtioui** — accompagnement méthodologique et organisation
 - L'ensemble du **corps enseignant** du département Informatique, IUT Aix-Marseille
-- **Maxence Torchin** — inspiration pour la fonctionnalité d'emploi du temps ([Site ETU](https://torchin-maxence-24020376.github.io/Site-ETU/index.html))
-
 ---
 
 *Projet académique — usage pédagogique uniquement · IUT Aix-Marseille · BUT Informatique · 2025–2026*
