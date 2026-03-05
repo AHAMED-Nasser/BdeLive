@@ -97,7 +97,7 @@ class ExportUserEventController extends AdminController
         $dompdf = new Dompdf($options);
 
         // Load external CSS for PDF styling
-        $cssPath = __DIR__ . '/../../../assets/css/pdf-export.css';
+        $cssPath = __DIR__ . '/../../../assets/css/pages/pdf-export.css';
         $cssContent = file_exists($cssPath) ? (string) file_get_contents($cssPath) : '';
 
         // HTML build of the pdf
