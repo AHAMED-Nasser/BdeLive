@@ -22,5 +22,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', updateNavbarSize, { passive: true });
     updateNavbarSize();
+
+    document.addEventListener('click', function (e) {
+        document.querySelectorAll('.profile-dropdown-toggle').forEach(function (toggle) {
+            var container = toggle.closest('.profile-dropdown-container');
+            if (container && !container.contains(e.target)) {
+                toggle.checked = false;
+            }
+        });
+    });
 });
 
