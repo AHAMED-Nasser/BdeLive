@@ -38,9 +38,9 @@ header("Referrer-Policy: strict-origin-when-cross-origin");
 $cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
-        "https://cdn.jsdelivr.net https://www.googletagmanager.com",
+    "https://cdn.jsdelivr.net https://www.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
-        "https://cdn.jsdelivr.net https://fonts.googleapis.com",
+    "https://cdn.jsdelivr.net https://fonts.googleapis.com",
     "img-src 'self' data: https: http:",
     "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
     "connect-src 'self'",
@@ -50,8 +50,8 @@ $cspDirectives = [
 ];
 header("Content-Security-Policy: " . implode("; ", $cspDirectives));
 error_reporting(E_ALL);
-ini_set('display_errors', (string)1);
-ini_set('display_startup_errors', (string)1);
+ini_set('display_errors', (string) 1);
+ini_set('display_startup_errors', (string) 1);
 // Composer autoload (PSR-4)
 $projectRoot = dirname(__DIR__);
 
@@ -59,14 +59,14 @@ if (file_exists($projectRoot . '/vendor/autoload.php')) {
     require_once $projectRoot . '/vendor/autoload.php';
 }
 
-//// Chargement sécurisé du .env
-//if (file_exists($projectRoot . '/.env')) {
-//    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
-//    $dotenv->load();
-//} else {
-//    // Si le fichier n'existe pas, on affiche un message clair pour le dev
-//    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
-//}
+// Chargement sécurisé du .env
+if (file_exists($projectRoot . '/.env')) {
+    $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
+    $dotenv->load();
+} else {
+    // Si le fichier n'existe pas, on affiche un message clair pour le dev
+    die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
+}
 
 // Initialiser l'application (démarre la session automatiquement)
 $app = Application::getInstance();
@@ -78,23 +78,23 @@ require_once __DIR__ . '/Modules/views/shared/include.inc.php';
 require_once __DIR__ . '/include/legacy_helpers.php';
 // Gestion centralisée des exceptions (principe SOLID: séparation Auth/HTTP)
 try {
-// Charger et exécuter le routeur
+    // Charger et exécuter le routeur
     require_once __DIR__ . '/rooter.php';
 } catch (AuthenticationException $e) {
-// Utilisateur non authentifié → rediriger vers login
+    // Utilisateur non authentifié → rediriger vers login
     $app->session()->flash('error', $e->getMessage());
     $app->response()->redirect('index.php?page=login');
 } catch (AuthorizationException $e) {
-// Utilisateur n'a pas les permissions → 403 + redirection home
+    // Utilisateur n'a pas les permissions → 403 + redirection home
     $app->session()->flash('error', $e->getMessage());
     $app->response()->setStatusCode(403)->redirect('index.php?page=home');
 } catch (CsrfException $e) {
-// Token CSRF invalide → rediriger avec erreur
+    // Token CSRF invalide → rediriger avec erreur
     $app->session()->flash('error', $e->getMessage());
     $referer = $app->request()->server('HTTP_REFERER', 'index.php?page=home');
     $app->response()->redirect($referer);
 } catch (\Exception $e) {
-// Erreur serveur générique → afficher page d'erreur
+    // Erreur serveur générique → afficher page d'erreur
     http_response_code(500);
     error_log('Application Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     if ($isProduction) {
