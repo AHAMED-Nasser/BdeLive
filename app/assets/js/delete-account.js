@@ -202,14 +202,27 @@
             return false;
         }
 
-        // Afficher une dernière confirmation
-        if (!confirm('Êtes-vous absolument sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
-            e.preventDefault();
-            return false;
-        }
+        // Empêcher la soumission immédiate et attendre la confirmation via modale
+        e.preventDefault();
+        const form = e.target;
 
-        // Le formulaire peut être soumis
-        return true;
+        window.showConfirmModal(
+            'Supprimer mon compte',
+            'Êtes-vous absolument sûr de vouloir supprimer votre compte ? Cette action est définitive et irréversible.',
+            function () {
+                // form.submit() ne redéclenche pas l'événement submit → pas de boucle
+                form.submit();
+            },
+            null,
+            {
+                icon:        'fas fa-trash-alt',
+                confirmText: 'Supprimer définitivement',
+                cancelText:  'Annuler',
+                danger:      true
+            }
+        );
+
+        return false;
     }
 
     /**
