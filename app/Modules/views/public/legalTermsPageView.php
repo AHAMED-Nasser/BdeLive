@@ -167,6 +167,15 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
     </section>
 
     <section>
+        <h2>Crédits</h2>
+        <p>
+            La fonctionnalité d'emploi du temps est inspirée, avec l'accord de son auteur, du projet
+            <a href="https://torchin-maxence-24020376.github.io/Site-ETU/index.html" target="_blank" rel="noopener noreferrer">Site ETU</a>
+            développé par <strong>Maxence Torchin</strong>, étudiant à l'IUT Aix-en-Provence.
+        </p>
+    </section>
+
+    <section>
         <h2>Droit applicable et juridiction</h2>
         <p>
             Les présentes mentions légales sont régies par le droit français. En cas de litige et à défaut d'accord
