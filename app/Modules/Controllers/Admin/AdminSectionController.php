@@ -157,13 +157,13 @@ class AdminSectionController extends AdminController
                 $success = $manager->updateUserRole($id, 'admin');
                 break;
             case 'promote_super_admin':
-                $manager->updateUserRole($id, 'super_admin');
+                $success = $manager->updateUserRole($id, 'super_admin');
                 break;
             case 'demote':
                 $success = $manager->updateUserRole($id, 'user');
                 break;
             case 'demote_super_admin':
-                $manager->updateUserRole($id, 'admin');
+                $success = $manager->updateUserRole($id, 'admin');
                 break;
             case 'block':
                 $success = $manager->setBlockStatus($id, 1);

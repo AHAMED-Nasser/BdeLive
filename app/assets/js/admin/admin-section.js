@@ -24,6 +24,20 @@ const ADMIN_ACTION_CONFIGS = {
         confirmText: 'Promouvoir',
         danger: false
     },
+    promote_super_admin: {
+        title: 'Nommer Super Administrateur',
+        msg: 'Êtes-vous sûr de vouloir nommer cet utilisateur Super Administrateur ? Il aura accès à toutes les actions d\'administration.',
+        icon: 'fas fa-crown',
+        confirmText: 'Nommer Super Admin',
+        danger: true
+    },
+    demote_super_admin: {
+        title: 'Retirer le rôle Super Administrateur',
+        msg: 'Êtes-vous sûr de vouloir retirer le rôle Super Administrateur à cet utilisateur ? Il sera rétrogradé au rang d\'administrateur.',
+        icon: 'fas fa-user-minus',
+        confirmText: 'Retirer Super Admin',
+        danger: true
+    },
     demote: {
         title: 'Rétrograder en utilisateur',
         msg: 'Êtes-vous sûr de vouloir rétrograder cet administrateur en utilisateur normal ?',
@@ -122,11 +136,11 @@ function submitAdminAction(form) {
             if (data.success) {
                 window.location.reload();
             } else {
-                alert('Erreur: ' + data.message);
+                window.showNotificationModal('Erreur', data.message, { type: 'error' });
             }
         })
         .catch(error => {
             console.error('Erreur: ', error);
-            alert('Une erreur est survenue lors de la requête.');
+            window.showNotificationModal('Erreur réseau', 'Une erreur est survenue lors de la requête.', { type: 'error' });
         });
 }
