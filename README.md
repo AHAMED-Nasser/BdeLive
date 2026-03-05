@@ -18,8 +18,7 @@
 
 > **BDELive — Inform'Aix** est la plateforme web officielle du BDE (Bureau Des Étudiants) du département
 > BUT Informatique de l'IUT Aix-Marseille. Elle centralise la communication, la gestion des événements
-> et l'accès aux actualités du campus, développée dans le cadre d'une **SAÉ Semestre 3** sans recours
-> à aucun framework externe.
+> et l'accès aux actualités du campus, développée dans le cadre d'une **SAÉ**
 
 ---
 
