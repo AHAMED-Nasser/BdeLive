@@ -21,8 +21,7 @@
      *
      * @param {string} email - L'email de l'utilisateur à confirmer
      */
-    function initDeleteAccount(email)
-    {
+    function initDeleteAccount(email) {
         userEmail = email.toLowerCase().trim();
         emailInput = document.getElementById('confirm-email');
         deleteBtn = document.getElementById('deleteBtn');
@@ -61,8 +60,7 @@
      *
      * @param {HTMLElement} input - Le champ input
      */
-    function preventPaste(input)
-    {
+    function preventPaste(input) {
         // Empêcher Ctrl+V / Cmd+V
         input.addEventListener('paste', function (e) {
             e.preventDefault();
@@ -98,8 +96,7 @@
      *
      * @param {HTMLElement} input - Le champ input
      */
-    function preventDragDrop(input)
-    {
+    function preventDragDrop(input) {
         input.addEventListener('dragenter', function (e) {
             e.preventDefault();
             return false;
@@ -123,8 +120,7 @@
     /**
      * Gère la saisie dans le champ
      */
-    function handleInput(e)
-    {
+    function handleInput(e) {
         hasTyped = true;
         const value = e.target.value.toLowerCase().trim();
 
@@ -156,8 +152,7 @@
     /**
      * Gère les touches du clavier
      */
-    function handleKeyDown(e)
-    {
+    function handleKeyDown(e) {
         // Détecter si l'utilisateur essaie de coller avec Shift+Insert
         if (e.shiftKey && e.key === 'Insert') {
             e.preventDefault();
@@ -172,8 +167,7 @@
     /**
      * Gère le focus sur le champ
      */
-    function handleFocus()
-    {
+    function handleFocus() {
         // Vérifier si le presse-papiers a été modifié (détection indirecte)
         if (!hasTyped && emailInput.value.length > 0) {
             // Si du texte apparaît sans avoir tapé, c'est suspect
@@ -188,8 +182,7 @@
     /**
      * Gère la soumission du formulaire
      */
-    function handleSubmit(e)
-    {
+    function handleSubmit(e) {
         const value = emailInput.value.toLowerCase().trim();
 
         if (value !== userEmail) {
@@ -215,10 +208,10 @@
             },
             null,
             {
-                icon:        'fas fa-trash-alt',
+                icon: 'fas fa-trash-alt',
                 confirmText: 'Supprimer définitivement',
-                cancelText:  'Annuler',
-                danger:      true
+                cancelText: 'Annuler',
+                danger: true
             }
         );
 
@@ -230,8 +223,7 @@
      *
      * @param {string} message - Le message d'erreur
      */
-    function showError(message)
-    {
+    function showError(message) {
         if (emailError) {
             emailError.textContent = message;
             emailError.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
@@ -242,8 +234,7 @@
     /**
      * Cache le message d'erreur
      */
-    function hideError()
-    {
+    function hideError() {
         if (emailError) {
             emailError.classList.remove('show');
         }

@@ -4,46 +4,46 @@
  */
 const ADMIN_ACTION_CONFIGS = {
     unblock: {
-        title:       'Débloquer l\'utilisateur',
-        msg:         'Êtes-vous sûr de vouloir débloquer cet utilisateur ?',
-        icon:        'fas fa-unlock',
+        title: 'Débloquer l\'utilisateur',
+        msg: 'Êtes-vous sûr de vouloir débloquer cet utilisateur ?',
+        icon: 'fas fa-unlock',
         confirmText: 'Débloquer',
-        danger:      false
+        danger: false
     },
     restore: {
-        title:       'Réactiver l\'utilisateur',
-        msg:         'Êtes-vous sûr de vouloir réactiver ce compte supprimé ?',
-        icon:        'fas fa-undo',
+        title: 'Réactiver l\'utilisateur',
+        msg: 'Êtes-vous sûr de vouloir réactiver ce compte supprimé ?',
+        icon: 'fas fa-undo',
         confirmText: 'Réactiver',
-        danger:      false
+        danger: false
     },
     promote: {
-        title:       'Promouvoir en administrateur',
-        msg:         'Êtes-vous sûr de vouloir promouvoir cet utilisateur en tant qu\'admin ?',
-        icon:        'fas fa-user-shield',
+        title: 'Promouvoir en administrateur',
+        msg: 'Êtes-vous sûr de vouloir promouvoir cet utilisateur en tant qu\'admin ?',
+        icon: 'fas fa-user-shield',
         confirmText: 'Promouvoir',
-        danger:      false
+        danger: false
     },
     demote: {
-        title:       'Rétrograder en utilisateur',
-        msg:         'Êtes-vous sûr de vouloir rétrograder cet administrateur en utilisateur normal ?',
-        icon:        'fas fa-user-minus',
+        title: 'Rétrograder en utilisateur',
+        msg: 'Êtes-vous sûr de vouloir rétrograder cet administrateur en utilisateur normal ?',
+        icon: 'fas fa-user-minus',
         confirmText: 'Rétrograder',
-        danger:      true
+        danger: true
     },
     block: {
-        title:       'Bloquer l\'utilisateur',
-        msg:         'Êtes-vous sûr de vouloir bloquer cet utilisateur ?',
-        icon:        'fas fa-ban',
+        title: 'Bloquer l\'utilisateur',
+        msg: 'Êtes-vous sûr de vouloir bloquer cet utilisateur ?',
+        icon: 'fas fa-ban',
         confirmText: 'Bloquer',
-        danger:      true
+        danger: true
     },
     soft_delete: {
-        title:       'Supprimer l\'utilisateur',
-        msg:         'Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est réversible par un super-admin.',
-        icon:        'fas fa-trash-alt',
+        title: 'Supprimer l\'utilisateur',
+        msg: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est réversible par un super-admin.',
+        icon: 'fas fa-trash-alt',
         confirmText: 'Supprimer',
-        danger:      true
+        danger: true
     }
 };
 
@@ -67,10 +67,10 @@ function confirmAdminAction(action, onConfirm) {
         onConfirm,
         null,
         {
-            icon:        cfg.icon,
+            icon: cfg.icon,
             confirmText: cfg.confirmText,
-            cancelText:  'Annuler',
-            danger:      cfg.danger
+            cancelText: 'Annuler',
+            danger: cfg.danger
         }
     );
 }
@@ -81,13 +81,13 @@ document.addEventListener('click', (e) => {
     e.preventDefault();
 
     const button = e.target;
-    const form   = button.closest('form');
+    const form = button.closest('form');
     const action = button.value;
 
-    const input   = document.createElement('input');
-    input.type    = 'hidden';
-    input.name    = 'action';
-    input.value   = action;
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'action';
+    input.value = action;
     form.appendChild(input);
 
     confirmAdminAction(action, () => submitAdminAction(form));
@@ -99,7 +99,7 @@ document.addEventListener('change', (e) => {
     e.preventDefault();
 
     const select = e.target;
-    const form   = select.closest('form');
+    const form = select.closest('form');
     const action = select.value;
 
     if (!action) return;
@@ -117,16 +117,16 @@ function submitAdminAction(form) {
             'X-Requested-With': 'XMLHttpRequest'
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert('Erreur: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Erreur: ', error);
-        alert('Une erreur est survenue lors de la requête.');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();
+            } else {
+                alert('Erreur: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur: ', error);
+            alert('Une erreur est survenue lors de la requête.');
+        });
 }
