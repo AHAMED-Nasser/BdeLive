@@ -1,19 +1,23 @@
 /* ===========================================
-   VOTRE STYLE CONSERVÉ (LISTE/CALENDRIER)
+   SÉLECTEUR VUE (LISTE/CALENDRIER) ADAPTATIF
    =========================================== */
 .event-view-toggle-container {
     margin: 20px auto;
     text-align: center;
     max-width: 400px;
 }
+
 .event-view-toggle-buttons {
     display: inline-flex;
     gap: 0;
-    background: var(--bg-secondary);
+    /* S'adapte au mode sombre via var(--bg-secondary) */
+    background: var(--bg-secondary, #f1f1f1);
     padding: 4px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px; /* Un peu plus arrondi pour le style moderne */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--border-color, #e0e0e0);
 }
+
 .event-view-btn {
     display: flex;
     align-items: center;
@@ -21,150 +25,70 @@
     gap: 8px;
     padding: 10px 20px;
     background: transparent;
-    color: var(--text-secondary);
+    /* Texte s'adapte au mode jour/nuit */
+    color: var(--text-secondary, #666666);
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-    position: relative;
 }
+
+/* État au survol (non actif) */
 .event-view-btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-    text-decoration: none !important;
+    background: var(--bg-hover, rgba(0,0,0,0.05));
+    color: var(--text-primary, #000000);
 }
+
+/* ÉTAT ACTIF (Sélectionné) */
 .event-view-btn.active {
-    background: var(--color-primary);
-    color: var(--text-inverse);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    /* Garde votre couleur primaire éclatante dans les deux modes */
+    background: var(--color-primary, #667eea);
+    color: #ffffff !important; /* Toujours blanc pour la lisibilité sur couleur */
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
     font-weight: 600;
 }
-/* ... Les autres styles responsive que vous avez fournis restent inchangés ... */
+
+/* Ajustement spécifique pour le mode nuit via les variables */
+[data-theme='dark'] .event-view-toggle-buttons,
+.dark-mode .event-view-toggle-buttons {
+    background: #000000; /* Fond noir pour le conteneur en mode nuit */
+    border-color: #333333;
+}
 
 
 /* ===========================================
-   STYLE AMÉLIORÉ POUR "VOIR LES DÉTAILS"
+   BOUTON "VOIR LES DÉTAILS" ADAPTATIF
    =========================================== */
 .btn-more {
     display: inline-block;
     padding: 12px 28px;
-    background-color: #333333FF;
+    /* S'adapte : Fond noir en mode nuit, blanc ou gris très clair en jour */
+    background-color: var(--bg-button-detail, #000000);
     color: var(--color-primary, #667eea) !important;
     border: 2px solid var(--color-primary, #667eea);
-    border-radius: 50px; /* Forme pilule moderne */
+    border-radius: 50px;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 0.85rem;
     letter-spacing: 1px;
     text-decoration: none !important;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-more:hover {
+    /* Remplissage complet avec la couleur primaire au survol */
     background-color: var(--color-primary, #667eea);
     color: #ffffff !important;
-    transform: translateY(-3px) scale(1.02); /* Effet de levée au lieu de décalage latéral */
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-    opacity: 1;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
 }
 
 /* ===========================================
-   PAGINATION AMÉLIORÉE (SUIVANT / DERNIER)
-   =========================================== */
-.pagination-container {
-    margin: 60px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.pagination {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 12px;
-}
-
-.pagination li a,
-.pagination li .page-number {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 48px;
-    height: 48px;
-    padding: 0 18px;
-    border-radius: 12px;
-    background: var(--bg-card, #ffffff);
-    color: var(--text-primary, #333);
-    text-decoration: none;
-    font-weight: 600;
-    border: 1px solid rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
-
-/* Effet au survol des chiffres et boutons */
-.pagination li a:hover {
-    background-color: var(--color-primary, #667eea);
-    color: #ffffff !important;
-    border-color: var(--color-primary, #667eea);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-}
-
-/* Style pour la page active */
-.pagination li .page-number.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
-    border: none;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-/* Premier et Dernier plus discrets mais propres */
-.pagination li:first-child a,
-.pagination li:last-child a {
-    background-color: var(--bg-secondary, #f8f9fa);
-    font-size: 0.8rem;
-    color: var(--text-secondary, #666);
-    border: 1px dashed rgba(0,0,0,0.2);
-}
-
-/* ===========================================
-   1. BOUTON "VOIR LES DÉTAILS" (MODE JOUR)
-   =========================================== */
-.btn-more {
-    display: inline-block;
-    padding: 12px 28px;
-    background-color: #ffffff;
-    /* Utilisation de la variable primaire ou d'un bleu par défaut */
-    color: var(--color-primary, #667eea) !important;
-    border: 2px solid var(--color-primary, #667eea);
-    border-radius: 50px; /* Forme pilule */
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    text-decoration: none !important;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
-
-.btn-more:hover {
-    background-color: var(--color-primary, #667eea);
-    color: #ffffff !important;
-    /* Effet de levée vertical plus moderne que le décalage latéral */
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(102, 126, 234, 0.2);
-    opacity: 1;
-}
-
-/* ===========================================
-   2. PAGINATION (MODE JOUR)
+   PAGINATION ADAPTATIVE
    =========================================== */
 .pagination-container {
     margin: 50px 0;
@@ -191,35 +115,45 @@
     height: 44px;
     padding: 0 15px;
     border-radius: 10px;
-    background: #ffffff;
-    color: #333333;
+    /* Utilise les variables de fond et de texte de votre thème */
+    background: var(--bg-card, #ffffff);
+    color: var(--text-primary, #333333);
     text-decoration: none;
     font-weight: 600;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color, #e0e0e0);
     transition: all 0.2s ease;
 }
 
-/* Survol des numéros de page */
+/* Page Active : Reste identique dans les deux modes pour la visibilité */
+.pagination li .page-number.active {
+    background-color: var(--color-primary, #667eea);
+    color: #ffffff !important;
+    border-color: var(--color-primary, #667eea);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Survol des numéros */
 .pagination li a:hover {
-    background-color: #f8f9fa;
+    background-color: var(--bg-hover, #f8f9fa);
     color: var(--color-primary, #667eea) !important;
     border-color: var(--color-primary, #667eea);
     transform: translateY(-2px);
 }
 
-/* Style de la page active */
-.pagination li .page-number.active {
-    background-color: var(--color-primary, #667eea);
-    color: #ffffff;
-    border-color: var(--color-primary, #667eea);
-    box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+/* Exemple de configuration de thème */
+:root {
+    /* MODE JOUR */
+    --bg-card: #ffffff;
+    --text-primary: #333333;
+    --bg-button-detail: #f9f9f9; /* Gris très clair ou blanc le jour */
+    --border-color: #e0e0e0;
 }
 
-/* Boutons "Premier" et "Dernier" (plus discrets) */
-.pagination li:first-child a,
-.pagination li:last-child a {
-    background-color: #f1f1f1;
-    color: #777777;
-    font-size: 0.8rem;
-    border-style: dashed;
+[data-theme='dark'], .dark-mode {
+    /* MODE NUIT */
+    --bg-card: #1a1a1a;
+    --text-primary: #f1f1f1;
+    --bg-button-detail: #000000; /* NOIR PUR la nuit */
+    --border-color: #333333;
 }
+
