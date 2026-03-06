@@ -1,225 +1,230 @@
 /**
- * Gestion du chargement AJAX des vues de l'emploi du temps
- * Évite le rechargement complet de la page lors du changement de vue
+ * Gestion du chargement AJAX des vues de l'emploi du temps.
+ * La délégation est posée sur `document` pour rester active après chaque
+ * remplacement de contenu AJAX (innerHTML) sans avoir besoin d'être ré-attachée.
  */
 
 (function () {
     'use strict';
 
-    // Récupérer les paramètres de base depuis l'URL
-    function getBaseParams()
+    /**
+     * Lit les paramètres courants depuis l'URL (year, group et contexte temporel).
+     *
+     * @returns {Object}
+     */
+    function getUrlParams()
     {
-        const urlParams = new URLSearchParams(window.location.search);
+        const p = new URLSearchParams(window.location.search);
         return {
-            page: 'schedule', // Toujours inclure le paramètre page
-            year: urlParams.get('year') || '',
-            group: urlParams.get('group') || ''
+            page:     'schedule',
+            year:     p.get('year')     || '',
+            group:    p.get('group')    || '',
+            view:     p.get('view')     || 'week',
+            date:     p.get('date')     || '',
+            week:     p.get('week')     || '',
+            calyear:  p.get('calyear')  || '',
+            calmonth: p.get('calmonth') || ''
         };
     }
 
-    // Charger une vue via AJAX
-    function loadView(view, params = {})
+    /**
+     * Charge une vue via AJAX et l'injecte dans .calendar-wrapper.
+     * Les `overrides` écrasent les params de l'URL courante.
+     *
+     * @param {string} view      - 'day' | 'week' | 'month'
+     * @param {Object} overrides - Paramètres spécifiques à cette navigation
+     */
+    function loadView(view, overrides = {})
     {
-        const baseParams = getBaseParams();
-        const allParams = {
-            ...baseParams,
-            ...params,
-            view: view,
-            action: 'load-view'
-        };
-
-        // Afficher un indicateur de chargement
         const calendarWrapper = document.querySelector('.calendar-wrapper');
         if (!calendarWrapper) {
             return;
         }
 
-        const loadingIndicator = document.createElement('div');
-        loadingIndicator.className = 'schedule-loading';
-        loadingIndicator.innerHTML = '<div class="loading-spinner"></div><p>Chargement...</p>';
-        loadingIndicator.style.cssText = 'text-align: center; padding: 3rem; color: var(--text-secondary);';
+        // Fusionner URL courante + overrides + action AJAX
+        const allParams = Object.assign({}, getUrlParams(), overrides, {
+            view:   view,
+            action: 'load-view'
+        });
 
-        // Sauvegarder le contenu actuel
-        const currentContent = calendarWrapper.innerHTML;
-        calendarWrapper.innerHTML = '';
-        calendarWrapper.appendChild(loadingIndicator);
+        // Sauvegarder la position du scroll avant le chargement
+        const savedScrollY = window.scrollY;
 
-        // Construire l'URL
+        // Fade-out : griser le contenu pendant la requête
+        calendarWrapper.classList.remove('view-ready');
+        calendarWrapper.classList.add('is-loading');
+
+        // Construire l'URL de la requête
         const url = new URL('index.php', window.location.origin);
-        Object.keys(allParams).forEach(key => {
-            if (allParams[key] !== null && allParams[key] !== undefined && allParams[key] !== '') {
-                url.searchParams.set(key, allParams[key]);
+        Object.keys(allParams).forEach(function (key) {
+            const val = allParams[key];
+            if (val !== null && val !== undefined && val !== '') {
+                url.searchParams.set(key, val);
             }
         });
 
-        // Requête AJAX
         fetch(url.toString())
-            .then(response => {
+            .then(function (response) {
                 if (!response.ok) {
-                    throw new Error('Erreur HTTP: ' + response.status);
+                    throw new Error('HTTP ' + response.status);
                 }
-                // Vérifier que la réponse est bien du JSON
-                const contentType = response.headers.get('content-type');
-                if (!contentType || !contentType.includes('application/json')) {
-                    return response.text().then(text => {
-                        throw new Error('Réponse non-JSON reçue: ' + text.substring(0, 200));
+                const ct = response.headers.get('content-type') || '';
+                if (!ct.includes('application/json')) {
+                    return response.text().then(function (text) {
+                        throw new Error('Réponse non-JSON : ' + text.substring(0, 200));
                     });
                 }
                 return response.json();
             })
-            .then(data => {
+            .then(function (data) {
                 if (data.success && data.html) {
-                    // Remplacer le contenu
+                    calendarWrapper.classList.remove('is-loading');
                     calendarWrapper.innerHTML = data.html;
 
-                    const offset = 100;
-                    const elementPosition = calendarWrapper.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.scrollY - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition
+                    // Déclencher le fade-in du nouveau contenu
+                    requestAnimationFrame(function () {
+                        calendarWrapper.classList.add('view-ready');
                     });
 
-                    if (typeof updateCurrentTimeIndicator === 'function') {
-                        updateCurrentTimeIndicator();
-                    }
+                    // Restaurer la position du scroll exacte
+                    window.scrollTo({ top: savedScrollY, behavior: 'instant' });
 
                     if (typeof resetModalListeners === 'function') {
                         resetModalListeners();
                     }
 
+                    // Mettre à jour l'URL du navigateur sans rechargement
                     const newUrl = new URL(window.location.href);
-                    Object.keys(allParams).forEach(key => {
-                        if (key !== 'action' && allParams[key]) {
-                            newUrl.searchParams.set(key, allParams[key]);
-                        } else if (key === 'action') {
+                    Object.keys(allParams).forEach(function (key) {
+                        if (key === 'action') {
                             newUrl.searchParams.delete('action');
+                        } else if (allParams[key]) {
+                            newUrl.searchParams.set(key, allParams[key]);
                         }
                     });
-                    window.history.pushState({view: view}, '', newUrl.toString());
+                    window.history.pushState({ view: view }, '', newUrl.toString());
                 } else {
-                    const errorMsg = data.error || 'Erreur lors du chargement de la vue';
-                    calendarWrapper.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-error);">' + errorMsg + '</div>';
+                    calendarWrapper.classList.remove('is-loading');
+                    const msg = data.error || 'Erreur lors du chargement de la vue';
+                    calendarWrapper.innerHTML =
+                        '<div style="text-align:center;padding:3rem;color:var(--color-danger);">' +
+                        msg + '</div>';
                 }
             })
-            .catch(() => {
-                calendarWrapper.innerHTML = '<div style="text-align: center; padding: 3rem; color: var(--text-error);">Erreur de connexion</div>';
+            .catch(function () {
+                calendarWrapper.classList.remove('is-loading');
+                calendarWrapper.innerHTML =
+                    '<div style="text-align:center;padding:3rem;color:var(--color-danger);">' +
+                    'Erreur de connexion</div>';
             });
     }
 
-    // Variable pour stocker le handler de délégation d'événements
-    let delegationHandler = null;
-
-    // Initialiser les event listeners avec délégation d'événements
-    function initScheduleListeners()
-    {
-        const calendarWrapper = document.querySelector('.calendar-wrapper');
-        if (!calendarWrapper) {
+    /**
+     * Délégation posée sur `document`.
+     * Active dès le chargement et reste valide après chaque injection AJAX.
+     */
+    document.addEventListener('click', function (e) {
+        // Ne traiter que les clics sur la page emploi du temps
+        if (!document.querySelector('.calendar-wrapper')) {
             return;
         }
 
-        // Supprimer l'ancien handler s'il existe
-        if (delegationHandler) {
-            calendarWrapper.removeEventListener('click', delegationHandler);
-        }
-
-        // Créer un nouveau handler de délégation d'événements
-        delegationHandler = function (e) {
-            // View switcher buttons
-            const viewBtn = e.target.closest('.view-switcher .view-btn');
-            if (viewBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                const view = viewBtn.getAttribute('data-view');
-                if (view) {
-                    loadView(view);
-                }
+        // --- Boutons Vue (Jour / Semaine / Mois) ---
+        const viewBtn = e.target.closest('.view-switcher .view-btn');
+        if (viewBtn) {
+            e.preventDefault();
+            const view = viewBtn.getAttribute('data-view');
+            if (!view) {
                 return;
             }
 
-            // Navigation buttons (Today, Previous, Next)
-            const navBtn = e.target.closest('.calendar-header .nav-btn');
-            if (navBtn) {
-                e.preventDefault();
-                e.stopPropagation();
-                const view = navBtn.getAttribute('data-view');
-                const params = {};
+            // Conserver le contexte temporel courant pour la vue cible
+            const urlParams = getUrlParams();
+            const overrides = {};
 
-                if (view === 'day') {
-                    const date = navBtn.getAttribute('data-date');
-                    if (date) {
-                        params.date = date;
-                    }
-                } else if (view === 'week') {
-                    const calyear = navBtn.getAttribute('data-calyear');
-                    const week = navBtn.getAttribute('data-week');
-                    if (calyear) {
-                        params.calyear = calyear;
-                    }
-                    if (week) {
-                        params.week = week;
-                    }
-                } else if (view === 'month') {
-                    const calyear = navBtn.getAttribute('data-calyear');
-                    const calmonth = navBtn.getAttribute('data-calmonth');
-                    if (calyear) {
-                        params.calyear = calyear;
-                    }
-                    if (calmonth) {
-                        params.calmonth = calmonth;
-                    }
+            if (view === 'day') {
+                // Cibler le jour affiché si dispo, sinon aujourd'hui
+                overrides.date = urlParams.date || new Date().toISOString().slice(0, 10);
+            } else if (view === 'week') {
+                if (urlParams.calyear) {
+                    overrides.calyear = urlParams.calyear;
                 }
-
-                if (view) {
-                    loadView(view, params);
+                if (urlParams.week) {
+                    overrides.week = urlParams.week;
                 }
-                return;
+            } else if (view === 'month') {
+                if (urlParams.calyear) {
+                    overrides.calyear = urlParams.calyear;
+                }
+                if (urlParams.calmonth) {
+                    overrides.calmonth = urlParams.calmonth;
+                }
             }
-        };
 
-        // Attacher le handler avec délégation d'événements
-        calendarWrapper.addEventListener('click', delegationHandler);
-    }
-
-    // Gérer le bouton retour du navigateur
-    window.addEventListener('popstate', function (event) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const view = urlParams.get('view') || 'week';
-        const params = {};
-
-        if (view === 'day') {
-            const date = urlParams.get('date');
-            if (date) {
-                params.date = date;
-            }
-        } else if (view === 'week') {
-            const calyear = urlParams.get('calyear');
-            const week = urlParams.get('week');
-            if (calyear) {
-                params.calyear = calyear;
-            }
-            if (week) {
-                params.week = week;
-            }
-        } else if (view === 'month') {
-            const calyear = urlParams.get('calyear');
-            const calmonth = urlParams.get('calmonth');
-            if (calyear) {
-                params.calyear = calyear;
-            }
-            if (calmonth) {
-                params.calmonth = calmonth;
-            }
+            loadView(view, overrides);
+            return;
         }
 
-        loadView(view, params);
+        // --- Boutons Navigation (Aujourd'hui / Précédent / Suivant) ---
+        const navBtn = e.target.closest('.calendar-header .nav-btn');
+        if (navBtn) {
+            e.preventDefault();
+            const view = navBtn.getAttribute('data-view');
+            if (!view) {
+                return;
+            }
+
+            const overrides = {};
+
+            if (view === 'day') {
+                const date = navBtn.getAttribute('data-date');
+                if (date) {
+                    overrides.date = date;
+                }
+            } else if (view === 'week') {
+                const calyear = navBtn.getAttribute('data-calyear');
+                const week    = navBtn.getAttribute('data-week');
+                if (calyear) {
+                    overrides.calyear = calyear;
+                }
+                if (week) {
+                    overrides.week = week;
+                }
+            } else if (view === 'month') {
+                const calyear  = navBtn.getAttribute('data-calyear');
+                const calmonth = navBtn.getAttribute('data-calmonth');
+                if (calyear) {
+                    overrides.calyear = calyear;
+                }
+                if (calmonth) {
+                    overrides.calmonth = calmonth;
+                }
+            }
+
+            loadView(view, overrides);
+        }
     });
 
-    // Initialiser au chargement de la page
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initScheduleListeners);
-    } else {
-        initScheduleListeners();
-    }
+    // Bouton retour/avance du navigateur
+    window.addEventListener('popstate', function () {
+        const p    = getUrlParams();
+        const view = p.view || 'week';
+
+        const overrides = {};
+        if (view === 'day' && p.date)         { overrides.date = p.date; }
+        if (view === 'week') {
+            if (p.calyear) { overrides.calyear = p.calyear; }
+            if (p.week)    { overrides.week    = p.week; }
+        }
+        if (view === 'month') {
+            if (p.calyear)  { overrides.calyear  = p.calyear; }
+            if (p.calmonth) { overrides.calmonth = p.calmonth; }
+        }
+
+        loadView(view, overrides);
+    });
+
+    // Exposer pour schedule-filters.js
+    window.scheduleLoadView = loadView;
 
 })();
