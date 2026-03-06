@@ -4,7 +4,7 @@
 
 [![CI/CD Pipeline](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/phpstan.yml/badge.svg)](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/phpstan.yml)
 [![Vérification PHP](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/php.yml/badge.svg)](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/php.yml)
-[![Deploy Documentation](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/deploy-doc.yml/badge.svg)](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/deploy-doc.yml)
+[![Deploy Documentation](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/deploy-doc.yml/badge.svg?branch=DEV)](https://github.com/AHAMED-Nasser/BdeLive/actions/workflows/deploy-doc.yml)
 [![PHP 8.2+](https://img.shields.io/badge/PHP-8.2%2B-%23777BB4?logo=php&logoColor=white)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-%234479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![PHPStan](https://img.shields.io/badge/PHPStan-Level%208-%238892BF)](https://phpstan.org/)
