@@ -44,15 +44,32 @@
         groupSelect.addEventListener('change', updateUrl);
 
         /**
-         * Redirects to the new URL with selected parameters
-         * Adds a hash for automatic scroll if a group is selected
+         * Met à jour l'URL / ou charge la vue via AJAX selon le contexte.
+         * Si scheduleLoadView est disponible et qu'un groupe est sélectionné,
+         * on utilise l'AJAX (loadView) pour éviter le rechargement complet.
+         * Sinon, on retombe sur le comportement de redirection classique.
          */
         function updateUrl()
         {
             const year = yearSelect.value;
             const group = groupSelect.value;
 
-            if (year) {
+            if (!year) {
+                return;
+            }
+
+            // Si la fonction AJAX globale est dispo ET qu'un groupe est choisi,
+            // on charge la vue dynamiquement sans recharger la page.
+            if (typeof window.scheduleLoadView === 'function' && group) {
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentView = urlParams.get('view') || 'week';
+
+                window.scheduleLoadView(currentView, {
+                    year: year,
+                    group: group
+                });
+            } else {
+                // Fallback : mise à jour classique de l'URL sans scroll forcé
                 const params = new URLSearchParams();
                 params.set('page', 'schedule');
                 params.set('year', year);
@@ -60,33 +77,11 @@
                     params.set('group', group);
                 }
 
-                // Add hash for automatic scroll to schedule
-                const hash = group ? '#calendar-view' : '';
-                window.location.href = 'index.php?' + params.toString() + hash;
+                window.location.href = 'index.php?' + params.toString();
             }
         }
 
-        /**
-         * Automatic scroll to schedule if hash is present in URL
-         */
-        function autoScrollToCalendar()
-        {
-            if (window.location.hash === '#calendar-view') {
-                // Wait briefly for page to be fully loaded
-                setTimeout(function () {
-                    const calendarView = document.getElementById('calendar-view');
-                    if (calendarView) {
-                        calendarView.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                }, 100);
-            }
-        }
-
-        // Execute automatic scroll on page load
-        autoScrollToCalendar();
+        // Plus de scroll automatique : l'utilisateur garde le contrôle de la position
     });
 
 })();

@@ -4,6 +4,9 @@
  * Accessible au clavier et à la souris
  */
 
+// Position du scroll sauvegardée à l'ouverture de la modal
+let _modalLockedScrollY = 0;
+
 /**
  * Ouvre la modal avec les détails d'un cours
  * @param {HTMLElement} courseBlock L'élément cours cliqué
@@ -31,9 +34,11 @@ function openCourseModal(courseBlock)
     modal.classList.add('active');
     modal.setAttribute('aria-hidden', 'false');
 
-    // BLOQUER LE SCROLL du body
+    // BLOQUER LE SCROLL sans perdre la position courante
+    _modalLockedScrollY = window.scrollY;
     document.body.style.overflow = 'hidden';
     document.body.style.position = 'fixed';
+    document.body.style.top = '-' + _modalLockedScrollY + 'px';
     document.body.style.width = '100%';
 
     // Focus sur le bouton de fermeture pour l'accessibilité
@@ -57,10 +62,12 @@ function closeCourseModal()
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
 
-    // DÉBLOQUER LE SCROLL du body
+    // DÉBLOQUER LE SCROLL et restaurer la position exacte
     document.body.style.overflow = '';
     document.body.style.position = '';
+    document.body.style.top = '';
     document.body.style.width = '';
+    window.scrollTo(0, _modalLockedScrollY);
 }
 
 /**

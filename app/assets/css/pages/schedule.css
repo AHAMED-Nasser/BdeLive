@@ -75,6 +75,21 @@
     padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 2px 4px var(--shadow-sm);
+    transition: opacity 0.18s ease;
+}
+
+.calendar-wrapper.is-loading {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+@keyframes scheduleViewFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-wrapper.view-ready > * {
+    animation: scheduleViewFadeIn 0.22s ease forwards;
 }
 
 #calendar {
