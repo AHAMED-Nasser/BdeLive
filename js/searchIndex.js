@@ -2758,7 +2758,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AhashPassword\u0028\u0029",
             "name": "hashPassword",
-            "summary": "Hash\u0020a\u0020password\u0020using\u0020SHA\u002D1",
+            "summary": "Hash\u0020a\u0020password\u0020using\u0020the\u0020default\u0020PHP\u0020hashing\u0020algorithm\u0020\u0028bcrypt\u0029",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_hashPassword"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AverifyPassword\u0028\u0029",
@@ -2768,43 +2768,33 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AfindUserByEmail\u0028\u0029",
             "name": "findUserByEmail",
-            "summary": "",
+            "summary": "Find\u0020a\u0020user\u0020by\u0020email\u0020address",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_findUserByEmail"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUserById\u0028\u0029",
+            "name": "getUserById",
+            "summary": "Retrieve\u0020a\u0020single\u0020user\u0020by\u0020their\u0020primary\u0020key",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUserById"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcreateUser\u0028\u0029",
             "name": "createUser",
-            "summary": "Create\u0020a\u0020new\u0020user",
+            "summary": "Create\u0020a\u0020new\u0020user\u0020without\u0020email\u0020verification",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_createUser"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcreateUserWithVerification\u0028\u0029",
+            "name": "createUserWithVerification",
+            "summary": "Create\u0020a\u0020new\u0020user\u0020with\u0020an\u0020email\u0020verification\u0020token",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_createUserWithVerification"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateUser\u0028\u0029",
             "name": "updateUser",
-            "summary": "Update\u0020user\u0020information",
+            "summary": "Update\u0020user\u0020profile\u0020information\u0020\u0028excluding\u0020password\u0029",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateUser"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdatePassword\u0028\u0029",
             "name": "updatePassword",
             "summary": "Update\u0020a\u0020user\u0027s\u0020password",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_updatePassword"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AsoftDeleteUser\u0028\u0029",
-            "name": "softDeleteUser",
-            "summary": "Soft\u0020delete\u0020a\u0020user\u0020\u0028logical\u0020deletion\u0029",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_softDeleteUser"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003ArestoreUser\u0028\u0029",
-            "name": "restoreUser",
-            "summary": "Restore\u0020a\u0020soft\u002Ddeleted\u0020user",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_restoreUser"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AdeleteUser\u0028\u0029",
-            "name": "deleteUser",
-            "summary": "Delete\u0020a\u0020user\u0020from\u0020the\u0020database",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_deleteUser"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AemailExists\u0028\u0029",
-            "name": "emailExists",
-            "summary": "Check\u0020if\u0020an\u0020email\u0020address\u0020already\u0020exists",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_emailExists"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateFirstName\u0028\u0029",
             "name": "updateFirstName",
@@ -2816,99 +2806,99 @@ Search.appendIndex(
             "summary": "Update\u0020a\u0020user\u0027s\u0020last\u0020name",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateLastName"
         },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetAllUsersPaginated\u0028\u0029",
-            "name": "getAllUsersPaginated",
-            "summary": "",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getAllUsersPaginated"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountUsersByBlockStatus\u0028\u0029",
-            "name": "countUsersByBlockStatus",
-            "summary": "Compte\u0020les\u0020utilisateurs\u0020pour\u0020la\u0020pagination\u0020selon\u0020is_blocked",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countUsersByBlockStatus"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateUserRole\u0028\u0029",
-            "name": "updateUserRole",
-            "summary": "Change\u0020le\u0020r\u00F4le\u0020d\u0027un\u0020utilisateur\u0020\u0028ex\u003A\u0020\u0027admin\u0027\u0020ou\u0020\u0027user\u0027\u0029",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateUserRole"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AsetBlockStatus\u0028\u0029",
-            "name": "setBlockStatus",
-            "summary": "",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_setBlockStatus"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUserRoleById\u0028\u0029",
-            "name": "getUserRoleById",
-            "summary": "Get\u0020the\u0020role\u0020of\u0020a\u0020user\u0020by\u0020their\u0020ID",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUserRoleById"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUsers\u0028\u0029",
-            "name": "getUsers",
-            "summary": "Get\u0020users\u0020with\u0020optional\u0020filters\u0020\u0028unified\u0020method\u0029",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUsers"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountUsers\u0028\u0029",
-            "name": "countUsers",
-            "summary": "Count\u0020users\u0020with\u0020optional\u0020filters\u0020\u0028unified\u0020method\u0029",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countUsers"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetDeletedUsers\u0028\u0029",
-            "name": "getDeletedUsers",
-            "summary": "Get\u0020deleted\u0020users\u0020with\u0020optional\u0020filters",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getDeletedUsers"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountDeletedUsers\u0028\u0029",
-            "name": "countDeletedUsers",
-            "summary": "Count\u0020deleted\u0020users\u0020with\u0020optional\u0020filters",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countDeletedUsers"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateUserStatus\u0028\u0029",
-            "name": "updateUserStatus",
-            "summary": "Update\u0020a\u0020user\u0027s\u0020status",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateUserStatus"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgenerateVerificationToken\u0028\u0029",
-            "name": "generateVerificationToken",
-            "summary": "Generate\u0020a\u0020unique\u0020verification\u0020token",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_generateVerificationToken"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcreateUserWithVerification\u0028\u0029",
-            "name": "createUserWithVerification",
-            "summary": "Create\u0020a\u0020new\u0020user\u0020with\u0020verification\u0020token",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_createUserWithVerification"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AverifyEmailToken\u0028\u0029",
-            "name": "verifyEmailToken",
-            "summary": "Verify\u0020email\u0020token\u0020and\u0020activate\u0020account",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_verifyEmailToken"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AisEmailVerified\u0028\u0029",
-            "name": "isEmailVerified",
-            "summary": "Check\u0020if\u0020user\u0027s\u0020email\u0020is\u0020verified",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_isEmailVerified"
-        },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AresendVerificationToken\u0028\u0029",
-            "name": "resendVerificationToken",
-            "summary": "Resend\u0020verification\u0020token",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_resendVerificationToken"
-        },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateEmail\u0028\u0029",
             "name": "updateEmail",
             "summary": "Update\u0020a\u0020user\u0027s\u0020email\u0020address",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateEmail"
         },                {
-            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUserById\u0028\u0029",
-            "name": "getUserById",
-            "summary": "Get\u0020user\u0020by\u0020ID",
-            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUserById"
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateUserStatus\u0028\u0029",
+            "name": "updateUserStatus",
+            "summary": "Update\u0020a\u0020user\u0027s\u0020academic\u0020status",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateUserStatus"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AdeleteUser\u0028\u0029",
+            "name": "deleteUser",
+            "summary": "Permanently\u0020delete\u0020a\u0020user\u0020record",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_deleteUser"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AemailExists\u0028\u0029",
+            "name": "emailExists",
+            "summary": "Check\u0020if\u0020an\u0020email\u0020address\u0020already\u0020exists\u0020in\u0020the\u0020database",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_emailExists"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgenerateVerificationToken\u0028\u0029",
+            "name": "generateVerificationToken",
+            "summary": "Generate\u0020a\u0020cryptographically\u0020secure\u002064\u002Dcharacter\u0020hexadecimal\u0020token",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_generateVerificationToken"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AverifyEmailToken\u0028\u0029",
+            "name": "verifyEmailToken",
+            "summary": "Verify\u0020an\u0020email\u0020verification\u0020token\u0020and\u0020activate\u0020the\u0020user\u0020account",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_verifyEmailToken"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AisEmailVerified\u0028\u0029",
+            "name": "isEmailVerified",
+            "summary": "Check\u0020whether\u0020a\u0020user\u0027s\u0020email\u0020address\u0020has\u0020been\u0020verified",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_isEmailVerified"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AresendVerificationToken\u0028\u0029",
+            "name": "resendVerificationToken",
+            "summary": "Generate\u0020and\u0020persist\u0020a\u0020new\u0020email\u0020verification\u0020token\u0020for\u0020a\u0020user",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_resendVerificationToken"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUsers\u0028\u0029",
+            "name": "getUsers",
+            "summary": "Retrieve\u0020a\u0020paginated\u0020list\u0020of\u0020active\u0020\u0028non\u002Ddeleted\u0029\u0020users",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountUsers\u0028\u0029",
+            "name": "countUsers",
+            "summary": "Count\u0020active\u0020\u0028non\u002Ddeleted\u0029\u0020users\u0020matching\u0020the\u0020given\u0020filters",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetDeletedUsers\u0028\u0029",
+            "name": "getDeletedUsers",
+            "summary": "Retrieve\u0020a\u0020paginated\u0020list\u0020of\u0020soft\u002Ddeleted\u0020users",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getDeletedUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountDeletedUsers\u0028\u0029",
+            "name": "countDeletedUsers",
+            "summary": "Count\u0020soft\u002Ddeleted\u0020users\u0020matching\u0020the\u0020given\u0020filters",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countDeletedUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetUserRoleById\u0028\u0029",
+            "name": "getUserRoleById",
+            "summary": "Retrieve\u0020the\u0020role\u0020of\u0020a\u0020user\u0020by\u0020their\u0020primary\u0020key",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_getUserRoleById"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AupdateUserRole\u0028\u0029",
+            "name": "updateUserRole",
+            "summary": "Update\u0020the\u0020role\u0020of\u0020a\u0020user",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_updateUserRole"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AsetBlockStatus\u0028\u0029",
+            "name": "setBlockStatus",
+            "summary": "Block\u0020or\u0020unblock\u0020a\u0020user\u0020account",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_setBlockStatus"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AsoftDeleteUser\u0028\u0029",
+            "name": "softDeleteUser",
+            "summary": "Soft\u002Ddelete\u0020a\u0020user\u0020account\u0020\u002830\u002Dday\u0020grace\u0020period\u0029",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_softDeleteUser"
+        },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003ArestoreUser\u0028\u0029",
+            "name": "restoreUser",
+            "summary": "Restore\u0020a\u0020soft\u002Ddeleted\u0020user\u0020account",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_restoreUser"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AgetExpiredDeletedUsers\u0028\u0029",
             "name": "getExpiredDeletedUsers",
-            "summary": "Retrieve\u0020users\u0020whose\u0020soft\u002Ddelete\u0020grace\u0020period\u0020has\u0020expired",
+            "summary": "Retrieve\u0020soft\u002Ddeleted\u0020users\u0020whose\u0020grace\u0020period\u0020has\u0020expired",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_getExpiredDeletedUsers"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AanonymizeUser\u0028\u0029",
             "name": "anonymizeUser",
-            "summary": "Anonymize\u0020a\u0020user\u0020record\u0020while\u0020preserving\u0020it\u0020for\u0020statistical\u0020purposes",
+            "summary": "Anonymize\u0020a\u0020user\u0020record\u0020by\u0020replacing\u0020all\u0020personal\u0020data\u0020with\u0020placeholders",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_anonymizeUser"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003A\u0024pdo",
