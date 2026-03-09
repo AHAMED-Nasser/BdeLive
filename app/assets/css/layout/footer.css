@@ -1,7 +1,7 @@
 footer {
     background: var(--gradient-primary);
     color: var(--text-inverse);
-    padding: 20px 20px 15px 20px;
+    padding: 20px;
     margin-top: 30px;
 }
 
@@ -11,13 +11,16 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .footer-left {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
 }
 
 .footer-right {
@@ -34,7 +37,7 @@ footer nav {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 20px;
     padding: 0;
     margin: 0;
 }
@@ -67,8 +70,9 @@ footer nav {
     background-color: rgba(255, 255, 255, 0.15);
 }
 
+.footer-copyright,
 footer p {
-    margin: 0 0 6px 0;
+    margin: 0;
     font-size: 0.85rem;
     color: var(--text-inverse);
     font-weight: 400;
@@ -77,13 +81,53 @@ footer p {
     font-family: var(--font-body);
 }
 
+/* Social logos dans le footer */
+footer .social-logos {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+footer .social-logos-title,
+footer .social-logos h2,
+footer .social-logos h3,
+footer .social-logos h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    padding-right: 0;
+    font-weight: 600;
+    color: var(--text-inverse);
+}
+
+footer .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+footer .social-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--text-inverse);
+}
+
 /* ===== RESPONSIVE DESIGN ===== */
 
 /* Tablet (max-width: 992px) */
 @media (max-width: 992px) {
     footer {
-        padding: 18px 15px 12px 15px;
+        padding: 18px 15px;
         margin-top: 25px;
+    }
+
+    .footer-left {
+        gap: 20px;
     }
 
     .footer-nav {
@@ -95,6 +139,7 @@ footer p {
         padding: 6px 10px;
     }
 
+    .footer-copyright,
     footer p {
         font-size: 0.8rem;
     }
@@ -103,57 +148,95 @@ footer p {
 /* Mobile (max-width: 768px) */
 @media (max-width: 768px) {
     footer {
-        padding: 15px 15px 12px 15px;
+        padding: 20px 15px;
         margin-top: 20px;
     }
 
     .footer-inner {
         flex-direction: column;
         align-items: center;
-        gap: 15px;
+        gap: 24px;
+        text-align: center;
     }
 
     .footer-left {
+        flex-direction: column;
         align-items: center;
-        text-align: center;
+        gap: 16px;
+    }
+
+    .footer-nav {
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .footer-nav a {
+        font-size: 0.9rem;
+        padding: 8px 14px;
     }
 
     .footer-right {
         justify-content: center;
     }
 
-    .footer-nav {
-        gap: 8px;
+    footer .social-logos {
         justify-content: center;
+        gap: 16px;
     }
 
-    .footer-nav a {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+    footer .social-logos-title {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 4px;
     }
 
+    .footer-copyright,
     footer p {
         font-size: 0.8rem;
-        padding: 0 10px;
+        text-align: center;
     }
 }
 
-/* Small mobile (max-width: 480px) */
+/* Petit mobile (max-width: 480px) */
 @media (max-width: 480px) {
     footer {
-        padding: 12px 10px 10px 10px;
+        padding: 16px 12px;
         margin-top: 15px;
     }
 
+    .footer-inner {
+        gap: 20px;
+    }
+
+    .footer-left {
+        gap: 12px;
+    }
+
     .footer-nav {
-        gap: 6px;
+        flex-direction: column;
+        gap: 4px;
     }
 
     .footer-nav a {
         font-size: 0.85rem;
-        padding: 6px 10px;
+        padding: 6px 12px;
     }
 
+    footer .social-logos {
+        gap: 12px;
+    }
+
+    footer .social-link {
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    footer .social-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .footer-copyright,
     footer p {
         font-size: 0.75rem;
     }
