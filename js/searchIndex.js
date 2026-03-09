@@ -671,6 +671,31 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Core-Http-Response.html#property_headers"
         },                {
+            "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer",
+            "name": "MarkdownRenderer",
+            "summary": "Centralized\u0020Markdown\u0020rendering\u0020for\u0020events,\u0020articles,\u0020and\u0020other\u0020content.",
+            "url": "classes/App-Core-Markdown-MarkdownRenderer.html"
+        },                {
+            "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003AtoHtml\u0028\u0029",
+            "name": "toHtml",
+            "summary": "Convert\u0020Markdown\u0020string\u0020to\u0020safe\u0020HTML.",
+            "url": "classes/App-Core-Markdown-MarkdownRenderer.html#method_toHtml"
+        },                {
+            "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003AtoPlainPreview\u0028\u0029",
+            "name": "toPlainPreview",
+            "summary": "Get\u0020a\u0020plain\u002Dtext\u0020preview\u0020\u0028no\u0020Markdown,\u0020no\u0020HTML\u0029\u0020for\u0020lists\/previews.",
+            "url": "classes/App-Core-Markdown-MarkdownRenderer.html#method_toPlainPreview"
+        },                {
+            "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003AgetParser\u0028\u0029",
+            "name": "getParser",
+            "summary": "",
+            "url": "classes/App-Core-Markdown-MarkdownRenderer.html#method_getParser"
+        },                {
+            "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003A\u0024parsedown",
+            "name": "parsedown",
+            "summary": "",
+            "url": "classes/App-Core-Markdown-MarkdownRenderer.html#property_parsedown"
+        },                {
             "fqsen": "\\App\\Core\\Security\\CsrfProtection",
             "name": "CsrfProtection",
             "summary": "CsrfProtection\u0020\u002D\u0020CSRF\u0020Token\u0020Management",
@@ -3520,6 +3545,11 @@ Search.appendIndex(
             "name": "Http",
             "summary": "",
             "url": "namespaces/app-core-http.html"
+        },                {
+            "fqsen": "\\App\\Core\\Markdown",
+            "name": "Markdown",
+            "summary": "",
+            "url": "namespaces/app-core-markdown.html"
         },                {
             "fqsen": "\\App\\Core\\Security",
             "name": "Security",

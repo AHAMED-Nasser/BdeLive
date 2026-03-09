@@ -163,17 +163,56 @@
             <div class="phpdocumentor-column -nine phpdocumentor-content">
                                 <section>
                                         <ul class="phpdocumentor-breadcrumbs">
-            <li class="phpdocumentor-breadcrumb"><a href="packages/BdeLive.html">BdeLive</a></li>
-            <li class="phpdocumentor-breadcrumb"><a href="packages/BdeLive-Views.html">Views</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/app.html">App</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/app-core.html">Core</a></li>
+            <li class="phpdocumentor-breadcrumb"><a href="namespaces/app-core-markdown.html">Markdown</a></li>
     </ul>
 
-    <article class="phpdocumentor-element -package">
-        <h2 class="phpdocumentor-content__title">Shared</h2>
+    <article class="phpdocumentor-element -class">
+        <h2 class="phpdocumentor-content__title">
+    MarkdownRenderer
 
-        
+    
+            <div class="phpdocumentor-element__package">
+            in package
+            <ul class="phpdocumentor-breadcrumbs">
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/App.html">App</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/App-Core.html">Core</a></li>
+                                    <li class="phpdocumentor-breadcrumb"><a href="packages/App-Core-Markdown.html">Markdown</a></li>
+                            </ul>
+        </div>
+    
+    
+    </h2>
+
+<div class="phpdocumentor-label-line">
+
+    <div class="phpdocumentor-label phpdocumentor-label--success"><span>Final</span><span>Yes</span></div>
+
+
+</div>
+
+        <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Markdown/MarkdownRenderer.php"><a href="files/app-core-markdown-markdownrenderer.html"><abbr title="app/Core/Markdown/MarkdownRenderer.php">MarkdownRenderer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">15</span>
+
+    </aside>
+
+            <p class="phpdocumentor-summary">Centralized Markdown rendering for events, articles, and other content.</p>
+
+
+    <section class="phpdocumentor-description"><p>Uses Parsedown with safe mode enabled to prevent XSS.
+Reusable across the application for consistent Markdown-to-HTML conversion.</p>
+</section>
+
+
+
+    
+    
 <h3 id="toc">
     Table of Contents
-    <a href="packages/BdeLive-Views-Shared.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
+    <a href="classes/App-Core-Markdown-MarkdownRenderer.html#toc" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h3>
 
@@ -185,259 +224,260 @@
 
 
 
-
-
-<h4 id="toc-functions">
-    Functions
-    <a href="packages/BdeLive-Views-Shared.html#toc-functions" class="headerlink"><i class="fas fa-link"></i></a>
+<h4 id="toc-properties">
+    Properties
+    <a href="classes/App-Core-Markdown-MarkdownRenderer.html#toc-properties" class="headerlink"><i class="fas fa-link"></i></a>
 
 </h4>
 <dl class="phpdocumentor-table-of-contents">
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_useCarousel">useCarousel()</a>
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a class="" href="classes/App-Core-Markdown-MarkdownRenderer.html#property_parsedown">$parsedown</a>
     <span>
-                                &nbsp;: void    </span>
+                        &nbsp;: <abbr title="\Parsedown">Parsedown</abbr>|null            </span>
 </dt>
-<dd>Carousel Component</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_start_page">start_page()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Renders the page header with navigation</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -function -">
-    <a class="" href="namespaces/default.html#function_end_page">end_page()</a>
-    <span>
-                                &nbsp;: void    </span>
-</dt>
-<dd>Renders the page footer</dd>
 
     </dl>
 
+<h4 id="toc-methods">
+    Methods
+    <a href="classes/App-Core-Markdown-MarkdownRenderer.html#toc-methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+</h4>
+<dl class="phpdocumentor-table-of-contents">
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toHtml">toHtml()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Convert Markdown string to safe HTML.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toPlainPreview">toPlainPreview()</a>
+    <span>
+                                &nbsp;: string    </span>
+</dt>
+<dd>Get a plain-text preview (no Markdown, no HTML) for lists/previews.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -private">
+    <a class="" href="classes/App-Core-Markdown-MarkdownRenderer.html#method_getParser">getParser()</a>
+    <span>
+                                &nbsp;: <abbr title="\Parsedown">Parsedown</abbr>    </span>
+</dt>
+
+    </dl>
+
+
+
         
 
-            <section class="phpdocumentor-functions">
-        <h3 class="phpdocumentor-elements__header" id="functions">
-            Functions
-            <a href="packages/BdeLive-Views-Shared.html#functions" class="headerlink"><i class="fas fa-link"></i></a>
+        
+    <section class="phpdocumentor-properties">
+        <h3 class="phpdocumentor-elements__header" id="properties">
+            Properties
+            <a href="classes/App-Core-Markdown-MarkdownRenderer.html#properties" class="headerlink"><i class="fas fa-link"></i></a>
 
         </h3>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_useCarousel">
-        useCarousel()
-        <a href="namespaces/default.html#function_useCarousel" class="headerlink"><i class="fas fa-link"></i></a>
+                    <article
+        class="
+            phpdocumentor-element
+            -property
+            -private
+            -static                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="property_parsedown">
+        $parsedown
+        <a href="classes/App-Core-Markdown-MarkdownRenderer.html#property_parsedown" class="headerlink"><i class="fas fa-link"></i></a>
 
+        <span class="phpdocumentor-element__modifiers">
+                                            </span>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/views/shared/carousel.inc.php"><a href="files/app-modules-views-shared-carousel-inc.html"><abbr title="app/Modules/views/shared/carousel.inc.php">carousel.inc.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Markdown/MarkdownRenderer.php"><a href="files/app-core-markdown-markdownrenderer.html"><abbr title="app/Core/Markdown/MarkdownRenderer.php">MarkdownRenderer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">16</span>
+    <span class="phpdocumentor-element-found-in__line">17</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Carousel Component</p>
-
+    
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">useCarousel</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$carouselLabel</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, array{src: string, alt?: string}&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$imageMap</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$carouselId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
-
-        <section class="phpdocumentor-description"><p>Reusable carousel component for displaying sliding image content.
-Used on homepage and other pages for featured content display.</p>
-</section>
-
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$carouselLabel</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$imageMap</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array{src: string, alt?: string}&gt;</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$carouselId</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                
-            </dd>
-            </dl>
+        <span class="phpdocumentor-signature__visibility">private</span>
+        <span class="phpdocumentor-signature__static">static</span>    <span class="phpdocumentor-signature__type"><abbr title="\Parsedown">Parsedown</abbr>|null</span>
+    <span class="phpdocumentor-signature__name">$parsedown</span>
+     = <span class="phpdocumentor-signature__default-value">null</span></code>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="namespaces/default.html#function_useCarousel#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">version</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.0.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">author</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>BdeLive - Group 8</p>
-</section>
-
-                                    </dd>
-                                            </dl>
-
     
+    
+
+        
+        
+
 </article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_start_page">
-        start_page()
-        <a href="namespaces/default.html#function_start_page" class="headerlink"><i class="fas fa-link"></i></a>
+            </section>
+
+            <section class="phpdocumentor-methods">
+        <h3 class="phpdocumentor-elements__header" id="methods">
+            Methods
+            <a href="classes/App-Core-Markdown-MarkdownRenderer.html#methods" class="headerlink"><i class="fas fa-link"></i></a>
+
+        </h3>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_toHtml">
+        toHtml()
+        <a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toHtml" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/views/shared/include.inc.php"><a href="files/app-modules-views-shared-include-inc.html"><abbr title="app/Modules/views/shared/include.inc.php">include.inc.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Markdown/MarkdownRenderer.php"><a href="files/app-core-markdown-markdownrenderer.html"><abbr title="app/Core/Markdown/MarkdownRenderer.php">MarkdownRenderer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">23</span>
+    <span class="phpdocumentor-element-found-in__line">25</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders the page header with navigation</p>
+        <p class="phpdocumentor-summary">Convert Markdown string to safe HTML.</p>
 
-    
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">start_page</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$title</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">bool&nbsp;</span><span class="phpdocumentor-signature__argument__name">$wouldNav</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">true</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;string, mixed&gt;|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$user</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">toHtml</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
 
-        <section class="phpdocumentor-description"><p>Generates the HTML head section and navigation bar with responsive
-hamburger menu for mobile devices. Includes user-specific navigation
-options based on authentication status and user role.</p>
-</section>
-
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$title</span>
-                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                <span class="phpdocumentor-argument-list__argument__name">$markdown</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Page title for the browser tab</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$wouldNav</span>
-                : <span class="phpdocumentor-argument-list__argument__type">bool</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">true</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Whether to display the navigation bar</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-argument-list__argument__name">$user</span>
-                : <span class="phpdocumentor-argument-list__argument__type">array&lt;string, mixed&gt;|null</span>
-                 = <span class="phpdocumentor-argument-list__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Current user data or null if not logged in</p>
+                    <section class="phpdocumentor-description"><p>Raw Markdown content (null treated as empty)</p>
 </section>
 
             </dd>
             </dl>
 
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="namespaces/default.html#function_start_page#tags" class="headerlink"><i class="fas fa-link"></i></a>
 
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">author</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>BdeLive Team</p>
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Rendered HTML (safe, escaped via Parsedown safe mode)</p>
 </section>
 
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">version</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.1.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
+            </section>
 
-    
 </article>
-                    <article class="phpdocumentor-element -function - ">
-    <h4 class="phpdocumentor-element__name" id="function_end_page">
-        end_page()
-        <a href="namespaces/default.html#function_end_page" class="headerlink"><i class="fas fa-link"></i></a>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_toPlainPreview">
+        toPlainPreview()
+        <a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toPlainPreview" class="headerlink"><i class="fas fa-link"></i></a>
 
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/views/shared/include.inc.php"><a href="files/app-modules-views-shared-include-inc.html"><abbr title="app/Modules/views/shared/include.inc.php">include.inc.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Markdown/MarkdownRenderer.php"><a href="files/app-core-markdown-markdownrenderer.html"><abbr title="app/Core/Markdown/MarkdownRenderer.php">MarkdownRenderer.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">376</span>
+    <span class="phpdocumentor-element-found-in__line">43</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Renders the page footer</p>
+        <p class="phpdocumentor-summary">Get a plain-text preview (no Markdown, no HTML) for lists/previews.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">toPlainPreview</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string|null&nbsp;</span><span class="phpdocumentor-signature__argument__name">$markdown</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$maxLength</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">150</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">string</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$markdown</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string|null</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Raw Markdown content</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$maxLength</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">150</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Maximum length before truncation</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">string</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Plain text preview</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -private
+                                    -static                    "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getParser">
+        getParser()
+        <a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_getParser" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Markdown/MarkdownRenderer.php"><a href="files/app-core-markdown-markdownrenderer.html"><abbr title="app/Core/Markdown/MarkdownRenderer.php">MarkdownRenderer.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">64</span>
+
+    </aside>
 
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
-    <span class="phpdocumentor-signature__visibility"></span>
-                    <span class="phpdocumentor-signature__name">end_page</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+    <span class="phpdocumentor-signature__visibility">private</span>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">getParser</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type"><abbr title="\Parsedown">Parsedown</abbr></span></code>
 
-        <section class="phpdocumentor-description"><p>Generates the HTML footer section with navigation links,
-social media icons, and copyright information.
-Also handles cookie consent popup display.</p>
-</section>
-
+    <div class="phpdocumentor-label-line">
+        </div>
     
     
-    <h5 class="phpdocumentor-tag-list__heading" id="tags">
-        Tags
-        <a href="namespaces/default.html#function_end_page#tags" class="headerlink"><i class="fas fa-link"></i></a>
-
-    </h5>
-    <dl class="phpdocumentor-tag-list">
-                                    <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">author</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                                                                
-                                                 <section class="phpdocumentor-description"><p>BdeLive Team</p>
-</section>
-
-                                    </dd>
-                                                <dt class="phpdocumentor-tag-list__entry">
-                    <span class="phpdocumentor-tag__name">version</span>
-                </dt>
-                <dd class="phpdocumentor-tag-list__definition">
-                                            <span class="phpdocumentor-tag-link">1.1.0</span>
-                                                                                
-                                             
-                                    </dd>
-                                            </dl>
-
     
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type"><abbr title="\Parsedown">Parsedown</abbr></span>
+            </section>
+
 </article>
             </section>
 
@@ -445,7 +485,7 @@ Also handles cookie consent popup display.</p>
     <div class="phpdocumentor-modal-bg" data-exit-button></div>
     <div class="phpdocumentor-modal-container">
         <div class="phpdocumentor-modal-content">
-            <pre style="max-height: 500px; overflow-y: scroll" data-src="" class="language-php line-numbers linkable-line-numbers"></pre>
+            <pre style="max-height: 500px; overflow-y: scroll" data-src="files/app/Core/Markdown/MarkdownRenderer.php.txt" class="language-php line-numbers linkable-line-numbers"></pre>
         </div>
         <button data-exit-button class="phpdocumentor-modal__close">&times;</button>
     </div>
@@ -538,7 +578,7 @@ Also handles cookie consent popup display.</p>
     </article>
                                 </section>
                 <section class="phpdocumentor-on-this-page__sidebar">
-                            
+                                
     <section class="phpdocumentor-on-this-page__content">
         <strong class="phpdocumentor-on-this-page__title">On this page</strong>
 
@@ -546,19 +586,26 @@ Also handles cookie consent popup display.</p>
             <li class="phpdocumentor-on-this-page-section__title">Table Of Contents</li>
             <li>
                 <ul class="phpdocumentor-list -clean">
-                                                                                                                                                                                        <li><a href="packages/BdeLive-Views-Shared.html#toc-functions">Functions</a></li>
+                                                            <li><a href="classes/App-Core-Markdown-MarkdownRenderer.html#toc-properties">Properties</a></li>
+                                                            <li><a href="classes/App-Core-Markdown-MarkdownRenderer.html#toc-methods">Methods</a></li>
                                     </ul>
             </li>
-
             
-                            <li class="phpdocumentor-on-this-page-section__title">Functions</li>
+                            <li class="phpdocumentor-on-this-page-section__title">Properties</li>
                 <li>
                     <ul class="phpdocumentor-list -clean">
-                                                    <li class=""><a href="namespaces/default.html#function_end_page">end_page()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_start_page">start_page()</a></li>
-                                                    <li class=""><a href="namespaces/default.html#function_useCarousel">useCarousel()</a></li>
+                                                    <li class=""><a href="classes/App-Core-Markdown-MarkdownRenderer.html#property_parsedown">$parsedown</a></li>
                                             </ul>
                 </li>
+            
+                        <li class="phpdocumentor-on-this-page-section__title">Methods</li>
+            <li>
+                <ul class="phpdocumentor-list -clean">
+                                            <li class=""><a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toHtml">toHtml()</a></li>
+                                            <li class=""><a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_toPlainPreview">toPlainPreview()</a></li>
+                                            <li class=""><a href="classes/App-Core-Markdown-MarkdownRenderer.html#method_getParser">getParser()</a></li>
+                                    </ul>
+            </li>
                     </ul>
     </section>
 
@@ -576,7 +623,7 @@ Also handles cookie consent popup display.</p>
     </section>
 </section>
         </div>
-        <a href="packages/BdeLive-Views-Shared.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
+        <a href="classes/App-Core-Markdown-MarkdownRenderer.html#top" class="phpdocumentor-back-to-top"><i class="fas fa-chevron-circle-up"></i></a>
 
     </main>
 
