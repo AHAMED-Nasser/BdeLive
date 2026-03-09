@@ -82,6 +82,7 @@ class ShowEventController extends DefaultController
 
             $this->render('events/showEventView', [
                 'event' => $event,
+                'eventId' => $event->getId(),
                 'userId' => $user !== null ? ($user['user_id'] ?? null) : null,
                 'registrationRepo' => $registrationRepo,
                 'registrants' => $registrants,

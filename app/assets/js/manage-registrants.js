@@ -72,9 +72,14 @@ document.addEventListener('DOMContentLoaded', function () {
             removeForm.addEventListener('submit', function (e) {
                 var count = countChecked(checkboxes);
                 if (count === 0) { e.preventDefault(); return; }
-                if (!confirm('Êtes-vous sûr de vouloir supprimer ' + count + ' inscrit(s) ?')) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
+                window.showConfirmModal(
+                    'Supprimer des inscrits',
+                    'Êtes-vous sûr de vouloir supprimer ' + count + ' inscrit(s) ?',
+                    function () { removeForm.submit(); },
+                    null,
+                    { icon: 'fas fa-user-minus', confirmText: 'Supprimer', danger: true }
+                );
             });
         }
 
@@ -163,9 +168,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 removeForm.addEventListener('submit', function (e) {
                     var count = countChecked(checkboxes);
                     if (count === 0) { e.preventDefault(); return; }
-                    if (!confirm('Retirer ' + count + ' inscrit(s) du groupe ?')) {
-                        e.preventDefault();
-                    }
+                    e.preventDefault();
+                    window.showConfirmModal(
+                        'Retirer des inscrits',
+                        'Retirer ' + count + ' inscrit(s) du groupe ?',
+                        function () { removeForm.submit(); },
+                        null,
+                        { icon: 'fas fa-user-minus', confirmText: 'Retirer', danger: true }
+                    );
                 });
             }
 
@@ -173,10 +183,15 @@ document.addEventListener('DOMContentLoaded', function () {
             var deleteForm = block.querySelector('.group-delete-form');
             if (deleteForm) {
                 deleteForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
                     var teamNumber = block.getAttribute('data-team-number') || '?';
-                    if (!confirm('Supprimer le groupe ' + teamNumber + ' et tous ses membres ?')) {
-                        e.preventDefault();
-                    }
+                    window.showConfirmModal(
+                        'Supprimer le groupe',
+                        'Supprimer le groupe ' + teamNumber + ' et tous ses membres ?',
+                        function () { deleteForm.submit(); },
+                        null,
+                        { icon: 'fas fa-trash-alt', confirmText: 'Supprimer', danger: true }
+                    );
                 });
             }
 
@@ -188,15 +203,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     var userId = sel.getAttribute('data-user-id');
                     if (!newTeamId || !userId) return;
 
-                    if (!confirm('Déplacer cet inscrit vers un autre groupe ?')) {
-                        sel.value = '';
-                        return;
-                    }
-
-                    submitHiddenForm(eventId, 'group_move', block, {
-                        'user_id': userId,
-                        'new_team_id': newTeamId
-                    });
+                    window.showConfirmModal(
+                        'Déplacer un inscrit',
+                        'Déplacer cet inscrit vers un autre groupe ?',
+                        function () {
+                            submitHiddenForm(eventId, 'group_move', block, {
+                                'user_id': userId,
+                                'new_team_id': newTeamId
+                            });
+                        },
+                        function () { sel.value = ''; },
+                        { icon: 'fas fa-arrows-alt', confirmText: 'Déplacer' }
+                    );
                 });
             });
         });
@@ -350,9 +368,14 @@ document.addEventListener('DOMContentLoaded', function () {
         addForm.addEventListener('submit', function (e) {
             var count = Object.keys(selectedUsers).length;
             if (count === 0) { e.preventDefault(); return; }
-            if (!confirm('Ajouter ' + count + ' inscrit(s) ?')) {
-                e.preventDefault();
-            }
+            e.preventDefault();
+            window.showConfirmModal(
+                'Ajouter des inscrits',
+                'Ajouter ' + count + ' inscrit(s) à cet événement ?',
+                function () { addForm.submit(); },
+                null,
+                { icon: 'fas fa-user-plus', confirmText: 'Ajouter' }
+            );
         });
 
         document.addEventListener('click', function (e) {
@@ -375,8 +398,19 @@ document.addEventListener('DOMContentLoaded', function () {
             method: 'GET',
             headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
         })
-            .then(function (r) { return r.json(); })
+            .then(function (r) {
+                if (r.status === 401) {
+                    window.location.href = 'index.php?page=login';
+                    return null;
+                }
+                if (r.status === 403) {
+                    window.location.href = 'index.php?page=home';
+                    return null;
+                }
+                return r.json();
+            })
             .then(function (data) {
+                if (!data) return;
                 if (query !== getCurrentQuery()) return;
                 if (data.results && data.results.length > 0) {
                     renderResults(data.results, dropdown, selectedUsers, chipsContainer, addBtn, addIdsContainer);
