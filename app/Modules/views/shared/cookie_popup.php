@@ -19,7 +19,7 @@ $app = Application::getInstance();
 ?>
 
 <!-- Lien CSS -->
-<link rel="stylesheet" href="../../../assets/css/cookie_popup.css">
+<link rel="stylesheet" href="../../../assets/css/pages/cookie_popup.css">
 
 <div id="cookieConsent" role="dialog" aria-live="polite">
     <div class="text">

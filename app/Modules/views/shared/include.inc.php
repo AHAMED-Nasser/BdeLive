@@ -78,35 +78,42 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             })();
         </script>
 
+        <!-- Google Fonts: Roboto -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+
         <!-- Dark Mode CSS - Doit être chargé en premier -->
-        <link rel="stylesheet" href="./assets/css/dark-mode.css">
+        <link rel="stylesheet" href="./assets/css/themes/dark-mode.css">
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <link rel="stylesheet" href="./assets/css/password-control.css">
-        <link rel="stylesheet" href="./assets/css/style.css">
-        <link rel="stylesheet" href="./assets/css/footer.css">
-        <link rel="stylesheet" href="./assets/css/navbar.css">
-        <link rel="stylesheet" href="./assets/css/member.css">
-        <link rel="stylesheet" href="./assets/css/team.css">
-        <link rel="stylesheet" href="./assets/css/join.css">
-        <link rel="stylesheet" href="./assets/css/caroussel.css">
-        <link rel="stylesheet" href="./assets/css/createEvent.css">
-        <link rel="stylesheet" href="./assets/css/profile.css">
-        <link rel="stylesheet" href="./assets/css/articles.css">
-        <link rel="stylesheet" href="./assets/css/homepage-articles.css">
-        <link rel="stylesheet" href="./assets/css/admin.css">
-        <link rel="stylesheet" href="./assets/css/schedule.css">
-        <link rel="stylesheet" href="./assets/css/event.css">
-        <link rel="stylesheet" href="./assets/css/modal.css">
-        <link rel="stylesheet" href="./assets/css/group-registration.css">
-        <link rel="stylesheet" href="./assets/css/bde-opening.css">
+        <link rel="stylesheet" href="./assets/css/base/password-control.css">
+        <link rel="stylesheet" href="./assets/css/base/style.css">
+        <link rel="stylesheet" href="./assets/css/layout/footer.css">
+        <link rel="stylesheet" href="./assets/css/layout/navbar.css">
+        <link rel="stylesheet" href="./assets/css/pages/member.css">
+        <link rel="stylesheet" href="./assets/css/pages/team.css">
+        <link rel="stylesheet" href="./assets/css/pages/join.css">
+        <link rel="stylesheet" href="./assets/css/pages/caroussel.css">
+        <link rel="stylesheet" href="./assets/css/pages/createEvent.css">
+        <link rel="stylesheet" href="./assets/css/pages/profile.css">
+        <link rel="stylesheet" href="./assets/css/pages/articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/homepage-articles.css">
+        <link rel="stylesheet" href="./assets/css/pages/admin.css">
+        <link rel="stylesheet" href="./assets/css/pages/schedule.css">
+        <link rel="stylesheet" href="./assets/css/pages/event.css">
+        <link rel="stylesheet" href="./assets/css/components/modal.css">
+        <link rel="stylesheet" href="./assets/css/pages/group-registration.css">
+        <link rel="stylesheet" href="./assets/css/pages/bde-opening.css">
         <title><?= $title ?></title>
     </head>
     <body>
     <?php if ($wouldNav) : ?>
     <header>
         <nav class="nav" aria-label="Main navigation">
+            <div class="nav-inner">
             <ul>
                 <li>
                     <a href="index.php?page=home" class="nav-logo" aria-label="BDE Inform'Aix - Accueil">
@@ -143,7 +150,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
                             <span class="visually-hidden">Ouvrir le menu de profil</span>
-                            <i class="fas fa-user" aria-hidden="true"></i>
+                            <svg class="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
@@ -192,7 +201,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <input type="checkbox" id="profile-dropdown-toggle" class="profile-dropdown-toggle">
                         <label for="profile-dropdown-toggle" class="profile-dropdown-trigger">
                             <span class="visually-hidden">Ouvrir le menu de profil</span>
-                            <i class="fas fa-user" aria-hidden="true"></i>
+                            <svg class="profile-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                            </svg>
                             <?php
                             $displayName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
                             echo htmlspecialchars($displayName ?: 'Mon Profil');
@@ -231,6 +242,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                     </li>
                 <?php endif; ?>
             </ul>
+            </div>
 
             <!-- Menu Hamburger -->
             <input type="checkbox" id="menu-toggle" class="menu-toggle">
@@ -338,33 +350,32 @@ function end_page(): void
 {
     ?>
     <footer>
-        <nav aria-label="Liens utiles">
-            <ul class="footer-nav">
-                <li><a href="index.php?page=about">À propos</a></li>
-                <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
-                <li><a href="index.php?page=sitemap">Plan du site</a></li>
-            </ul>
-        </nav>
-
-        <div class="social-logos">
-            <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram - Ouvrir dans un nouvel onglet">
-                <svg class="social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="currentColor"/>
-                </svg>
-            </a>
-            <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord - Ouvrir dans un nouvel onglet">
-                <svg class="social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" fill="currentColor"/>
-                </svg>
-            </a>
-            <a href="https://www.tiktok.com/@informaix" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok - Ouvrir dans un nouvel onglet">
-                <svg class="social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" fill="currentColor"/>
-                </svg>
-            </a>
+        <div class="footer-inner">
+            <div class="footer-left">
+                <p>&copy; <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.</p>
+                <nav aria-label="Liens utiles">
+                    <ul class="footer-nav">
+                        <li><a href="index.php?page=about">À propos</a></li>
+                        <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                        <li><a href="index.php?page=sitemap">Plan du site</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="footer-right">
+                <div class="social-logos">
+                    <h3>Suivez-nous</h3>
+                    <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://discord.gg/4dXHpN6JCK" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Discord - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@informaix" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="TikTok - Ouvrir dans un nouvel onglet">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-
-        <p>&copy; <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.</p>
     </footer>
 
     <!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js" defer></script>-->
@@ -383,6 +394,8 @@ function end_page(): void
     <script src="./assets/js/modal.js"></script>
     <script src="./assets/js/togglePassword.js"></script>
     <script src="./assets/js/passwordControl.js"></script>
+    <script src="./assets/js/navbar-scroll.js"></script>
+    <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
 
     <!-- Script pour fermer le menu mobile au clic sur un lien -->
     <script src="./app/assets/js/mobile-menu.js"></script>

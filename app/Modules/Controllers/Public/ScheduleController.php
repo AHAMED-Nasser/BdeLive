@@ -229,7 +229,10 @@ class ScheduleController extends DefaultController
             $week = (int) date('W');
         }
 
-        $date = $this->request->get('date') ?? date('Y-m-d');
+        $dateRaw = $this->request->get('date');
+        $date = is_string($dateRaw) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateRaw)
+            ? $dateRaw
+            : date('Y-m-d');
 
         if ($selectedGroup) {
             if ($view === 'day') {
@@ -478,10 +481,10 @@ class ScheduleController extends DefaultController
     }
 
     /**
-     * Parses a date in .ics format (YYYYMMDDTHHMMSSZ).
+     * Parses a date in .ics format (YYYYMMDDTHHMMSSZ) and converts UTC → Europe/Paris.
      *
      * @param string $icsDate Date string in .ics format
-     * @return string Formatted date string (YYYY-MM-DDTHH:MM:SS)
+     * @return string Formatted date string (YYYY-MM-DDTHH:MM:SS) in local timezone
      */
     private function parseIcsDate(string $icsDate): string
     {
@@ -489,14 +492,23 @@ class ScheduleController extends DefaultController
             return date('Y-m-d\TH:i:s');
         }
 
-        // Format: 20251215T123000Z
-        $year = substr($icsDate, 0, 4);
-        $month = substr($icsDate, 4, 2);
-        $day = substr($icsDate, 6, 2);
-        $hour = substr($icsDate, 9, 2);
+        // Format: 20251215T123000Z (Z = UTC)
+        $year   = substr($icsDate, 0, 4);
+        $month  = substr($icsDate, 4, 2);
+        $day    = substr($icsDate, 6, 2);
+        $hour   = substr($icsDate, 9, 2);
         $minute = substr($icsDate, 11, 2);
+        $second = substr($icsDate, 13, 2);
 
-        return "$year-$month-{$day}T$hour:$minute:00";
+        $utcString = "{$year}-{$month}-{$day}T{$hour}:{$minute}:{$second}Z";
+
+        try {
+            $dt = new \DateTimeImmutable($utcString, new \DateTimeZone('UTC'));
+            $dt = $dt->setTimezone(new \DateTimeZone('Europe/Paris'));
+            return $dt->format('Y-m-d\TH:i:s');
+        } catch (\Exception $e) {
+            return "{$year}-{$month}-{$day}T{$hour}:{$minute}:00";
+        }
     }
 
     /**

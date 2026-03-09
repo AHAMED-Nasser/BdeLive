@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 
 /**
@@ -25,11 +23,11 @@ class ContainerFactory
     {
         $container = new Container();
 
-        $container->set(ArticleRepositoryInterface::class, function (Container $c): ArticleRepository {
+        $container->set(ArticleRepository::class, function (Container $c): ArticleRepository {
             return new ArticleRepository(Database::getInstance()->getConnection());
         });
 
-        $container->set(EventRepositoryInterface::class, function (Container $c): EventRepository {
+        $container->set(EventRepository::class, function (Container $c): EventRepository {
             return new EventRepository(Database::getInstance()->getConnection());
         });
 

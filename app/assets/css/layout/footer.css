@@ -1,16 +1,42 @@
+footer {
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    padding: 20px 20px 15px 20px;
+    margin-top: 30px;
+}
+
+.footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+}
+
 footer nav {
-    margin-bottom: 8px;
+    margin-bottom: 0;
 }
 
 .footer-nav {
     list-style: none;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
     padding: 0;
-    margin: 0 0 10px 0;
+    margin: 0;
 }
 
 .footer-nav li {
@@ -42,22 +68,13 @@ footer nav {
 }
 
 footer p {
-    margin: 0 0 10px 0;
+    margin: 0 0 6px 0;
     font-size: 0.85rem;
     color: var(--text-inverse);
     font-weight: 400;
     letter-spacing: 0.5px;
     line-height: 1.4;
     font-family: var(--font-body);
-}
-
-
-footer {
-    background: var(--gradient-primary);
-    color: var(--text-inverse);
-    padding: 20px 20px 15px 20px;
-    margin-top: 30px;
-    text-align: center;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
@@ -80,7 +97,6 @@ footer {
 
     footer p {
         font-size: 0.8rem;
-        margin-bottom: 8px;
     }
 }
 
@@ -91,29 +107,34 @@ footer {
         margin-top: 20px;
     }
 
-    .footer-nav {
-        gap: 8px;
+    .footer-inner {
         flex-direction: column;
+        align-items: center;
+        gap: 15px;
     }
 
-    .footer-nav li {
-        width: 100%;
+    .footer-left {
+        align-items: center;
         text-align: center;
+    }
+
+    .footer-right {
+        justify-content: center;
+    }
+
+    .footer-nav {
+        gap: 8px;
+        justify-content: center;
     }
 
     .footer-nav a {
         font-size: 0.9rem;
         padding: 8px 12px;
-        display: block;
-        width: 100%;
-        max-width: 200px;
-        margin: 0 auto;
     }
 
     footer p {
         font-size: 0.8rem;
         padding: 0 10px;
-        margin-bottom: 8px;
     }
 }
 
@@ -131,11 +152,9 @@ footer {
     .footer-nav a {
         font-size: 0.85rem;
         padding: 6px 10px;
-        max-width: 180px;
     }
 
     footer p {
         font-size: 0.75rem;
-        margin-bottom: 8px;
     }
 }

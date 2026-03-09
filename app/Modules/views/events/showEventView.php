@@ -22,9 +22,11 @@ start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
 // Repository pour vérifier les inscriptions
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
+$parsedown = new \Parsedown();
+$descriptionHtml = $parsedown->text($event->getDescription());
 ?>
 
-<link rel="stylesheet" href="assets/css/event-show.css">
+    <link rel="stylesheet" href="assets/css/pages/event-show.css">
 
 <div class="container event-detail-page">
     <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event->getName()) ?></h1>
@@ -64,9 +66,9 @@ $userId = $user['user_id'] ?? null;
         <p><strong>📍 Lieu :</strong> <?= htmlspecialchars($event->getLocation()) ?></p>
     </div>
 
-    <div class="event-description">
+    <div class="event-description-container">
         <h2>Description</h2>
-        <p><?= nl2br(htmlspecialchars($event->getDescription())) ?></p>
+        <p><?= $descriptionHtml ?></p>
     </div>
 
     <div class="registration-section">
@@ -100,8 +102,6 @@ $userId = $user['user_id'] ?? null;
                     </a>
                 <?php endif; ?>
             <?php endif; ?>
-        <?php elseif (isset($user) && $user['user_status'] === 'BDE') : ?>
-            <p style="color: var(--text-tertiary); font-size: 23px">🐐 Bien le bonjour Administrateur</p>
         <?php elseif (!isset($userId)) : ?>
             <p>Veuillez vous <a href="index.php?page=login"
                     style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
@@ -118,7 +118,9 @@ $userId = $user['user_id'] ?? null;
                 <form method="post" action="index.php?page=deleteEvent" style="margin: 0;">
                     <input type="hidden" name="event_id" value="<?= $eventId ?>">
                     <?= $csrf->getTokenField() ?>
-                    <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.');">Supprimer</button>
+                    <button type="button" class="btn-delete"
+                            data-confirm-title="Supprimer l'événement"
+                            data-confirm-msg="Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.">Supprimer</button>
                 </form>
 
                 <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">

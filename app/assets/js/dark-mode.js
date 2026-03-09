@@ -166,16 +166,18 @@
                 moonIcon.style.removeProperty('display');
             }
 
-            // Mettre à jour le texte et l'aria-label
+            // Mettre à jour le texte (état affiché) et l'aria-label (action)
             if (isDark) {
+                // État actuel : mode sombre
                 toggleMobile.setAttribute('aria-label', 'Basculer en mode clair');
                 if (textMobile) {
-                    textMobile.textContent = 'Mode clair';
+                    textMobile.textContent = 'Mode sombre';
                 }
             } else {
+                // État actuel : mode clair
                 toggleMobile.setAttribute('aria-label', 'Basculer en mode sombre');
                 if (textMobile) {
-                    textMobile.textContent = 'Mode sombre';
+                    textMobile.textContent = 'Mode clair';
                 }
             }
         }

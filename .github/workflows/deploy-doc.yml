@@ -1,7 +1,10 @@
 name: Deploy Documentation
 on:
   push:
-    branches: [ main, dev ]
+    branches: [ main, DEV ]
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
@@ -19,10 +22,10 @@ jobs:
       - name: Generate Doc
         run: |
           curl -LO https://phpdoc.org/phpDocumentor.phar
-          php phpDocumentor.phar -d ./app -t ./public_doc --config=none
+          php phpDocumentor.phar -d ./app -t ./public_doc
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: public_doc # Le dossier généré à publier
-          branch: gh-pages   # La branche où GitHub Pages va lire le site
+          folder: public_doc
+          branch: gh-pages

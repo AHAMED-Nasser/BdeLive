@@ -125,9 +125,15 @@ start_page("Administration | BDE Live", true, $user ?? null);
                     </a>
                 </li>
                 <li>
+                    <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=super_admin&search=<?= urlencode($search) ?>"
+                       class="admin-nav-link <?= $roleFilter === 'super_admin' ? 'active' : '' ?>">
+                        <i class="fas fa-crown"></i> Super Admins
+                    </a>
+                </li>
+                <li>
                     <a href="index.php?page=adminSection&filter=<?= $currentFilter ?>&role=user&search=<?= urlencode($search) ?>"
                        class="admin-nav-link <?= $roleFilter === 'user' ? 'active' : '' ?>">
-                        <i class="fas fa-user"></i> Users
+                        <i class="fas fa-user"></i> Membres
                     </a>
                 </li>
             </ul>
@@ -139,7 +145,8 @@ start_page("Administration | BDE Live", true, $user ?? null);
         </main>
     </div>
 
-    <script src="./assets/js/admin-filters.js"></script>
+    <script src="./assets/js/admin/admin-filters.js"></script>
+    <script src="./assets/js/admin/admin-section.js"></script>
 
     <form id="exportForm" action="index.php?page=exportUserList" method="POST" target="downloadFrame" style="display:none;">
         <input type="hidden" name="filter" id="hidden-filter">

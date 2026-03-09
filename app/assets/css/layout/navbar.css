@@ -1,14 +1,21 @@
 /* Styles pour la navbar */
 .nav {
-    display: flex;
     width: 100%;
-    justify-content: space-between;
-    align-items: center;
     background: var(--gradient-primary);
     position: relative;
     padding: 8px 20px;
     box-shadow: 0 2px 10px var(--shadow-md);
     min-height: 55px;
+    transition: padding 0.55s ease, min-height 0.55s ease, box-shadow 0.55s ease;
+}
+
+.nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 
@@ -51,7 +58,32 @@
     background-color: transparent !important;
     border: none !important;
     display: block;
-    transition: opacity 0.3s ease, filter 0.3s ease;
+    transition: opacity 0.3s ease, filter 0.3s ease, height 0.25s ease;
+}
+
+/* Navbar compacte quand on a scrollé vers le bas */
+.nav--compact {
+    padding: 2px 20px;
+    min-height: 40px;
+    box-shadow: 0 1px 6px var(--shadow-sm);
+}
+
+.nav--compact .nav-logo img {
+    height: 38px;
+}
+
+.nav--compact .nav li {
+    padding: 2px 8px;
+}
+
+.nav--compact .nav a {
+    font-size: 0.95rem;
+    padding: 3px 8px;
+}
+
+.nav--compact .profile-dropdown-trigger {
+    font-size: 0.95rem;
+    padding: 3px 8px;
 }
 
 /* On s'assure que le lien autour de l'image n'a pas de fond blanc */
@@ -60,11 +92,16 @@
     padding: 0;
 }
 
+/* Fond navbar en dark mode : gris foncé au lieu de pure black */
+.dark-mode .nav {
+    background: #18181b;
+}
+
 /* Assurer la visibilité du logo en mode sombre */
-/* Dans navbar.css */
 .dark-mode .nav-logo img {
     opacity: 1;
-    filter: none !important; /* On retire les filtres de luminosité */
+    filter: none !important;
+    /* On retire les filtres de luminosité */
     background: transparent !important;
 }
 
@@ -96,7 +133,7 @@
     width: 20px;
     height: 20px;
     transition: transform 0.3s ease;
-    stroke: white;
+    stroke: currentColor;
     fill: none;
 }
 
@@ -126,6 +163,16 @@
 
 /* Support pour @media prefers-color-scheme: dark (si la classe dark-mode n'est pas appliquée) */
 @media (prefers-color-scheme: dark) {
+    :root:not(.light-mode) .nav {
+        background: #18181b;
+    }
+
+    :root:not(.light-mode) .nav a,
+    :root:not(.light-mode) .nav span,
+    :root:not(.light-mode) .profile-dropdown-trigger {
+        color: #f5f5f5;
+    }
+
     :root:not(.light-mode) .dark-mode-toggle .sun-icon {
         display: none !important;
     }
@@ -146,6 +193,21 @@
         display: none !important;
         visibility: hidden !important;
     }
+}
+
+/* ===== DARK MODE: Textes en blanc ===== */
+.dark-mode .nav a,
+.dark-mode .nav span,
+.dark-mode .profile-dropdown-trigger {
+    color: #f5f5f5;
+}
+
+/* ===== Icône profil SVG ===== */
+.profile-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    vertical-align: middle;
 }
 
 /* ===== PROFILE DROPDOWN MENU (CSS Only) ===== */
