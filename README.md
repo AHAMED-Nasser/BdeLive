@@ -95,23 +95,23 @@ sécurité (reCAPTCHA, anti-bruteforce).
 
 ```mermaid
 classDiagram
-    class Application <<Singleton>>
-    class Database <<Singleton>>
-    class Container <<NEW>>
-    class ContainerFactory <<NEW>>
-    class RecaptchaValidator <<NEW>>
-    class MarkdownRenderer <<NEW>>
-    class AuthManager <<Refactored>>
-    class Event <<NEW>>
-    class Article <<NEW>>
-    class EventFactory <<NEW>>
-    class ArticleFactory <<NEW>>
-    class ArticleRepository <<NEW>>
-    class EventRepository <<Refactored>>
-    class EventModel <<Refactored>>
-    class ArticleModel <<Refactored>>
-    class UserManager <<Refactored>>
-    class LoginAttemptManager <<NEW>>
+    class Application
+    class Database
+    class Container
+    class ContainerFactory
+    class RecaptchaValidator
+    class MarkdownRenderer
+    class AuthManager
+    class Event
+    class Article
+    class EventFactory
+    class ArticleFactory
+    class ArticleRepository
+    class EventRepository
+    class EventModel
+    class ArticleModel
+    class UserManager
+    class LoginAttemptManager
     class CloudinaryService
 
     BaseController <|-- DefaultController
@@ -142,7 +142,7 @@ classDiagram
     Application *-- CsrfProtection
 ```
 
-**Légende :** `<<NEW>>` = nouvelle classe (vs BdeLive-main) · `<<Refactored>>` = classe modifiée · `..>` = dépendance (sens Clean Architecture) · `--|>` = héritage · `o--` = agrégation
+**Légende :** *Nouvelles classes* (vs BdeLive-main) : Container, ContainerFactory, RecaptchaValidator, MarkdownRenderer, Event, Article, EventFactory, ArticleFactory, ArticleRepository, LoginAttemptManager · *Refactorisées* : AuthManager, EventRepository, EventModel, ArticleModel, UserManager · `..>` = dépendance (Clean Architecture) · `--|>` = héritage · `o--` = agrégation
 
 > La documentation technique complète (diagrammes de classes UML, diagrammes de séquence,
 > diagramme des cas d'utilisation, conformité MVC) est disponible dans le dossier `docs/`.
