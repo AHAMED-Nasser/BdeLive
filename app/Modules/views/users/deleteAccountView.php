@@ -13,6 +13,7 @@
  * @var \App\Core\Security\CsrfProtection $csrf CSRF protection service
  * @var array<string, mixed>|null $user Current user data
  * @var array<string, string|null> $flash Flash messages (success, error, etc.)
+ * @var bool $isAdminBlocked True if user is admin/super_admin and cannot delete account
  */
 
 start_page('Supprimer mon compte - BDELive', true, $user ?? null);
@@ -27,8 +28,13 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
             <h1>Supprimer mon compte</h1>
         </div>
 
-        <!-- Error Message -->
-        <?php if (!empty($flash['error'])) : ?>
+        <!-- Error Message (masqué pour les admins bloqués, le message est déjà affiché dans le bloc dédié) -->
+        <?php
+        $isAdminBlockedEarly = $isAdminBlocked ?? false;
+        $earlyRole = $user['role'] ?? 'user';
+        $isAdminRole = in_array($earlyRole, ['admin', 'super_admin'], true);
+        if (!empty($flash['error']) && !$isAdminBlockedEarly && !$isAdminRole) :
+            ?>
             <div class="alert alert-danger"><?= htmlspecialchars($flash['error']) ?></div>
         <?php endif; ?>
 
@@ -37,6 +43,29 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
             <div class="alert alert-success"><?= htmlspecialchars($flash['success']) ?></div>
         <?php endif; ?>
 
+        <?php
+        $isAdminBlocked = $isAdminBlocked ?? false;
+        $userRole = $user['role'] ?? 'user';
+        if ($isAdminBlocked || in_array($userRole, ['admin', 'super_admin'], true)) :
+            $roleLabel = ($userRole === 'super_admin') ? 'super administrateur' : 'administrateur';
+            ?>
+            <div class="delete-account-warning">
+                <p>
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Suppression impossible</strong>
+                </p>
+                <p>
+                    Les comptes <strong><?= htmlspecialchars($roleLabel) ?></strong> ne peuvent pas être supprimés
+                    depuis cette page. La suppression d'un compte avec des droits élevés doit être réalisée
+                    par un autre administrateur depuis le panneau d'administration.
+                </p>
+            </div>
+            <div class="form-actions" style="margin-top: 24px;">
+                <a href="index.php?page=home" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour à l'accueil
+                </a>
+            </div>
+        <?php else : ?>
         <div class="delete-account-warning">
             <p><strong>Attention :</strong> Cette action est <strong>irréversible</strong>.</p>
             <p>Toutes vos données seront définitivement supprimées :</p>
@@ -79,17 +108,20 @@ start_page('Supprimer mon compte - BDELive', true, $user ?? null);
                 </a>
             </div>
         </form>
+
+        <?php endif; ?>
     </div>
 </div>
 
+<?php if (!$isAdminBlocked && !in_array($user['role'] ?? 'user', ['admin', 'super_admin'], true)) : ?>
 <script src="./assets/js/delete-account.js"></script>
 <script>
-    // Passer l'email de l'utilisateur au script
     document.addEventListener('DOMContentLoaded', function () {
         if (typeof initDeleteAccount !== 'undefined') {
             initDeleteAccount('<?= htmlspecialchars($user['email'] ?? '', ENT_QUOTES) ?>');
         }
     });
 </script>
+<?php endif; ?>
 
 <?php end_page(); ?>
