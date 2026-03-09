@@ -41,7 +41,10 @@ class ExportUserListController extends AdminController
     }
 
     /**
-     * Génère le rendu PDF
+     * @param array<int, array<string, mixed>> $users
+     * @param string $filter
+     * @param string $role
+     * @param string $search
      */
     private function generatePdf(array $users, string $filter, string $role, string $search): void
     {
@@ -115,6 +118,10 @@ class ExportUserListController extends AdminController
         </html>
         <?php
         $html = ob_get_clean();
+
+        if ($html === false) {
+            throw new \Exception("Erreur lors de la capture du flux HTML.");
+        }
 
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'portrait');
