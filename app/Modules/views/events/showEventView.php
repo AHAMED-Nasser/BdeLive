@@ -92,31 +92,43 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
 
         <?php if ($userId) : ?>
             <?php
-            // Vérification de l'inscription
-            $isRegistered = $registrationRepo->isUserRegistered((int) $eventId, (int) $userId);
+                // Vérification de l'inscription
+                $isRegistered = $registrationRepo->isUserRegistered((int) $eventId, (int) $userId);
             ?>
-            <?php if ($isRegistered) : ?>
-                <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $eventId ?>" class="btn-delete">
-                    Se désinscrire
-                </a>
+            <?php if ($event->getDate() < date('Y-m-d')) : ?>
+                <p style="color: #e45a4e; font-weight: bold; font-size: 1.1rem; border: solid #e45a4e 1px; padding: 10px 0; border-radius: 10px">
+                    <i class="fa-solid fa-triangle-exclamation" style="padding: 0 10px"></i>
+                    Les inscriptions sont fermées pour cet événement.
+                    <i class="fa-solid fa-triangle-exclamation" style="padding: 0 10px"></i>
+                </p>
+            <?php elseif ($event->getDate() === date('Y-m-d')) : ?>
+                <p style="color: #f39c12; font-weight: bold; font-size: 1.1rem; border: solid #f39c12 1px; padding: 10px 0; border-radius: 10px">
+                    <i class="fa-solid fa-hourglass-half" style="padding: 0 10px"></i>
+                    Événement en cours ! Les inscriptions sont fermées.
+                    <i class="fa-solid fa-hourglass-half" style="padding: 0 10px"></i>
+                </p>
             <?php else : ?>
-                <?php if ($isGroupEvent) : ?>
-                    <!-- Événement en groupe -->
-                    <a href="index.php?page=groupRegistration&event_id=<?= $eventId ?>" class="btn-group-register">
-                        <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
+                <?php if ($isRegistered) : ?>
+                    <a href="index.php?page=registerEvent&action=unregister&event_id=<?= $eventId ?>" class="btn-delete">
+                        Se désinscrire
                     </a>
                 <?php else : ?>
-                    <!-- Événement individuel -->
-                    <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>" class="btn-individual-register">
-                        S'inscrire à l'événement
-                    </a>
+                    <?php if ($isGroupEvent) : ?>
+                        <!-- Événement en groupe -->
+                        <a href="index.php?page=groupRegistration&event_id=<?= $eventId ?>" class="btn-group-register">
+                            <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
+                        </a>
+                    <?php else : ?>
+                        <!-- Événement individuel -->
+                        <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>" class="btn-individual-register">
+                            S'inscrire à l'événement
+                        </a>
+                    <?php endif; ?>
                 <?php endif; ?>
-            <?php endif; ?>
-        <?php elseif (!isset($userId)) : ?>
-            <p>Veuillez vous <a href="index.php?page=login"
-                    style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
-
-        <?php endif; ?>
+            <?php endif ?>
+        <?php else : ?>
+            <p>Veuillez vous <a href="index.php?page=login" style="color: var(--color-primary); font-weight: bold;">connecter</a> pour vous inscrire.</p>
+        <?php endif ?>
     </div>
 
     <?php if (!$event->isGroupEvent() && (!empty($registrants) || $isAdmin)) : ?>
