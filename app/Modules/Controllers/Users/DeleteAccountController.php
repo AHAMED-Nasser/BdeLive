@@ -52,6 +52,19 @@ class DeleteAccountController extends AuthenticatedController
 
         $this->userManager = new UserManager();
 
+        $currentUser = $this->auth->getUser();
+        $currentRole = $currentUser['role'] ?? 'user';
+
+        if (in_array($currentRole, ['admin', 'super_admin'], true)) {
+            $label = ($currentRole === 'super_admin') ? 'super administrateur' : 'administrateur';
+            $this->setError(
+                "Les comptes {$label} ne peuvent pas être supprimés depuis cette page. " .
+                "Contactez un autre administrateur pour gérer votre compte."
+            );
+            $this->render('users/deleteAccountView', ['isAdminBlocked' => true]);
+            return;
+        }
+
         if ($this->request->isPost()) {
             $this->handleDelete();
         } else {
@@ -99,17 +112,14 @@ class DeleteAccountController extends AuthenticatedController
             $this->redirect('index.php?page=delete_account');
         }
 
-        // Protect: a last active admin or super_admin cannot delete their own account
+        // Protect: admin and super_admin accounts cannot be deleted via self-service
         $userRole = $user['role'] ?? 'user';
         if (in_array($userRole, ['admin', 'super_admin'], true)) {
-            $activeCount = $this->userManager->countActiveUsersByRole($userRole);
-            if ($activeCount <= 1) {
-                $label = ($userRole === 'super_admin') ? 'super administrateur' : 'administrateur';
-                $this->setError(
-                    "Impossible de supprimer votre compte : vous êtes le dernier {$label} actif."
-                );
-                $this->redirect('index.php?page=delete_account');
-            }
+            $label = ($userRole === 'super_admin') ? 'super administrateur' : 'administrateur';
+            $this->setError(
+                "Les comptes {$label} ne peuvent pas être supprimés depuis cette page."
+            );
+            $this->redirect('index.php?page=delete_account');
         }
 
         try {
