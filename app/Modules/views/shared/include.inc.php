@@ -117,7 +117,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     </head>
 
     <body>
-        <?php if ($wouldNav): ?>
+        <?php if ($wouldNav) : ?>
             <header>
                 <nav class="nav" aria-label="Main navigation">
                     <div class="nav-inner">
@@ -131,7 +131,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <ul>
                             <li><a href="index.php?page=articles">Nos articles</a></li>
                             <li><a href="index.php?page=event">Evénements</a></li>
-                            <?php if (isset($user) && $user !== null && $isAdmin): ?>
+                            <?php if (isset($user) && $user !== null && $isAdmin) : ?>
                                 <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                                 <!-- Dark Mode Toggle -->
                                 <li>
@@ -171,7 +171,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                     <div class="profile-dropdown-menu">
                                         <a href="index.php?page=profile"><i class="fas fa-id-card"></i> Mon Profil</a>
                                         <a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a>
-                                        <?php if ($isAdmin): ?>
+                                        <?php if ($isAdmin) : ?>
                                             <a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un
                                                 événement</a>
                                             <a href="index.php?page=createArticle"><i class="fas fa-edit"></i> Créer un article</a>
@@ -184,7 +184,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                             Supprimer mon compte</a>
                                     </div>
                                 </li>
-                            <?php elseif (isset($user) && $user !== null): ?>
+                            <?php elseif (isset($user) && $user !== null) : ?>
                                 <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                                 <!-- Dark Mode Toggle -->
                                 <li>
@@ -231,7 +231,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                             Supprimer mon compte</a>
                                     </div>
                                 </li>
-                            <?php else: ?>
+                            <?php else : ?>
                                 <li><a href="index.php?page=login">Connexion</a></li>
                                 <li><a href="index.php?page=register">Inscription</a></li>
                                 <!-- Dark Mode Toggle -->
@@ -284,7 +284,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                             <li><a href="index.php?page=event"><i class="fas fa-calendar-alt"></i> Événements</a></li>
                             <li><a href="index.php?page=schedule"><i class="fas fa-calendar-week"></i> Emploi du temps</a></li>
 
-                            <?php if (isset($user) && $isAdmin): ?>
+                            <?php if (isset($user) && $isAdmin) : ?>
                                 <!-- Section Administration (BDE uniquement) -->
                                 <li class="sidebar-section-title">Administration</li>
                                 <li><a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a>
@@ -293,20 +293,20 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                 <li><a href="index.php?page=adminSection"><i class="fas fa-cogs"></i> Administration</a></li>
                             <?php endif; ?>
 
-                            <?php if (!isset($user)): ?>
+                            <?php if (!isset($user)) : ?>
                                 <!-- Section Authentification (non connecté) -->
                                 <li class="sidebar-section-title">Connexion</li>
                                 <li><a href="index.php?page=login"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
                                 <li><a href="index.php?page=register"><i class="fas fa-user-plus"></i> Inscription</a></li>
                             <?php endif; ?>
 
-                            <?php if (isset($user) && $user !== null): ?>
+                            <?php if (isset($user) && $user !== null) : ?>
                                 <!-- Section Mon compte (utilisateurs connectés) -->
                                 <li class="sidebar-section-title">Mon compte</li>
                                 <li><a href="index.php?page=profile"><i class="fas fa-user-circle"></i> Mon Profil</a></li>
                                 <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
                                 <li><a href="index.php?page=logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
-                                <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE'): ?>
+                                <?php if (!isset($user['user_status']) || $user['user_status'] !== 'BDE') : ?>
                                     <li><a href="index.php?page=deleteAccount" class="sidebar-danger"><i class="fas fa-trash-alt"></i>
                                             Supprimer mon compte</a></li>
                                 <?php endif; ?>
@@ -355,7 +355,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             <i class="fas fa-arrow-up" aria-hidden="true"></i>
         </button>
 
-    <?php }
+<?php }
 ?>
 
     <?php
@@ -457,6 +457,6 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     </body>
 
     </html>
-    <?php
+        <?php
     }
     ?>

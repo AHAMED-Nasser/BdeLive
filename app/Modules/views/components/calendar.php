@@ -41,11 +41,11 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         $currentMonth = (int) date('n');
         $isCurrentMonth = ($calendar['year'] == $currentYear && $calendar['month'] == $currentMonth);
         ?>
-        <?php if ($isCurrentMonth): ?>
+        <?php if ($isCurrentMonth) : ?>
             <span class="nav-btn today-btn disabled" aria-label="Vous êtes déjà sur le mois actuel">
                 Aujourd'hui
             </span>
-        <?php else: ?>
+        <?php else : ?>
             <a href="<?= $buildUrl($currentYear, $currentMonth) ?>" class="nav-btn today-btn"
                 aria-label="Retour à aujourd'hui" data-view="month" data-calyear="<?= $currentYear ?>"
                 data-calmonth="<?= $currentMonth ?>">
@@ -103,7 +103,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 
     <!-- Grille des jours -->
     <div class="calendar-grid">
-        <?php foreach ($calendar['days'] as $day): ?>
+        <?php foreach ($calendar['days'] as $day) : ?>
             <?php
             $dayClasses = ['calendar-day'];
             if ($day['isCurrentMonth']) {
@@ -131,9 +131,9 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
 
                 <div class="calendar-day-number"><?= $day['number'] ?></div>
 
-                <?php if (!empty($day['events'])): ?>
+                <?php if (!empty($day['events'])) : ?>
                     <div class="calendar-events">
-                        <?php foreach ($day['events'] as $event): ?>
+                        <?php foreach ($day['events'] as $event) : ?>
                             <?php
                             // Déterminer la couleur de l'événement
                             $eventColor = $event['color'] ?? $event['backgroundColor'] ?? '#3788d8';
@@ -171,7 +171,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                                 style="background-color: <?= htmlspecialchars($eventColor) ?>;"
                                 aria-label="<?= htmlspecialchars($eventAriaLabel) ?>"
                                 title="<?= htmlspecialchars($eventTitle . ($timeRange ? ' - ' . $timeRange : '') . ($location ? ' - ' . $location : '')) ?>">
-                                <?php if ($start): ?>
+                                <?php if ($start) : ?>
                                     <span class="event-time"><?= htmlspecialchars($start) ?></span>
                                 <?php endif; ?>
                                 <span class="event-title"><?= htmlspecialchars($eventTitle) ?></span>

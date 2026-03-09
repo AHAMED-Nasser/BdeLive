@@ -117,7 +117,7 @@ if (!empty($schedule['weekDates'])) {
 
         <!-- Axe des heures (gauche) -->
         <div class="time-axis" aria-label="Heures">
-            <?php foreach ($schedule['hours'] as $hour): ?>
+            <?php foreach ($schedule['hours'] as $hour) : ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
@@ -127,7 +127,7 @@ if (!empty($schedule['weekDates'])) {
             <div class="schedule-grid">
 
                 <!-- En-têtes des jours -->
-                <?php foreach ($schedule['weekDates'] as $dayInfo): ?>
+                <?php foreach ($schedule['weekDates'] as $dayInfo) : ?>
                     <div class="day-header">
                         <?= htmlspecialchars($dayInfo['dayName']) ?><br>
                         <small
@@ -136,19 +136,19 @@ if (!empty($schedule['weekDates'])) {
                 <?php endforeach; ?>
 
                 <!-- Colonnes des jours avec événements -->
-                <?php foreach ($schedule['weekDates'] as $dayInfo): ?>
+                <?php foreach ($schedule['weekDates'] as $dayInfo) : ?>
                     <div class="day-column" data-date="<?= htmlspecialchars($dayInfo['date']) ?>">
 
                         <!-- Lignes horaires (background) -->
-                        <?php foreach ($schedule['hours'] as $index => $hour): ?>
+                        <?php foreach ($schedule['hours'] as $index => $hour) : ?>
                             <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                         <?php endforeach; ?>
 
                         <!-- Événements/Cours du jour -->
                         <?php
                         $dayEvents = $schedule['events'][$dayInfo['date']] ?? [];
-                        if (!empty($dayEvents)):
-                            foreach ($dayEvents as $event):
+                        if (!empty($dayEvents)) :
+                            foreach ($dayEvents as $event) :
                                 // Extraire les infos
                                 $title = $event['title'] ?? 'Cours';
                                 $location = $event['location'] ?? '';
@@ -180,17 +180,17 @@ if (!empty($schedule['weekDates'])) {
                                     style="top: <?= htmlspecialchars($cssPos['top']) ?>; height: <?= htmlspecialchars($cssPos['height']) ?>;"
                                     tabindex="0" role="button" aria-label="<?= htmlspecialchars($ariaLabel) ?>">
 
-                                    <?php if ($timeRange): ?>
+                                    <?php if ($timeRange) : ?>
                                         <div class="course-time"><?= htmlspecialchars($timeRange) ?></div>
                                     <?php endif; ?>
 
                                     <div class="course-title"><?= htmlspecialchars($title) ?></div>
 
-                                    <?php if ($location): ?>
+                                    <?php if ($location) : ?>
                                         <div class="course-location">📍 <?= htmlspecialchars($location) ?></div>
                                     <?php endif; ?>
 
-                                    <?php if ($teacher): ?>
+                                    <?php if ($teacher) : ?>
                                         <div class="course-teacher">👨‍🏫 <?= htmlspecialchars($teacher) ?></div>
                                     <?php endif; ?>
                                 </div>
@@ -202,7 +202,7 @@ if (!empty($schedule['weekDates'])) {
                 <?php endforeach; ?>
 
                 <!-- Indicateur de temps actuel (ligne rouge) -->
-                <?php if ($currentTimePosition !== null && $currentTimePosition >= 0 && $currentTimePosition <= 780): ?>
+                <?php if ($currentTimePosition !== null && $currentTimePosition >= 0 && $currentTimePosition <= 780) : ?>
                     <div class="current-time-indicator" style="top: <?= $currentTimePosition ?>px;"
                         data-time="<?= $currentTimeLabel ?>">
                         <span class="time-label"><?= $currentTimeLabel ?></span>
