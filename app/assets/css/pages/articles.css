@@ -293,7 +293,6 @@
     line-height: 1.8;
     color: var(--text-secondary);
     margin-bottom: 30px;
-    white-space: pre-wrap;
     word-wrap: break-word;
     font-family: var(--font-body);
 }

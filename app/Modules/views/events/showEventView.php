@@ -24,8 +24,7 @@ start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
 $totalGroupRegistrants = $totalGroupRegistrants ?? 0;
-// Note: Parsedown removed to fix missing class error. We use nl2br(htmlspecialchars()) directly instead.
-$descriptionHtml = nl2br(htmlspecialchars($event->getDescription()));
+$descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescription());
 ?>
 
 <link rel="stylesheet" href="assets/css/pages/event-show.css">
@@ -73,7 +72,7 @@ $descriptionHtml = nl2br(htmlspecialchars($event->getDescription()));
 
     <div class="event-description-container">
         <h2>Description</h2>
-        <p><?= $descriptionHtml ?></p>
+        <div class="event-description-content"><?= $descriptionHtml ?></div>
     </div>
 
     <div class="registration-section">

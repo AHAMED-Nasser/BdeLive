@@ -41,10 +41,11 @@ start_page("Créer un article", true, $user ?? null) ?>
             <label for="article-title">Titre de l'article</label>
             <input id="article-title" type="text" name="article-title" placeholder="Titre de l'article" required>
 
-            <label for="article-description">Description de l'article</label>
+            <label for="markdown-editor">Description de l'article</label>
             <textarea
-                id="article-description"
-                placeholder="Contenu de l'article..."
+                id="markdown-editor"
+                data-autosave-id="article_description"
+                placeholder="Contenu de l'article en Markdown..."
                 name="article-description"
                 rows="10"
                 required></textarea>

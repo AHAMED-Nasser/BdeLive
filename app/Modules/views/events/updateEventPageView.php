@@ -128,8 +128,8 @@ $eventTimeValue = $event->getTime();
                     <?php endforeach; ?>
                 </div>
 
-                <label for="description">Description de l'événement</label>
-                <textarea id="description" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description" required><?= htmlspecialchars($event->getDescription()) ?></textarea>
+                <label for="markdown-editor">Description de l'événement</label>
+                <textarea id="markdown-editor" data-autosave-id="event_description" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description" required><?= htmlspecialchars($event->getDescription()) ?></textarea>
 
                 <div class="image-management" style="margin-top: 20px;">
                     <p class="form-label">Images actuelles (cocher pour supprimer) :</p>
