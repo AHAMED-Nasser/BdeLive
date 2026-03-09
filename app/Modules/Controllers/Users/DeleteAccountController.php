@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Users;
 
 use App\Modules\Controllers\AuthenticatedController;
+use App\Modules\Repositories\EventRegistrationRepository;
 use Exception;
 use App\Modules\Models\Users\UserManager;
 
@@ -102,6 +103,10 @@ class DeleteAccountController extends AuthenticatedController
             $deleted = $this->userManager->softDeleteUser($userId);
 
             if ($deleted) {
+                // Unregister the user from all upcoming events
+                $eventRepo = new EventRegistrationRepository();
+                $eventRepo->unregisterUserFromFutureEvents($userId);
+
                 // Logout user (destroys session)
                 $this->auth->logout();
 

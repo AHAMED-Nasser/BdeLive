@@ -6,7 +6,6 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Helpers\Pagination;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 use Exception;
@@ -14,7 +13,7 @@ use Exception;
 /**
  * Event Controller - Event management with pagination
  *
- * Refactored to use Data Mapper pattern with EventRepositoryInterface
+ * Refactored to use Data Mapper pattern with EventRepository
  * and Event entities.
  *
  * @package BdeLive\Controllers
@@ -25,12 +24,7 @@ class EventController extends DefaultController
 {
     private const ITEMS_PER_PAGE = 4; // Events per page
 
-    /**
-     * Event repository instance (type-hinted with interface)
-     *
-     * @var EventRepositoryInterface
-     */
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
 
     /**
      * Constructor - Initialize the controller and load the view

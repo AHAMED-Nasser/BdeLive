@@ -268,7 +268,8 @@ a:focus {
         justify-content: center;
         padding: 14px 24px;
         font-size: 1rem;
-        min-height: 44px; /* Accessibilité tactile */
+        min-height: 44px;
+        /* Accessibilité tactile */
     }
 }
 
@@ -311,18 +312,27 @@ a:focus {
     font-weight: 600;
 }
 
-.event-description {
+.event-description-container {
     margin-bottom: 50px;
     line-height: 1.6;
     color: var(--text-primary);
 }
 
-.event-description h2 {
+.event-description-container img {
+    max-width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+}
+
+.event-description-container h2 {
     color: var(--text-primary);
     font-weight: bold;
 }
 
-.event-description p {
+.event-description-container p {
     color: var(--text-secondary);
     font-size: 17px;
 }
@@ -878,6 +888,21 @@ a {
     color: var(--text-primary);
 }
 
+.forgot-container form .link-forgot-pwd {
+    align-self: flex-end;
+    font-size: 0.85rem;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    padding: 0;
+    color: var(--color-primary);
+}
+
+.forgot-container form .link-forgot-pwd:hover {
+    background: none;
+    transform: none;
+    text-decoration: none;
+}
+
 .forgot-container input[type="email"],
 .forgot-container input[type="text"],
 .forgot-container input[type="password"],
@@ -922,11 +947,13 @@ a {
 }
 
 .forgot-container a {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+    font-size: 0.95rem;
     color: var(--color-primary);
-    padding: 8px 16px;
+    padding: 6px 10px;
     border-radius: 5px;
     transition: all 0.3s ease;
 }
@@ -936,6 +963,52 @@ a {
     background-color: var(--bg-hover);
     text-decoration: none;
     transform: translateY(-2px);
+}
+
+.auth-links-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto 0 auto;
+    gap: 15px;
+}
+
+.auth-links-footer .right-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auth-links-footer .separator {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+}
+
+.auth-links-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    padding: 6px 10px;
+}
+
+@media (max-width: 600px) {
+    .auth-links-footer {
+        flex-direction: column-reverse;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .auth-links-footer .right-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auth-links-footer .separator {
+        display: none;
+    }
 }
 
 .forgot-container p {
@@ -1192,8 +1265,8 @@ a {
         min-height: 60px;
     }
 
-    /* Hide ONLY the inline nav links (second top-level UL), not the sidebar menu */
-    .nav>ul:nth-of-type(2) {
+    /* Hide ONLY the inline nav links (second UL in .nav-inner), not the sidebar menu */
+    .nav .nav-inner>ul:nth-of-type(2) {
         display: none;
     }
 
@@ -1503,6 +1576,7 @@ a {
     border-radius: 50%;
     transition: all 0.3s ease;
     text-decoration: none;
+    font-size: 1.5rem;
 }
 
 .social-link:focus {
@@ -1527,7 +1601,7 @@ a {
 /* Réutilisable pour les événements */
 .btn-edit {
     background-color: var(--color-warning);
-    color: var(--color-warning-text);
+    color: #f5f5f5;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
@@ -1540,7 +1614,7 @@ a {
 .btn-edit:hover {
     filter: brightness(0.9);
     text-decoration: none;
-    color: var(--color-warning-text);
+    color: #f5f5f5;
 }
 
 .btn-delete {
@@ -1674,24 +1748,24 @@ a {
 
 /* Admin buttons - Light Mode */
 .event-detail-page .admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #333 !important;
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
     padding: 12px 24px;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
 }
 
 .event-detail-page .admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #333 !important;
+    background-color: #9a7009 !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.4);
     filter: none !important;
 }
 
 .event-detail-page .admin-zone .btn-delete {
     background-color: #D32F2F !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     padding: 12px 24px;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
@@ -1699,7 +1773,7 @@ a {
 
 .event-detail-page .admin-zone .btn-delete:hover {
     background-color: #C62828 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
     filter: none !important;
@@ -1707,7 +1781,7 @@ a {
 
 .event-detail-page .admin-zone .btn-view {
     background-color: #673AB7 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     padding: 12px 24px;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
@@ -1715,41 +1789,27 @@ a {
 
 .event-detail-page .admin-zone .btn-view:hover {
     background-color: #5E35B1 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
     filter: none !important;
 }
 
-/* Admin buttons - Dark Mode */
-.dark-mode .event-detail-page .admin-zone .btn-edit {
-    background-color: #FFC107 !important;
-    color: #000 !important;
-}
-
+/* Admin buttons - Dark Mode (géré globalement dans themes/dark-mode.css) */
+.dark-mode .event-detail-page .admin-zone .btn-edit,
 .dark-mode .event-detail-page .admin-zone .btn-edit:hover {
-    background-color: #FFB300 !important;
-    color: #000 !important;
+    background-color: #b8860b !important;
+    color: #f5f5f5 !important;
 }
 
-.dark-mode .event-detail-page .admin-zone .btn-delete {
-    background-color: #F44336 !important;
-    color: #000 !important;
-}
-
+.dark-mode .event-detail-page .admin-zone .btn-delete,
 .dark-mode .event-detail-page .admin-zone .btn-delete:hover {
-    background-color: #E53935 !important;
-    color: #000 !important;
+    color: #f5f5f5 !important;
 }
 
-.dark-mode .event-detail-page .admin-zone .btn-view {
-    background-color: #673AB7 !important;
-    color: #fff !important;
-}
-
+.dark-mode .event-detail-page .admin-zone .btn-view,
 .dark-mode .event-detail-page .admin-zone .btn-view:hover {
-    background-color: #5E35B1 !important;
-    color: #fff !important;
+    color: #f5f5f5 !important;
 }
 
 /* === Bouton Back to Top === */

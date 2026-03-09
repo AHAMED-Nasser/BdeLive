@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Core;
 
 /**
@@ -68,17 +70,23 @@ class WeeklyScheduleManager
         // Group events by day
         $eventsByDay = $this->groupEventsByDay($events, $weekDates);
 
-        // Calculate previous/next week
+        // Calculate previous/next week (certaines années ont une semaine 53)
         $prevWeek = $week - 1;
         $prevYear = $year;
         if ($prevWeek < 1) {
-            $prevWeek = 52; // Approximation
             $prevYear--;
+            // Vérifier combien de semaines a l'année précédente
+            $prevWeek = (int) (new \DateTime())->setISODate($prevYear, 53, 1)->format('W') === 53
+                ? 53
+                : 52;
         }
 
         $nextWeek = $week + 1;
         $nextYear = $year;
-        if ($nextWeek > 52) {
+        $maxWeeksThisYear = (int) (new \DateTime())->setISODate($year, 53, 1)->format('W') === 53
+            ? 53
+            : 52;
+        if ($nextWeek > $maxWeeksThisYear) {
             $nextWeek = 1;
             $nextYear++;
         }

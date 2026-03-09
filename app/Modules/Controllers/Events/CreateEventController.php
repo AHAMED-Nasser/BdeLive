@@ -6,7 +6,6 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
 use App\Modules\Entities\Event;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Services\CloudinaryService;
 use App\Core\Database;
@@ -18,7 +17,7 @@ use DateTime;
  * Handles the creation of new events with image upload to Cloudinary.
  * Only accessible to users with BDE (admin) status.
  *
- * Refactored to use Data Mapper pattern with Event entities and EventRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Event entities and EventRepository.
  *
  * Features:
  * - Event form display
@@ -160,7 +159,6 @@ class CreateEventController extends AdminController
         );
 
         // Save via repository (will detect insert because id is null)
-        /** @var EventRepositoryInterface $repository */
         $repository = new EventRepository(Database::getInstance()->getConnection());
         $success = $repository->save($event);
 

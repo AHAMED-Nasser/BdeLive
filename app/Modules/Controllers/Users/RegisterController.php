@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Controllers\Users;
 
+use App\Config\Mailer;
+use App\Core\Security\RecaptchaValidator;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Models\Users\UserManager;
-use App\Config\Mailer;
 use Exception;
 
 /**
@@ -43,7 +44,7 @@ class RegisterController extends DefaultController
         if ($this->request->isPost() && $this->request->post('ok') !== null) {
             $this->handleRegistration();
         } else {
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
         }
     }
 
@@ -56,6 +57,18 @@ class RegisterController extends DefaultController
      *
      * @return void
      */
+    /**
+     * Build view data for registration page (reCAPTCHA site key).
+     *
+     * @return array<string, mixed>
+     */
+    private function buildRegisterViewData(): array
+    {
+        return [
+            'recaptchaSiteKey' => (string) ($_ENV['RECAPTCHA_SITE_KEY'] ?? ''),
+        ];
+    }
+
     private function handleRegistration(): void
     {
         // Validate CSRF token
@@ -64,6 +77,16 @@ class RegisterController extends DefaultController
         if (!$this->csrf->validateToken((string) $csrfToken)) {
             $this->setError('Token de sécurité invalide. Veuillez réessayer.');
             $this->redirect('index.php?page=users/registerPageView');
+        }
+
+        // Validate reCAPTCHA (required for registration)
+        $recaptchaToken = (string) ($_POST['g-recaptcha-response'] ?? '');
+        $recaptchaValidator = new RecaptchaValidator();
+        $clientIp = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
+        if (empty($recaptchaToken) || !$recaptchaValidator->validate($recaptchaToken, $clientIp)) {
+            $this->setError('Veuillez valider le CAPTCHA pour continuer l\'inscription.');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
+            return;
         }
 
         // Validate and sanitize inputs
@@ -83,35 +106,35 @@ class RegisterController extends DefaultController
         // Validation
         if (empty($last_name) || empty($first_name) || empty($user_status) || empty($email) || empty($pwd)) {
             $this->setError('Tous les champs sont obligatoires');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
         // Validate email format
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->setError('Format d\'email invalide');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
         // Validate password length
         if (strlen($pwd) < 12) {
             $this->setError('Le mot de passe doit contenir au moins 12 caractères');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
         // Validate user_status
         if (!in_array($user_status, ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'])) {
             $this->setError('Statut d\'utilisateur invalide');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
         // Vérifier si l'email existe déjà
         if ($this->userManager->emailExists($email)) {
             $this->setError('Cette adresse email est déjà utilisée');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
@@ -119,14 +142,14 @@ class RegisterController extends DefaultController
 
         if (!preg_match($pwdSecureRegex, $pwd)) {
             $this->setError('Le mot de passe ne respecte pas les conditions de sécurité');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
         // Vérifier que les mots de passe correspondent
         if ($pwd !== $confirmPwd) {
             $this->setError('Les mots de passe ne correspondent pas');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
             return;
         }
 
@@ -166,15 +189,15 @@ class RegisterController extends DefaultController
                 $this->session->remove('old_last_name');
                 $this->session->remove('old_user_status');
 
-                $this->render('users/registerPageView');
+                $this->render('users/registerPageView', $this->buildRegisterViewData());
             } else {
                 $this->setError('Erreur lors de l\'inscription. Veuillez réessayer.');
-                $this->render('users/registerPageView');
+                $this->render('users/registerPageView', $this->buildRegisterViewData());
             }
         } catch (Exception $e) {
             error_log('RegisterController::handleRegistration - ' . $e->getMessage());
             $this->setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
-            $this->render('users/registerPageView');
+            $this->render('users/registerPageView', $this->buildRegisterViewData());
         }
     }
 }

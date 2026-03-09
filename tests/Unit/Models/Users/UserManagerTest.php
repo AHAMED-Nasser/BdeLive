@@ -938,4 +938,102 @@ class UserManagerTest extends TestCase
 
         $this->assertIsInt($result);
     }
+
+    // ==================== Tests for grace period methods ====================
+
+    /**
+     * Verify that getExpiredDeletedUsers() returns only users whose deleted_at
+     * exceeds the given number of days.
+     *
+     * The mock simulates the SQL filter: only the user deleted 35 days ago is
+     * returned; the active user and the recently deleted user (2 days ago) are
+     * excluded by the query itself.
+     */
+    public function testGetExpiredDeletedUsers(): void
+    {
+        $expiredUser = [
+            'user_id'    => 7,
+            'email'      => 'expired@example.com',
+            'first_name' => 'Jane',
+            'last_name'  => 'Doe',
+            'deleted_at' => date('Y-m-d H:i:s', strtotime('-35 days')),
+        ];
+
+        $this->mockStmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':days', 30, PDO::PARAM_INT);
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchAll')
+            ->with(PDO::FETCH_ASSOC)
+            ->willReturn([$expiredUser]);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->getExpiredDeletedUsers(30);
+
+        $this->assertCount(1, $result);
+        $this->assertEquals(7, $result[0]['user_id']);
+        $this->assertEquals('expired@example.com', $result[0]['email']);
+    }
+
+    /**
+     * Verify that anonymizeUser() returns true and that the user record is
+     * replaced with placeholder values (email, first_name, last_name,
+     * verification_token).
+     *
+     * Two prepare() calls are mocked in sequence:
+     *   1. UPDATE (anonymizeUser)
+     *   2. SELECT (getUserById — to read back the anonymised state)
+     */
+    public function testAnonymizeUser(): void
+    {
+        $anonymizedData = [
+            'user_id'            => 42,
+            'email'              => 'deleted_42@anonymous.local',
+            'first_name'         => 'deleted_user',
+            'last_name'          => 'anonymous',
+            'verification_token' => null,
+        ];
+
+        // Stmt 1 : UPDATE (anonymizeUser) — bindValue is called twice
+        // (':placeholder' with a random hash, ':user_id' with 42).
+        // We match only on count to avoid asserting the random hash value.
+        $this->mockStmt->expects($this->exactly(2))
+            ->method('bindValue');
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        // Stmt 2 : SELECT (getUserById)
+        $mockFetchStmt = $this->createMock(PDOStatement::class);
+        $mockFetchStmt->expects($this->once())
+            ->method('execute')
+            ->with(['user_id' => 42])
+            ->willReturn(true);
+        $mockFetchStmt->expects($this->once())
+            ->method('fetch')
+            ->willReturn($anonymizedData);
+
+        $this->mockPdo->expects($this->exactly(2))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($this->mockStmt, $mockFetchStmt);
+
+        $result      = $this->userManager->anonymizeUser(42);
+        $updatedUser = $this->userManager->getUserById(42);
+
+        $this->assertTrue($result);
+        $this->assertIsArray($updatedUser);
+        $this->assertStringStartsWith('deleted_', (string) $updatedUser['email']);
+        $this->assertEquals('deleted_user', $updatedUser['first_name']);
+        $this->assertEquals('anonymous', $updatedUser['last_name']);
+        $this->assertNull($updatedUser['verification_token']);
+    }
 }

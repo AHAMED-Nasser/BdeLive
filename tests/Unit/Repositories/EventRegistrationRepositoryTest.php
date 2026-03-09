@@ -209,4 +209,67 @@ class EventRegistrationRepositoryTest extends TestCase
 
         $this->assertFalse($result);
     }
+
+    /**
+     * Verify that unregisterUserFromFutureEvents() removes only future-event
+     * registrations and leaves past-event registrations untouched.
+     *
+     * Scenario:
+     *   - User 42 is registered for event 1 (past) and event 2 (future).
+     *   - After calling unregisterUserFromFutureEvents(42):
+     *       * 1 row is affected (future event only).
+     *       * isUserRegistered(1, 42) → true  (past registration intact).
+     *       * isUserRegistered(2, 42) → false (future registration removed).
+     *
+     * Three prepare() calls are mocked in sequence:
+     *   1. DELETE ... JOIN EVENTS  (unregisterUserFromFutureEvents)
+     *   2. SELECT 1                (isUserRegistered — past event)
+     *   3. SELECT 1                (isUserRegistered — future event)
+     */
+    public function testUnregisterUserFromFutureEvents(): void
+    {
+        $userId        = 42;
+        $pastEventId   = 1;
+        $futureEventId = 2;
+
+        // Stmt 1 : DELETE er FROM EVENT_REGISTRATIONS er JOIN EVENTS e ...
+        $mockDeleteStmt = $this->createMock(PDOStatement::class);
+        $mockDeleteStmt->expects($this->once())
+            ->method('execute')
+            ->with([$userId])
+            ->willReturn(true);
+        $mockDeleteStmt->expects($this->once())
+            ->method('rowCount')
+            ->willReturn(1);
+
+        // Stmt 2 : SELECT 1 — isUserRegistered(pastEventId, userId) → still registered
+        $mockPastStmt = $this->createMock(PDOStatement::class);
+        $mockPastStmt->expects($this->once())
+            ->method('execute')
+            ->with([$pastEventId, $userId]);
+        $mockPastStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+
+        // Stmt 3 : SELECT 1 — isUserRegistered(futureEventId, userId) → no longer registered
+        $mockFutureStmt = $this->createMock(PDOStatement::class);
+        $mockFutureStmt->expects($this->once())
+            ->method('execute')
+            ->with([$futureEventId, $userId]);
+        $mockFutureStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(false);
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->willReturnOnConsecutiveCalls($mockDeleteStmt, $mockPastStmt, $mockFutureStmt);
+
+        $affectedRows     = $this->repository->unregisterUserFromFutureEvents($userId);
+        $stillInPast      = $this->repository->isUserRegistered($pastEventId, $userId);
+        $noLongerInFuture = $this->repository->isUserRegistered($futureEventId, $userId);
+
+        $this->assertEquals(1, $affectedRows);
+        $this->assertTrue($stillInPast);
+        $this->assertFalse($noLongerInFuture);
+    }
 }

@@ -77,6 +77,7 @@
    CONTENEUR GRILLE
    =========================================== */
 .schedule-grid-container {
+    --schedule-header-height: 60px; /* Source unique de vérité pour l'alignement */
     display: grid;
     grid-template-columns: 80px 1fr;
     gap: 0;
@@ -90,8 +91,7 @@
 .time-axis {
     display: flex;
     flex-direction: column;
-    padding-top: 60px;
-    /* Décalage pour aligner avec la grille */
+    padding-top: var(--schedule-header-height); /* Synchronisé avec .day-header */
     position: relative;
 }
 
@@ -125,7 +125,7 @@
     background: var(--border-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    min-height: calc(13 * 60px + 60px);
+    min-height: calc(13 * 60px + var(--schedule-header-height, 60px));
     /* 13 heures (08:00-20:00) + header */
 }
 
@@ -137,13 +137,20 @@
     color: var(--text-primary);
     font-weight: 600;
     text-align: center;
-    padding: 1rem;
+    padding: 0 0.75rem;
     font-size: 0.95rem;
     border-bottom: 2px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 2;
     font-family: var(--font-heading);
+    /* Hauteur fixe synchronisée avec --schedule-header-height */
+    height: var(--schedule-header-height, 60px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ===========================================
@@ -337,6 +344,7 @@
 
     /* Conteneur sans scroll horizontal - tous les jours visibles */
     .schedule-grid-container {
+        --schedule-header-height: 35px;
         grid-template-columns: 30px 1fr;
         gap: 0;
         overflow-x: visible;
@@ -344,7 +352,7 @@
     }
 
     .time-axis {
-        padding-top: 35px;
+        padding-top: var(--schedule-header-height);
         position: relative;
         z-index: 1;
         background: var(--bg-primary);
@@ -371,7 +379,7 @@
     }
 
     .day-header {
-        padding: 0.4rem 0.1rem;
+        padding: 0 0.1rem;
         font-size: 0.65rem;
         line-height: 1.1;
         position: sticky;
@@ -434,11 +442,8 @@
     /* Amélioration pour très petits écrans */
     @media (max-width: 480px) {
         .schedule-grid-container {
+            --schedule-header-height: 32px;
             grid-template-columns: 28px 1fr;
-        }
-
-        .time-axis {
-            padding-top: 32px;
         }
 
         .time-slot {
@@ -453,7 +458,7 @@
         }
 
         .day-header {
-            padding: 0.35rem 0.05rem;
+            padding: 0 0.05rem;
             font-size: 0.6rem;
         }
 

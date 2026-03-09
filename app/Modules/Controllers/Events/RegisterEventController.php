@@ -7,7 +7,6 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AuthenticatedController;
 use App\Modules\Repositories\EventRegistrationRepository;
 use App\Modules\Repositories\EventTeamRepository;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 
@@ -49,12 +48,7 @@ class RegisterEventController extends AuthenticatedController
      */
     private EventTeamRepository $teamRepo;
 
-    /**
-     * Event repository instance
-     *
-     * @var EventRepositoryInterface
-     */
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
 
     /**
      * Constructor - Handle event registration actions

@@ -7,7 +7,6 @@ namespace App\Modules\Controllers\Events;
 use App\Modules\Controllers\AdminController;
 use App\Modules\Controllers\DefaultController;
 use App\Modules\Repositories\EventRegistrationRepository;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 use Dompdf\Dompdf;
@@ -74,7 +73,6 @@ class ExportUserEventController extends AdminController
             }
         }
 
-        /** @var EventRepositoryInterface $eventRepository */
         $eventRepository = new EventRepository(Database::getInstance()->getConnection());
         $registrationRepo = new EventRegistrationRepository();
 
@@ -99,7 +97,7 @@ class ExportUserEventController extends AdminController
         $dompdf = new Dompdf($options);
 
         // Load external CSS for PDF styling
-        $cssPath = __DIR__ . '/../../../assets/css/pdf-export.css';
+        $cssPath = __DIR__ . '/../../../assets/css/pages/pdf-export.css';
         $cssContent = file_exists($cssPath) ? (string) file_get_contents($cssPath) : '';
 
         // HTML build of the pdf
@@ -116,8 +114,10 @@ class ExportUserEventController extends AdminController
         <body>
             <h1>Liste des inscrits: <?= htmlspecialchars($event->getName()) ?></h1>
             <p class="event-info">
-                Date : <?= htmlspecialchars(date('d/m/Y', (int) strtotime($event->getDate()))) ?>
-                a <?= htmlspecialchars(date('H:i', (int) strtotime($event->getTime()))) ?>
+                Date d'exportation du PDF : <?= htmlspecialchars(date('d M Y')) ?> à <?= htmlspecialchars(date('H:i')) ?>
+                <br>
+                Date de l'événement : <?= htmlspecialchars(date('d M Y', (int) strtotime($event->getDate()))) ?>
+                à <?= htmlspecialchars(date('H:i', (int) strtotime($event->getTime()))) ?>
                 <?php if ($isGroupEvent) : ?>
                     <br>Evenement en groupe (<?= htmlspecialchars((string) $event->getTeamSize()) ?> personnes/groupe)
                 <?php endif; ?>
@@ -182,7 +182,7 @@ class ExportUserEventController extends AdminController
                             <tr>
                                 <th>Nom</th>
                                 <th>Prenom</th>
-                                <th>Statut</th>
+                                <th>Promotion</th>
                                 <th class="checkbox-col">Present</th>
                                 <th class="checkbox-col">Absent</th>
                             </tr>

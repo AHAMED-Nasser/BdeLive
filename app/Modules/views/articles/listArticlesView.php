@@ -96,7 +96,9 @@ start_page("Nos articles", true, $user ?? null);
                                           class="delete-article-form">
                                         <?= csrfField() ?>
                                         <input type="hidden" name="slug" value="<?= htmlspecialchars($article->getSlug()) ?>">
-                                        <button type="submit" class="btn-delete" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.');">
+                                        <button type="button" class="btn-delete"
+                                                data-confirm-title="Supprimer l'article"
+                                                data-confirm-msg="Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.">
                                             Supprimer
                                         </button>
                                     </form>
