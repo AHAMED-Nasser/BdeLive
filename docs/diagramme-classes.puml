@@ -1,4 +1,4 @@
-@startuml BdeLive - Architecture conceptuelle (MVC 2 + Data Mapper + DI)
+@startuml
 !theme plain
 skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
@@ -28,8 +28,8 @@ package "Core" #E8F4F8 {
 ' ==================== COUCHE CONTROLLERS ====================
 package "Controllers" #F0E8F8 {
   abstract class AbstractController {
-    # render(view, data): void
-    # redirect(url): never
+     render(view, data): void
+     redirect(url): never
   }
 }
 
@@ -77,5 +77,4 @@ EventFactory ..> Event : 7. Crée l'entité
 EventRepository ..> Event : 8. Retourne
 AbstractController ..> Event : 9. Reçoit
 AbstractController ..> View : 10. Passe les données
-
 @enduml
