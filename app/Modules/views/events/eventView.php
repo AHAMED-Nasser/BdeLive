@@ -103,7 +103,7 @@ $userId = $user['user_id'] ?? null;
                 } ?>
             <div class="event-item"
                 style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
+                <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId(), $event); ?>
 
                 <div style="margin-top: 15px;">
                     <?php
