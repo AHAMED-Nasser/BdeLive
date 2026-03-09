@@ -34,7 +34,7 @@ $descriptionHtml = nl2br(htmlspecialchars($event->getDescription()));
 <?php endif; ?>
 
 <div class="container event-detail-page">
-    <h1 class="text-center" style="padding: 40px"><?= htmlspecialchars($event->getName()) ?></h1>
+    <h1 class="text-center event-page-title"><?= htmlspecialchars($event->getName()) ?></h1>
 
     <!-- Messages flash -->
     <?php if (!empty($flash['success'])) : ?>
