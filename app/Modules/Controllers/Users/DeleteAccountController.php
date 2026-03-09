@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Users;
 
 use App\Modules\Controllers\AuthenticatedController;
+use App\Modules\Repositories\EventRegistrationRepository;
 use Exception;
 use App\Modules\Models\Users\UserManager;
 
@@ -78,27 +79,12 @@ class DeleteAccountController extends AuthenticatedController
         $userId = (int) $user['user_id'];
         $userEmail = strtolower(trim($user['email'] ?? ''));
 
-        // ====================================================================
-        // Code CSRF to be corrected
-        // ====================================================================
-        // CSRF validation temporarily disabled
-        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
-        // when uploading files. Permanent solution to be implemented in S4
-        // ====================================================================
-
-        // Temporary flag to disable CSRF validation
-
-        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=delete_account');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=delete_account');
         }
 
         // Validate email confirmation
@@ -114,9 +100,13 @@ class DeleteAccountController extends AuthenticatedController
         }
 
         try {
-            $deleted = $this->userManager->deleteUser($userId);
+            $deleted = $this->userManager->softDeleteUser($userId);
 
             if ($deleted) {
+                // Unregister the user from all upcoming events
+                $eventRepo = new EventRegistrationRepository();
+                $eventRepo->unregisterUserFromFutureEvents($userId);
+
                 // Logout user (destroys session)
                 $this->auth->logout();
 

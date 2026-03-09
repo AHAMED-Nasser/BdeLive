@@ -134,31 +134,6 @@ package "Entities" #F0F8E8 {
   }
 }
 
-' ==================== REPOSITORY INTERFACES ====================
-package "Repositories (Interfaces)" #FFF8E8 {
-  interface ArticleRepositoryInterface {
-    + findById(id: int): Article|null
-    + findBySlug(slug: string): Article|null
-    + findPaginated(offset, limit): Article[]
-    + findLatestArticles(limit: int): Article[]
-    + save(article: Article): bool
-    + delete(id: int): bool
-    + count(): int
-  }
-
-  interface EventRepositoryInterface {
-    + findById(id: int): Event|null
-    + findBySlug(slug: string): Event|null
-    + findAll(): Event[]
-    + findPaginated(offset, limit): Event[]
-    + findLatestEvents(limit: int): Event[]
-    + findEventsForHomepage(limit: int): Event[]
-    + save(event: Event): bool
-    + delete(id: int): bool
-    + count(): int
-  }
-}
-
 ' ==================== FACTORIES ====================
 package "Factories" #F5E8F8 {
   class ArticleFactory <<static>> {
@@ -230,15 +205,15 @@ package "Controllers" #F0E8F8 {
   }
 
   class ArticlesController {
-    - repository: ArticleRepositoryInterface
-    + __construct(repository: ArticleRepositoryInterface)
+    - repository: ArticleRepository
+    + __construct(repository: ArticleRepository)
     - displaySingleArticle(slug): void
     - displayArticlesList(): void
   }
 
   class ShowEventController {
-    - eventRepository: EventRepositoryInterface
-    + __construct(eventRepository: EventRepositoryInterface)
+    - eventRepository: EventRepository
+    + __construct(eventRepository: EventRepository)
   }
 }
 
@@ -257,13 +232,10 @@ Application *-- Request : owns
 Application *-- Response : owns
 
 ContainerFactory ..> Container : creates
-ContainerFactory ..> ArticleRepositoryInterface : binds
-ContainerFactory ..> EventRepositoryInterface : binds
+ContainerFactory ..> ArticleRepository : binds
+ContainerFactory ..> EventRepository : binds
 Router --> ContainerFactory : create()
 Router --> Container : get(Controller)
-
-ArticleRepository ..|> ArticleRepositoryInterface : implements
-EventRepository ..|> EventRepositoryInterface : implements
 
 ArticleRepository o-- Article : returns/accepts
 EventRepository o-- Event : returns/accepts
@@ -280,8 +252,8 @@ BaseController <|-- HomeController : extends
 BaseController <|-- ArticlesController : extends
 BaseController <|-- ShowEventController : extends
 
-ArticlesController --> ArticleRepositoryInterface : injecté
-ShowEventController --> EventRepositoryInterface : injecté
+ArticlesController --> ArticleRepository : injecté
+ShowEventController --> EventRepository : injecté
 
 note right of Article
   **Model (domain)**

@@ -27,7 +27,7 @@ class Mailer
      *
      * @var string
      */
-    private string $from_email = FROM_EMAIL;
+    private string $from_email;
 
     /**
      * Sender display name
@@ -36,6 +36,17 @@ class Mailer
      */
     private string $from_name = 'BDELive';
 
+    public function __construct()
+    {
+        // On vérifie si la constante existe avant de l'utiliser
+        if (defined('FROM_EMAIL')) {
+            $this->from_email = \FROM_EMAIL;
+        } else {
+            // Valeur par défaut ou log d'erreur pour éviter le Fatal Error
+            $this->from_email = 'default@bdelive.com';
+            error_log("Attention : La constante FROM_EMAIL n'est pas définie.");
+        }
+    }
     /**
      * Send a password reset email
      *
@@ -608,11 +619,12 @@ TEXT;
     private function smtpConfiguration(PHPMailer $mail): void
     {
         $mail->isSMTP();
-        $mail->Host = SMTP_HOST;
-        $mail->SMTPAuth = true;
-        $mail->Username = SMTP_USER;
-        $mail->Password = SMTP_PASSWORD;
+        // On utilise $_ENV au lieu des constantes
+        $mail->Host       = $_ENV['SMTP_HOST'] ?? 'smtp-bdelivesae.alwaysdata.net';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $_ENV['SMTP_USER'] ?? '';
+        $mail->Password   = $_ENV['SMTP_PASSWORD'] ?? '';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port       = 587;
     }
 }

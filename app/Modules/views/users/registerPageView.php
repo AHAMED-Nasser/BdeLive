@@ -1,10 +1,28 @@
-<?php
+<?php global $app;
 /**
  * @var \App\Core\Security\CsrfProtection $csrf
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
+ * @var string $recaptchaSiteKey Google reCAPTCHA v2 public site key
  */
+
+$recaptchaSiteKey = $recaptchaSiteKey ?? '';
+
+$oldLastName = $app->session()->get('old_last_name');
+$oldFirstName = $app->session()->get('old_first_name');
+$oldEmail = $app->session()->get('old_email');
+$oldUserStatus = $app->session()->get('old_user_status');
+
+$app->session()->remove('old_last_name');
+$app->session()->remove('old_first_name');
+$app->session()->remove('old_email');
+$app->session()->remove('old_user_status');
+
 start_page("Inscription - BDELive", true, $user ?? null);
+
+if ($recaptchaSiteKey !== '') {
+    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+}
 ?>
 <div class="forgot-container">
     <h1 class="title">Inscription</h1>
@@ -21,34 +39,70 @@ start_page("Inscription - BDELive", true, $user ?? null);
         </div>
     <?php endif; ?>
 
-    <form action="index.php?page=register" method="POST">
-        <label for="last_name">Nom :</label>
-        <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" required>
+    <?php if ($recaptchaSiteKey === '') : ?>
+        <div class="alert alert-danger">Configuration reCAPTCHA manquante (.env). Contactez l'administrateur.</div>
+    <?php endif; ?>
 
-        <label for="first_name">Prénom :</label>
-        <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" required>
+    <form class="form-authentification" action="index.php?page=register" method="POST">
+        <label for="last_name">Nom</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Entrez votre nom" maxlength="100" value="<?= htmlspecialchars((string)$oldLastName) ?>" required>
 
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" required>
+        <label for="first_name">Prénom</label>
+        <input type="text" id="first_name" name="first_name" placeholder="Entrez votre prénom" maxlength="100" value="<?= htmlspecialchars((string)$oldFirstName) ?>" required>
 
-        <label for="user_status">Statut :</label>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Entrez votre email" maxlength="100" value="<?= htmlspecialchars((string)$oldEmail) ?>" required>
+
+        <label for="user_status">Statut</label>
         <select id="user_status" name="user_status" required>
             <option value="">-- Sélectionnez --</option>
-            <option value="BUT 1">BUT 1</option>
-            <option value="BUT 2">BUT 2</option>
-            <option value="BUT 3">BUT 3</option>
-            <option value="Personnel Enseignant">Personnel Enseignant</option>
+            <option value="BUT 1" <?= $oldUserStatus === 'BUT 1' ? 'selected' : ''?>>BUT 1</option>
+            <option value="BUT 2" <?= $oldUserStatus === 'BUT 2' ? 'selected' : ''?>>BUT 2</option>
+            <option value="BUT 3" <?= $oldUserStatus === 'BUT 3' ? 'selected' : ''?>>BUT 3</option>
+            <option value="Personnel Enseignant" <?= $oldUserStatus === 'Personnel Enseignant' ? 'selected' : ''?>>Personnel Enseignant</option>
         </select>
 
-        <label for="password">Mot de passe :</label>
-        <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+        <label for="password">Mot de passe</label>
+        <div class="password-container">
+            <input id="password" type="password" name="password" placeholder="Entrez votre mot de passe" class="form-control" required>
+            <button type="button" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+        <div id="pwd-conditions" class="pwd-conditions">
+            <p class="pwd-conditions-message">Votre mot de passe doit contenir</p>
+            <ul class="pwd-conditions-list">
+                <li id="verifyLength" class="invalid"><span>*</span> Au moins 12 caractères</li>
+                <li id="verifyLower" class="invalid"><span>*</span> Au moins 1 minuscule</li>
+                <li id="verifyUpper" class="invalid"><span>*</span> Au moins 1 majuscule</li>
+                <li id="verifyDigit" class="invalid"><span>*</span> Au moins 1 chiffre</li>
+                <li id="verifySpecialChar" class="invalid"><span>*</span> Au moins 1 caractère spécial (ex: @, $, !, %, *, ?, &) </li>
+            </ul>
+        </div>
+
+        <label for="confirm-password">Confirmation mot de passe</label>
+        <div class="password-container">
+            <input id="confirm-password" type="password" name="confirm_password" placeholder="Confirmez votre mot de passe" class="form-control" required>
+            <button type="button" class="password-toggle">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+        <p class="confirm-pwd-message"></p>
+
+        <?php if ($recaptchaSiteKey !== '') : ?>
+            <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars($recaptchaSiteKey) ?>"></div>
+        <?php endif; ?>
 
         <?= $csrf->getTokenField() ?>
         <button type="submit" name="ok">S'inscrire</button>
     </form>
 
-    <a href="index.php?page=login">Déjà un compte ? Se connecter</a>
-    <a href="index.php?page=home">← Retour à l'accueil</a>
+    <div class="auth-links-footer">
+        <a href="index.php?page=home"><i class="fa-solid fa-arrow-left"></i> Retour à l'accueil</a>
+        <div class="right-links">
+            <a href="index.php?page=login">Déjà un compte ? Se connecter</a>
+        </div>
+    </div>
 </div>
 
 <?php end_page(); ?>

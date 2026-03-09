@@ -6,7 +6,6 @@ namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\AdminController;
 use App\Modules\Entities\Article;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Repositories\ArticleRepository;
 use App\Services\CloudinaryService;
 use App\Core\Database;
@@ -17,7 +16,7 @@ use App\Core\Database;
  * Handles the creation of new articles with image upload to Cloudinary.
  * Only accessible to users with BDE (admin) status.
  *
- * Refactored to use Data Mapper pattern with Article entities and ArticleRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Article entities and ArticleRepository.
  *
  * Features:
  * - Article form display
@@ -72,27 +71,12 @@ class CreateArticleController extends AdminController
      */
     private function createArticle(): void
     {
-        // ====================================================================
-        // Code CSRF to be corrected
-        // ====================================================================
-        // CSRF validation temporarily disabled
-        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
-        // when uploading files. Permanent solution to be implemented in S4
-        // ====================================================================
-
-        // Temporary flag to disable CSRF validation
-
-        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=createArticle');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=createArticle');
         }
 
         // Get form data using Request object (not superglobals)
@@ -143,7 +127,6 @@ class CreateArticleController extends AdminController
         );
 
         // Save via repository (will detect insert because id is null)
-        /** @var ArticleRepositoryInterface $repository */
         $repository = new ArticleRepository(Database::getInstance()->getConnection());
         $result = $repository->save($article);
 

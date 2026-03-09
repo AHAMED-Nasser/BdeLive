@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AuthenticatedController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventTeamInvitationRepository;
@@ -37,12 +36,7 @@ use App\Config\Mailer;
  */
 class GroupRegistrationController extends AuthenticatedController
 {
-    /**
-     * Event repository instance
-     *
-     * @var EventRepositoryInterface
-     */
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
 
     /**
      * Team repository instance

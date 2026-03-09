@@ -79,7 +79,7 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
 
         <!-- Axe Heures -->
         <div class="time-axis">
-            <?php foreach ($daySchedule['hours'] as $hour) : ?>
+            <?php foreach ($daySchedule['hours'] as $hour): ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
@@ -99,13 +99,13 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
                 <div class="day-column" data-date="<?= $daySchedule['date'] ?>">
 
                     <!-- Lignes horaires -->
-                    <?php foreach ($daySchedule['hours'] as $index => $hour) : ?>
+                    <?php foreach ($daySchedule['hours'] as $index => $hour): ?>
                         <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                     <?php endforeach; ?>
 
                     <!-- Événements -->
-                    <?php if (!empty($daySchedule['events'])) : ?>
-                        <?php foreach ($daySchedule['events'] as $event) :
+                    <?php if (!empty($daySchedule['events'])): ?>
+                        <?php foreach ($daySchedule['events'] as $event):
                             $title = $event['title'] ?? 'Cours';
                             $location = $event['location'] ?? '';
                             $teacher = $event['teacher'] ?? '';
@@ -125,7 +125,7 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
 
                                 <div class="course-time"><?= htmlspecialchars($timeRange) ?></div>
                                 <div class="course-title"><?= htmlspecialchars($title) ?></div>
-                                <?php if ($location) : ?>
+                                <?php if ($location): ?>
                                     <div class="course-location">📍 <?= htmlspecialchars($location) ?></div>
                                 <?php endif; ?>
                             </div>
@@ -135,7 +135,7 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
                     <!-- Indicateur temps réel -->
                     <?php
                     $ct = $daySchedule['currentTime'];
-                    if ($ct) :
+                    if ($ct):
                         ?>
                         <div class="current-time-indicator" style="top: <?= $ct['top'] ?>px;"
                             data-time="<?= sprintf('%02d:%02d', $ct['hour'], $ct['minute']) ?>">

@@ -89,32 +89,6 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
             }
             ?>
 
-            <div class="calendar-legend">
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #2563eb;"></div>
-                    <span class="legend-label">TD</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #15803d;"></div>
-                    <span class="legend-label">TP</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #b91c1c;"></div>
-                    <span class="legend-label">CM</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #d97706;"></div>
-                    <span class="legend-label">Examen</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #5b21b6;"></div>
-                    <span class="legend-label">Soutenance</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #0e7490;"></div>
-                    <span class="legend-label">Support/Autonomie</span>
-                </div>
-            </div>
         <?php else : ?>
             <div class="no-group-selected">
                 <div style="font-size: 4rem; margin-bottom: 1rem;">📚</div>
@@ -123,6 +97,35 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
             </div>
         <?php endif; ?>
     </div>
+
+    <?php if ($selectedGroup) : ?>
+    <div class="calendar-legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #2563eb;"></div>
+            <span class="legend-label">TD</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #15803d;"></div>
+            <span class="legend-label">TP</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #b91c1c;"></div>
+            <span class="legend-label">CM</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #d97706;"></div>
+            <span class="legend-label">Examen</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #5b21b6;"></div>
+            <span class="legend-label">Soutenance</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #0e7490;"></div>
+            <span class="legend-label">Support/Autonomie</span>
+        </div>
+    </div>
+    <?php endif; ?>
 </main>
 
 <script>

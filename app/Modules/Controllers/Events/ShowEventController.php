@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\DefaultController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
+use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
 use Exception;
 
@@ -13,7 +13,7 @@ use Exception;
  * ShowEventController - Display single event details
  *
  * Refactored to use Data Mapper pattern with:
- * - EventRepositoryInterface (Dependency Inversion Principle)
+ * - EventRepository (injected via constructor)
  * - Event entity instead of raw arrays
  * - Repository injected via constructor (DI Container)
  *
@@ -23,9 +23,9 @@ use Exception;
  */
 class ShowEventController extends DefaultController
 {
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
 
-    public function __construct(EventRepositoryInterface $eventRepository)
+    public function __construct(EventRepository $eventRepository)
     {
         parent::__construct();
         $this->eventRepository = $eventRepository;
@@ -43,17 +43,23 @@ class ShowEventController extends DefaultController
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
             } elseif ($eventId > 0) {
-                // Priority 2: ID (legacy, redirect to slug for SEO)
+                // Priority 2: ID (legacy, redirect to slug for SEO when slug présent)
                 $event = $this->eventRepository->findById($eventId);
                 if (!$event) {
                     $this->redirectWithError('index.php?page=event', "L'événement demandé est introuvable");
                 }
-                // Use entity getter instead of array access
-                $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($event->getSlug());
-                header('Location: ' . $slugUrl, true, 301);
-                exit;
+                $eventSlug = $event->getSlug();
+                // Redirection vers slug uniquement si non vide (évite boucle infinie)
+                if ($eventSlug !== '') {
+                    $slugUrl = 'index.php?page=showEvent&slug=' . urlencode($eventSlug);
+                    header('Location: ' . $slugUrl, true, 301);
+                    exit;
+                }
             } else {
-                $this->redirectWithError('index.php?page=event', 'Paramètres invalides');
+                $this->redirectWithError(
+                    'index.php?page=event',
+                    'Paramètres invalides. Veuillez sélectionner un événement depuis la liste.'
+                );
             }
 
             $registrationRepo = new EventRegistrationRepository();

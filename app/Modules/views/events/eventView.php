@@ -50,7 +50,7 @@ $userId = $user['user_id'] ?? null;
 <div class="container event-list">
     <div class="page-header-with-action">
         <h1 style="text-align: center;">Nos Événements</h1>
-        <?php if ($isAdmin) : ?>
+        <?php if ($isAdmin): ?>
             <a href="index.php?page=createEvent" class="create-action-btn">
                 <i class="fas fa-plus-circle"></i>
                 <span>Créer un événement</span>
@@ -58,8 +58,8 @@ $userId = $user['user_id'] ?? null;
         <?php endif; ?>
     </div>
 
-    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color) : ?>
-        <?php if (!empty($flash[$type])) : ?>
+    <?php foreach (['success' => '#d4edda', 'error' => '#f8d7da'] as $type => $color): ?>
+        <?php if (!empty($flash[$type])): ?>
             <div
                 style="background-color: <?= $color ?>; color: #<?= $type === 'success' ? '155724' : '721c24' ?>; padding: 12px; margin: 20px 0; border: 1px solid #<?= $type === 'success' ? 'c3e6cb' : 'f5c6cb' ?>; border-radius: 4px; text-align: center;">
                 <?= htmlspecialchars($flash[$type]) ?>
@@ -67,10 +67,10 @@ $userId = $user['user_id'] ?? null;
         <?php endif; ?>
     <?php endforeach; ?>
 
-    <?php if (empty($events)) : ?>
+    <?php if (empty($events)): ?>
         <p style="text-align: center; margin-top: 50px;">Aucun événement à afficher pour le moment.</p>
 
-    <?php elseif ($viewMode === 'calendar') : ?>
+    <?php elseif ($viewMode === 'calendar'): ?>
         <!-- Calendrier natif pour les événements -->
         <?php
         $nativeCalendar = $nativeCalendar ?? null;
@@ -87,8 +87,8 @@ $userId = $user['user_id'] ?? null;
         }
         ?>
 
-    <?php else : ?>
-        <?php foreach ($events as $event) : ?>
+    <?php else: ?>
+        <?php foreach ($events as $event): ?>
             <?php
             // Get images from entity and prepare for carousel
             $eventImages = $event->getImagesArray();
@@ -100,23 +100,43 @@ $userId = $user['user_id'] ?? null;
                     } elseif (is_string($image)) {
                         $carouselImages[] = ['src' => $image];
                     }
-                }
-            }
+                } ?>
+                <div class="event-item"
+                    style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                    <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
 
-            // Si aucune image disponible, le carousel sera vide
-            ?>
-
-            <div class="event-item"
-                style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
-
-                <div style="margin-top: 15px;">
-                    <a href="index.php?page=showEvent&slug=<?= htmlspecialchars($event->getSlug()) ?>" class="btn-more"
-                        style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
-                        Voir les détails
-                    </a>
+                    <div style="margin-top: 15px;">
+                        <?php
+                        $eventShowHref = $event->getSlug() !== ''
+                            ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                            : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                        ?>
+                        <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
+                            style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
+                            Voir les détails
+                        </a>
+                    </div>
                 </div>
-            </div>
+
+            <?php } else { ?>
+                <div class="carousel-no-image">
+                    <span class="event-name-display"><?= htmlspecialchars($event->getName()) ?></span>
+                </div>
+                <div class="event-item"
+                    style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                    <div style="margin-top: 15px;">
+                        <?php
+                        $eventShowHref = $event->getSlug() !== ''
+                            ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                            : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                        ?>
+                        <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
+                            style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
+                            Voir les détails
+                        </a>
+                    </div>
+                </div>
+            <?php } ?>
         <?php endforeach; ?>
 
         <nav class="pagination-container" aria-label="Navigation des événements">
@@ -126,7 +146,7 @@ $userId = $user['user_id'] ?? null;
             </div>
 
             <ul class="pagination">
-                <?php if ($pagination->hasPrevious()) : ?>
+                <?php if ($pagination->hasPrevious()): ?>
                     <li>
                         <a href="<?= $pagination->getLink($pagination->getFirstPage()) ?>">« Premier</a>
                     </li>
@@ -142,7 +162,7 @@ $userId = $user['user_id'] ?? null;
                     </span>
                 </li>
 
-                <?php if ($pagination->hasNext()) : ?>
+                <?php if ($pagination->hasNext()): ?>
                     <li>
                         <a href="<?= $pagination->getLink($pagination->getCurrentPage() + 1) ?>&src=next">Suivant ›</a>
                     </li>

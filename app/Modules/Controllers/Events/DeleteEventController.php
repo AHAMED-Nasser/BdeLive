@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Core\Database;
 use Exception;
@@ -14,7 +13,7 @@ use Exception;
  * Delete Event Controller
  * Handles event deletion for administrators
  *
- * Refactored to use EventRepositoryInterface (Data Mapper pattern).
+ * Refactored to use EventRepository (Data Mapper pattern).
  *
  * @package BdeLive\Controllers
  * @version 2.0.0 - Data Mapper refactoring
@@ -34,29 +33,12 @@ class DeleteEventController extends AdminController
             $this->setError('Méthode non autorisée');
             $this->redirect('index.php?page=event');
         }
-
-
-        // ====================================================================
-        // Code CSRF to be corrected
-        // ====================================================================
-        // CSRF validation temporarily disabled
-        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
-        // when uploading files. Permanent solution to be implemented in S4
-        // ====================================================================
-
-        // Temporary flag to disable CSRF validation
-
-        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=event');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=event');
         }
 
         // Get and validate event ID
@@ -77,7 +59,6 @@ class DeleteEventController extends AdminController
     private function deleteEvent(int $eventId): void
     {
         try {
-            /** @var EventRepositoryInterface $repository */
             $repository = new EventRepository(Database::getInstance()->getConnection());
             $success = $repository->delete($eventId);
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Modules\Controllers\Articles;
 
 use App\Modules\Controllers\BaseController;
-use App\Modules\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Modules\Helpers\Pagination;
+use App\Modules\Repositories\ArticleRepository;
 
 /**
  * ArticlesController - Display articles list or single article
@@ -15,7 +15,7 @@ use App\Modules\Helpers\Pagination;
  * - List: index.php?page=articles (displays paginated list)
  * - Detail: index.php?page=articles&slug=... (displays single article)
  *
- * Refactored to use Data Mapper + constructor injection (ArticleRepositoryInterface).
+ * Refactored to use Data Mapper + constructor injection (ArticleRepository).
  *
  * @package App\Modules\Controllers\Articles
  * @version 2.0.0 - Data Mapper + DI
@@ -23,9 +23,9 @@ use App\Modules\Helpers\Pagination;
  */
 class ArticlesController extends BaseController
 {
-    private ArticleRepositoryInterface $repository;
+    private ArticleRepository $repository;
 
-    public function __construct(ArticleRepositoryInterface $repository)
+    public function __construct(ArticleRepository $repository)
     {
         parent::__construct();
         $this->repository = $repository;

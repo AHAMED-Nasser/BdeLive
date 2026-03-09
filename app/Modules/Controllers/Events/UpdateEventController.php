@@ -3,7 +3,6 @@
 namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
-use App\Modules\Repositories\Interfaces\EventRepositoryInterface;
 use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use App\Modules\Repositories\EventRegistrationRepository;
@@ -17,7 +16,7 @@ use Exception;
  * This controller handles the logic for modifying existing events.
  * Access is restricted to users with administrative privileges via inheritance from AdminController.
  *
- * Refactored to use Data Mapper pattern with Event entities and EventRepositoryInterface.
+ * Refactored to use Data Mapper pattern with Event entities and EventRepository.
  *
  * Main functionalities:
  * - Loading and pre-filling the update form (GET).
@@ -36,7 +35,7 @@ use Exception;
  */
 class UpdateEventController extends AdminController
 {
-    private EventRepositoryInterface $eventRepository;
+    private EventRepository $eventRepository;
     private EventTeamRepository $teamRepository;
     private EventRegistrationRepository $registrationRepository;
     private const REDIRECT_URL = 'index.php?page=event';
@@ -136,33 +135,16 @@ class UpdateEventController extends AdminController
      */
     private function processUpdate(int $eventId): void
     {
-        // ====================================================================
-        // TODO TEMPORAIRE POUR DÉMO - À CORRIGER APRÈS LA PRÉSENTATION
-        // ====================================================================
-        // Validation CSRF temporairement désactivée pour la démo du 14/01/2026
-        // Problème identifié : token CSRF non récupéré correctement avec multipart/form-data
-        // lors de l'upload de fichiers. Solution définitive à implémenter après la démo.
+        // 1. Validation CSRF
+        $csrfToken = $this->request->post('csrf_token', '');
 
-        // ====================================================================
-
-        // Flag temporaire pour désactiver la validation CSRF
-        $skipCsrfValidation = false; // ⚠️ À REMETTRE À false après correction du problème
-
-        // 1. Validation CSRF (désactivée temporairement)
-
-
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
-
-            if (!$this->csrf->validateToken((string)$csrfToken)) {
-                error_log('UpdateEventController: CSRF token validation failed. Token: ' . substr((string)$csrfToken, 0, 10) . '...');
-                $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Token de sécurité invalide. Veuillez réessayer.');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            error_log('UpdateEventController: CSRF token validation failed. Token: ' . substr((string) $csrfToken, 0, 10) . '...');
+            $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Token de sécurité invalide. Veuillez réessayer.');
         }
 
         // 2. Récupération des données POST
-        $eventName = (string) $this->request->post('event-name', '');
+        $eventName = trim((string) $this->request->post('event-name', ''));
         $eventDateStr = (string) $this->request->post('event-date', '');
         $eventTimeStr = (string) $this->request->post('event-time', '');
         $eventLocation = (string) $this->request->post('event-location', '');

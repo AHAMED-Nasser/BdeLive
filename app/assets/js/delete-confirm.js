@@ -1,6 +1,7 @@
 /**
- * Confirmation avant suppression (articles, événements)
- * Intercepte le clic sur le bouton pour afficher la confirmation AVANT la soumission.
+ * Confirmation avant suppression via modale (articles, événements)
+ * Intercepte le clic sur les boutons [data-confirm-msg].btn-delete
+ * et affiche une modale de confirmation au lieu du confirm() natif.
  */
 (function () {
     'use strict';
@@ -11,12 +12,26 @@
             if (!form) return;
 
             btn.addEventListener('click', function (e) {
-                var msg = btn.getAttribute('data-confirm-msg') || 'Êtes-vous sûr de vouloir supprimer ? Cette action est irréversible.';
-                if (!confirm(msg)) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    return false;
-                }
+                e.preventDefault();
+                e.stopPropagation();
+
+                var msg   = btn.getAttribute('data-confirm-msg')   || 'Êtes-vous sûr de vouloir supprimer ? Cette action est irréversible.';
+                var title = btn.getAttribute('data-confirm-title') || 'Confirmer la suppression';
+
+                window.showConfirmModal(
+                    title,
+                    msg,
+                    function () {
+                        form.submit();
+                    },
+                    null,
+                    {
+                        icon:        'fas fa-trash-alt',
+                        confirmText: 'Supprimer',
+                        cancelText:  'Annuler',
+                        danger:      true
+                    }
+                );
             }, true);
         });
     }

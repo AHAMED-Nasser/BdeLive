@@ -8,7 +8,7 @@ parameters:
     excludePaths:
         analyse:
             - app/vendor/*
-            - app/modules/views/*
+            - app/Modules/views/*
             - app/cache/*
             - storage/*
             - var/*

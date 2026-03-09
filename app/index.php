@@ -38,12 +38,14 @@ header("Referrer-Policy: strict-origin-when-cross-origin");
 $cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
-    "https://cdn.jsdelivr.net https://www.googletagmanager.com",
+    "https://cdn.jsdelivr.net https://www.googletagmanager.com " .
+    "https://www.google.com https://www.gstatic.com",
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
     "https://cdn.jsdelivr.net https://fonts.googleapis.com",
     "img-src 'self' data: https: http:",
     "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
-    "connect-src 'self'",
+    "connect-src 'self' https://www.google.com",
+    "frame-src 'self' https://www.google.com https://www.recaptcha.net",
     "frame-ancestors 'self'",
     "base-uri 'self'",
     "form-action 'self'"
@@ -53,7 +55,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', (string) 1);
 ini_set('display_startup_errors', (string) 1);
 // Composer autoload (PSR-4)
-$projectRoot = dirname(__DIR__);
+$projectRoot = dirname(__DIR__, 1);
 
 if (file_exists($projectRoot . '/vendor/autoload.php')) {
     require_once $projectRoot . '/vendor/autoload.php';
@@ -66,6 +68,11 @@ if (file_exists($projectRoot . '/.env')) {
 } else {
     // Si le fichier n'existe pas, on affiche un message clair pour le dev
     die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
+}
+
+// Define FROM_EMAIL for App\Config\Mailer (uses constant in constructor)
+if (!defined('FROM_EMAIL') && !empty($_ENV['FROM_EMAIL'])) {
+    define('FROM_EMAIL', (string) $_ENV['FROM_EMAIL']);
 }
 
 // Initialiser l'application (démarre la session automatiquement)

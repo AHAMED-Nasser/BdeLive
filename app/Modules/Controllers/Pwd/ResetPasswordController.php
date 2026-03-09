@@ -57,31 +57,16 @@ class ResetPasswordController extends DefaultController
      */
     private function resetPassword(): void
     {
-        // ====================================================================
-        // Code CSRF to be corrected
-        // ====================================================================
-        // CSRF validation temporarily disabled
-        // Problem identified: CSRF token not retrieved correctly with multipart/form-data
-        // when uploading files. Permanent solution to be implemented in S4
-        // ====================================================================
-
-        // Temporary flag to disable CSRF validation
-
-        $skipCsrfValidation = false; // To be set to false after the problem has been corrected.
-
         // Validate CSRF token
-        /** @phpstan-ignore-next-line */
-        if (!$skipCsrfValidation) {
-            $csrfToken = $this->request->post('csrf_token', '');
+        $csrfToken = $this->request->post('csrf_token', '');
 
-            if (!$this->csrf->validateToken((string) $csrfToken)) {
-                $this->setError('Token de sécurité invalide. Veuillez réessayer.');
-                $this->redirect('index.php?page=reste_password');
-            }
+        if (!$this->csrf->validateToken((string) $csrfToken)) {
+            $this->setError('Token de sécurité invalide. Veuillez réessayer.');
+            $this->redirect('index.php?page=reset_password');
         }
 
         $password = (string) $this->request->post('password', '');
-        $confirm_password = (string) $this->request->post('confirm_password', '');
+        $confirm_password = (string) $this->request->post('confirm-password', '');
 
         // Show an error message if the password or the confirm password is empty
         if (empty($password) || empty($confirm_password)) {
@@ -89,8 +74,14 @@ class ResetPasswordController extends DefaultController
             $this->redirect('index.php?page=reset_password');
         }
         // Show an error message if the password is less than 6 characters
-        if (strlen($password) < 6) {
-            $this->setError('Le mot de passe doit contenir au moins 6 caractères');
+        if (strlen($password) < 12) {
+            $this->setError('Le mot de passe doit contenir au moins 12 caractères');
+            $this->redirect('index.php?page=reset_password');
+        }
+        // Show an error message if the password does not respect the security conditions
+        $pwdSecureRegex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^A-Za-z0-9]).{8,}$/";
+        if (!preg_match($pwdSecureRegex, $password)) {
+            $this->setError('Le mot de passe ne respecte pas les conditions de sécurité');
             $this->redirect('index.php?page=reset_password');
         }
         // Show an error message if the password and the confirm password do not match

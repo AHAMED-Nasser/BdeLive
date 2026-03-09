@@ -189,4 +189,46 @@ class AuthManagerTest extends TestCase
     {
         $this->assertNull($this->auth->getUserEmail());
     }
+
+    public function testIsAdminReturnsTrueForSuperAdminRole(): void
+    {
+        $this->auth->login(10, 'BDE', 'superadmin@example.com', 'super_admin', 0, 'Super', 'Admin');
+        $this->assertTrue($this->auth->isAdmin());
+    }
+
+    public function testIsSuperAdminReturnsTrueForSuperAdmin(): void
+    {
+        $this->auth->login(10, 'BDE', 'superadmin@example.com', 'super_admin', 0, 'Super', 'Admin');
+        $this->assertTrue($this->auth->isSuperAdmin());
+    }
+
+    public function testIsSuperAdminReturnsFalseForAdmin(): void
+    {
+        $this->auth->login(1, 'BDE', 'admin@example.com', 'admin', 0, 'Admin', 'User');
+        $this->assertFalse($this->auth->isSuperAdmin());
+    }
+
+    public function testIsSuperAdminReturnsFalseForUser(): void
+    {
+        $this->auth->login(2, 'BUT 1', 'student@example.com', 'user', 0, 'Student', 'User');
+        $this->assertFalse($this->auth->isSuperAdmin());
+    }
+
+    public function testGetUserRoleReturnsSuperAdmin(): void
+    {
+        $this->auth->login(10, 'BDE', 'superadmin@example.com', 'super_admin', 0, 'Super', 'Admin');
+        $this->assertEquals('super_admin', $this->auth->getUserRole());
+    }
+
+    public function testGetUserIncludesIsSuperAdminFlag(): void
+    {
+        $this->auth->login(10, 'BDE', 'superadmin@example.com', 'super_admin', 0, 'Super', 'Admin');
+
+        $user = $this->auth->getUser();
+
+        $this->assertIsArray($user);
+        $this->assertTrue($user['is_super_admin']);
+        $this->assertTrue($user['is_admin']);
+        $this->assertEquals('super_admin', $user['role']);
+    }
 }
