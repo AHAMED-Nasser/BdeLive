@@ -143,6 +143,13 @@ class ExportUserEventController extends AdminController
             <?php if (!empty($individualRegistrations)) : ?>
                 <h3>Inscriptions individuelles</h3>
                 <table>
+                    <colgroup>
+                        <col style="width: 25%">
+                        <col style="width: 25%">
+                        <col style="width: 20%">
+                        <col style="width: 15%">
+                        <col style="width: 15%">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>Nom</th>
@@ -175,6 +182,13 @@ class ExportUserEventController extends AdminController
 
                 <?php foreach ($teamRegistrations as $teamNumber => $members) : ?>
                     <table>
+                        <colgroup>
+                            <col style="width: 25%">
+                            <col style="width: 25%">
+                            <col style="width: 20%">
+                            <col style="width: 15%">
+                            <col style="width: 15%">
+                        </colgroup>
                         <thead>
                             <tr class="group-title-row">
                                 <td colspan="5">Groupe <?= htmlspecialchars((string) $teamNumber) ?></td>

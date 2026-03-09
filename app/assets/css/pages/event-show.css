@@ -273,3 +273,83 @@
         white-space: normal;
     }
 }
+
+/* Event Registrants List */
+.registrants-list-section {
+    margin-top: 40px;
+}
+
+.registrants-list-section h2 {
+    margin-bottom: 20px;
+}
+
+.registrants-list-section .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.registrants-list-section thead tr {
+    background-color: var(--bg-secondary);
+    text-align: left;
+}
+
+.registrants-list-section th {
+    padding: 12px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.registrants-list-section tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.registrants-list-section td {
+    padding: 12px;
+}
+
+/* Group Registrants */
+.group-registrants-section h2 {
+    margin-bottom: 10px;
+}
+
+.group-block {
+    margin-bottom: 30px;
+}
+
+.group-header {
+    text-align: center;
+    padding: 14px 16px;
+    margin-bottom: 0;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Group Header - Dark Mode */
+.dark-mode .group-header {
+    color: #ffffff;
+}
+
+/* ===== Registrants Table - Text Visibility ===== */
+
+.registrants-list-section thead tr {
+    background-color: var(--bg-secondary);
+}
+
+.registrants-list-section th {
+    color: var(--text-primary);
+}
+
+.registrants-list-section td {
+    color: var(--text-primary);
+}
+
+/* Registrants Table - Dark Mode overrides */
+.dark-mode .registrants-list-section thead tr {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-mode .registrants-list-section tbody tr:hover {
+    background-color: var(--bg-hover);
+}

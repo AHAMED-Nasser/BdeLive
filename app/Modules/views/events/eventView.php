@@ -36,7 +36,7 @@ $viewMode = $viewMode ?? 'list'; ?>
     </div>
 </div>
 
-    <link rel="stylesheet" href="./assets/css/pages/event.css">
+<link rel="stylesheet" href="./assets/css/pages/event.css">
 
 <?php
 
@@ -101,41 +101,41 @@ $userId = $user['user_id'] ?? null;
                         $carouselImages[] = ['src' => $image];
                     }
                 } ?>
-            <div class="event-item"
-                style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
+                <div class="event-item"
+                    style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                    <?php useCarousel($event->getName(), $carouselImages, 'carousel-event-' . $event->getId()); ?>
 
-                <div style="margin-top: 15px;">
-                    <?php
-                    $eventShowHref = $event->getSlug() !== ''
-                        ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
-                        : 'index.php?page=showEvent&id=' . (int) $event->getId();
-                    ?>
-                    <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
-                        style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
-                        Voir les détails
-                    </a>
+                    <div style="margin-top: 15px;">
+                        <?php
+                        $eventShowHref = $event->getSlug() !== ''
+                            ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                            : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                        ?>
+                        <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
+                            style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
+                            Voir les détails
+                        </a>
+                    </div>
                 </div>
-            </div>
 
             <?php } else { ?>
                 <div class="carousel-no-image">
                     <span class="event-name-display"><?= htmlspecialchars($event->getName()) ?></span>
                 </div>
                 <div class="event-item"
-                style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-                <div style="margin-top: 15px;">
-                    <?php
-                    $eventShowHref = $event->getSlug() !== ''
-                        ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
-                        : 'index.php?page=showEvent&id=' . (int) $event->getId();
-                    ?>
-                    <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
-                        style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
-                        Voir les détails
-                    </a>
+                    style="text-align: center; margin-bottom: 50px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                    <div style="margin-top: 15px;">
+                        <?php
+                        $eventShowHref = $event->getSlug() !== ''
+                            ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
+                            : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                        ?>
+                        <a href="<?= htmlspecialchars($eventShowHref) ?>" class="btn-more"
+                            style="color: var(--color-primary); font-weight: bold; text-decoration: none;">
+                            Voir les détails
+                        </a>
+                    </div>
                 </div>
-            </div>
             <?php } ?>
         <?php endforeach; ?>
 
