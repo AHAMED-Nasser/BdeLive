@@ -25,7 +25,7 @@ $eventTimeValue = $event->getTime();
 ?>
 
     <section class="createEvent">
-        <div class="forgot-container">
+        <div class="form-container-wide">
             <h1 class="title">Modifier l'événement : <?= htmlspecialchars($event->getName()) ?></h1>
 
             <?php if (!empty($flash['success'])) : ?>
@@ -80,15 +80,27 @@ $eventTimeValue = $event->getTime();
                 </div>
                 <?php endif; ?>
 
+                <!-- From Uiverse.io by Pradeepsaranbishnoi -->
                 <div class="checkbox-container">
-                    <article>
-                        <input id="event-solo" type="radio" name="event_type" value="solo" <?= !$isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
-                        <label for="event-solo">Inscription individuelle</label>
-                    </article>
-                    <article>
-                        <input id="event-group" type="radio" name="event_type" value="group" <?= $isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
-                        <label for="event-group">Inscription en groupe</label>
-                    </article>
+                    <div class="input-container">
+                        <input id="event-solo" class="radio-button" type="radio" name="event_type" value="solo" <?= !$isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
+                        <div class="radio-tile">
+                            <div class="icon walk-icon">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <label for="event-solo" class="radio-tile-label">Seule</label>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <input id="event-group" class="radio-button" type="radio" name="event_type" value="group" <?= !$isGroupEvent ? 'checked' : '' ?>  onchange="toggleTeamSizeUpdate()">
+                        <div class="radio-tile">
+                            <div class="icon car-icon">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <label for="event-group" class="radio-tile-label">Groupes</label>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Taille de l'équipe -->
@@ -117,7 +129,7 @@ $eventTimeValue = $event->getTime();
                 </div>
 
                 <label for="description">Description de l'événement</label>
-                <textarea id="description" placeholder="Venez à notre événement pour ..." name="description" required><?= htmlspecialchars($event->getDescription()) ?></textarea>
+                <textarea id="description" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description" required><?= htmlspecialchars($event->getDescription()) ?></textarea>
 
                 <div class="image-management" style="margin-top: 20px;">
                     <p class="form-label">Images actuelles (cocher pour supprimer) :</p>

@@ -52,17 +52,6 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
             <!-- Type d'inscription -->
             <label>Type d'inscription</label>
-<!--            <div class="checkbox-container">-->
-<!--                <article>-->
-<!--                    <input id="event-solo" type="radio" name="event_type" value="solo" checked-->
-<!--                        onchange="toggleTeamSize()">-->
-<!--                    <label for="event-solo">Inscription individuelle</label>-->
-<!--                </article>-->
-<!--                <article>-->
-<!--                    <input id="event-group" type="radio" name="event_type" value="group" onchange="toggleTeamSize()">-->
-<!--                    <label for="event-group">Inscription en groupe</label>-->
-<!--                </article>-->
-<!--            </div>-->
             <!-- From Uiverse.io by Pradeepsaranbishnoi -->
             <div class="checkbox-container">
                 <div class="input-container">
@@ -121,8 +110,8 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             </fieldset>
 
             <div class="description-event">
-                <label for="markdown-editor">Description de l'événement</label>
-                <textarea id="markdown-editor" placeholder="Venez à notre événement pour ..." name="description"></textarea>
+                <label for="description">Description de l'événement</label>
+                <textarea id="description" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description"></textarea>
             </div>
 
             <div class="insert-image">
