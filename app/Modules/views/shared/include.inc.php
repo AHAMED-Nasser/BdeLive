@@ -377,26 +377,20 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
     {
         ?>
         <footer>
-            <div class="footer-inner"
-                style="max-width:1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 20px;">
-                <div class="footer-left" style="display: flex; align-items: center; gap: 30px;">
-                    <p style="margin: 0;">&copy;
-                        <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.
-                    </p>
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <p class="footer-copyright">&copy; <?= date("Y") ?> BdeLive - Inform'Aix. Tous droits réservés.</p>
                     <nav aria-label="Liens utiles">
-                        <ul class="footer-nav" style="display: flex; gap: 20px; margin: 0; padding: 0; list-style: none;">
-                            <li><a href="index.php?page=about" style="text-decoration: none; color: inherit;">À propos</a>
-                            </li>
-                            <li><a href="index.php?page=legalTerms" style="text-decoration: none; color: inherit;">Mentions
-                                    légales</a></li>
-                            <li><a href="index.php?page=sitemap" style="text-decoration: none; color: inherit;">Plan du
-                                    site</a></li>
+                        <ul class="footer-nav">
+                            <li><a href="index.php?page=about">À propos</a></li>
+                            <li><a href="index.php?page=legalTerms">Mentions légales</a></li>
+                            <li><a href="index.php?page=sitemap">Plan du site</a></li>
                         </ul>
                     </nav>
                 </div>
                 <div class="footer-right">
-                    <div class="social-logos" style="display: flex; align-items: center; gap: 20px;">
-                        <h3 style="margin: 0; font-size: 1.1em; padding-right: 15px;">Suivez-nous</h3>
+                    <div class="social-logos">
+                        <h3 class="social-logos-title">Suivez-nous</h3>
                         <a href="https://www.instagram.com/informaix/" target="_blank" rel="noopener noreferrer"
                             class="social-link" aria-label="Instagram - Ouvrir dans un nouvel onglet">
                             <svg class="social-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
