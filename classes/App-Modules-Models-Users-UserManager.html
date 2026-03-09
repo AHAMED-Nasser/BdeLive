@@ -284,6 +284,13 @@ This class provides a unified data access layer for the USERS table.</p>
 <dd>Anonymize a user record by replacing all personal data with placeholders</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Models-Users-UserManager.html#method_countActiveUsersByRole">countActiveUsersByRole()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Count active (non-deleted, non-blocked) users for a given role</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Users-UserManager.html#method_countDeletedUsers">countDeletedUsers()</a>
     <span>
                                 &nbsp;: int    </span>
@@ -589,7 +596,7 @@ This class provides a unified data access layer for the USERS table.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Users/UserManager.php"><a href="files/app-modules-models-users-usermanager.html"><abbr title="app/Modules/Models/Users/UserManager.php">UserManager.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">921</span>
+    <span class="phpdocumentor-element-found-in__line">951</span>
 
     </aside>
 
@@ -646,6 +653,81 @@ and statistical integrity.</p>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True on success, false otherwise</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_countActiveUsersByRole">
+        countActiveUsersByRole()
+        <a href="classes/App-Modules-Models-Users-UserManager.html#method_countActiveUsersByRole" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Users/UserManager.php"><a href="files/app-modules-models-users-usermanager.html"><abbr title="app/Modules/Models/Users/UserManager.php">UserManager.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">842</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Count active (non-deleted, non-blocked) users for a given role</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">countActiveUsersByRole</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$role</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Used to enforce the minimum-one-admin / minimum-one-super_admin rule
+before performing a destructive action (soft_delete, demote, block).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$role</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The role to count ('admin' or 'super_admin')</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/App-Modules-Models-Users-UserManager.html#method_countActiveUsersByRole#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">throws</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                <span class="phpdocumentor-tag-link"><abbr title="\PDOException">PDOException</abbr></span>
+                                                            
+                                                 <section class="phpdocumentor-description"><p>If the database query fails</p>
+</section>
+
+                                    </dd>
+                                            </dl>
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Number of active users with that role</p>
 </section>
 
             </section>
@@ -1431,7 +1513,7 @@ Returns all fields required for authentication and session setup.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Users/UserManager.php"><a href="files/app-modules-models-users-usermanager.html"><abbr title="app/Modules/Models/Users/UserManager.php">UserManager.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">891</span>
+    <span class="phpdocumentor-element-found-in__line">921</span>
 
     </aside>
 
@@ -1962,7 +2044,7 @@ search across last_name, first_name and email.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Users/UserManager.php"><a href="files/app-modules-models-users-usermanager.html"><abbr title="app/Modules/Models/Users/UserManager.php">UserManager.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">864</span>
+    <span class="phpdocumentor-element-found-in__line">894</span>
 
     </aside>
 
@@ -2117,7 +2199,7 @@ search across last_name, first_name and email.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Users/UserManager.php"><a href="files/app-modules-models-users-usermanager.html"><abbr title="app/Modules/Models/Users/UserManager.php">UserManager.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">842</span>
+    <span class="phpdocumentor-element-found-in__line">872</span>
 
     </aside>
 
@@ -3006,6 +3088,7 @@ passed its expiry date.</li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method___construct">__construct()</a></li>
                                             <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method_anonymizeUser">anonymizeUser()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method_countActiveUsersByRole">countActiveUsersByRole()</a></li>
                                             <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method_countDeletedUsers">countDeletedUsers()</a></li>
                                             <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method_countUsers">countUsers()</a></li>
                                             <li class=""><a href="classes/App-Modules-Models-Users-UserManager.html#method_createUser">createUser()</a></li>

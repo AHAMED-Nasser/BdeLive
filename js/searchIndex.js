@@ -2996,6 +2996,11 @@ Search.appendIndex(
             "summary": "Block\u0020or\u0020unblock\u0020a\u0020user\u0020account",
             "url": "classes/App-Modules-Models-Users-UserManager.html#method_setBlockStatus"
         },                {
+            "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AcountActiveUsersByRole\u0028\u0029",
+            "name": "countActiveUsersByRole",
+            "summary": "Count\u0020active\u0020\u0028non\u002Ddeleted,\u0020non\u002Dblocked\u0029\u0020users\u0020for\u0020a\u0020given\u0020role",
+            "url": "classes/App-Modules-Models-Users-UserManager.html#method_countActiveUsersByRole"
+        },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\UserManager\u003A\u003AsoftDeleteUser\u0028\u0029",
             "name": "softDeleteUser",
             "summary": "Soft\u002Ddelete\u0020a\u0020user\u0020account\u0020\u002830\u002Dday\u0020grace\u0020period\u0029",
