@@ -129,15 +129,17 @@
     transform: scale(0.95);
 }
 
-#description {
+#description,
+#markdown-editor {
     padding: 10px;
     width: 100%;
-    min-height: 250px;
-    max-height: 400px;
+    min-height: 350px;
+    max-height: 600px;
     border-radius: 8px;
     border: solid 2px var(--border-color);
     background-color: var(--bg-card);
     color: var(--text-primary);
+    resize: vertical;
 }
 
 .checkbox-container {
@@ -348,9 +350,10 @@
         height: 180px;
     }
 
-    #description {
-        min-height: 120px;
-        max-height: 300px;
+    #description,
+    #markdown-editor {
+        min-height: 250px;
+        max-height: 450px;
     }
 
     .checkbox-container {
@@ -385,9 +388,10 @@
         object-fit: cover;
     }
 
-    #description {
-        min-height: 100px;
-        max-height: 250px;
+    #description,
+    #markdown-editor {
+        min-height: 200px;
+        max-height: 400px;
         font-size: 16px; /* Prevents zoom on iOS */
     }
 
@@ -415,9 +419,10 @@
         max-width: 100%;
     }
 
-    #description {
-        min-height: 80px;
-        max-height: 200px;
+    #description,
+    #markdown-editor {
+        min-height: 150px;
+        max-height: 300px;
         padding: 8px;
     }
 
