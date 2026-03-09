@@ -41,11 +41,11 @@ function useCarousel($carouselLabel, $imageMap, $carouselId, $event): void
 <!--                    </div>-->
                     <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                         <?php if ($event->getDate() === date('Y-m-d')) : ?>
-                            <span class="badge-status status-live">En cours</span>
+                            <span class="event-badge--live" aria-hidden="true">En cours</span>
                         <?php elseif ($event->getDate() < date('Y-m-d')) : ?>
-                            <span class="badge-status status-done">Terminé</span>
+                            <span class="event-badge--past" aria-hidden="true">Passé</span>
                         <?php else : ?>
-                            <span class="badge-status status-incoming">À venir</span>
+                            <span class="event-badge--upcoming" aria-hidden="true">À venir</span>
                         <?php endif; ?>
 
                         <img src="<?= htmlspecialchars($image['src']) ?>" class="carousel-image"
