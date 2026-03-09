@@ -292,6 +292,305 @@ class EventRegistrationRepository
             'teams' => $teams
         ];
     }
+    /**
+     * Get individual registrations for an event
+     *
+     * Retrieves the list of users registered individually to an event.
+     * Includes user ID, first name, last name, promotion (status), and registration date.
+     * Join with USERS table to get user details.
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string}>
+     */
+    public function getIndividualRegistrantsForEvent(int $eventId): array
+    {
+        $sql = "SELECT u.user_id, u.first_name, u.last_name, u.user_status as promotion, er.registration_date
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                WHERE er.event_id = :event_id
+                ORDER BY er.registration_date DESC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['event_id' => $eventId]);
+
+        /** @var array<int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string}> */
+        return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    /**
+     * Get group registrants for an event, grouped by team number
+     *
+     * Retrieves the list of users registered in teams for a group event.
+     * Results are grouped by team_number for display with group headers.
+     * Includes first name, last name, promotion (status), and registration date.
+     *
+     * @param int $eventId The event identifier
+     * @return array<int, array<int, array<string, mixed>>>
+     */
+    public function getGroupRegistrantsForEvent(int $eventId): array
+    {
+        $sql = "SELECT u.user_id, u.first_name, u.last_name, u.user_status AS promotion,
+                       er.registration_date, er.team_id, et.team_number
+                FROM EVENT_REGISTRATIONS er
+                JOIN USERS u ON er.user_id = u.user_id
+                LEFT JOIN EVENT_TEAMS et ON er.team_id = et.team_id
+                WHERE er.event_id = :event_id
+                ORDER BY et.team_number ASC, u.last_name ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['event_id' => $eventId]);
+
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        /** @var array<int, array<int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string, team_id: int, team_number: int}>> $teams */
+        $teams = [];
+
+        foreach ($results as $row) {
+            /** @var array<string, mixed> $row */
+            $teamNumber = (int) ($row['team_number'] ?? 0);
+            if ($teamNumber > 0) {
+                if (!isset($teams[$teamNumber])) {
+                    $teams[$teamNumber] = [];
+                }
+                $teams[$teamNumber][] = $row;
+            }
+        }
+
+        return $teams;
+    }
+
+    /**
+     * Batch unregister multiple users from an event
+     *
+     * Deletes registration records for the given user IDs from the EVENT_REGISTRATIONS table.
+     * Uses parameterized IN clause for safe batch deletion.
+     *
+     * @param int $eventId The event identifier
+     * @param array<int, int> $userIds Array of user identifiers to unregister
+     * @return int Number of registrations successfully deleted
+     */
+    public function unregisterUsers(int $eventId, array $userIds): int
+    {
+        if (empty($userIds)) {
+            return 0;
+        }
+
+        try {
+            $placeholders = implode(',', array_fill(0, count($userIds), '?'));
+            $sql = "DELETE FROM EVENT_REGISTRATIONS WHERE event_id = ? AND user_id IN ($placeholders)";
+
+            $stmt = $this->pdo->prepare($sql);
+            $params = array_merge([$eventId], array_values($userIds));
+            $stmt->execute($params);
+
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::unregisterUsers - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
+     * Search users not registered to a specific event
+     *
+     * Returns users matching the search query who are not yet registered
+     * for the given event. Automatically detects search mode:
+     * - Numeric query: searches by exact user_id
+     * - Text query: searches by first_name or last_name using LIKE
+     *
+     * Uses LEFT JOIN anti-pattern instead of NOT IN for reliability
+     * with native prepared statements (EMULATE_PREPARES = false).
+     *
+     * @param int $eventId The event identifier
+     * @param string $query The search query (name or user_id)
+     * @param int $limit Maximum number of results (default 20)
+     * @return array<int, array{user_id: int, first_name: string, last_name: string, user_status: string}> Matching users
+     */
+    public function searchUsersNotRegistered(int $eventId, string $query, int $limit = 20): array
+    {
+        $query = trim($query);
+
+        if ($query === '') {
+            return [];
+        }
+
+        try {
+            $isNumeric = ctype_digit($query);
+
+            // LEFT JOIN anti-pattern: exclude users already registered for this event
+            $sql = "SELECT u.user_id, u.first_name, u.last_name, u.user_status
+                    FROM USERS u
+                    LEFT JOIN EVENT_REGISTRATIONS er
+                        ON er.user_id = u.user_id AND er.event_id = :event_id
+                    WHERE er.user_id IS NULL
+                    AND u.is_blocked = 0";
+
+            if ($isNumeric) {
+                $sql .= " AND u.user_id = :search_id";
+            } else {
+                $sql .= " AND (u.first_name LIKE :search_fn OR u.last_name LIKE :search_ln)";
+            }
+
+            $sql .= " ORDER BY u.last_name ASC, u.first_name ASC LIMIT " . (int) $limit;
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':event_id', $eventId, \PDO::PARAM_INT);
+
+            if ($isNumeric) {
+                $stmt->bindValue(':search_id', (int) $query, \PDO::PARAM_INT);
+            } else {
+                $searchTerm = '%' . $query . '%';
+                $stmt->bindValue(':search_fn', $searchTerm, \PDO::PARAM_STR);
+                $stmt->bindValue(':search_ln', $searchTerm, \PDO::PARAM_STR);
+            }
+
+            $stmt->execute();
+
+            /** @var array<int, array{user_id: int, first_name: string, last_name: string, user_status: string}> */
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::searchUsersNotRegistered - ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Register multiple users to an event in a single operation
+     *
+     * Inserts registration records for the given user IDs. Uses INSERT IGNORE
+     * to gracefully skip users who are already registered.
+     *
+     * @param int $eventId The event identifier
+     * @param array<int, int> $userIds Array of user identifiers to register
+     * @return int Number of registrations successfully created
+     */
+    public function registerUsers(int $eventId, array $userIds): int
+    {
+        if (empty($userIds)) {
+            return 0;
+        }
+
+        try {
+            $inserted = 0;
+
+            foreach ($userIds as $userId) {
+                $stmt = $this->pdo->prepare(
+                    'INSERT IGNORE INTO EVENT_REGISTRATIONS (event_id, user_id, registration_status) VALUES (?, ?, ?)'
+                );
+                if ($stmt->execute([$eventId, (int) $userId, 'Confirmé'])) {
+                    $inserted += $stmt->rowCount();
+                }
+            }
+
+            return $inserted;
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::registerUsers - ' . $e->getMessage());
+            return 0;
+        }
+    }
+    /**
+     * Remove a user from a group event registration
+     *
+     * Deletes the registration record for the user in the given event.
+     *
+     * @param int $eventId The event identifier
+     * @param int $userId The user identifier
+     * @return bool True if deletion successful
+     */
+    public function removeUserFromGroup(int $eventId, int $userId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'DELETE FROM EVENT_REGISTRATIONS WHERE event_id = :event_id AND user_id = :user_id'
+            );
+            return $stmt->execute([':event_id' => $eventId, ':user_id' => $userId]);
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::removeUserFromGroup - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Move a user to a different team within the same event
+     *
+     * Updates the team_id in the registration record.
+     *
+     * @param int $eventId The event identifier
+     * @param int $userId The user identifier
+     * @param int $newTeamId The new team identifier
+     * @return bool True if update successful
+     */
+    public function changeUserTeam(int $eventId, int $userId, int $newTeamId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'UPDATE EVENT_REGISTRATIONS SET team_id = :team_id
+                 WHERE event_id = :event_id AND user_id = :user_id'
+            );
+            return $stmt->execute([
+                ':team_id' => $newTeamId,
+                ':event_id' => $eventId,
+                ':user_id' => $userId
+            ]);
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::changeUserTeam - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Add a user to a group event with team assignment
+     *
+     * Creates a registration record with team_id. Uses INSERT IGNORE
+     * to skip if user is already registered.
+     *
+     * @param int $eventId The event identifier
+     * @param int $userId The user identifier
+     * @param int $teamId The team identifier
+     * @return bool True if registration created
+     */
+    public function addUserToGroup(int $eventId, int $userId, int $teamId): bool
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'INSERT IGNORE INTO EVENT_REGISTRATIONS (event_id, user_id, team_id, registration_status)
+                 VALUES (:event_id, :user_id, :team_id, :status)'
+            );
+            return $stmt->execute([
+                ':event_id' => $eventId,
+                ':user_id' => $userId,
+                ':team_id' => $teamId,
+                ':status' => 'Confirmé'
+            ]);
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::addUserToGroup - ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Delete all registrations for a specific team in an event
+     *
+     * Removes all member registrations associated with a team_id
+     * within the given event.
+     *
+     * @param int $eventId The event identifier
+     * @param int $teamId The team identifier
+     * @return int Number of registrations deleted
+     */
+    public function deleteGroupRegistrants(int $eventId, int $teamId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'DELETE FROM EVENT_REGISTRATIONS WHERE event_id = :event_id AND team_id = :team_id'
+            );
+            $stmt->execute([':event_id' => $eventId, ':team_id' => $teamId]);
+            return $stmt->rowCount();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::deleteGroupRegistrants - ' . $e->getMessage());
+            return 0;
+        }
+    }
 
     /**
      * Unregister a user from all future events

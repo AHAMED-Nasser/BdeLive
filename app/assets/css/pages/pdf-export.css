@@ -37,20 +37,39 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    table-layout: fixed;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #dddddd;
     padding: 8px;
     text-align: left;
+    word-wrap: break-word;
 }
 
 th {
     background-color: #f2f2f2;
 }
 
+/* Explicit column widths for consistent rendering in DomPDF */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 25%;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 25%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 20%;
+}
+
 .checkbox-col {
-    width: 60px;
+    width: 15%;
     text-align: center;
 }
 

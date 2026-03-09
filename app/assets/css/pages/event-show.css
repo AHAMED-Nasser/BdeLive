@@ -18,10 +18,7 @@
     color: #333;
 }
 
-/* Flash messages */
-.event-description-container h1 { font-size: 2rem; border-bottom: 1px solid #ccc; }
-.event-description-container ul { padding-left: 20px; list-style-type: disc; }
-.event-description-container code { background: #f4f4f4; padding: 2px 5px; }
+/* Markdown-rendered description (styles partagés dans base/markdown.css) */
 
 .event-flash-success {
     background-color: #d4edda;
@@ -271,5 +268,246 @@
         height: auto;
         padding: 14px 24px;
         white-space: normal;
+    }
+}
+
+/* Event Registrants List */
+.registrants-list-section {
+    margin-top: 40px;
+}
+
+.registrants-list-section h2 {
+    margin-bottom: 20px;
+}
+
+.registrants-list-section .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.registrants-list-section thead tr {
+    background-color: var(--bg-secondary);
+    text-align: left;
+}
+
+.registrants-list-section th {
+    padding: 12px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.registrants-list-section tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.registrants-list-section td {
+    padding: 12px;
+}
+
+/* Group Registrants */
+.group-registrants-section h2 {
+    margin-bottom: 10px;
+}
+
+.group-block {
+    margin-bottom: 30px;
+}
+
+.group-header {
+    text-align: center;
+    padding: 14px 16px;
+    margin-bottom: 0;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Group Header - Dark Mode */
+.dark-mode .group-header {
+    color: #ffffff;
+}
+
+/* ===== Registrants Table - Text Visibility ===== */
+
+.registrants-list-section thead tr {
+    background-color: var(--bg-secondary);
+}
+
+.registrants-list-section th {
+    color: var(--text-primary);
+}
+
+.registrants-list-section td {
+    color: var(--text-primary);
+}
+
+/* Registrants Table - Dark Mode overrides */
+.dark-mode .registrants-list-section thead tr {
+    background-color: var(--bg-tertiary);
+}
+
+.dark-mode .registrants-list-section tbody tr:hover {
+    background-color: var(--bg-hover);
+}
+
+/* ===== Titre de la page événement ===== */
+.event-page-title {
+    padding: 40px 20px;
+}
+
+/* ===== Responsive Mobile (max-width: 768px) ===== */
+@media (max-width: 768px) {
+    .event-page-title {
+        padding: 20px 10px;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        word-break: break-word;
+    }
+
+    /* Boutons d'inscription pleine largeur */
+    .btn-individual-register,
+    .btn-group-register {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 14px 20px;
+        box-sizing: border-box;
+    }
+
+    /* Bouton désinscription pleine largeur */
+    .registration-section .btn-delete {
+        display: block;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .registration-section {
+        padding: 15px 10px;
+    }
+
+    /* Bannière d'infos */
+    .event-info-banner {
+        padding: 15px 12px;
+        text-align: left;
+    }
+
+    .event-info-banner p {
+        font-size: 1rem;
+        margin: 8px 0;
+    }
+
+    /* Description */
+    .event-description-container {
+        margin-bottom: 30px;
+    }
+
+    .event-description-container h2 {
+        font-size: 1.4rem;
+    }
+
+    /* Liste des inscrits */
+    .registrants-list-section {
+        margin-top: 25px;
+    }
+
+    .registrants-list-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .registrants-list-section th,
+    .registrants-list-section td {
+        padding: 8px 6px;
+        font-size: 0.9rem;
+    }
+
+    /* Blocs groupes */
+    .group-header {
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+
+    /* Zone admin */
+    .admin-zone {
+        padding: 15px 12px;
+        margin-top: 30px;
+    }
+
+    .admin-zone h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .admin-zone-actions {
+        gap: 10px;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-view {
+        height: auto;
+        padding: 12px 16px;
+        white-space: normal;
+        font-size: 13px;
+    }
+}
+
+/* ===== Responsive Petit Mobile (max-width: 480px) ===== */
+@media (max-width: 480px) {
+    .event-page-title {
+        padding: 15px 5px;
+        font-size: 1.35rem;
+    }
+
+    .event-flash-success,
+    .event-flash-error {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .event-info-banner {
+        padding: 12px 10px;
+    }
+
+    .event-info-banner p {
+        font-size: 0.95rem;
+    }
+
+    .btn-individual-register,
+    .btn-group-register {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+
+    .btn-group-register i {
+        margin-right: 4px;
+    }
+
+    .registrants-list-section th,
+    .registrants-list-section td {
+        padding: 6px 4px;
+        font-size: 0.82rem;
+    }
+
+    .group-header {
+        font-size: 14px;
+        padding: 8px 10px;
+    }
+
+    .admin-zone {
+        padding: 12px 8px;
+    }
+
+    .admin-zone h2 {
+        font-size: 1.1rem;
+    }
+
+    .btn-edit,
+    .btn-delete,
+    .btn-view {
+        font-size: 12px;
+        padding: 10px 12px;
     }
 }
