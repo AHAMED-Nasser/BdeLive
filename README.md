@@ -89,60 +89,45 @@ la requête HTTP entrante et dispatche vers le contrôleur approprié via un con
 dépendances. Chaque domaine (Articles, Events, Users, Admin, Public…) regroupe ses propres contrôleurs,
 modèles, repositories et vues.
 
-Le schéma ci-dessous illustre les éléments principaux de l'architecture et les **nouvelles classes** par rapport
-à la version initiale (BdeLive-main) : couche Entités, Factories (Data Mapper), Container DI, et composants de
-sécurité (reCAPTCHA, anti-bruteforce).
+Le schéma ci-dessous illustre le **cycle de vie d'une requête** et met en valeur les patterns **MVC 2**, **Data Mapper** et **Injection de Dépendances**.
 
 ```mermaid
-classDiagram
-    class Application
-    class Database
-    class Container
-    class ContainerFactory
-    class RecaptchaValidator
-    class MarkdownRenderer
-    class AuthManager
-    class Event
-    class Article
-    class EventFactory
-    class ArticleFactory
-    class ArticleRepository
-    class EventRepository
-    class EventModel
-    class ArticleModel
-    class UserManager
-    class LoginAttemptManager
-    class CloudinaryService
+flowchart TD
+    subgraph Client [Client]
+        Nav[Client / Navigateur]
+    end
 
-    BaseController <|-- DefaultController
-    BaseController <|-- AuthenticatedController
-    AuthenticatedController <|-- AdminController
-    BaseController <|-- ArticlesController
-    DefaultController <|-- ShowEventController
-    AdminController <|-- CreateEventController
+    subgraph Core [Core]
+        App[Application / Router]
+    end
 
-    ContainerFactory ..> Container : creates
-    ContainerFactory ..> ArticleRepository : binds
-    ContainerFactory ..> EventRepository : binds
+    subgraph DI [Injection de Dépendances]
+        Ctrl[Controller]
+    end
 
-    ArticleRepository o-- Article
-    EventRepository o-- Event
-    ArticleRepository ..> ArticleFactory : uses
-    EventRepository ..> EventFactory : uses
-    ArticleFactory ..> Article : creates
-    EventFactory ..> Event : creates
+    subgraph Domain [Domain]
+        Repo[Repository]
+        DB[(Database)]
+        Factory[Factory]
+        Entity[Entity]
+    end
 
-    ArticlesController ..> ArticleRepository : injecté
-    CreateEventController ..> EventRepository : injecté
-    CreateEventController ..> CloudinaryService : injecté
-    ShowEventController ..> EventRepository : injecté
+    subgraph View [View]
+        Template[View - Templates PHP]
+    end
 
-    Application *-- SessionManager
-    Application *-- AuthManager
-    Application *-- CsrfProtection
+    Nav -->|Request HTTP| App
+    App -->|Instancie via DI| Ctrl
+    Ctrl -->|Demande données| Repo
+    Repo <-->|Requête SQL| DB
+    Repo -->|Utilise| Factory
+    Factory -->|Crée| Entity
+    Repo -->|Retourne Entity| Ctrl
+    Ctrl -->|Passe les données| Template
+    Template -->|Response HTML| Nav
 ```
 
-**Légende :** *Nouvelles classes* (vs BdeLive-main) : Container, ContainerFactory, RecaptchaValidator, MarkdownRenderer, Event, Article, EventFactory, ArticleFactory, ArticleRepository, LoginAttemptManager · *Refactorisées* : AuthManager, EventRepository, EventModel, ArticleModel, UserManager · `..>` = dépendance (Clean Architecture) · `--|>` = héritage · `o--` = agrégation
+**Patterns illustrés :** *MVC 2* — séparation Controller / View · *Data Mapper* — Repository + Factory → Entity pure · *DI* — Controller instancié par le Container · *Clean Architecture* — le Domain ne dépend pas des couches supérieures
 
 > La documentation technique complète (diagrammes de classes UML, diagrammes de séquence,
 > diagramme des cas d'utilisation, conformité MVC) est disponible dans le dossier `docs/`.
