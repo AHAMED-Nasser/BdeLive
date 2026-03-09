@@ -17,7 +17,7 @@
 start_page("Modifier un article", true, $user ?? null) ?>
 
 <section class="createEvent">
-    <div class="forgot-container">
+    <div class="form-container-wide">
         <h1 class="title">Modification d'un article</h1>
 
         <?php if (!empty($flash['success'])) : ?>
@@ -55,7 +55,7 @@ start_page("Modifier un article", true, $user ?? null) ?>
                 data-autosave-id="article_description"
                 placeholder="Contenu de l'article en Markdown..."
                 name="article-description"
-                rows="10"
+                rows="20"
                 required><?= htmlspecialchars($article->getDescription()) ?></textarea>
 
             <label for="author">Auteur de l'article</label>

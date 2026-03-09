@@ -830,6 +830,36 @@ class UserManager
     // =========================================================================
 
     /**
+     * Count active (non-deleted, non-blocked) users for a given role
+     *
+     * Used to enforce the minimum-one-admin / minimum-one-super_admin rule
+     * before performing a destructive action (soft_delete, demote, block).
+     *
+     * @param string $role The role to count ('admin' or 'super_admin')
+     * @return int Number of active users with that role
+     * @throws PDOException If the database query fails
+     */
+    public function countActiveUsersByRole(string $role): int
+    {
+        try {
+            $query = "SELECT COUNT(*)
+                      FROM USERS
+                      WHERE role       = :role
+                        AND deleted_at IS NULL
+                        AND is_blocked = 0";
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindValue(':role', $role, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('UserManager::countActiveUsersByRole - ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
      * Soft-delete a user account (30-day grace period)
      *
      * Sets the deleted_at timestamp to the current time. The account can be

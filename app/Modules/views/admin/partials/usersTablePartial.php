@@ -3,9 +3,13 @@
 /** @var string $currentFilter */
 /** @var string $currentUserRole */
 /** @var \App\Modules\Helpers\Pagination $pagination */
+/** @var int $adminCount      Number of active admins (role='admin') */
+/** @var int $superAdminCount Number of active super_admins */
 
-$isSuperAdmin = ($currentUserRole === 'super_admin');
-$isAdminUser  = ($currentUserRole === 'admin');
+$isSuperAdmin    = ($currentUserRole === 'super_admin');
+$isAdminUser     = ($currentUserRole === 'admin');
+$adminCount      = (int) ($adminCount ?? 0);
+$superAdminCount = (int) ($superAdminCount ?? 0);
 ?>
 <div class="table-card" id="users-table-container">
     <div class="table-header">
@@ -96,16 +100,35 @@ $isAdminUser  = ($currentUserRole === 'admin');
                                     <?php else : ?>
                                         <div class="action-group">
                                             <label for="action-select-<?= $u['user_id'] ?>" class="sr-only">Action pour <?= htmlspecialchars($u['first_name']) ?></label>
+                                            <?php
+                                            // Calcul des verrous "dernier actif"
+                                            $isLastAdmin      = ($targetRole === 'admin'      && $adminCount      <= 1);
+                                            $isLastSuperAdmin = ($targetRole === 'super_admin' && $superAdminCount <= 1);
+                                            $lastAdminTitle      = 'Action impossible : dernier administrateur actif';
+                                            $lastSuperAdminTitle = 'Action impossible : dernier super administrateur actif';
+                                            ?>
                                             <select id="action-select-<?= $u['user_id'] ?>" name="action" class="admin-select-action js-admin-select">
                                                 <option value="">Choisir...</option>
                                                 <?php if ($isSuperAdmin) : ?>
                                                     <?php if ($targetRole === 'super_admin') : ?>
-                                                        <option value="demote_super_admin">Retirer Super Admin</option>
+                                                        <option value="demote_super_admin"
+                                                            <?= $isLastSuperAdmin ? 'disabled title="' . $lastSuperAdminTitle . '"' : '' ?>>
+                                                            Retirer Super Admin<?= $isLastSuperAdmin ? ' 🔒' : '' ?>
+                                                        </option>
                                                     <?php elseif ($targetRole === 'admin') : ?>
-                                                        <option value="demote">Retirer Admin</option>
+                                                        <option value="demote"
+                                                            <?= $isLastAdmin ? 'disabled title="' . $lastAdminTitle . '"' : '' ?>>
+                                                            Retirer Admin<?= $isLastAdmin ? ' 🔒' : '' ?>
+                                                        </option>
                                                         <option value="promote_super_admin">Nommer Super Admin</option>
-                                                        <option value="block">Bloquer</option>
-                                                        <option value="soft_delete">Supprimer</option>
+                                                        <option value="block"
+                                                            <?= $isLastAdmin ? 'disabled title="' . $lastAdminTitle . '"' : '' ?>>
+                                                            Bloquer<?= $isLastAdmin ? ' 🔒' : '' ?>
+                                                        </option>
+                                                        <option value="soft_delete"
+                                                            <?= $isLastAdmin ? 'disabled title="' . $lastAdminTitle . '"' : '' ?>>
+                                                            Supprimer<?= $isLastAdmin ? ' 🔒' : '' ?>
+                                                        </option>
                                                     <?php elseif ($targetRole === 'user') : ?>
                                                         <option value="promote">Nommer Admin</option>
                                                         <option value="promote_super_admin">Nommer Super Admin</option>

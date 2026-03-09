@@ -99,6 +99,19 @@ class DeleteAccountController extends AuthenticatedController
             $this->redirect('index.php?page=delete_account');
         }
 
+        // Protect: a last active admin or super_admin cannot delete their own account
+        $userRole = $user['role'] ?? 'user';
+        if (in_array($userRole, ['admin', 'super_admin'], true)) {
+            $activeCount = $this->userManager->countActiveUsersByRole($userRole);
+            if ($activeCount <= 1) {
+                $label = ($userRole === 'super_admin') ? 'super administrateur' : 'administrateur';
+                $this->setError(
+                    "Impossible de supprimer votre compte : vous êtes le dernier {$label} actif."
+                );
+                $this->redirect('index.php?page=delete_account');
+            }
+        }
+
         try {
             $deleted = $this->userManager->softDeleteUser($userId);
 

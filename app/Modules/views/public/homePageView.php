@@ -126,16 +126,31 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                                 <?php if ($event->isPast()) : ?>
                                     <span class="event-badge--past" aria-hidden="true">Passé</span>
+                                <?php else : ?>
+                                    <span class="event-badge--upcoming" aria-hidden="true">À venir</span>
                                 <?php endif; ?>
                                 <?php
                                 $homeEventHref = $event->getSlug() !== ''
                                     ? 'index.php?page=showEvent&slug=' . urlencode($event->getSlug())
                                     : 'index.php?page=showEvent&id=' . (int) $event->getId();
+                                $eventTypeLabel = $event->isGroupEvent()
+                                    ? 'Groupe (' . $event->getTeamSize() . 'x)'
+                                    : 'Solo';
                                 ?>
                                 <a href="<?= htmlspecialchars($homeEventHref) ?>"
                                     class="carousel-event-link"
                                     aria-label="Voir les détails de <?= htmlspecialchars($event->getName()) ?><?= $event->isPast() ? ' (événement passé)' : '' ?>">
-                                    <h3 class="event-title"><?= htmlspecialchars($event->getName()) ?></h3>
+                                    <div class="carousel-event-overlay">
+                                        <h3 class="event-title"><?= htmlspecialchars($event->getName()) ?></h3>
+                                        <div class="event-meta-brief">
+                                            <span class="event-meta-date"><?= htmlspecialchars($event->getFormattedDate()) ?> · <?= htmlspecialchars($event->getFormattedTime()) ?></span>
+                                            <?php if ($event->getLocation() !== '') : ?>
+                                                <span class="event-meta-location"><?= htmlspecialchars($event->getLocation()) ?></span>
+                                            <?php endif; ?>
+                                            <span class="event-meta-type"><?= htmlspecialchars($eventTypeLabel) ?></span>
+                                            <span class="event-meta-registration"><?= $event->isPast() ? 'Inscriptions fermées' : 'Inscriptions ouvertes' ?></span>
+                                        </div>
+                                    </div>
                                     <?php if ($eventImage) : ?>
                                         <img src="<?= htmlspecialchars($eventImage) ?>" class="carousel-image"
                                             alt="<?= htmlspecialchars($event->getName()) ?>" <?= $index > 0 ? 'loading="lazy"' : '' ?> decoding="async">
@@ -244,9 +259,11 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                 <strong>Notre équipe passionnée</strong> est composée d'étudiants motivés à apprendre qui travaillent
                 ensemble pour proposer des événements et projets autour de l'informatique.
             </p>
+            <?php if (isset($user) && $user !== null) : ?>
             <ul>
                 <li><a href="index.php?page=bde_members">En savoir plus</a></li>
             </ul>
+            <?php endif; ?>
         </div>
     </section>
 

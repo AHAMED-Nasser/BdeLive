@@ -305,6 +305,13 @@
     font-weight: 600;
 }
 
+.filter-hint {
+    font-size: 0.75rem;
+    color: var(--text-tertiary, #6b7280);
+    margin: -6px 0 8px 0;
+    line-height: 1.3;
+}
+
 /* Responsive Tablette */
 @media (max-width: 992px) {
     .admin-layout {

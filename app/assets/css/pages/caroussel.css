@@ -89,24 +89,72 @@
     }
 }
 
-.carousel-event-link .event-title {
+.carousel-event-overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     z-index: 3;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 70%, transparent 100%);
+    /* Overlay léger : l'image reste visible, le texte garde une zone contrastée */
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.25) 45%, rgba(0, 0, 0, 0.08) 75%, transparent 100%);
+    padding: 30px 20px 20px;
+    border-radius: 12px 12px 0 0;
+}
+
+.carousel-event-link .event-title {
     color: white;
-    padding: 30px 20px;
-    margin: 0;
+    padding: 0;
+    margin: 0 0 12px 0;
     font-size: 1.8rem;
     font-weight: 700;
     text-align: center;
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.6);
-    border-radius: 12px 12px 0 0;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
     letter-spacing: 0.5px;
     text-decoration: none !important;
     font-family: var(--font-heading);
+}
+
+.event-meta-brief {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.7);
+}
+
+.event-meta-brief .event-meta-date {
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 14px rgba(0, 0, 0, 0.8);
+}
+
+.event-meta-brief .event-meta-location {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.event-meta-brief .event-meta-type,
+.event-meta-brief .event-meta-registration,
+.event-meta-brief .event-meta-location {
+    padding: 0.3rem 0.65rem;
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 9999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.event-meta-brief .event-meta-location {
+    text-transform: none;
+    font-weight: 500;
 }
 
 .carousel-event-link .carousel-image {
@@ -375,9 +423,17 @@
         height: 400px;
     }
 
+    .carousel-event-overlay {
+        padding: 25px 16px 18px;
+    }
+
     .carousel-event-link .event-title {
         font-size: 1.6rem;
-        padding: 25px 15px 20px 15px;
+        margin: 0 0 10px 0;
+    }
+
+    .event-meta-brief {
+        font-size: 0.7rem;
     }
 
     .carousel-event-link::after {
@@ -390,8 +446,7 @@
 @media (max-width: 768px) {
     .carousel {
         max-width: 100%;
-        padding: 0 50px;
-        /* Add padding for controls */
+        padding: 0 44px;
     }
 
     .carousel-control {
@@ -430,10 +485,44 @@
         height: 300px;
     }
 
+    .carousel-event-overlay {
+        padding: 20px 12px 14px;
+    }
+
     .carousel-event-link .event-title {
-        font-size: 1.3rem;
-        padding: 20px 10px 15px 10px;
+        font-size: 1.35rem;
+        margin: 0 0 10px 0;
         letter-spacing: 0.3px;
+    }
+
+    .event-meta-brief {
+        flex-direction: column;
+        gap: 6px;
+        font-size: 0.68rem;
+    }
+
+    .event-meta-brief .event-meta-date {
+        order: 1;
+    }
+
+    .event-meta-brief .event-meta-location {
+        order: 2;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .event-meta-brief .event-meta-type,
+    .event-meta-brief .event-meta-registration {
+        order: 3;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .event-badge--past,
+    .event-badge--upcoming {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+        top: 0.5rem;
+        right: 0.5rem;
     }
 
     .carousel-event-link::after {
@@ -466,9 +555,13 @@
 
 /* Small mobile (max-width: 480px) */
 @media (max-width: 480px) {
+    .carousel {
+        padding: 0 38px;
+    }
+
     .carousel-control {
-        width: 35px;
-        height: 35px;
+        width: 34px;
+        height: 34px;
     }
 
     .carousel-control.prev {
@@ -480,36 +573,62 @@
     }
 
     .carousel-control svg {
-        width: 16px;
-        height: 16px;
+        width: 14px;
+        height: 14px;
     }
 
     .carousel-no-image {
-        height: 250px;
+        height: 220px;
     }
 
     .carousel-no-image .event-name-display {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         padding: 20px;
     }
 
     .carousel-inner {
-        min-height: 250px;
+        min-height: 220px;
     }
 
     .carousel-image {
-        height: 250px;
+        height: 220px;
+    }
+
+    .carousel-event-overlay {
+        padding: 14px 10px 12px;
     }
 
     .carousel-event-link .event-title {
         font-size: 1.1rem;
-        padding: 15px 8px 12px 8px;
+        margin: 0 0 8px 0;
         letter-spacing: 0.2px;
         line-height: 1.2;
     }
 
+    .event-meta-brief {
+        font-size: 0.6rem;
+        gap: 5px;
+    }
+
+    .event-meta-brief .event-meta-location {
+        max-width: 160px;
+    }
+
+    .event-meta-brief .event-meta-type,
+    .event-meta-brief .event-meta-registration {
+        padding: 0.2rem 0.4rem;
+    }
+
+    .event-badge--past,
+    .event-badge--upcoming {
+        font-size: 0.55rem;
+        padding: 0.18rem 0.4rem;
+        top: 0.4rem;
+        right: 0.4rem;
+    }
+
     .carousel-event-link::after {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         letter-spacing: 0.5px;
     }
 
@@ -545,5 +664,30 @@
     color: #ffffff;
     background: rgba(255, 255, 255, 0.22);
     border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Badge "À venir" pour événements futurs (carousel homepage) */
+.event-badge--upcoming {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 4;
+    display: inline-block;
+    padding: 0.28rem 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #0d3d0d;
+    background: rgba(56, 239, 125, 0.95);
+    border-radius: 9999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.dark-mode .event-badge--upcoming {
+    color: #0d3d0d;
+    background: rgba(56, 239, 125, 0.85);
+    border: 1px solid rgba(56, 239, 125, 0.5);
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
 }

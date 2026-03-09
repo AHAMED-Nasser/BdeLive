@@ -891,6 +891,132 @@ class UserManagerTest extends TestCase
         $this->assertEquals(1, $result);
     }
 
+    // ==================== Tests countActiveUsersByRole (règle min 1 admin + 1 super_admin) ====================
+
+    /**
+     * Vérifie que countActiveUsersByRole('admin') retourne le bon nombre.
+     * Utilisé pour la règle : il doit rester au moins 1 administrateur actif.
+     */
+    public function testCountActiveUsersByRoleReturnsCorrectCountForAdmin(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(2);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->callback(fn (string $sql) => str_contains($sql, 'role') && str_contains($sql, ':role')))
+            ->willReturn($this->mockStmt);
+
+        $this->mockStmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':role', 'admin', PDO::PARAM_STR);
+
+        $result = $this->userManager->countActiveUsersByRole('admin');
+
+        $this->assertEquals(2, $result);
+    }
+
+    /**
+     * Vérifie que countActiveUsersByRole('super_admin') retourne le bon nombre.
+     * Utilisé pour la règle : il doit rester au moins 1 super administrateur actif.
+     */
+    public function testCountActiveUsersByRoleReturnsCorrectCountForSuperAdmin(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->callback(fn (string $sql) => str_contains($sql, 'role') && str_contains($sql, ':role')))
+            ->willReturn($this->mockStmt);
+
+        $this->mockStmt->expects($this->once())
+            ->method('bindValue')
+            ->with(':role', 'super_admin', PDO::PARAM_STR);
+
+        $result = $this->userManager->countActiveUsersByRole('super_admin');
+
+        $this->assertEquals(1, $result);
+    }
+
+    /**
+     * Vérifie que countActiveUsersByRole retourne 0 quand aucun utilisateur actif n'a le rôle.
+     */
+    public function testCountActiveUsersByRoleReturnsZeroWhenNoActiveUsers(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(0);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $result = $this->userManager->countActiveUsersByRole('admin');
+
+        $this->assertEquals(0, $result);
+    }
+
+    /**
+     * Règle métier : il doit rester au moins 1 admin actif.
+     * Quand countActiveUsersByRole('admin') <= 1, AdminSectionController bloque soft_delete, demote, block.
+     */
+    public function testLastAdminGuardCountIsOneBlocksDestructiveAction(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $adminCount = $this->userManager->countActiveUsersByRole('admin');
+
+        $this->assertEquals(1, $adminCount);
+    }
+
+    /**
+     * Règle métier : il doit rester au moins 1 super_admin actif.
+     * Quand countActiveUsersByRole('super_admin') <= 1, AdminSectionController bloque soft_delete, demote_super_admin, block.
+     */
+    public function testLastSuperAdminGuardCountIsOneBlocksDestructiveAction(): void
+    {
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->willReturn(true);
+
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn(1);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->willReturn($this->mockStmt);
+
+        $superAdminCount = $this->userManager->countActiveUsersByRole('super_admin');
+
+        $this->assertEquals(1, $superAdminCount);
+    }
+
     // ==================== Tests de sécurité SQL ====================
 
     public function testGetUsersProtectsAgainstSQLInjection(): void
