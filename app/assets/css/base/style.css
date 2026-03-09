@@ -1677,6 +1677,30 @@ a {
     box-shadow: 0 8px 12px var(--shadow-md);
 }
 
+@media (max-width: 768px) {
+    .event-grid-images {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 20px 0;
+    }
+
+    .event-gallery-image {
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .event-grid-images {
+        gap: 8px;
+        margin: 15px 0;
+    }
+
+    .event-gallery-image {
+        height: 180px;
+        border-radius: 6px;
+    }
+}
+
 /* ===== EVENT SHOW PAGE SPECIFIC STYLES ===== */
 /* Registration button - Light Mode: Dark green with white text */
 .registration-section .btn-success,
