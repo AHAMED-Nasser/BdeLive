@@ -71,7 +71,7 @@ Container ..> AbstractController : 3. Instancie et injecte
 
 AbstractController ..> EventRepository : 4. Demande les données
 EventRepository ..> Database : 5. Requête SQL
-EventRepository ..> EventFactory : 6. Utilise pour hydrater
+EventRepository ..> EventFactory : 6. Délègue le mapping
 EventFactory ..> Event : 7. Crée l'entité
 
 EventRepository ..> Event : 8. Retourne
