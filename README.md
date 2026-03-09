@@ -89,6 +89,61 @@ la requête HTTP entrante et dispatche vers le contrôleur approprié via un con
 dépendances. Chaque domaine (Articles, Events, Users, Admin, Public…) regroupe ses propres contrôleurs,
 modèles, repositories et vues.
 
+Le schéma ci-dessous illustre les éléments principaux de l'architecture et les **nouvelles classes** par rapport
+à la version initiale (BdeLive-main) : couche Entités, Factories (Data Mapper), Container DI, et composants de
+sécurité (reCAPTCHA, anti-bruteforce).
+
+```mermaid
+classDiagram
+    class Application <<Singleton>>
+    class Database <<Singleton>>
+    class Container <<NEW>>
+    class ContainerFactory <<NEW>>
+    class RecaptchaValidator <<NEW>>
+    class MarkdownRenderer <<NEW>>
+    class AuthManager <<Refactored>>
+    class Event <<NEW>>
+    class Article <<NEW>>
+    class EventFactory <<NEW>>
+    class ArticleFactory <<NEW>>
+    class ArticleRepository <<NEW>>
+    class EventRepository <<Refactored>>
+    class EventModel <<Refactored>>
+    class ArticleModel <<Refactored>>
+    class UserManager <<Refactored>>
+    class LoginAttemptManager <<NEW>>
+    class CloudinaryService
+
+    BaseController <|-- DefaultController
+    BaseController <|-- AuthenticatedController
+    AuthenticatedController <|-- AdminController
+    BaseController <|-- ArticlesController
+    DefaultController <|-- ShowEventController
+    AdminController <|-- CreateEventController
+
+    ContainerFactory ..> Container : creates
+    ContainerFactory ..> ArticleRepository : binds
+    ContainerFactory ..> EventRepository : binds
+
+    ArticleRepository o-- Article
+    EventRepository o-- Event
+    ArticleRepository ..> ArticleFactory : uses
+    EventRepository ..> EventFactory : uses
+    ArticleFactory ..> Article : creates
+    EventFactory ..> Event : creates
+
+    ArticlesController ..> ArticleRepository : injecté
+    CreateEventController ..> EventRepository : injecté
+    CreateEventController ..> CloudinaryService : injecté
+    ShowEventController ..> EventRepository : injecté
+
+    Application *-- SessionManager
+    Application *-- AuthManager
+    Application *-- CsrfProtection
+```
+
+**Légende :** `<<NEW>>` = nouvelle classe (vs BdeLive-main) · `<<Refactored>>` = classe modifiée · `..>` = dépendance (sens Clean Architecture) · `--|>` = héritage · `o--` = agrégation
+
 > La documentation technique complète (diagrammes de classes UML, diagrammes de séquence,
 > diagramme des cas d'utilisation, conformité MVC) est disponible dans le dossier `docs/`.
 >
