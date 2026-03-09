@@ -8,7 +8,7 @@
 }
 
 .events-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
     padding: 45px 20px 30px 20px;
     letter-spacing: 0.5px;
 }
@@ -16,14 +16,14 @@
 /* Responsive section titles */
 @media (max-width: 768px) {
     .events-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         padding: 30px 15px 20px 15px;
     }
 }
 
 @media (max-width: 480px) {
     .events-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         padding: 25px 10px 15px 10px;
         line-height: 1.3;
     }
@@ -63,7 +63,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: white;
     opacity: 0;
@@ -105,7 +105,7 @@
     color: white;
     padding: 0;
     margin: 0 0 12px 0;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 700;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
@@ -120,7 +120,7 @@
     gap: 8px;
     justify-content: center;
     align-items: center;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     color: #ffffff;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.7);
 }
@@ -433,11 +433,11 @@
     }
 
     .event-meta-brief {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
     }
 
     .carousel-event-link::after {
-        font-size: 1.3rem;
+        font-size: 1.15rem;
         letter-spacing: 1.5px;
     }
 }
@@ -490,7 +490,7 @@
     }
 
     .carousel-event-link .event-title {
-        font-size: 1.35rem;
+        font-size: 1.3rem;
         margin: 0 0 10px 0;
         letter-spacing: 0.3px;
     }
@@ -498,7 +498,7 @@
     .event-meta-brief {
         flex-direction: column;
         gap: 6px;
-        font-size: 0.68rem;
+        font-size: 0.75rem;
     }
 
     .event-meta-brief .event-meta-date {
@@ -519,7 +519,7 @@
 
     .event-badge--past,
     .event-badge--upcoming {
-        font-size: 0.6rem;
+        font-size: 0.75rem;
         padding: 0.2rem 0.5rem;
         top: 0.5rem;
         right: 0.5rem;
@@ -599,14 +599,14 @@
     }
 
     .carousel-event-link .event-title {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         margin: 0 0 8px 0;
         letter-spacing: 0.2px;
         line-height: 1.2;
     }
 
     .event-meta-brief {
-        font-size: 0.6rem;
+        font-size: 0.7rem;
         gap: 5px;
     }
 
@@ -621,14 +621,14 @@
 
     .event-badge--past,
     .event-badge--upcoming {
-        font-size: 0.55rem;
+        font-size: 0.7rem;
         padding: 0.18rem 0.4rem;
         top: 0.4rem;
         right: 0.4rem;
     }
 
     .carousel-event-link::after {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         letter-spacing: 0.5px;
     }
 
@@ -650,7 +650,7 @@
     z-index: 4;
     display: inline-block;
     padding: 0.28rem 0.65rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -675,7 +675,7 @@
     z-index: 4;
     display: inline-block;
     padding: 0.28rem 0.65rem;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     text-transform: uppercase;
