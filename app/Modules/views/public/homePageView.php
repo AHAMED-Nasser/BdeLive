@@ -180,9 +180,8 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
             <div class="articles-grid-home">
                 <?php foreach ($articles as $index => $article) : ?>
                     <?php
-                    // Use entity method for short description
-                    $preview = $article->getShortDescription(150);
-                    $fullDescription = strip_tags($article->getDescription());
+                    $preview = \App\Core\Markdown\MarkdownRenderer::toPlainPreview($article->getDescription(), 150);
+                    $fullDescription = $article->getDescription() ?? '';
                     $isLong = mb_strlen($fullDescription) > 150;
                     ?>
                     <article class="article-card-home">

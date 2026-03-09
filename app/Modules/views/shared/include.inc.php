@@ -92,6 +92,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="stylesheet" href="./assets/css/base/password-control.css">
+        <link rel="stylesheet" href="./assets/css/base/markdown.css">
         <link rel="stylesheet" href="./assets/css/base/style.css">
         <link rel="stylesheet" href="./assets/css/layout/footer.css">
         <link rel="stylesheet" href="./assets/css/layout/navbar.css">
@@ -443,6 +444,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <script src="./assets/js/passwordControl.js"></script>
         <script src="./assets/js/navbar-scroll.js"></script>
         <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+        <script src="./assets/js/markdownEditor.js"></script>
 
         <!-- Script pour fermer le menu mobile au clic sur un lien -->
         <script src="./assets/js/mobile-menu.js"></script>

@@ -5,6 +5,7 @@
  * @var \App\Modules\Entities\Article $article Article entity
  */
 start_page(htmlspecialchars($article->getTitle()), true, $user ?? null);
+$articleDescriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($article->getDescription());
 ?>
 
 <section class="article-section">
@@ -38,8 +39,8 @@ start_page(htmlspecialchars($article->getTitle()), true, $user ?? null);
                     le <?= htmlspecialchars($article->getFormattedDate()) ?>
                 </p>
 
-                <div class="article-full-description">
-                    <?= nl2br(htmlspecialchars($article->getDescription())) ?>
+                <div class="article-full-description markdown-content">
+                    <?= $articleDescriptionHtml ?>
                 </div>
 
                 <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
