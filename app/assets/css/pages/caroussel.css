@@ -493,6 +493,7 @@
         font-size: 1.3rem;
         margin: 0 0 10px 0;
         letter-spacing: 0.3px;
+        padding-right: 75px;
     }
 
     .event-meta-brief {
@@ -604,6 +605,7 @@
         margin: 0 0 8px 0;
         letter-spacing: 0.2px;
         line-height: 1.2;
+        padding-right: 70px;
     }
 
     .event-meta-brief {
