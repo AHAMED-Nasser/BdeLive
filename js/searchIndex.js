@@ -931,6 +931,21 @@ Search.appendIndex(
             "summary": "Handles\u0020administrative\u0020actions\u0020performed\u0020on\u0020users.",
             "url": "classes/App-Modules-Controllers-Admin-AdminSectionController.html#method_handleAction"
         },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController",
+            "name": "ExportUserListController",
+            "summary": "Contr\u00F4leur\u0020responsable\u0020de\u0020l\u0027exportation\u0020de\u0020la\u0020liste\u0020des\u0020utilisateurs\u0020en\u0020PDF.",
+            "url": "classes/App-Modules-Controllers-Admin-ExportUserListController.html"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020\u002D\u0020Automatically\u0020checks\u0020authentication\u0020and\u0020admin\u0020rights",
+            "url": "classes/App-Modules-Controllers-Admin-ExportUserListController.html#method___construct"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController\u003A\u003AgeneratePdf\u0028\u0029",
+            "name": "generatePdf",
+            "summary": "",
+            "url": "classes/App-Modules-Controllers-Admin-ExportUserListController.html#method_generatePdf"
+        },                {
             "fqsen": "\\App\\Modules\\Controllers\\AdminController",
             "name": "AdminController",
             "summary": "AdminController\u0020\u002D\u0020Base\u0020Controller\u0020for\u0020Administrator\u0020Pages\u0020\u0028BDE\u0020Only\u0029",
