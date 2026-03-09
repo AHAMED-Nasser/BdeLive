@@ -17,11 +17,8 @@
 start_page("Emploi du temps - BDELive", true, $user ?? null);
 ?>
 
-<link rel="stylesheet" href="./assets/css/pages/weekly-schedule.css">
-<link rel="stylesheet" href="./assets/css/pages/calendar.css">
-<script src="/assets/js/schedule-ajax.js" defer></script>
-<script src="/assets/js/schedule-filters.js" defer></script>
-<script src="/assets/js/schedule-modal.js" defer></script>
+<script src="./assets/js/schedule-ajax.js" defer></script>
+<script src="./assets/js/schedule-filters.js" defer></script>
 
 <main class="schedule-container">
     <?php if (!empty($flash['error'])) : ?>
