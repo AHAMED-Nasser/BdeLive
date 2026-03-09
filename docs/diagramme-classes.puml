@@ -1,0 +1,81 @@
+@startuml BdeLive - Architecture conceptuelle (MVC 2 + Data Mapper + DI)
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageStyle rectangle
+
+title Architecture conceptuelle - BdeLive\nMVC 2 · Data Mapper · Injection de Dépendances · Clean Architecture
+
+' ==================== COUCHE CORE ====================
+package "Core" #E8F4F8 {
+  class Application {
+    + boot(): void
+    + request(): Request
+    + response(): Response
+  }
+  class Request {
+    + get(), post(), method()
+  }
+  class Container {
+    + get(id): object
+    + set(id, builder): self
+  }
+  class Database {
+    + getConnection(): PDO
+  }
+}
+
+' ==================== COUCHE CONTROLLERS ====================
+package "Controllers" #F0E8F8 {
+  abstract class AbstractController {
+    # render(view, data): void
+    # redirect(url): never
+  }
+}
+
+' ==================== COUCHE VIEWS ====================
+package "Views (Templates PHP)" #F8F0E8 {
+  class View {
+    Données via render()
+    HTML échappé
+  }
+}
+
+' ==================== COUCHE DOMAIN (exemple Event) ====================
+package "Domain" #F0F8E8 {
+  package "Repositories" {
+    class EventRepository {
+      - pdo: PDO
+      + findById(id): Event|null
+      + save(event: Event): bool
+    }
+  }
+  package "Factories" {
+    class EventFactory {
+      + createFromDatabase(data): Event
+      + toDatabase(event): array
+    }
+  }
+  package "Entities" {
+    class Event {
+      Objet métier pur
+      Pas de logique BDD
+    }
+  }
+}
+
+' ==================== FLUX - CLEAN ARCHITECTURE (..> = dépendance) ====================
+Application ..> Request : 1. Reçoit la requête
+Application ..> Container : 2. Demande le Controller via DI
+Container ..> AbstractController : 3. Instancie et injecte
+
+AbstractController ..> EventRepository : 4. Demande les données
+EventRepository ..> Database : 5. Requête SQL
+EventRepository ..> EventFactory : 6. Utilise pour hydrater
+EventFactory ..> Event : 7. Crée l'entité
+
+EventRepository ..> Event : 8. Retourne
+AbstractController ..> Event : 9. Reçoit
+AbstractController ..> View : 10. Passe les données
+
+@enduml
