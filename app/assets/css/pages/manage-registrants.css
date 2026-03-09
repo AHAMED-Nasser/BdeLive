@@ -34,14 +34,24 @@
  * Batch delete actions — hidden by default, visible in manage mode
  * =================================================================== */
 
-.manage-registrants-actions {
+.manage-registrants-actions,
+.manage-registrants-actions-top {
     display: none;
     justify-content: center;
-    margin-top: 20px;
     padding: 16px 0;
 }
 
-.manage-mode .manage-registrants-actions {
+.manage-registrants-actions {
+    margin-top: 20px;
+}
+
+.manage-registrants-actions-top {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.manage-mode .manage-registrants-actions,
+.manage-mode .manage-registrants-actions-top {
     display: flex;
 }
 

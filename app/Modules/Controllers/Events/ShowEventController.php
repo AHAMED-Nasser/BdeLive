@@ -80,6 +80,13 @@ class ShowEventController extends DefaultController
                 $registrants = $registrationRepo->getIndividualRegistrantsForEvent((int) $event->getId());
             }
 
+            $returnUrl = $this->request->get('return_url', '');
+            $returnUrl = is_string($returnUrl) ? trim($returnUrl) : '';
+            // Sécurité : n'accepter que les URLs relatives vers la page event (évite open redirect)
+            if ($returnUrl !== '' && strpos($returnUrl, 'index.php?page=event') !== 0 && strpos($returnUrl, '/index.php?page=event') !== 0) {
+                $returnUrl = '';
+            }
+
             $this->render('events/showEventView', [
                 'event' => $event,
                 'eventId' => $event->getId(),
@@ -87,7 +94,8 @@ class ShowEventController extends DefaultController
                 'registrationRepo' => $registrationRepo,
                 'registrants' => $registrants,
                 'groupRegistrants' => $groupRegistrants,
-                'totalGroupRegistrants' => $totalGroupRegistrants
+                'totalGroupRegistrants' => $totalGroupRegistrants,
+                'returnUrl' => $returnUrl
             ]);
         } catch (Exception $e) {
             $this->setError("Erreur : " . $e->getMessage());

@@ -1,5 +1,5 @@
 let slideIndexes = {};
-const AUTO_PLAY_INTERVAL_MS = 3000; // 5 secondes - vitesse optimale UX
+const AUTO_PLAY_INTERVAL_MS = 5000; // 5 secondes - vitesse optimale UX
 const HOME_CAROUSEL_ID = 'carousel-future-event';
 let autoPlayTimers = {};
 

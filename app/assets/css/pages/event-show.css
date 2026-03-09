@@ -3,6 +3,22 @@
  * Styles for the event detail page (showEventView.php)
  */
 
+/* Lien retour vers l'agenda */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    transition: opacity 0.2s;
+}
+
+.back-link:hover {
+    opacity: 0.8;
+}
+
 /* Modifying the description size */
 
 .event-description h2 {
@@ -157,7 +173,8 @@
 }
 
 /* Les <form> dans la zone admin ne s'étirent pas */
-.admin-zone-actions form {
+.admin-zone-actions form,
+.admin-zone-actions .inline-form {
     margin: 0;
     padding: 0;
     display: inline-flex;
@@ -187,6 +204,16 @@
     font-family: "JetBrains Mono", monospace;
     appearance: none;
     -webkit-appearance: none;
+}
+
+/* Cohérence des boutons dans la zone admin (même hauteur, même style) */
+.admin-zone-actions form {
+    min-height: 46px;
+}
+
+.admin-zone-actions form button,
+.admin-zone-actions a.btn-edit {
+    min-height: 46px;
 }
 
 /* Normaliser les <button> dans un <form> pour qu'ils aient le même rendu */

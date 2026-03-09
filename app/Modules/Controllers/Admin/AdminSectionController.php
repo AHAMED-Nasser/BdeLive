@@ -80,25 +80,32 @@ class AdminSectionController extends AdminController
             );
         }
 
+        $adminCount      = $userManager->countActiveUsersByRole('admin');
+        $superAdminCount = $userManager->countActiveUsersByRole('super_admin');
+
         if ($this->request->get('ajax') === '1') {
             $this->render("admin/partials/usersTablePartial", [
-                'users' => $users,
-                'pagination' => $pagination,
-                'currentFilter' => $filter,
-                'roleFilter' => $roleFilter,
-                'search' => $search,
+                'users'          => $users,
+                'pagination'     => $pagination,
+                'currentFilter'  => $filter,
+                'roleFilter'     => $roleFilter,
+                'search'         => $search,
                 'currentUserRole' => $currentUserRole,
+                'adminCount'     => $adminCount,
+                'superAdminCount' => $superAdminCount,
             ]);
             exit;
         }
 
         $this->render("admin/adminSectionView", [
-            'users' => $users,
-            'pagination' => $pagination,
-            'currentFilter' => $filter,
-            'roleFilter' => $roleFilter,
-            'search' => $search,
+            'users'          => $users,
+            'pagination'     => $pagination,
+            'currentFilter'  => $filter,
+            'roleFilter'     => $roleFilter,
+            'search'         => $search,
             'currentUserRole' => $currentUserRole,
+            'adminCount'     => $adminCount,
+            'superAdminCount' => $superAdminCount,
         ]);
     }
 
@@ -149,6 +156,28 @@ class AdminSectionController extends AdminController
                 'index.php?page=home',
                 'Accès refusé.'
             );
+        }
+
+        // --- Guard: at least 1 active admin and 1 active super_admin must always remain ---
+        $destructiveOnAdmin      = ['soft_delete', 'demote', 'block'];
+        $destructiveOnSuperAdmin = ['soft_delete', 'demote_super_admin', 'block'];
+
+        if ($targetRole === 'admin' && in_array($action, $destructiveOnAdmin, true)) {
+            if ($manager->countActiveUsersByRole('admin') <= 1) {
+                $this->redirectWithError(
+                    'index.php?page=adminSection',
+                    'Action impossible : il doit rester au moins un administrateur actif.'
+                );
+            }
+        }
+
+        if ($targetRole === 'super_admin' && in_array($action, $destructiveOnSuperAdmin, true)) {
+            if ($manager->countActiveUsersByRole('super_admin') <= 1) {
+                $this->redirectWithError(
+                    'index.php?page=adminSection',
+                    'Action impossible : il doit rester au moins un super administrateur actif.'
+                );
+            }
         }
 
         // --- Execute action ---

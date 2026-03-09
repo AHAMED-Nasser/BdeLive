@@ -47,7 +47,7 @@ start_page("Créer un article", true, $user ?? null) ?>
                 data-autosave-id="article_description"
                 placeholder="Contenu de l'article en Markdown..."
                 name="article-description"
-                rows="10"
+                rows="20"
                 required></textarea>
 
             <label for="author">Auteur de l'article</label>

@@ -32,7 +32,14 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
     <link rel="stylesheet" href="assets/css/pages/manage-registrants.css">
 <?php endif; ?>
 
+<?php
+$backHref = !empty($returnUrl) ? htmlspecialchars($returnUrl) : 'index.php?page=event';
+$backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événements';
+?>
 <div class="container event-detail-page">
+    <a href="<?= $backHref ?>" class="back-link">
+        <i class="fas fa-arrow-left"></i> <?= htmlspecialchars($backLabel) ?>
+    </a>
     <h1 class="text-center event-page-title"><?= htmlspecialchars($event->getName()) ?></h1>
 
     <!-- Messages flash -->
@@ -120,7 +127,13 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                 <form method="post" action="index.php?page=manageRegistrants" id="manage-registrants-form">
                     <input type="hidden" name="event_id" value="<?= $eventId ?>">
                     <?= $csrf->getTokenField() ?>
-            <?php endif; ?>
+                    <?php if (!empty($registrants)) : ?>
+                    <div class="manage-registrants-actions manage-registrants-actions-top">
+                        <button type="submit" class="btn-remove-registrants" id="btn-remove-registrants" disabled>
+                            <i class="fas fa-trash-alt"></i> Supprimer les inscrits sélectionnés
+                        </button>
+                    </div>
+                    <?php endif; ?>
 
                 <?php if (!empty($registrants)) : ?>
                     <div class="table-responsive">
@@ -165,14 +178,6 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                     <p class="empty-registrants-message">Aucun inscrit pour le moment.</p>
                 <?php endif; ?>
 
-                <?php if ($isAdmin) : ?>
-                    <div class="manage-registrants-actions">
-                        <?php if (!empty($registrants)) : ?>
-                            <button type="submit" class="btn-remove-registrants" id="btn-remove-registrants" disabled>
-                                <i class="fas fa-trash-alt"></i> Supprimer les inscrits sélectionnés
-                            </button>
-                        <?php endif; ?>
-                    </div>
                 </form>
 
                 <!-- Add registrant panel (visible in manage mode) -->
@@ -197,7 +202,7 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                         </button>
                     </form>
                 </div>
-                <?php endif; ?>
+            <?php endif; ?>
         </div>
     <?php endif; ?>
 
@@ -214,6 +219,20 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                     ?>
                     <div class="group-block" data-team-id="<?= $currentTeamId ?>" data-team-number="<?= (int) $teamNumber ?>">
                         <h3 class="group-header">Groupe <?= (int) $teamNumber ?></h3>
+
+                        <?php if ($isAdmin) : ?>
+                            <!-- Delete group form (en haut pour rester visible avec beaucoup d'inscrits) -->
+                            <form method="post" action="index.php?page=manageRegistrants" class="group-delete-form"
+                                style="display:none">
+                                <input type="hidden" name="event_id" value="<?= $eventId ?>">
+                                <input type="hidden" name="action" value="group_delete">
+                                <input type="hidden" name="team_id" value="<?= $currentTeamId ?>">
+                                <?= $csrf->getTokenField() ?>
+                                <button type="submit" class="btn-delete-group">
+                                    <i class="fas fa-trash-alt"></i> Supprimer le groupe <?= (int) $teamNumber ?>
+                                </button>
+                            </form>
+                        <?php endif; ?>
 
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -278,18 +297,6 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                                         <i class="fas fa-user-minus"></i> Retirer les sélectionnés
                                     </button>
                                 </div>
-                            </form>
-
-                            <!-- Delete group form -->
-                            <form method="post" action="index.php?page=manageRegistrants" class="group-delete-form"
-                                style="display:none">
-                                <input type="hidden" name="event_id" value="<?= $eventId ?>">
-                                <input type="hidden" name="action" value="group_delete">
-                                <input type="hidden" name="team_id" value="<?= $currentTeamId ?>">
-                                <?= $csrf->getTokenField() ?>
-                                <button type="submit" class="btn-delete-group">
-                                    <i class="fas fa-trash-alt"></i> Supprimer le groupe <?= (int) $teamNumber ?>
-                                </button>
                             </form>
                         <?php endif; ?>
                     </div>
@@ -364,7 +371,7 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
                         data-confirm-msg="Êtes-vous sûr de vouloir supprimer cet événement ? Cette action est irréversible.">Supprimer</button>
                 </form>
 
-                <form action="index.php?page=exportUserEvent" method="post" style="margin: 0;">
+                <form action="index.php?page=exportUserEvent" method="post" class="inline-form">
                     <input type="hidden" name="id" value="<?= $eventId ?>">
                     <button type="submit" title="Télécharger la liste des participants au format PDF"
                         class="btn-view">Export PDF des inscriptions</button>

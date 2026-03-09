@@ -72,11 +72,13 @@ start_page("Administration | BDE Live", true, $user ?? null);
         <!-- Actions d'exportation-->
         <nav class="filter-section">
             <h3 class="filter-title">Actions</h3>
+            <p class="filter-hint">Export PDF selon les filtres sélectionnés (statut, rôle, recherche).</p>
             <ul class="admin-nav-list">
                 <li>
                     <a href="javascript:void(0);"
                        onclick="submitExport()"
-                       class="admin-nav-link">
+                       class="admin-nav-link"
+                       title="Exporter en PDF la liste filtrée (statut, rôle, recherche)">
                         <i class="fas fa-file-pdf"></i> Exporter la liste
                     </a>
                 </li>
