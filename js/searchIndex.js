@@ -1316,6 +1316,66 @@ Search.appendIndex(
             "summary": "Invitation\u0020repository\u0020instance",
             "url": "classes/App-Modules-Controllers-Events-GroupRegistrationController.html#property_invitationRepo"
         },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController",
+            "name": "ManageRegistrantsController",
+            "summary": "ManageRegistrantsController\u0020\u002D\u0020Admin\u0020batch\u0020management\u0020of\u0020event\u0020registrants",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020\u002D\u0020Handle\u0020batch\u0020registrant\u0020management",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method___construct"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgetValidatedUserIds\u0028\u0029",
+            "name": "getValidatedUserIds",
+            "summary": "Validate\u0020and\u0020return\u0020sanitized\u0020user\u0020IDs\u0020from\u0020POST\u0020data",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_getValidatedUserIds"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AaddRegistrants\u0028\u0029",
+            "name": "addRegistrants",
+            "summary": "Add\u0020selected\u0020users\u0020as\u0020registrants\u0020to\u0020the\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_addRegistrants"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AremoveRegistrants\u0028\u0029",
+            "name": "removeRegistrants",
+            "summary": "Remove\u0020selected\u0020registrants\u0020from\u0020the\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_removeRegistrants"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgroupAdd\u0028\u0029",
+            "name": "groupAdd",
+            "summary": "Add\u0020selected\u0020users\u0020to\u0020a\u0020specific\u0020team\u0020in\u0020a\u0020group\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_groupAdd"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgroupRemove\u0028\u0029",
+            "name": "groupRemove",
+            "summary": "Remove\u0020selected\u0020users\u0020from\u0020their\u0020group\u0020in\u0020a\u0020group\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_groupRemove"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgroupMove\u0028\u0029",
+            "name": "groupMove",
+            "summary": "Move\u0020a\u0020user\u0020to\u0020a\u0020different\u0020team\u0020within\u0020the\u0020same\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_groupMove"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgroupDelete\u0028\u0029",
+            "name": "groupDelete",
+            "summary": "Delete\u0020an\u0020entire\u0020team\u0020and\u0020all\u0020its\u0020registrations",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_groupDelete"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003AgroupCreate\u0028\u0029",
+            "name": "groupCreate",
+            "summary": "Create\u0020a\u0020new\u0020group\u0020and\u0020add\u0020selected\u0020users\u0020to\u0020it",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#method_groupCreate"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003A\u0024registrationRepo",
+            "name": "registrationRepo",
+            "summary": "Event\u0020registration\u0020repository\u0020instance",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#property_registrationRepo"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\ManageRegistrantsController\u003A\u003A\u0024teamRepo",
+            "name": "teamRepo",
+            "summary": "Event\u0020team\u0020repository\u0020instance",
+            "url": "classes/App-Modules-Controllers-Events-ManageRegistrantsController.html#property_teamRepo"
+        },                {
             "fqsen": "\\App\\Modules\\Controllers\\Events\\RegisterEventController",
             "name": "RegisterEventController",
             "summary": "RegisterEventController\u0020\u002D\u0020Event\u0020Registration\u0020Management",
@@ -1355,6 +1415,21 @@ Search.appendIndex(
             "name": "eventRepository",
             "summary": "",
             "url": "classes/App-Modules-Controllers-Events-RegisterEventController.html#property_eventRepository"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\SearchUsersController",
+            "name": "SearchUsersController",
+            "summary": "SearchUsersController\u0020\u002D\u0020AJAX\u0020endpoint\u0020for\u0020searching\u0020users\u0020and\u0020teams",
+            "url": "classes/App-Modules-Controllers-Events-SearchUsersController.html"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\SearchUsersController\u003A\u003A__construct\u0028\u0029",
+            "name": "__construct",
+            "summary": "Constructor\u0020\u002D\u0020Handle\u0020AJAX\u0020search\u0020request",
+            "url": "classes/App-Modules-Controllers-Events-SearchUsersController.html#method___construct"
+        },                {
+            "fqsen": "\\App\\Modules\\Controllers\\Events\\SearchUsersController\u003A\u003AsearchTeams\u0028\u0029",
+            "name": "searchTeams",
+            "summary": "Search\u0020teams\u0020for\u0020a\u0020group\u0020event",
+            "url": "classes/App-Modules-Controllers-Events-SearchUsersController.html#method_searchTeams"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Events\\ShowEventController",
             "name": "ShowEventController",
@@ -3065,6 +3140,51 @@ Search.appendIndex(
             "name": "getRegisteredUsersGroupedForPdf",
             "summary": "Get\u0020registered\u0020users\u0020grouped\u0020by\u0020team\u0020for\u0020PDF\u0020export",
             "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersGroupedForPdf"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AgetIndividualRegistrantsForEvent\u0028\u0029",
+            "name": "getIndividualRegistrantsForEvent",
+            "summary": "Get\u0020individual\u0020registrations\u0020for\u0020an\u0020event",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getIndividualRegistrantsForEvent"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AgetGroupRegistrantsForEvent\u0028\u0029",
+            "name": "getGroupRegistrantsForEvent",
+            "summary": "Get\u0020group\u0020registrants\u0020for\u0020an\u0020event,\u0020grouped\u0020by\u0020team\u0020number",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getGroupRegistrantsForEvent"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AunregisterUsers\u0028\u0029",
+            "name": "unregisterUsers",
+            "summary": "Batch\u0020unregister\u0020multiple\u0020users\u0020from\u0020an\u0020event",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AsearchUsersNotRegistered\u0028\u0029",
+            "name": "searchUsersNotRegistered",
+            "summary": "Search\u0020users\u0020not\u0020registered\u0020to\u0020a\u0020specific\u0020event",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_searchUsersNotRegistered"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AregisterUsers\u0028\u0029",
+            "name": "registerUsers",
+            "summary": "Register\u0020multiple\u0020users\u0020to\u0020an\u0020event\u0020in\u0020a\u0020single\u0020operation",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUsers"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AremoveUserFromGroup\u0028\u0029",
+            "name": "removeUserFromGroup",
+            "summary": "Remove\u0020a\u0020user\u0020from\u0020a\u0020group\u0020event\u0020registration",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_removeUserFromGroup"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AchangeUserTeam\u0028\u0029",
+            "name": "changeUserTeam",
+            "summary": "Move\u0020a\u0020user\u0020to\u0020a\u0020different\u0020team\u0020within\u0020the\u0020same\u0020event",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_changeUserTeam"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AaddUserToGroup\u0028\u0029",
+            "name": "addUserToGroup",
+            "summary": "Add\u0020a\u0020user\u0020to\u0020a\u0020group\u0020event\u0020with\u0020team\u0020assignment",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_addUserToGroup"
+        },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AdeleteGroupRegistrants\u0028\u0029",
+            "name": "deleteGroupRegistrants",
+            "summary": "Delete\u0020all\u0020registrations\u0020for\u0020a\u0020specific\u0020team\u0020in\u0020an\u0020event",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteGroupRegistrants"
         },                {
             "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AunregisterUserFromFutureEvents\u0028\u0029",
             "name": "unregisterUserFromFutureEvents",

@@ -280,6 +280,27 @@ Handles user registration and unregistration for events.</p>
 <dd>Constructor - Initialize database connection</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_addUserToGroup">addUserToGroup()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Add a user to a group event with team assignment</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_changeUserTeam">changeUserTeam()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Move a user to a different team within the same event</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteGroupRegistrants">deleteGroupRegistrants()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Delete all registrations for a specific team in an event</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteRegistrationsByEvent">deleteRegistrationsByEvent()</a>
     <span>
                                 &nbsp;: int    </span>
@@ -292,6 +313,20 @@ Handles user registration and unregistration for events.</p>
                                 &nbsp;: int    </span>
 </dt>
 <dd>Delete all registrations for a specific team</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getGroupRegistrantsForEvent">getGroupRegistrantsForEvent()</a>
+    <span>
+                                &nbsp;: array&lt;int, array&lt;int, array&lt;string, mixed&gt;&gt;&gt;    </span>
+</dt>
+<dd>Get group registrants for an event, grouped by team number</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getIndividualRegistrantsForEvent">getIndividualRegistrantsForEvent()</a>
+    <span>
+                                &nbsp;: array&lt;int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string}&gt;    </span>
+</dt>
+<dd>Get individual registrations for an event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersDetails">getRegisteredUsersDetails()</a>
@@ -343,11 +378,32 @@ Handles user registration and unregistration for events.</p>
 <dd>Register a user to an event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUsers">registerUsers()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Register multiple users to an event in a single operation</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUserWithTeam">registerUserWithTeam()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
 <dd>Register a user to an event as part of a team</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_removeUserFromGroup">removeUserFromGroup()</a>
+    <span>
+                                &nbsp;: bool    </span>
+</dt>
+<dd>Remove a user from a group event registration</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_searchUsersNotRegistered">searchUsersNotRegistered()</a>
+    <span>
+                                &nbsp;: array&lt;int, array{user_id: int, first_name: string, last_name: string, user_status: string}&gt;    </span>
+</dt>
+<dd>Search users not registered to a specific event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUser">unregisterUser()</a>
@@ -362,6 +418,13 @@ Handles user registration and unregistration for events.</p>
                                 &nbsp;: int    </span>
 </dt>
 <dd>Unregister a user from all future events</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUsers">unregisterUsers()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Batch unregister multiple users from an event</dd>
 
     </dl>
 
@@ -458,6 +521,224 @@ Handles user registration and unregistration for events.</p>
         
     
     
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_addUserToGroup">
+        addUserToGroup()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_addUserToGroup" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">552</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Add a user to a group event with team assignment</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">addUserToGroup</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$teamId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Creates a registration record with team_id. Uses INSERT IGNORE
+to skip if user is already registered.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$userId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The user identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$teamId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The team identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if registration created</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_changeUserTeam">
+        changeUserTeam()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_changeUserTeam" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">523</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Move a user to a different team within the same event</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">changeUserTeam</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$newTeamId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Updates the team_id in the registration record.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$userId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The user identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$newTeamId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The new team identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if update successful</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_deleteGroupRegistrants">
+        deleteGroupRegistrants()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteGroupRegistrants" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">581</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Delete all registrations for a specific team in an event</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">deleteGroupRegistrants</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$teamId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Removes all member registrations associated with a team_id
+within the given event.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$teamId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The team identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Number of registrations deleted</p>
+</section>
+
+            </section>
+
 </article>
                     <article
         class="phpdocumentor-element
@@ -570,6 +851,116 @@ Handles user registration and unregistration for events.</p>
                 <section class="phpdocumentor-description"><p>Number of registrations deleted</p>
 </section>
 
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getGroupRegistrantsForEvent">
+        getGroupRegistrantsForEvent()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getGroupRegistrantsForEvent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">330</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get group registrants for an event, grouped by team number</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getGroupRegistrantsForEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, array&lt;string, mixed&gt;&gt;&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Retrieves the list of users registered in teams for a group event.
+Results are grouped by team_number for display with group headers.
+Includes first name, last name, promotion (status), and registration date.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;int, array&lt;string, mixed&gt;&gt;&gt;</span>
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_getIndividualRegistrantsForEvent">
+        getIndividualRegistrantsForEvent()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getIndividualRegistrantsForEvent" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">305</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get individual registrations for an event</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getIndividualRegistrantsForEvent</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string}&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Retrieves the list of users registered individually to an event.
+Includes user ID, first name, last name, promotion (status), and registration date.
+Join with USERS table to get user details.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array{user_id: int, first_name: string, last_name: string, promotion: string, registration_date: string}&gt;</span>
             </section>
 
 </article>
@@ -998,6 +1389,73 @@ Does not check for duplicates - use isUserRegistered() first.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_registerUsers">
+        registerUsers()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUsers" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">467</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Register multiple users to an event in a single operation</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">registerUsers</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, int&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userIds</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Inserts registration records for the given user IDs. Uses INSERT IGNORE
+to gracefully skip users who are already registered.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$userIds</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, int&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Array of user identifiers to register</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Number of registrations successfully created</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_registerUserWithTeam">
         registerUserWithTeam()
         <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUserWithTeam" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1062,6 +1520,154 @@ Does not check for duplicates - use isUserRegistered() first.</p>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>True if registration successful, false otherwise</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_removeUserFromGroup">
+        removeUserFromGroup()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_removeUserFromGroup" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">500</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Remove a user from a group event registration</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">removeUserFromGroup</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">bool</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Deletes the registration record for the user in the given event.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$userId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The user identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">bool</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>True if deletion successful</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_searchUsersNotRegistered">
+        searchUsersNotRegistered()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_searchUsersNotRegistered" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">409</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Search users not registered to a specific event</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">searchUsersNotRegistered</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$limit</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">20</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;int, array{user_id: int, first_name: string, last_name: string, user_status: string}&gt;</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Returns users matching the search query who are not yet registered
+for the given event. Automatically detects search mode:</p>
+<ul>
+<li>Numeric query: searches by exact user_id</li>
+<li>Text query: searches by first_name or last_name using LIKE</li>
+</ul>
+<p>Uses LEFT JOIN anti-pattern instead of NOT IN for reliability
+with native prepared statements (EMULATE_PREPARES = false).</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$query</span>
+                : <span class="phpdocumentor-argument-list__argument__type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The search query (name or user_id)</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$limit</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                 = <span class="phpdocumentor-argument-list__argument__default-value">20</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Maximum number of results (default 20)</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">array&lt;int, array{user_id: int, first_name: string, last_name: string, user_status: string}&gt;</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Matching users</p>
 </section>
 
             </section>
@@ -1147,7 +1753,7 @@ Does not check for duplicates - use isUserRegistered() first.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">306</span>
+    <span class="phpdocumentor-element-found-in__line">605</span>
 
     </aside>
 
@@ -1187,6 +1793,73 @@ spots in upcoming events.</p>
         <span class="phpdocumentor-signature__response_type">int</span>
                     &mdash;
                 <section class="phpdocumentor-description"><p>Number of registrations removed</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_unregisterUsers">
+        unregisterUsers()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUsers" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">372</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Batch unregister multiple users from an event</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">unregisterUsers</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$eventId</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">array&lt;int, int&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$userIds</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+        <section class="phpdocumentor-description"><p>Deletes registration records for the given user IDs from the EVENT_REGISTRATIONS table.
+Uses parameterized IN clause for safe batch deletion.</p>
+</section>
+
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$eventId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The event identifier</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$userIds</span>
+                : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, int&gt;</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Array of user identifiers to unregister</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Number of registrations successfully deleted</p>
 </section>
 
             </section>
@@ -1315,8 +1988,13 @@ spots in upcoming events.</p>
             <li>
                 <ul class="phpdocumentor-list -clean">
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method___construct">__construct()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_addUserToGroup">addUserToGroup()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_changeUserTeam">changeUserTeam()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteGroupRegistrants">deleteGroupRegistrants()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteRegistrationsByEvent">deleteRegistrationsByEvent()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_deleteRegistrationsByTeam">deleteRegistrationsByTeam()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getGroupRegistrantsForEvent">getGroupRegistrantsForEvent()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getIndividualRegistrantsForEvent">getIndividualRegistrantsForEvent()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersDetails">getRegisteredUsersDetails()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersGroupedForPdf">getRegisteredUsersGroupedForPdf()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersWithTeams">getRegisteredUsersWithTeams()</a></li>
@@ -1324,9 +2002,13 @@ spots in upcoming events.</p>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamIdByUserAndEvent">getTeamIdByUserAndEvent()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_isUserRegistered">isUserRegistered()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUser">registerUser()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUsers">registerUsers()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUserWithTeam">registerUserWithTeam()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_removeUserFromGroup">removeUserFromGroup()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_searchUsersNotRegistered">searchUsersNotRegistered()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUser">unregisterUser()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUserFromFutureEvents">unregisterUserFromFutureEvents()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_unregisterUsers">unregisterUsers()</a></li>
                                     </ul>
             </li>
                     </ul>
