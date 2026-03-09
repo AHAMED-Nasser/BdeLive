@@ -86,23 +86,25 @@ class ExportUserListController extends AdminController
 
         <div class="filter-info">
             <strong>Filtres appliqués :</strong> Statut: <?= $filter ?> | Rôle: <?= $role ?>
-            <?php if ($search): ?> | Recherche: "<?= htmlspecialchars($search) ?>" <?php endif; ?>
+            <?php if ($search) : ?>
+                | Recherche: "<?= htmlspecialchars($search) ?>"
+            <?php endif; ?>
             <br>Exporté le : <?= date('d/m/Y H:i') ?>
         </div>
 
         <table>
             <thead>
-            <tr>
-                <th>Nom / Prénom</th>
-                <th>Email</th>
-                <th>Rôle</th>
-            </tr>
+                <tr>
+                    <th>Nom / Prénom</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                </tr>
             </thead>
             <tbody>
-            <?php if (empty($users)): ?>
+            <?php if (empty($users)) : ?>
                 <tr><td colspan="5" style="text-align:center;">Aucun utilisateur trouvé.</td></tr>
-            <?php else: ?>
-                <?php foreach ($users as $user): ?>
+            <?php else : ?>
+                <?php foreach ($users as $user) : ?>
                     <tr>
                         <td><?= htmlspecialchars(strtoupper($user['last_name'] ?? '')) ?> <?= htmlspecialchars($user['first_name'] ?? '') ?></td>
                         <td><?= htmlspecialchars($user['email'] ?? '') ?></td>
