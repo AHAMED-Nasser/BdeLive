@@ -26,7 +26,6 @@
 
 - [Fonctionnalités Principales](#fonctionnalités-principales)
 - [Architecture & Technologies](#architecture--technologies)
-- [Documentation & Diagrammes](#-documentation--diagrammes)
 - [Prérequis](#prérequis)
 - [Installation & Démarrage Rapide](#installation--démarrage-rapide)
 - [Tests et Qualité](#tests-et-qualité)
@@ -130,33 +129,15 @@ flowchart TD
 
 **Patterns illustrés :** *MVC 2* — séparation Controller / View · *Data Mapper* — Repository + Factory → Entity pure · *DI* — Controller instancié par le Container · *Clean Architecture* — le Domain ne dépend pas des couches supérieures
 
----
+### Diagrammes complémentaires
 
-## Documentation & Diagrammes
+| Document | Formats |
+|----------|---------|
+| Architecture logicielle | [PNG](docs/architecture-logiciel-BdeLive.png) |
+| Cas d'utilisation (RBAC) | [PUML](docs/diagramme-cas-utilisation.puml) · [SVG](docs/diagramme-cas-utilisation.svg) |
+| Diagramme de classes | [PUML](docs/diagramme-classes.puml) · [SVG](docs/diagramme-classes.svg) |
 
-Pour bien comprendre l'architecture du projet et le flux des données, **consultez les diagrammes** disponibles dans le dossier `docs/`. Ils constituent une ressource essentielle pour les développeurs souhaitant s'approprier le codebase.
-
-### Vue d'ensemble de l'architecture logicielle
-
-<p align="center">
-  <a href="docs/architecture-logiciel-BdeLive.png">
-    <img src="docs/architecture-logiciel-BdeLive.png" alt="Architecture Logicielle BdeLive" width="600">
-  </a>
-</p>
-
-*Cliquez sur l'image pour l'agrandir — Cycle de vie d'une requête, patterns MVC 2, Repository, Factory et Injection de Dépendances*
-
-### Ressources disponibles
-
-| Document | Description | Formats |
-|----------|-------------|---------|
-| **Architecture logicielle** | Vue globale du flux requête/réponse, Core, Controllers, Domain, Views | [PNG](docs/architecture-logiciel-BdeLive.png) |
-| **Diagramme de cas d'utilisation** | Acteurs (Visitor → Student → Admin → Super Admin), use cases RBAC | [PUML](docs/diagramme-cas-utilisation.puml) · [SVG](docs/diagramme-cas-utilisation.svg) |
-| **Diagramme de classes** | Entités, Repositories, Factories, structure du domaine | [PUML](docs/diagramme-classes.puml) · [SVG](docs/diagramme-classes.svg) |
-
-> **Conseil :** Ouvrez les fichiers `.puml` avec [PlantUML](https://www.plantuml.com/) ou une extension VSCode pour les éditer et régénérer les `.svg`. Les diagrammes sont maintenus à jour avec l'évolution du projet.
-
-**[📂 Accéder au dossier docs/ →](docs/)**
+**[📂 docs/](docs/)**
 
 ---
 
