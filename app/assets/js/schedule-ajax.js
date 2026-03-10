@@ -41,13 +41,17 @@
             return;
         }
 
+        // Flag pour scroll smooth vers l'EDT (depuis les filtres année/groupe)
+        const scrollToEdt = !!overrides._scrollToEdt;
+        delete overrides._scrollToEdt;
+
         // Fusionner URL courante + overrides + action AJAX
         const allParams = Object.assign({}, getUrlParams(), overrides, {
             view:   view,
             action: 'load-view'
         });
 
-        // Sauvegarder la position du scroll avant le chargement
+        // Sauvegarder la position du scroll avant le chargement (si pas de scroll ciblé)
         const savedScrollY = window.scrollY;
 
         // Fade-out : griser le contenu pendant la requête
@@ -86,8 +90,12 @@
                         calendarWrapper.classList.add('view-ready');
                     });
 
-                    // Restaurer la position du scroll exacte
-                    window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+                    // Scroll smooth vers l'EDT si sélection depuis les filtres, sinon garder la position
+                    if (scrollToEdt) {
+                        calendarWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+                    }
 
                     if (typeof resetModalListeners === 'function') {
                         resetModalListeners();

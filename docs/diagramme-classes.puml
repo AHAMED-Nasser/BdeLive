@@ -11,6 +11,12 @@ skinparam class {
 
 title Software Architecture - BdeLive (Exhaustive Class Diagram)
 
+' ==================== PHP NATIVE ====================
+package "PHP Native" #F0F0F0 {
+  class Exception
+  class PDO
+}
+
 ' ==================== CORE LAYER ====================
 package "Core" #E8F4F8 {
   class Application <<Refactored>> {
@@ -204,10 +210,11 @@ end note
 
 ' ==================== VIEWS LAYER ====================
 package "Views" #F8F0E8 {
-  class View {
+  class View <<Concept>>
+  note right of View
     Data passed via render()
     Escaped HTML output
-  }
+  end note
 }
 
 ' ==================== DOMAIN - ENTITIES ====================
@@ -396,16 +403,18 @@ Application *-- AuthManager : auth
 AuthManager o-- SessionManager : session
 CsrfProtection o-- SessionManager : session
 
-EventRepository o-- Database : pdo
-ArticleRepository o-- Database : pdo
-EventRegistrationRepository o-- Database : pdo
-EventTeamRepository o-- Database : pdo
-EventTeamInvitationRepository o-- Database : pdo
+Database o-- PDO : pdo
 
-EventModel o-- Database : pdo
-ArticleModel o-- Database : pdo
-UserManager o-- Database : pdo
-LoginAttemptManager o-- Database : pdo
+EventRepository o-- PDO : pdo
+ArticleRepository o-- PDO : pdo
+EventRegistrationRepository o-- PDO : pdo
+EventTeamRepository o-- PDO : pdo
+EventTeamInvitationRepository o-- PDO : pdo
+
+EventModel o-- PDO : pdo
+ArticleModel o-- PDO : pdo
+UserManager o-- PDO : pdo
+LoginAttemptManager o-- PDO : pdo
 
 ' ==================== DEPENDENCIES - DATA MAPPER ====================
 EventRepository ..> EventFactory : delegates mapping
@@ -438,7 +447,7 @@ legend right
   |= Symbol |= Meaning |
   | extends | Inheritance |
   | ..> | Dependency (Clean Architecture) |
-  | o-- | Aggregation (has-a, PDO from Database) |
+  | o-- | Aggregation (has-a, e.g. PDO) |
   | *-- | Composition (owns) |
   |---
   |= Stereotype |= Meaning |

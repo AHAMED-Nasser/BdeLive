@@ -49,8 +49,7 @@
          * on utilise l'AJAX (loadView) pour éviter le rechargement complet.
          * Sinon, on retombe sur le comportement de redirection classique.
          */
-        function updateUrl()
-        {
+        function updateUrl() {
             const year = yearSelect.value;
             const group = groupSelect.value;
 
@@ -66,10 +65,11 @@
 
                 window.scheduleLoadView(currentView, {
                     year: year,
-                    group: group
+                    group: group,
+                    _scrollToEdt: true
                 });
             } else {
-                // Fallback : mise à jour classique de l'URL sans scroll forcé
+                // Fallback : mise à jour classique de l'URL avec hash pour scroll vers l'EDT
                 const params = new URLSearchParams();
                 params.set('page', 'schedule');
                 params.set('year', year);
@@ -77,11 +77,14 @@
                     params.set('group', group);
                 }
 
-                window.location.href = 'index.php?' + params.toString();
+                let url = 'index.php?' + params.toString();
+                if (group) {
+                    url += '#scroll-edt';
+                }
+                window.location.href = url;
             }
         }
 
-        // Plus de scroll automatique : l'utilisateur garde le contrôle de la position
     });
 
 })();

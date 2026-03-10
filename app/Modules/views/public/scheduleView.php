@@ -131,6 +131,17 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
 <script>
     // Inject the groups data for the schedule-filters.js file
     window.scheduleGroupsData = <?= json_encode(array_map(fn($y) => $y['groups'], $groups)) ?>;
+
+    // Scroll smoothly in the schedule after group selection (fallback reload with #scroll-edt)
+    (function () {
+        if (window.location.hash === '#scroll-edt') {
+            const el = document.getElementById('calendar-view');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+        }
+    })();
 </script>
 
 <?php end_page(); ?>

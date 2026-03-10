@@ -24,12 +24,13 @@
 
 ## Table des matières
 
-- [ Fonctionnalités Principales](#-fonctionnalités-principales)
-- [ Architecture & Technologies](#️-architecture--technologies)
-- [ Prérequis](#-prérequis)
-- [ Installation & Démarrage Rapide](#-installation--démarrage-rapide)
-- [ Tests et Qualité](#-tests-et-qualité)
-- [ Auteurs & Remerciements](#-auteurs--remerciements)
+- [Fonctionnalités Principales](#fonctionnalités-principales)
+- [Architecture & Technologies](#architecture--technologies)
+- [Documentation & Diagrammes](#-documentation--diagrammes)
+- [Prérequis](#prérequis)
+- [Installation & Démarrage Rapide](#installation--démarrage-rapide)
+- [Tests et Qualité](#tests-et-qualité)
+- [Auteurs & Remerciements](#auteurs--remerciements)
 
 ---
 
@@ -129,10 +130,33 @@ flowchart TD
 
 **Patterns illustrés :** *MVC 2* — séparation Controller / View · *Data Mapper* — Repository + Factory → Entity pure · *DI* — Controller instancié par le Container · *Clean Architecture* — le Domain ne dépend pas des couches supérieures
 
-> La documentation technique complète (diagrammes de classes UML, diagrammes de séquence,
-> diagramme des cas d'utilisation, conformité MVC) est disponible dans le dossier `docs/`.
->
-> **[Voir l'Architecture Détaillée & les Diagrammes UML →](docs/)**
+---
+
+## Documentation & Diagrammes
+
+Pour bien comprendre l'architecture du projet et le flux des données, **consultez les diagrammes** disponibles dans le dossier `docs/`. Ils constituent une ressource essentielle pour les développeurs souhaitant s'approprier le codebase.
+
+### Vue d'ensemble de l'architecture logicielle
+
+<p align="center">
+  <a href="docs/architecture-logiciel-BdeLive.png">
+    <img src="docs/architecture-logiciel-BdeLive.png" alt="Architecture Logicielle BdeLive" width="600">
+  </a>
+</p>
+
+*Cliquez sur l'image pour l'agrandir — Cycle de vie d'une requête, patterns MVC 2, Repository, Factory et Injection de Dépendances*
+
+### Ressources disponibles
+
+| Document | Description | Formats |
+|----------|-------------|---------|
+| **Architecture logicielle** | Vue globale du flux requête/réponse, Core, Controllers, Domain, Views | [PNG](docs/architecture-logiciel-BdeLive.png) |
+| **Diagramme de cas d'utilisation** | Acteurs (Visitor → Student → Admin → Super Admin), use cases RBAC | [PUML](docs/diagramme-cas-utilisation.puml) · [SVG](docs/diagramme-cas-utilisation.svg) |
+| **Diagramme de classes** | Entités, Repositories, Factories, structure du domaine | [PUML](docs/diagramme-classes.puml) · [SVG](docs/diagramme-classes.svg) |
+
+> **Conseil :** Ouvrez les fichiers `.puml` avec [PlantUML](https://www.plantuml.com/) ou une extension VSCode pour les éditer et régénérer les `.svg`. Les diagrammes sont maintenus à jour avec l'évolution du projet.
+
+**[📂 Accéder au dossier docs/ →](docs/)**
 
 ---
 
@@ -193,13 +217,7 @@ RECAPTCHA_SITE_KEY=votre_site_key
 RECAPTCHA_SECRET_KEY=votre_secret_key
 ```
 
-### 4. Importer la base de données
-
-```bash
-mysql -u root -p < BDELive_database_1.1.sql
-```
-
-### 5. Lancer le serveur de développement
+### 4. Lancer le serveur de développement
 
 ```bash
 php -S localhost:8000 -t app/
@@ -254,14 +272,14 @@ composer lint:fix
 
 <table align="center">
   <tr>
-    <td align="center"><b>AHAMED Nasser</b></td>
-    <td align="center"><b>BOUDHIB Mohamed-Amine</b></td>
-    <td align="center"><b>CANTOR Romain</b></td>
+    <td align="center"><b><a href="https://github.com/AHAMED-Nasser">AHAMED Nasser</a></b></td>
+    <td align="center"><b><a href="https://github.com/BOUDHIB-Mohame-Amine-24006551">BOUDHIB Mohamed-Amine</a></b></td>
+    <td align="center"><b><a href="https://github.com/RomainCANTOR">CANTOR Romain</a></b></td>
   </tr>
   <tr>
-    <td align="center"><b>CHETIOUI Willem</b></td>
-    <td align="center"><b>HELALI Amin</b></td>
-    <td align="center"><b>PALOT Thomas</b></td>
+    <td align="center"><b><a href="https://github.com/chetiouiwillem">CHETIOUI Willem</a></b></td>
+    <td align="center"><b><a href="https://github.com/HELALI-Amin-24005915">HELALI Amin</a></b></td>
+    <td align="center"><b><a href="https://github.com/PALOT-Thomas-24010039">PALOT Thomas</a></b></td>
   </tr>
 </table>
 
@@ -270,8 +288,11 @@ composer lint:fix
 - **M. Olivier Gérard** — encadrement pédagogique et suivi du projet
 - **M. Samir Chtioui** — accompagnement méthodologique et organisation
 - L'ensemble du **corps enseignant** du département Informatique, IUT Aix-Marseille
+
 ---
 
 *Projet académique — usage pédagogique uniquement · IUT Aix-Marseille · BUT Informatique · 2025–2026*
+
+Licence : voir [LICENSE](LICENSE).
 
 

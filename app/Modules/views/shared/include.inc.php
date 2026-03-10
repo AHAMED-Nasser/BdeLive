@@ -131,8 +131,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <ul>
                             <li><a href="index.php?page=articles">Nos articles</a></li>
                             <li><a href="index.php?page=event">Evénements</a></li>
+                            <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                             <?php if (isset($user) && $user !== null && $isAdmin) : ?>
-                                <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                                 <!-- Dark Mode Toggle -->
                                 <li>
                                     <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre">
@@ -185,7 +185,6 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                     </div>
                                 </li>
                             <?php elseif (isset($user) && $user !== null) : ?>
-                                <li><a href="index.php?page=schedule">Emploi du temps</a></li>
                                 <!-- Dark Mode Toggle -->
                                 <li>
                                     <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Basculer le mode sombre">
