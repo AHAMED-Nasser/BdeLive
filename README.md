@@ -89,19 +89,19 @@ la requête HTTP entrante et dispatche vers le contrôleur approprié via un con
 dépendances. Chaque domaine (Articles, Events, Users, Admin, Public…) regroupe ses propres contrôleurs,
 modèles, repositories et vues.
 
-Le schéma ci-dessous illustre le **cycle de vie d'une requête** et met en valeur les patterns **MVC 2**, **Data Mapper** et **Injection de Dépendances**.
+Le schéma ci-dessous illustre le **cycle de vie d'une requête** et met en valeur les patterns **MVC 2**, **Data Mapper** et **Dependency Injection**.
 
 ```mermaid
 flowchart TD
     subgraph Client [Client]
-        Nav[Client / Navigateur]
+        Nav[Client / Browser]
     end
 
     subgraph Core [Core]
         App[Application / Router]
     end
 
-    subgraph DI [Injection de Dépendances]
+    subgraph DI [Dependency Injection]
         Ctrl[Controller]
     end
 
@@ -113,18 +113,18 @@ flowchart TD
     end
 
     subgraph View [View]
-        Template[View - Templates PHP]
+        Template[View - PHP templates]
     end
 
-    Nav -->|Request HTTP| App
-    App -->|Instancie via DI| Ctrl
-    Ctrl -->|Demande données| Repo
-    Repo <-->|Requête SQL| DB
-    Repo -->|Utilise| Factory
-    Factory -->|Crée| Entity
-    Repo -->|Retourne Entity| Ctrl
-    Ctrl -->|Passe les données| Template
-    Template -->|Response HTML| Nav
+    Nav -->|HTTP request| App
+    App -->|Instantiates via DI| Ctrl
+    Ctrl -->|Requests data| Repo
+    Repo <-->|SQL query| DB
+    Repo -->|Uses| Factory
+    Factory -->|Creates| Entity
+    Repo -->|Returns Entity| Ctrl
+    Ctrl -->|Passes data| Template
+    Template -->|HTML response| Nav
 ```
 
 **Patterns illustrés :** *MVC 2* — séparation Controller / View · *Data Mapper* — Repository + Factory → Entity pure · *DI* — Controller instancié par le Container · *Clean Architecture* — le Domain ne dépend pas des couches supérieures

@@ -4,9 +4,9 @@ skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam packageStyle rectangle
 
-title Architecture Logicielle - BdeLive
+title Software Architecture - BdeLive
 
-' ==================== COUCHE CORE ====================
+' ==================== CORE LAYER ====================
 package "Core" #E8F4F8 {
   class Application {
     + boot(): void
@@ -25,7 +25,7 @@ package "Core" #E8F4F8 {
   }
 }
 
-' ==================== COUCHE CONTROLLERS ====================
+' ==================== CONTROLLERS LAYER ====================
 package "Controllers" #F0E8F8 {
   abstract class AbstractController {
      render(view, data): void
@@ -33,15 +33,15 @@ package "Controllers" #F0E8F8 {
   }
 }
 
-' ==================== COUCHE VIEWS ====================
-package "Views (Templates PHP)" #F8F0E8 {
+' ==================== VIEWS LAYER ====================
+package "Views (PHP templates)" #F8F0E8 {
   class View {
-    Données via render()
-    HTML échappé
+    Data passed via render()
+    Escaped HTML output
   }
 }
 
-' ==================== COUCHE DOMAIN (exemple Event) ====================
+' ==================== DOMAIN LAYER (Event example) ====================
 package "Domain" #F0F8E8 {
   package "Repositories" {
     class EventRepository {
@@ -58,23 +58,23 @@ package "Domain" #F0F8E8 {
   }
   package "Entities" {
     class Event {
-      Objet métier pur
-      Pas de logique BDD
+      Pure domain object
+      No database logic
     }
   }
 }
 
-' ==================== FLUX - CLEAN ARCHITECTURE (..> = dépendance) ====================
-Application ..> Request : 1. Reçoit la requête
-Application ..> Container : 2. Demande le Controller via DI
-Container ..> AbstractController : 3. Instancie et injecte
+' ==================== FLOW - CLEAN ARCHITECTURE (..> = dependency) ====================
+Application ..> Request : 1. Receives HTTP request
+Application ..> Container : 2. Asks for controller via DI
+Container ..> AbstractController : 3. Instantiates and injects dependencies
 
-AbstractController ..> EventRepository : 4. Demande les données
-EventRepository ..> Database : 5. Requête SQL
-EventRepository ..> EventFactory : 6. Délègue le mapping
-EventFactory ..> Event : 7. Crée l'entité
+AbstractController ..> EventRepository : 4. Requests domain data
+EventRepository ..> Database : 5. Executes SQL query
+EventRepository ..> EventFactory : 6. Delegates data mapping
+EventFactory ..> Event : 7. Creates entity
 
-EventRepository ..> Event : 8. Retourne
-AbstractController ..> Event : 9. Reçoit
-AbstractController ..> View : 10. Passe les données
+EventRepository ..> Event : 8. Returns entity
+AbstractController ..> Event : 9. Receives entity
+AbstractController ..> View : 10. Passes data to view
 @enduml
