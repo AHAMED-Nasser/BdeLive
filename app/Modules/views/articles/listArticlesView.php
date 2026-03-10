@@ -63,7 +63,7 @@ start_page("Nos articles", true, $user ?? null);
                                 loading="lazy"
                                 decoding="async">
                         <?php endif; ?>
-                        <!-- PAS d'image par defaut si vide ! -->
+                        <!-- No default image if empty ! -->
 
                         <div class="article-content">
                             <h2 class="article-title">
@@ -76,22 +76,22 @@ start_page("Nos articles", true, $user ?? null);
                             <p class="article-description">
                                 <?= htmlspecialchars($preview) ?>
                             </p>
-                            
+
                             <div class="article-actions">
                                 <?php if ($isLong) : ?>
-                                    <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
+                                    <a href="index.php?page=articles&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>"
                                        class="btn-view">
                                         Voir l'article
                                     </a>
                                 <?php endif; ?>
-                                
+
                                 <?php if (!empty($user) && isset($user['is_admin']) && $user['is_admin']) : ?>
-                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
+                                    <a href="index.php?page=updateArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>"
                                        class="btn-edit">
                                         Modifier
                                     </a>
-                                    <form method="POST" 
-                                          action="index.php?page=deleteArticle&action=deleteArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>" 
+                                    <form method="POST"
+                                          action="index.php?page=deleteArticle&action=deleteArticle&slug=<?= htmlspecialchars(urlencode($article->getSlug())) ?>"
                                           class="delete-article-form">
                                         <?= csrfField() ?>
                                         <input type="hidden" name="slug" value="<?= htmlspecialchars($article->getSlug()) ?>">

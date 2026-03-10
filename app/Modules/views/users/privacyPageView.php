@@ -31,13 +31,6 @@ start_page("Confidentialité - BDELive", true, $user ?? null);
 
 $editField = $_GET['edit'] ?? null;
 $step = $_GET['step'] ?? null;
-//$isBlocked = $isBlocked ?? false;
-//$remainingTime = $remainingTime ?? 0;
-//$passwordResendStatus = $passwordResendStatus ?? ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
-//$emailResendStatus = $emailResendStatus ?? ['can_resend' => true, 'wait_seconds' => 0, 'resend_count' => 0];
-//$hasActivePasswordCode = $hasActivePasswordCode ?? false;
-//$hasActiveEmailCode = $hasActiveEmailCode ?? false;
-//$pendingEmail = $pendingEmail ?? null;
 ?>
 
 <div class="profile-page privacy-page">
@@ -58,7 +51,7 @@ $step = $_GET['step'] ?? null;
     <?php endif; ?>
 
     <?php if ($isBlocked) : ?>
-        <!-- Account Blocked Message -->
+        <!-- Account blocked message -->
         <div class="profile-card">
             <div class="profile-card-header privacy-blocked-header">
                 <div class="profile-avatar">
@@ -78,7 +71,7 @@ $step = $_GET['step'] ?? null;
         </div>
     <?php else : ?>
         <div class="profile-card">
-            <!-- Privacy Header -->
+            <!-- Privacy header -->
             <div class="profile-card-header privacy-header">
                 <div class="profile-avatar">
                     <i class="fas fa-user-shield"></i>
@@ -89,9 +82,9 @@ $step = $_GET['step'] ?? null;
                 </div>
             </div>
 
-            <!-- Privacy Body -->
+            <!-- Privacy body -->
             <div class="profile-card-body">
-                <!-- Email Field -->
+                <!-- Email field -->
                 <div class="profile-field">
                     <?php if ($editField === 'email' && $step === 'verify') : ?>
                         <!-- Step 2: Enter verification code sent to new email -->
@@ -132,7 +125,7 @@ $step = $_GET['step'] ?? null;
                             </div>
                         </form>
 
-                        <!-- Resend Code Section -->
+                        <!-- Resend code section -->
                         <div class="privacy-resend-section" id="email-resend-section">
                             <p>Vous n'avez pas reçu le code ?</p>
                             <?php if ($emailResendStatus['resend_count'] >= 5) : ?>
@@ -212,7 +205,7 @@ $step = $_GET['step'] ?? null;
                     <?php endif; ?>
                 </div>
 
-                <!-- Password Field -->
+                <!-- Password field -->
                 <div class="profile-field">
                     <?php if ($editField === 'password' && $step === 'verify') : ?>
                         <!-- Step 2: Enter verification code and new password -->
@@ -265,7 +258,7 @@ $step = $_GET['step'] ?? null;
                             </div>
                         </form>
 
-                        <!-- Resend Code Section -->
+                        <!-- Resend code section -->
                         <div class="privacy-resend-section" id="password-resend-section">
                             <p>Vous n'avez pas reçu le code ?</p>
                             <?php if ($passwordResendStatus['resend_count'] >= 5) : ?>

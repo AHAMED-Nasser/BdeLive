@@ -261,7 +261,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         </ul>
                     </div>
 
-                    <!-- Menu Hamburger -->
+                    <!-- Hamburger menu -->
                     <input type="checkbox" id="menu-toggle" class="menu-toggle">
                     <label for="menu-toggle" class="hamburger-icon">
                         <span class="visually-hidden">Ouvrir ou fermer le menu de navigation</span>
@@ -270,7 +270,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <span class="bar"></span>
                     </label>
 
-                    <!-- Overlay pour fermer le menu -->
+                    <!-- Overlay to close the menu -->
                     <button type="button" class="sidebar-overlay" aria-label="Fermer le menu"
                         onclick="document.getElementById('menu-toggle').checked = false"></button>
 
@@ -285,7 +285,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                             <li><a href="index.php?page=schedule"><i class="fas fa-calendar-week"></i> Emploi du temps</a></li>
 
                             <?php if (isset($user) && $isAdmin) : ?>
-                                <!-- Section Administration (BDE uniquement) -->
+                                <!-- Section Administration (BDE only) -->
                                 <li class="sidebar-section-title">Administration</li>
                                 <li><a href="index.php?page=createEvent"><i class="fas fa-plus-circle"></i> Créer un événement</a>
                                 </li>
@@ -294,14 +294,14 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                             <?php endif; ?>
 
                             <?php if (!isset($user)) : ?>
-                                <!-- Section Authentification (non connecté) -->
+                                <!-- Section Authentication (not connected) -->
                                 <li class="sidebar-section-title">Connexion</li>
                                 <li><a href="index.php?page=login"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
                                 <li><a href="index.php?page=register"><i class="fas fa-user-plus"></i> Inscription</a></li>
                             <?php endif; ?>
 
                             <?php if (isset($user) && $user !== null) : ?>
-                                <!-- Section Mon compte (utilisateurs connectés) -->
+                                <!-- Section My account (connected users) -->
                                 <li class="sidebar-section-title">Mon compte</li>
                                 <li><a href="index.php?page=profile"><i class="fas fa-user-circle"></i> Mon Profil</a></li>
                                 <li><a href="index.php?page=privacy"><i class="fas fa-shield-alt"></i> Confidentialité</a></li>
@@ -312,13 +312,13 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                                 <?php endif; ?>
                             <?php endif; ?>
 
-                            <!-- Section Informations -->
+                            <!-- Section Information -->
                             <li class="sidebar-section-title">Informations</li>
                             <li><a href="index.php?page=legalTerms"><i class="fas fa-file-contract"></i> Mentions légales</a>
                             </li>
                             <li><a href="index.php?page=sitemap"><i class="fas fa-sitemap"></i> Plan du site</a></li>
 
-                            <!-- Section Préférences -->
+                            <!-- Section Preferences -->
                             <li class="sidebar-section-title">Préférences</li>
                             <li>
                                 <button id="dark-mode-toggle-mobile" class="dark-mode-toggle-mobile"
@@ -350,7 +350,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             </header>
         <?php endif; ?>
 
-        <!-- Bouton Back to Top -->
+        <!-- Back to Top button -->
         <button id="back-to-top" aria-label="Retour en haut de la page">
             <i class="fas fa-arrow-up" aria-hidden="true"></i>
         </button>

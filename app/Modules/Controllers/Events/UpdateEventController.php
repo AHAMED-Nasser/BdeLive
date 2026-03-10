@@ -135,7 +135,7 @@ class UpdateEventController extends AdminController
      */
     private function processUpdate(int $eventId): void
     {
-        // 1. Validation CSRF
+        // 1. CSRF validation
         $csrfToken = $this->request->post('csrf_token', '');
 
         if (!$this->csrf->validateToken((string) $csrfToken)) {
@@ -143,7 +143,7 @@ class UpdateEventController extends AdminController
             $this->redirectWithError('index.php?page=updateEvent&id=' . $eventId, 'Token de sécurité invalide. Veuillez réessayer.');
         }
 
-        // 2. Récupération des données POST
+            // 2. Récupération des données POST
         $eventName = trim((string) $this->request->post('event-name', ''));
         $eventDateStr = (string) $this->request->post('event-date', '');
         $eventTimeStr = (string) $this->request->post('event-time', '');
@@ -165,7 +165,7 @@ class UpdateEventController extends AdminController
             );
         }
 
-        // 3. Validation de base
+        // 3. Basic validation
         if (
             empty($eventName) || empty($eventDateStr) || empty($eventTimeStr) ||
             empty($eventLocation) || empty($eventTheme) || empty($description)
@@ -186,7 +186,7 @@ class UpdateEventController extends AdminController
                 $this->redirectWithError(self::REDIRECT_URL, "L'événement à modifier n'existe pas.");
             }
 
-            // On décode les images actuelles depuis l'entité
+            // Decode current images from entity
             $currentImages = $event->getImagesArray();
 
             // 1. Handle deletion
@@ -278,7 +278,7 @@ class UpdateEventController extends AdminController
                 );
             }
         } catch (Exception $e) {
-            // Affiche l'erreur réelle au lieu du message générique pour tester
+            // Show the actual error instead of the generic message for testing
             $this->redirectWithError(self::REDIRECT_URL, 'Erreur : ' . $e->getMessage());
         }
     }

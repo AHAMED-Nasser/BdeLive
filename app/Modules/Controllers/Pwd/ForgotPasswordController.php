@@ -76,7 +76,7 @@ class ForgotPasswordController extends DefaultController
                 $this->redirect('index.php?page=forgot_password');
             }
 
-            // ✅ Pas besoin de require, autoload le gère via PSR-4
+            // No need to require, autoload handles it via PSR-4
             $mailer = new Mailer();
 
             $emailSent = $mailer->sendPasswordResetEmail(

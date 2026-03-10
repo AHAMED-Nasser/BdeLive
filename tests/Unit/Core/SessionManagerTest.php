@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use App\Core\Session\SessionManager;
 
 /**
- * Tests unitaires pour SessionManager
+ * Unit tests for SessionManager
  */
 class SessionManagerTest extends TestCase
 {

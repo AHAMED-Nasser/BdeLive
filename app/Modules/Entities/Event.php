@@ -54,9 +54,6 @@ class Event
     ) {
     }
 
-    // =========================================================================
-    // GETTERS
-    // =========================================================================
 
     public function getId(): ?int
     {
@@ -118,9 +115,7 @@ class Event
         return $this->teamSize;
     }
 
-    // =========================================================================
-    // SETTERS (for updates)
-    // =========================================================================
+
 
     public function setName(string $name): void
     {
@@ -177,9 +172,6 @@ class Event
         $this->teamSize = $teamSize;
     }
 
-    // =========================================================================
-    // BUSINESS LOGIC METHODS
-    // =========================================================================
 
     /**
      * Check if the event has already occurred
@@ -200,30 +192,6 @@ class Event
             return false;
         }
     }
-
-    /**
-     * Check if the event is full (requires external registration data)
-     *
-     * Note: This method would require injection of EventRegistrationRepository
-     * to check current registration count against capacity. For now, it returns
-     * false as a placeholder.
-     *
-     * Future implementation:
-     * - Inject EventRegistrationRepository via constructor or method parameter
-     * - Compare current registration count with max capacity
-     *
-     * @return bool True if event is full, false otherwise
-     */
-    public function isFull(): bool
-    {
-        // TODO: Implement with EventRegistrationRepository
-        // Example: return $this->registrationRepo->countRegistrations($this->id) >= $this->maxCapacity;
-        return false;
-    }
-
-    // =========================================================================
-    // UTILITY METHODS
-    // =========================================================================
 
     /**
      * Get formatted date for display (French format: dd/mm/YYYY)

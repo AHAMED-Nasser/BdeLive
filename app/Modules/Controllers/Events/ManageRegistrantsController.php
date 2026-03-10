@@ -142,10 +142,6 @@ class ManageRegistrantsController extends AdminController
         return $userIds;
     }
 
-    // ===================================================================
-    // Individual event actions
-    // ===================================================================
-
     /**
      * Add selected users as registrants to the event
      *
@@ -202,9 +198,6 @@ class ManageRegistrantsController extends AdminController
         $this->redirect('index.php?page=showEvent&id=' . $eventId);
     }
 
-    // ===================================================================
-    // Group event actions
-    // ===================================================================
 
     /**
      * Add selected users to a specific team in a group event

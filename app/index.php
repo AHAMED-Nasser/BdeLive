@@ -13,17 +13,17 @@ use App\Core\Application;
 use App\Core\Exception\AuthenticationException;
 use App\Core\Exception\AuthorizationException;
 use App\Core\Exception\CsrfException;
-// Configuration sécurisée des cookies de session
-// Détection automatique de l'environnement
+// Secure configuration of the session cookies
+// Automatic detection of the environment
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
-// Ne pas définir de domaine explicite pour permettre le fonctionnement
-// sur tous les sous-domaines et éviter les problèmes de cookies
-// Le domaine vide permet à PHP d'utiliser automatiquement le domaine de la requête
+// Do not define an explicit domain to allow operation
+// on all subdomains and avoid cookie problems
+// The empty domain allows PHP to automatically use the domain of the request
 session_set_cookie_params([
     'lifetime' => 1800,                      // 30 minutes
     'path' => '/',
-    'domain' => '',                          // Domaine vide = domaine automatique
+    'domain' => '',                          // Empty domain = automatic domain
     'secure' => $isProduction,               // HTTPS only in production
     'httponly' => true,                      // Inaccessible by JavaScript
     'samesite' => 'Lax',                     // CSRF protection
@@ -34,7 +34,7 @@ header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
 header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
-// Content Security Policy (CSP) - Protection contre XSS
+// Content Security Policy (CSP) - Protection against XSS
 $cspDirectives = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
@@ -66,34 +66,34 @@ if (file_exists($projectRoot . '/vendor/autoload.php')) {
     require_once $projectRoot . '/vendor/autoload.php';
 }
 
-// Chargement sécurisé du .env
+// Secure loading of the .env
 if (file_exists($projectRoot . '/.env')) {
     $dotenv = Dotenv\Dotenv::createImmutable($projectRoot);
     $dotenv->load();
 } else {
-    // Si le fichier n'existe pas, on affiche un message clair pour le dev
+    // If the file does not exist, display a clear message for the dev
     die("Erreur : Le fichier .env est introuvable à l'emplacement : " . $projectRoot);
 }
 
-// Define FROM_EMAIL for App\Config\Mailer (uses constant in constructor)
+// Define FROM_EMAIL for App\Config\Mailer (uses the constant in the constructor)
 if (!defined('FROM_EMAIL') && !empty($_ENV['FROM_EMAIL'])) {
     define('FROM_EMAIL', (string) $_ENV['FROM_EMAIL']);
 }
 
-// Initialiser l'application (démarre la session automatiquement)
+// Initialize the application (starts the session automatically)
 $app = Application::getInstance();
 $app->boot();
-// Charger les includes nécessaires pour la compatibilité
+// Load the necessary includes for compatibility
 require_once __DIR__ . '/Modules/views/shared/include.inc.php';
-// Helpers temporaires pour compatibilité avec ancien code
-// Ces fonctions seront supprimées après migration complète
+// Temporary helpers for compatibility with old code
+// These functions will be removed after the complete migration
 require_once __DIR__ . '/include/legacy_helpers.php';
-// Gestion centralisée des exceptions (principe SOLID: séparation Auth/HTTP)
+// Centralized exception management (SOLID principle: separation of Auth/HTTP)
 $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
     strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
 
 try {
-    // Charger et exécuter le routeur
+    // Load and execute the router
     require_once __DIR__ . '/rooter.php';
 } catch (AuthenticationException $e) {
     if ($isAjax) {
@@ -102,7 +102,7 @@ try {
         echo json_encode(['error' => 'Non authentifié', 'redirect' => 'index.php?page=login']);
         exit();
     }
-    // Utilisateur non authentifié → rediriger vers login
+    // User not authenticated → redirect to login
     $app->session()->flash('error', $e->getMessage());
     $app->response()->redirect('index.php?page=login');
 } catch (AuthorizationException $e) {
@@ -112,7 +112,7 @@ try {
         echo json_encode(['error' => 'Accès refusé', 'message' => $e->getMessage()]);
         exit();
     }
-    // Utilisateur n'a pas les permissions → 403 + redirection home
+    // User does not have the permissions → 403 + redirect to home
     $app->session()->flash('error', $e->getMessage());
     $app->response()->setStatusCode(403)->redirect('index.php?page=home');
 } catch (CsrfException $e) {
@@ -122,12 +122,12 @@ try {
         echo json_encode(['error' => 'Token CSRF invalide']);
         exit();
     }
-    // Token CSRF invalide → rediriger avec erreur
+    // Invalid CSRF token → redirect with error
     $app->session()->flash('error', $e->getMessage());
     $referer = $app->request()->server('HTTP_REFERER', 'index.php?page=home');
     $app->response()->redirect($referer);
 } catch (\Exception $e) {
-    // Erreur serveur générique → afficher page d'erreur
+    // Generic server error → display error page
     http_response_code(500);
     error_log('Application Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     if ($isAjax) {

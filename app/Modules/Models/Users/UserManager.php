@@ -39,9 +39,7 @@ class UserManager
         $this->pdo = Database::getInstance()->getConnection();
     }
 
-    // =========================================================================
-    // Password methods
-    // =========================================================================
+
 
     /**
      * Hash a password using the default PHP hashing algorithm (bcrypt)
@@ -68,9 +66,7 @@ class UserManager
         return password_verify($password, $hashedPassword);
     }
 
-    // =========================================================================
-    // Core CRUD methods
-    // =========================================================================
+
 
     /**
      * Find a user by email address
@@ -409,9 +405,7 @@ class UserManager
         }
     }
 
-    // =========================================================================
-    // Email & verification methods
-    // =========================================================================
+
 
     /**
      * Check if an email address already exists in the database
@@ -561,9 +555,6 @@ class UserManager
         }
     }
 
-    // =========================================================================
-    // User listing & pagination (admin)
-    // =========================================================================
 
     /**
      * Retrieve a paginated list of active (non-deleted) users
@@ -757,9 +748,6 @@ class UserManager
         }
     }
 
-    // =========================================================================
-    // Role & status management (admin)
-    // =========================================================================
 
     /**
      * Retrieve the role of a user by their primary key
@@ -825,9 +813,7 @@ class UserManager
         }
     }
 
-    // =========================================================================
-    // Soft-delete & restoration
-    // =========================================================================
+
 
     /**
      * Count active (non-deleted, non-blocked) users for a given role
@@ -904,9 +890,7 @@ class UserManager
         }
     }
 
-    // =========================================================================
-    // GDPR / anonymization (cron)
-    // =========================================================================
+
 
     /**
      * Retrieve soft-deleted users whose grace period has expired

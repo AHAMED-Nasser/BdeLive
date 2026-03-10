@@ -18,7 +18,7 @@ $app = Application::getInstance();
 
 ?>
 
-<!-- Lien CSS -->
+<!-- CSS link -->
 <link rel="stylesheet" href="./assets/css/pages/cookie_popup.css">
 
 <div id="cookieConsent" role="dialog" aria-live="polite">
@@ -41,5 +41,5 @@ $app = Application::getInstance();
     </noscript>
 </div>
 
-<!-- Lien JS -->
+<!-- JS link -->
 <script src="./assets/js/cookie_popup.js"></script>

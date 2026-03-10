@@ -217,7 +217,7 @@ class PrivacyManager
             $deleteStmt->execute(['user_id' => $userId]);
 
             // Use MySQL NOW() and DATE_ADD for consistent timezone handling
-            $query = "INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at, is_used, attempts, resend_count, last_resend_at) 
+            $query = "INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at, is_used, attempts, resend_count, last_resend_at)
                       VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 10 MINUTE), 0, 0, 1, NOW())";
             $stmt = $this->pdo->prepare($query);
 
@@ -246,8 +246,8 @@ class PrivacyManager
     {
         try {
             // Use MySQL NOW() for consistent timezone comparison
-            $query = "SELECT id, token, attempts, (expires_at < NOW()) as is_expired 
-                      FROM PASSWORD_RESET_TOKEN 
+            $query = "SELECT id, token, attempts, (expires_at < NOW()) as is_expired
+                      FROM PASSWORD_RESET_TOKEN
                       WHERE user_id = :user_id AND is_used = 0 AND token NOT LIKE 'EMAIL:%'
                       ORDER BY id DESC LIMIT 1";
             $stmt = $this->pdo->prepare($query);
@@ -309,9 +309,9 @@ class PrivacyManager
     {
         try {
             // Use SQL to calculate seconds difference for consistent timezone handling
-            $query = "SELECT resend_count, last_resend_at, 
+            $query = "SELECT resend_count, last_resend_at,
                       TIMESTAMPDIFF(SECOND, last_resend_at, NOW()) as seconds_since_resend
-                      FROM PASSWORD_RESET_TOKEN 
+                      FROM PASSWORD_RESET_TOKEN
                       WHERE user_id = :user_id AND is_used = 0 AND token NOT LIKE 'EMAIL:%'
                       ORDER BY id DESC LIMIT 1";
             $stmt = $this->pdo->prepare($query);
@@ -360,9 +360,9 @@ class PrivacyManager
     {
         try {
             // Use MySQL DATE_ADD for consistent timezone handling
-            $query = "UPDATE PASSWORD_RESET_TOKEN 
-                      SET token = :token, expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE), attempts = 0, 
-                          resend_count = resend_count + 1, last_resend_at = NOW() 
+            $query = "UPDATE PASSWORD_RESET_TOKEN
+                      SET token = :token, expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE), attempts = 0,
+                          resend_count = resend_count + 1, last_resend_at = NOW()
                       WHERE user_id = :user_id AND is_used = 0 AND token NOT LIKE 'EMAIL:%'";
             $stmt = $this->pdo->prepare($query);
 
@@ -564,7 +564,6 @@ class PrivacyManager
         return self::MAX_RESEND_ATTEMPTS;
     }
 
-    // ========== EMAIL CHANGE TOKEN METHODS ==========
 
     /**
      * Create an email change verification token
@@ -590,7 +589,7 @@ class PrivacyManager
             $tokenData = 'EMAIL:' . $code . ':' . $newEmail;
 
             // Use MySQL DATE_ADD for consistent timezone handling
-            $query = "INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at, is_used, attempts, resend_count, last_resend_at) 
+            $query = "INSERT INTO PASSWORD_RESET_TOKEN (user_id, token, expires_at, is_used, attempts, resend_count, last_resend_at)
                       VALUES (:user_id, :token, DATE_ADD(NOW(), INTERVAL 10 MINUTE), 0, 0, 1, NOW())";
             $stmt = $this->pdo->prepare($query);
 
@@ -619,9 +618,9 @@ class PrivacyManager
     {
         try {
             // Use MySQL NOW() for consistent timezone comparison
-            $query = "SELECT id, token, attempts, (expires_at < NOW()) as is_expired 
-                      FROM PASSWORD_RESET_TOKEN 
-                      WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0 
+            $query = "SELECT id, token, attempts, (expires_at < NOW()) as is_expired
+                      FROM PASSWORD_RESET_TOKEN
+                      WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0
                       ORDER BY id DESC LIMIT 1";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['user_id' => $userId]);
@@ -688,8 +687,8 @@ class PrivacyManager
             // Use SQL to calculate seconds difference for consistent timezone handling
             $query = "SELECT resend_count, last_resend_at,
                       TIMESTAMPDIFF(SECOND, last_resend_at, NOW()) as seconds_since_resend
-                      FROM PASSWORD_RESET_TOKEN 
-                      WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0 
+                      FROM PASSWORD_RESET_TOKEN
+                      WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0
                       ORDER BY id DESC LIMIT 1";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute(['user_id' => $userId]);
@@ -738,8 +737,8 @@ class PrivacyManager
     {
         try {
             // First get the current pending email
-            $selectQuery = "SELECT token FROM PASSWORD_RESET_TOKEN 
-                           WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0 
+            $selectQuery = "SELECT token FROM PASSWORD_RESET_TOKEN
+                           WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0
                            ORDER BY id DESC LIMIT 1";
             $selectStmt = $this->pdo->prepare($selectQuery);
             $selectStmt->execute(['user_id' => $userId]);
@@ -760,9 +759,9 @@ class PrivacyManager
             $newTokenData = 'EMAIL:' . $newCode . ':' . $pendingEmail;
 
             // Use MySQL DATE_ADD for consistent timezone handling
-            $query = "UPDATE PASSWORD_RESET_TOKEN 
-                      SET token = :token, expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE), attempts = 0, 
-                          resend_count = resend_count + 1, last_resend_at = NOW() 
+            $query = "UPDATE PASSWORD_RESET_TOKEN
+                      SET token = :token, expires_at = DATE_ADD(NOW(), INTERVAL 10 MINUTE), attempts = 0,
+                          resend_count = resend_count + 1, last_resend_at = NOW()
                       WHERE user_id = :user_id AND token LIKE 'EMAIL:%' AND is_used = 0";
             $stmt = $this->pdo->prepare($query);
 
@@ -797,7 +796,6 @@ class PrivacyManager
         }
     }
 
-    // ========== RENAMED PASSWORD CODE METHODS FOR CLARITY ==========
 
     /**
      * Check if user can resend password verification code

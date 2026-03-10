@@ -208,7 +208,6 @@ class AdminSectionController extends AdminController
                 break;
         }
 
-        // Modification pour AJAX
         $isAjax = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 
         if ($isAjax) {
@@ -220,7 +219,6 @@ class AdminSectionController extends AdminController
             exit();
         }
 
-        // Préserver tous les filtres lors de la redirection
         $params = [
             'page' => 'adminSection',
             'filter' => $this->request->get('filter', 'active'),

@@ -35,7 +35,7 @@ if (!empty($flash['error'])) {
     echo '<div class="alert alert-danger">' . htmlspecialchars($flash['error']) . '</div>';
 }
 
-// Gestion spéciale pour la suppression de session après affichage de la home
+// Special management for the session deletion after the home display
 if (isset($user) && !empty($user['delete_session_after_home'])) {
     session_unset();
     session_destroy();
@@ -73,8 +73,8 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
             <span class="bde-opening" id="close">BDE Fermé</span>
             <?php endif ?>
         </div>
-        
-        <!-- Horaires d'ouverture -->
+
+        <!-- Opening hours -->
         <div class="hero-hours">
             <div class="hero-hours-title">Horaires d'ouverture</div>
             <div class="hero-hours-content">

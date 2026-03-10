@@ -29,16 +29,6 @@ function useCarousel($carouselLabel, $imageMap, $carouselId, $event): void
 
             <div class="carousel-inner">
                 <?php foreach ($imageMap as $index => $image) : ?>
-<!--                    <div class="carousel-item --><?php //= $index === 0 ? 'active' : '' ?><!--">-->
-<!--                        --><?php //if ($event->getDate() < date('Y-m-d')) : ?>
-<!--                            <span style="position: absolute; left: 0; margin: 3px; padding: 5px 5px; background-color: red; border-radius: 50px">en cours</span>-->
-<!--                        --><?php //else : ?>
-<!--                            <span style="position: absolute; left: 0; margin: 3px; padding: 5px 5px; background-color: green; border-radius: 50px" >terminé</span>-->
-<!--                        --><?php //endif; ?>
-<!--                        <img src="--><?php //= htmlspecialchars($image['src']) ?><!--" class="carousel-image"-->
-<!--                            alt="--><?php //= htmlspecialchars($image['alt'] ?? ($carouselLabel . ' - Image ' . ($index + 1))) ?><!--"-->
-<!--                            --><?php //= $index > 0 ? 'loading="lazy"' : '' ?><!-- decoding="async">-->
-<!--                    </div>-->
                     <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
                         <?php if ($event->getDate() === date('Y-m-d')) : ?>
                             <span class="event-badge--live" aria-hidden="true">En cours</span>

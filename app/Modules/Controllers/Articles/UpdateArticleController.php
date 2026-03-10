@@ -131,11 +131,11 @@ class UpdateArticleController extends AdminController
         $imageUrl = '';
         $file = $this->request->file('article-image');
 
-        // Si suppression demandée, on met une valeur spéciale
+        // If deletion requested, set a special value
         if ($deleteImage) {
-            $imageUrl = 'DELETE'; // Valeur spéciale pour indiquer la suppression
+            $imageUrl = 'DELETE';
         } elseif ($file !== null && !empty($file['name']) && !empty($file['tmp_name'])) {
-            // Upload seulement si une image est fournie
+            // Upload only if an image is provided
             try {
                 $cloudinary = new CloudinaryService();
                 /** @var array{name: string, type: string, tmp_name: string, error: int, size: int} $file */

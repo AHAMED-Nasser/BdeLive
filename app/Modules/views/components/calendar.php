@@ -90,7 +90,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         </div>
     </div>
 
-    <!-- En-têtes des jours de la semaine -->
+    <!-- Weekday headers -->
     <div class="calendar-weekdays">
         <div class="calendar-weekday" aria-label="Lundi">Lun</div>
         <div class="calendar-weekday" aria-label="Mardi">Mar</div>
@@ -101,7 +101,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         <div class="calendar-weekday" aria-label="Dimanche">Dim</div>
     </div>
 
-    <!-- Grille des jours -->
+    <!-- Day grid -->
     <div class="calendar-grid">
         <?php foreach ($calendar['days'] as $day) : ?>
             <?php
@@ -115,7 +115,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                 $dayClasses[] = 'today';
             }
 
-            // ARIA label descriptif
+            // ARIA label descriptive
             $dayLabel = $day['number'];
             if ($day['isToday']) {
                 $dayLabel .= ' (aujourd\'hui)';
@@ -135,11 +135,11 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                     <div class="calendar-events">
                         <?php foreach ($day['events'] as $event) : ?>
                             <?php
-                            // Déterminer la couleur de l'événement
+                            // Determine the color of the event
                             $eventColor = $event['color'] ?? $event['backgroundColor'] ?? '#3788d8';
                             $eventType = $event['type'] ?? 'default';
 
-                            // Extraire l'heure et durée
+                            // Extract the time and duration
                             $start = '';
                             $end = '';
                             if (isset($event['start'])) {
@@ -150,12 +150,12 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                             }
                             $timeRange = ($start && $end) ? "$start - $end" : $start;
 
-                            // Titre et détails
+                            // Title and details
                             $eventTitle = $event['event_name'] ?? $event['title'] ?? 'Événement';
                             $location = $event['location'] ?? '';
                             $teacher = $event['teacher'] ?? '';
 
-                            // ARIA label complet
+                            // ARIA label comprehensive
                             $eventAriaLabel = "$eventTitle";
                             if ($timeRange) {
                                 $eventAriaLabel .= " à $timeRange";
@@ -184,7 +184,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
     </div>
 </div>
 
-<!-- Modal Mobile (Réutilisée) -->
+<!-- Modal Mobile (Reused) -->
 <div id="course-modal" class="course-modal" role="dialog" aria-hidden="true">
     <div class="modal-overlay" tabindex="0" role="button" aria-label="Fermer la modal"></div>
     <div class="modal-content">

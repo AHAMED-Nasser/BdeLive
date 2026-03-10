@@ -106,7 +106,7 @@ start_page("Modifier un article", true, $user ?? null) ?>
 </section>
 
 <script>
-// Gestion visuelle de la suppression d'image avec checkbox
+// Visual management of image deletion with checkbox
 document.addEventListener('DOMContentLoaded', function() {
     const deleteCheckbox = document.querySelector('input[name="delete-image"]');
     const articleImageInput = document.getElementById('article-image');
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Si une nouvelle image est sélectionnée, décocher la suppression
+        // If a new image is selected, uncheck the deletion
         if (articleImageInput) {
             articleImageInput.addEventListener('change', function() {
                 if (this.files && this.files.length > 0 && deleteCheckbox.checked) {

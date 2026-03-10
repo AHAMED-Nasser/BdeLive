@@ -131,7 +131,7 @@ class RegisterController extends DefaultController
             return;
         }
 
-        // Vérifier si l'email existe déjà
+        // Verify if the email already exists
         if ($this->userManager->emailExists($email)) {
             $this->setError('Cette adresse email est déjà utilisée');
             $this->render('users/registerPageView', $this->buildRegisterViewData());
@@ -146,7 +146,7 @@ class RegisterController extends DefaultController
             return;
         }
 
-        // Vérifier que les mots de passe correspondent
+        // Verify that the passwords correspond
         if ($pwd !== $confirmPwd) {
             $this->setError('Les mots de passe ne correspondent pas');
             $this->render('users/registerPageView', $this->buildRegisterViewData());
@@ -164,7 +164,7 @@ class RegisterController extends DefaultController
             );
 
             if ($result) {
-                // Envoyer l'email de vérification
+                // Send the verification email
                 $mailer = new Mailer();
                 $emailSent = $mailer->sendVerificationEmail(
                     $email,

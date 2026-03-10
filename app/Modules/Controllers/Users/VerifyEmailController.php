@@ -33,7 +33,7 @@ class VerifyEmailController extends DefaultController
     {
         parent::__construct();
 
-        // Récupérer le token depuis l'URL
+        // Get the token from the URL
         $token = trim((string) $this->request->get('token', ''));
 
         if (empty($token)) {

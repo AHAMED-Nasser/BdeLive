@@ -9,15 +9,11 @@ use PDOException;
 use App\Modules\Helpers\SlugGenerator;
 
 /**
- * ArticleModel - Modèle unifié pour la gestion des articles
- *
- * Ce modèle centralise toutes les opérations sur les articles (lecture et écriture)
- * conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).
- *
- * Responsabilités :
- * - Lecture : Récupération des articles avec pagination, recherche par slug/ID
- * - Écriture : Création, modification et suppression d'articles
- * - Gestion automatique des slugs uniques
+
+ * Responsibilities:
+ * - Read: Retrieve articles with pagination, search by slug/ID
+ * - Write: Create, update and delete articles
+ * - Automatic management of unique slugs
  *
  * @package BdeLive\Models\Articles
  * @author BdeLive - Group 8
@@ -25,43 +21,33 @@ use App\Modules\Helpers\SlugGenerator;
  */
 class ArticleModel
 {
-    /**
-     * Instance de connexion PDO à la base de données
-     *
-     * @var PDO
-     */
     private PDO $pdo;
 
     /**
-     * Constructeur - Injection de dépendance PDO
+     * Constructor - PDO dependency injection
      *
-     * Conformément aux bonnes pratiques (CM4 Slide 22), la connexion PDO
-     * est injectée via le constructeur pour faciliter les tests et respecter
-     * le principe d'inversion de dépendances.
+
      *
-     * @param PDO $pdo Instance de connexion à la base de données
-     * @return void
+     * @param PDO $pdo Database connection instance
      */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // =========================================================================
-    // MÉTHODES D'ÉCRITURE (Write)
-    // =========================================================================
+
 
     /**
-     * Insérer un nouvel article dans la base de données
+     * Insert a new article into the database
      *
-     * Crée un nouvel enregistrement d'article avec toutes les informations fournies.
-     * Génère automatiquement un slug unique à partir du titre.
+     * Creates a new article record with all provided information.
+     * Automatically generates a unique slug from the title.
      *
-     * @param string $title Titre de l'article
-     * @param string $description Description/contenu de l'article
-     * @param string $imageUrl URL de l'image Cloudinary
-     * @param string $author Nom complet de l'auteur
-     * @return bool True si l'insertion réussit, false sinon
+     * @param string $title Article title
+     * @param string $description Article description/content
+     * @param string $imageUrl Cloudinary image URL
+     * @param string $author Author full name
+     * @return bool True on success, false on failure
      */
     public function insertArticle(
         string $title,
@@ -70,10 +56,10 @@ class ArticleModel
         string $author
     ): bool {
         try {
-            // Génération d'un slug unique à partir du titre
+            // Generate a unique slug from the title
             $slug = $this->generateUniqueSlug($title);
 
-            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author) 
+            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author)
                       VALUES (:title, :slug, :description, :image_url, :author)";
 
             $stmt = $this->pdo->prepare($query);
@@ -92,18 +78,18 @@ class ArticleModel
     }
 
     /**
-     * Mettre à jour un article existant dans la base de données
+     * Update an existing article in the database
      *
-     * Met à jour les informations d'un article existant identifié par son ID.
-     * Si le titre a changé, génère un nouveau slug unique.
-     * L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.
+     * Updates information of an existing article identified by its ID.
+     * If the title changes, a new unique slug is generated.
+     * The image URL is updated only if a new image is provided.
      *
-     * @param int $articleId ID de l'article à mettre à jour
-     * @param string $title Nouveau titre de l'article
-     * @param string $description Nouvelle description/contenu
-     * @param string $imageUrl Nouvelle URL d'image Cloudinary (chaîne vide pour conserver l'existante)
-     * @param string $author Nouveau nom d'auteur
-     * @return bool True si la mise à jour réussit, false sinon
+     * @param int $articleId ID of the article to update
+     * @param string $title New article title
+     * @param string $description New description/content
+     * @param string $imageUrl New Cloudinary image URL (empty string to keep existing)
+     * @param string $author New author name
+     * @return bool True on success, false on failure
      */
     public function updateArticle(
         int $articleId,
@@ -113,24 +99,24 @@ class ArticleModel
         string $author
     ): bool {
         try {
-            // Récupération de l'article actuel pour vérifier si le titre a changé
+            // Retrieve current article to check if title has changed
             $currentArticle = $this->getArticleById($articleId);
             if ($currentArticle === null) {
                 error_log('ArticleModel::updateArticle - Article not found: ' . $articleId);
                 return false;
             }
 
-            // Génération d'un nouveau slug si le titre a changé
+            // Generate a new slug if the title has changed
             $slug = $currentArticle['slug'];
             if ($currentArticle['title'] !== $title) {
                 $slug = $this->generateUniqueSlugForUpdate($title, $articleId);
             }
 
-            // Construction de la requête selon le traitement de l'image
+            // Build the SQL query depending on image handling
             if ($imageUrl === 'DELETE') {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             image_url = NULL, author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             image_url = NULL, author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $title,
@@ -140,9 +126,9 @@ class ArticleModel
                     ':id' => $articleId
                 ];
             } elseif (!empty($imageUrl)) {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             image_url = :image_url, author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             image_url = :image_url, author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $title,
@@ -153,9 +139,9 @@ class ArticleModel
                     ':id' => $articleId
                 ];
             } else {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $title,
@@ -175,13 +161,12 @@ class ArticleModel
     }
 
     /**
-     * Supprimer un article de la base de données
+     * Delete an article from the database
      *
-     * Supprime définitivement un article identifié par son ID.
-     * Retourne true si la suppression a réussi, false sinon.
+     * Permanently deletes an article identified by its ID.
      *
-     * @param int $articleId ID de l'article à supprimer
-     * @return bool True si la suppression réussit, false sinon
+     * @param int $articleId ID of the article to delete
+     * @return bool True on success, false on failure
      */
     public function deleteArticle(int $articleId): bool
     {
@@ -197,15 +182,13 @@ class ArticleModel
         }
     }
 
-    // =========================================================================
-    // MÉTHODES DE LECTURE (Read)
-    // =========================================================================
+
 
     /**
-     * Récupérer un article par son identifiant
+     * Retrieve an article by its identifier
      *
-     * @param int $articleId Identifiant unique de l'article
-     * @return array<string, mixed>|null Données de l'article ou null si non trouvé
+     * @param int $articleId Unique article identifier
+     * @return array<string, mixed>|null Article data or null if not found
      */
     public function getArticleById(int $articleId): ?array
     {
@@ -223,10 +206,10 @@ class ArticleModel
     }
 
     /**
-     * Récupérer un article par son slug
+     * Retrieve an article by its slug
      *
-     * @param string $slug Slug unique de l'article
-     * @return array<string, mixed>|null Données de l'article ou null si non trouvé
+     * @param string $slug Unique article slug
+     * @return array<string, mixed>|null Article data or null if not found
      */
     public function getArticleBySlug(string $slug): ?array
     {
@@ -244,19 +227,19 @@ class ArticleModel
     }
 
     /**
-     * Récupérer des articles paginés triés par date de création (décroissant)
+     * Retrieve paginated articles sorted by creation date (descending)
      *
-     * @param int $offset Décalage de départ
-     * @param int $limit Nombre d'articles à récupérer
-     * @return array<int, array<string, mixed>> Tableau d'articles
+     * @param int $offset Start offset
+     * @param int $limit Number of articles to retrieve
+     * @return array<int, array<string, mixed>> Array of articles
      */
     public function getPaginatedArticles(int $offset, int $limit): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url, 
-                      author, created_at 
-                      FROM ARTICLES 
-                      ORDER BY created_at DESC 
+            $query = "SELECT id, title, slug, description, image_url,
+                      author, created_at
+                      FROM ARTICLES
+                      ORDER BY created_at DESC
                       LIMIT :limit OFFSET :offset";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -272,20 +255,20 @@ class ArticleModel
     }
 
     /**
-     * Récupérer les derniers articles triés par date de création (décroissant)
+     * Retrieve latest articles sorted by creation date (descending)
      *
-     * Récupère un nombre spécifié des articles les plus récents de la base de données.
-     * Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les performances.
+     * Retrieves a specified number of the most recent articles from the database.
+     * The query is optimized to select only required columns for performance.
      *
-     * @param int $limit Nombre d'articles à récupérer (par défaut : 2)
-     * @return array<int, array<string, mixed>> Tableau d'articles, tableau vide si aucun trouvé
+     * @param int $limit Number of articles to retrieve (default: 2)
+     * @return array<int, array<string, mixed>> Array of articles, empty array if none found
      */
     public function getLatestArticles(int $limit = 2): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url, author, created_at 
-                      FROM ARTICLES 
-                      ORDER BY created_at DESC 
+            $query = "SELECT id, title, slug, description, image_url, author, created_at
+                      FROM ARTICLES
+                      ORDER BY created_at DESC
                       LIMIT :limit";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
@@ -300,9 +283,9 @@ class ArticleModel
     }
 
     /**
-     * Compter le nombre total d'articles
+     * Count total number of articles
      *
-     * @return int Nombre total d'articles
+     * @return int Total number of articles
      */
     public function countArticles(): int
     {
@@ -322,18 +305,16 @@ class ArticleModel
         }
     }
 
-    // =========================================================================
-    // MÉTHODES PRIVÉES - GESTION DES SLUGS
-    // =========================================================================
+
 
     /**
-     * Générer un slug unique à partir d'un titre en utilisant SlugGenerator réutilisable
+     * Generate a unique slug from a title using reusable SlugGenerator
      *
-     * Si un slug existe déjà, ajoute un numéro pour le rendre unique.
-     * Exemple : "mon-article", "mon-article-2", "mon-article-3"
+     * If a slug already exists, appends a number to make it unique.
+     * Example: "my-article", "my-article-2", "my-article-3"
      *
-     * @param string $title Titre à convertir
-     * @return string Un slug unique
+     * @param string $title Title to convert
+     * @return string Unique slug
      */
     private function generateUniqueSlug(string $title): string
     {
@@ -343,10 +324,10 @@ class ArticleModel
     }
 
     /**
-     * Vérifier si un slug existe déjà dans la base de données
+     * Check if a slug already exists in the database
      *
-     * @param string $slug Slug à vérifier
-     * @return bool True si le slug existe, false sinon
+     * @param string $slug Slug to check
+     * @return bool True if the slug exists, false otherwise
      */
     private function slugExists(string $slug): bool
     {
@@ -363,15 +344,15 @@ class ArticleModel
     }
 
     /**
-     * Générer un slug unique pour une mise à jour d'article
+     * Generate a unique slug for an article update
      *
-     * Similaire à generateUniqueSlug mais exclut l'article actuel de la vérification d'unicité.
-     * Permet de mettre à jour un article sans changer son slug si le titre n'a pas changé,
-     * ou de générer un nouveau slug unique si le titre a changé.
+     * Similar to generateUniqueSlug but excludes the current article from the uniqueness check.
+     * Allows updating an article without changing its slug if the title did not change,
+     * or generating a new unique slug if the title changed.
      *
-     * @param string $title Titre à convertir
-     * @param int $excludeId ID de l'article à exclure de la vérification d'unicité
-     * @return string Un slug unique
+     * @param string $title Title to convert
+     * @param int $excludeId ID of the article to exclude from uniqueness check
+     * @return string Unique slug
      */
     private function generateUniqueSlugForUpdate(string $title, int $excludeId): string
     {
@@ -381,11 +362,11 @@ class ArticleModel
     }
 
     /**
-     * Vérifier si un slug existe déjà dans la base de données, en excluant un ID d'article spécifique
+     * Check if a slug already exists in the database, excluding a specific article ID
      *
-     * @param string $slug Slug à vérifier
-     * @param int $excludeId ID de l'article à exclure de la vérification
-     * @return bool True si le slug existe (en excluant l'ID spécifié), false sinon
+     * @param string $slug Slug to check
+     * @param int $excludeId ID of the article to exclude from the check
+     * @return bool True if the slug exists (excluding the specified ID), false otherwise
      */
     private function slugExistsExcludingId(string $slug, int $excludeId): bool
     {

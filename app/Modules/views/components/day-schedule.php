@@ -74,36 +74,36 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
         </div>
     </div>
 
-    <!-- Conteneur Grille -->
+    <!-- Container Grid -->
     <div class="schedule-grid-container">
 
-        <!-- Axe Heures -->
+        <!-- Hours axis -->
         <div class="time-axis">
             <?php foreach ($daySchedule['hours'] as $hour) : ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
 
-        <!-- Colonne Jour Unique -->
+        <!-- Unique day column -->
         <div class="schedule-grid-wrapper">
             <div class="schedule-grid" style="grid-template-columns: 1fr;">
 
-                <!-- En-tête -->
+                <!-- Header -->
                 <div class="day-header">
                     <?= htmlspecialchars($daySchedule['dayName']) ?><br>
                     <small
                         style="font-weight: 400; opacity: 0.8;"><?= htmlspecialchars($daySchedule['formatted']) ?></small>
                 </div>
 
-                <!-- Colonne -->
+                <!-- Column -->
                 <div class="day-column" data-date="<?= $daySchedule['date'] ?>">
 
-                    <!-- Lignes horaires -->
+                    <!-- Hour lines -->
                     <?php foreach ($daySchedule['hours'] as $index => $hour) : ?>
                         <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                     <?php endforeach; ?>
 
-                    <!-- Événements -->
+                    <!-- Events -->
                     <?php if (!empty($daySchedule['events'])) : ?>
                         <?php foreach ($daySchedule['events'] as $event) :
                             $title = $event['title'] ?? 'Cours';
@@ -132,7 +132,7 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
                         <?php endforeach; ?>
                     <?php endif; ?>
 
-                    <!-- Indicateur temps réel -->
+                    <!-- Real time indicator -->
                     <?php
                     $ct = $daySchedule['currentTime'];
                     if ($ct) :
@@ -149,7 +149,7 @@ $buildUrl = function ($date) use ($pageUrl, $extraParams) {
     </div>
 </div>
 
-<!-- Modal Mobile (Réutilisée) -->
+<!-- Modal Mobile (Reused) -->
 <div id="course-modal" class="course-modal" role="dialog" aria-hidden="true">
     <div class="modal-overlay" tabindex="0" role="button" aria-label="Fermer la modal"></div>
     <div class="modal-content">

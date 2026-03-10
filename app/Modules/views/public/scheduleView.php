@@ -62,7 +62,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
 
     <div class="calendar-wrapper" id="calendar-view">
         <?php if ($selectedGroup) : ?>
-            <!-- SWITCH DES VUES (JOUR / SEMAINE / MOIS) -->
+            <!-- SWITCH to VIEWS (DAY / WEEK / MONTH) -->
             <?php
             $pageUrl = 'index.php?page=schedule';
             $extraParams = [
@@ -70,18 +70,18 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
                 'group' => $selectedGroup
             ];
 
-            // Déterminer la vue active
+            // Determine the active view
             $activeView = $view ?? 'week';
 
             if ($activeView === 'day' && isset($daySchedule)) {
-                // VUE JOUR
+                // DAY VIEW
                 include __DIR__ . '/../components/day-schedule.php';
             } elseif ($activeView === 'month' && isset($nativeCalendar)) {
-                // VUE MOIS
+                // MONTH VIEW
                 $calendar = $nativeCalendar;
                 include __DIR__ . '/../components/calendar.php';
             } elseif (isset($weeklySchedule)) {
-                // VUE SEMAINE (Défaut)
+                // WEEK VIEW (Default)
                 $schedule = $weeklySchedule;
                 include __DIR__ . '/../components/weekly-schedule.php';
             } else {
@@ -129,7 +129,7 @@ start_page("Emploi du temps - BDELive", true, $user ?? null);
 </main>
 
 <script>
-    // Injecter les données des groupes pour le fichier schedule-filters.js
+    // Inject the groups data for the schedule-filters.js file
     window.scheduleGroupsData = <?= json_encode(array_map(fn($y) => $y['groups'], $groups)) ?>;
 </script>
 

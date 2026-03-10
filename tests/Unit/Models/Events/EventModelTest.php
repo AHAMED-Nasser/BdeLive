@@ -13,7 +13,7 @@ use DateTime;
 
 /**
  * Unit tests for EventModel
- * 
+ *
  * Tests the unified EventModel class that handles both read and write operations
  * for events using dependency injection with PDO mocking.
  */
@@ -25,7 +25,7 @@ class EventModelTest extends TestCase
 
     /**
      * Set up test fixtures with PDO mocking
-     * 
+     *
      * Uses direct PDO injection instead of Database singleton pattern
      * for better testability and isolation.
      */
@@ -33,14 +33,12 @@ class EventModelTest extends TestCase
     {
         $this->mockPdo = $this->createMock(PDO::class);
         $this->mockStmt = $this->createMock(PDOStatement::class);
-        
+
         // Direct injection - no Database singleton needed
         $this->model = new EventModel($this->mockPdo);
     }
 
-    // =========================================================================
-    // READ OPERATIONS TESTS
-    // =========================================================================
+
 
     /**
      * Test that count() returns an integer
@@ -506,9 +504,6 @@ class EventModelTest extends TestCase
         $this->assertCount(1, $result);
     }
 
-    // =========================================================================
-    // WRITE OPERATIONS TESTS
-    // =========================================================================
 
     /**
      * Test that insertEvent() returns true on successful insertion

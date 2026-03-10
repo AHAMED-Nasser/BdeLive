@@ -9,7 +9,7 @@
  * - $extraParams : array - Additional URL parameters
  */
 
-// Valeurs par défaut si non définies
+// Default values if not defined
 $schedule = $schedule ?? [
     'weekDates' => [],
     'events' => [],
@@ -40,7 +40,7 @@ $weekPeriod = $firstDate && $lastDate
     ? $firstDate['formatted'] . ' - ' . $lastDate['formatted']
     : 'Semaine ' . $schedule['week'];
 
-// Calculate current time position (if today is in the week)
+// Calculate current time position (if today is in the week) in minutes since 08:00
 $currentTimePosition = null;
 $currentTimeLabel = '';
 if (!empty($schedule['weekDates'])) {
@@ -49,7 +49,7 @@ if (!empty($schedule['weekDates'])) {
         if ($dayInfo['date'] === $today) {
             $hour = (int) date('H');
             $minute = (int) date('i');
-            $currentTimePosition = (($hour - 8) * 60) + $minute; // Minutes since 08:00
+            $currentTimePosition = (($hour - 8) * 60) + $minute;
             $currentTimeLabel = date('H:i');
             break;
         }
@@ -63,7 +63,7 @@ if (!empty($schedule['weekDates'])) {
 
 <div class="weekly-schedule" role="region" aria-label="Emploi du temps semaine <?= $schedule['week'] ?>">
 
-    <!-- Toolbar Navigation Pro -->
+    <!-- Toolbar Navigation -->
     <div class="calendar-header">
         <!-- Left: Today Button -->
         <?php
@@ -112,21 +112,21 @@ if (!empty($schedule['weekDates'])) {
         </div>
     </div>
 
-    <!-- Conteneur Grille -->
+    <!-- Container Grid -->
     <div class="schedule-grid-container">
 
-        <!-- Axe des heures (gauche) -->
+        <!-- Hours axis (left) -->
         <div class="time-axis" aria-label="Heures">
             <?php foreach ($schedule['hours'] as $hour) : ?>
                 <div class="time-slot"><?= htmlspecialchars($hour) ?></div>
             <?php endforeach; ?>
         </div>
 
-        <!-- Grille des jours -->
+        <!-- Days grid -->
         <div class="schedule-grid-wrapper">
             <div class="schedule-grid">
 
-                <!-- En-têtes des jours -->
+                <!-- Day headers -->
                 <?php foreach ($schedule['weekDates'] as $dayInfo) : ?>
                     <div class="day-header">
                         <?= htmlspecialchars($dayInfo['dayName']) ?><br>
@@ -135,33 +135,33 @@ if (!empty($schedule['weekDates'])) {
                     </div>
                 <?php endforeach; ?>
 
-                <!-- Colonnes des jours avec événements -->
+                <!-- Days columns with events -->
                 <?php foreach ($schedule['weekDates'] as $dayInfo) : ?>
                     <div class="day-column" data-date="<?= htmlspecialchars($dayInfo['date']) ?>">
 
-                        <!-- Lignes horaires (background) -->
+                        <!-- Hour lines (background) -->
                         <?php foreach ($schedule['hours'] as $index => $hour) : ?>
                             <div class="hour-line" style="top: <?= $index * 60 ?>px;"></div>
                         <?php endforeach; ?>
 
-                        <!-- Événements/Cours du jour -->
+                        <!-- Events/Courses of the day -->
                         <?php
                         $dayEvents = $schedule['events'][$dayInfo['date']] ?? [];
                         if (!empty($dayEvents)) :
                             foreach ($dayEvents as $event) :
-                                // Extraire les infos
+                                // Extract the infos
                                 $title = $event['title'] ?? 'Cours';
                                 $location = $event['location'] ?? '';
                                 $teacher = $event['teacher'] ?? '';
                                 $type = $event['type'] ?? 'default';
                                 $cssPos = $event['cssPosition'] ?? ['top' => '0px', 'height' => '60px'];
 
-                                // Formatage des horaires
+                                // Formatting the hours
                                 $startTime = isset($event['start']) ? date('H:i', strtotime($event['start'])) : '';
                                 $endTime = isset($event['end']) ? date('H:i', strtotime($event['end'])) : '';
                                 $timeRange = $startTime && $endTime ? "$startTime - $endTime" : '';
 
-                                // ARIA label complet
+                                // ARIA label comprehensive
                                 $ariaLabel = $title;
                                 if ($timeRange) {
                                     $ariaLabel .= ", $timeRange";
@@ -201,7 +201,7 @@ if (!empty($schedule['weekDates'])) {
                     </div>
                 <?php endforeach; ?>
 
-                <!-- Indicateur de temps actuel (ligne rouge) -->
+                <!-- Current time indicator (red line) -->
                 <?php if ($currentTimePosition !== null && $currentTimePosition >= 0 && $currentTimePosition <= 780) : ?>
                     <div class="current-time-indicator" style="top: <?= $currentTimePosition ?>px;"
                         data-time="<?= $currentTimeLabel ?>">
@@ -216,7 +216,7 @@ if (!empty($schedule['weekDates'])) {
 
 </div>
 
-<!-- Modal Mobile pour Détails Cours -->
+<!-- Modal Mobile for Course details -->
 <div id="course-modal" class="course-modal" role="dialog" aria-hidden="true" aria-labelledby="modal-title">
     <div class="modal-overlay" tabindex="0" role="button" aria-label="Fermer la modal"></div>
     <div class="modal-content">

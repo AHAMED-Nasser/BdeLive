@@ -40,9 +40,9 @@ $viewMode = $viewMode ?? 'list'; ?>
 
 <?php
 
-// Les variables $events et $pagination sont définies par EventController
+// The variables $events and $pagination are defined by EventController
 
-// Repository pour vérifier les inscriptions
+// Repository to check registrations
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
 ?>
@@ -71,7 +71,7 @@ $userId = $user['user_id'] ?? null;
         <p style="text-align: center; margin-top: 50px;">Aucun événement à afficher pour le moment.</p>
 
     <?php elseif ($viewMode === 'calendar') : ?>
-        <!-- Calendrier natif pour les événements -->
+        <!-- Native calendar for events -->
         <?php
         $nativeCalendar = $nativeCalendar ?? null;
         $calYear = $calYear ?? (int) date('Y');
@@ -90,7 +90,7 @@ $userId = $user['user_id'] ?? null;
     <?php else : ?>
         <?php foreach ($events as $event) : ?>
             <?php
-            // Get images from entity and prepare for carousel
+            // Get images from the entity and prepare for the carousel
             $eventImages = $event->getImagesArray();
             $carouselImages = [];
             if (!empty($eventImages)) {

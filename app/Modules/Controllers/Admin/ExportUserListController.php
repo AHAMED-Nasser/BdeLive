@@ -10,9 +10,12 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 
 /**
- * Contrôleur responsable de l'exportation de la liste des utilisateurs en PDF.
- * Reprend les filtres de recherche et de statut de l'administration.
- * * @author BDELIVE - Groupe 8
+ * Controller responsible for exporting the user list to PDF.
+ *
+ * Reuses the same search and status filters as the admin section,
+ * and generates a PDF containing all matching users.
+ *
+ * @author BDELIVE - Group 8
  */
 class ExportUserListController extends AdminController
 {
@@ -22,15 +25,15 @@ class ExportUserListController extends AdminController
 
         $userManager = new UserManager();
 
-        // 1. Récupération et validation des filtres (Logique identique à AdminSectionController)
+        // 1. Retrieve and validate filters (same logic as AdminSectionController)
         $filter = $_REQUEST['filter'] ?? 'active';
         $roleFilter = $_REQUEST['role'] ?? 'all';
         $search = trim((string) ($_REQUEST['search'] ?? ''));
 
         $showBlocked = ($filter === 'blocked');
 
-        // 2. Récupération des données sans pagination (on veut tout l'export d'un coup)
-        // On passe une limite très haute ou on utilise une méthode dédiée sans limit/offset
+        // 2. Retrieve all matching users without pagination (full export)
+        // Use a very high limit or a dedicated method without limit/offset
         if ($filter === 'deleted') {
             $users = $userManager->getDeletedUsers(9999, 0, $roleFilter, $search);
         } else {
@@ -41,10 +44,12 @@ class ExportUserListController extends AdminController
     }
 
     /**
-     * @param array<int, array<string, mixed>> $users
-     * @param string $filter
-     * @param string $role
-     * @param string $search
+     * Generates the PDF and streams it to the browser.
+     *
+     * @param array<int, array<string, mixed>> $users List of users to export
+     * @param string $filter Current status filter
+     * @param string $role Current role filter
+     * @param string $search Current search query
      */
     private function generatePdf(array $users, string $filter, string $role, string $search): void
     {
@@ -53,7 +58,7 @@ class ExportUserListController extends AdminController
             if (file_exists($autoloadPath)) {
                 require_once $autoloadPath;
             } else {
-                throw new \Exception("L'autoloader de Composer est introuvable. Veuillez lancer 'composer install'.");
+                throw new \Exception("Composer autoloader not found. Please run 'composer install'.");
             }
         }
 
@@ -61,22 +66,16 @@ class ExportUserListController extends AdminController
         $options->set('defaultFont', 'Helvetica');
         $dompdf = new Dompdf($options);
 
+        // Load external CSS for PDF styling
+        $cssPath = __DIR__ . '/../../../assets/css/pages/pdf-user-list.css';
+        $cssContent = file_exists($cssPath) ? (string) file_get_contents($cssPath) : '';
+
         ob_start();
         ?>
         <html>
         <head>
             <style>
-                body { font-family: Helvetica, sans-serif; font-size: 10pt; color: #333; }
-                .header { text-align: center; margin-bottom: 20px; border-bottom: 2px solid #444; padding-bottom: 10px; }
-                .filter-info { font-style: italic; font-size: 9pt; margin-bottom: 10px; color: #666; }
-                table { width: 100%; border-collapse: collapse; }
-                th { background-color: #f2f2f2; border: 1px solid #ccc; padding: 8px; text-align: left; }
-                td { border: 1px solid #ccc; padding: 6px; }
-                tr:nth-child(even) { background-color: #fafafa; }
-                .role-badge { font-weight: bold; color: #007bff; }
-                .status-active { color: #28a745; font-weight: bold; }
-                .status-deleted { color: #dc3545; }
-                .footer { position: fixed; bottom: 0; width: 100%; text-align: right; font-size: 8pt; }
+                <?= $cssContent ?>
             </style>
         </head>
         <body>

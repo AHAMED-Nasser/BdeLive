@@ -47,9 +47,6 @@ class EventRepository
         $this->pdo = $pdo;
     }
 
-    // =========================================================================
-    // READ OPERATIONS
-    // =========================================================================
 
     /**
      * Find an event by its unique identifier
@@ -272,9 +269,7 @@ class EventRepository
         }
     }
 
-    // =========================================================================
-    // PRIVATE HELPER METHODS - Internal use only
-    // =========================================================================
+
 
     /**
      * Insert a new event into the database
@@ -413,9 +408,7 @@ class EventRepository
         }
     }
 
-    // =========================================================================
-    // ADDITIONAL UTILITY METHODS (not in interface)
-    // =========================================================================
+
 
     /**
      * Update only the images associated with an event

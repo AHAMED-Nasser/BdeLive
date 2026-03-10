@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use App\Core\Http\Request;
 
 /**
- * Tests unitaires pour Request
+ * Unit tests for Request
  */
 class RequestTest extends TestCase
 {
@@ -16,7 +16,7 @@ class RequestTest extends TestCase
 
     protected function setUp(): void
     {
-        // Simuler des données de requête
+        // Simulate request data
         $_GET = ['page' => 'home', 'id' => '42'];
         $_POST = ['email' => 'test@example.com', 'password' => 'secret'];
         $_SERVER = [

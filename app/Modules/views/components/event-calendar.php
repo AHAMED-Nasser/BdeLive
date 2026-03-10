@@ -58,9 +58,9 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
             $currentUrl = $buildUrl($calendar['year'], $calendar['month']);
             $todayUrl = $buildUrl($currentYear, $currentMonth);
 
-            // Vérifier si le bouton précédent pointe vers la page actuelle
+            // Verify if the previous button points to the current page
             $isPrevCurrent = ($prevUrl === $currentUrl);
-            // Vérifier si le bouton suivant pointe vers la page actuelle ou vers "Aujourd'hui"
+            // Verify if the next button points to the current page or to "Today"
             $isNextCurrent = ($nextUrl === $currentUrl || $nextUrl === $todayUrl);
             ?>
 
@@ -96,7 +96,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         </div>
     </div>
 
-    <!-- En-têtes des jours de la semaine -->
+    <!-- Weekday headers -->
     <div class="calendar-weekdays">
         <?php
         $weekdays = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
@@ -106,7 +106,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
         ?>
     </div>
 
-    <!-- Grille du calendrier -->
+    <!-- Calendar grid -->
     <div class="calendar-grid">
         <?php foreach ($calendar['days'] as $day) : ?>
             <div
@@ -127,7 +127,7 @@ $buildUrl = function ($year, $month) use ($pageUrl, $extraParams) {
                                 : ($eventId ? 'index.php?page=showEvent&id=' . (int) $eventId : '#');
                             $eventUrl = $baseEventUrl !== '#' ? $baseEventUrl . '&return_url=' . urlencode($returnUrl) : '#';
 
-                            // Construire le label accessible
+                            // Build the accessible label
                             $ariaLabel = $eventTitle;
                             if ($eventTime) {
                                 $ariaLabel .= ', ' . $eventTime;

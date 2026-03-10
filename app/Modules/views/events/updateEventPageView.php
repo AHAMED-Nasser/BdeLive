@@ -16,10 +16,10 @@
  */
 start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event->getName()), true, $user ?? null);
 
-// Prépare le tableau des statuts participants pour les cases à cocher
+// Prepare the array of participating statuses for the checkboxes
 $statusParticipatingArray = explode(',', $event->getStatusParticipating());
 
-// Assurez-vous que les dates sont au format YYYY-MM-DD pour les inputs HTML
+// Ensure that the dates are in the format YYYY-MM-DD for the HTML inputs
 $eventDateValue = $event->getDate();
 $eventTimeValue = $event->getTime();
 ?>
@@ -65,7 +65,7 @@ $eventTimeValue = $event->getTime();
                 <input id="event-theme" type="text" name="event-theme" placeholder="Entrer le thème de l'événement (Soirée, ...)"
                        value="<?= htmlspecialchars($event->getTheme()) ?>">
 
-                <!-- Type d'inscription -->
+                <!-- Registration type -->
                 <?php
                 $isGroupEvent = $event->isGroupEvent();
                 $teamSize = $event->getTeamSize();
@@ -103,7 +103,7 @@ $eventTimeValue = $event->getTime();
                     </div>
                 </div>
 
-                <!-- Taille de l'équipe -->
+                <!-- Team size -->
                 <div id="team-size-container" style="<?= $isGroupEvent ? 'display: block;' : 'display: none;' ?> margin-top: 15px;">
                     <label for="team-size">Nombre de personnes par groupe</label>
                     <input id="team-size" type="number" name="team_size" min="2" max="20" value="<?= $teamSize > 1 ? $teamSize : 2 ?>" placeholder="Ex: 4">

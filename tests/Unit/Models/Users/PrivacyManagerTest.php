@@ -65,7 +65,6 @@ class PrivacyManagerTest extends TestCase
         $instanceProperty->setValue(null, null);
     }
 
-    // ==================== VERIFICATION CODE TESTS ====================
 
     /**
      * Test that generateVerificationCode returns a 6-digit string
@@ -119,7 +118,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertTrue(true);
     }
 
-    // ==================== EMAIL FORMAT VALIDATION TESTS ====================
 
     /**
      * Test valid email format
@@ -149,7 +147,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertFalse($this->privacyManager->isValidEmailFormat('invalid email@domain.com'));
     }
 
-    // ==================== PASSWORD FORMAT VALIDATION TESTS ====================
 
     /**
      * Test valid password format
@@ -229,7 +226,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertCount(4, $result['errors']);
     }
 
-    // ==================== USER BLOCKING TESTS ====================
 
     /**
      * Test isUserBlocked returns false for non-blocked user
@@ -400,7 +396,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
-    // ==================== PASSWORD CHANGE TOKEN TESTS ====================
 
     /**
      * Test createPasswordChangeToken creates token successfully
@@ -583,7 +578,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertEquals('Aucun code de vérification trouvé', $result['message']);
     }
 
-    // ==================== EMAIL CHANGE TOKEN TESTS ====================
 
     /**
      * Test createEmailChangeToken creates token with email
@@ -706,7 +700,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertStringContainsString('Code incorrect', $result['message']);
     }
 
-    // ==================== RESEND CODE TESTS ====================
 
     /**
      * Test canResendCode returns can_resend true when no token exists
@@ -815,7 +808,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    // ==================== EMAIL CHANGE ATTEMPT TRACKING TESTS ====================
 
     /**
      * Test trackEmailChangeAttempt increments counter
@@ -910,7 +902,6 @@ class PrivacyManagerTest extends TestCase
         $this->assertTrue($result);
     }
 
-    // ==================== CONSTANTS TESTS ====================
 
     /**
      * Test getMaxFailedAttempts returns expected value

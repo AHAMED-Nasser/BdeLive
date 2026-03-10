@@ -20,7 +20,7 @@
  */
 start_page("BDELive - Evénement : " . $event->getName(), true, $user ?? null);
 
-// Repository pour vérifier les inscriptions
+// Repository to check registrations
 $registrationRepo = new \App\Modules\Repositories\EventRegistrationRepository();
 $userId = $user['user_id'] ?? null;
 $totalGroupRegistrants = $totalGroupRegistrants ?? 0;
@@ -42,7 +42,7 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
     </a>
     <h1 class="text-center event-page-title"><?= htmlspecialchars($event->getName()) ?></h1>
 
-    <!-- Messages flash -->
+    <!-- Flash messages -->
     <?php if (!empty($flash['success'])) : ?>
         <div class="event-flash-success">
             <?= htmlspecialchars($flash['success']) ?>
@@ -92,13 +92,13 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
 
         <?php if ($userId) : ?>
             <?php
-                // Vérification de l'inscription
+                // Checking the registration
                 $isRegistered = $registrationRepo->isUserRegistered((int) $eventId, (int) $userId);
             ?>
             <?php if ($event->getDate() < date('Y-m-d')) : ?>
                 <p style="color: #e45a4e; font-weight: bold; font-size: 1.1rem; border: solid #e45a4e 1px; padding: 10px 0; border-radius: 10px">
                     <i class="fa-solid fa-triangle-exclamation" style="padding: 0 10px"></i>
-                    Les inscriptions sont fermées pour cet événement.
+                    The registrations are closed for this event.
                     <i class="fa-solid fa-triangle-exclamation" style="padding: 0 10px"></i>
                 </p>
             <?php elseif ($event->getDate() === date('Y-m-d')) : ?>
@@ -114,12 +114,12 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
                     </a>
                 <?php else : ?>
                     <?php if ($isGroupEvent) : ?>
-                        <!-- Événement en groupe -->
+                        <!-- Group event -->
                         <a href="index.php?page=groupRegistration&event_id=<?= $eventId ?>" class="btn-group-register">
                             <i class="fas fa-users"></i> S'inscrire en groupe (<?= $teamSize ?> personnes)
                         </a>
                     <?php else : ?>
-                        <!-- Événement individuel -->
+                        <!-- Individual event -->
                         <a href="index.php?page=registerEvent&action=register&event_id=<?= $eventId ?>" class="btn-individual-register">
                             S'inscrire à l'événement
                         </a>

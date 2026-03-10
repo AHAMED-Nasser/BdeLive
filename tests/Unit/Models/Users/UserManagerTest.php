@@ -598,7 +598,6 @@ class UserManagerTest extends TestCase
         $this->assertArrayHasKey('is_verified', $result);
     }
 
-    // ==================== Tests pour getUsers() ====================
 
     public function testGetUsersReturnsActiveUsersWithoutFilters(): void
     {
@@ -777,7 +776,7 @@ class UserManagerTest extends TestCase
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        // Test avec apostrophe (devrait être échappé par PDO)
+        // Test with apostrophe (should be escaped by PDO)
         $result = $this->userManager->getUsers(10, 0, false, 'all', "O'Brien");
 
         $this->assertCount(1, $result);
@@ -807,7 +806,6 @@ class UserManagerTest extends TestCase
         $this->assertEquals(1, $result[0]['is_blocked']);
     }
 
-    // ==================== Tests pour countUsers() ====================
 
     public function testCountUsersReturnsCorrectCount(): void
     {
@@ -891,11 +889,10 @@ class UserManagerTest extends TestCase
         $this->assertEquals(1, $result);
     }
 
-    // ==================== Tests countActiveUsersByRole (règle min 1 admin + 1 super_admin) ====================
 
     /**
-     * Vérifie que countActiveUsersByRole('admin') retourne le bon nombre.
-     * Utilisé pour la règle : il doit rester au moins 1 administrateur actif.
+     * Verify that countActiveUsersByRole('admin') returns the correct number.
+     * Used for the rule : there must be at least 1 active administrator.
      */
     public function testCountActiveUsersByRoleReturnsCorrectCountForAdmin(): void
     {
@@ -922,8 +919,8 @@ class UserManagerTest extends TestCase
     }
 
     /**
-     * Vérifie que countActiveUsersByRole('super_admin') retourne le bon nombre.
-     * Utilisé pour la règle : il doit rester au moins 1 super administrateur actif.
+     * Verify that countActiveUsersByRole('super_admin') returns the correct number.
+     * Used for the rule : there must be at least 1 active super administrator.
      */
     public function testCountActiveUsersByRoleReturnsCorrectCountForSuperAdmin(): void
     {
@@ -950,7 +947,7 @@ class UserManagerTest extends TestCase
     }
 
     /**
-     * Vérifie que countActiveUsersByRole retourne 0 quand aucun utilisateur actif n'a le rôle.
+     * Verify that countActiveUsersByRole returns 0 when no active user has the role.
      */
     public function testCountActiveUsersByRoleReturnsZeroWhenNoActiveUsers(): void
     {
@@ -972,8 +969,8 @@ class UserManagerTest extends TestCase
     }
 
     /**
-     * Règle métier : il doit rester au moins 1 admin actif.
-     * Quand countActiveUsersByRole('admin') <= 1, AdminSectionController bloque soft_delete, demote, block.
+     * Business rule : there must be at least 1 active admin.
+     * When countActiveUsersByRole('admin') <= 1, AdminSectionController blocks soft_delete, demote, block.
      */
     public function testLastAdminGuardCountIsOneBlocksDestructiveAction(): void
     {
@@ -995,8 +992,8 @@ class UserManagerTest extends TestCase
     }
 
     /**
-     * Règle métier : il doit rester au moins 1 super_admin actif.
-     * Quand countActiveUsersByRole('super_admin') <= 1, AdminSectionController bloque soft_delete, demote_super_admin, block.
+     * Business rule : there must be at least 1 active super_admin.
+     * When countActiveUsersByRole('super_admin') <= 1, AdminSectionController blocks soft_delete, demote_super_admin, block.
      */
     public function testLastSuperAdminGuardCountIsOneBlocksDestructiveAction(): void
     {
@@ -1017,11 +1014,10 @@ class UserManagerTest extends TestCase
         $this->assertEquals(1, $superAdminCount);
     }
 
-    // ==================== Tests de sécurité SQL ====================
 
     public function testGetUsersProtectsAgainstSQLInjection(): void
     {
-        // Tentative d'injection SQL
+        // Attempt to inject SQL
         $maliciousInput = "'; DROP TABLE USERS; --";
 
         $this->mockStmt->expects($this->once())
@@ -1036,7 +1032,7 @@ class UserManagerTest extends TestCase
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        // Ne devrait pas lever d'exception car les paramètres sont bindés
+        // Should not throw an exception because the parameters are bound
         $result = $this->userManager->getUsers(10, 0, false, 'all', $maliciousInput);
 
         $this->assertIsArray($result);
@@ -1044,7 +1040,7 @@ class UserManagerTest extends TestCase
 
     public function testCountUsersProtectsAgainstSQLInjection(): void
     {
-        // Tentative d'injection SQL
+        // Attempt to inject SQL
         $maliciousInput = "' OR '1'='1";
 
         $this->mockStmt->expects($this->once())
@@ -1059,13 +1055,12 @@ class UserManagerTest extends TestCase
             ->method('prepare')
             ->willReturn($this->mockStmt);
 
-        // Ne devrait pas lever d'exception car les paramètres sont bindés
+        // Should not throw an exception because the parameters are bound
         $result = $this->userManager->countUsers(false, 'all', $maliciousInput);
 
         $this->assertIsInt($result);
     }
 
-    // ==================== Tests for grace period methods ====================
 
     /**
      * Verify that getExpiredDeletedUsers() returns only users whose deleted_at

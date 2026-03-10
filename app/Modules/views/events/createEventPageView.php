@@ -50,7 +50,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             <input id="event-theme" type="text" name="event-theme"
                 placeholder="Entrer le thème de l'événement (Soirée, ...)">
 
-            <!-- Type d'inscription -->
+            <!-- Registration type -->
             <label>Type d'inscription</label>
             <!-- From Uiverse.io by Pradeepsaranbishnoi -->
             <div class="checkbox-container">
@@ -75,7 +75,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
                 </div>
             </div>
 
-            <!-- Taille de l'équipe (visible uniquement pour les événements en groupe) -->
+            <!-- Team size (visible only for group events) -->
             <div id="team-size-container" style="display: none; margin-top: 15px;">
                 <label for="team-size">Nombre de personnes par groupe</label>
                 <input id="team-size" type="number" name="team_size" min="2" max="20" value="2" placeholder="Ex: 4">
@@ -83,8 +83,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
                     former un groupe</small>
             </div>
 
-            <!-- checkbox -->
-            <!-- checkbox -->
+            <!-- Checkbox -->
             <fieldset class="checkbox-container">
                 <legend class="form-label">Qui peut venir</legend>
                 <article>
@@ -134,7 +133,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
     </div>
     <script>
         const date = new Date();
-        // Get the current date (jj:mm:AAAA)
+        // Get the current date (dd:mm:yyyy)
         const today = date.toISOString().split("T")[0];
         document.getElementById('event-date').setAttribute("value", today)
 

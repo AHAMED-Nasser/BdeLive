@@ -47,7 +47,6 @@ class EventTeamRepositoryTest extends TestCase
         $instanceProperty->setValue(null, null);
     }
 
-    // ========== createTeam Tests ==========
 
     public function testCreateTeamReturnsTeamId(): void
     {
@@ -98,7 +97,6 @@ class EventTeamRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-    // ========== findById Tests ==========
 
     public function testFindByIdReturnsTeamData(): void
     {
@@ -145,7 +143,6 @@ class EventTeamRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-    // ========== updateStatus Tests ==========
 
     public function testUpdateStatusReturnsTrue(): void
     {
@@ -212,7 +209,6 @@ class EventTeamRepositoryTest extends TestCase
         }
     }
 
-    // ========== deleteTeam Tests ==========
 
     public function testDeleteTeamReturnsTrue(): void
     {
@@ -245,7 +241,6 @@ class EventTeamRepositoryTest extends TestCase
         $this->assertFalse($result);
     }
 
-    // ========== deleteTeamsByEvent Tests ==========
 
     public function testDeleteTeamsByEventReturnsCount(): void
     {
@@ -277,7 +272,6 @@ class EventTeamRepositoryTest extends TestCase
         $this->assertEquals(0, $result);
     }
 
-    // ========== getTeamsByEvent Tests ==========
 
     public function testGetTeamsByEventReturnsTeams(): void
     {
@@ -333,7 +327,6 @@ class EventTeamRepositoryTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    // ========== isUserInAnyTeam Tests ==========
 
     public function testIsUserInAnyTeamReturnsTrueWhenInTeam(): void
     {

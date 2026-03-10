@@ -46,9 +46,7 @@ class ArticleRepository
         $this->pdo = $pdo;
     }
 
-    // =========================================================================
-    // READ OPERATIONS
-    // =========================================================================
+
 
     /**
      * Find an article by its unique identifier
@@ -104,10 +102,10 @@ class ArticleRepository
     public function findPaginated(int $offset, int $limit): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url, 
-                      author, created_at 
-                      FROM ARTICLES 
-                      ORDER BY created_at DESC 
+            $query = "SELECT id, title, slug, description, image_url,
+                      author, created_at
+                      FROM ARTICLES
+                      ORDER BY created_at DESC
                       LIMIT :limit OFFSET :offset";
 
             $stmt = $this->pdo->prepare($query);
@@ -133,9 +131,9 @@ class ArticleRepository
     public function findLatestArticles(int $limit): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url, author, created_at 
-                      FROM ARTICLES 
-                      ORDER BY created_at DESC 
+            $query = "SELECT id, title, slug, description, image_url, author, created_at
+                      FROM ARTICLES
+                      ORDER BY created_at DESC
                       LIMIT :limit";
 
             $stmt = $this->pdo->prepare($query);
@@ -174,9 +172,7 @@ class ArticleRepository
         }
     }
 
-    // =========================================================================
-    // WRITE OPERATIONS
-    // =========================================================================
+
 
     /**
      * Save an article (insert or update)
@@ -219,9 +215,6 @@ class ArticleRepository
         }
     }
 
-    // =========================================================================
-    // PRIVATE HELPER METHODS - Internal use only
-    // =========================================================================
 
     /**
      * Insert a new article into the database
@@ -235,7 +228,7 @@ class ArticleRepository
             // Generate unique slug from article title
             $slug = $this->generateUniqueSlug($article->getTitle());
 
-            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author) 
+            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author)
                       VALUES (:title, :slug, :description, :image_url, :author)";
 
             $stmt = $this->pdo->prepare($query);
@@ -285,9 +278,9 @@ class ArticleRepository
 
             // Explicit delete: null or 'DELETE' → set image_url = NULL in DB
             if ($imageUrl === null || $imageUrl === 'DELETE') {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             image_url = NULL, author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             image_url = NULL, author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $article->getTitle(),
@@ -297,9 +290,9 @@ class ArticleRepository
                     ':id' => $articleId
                 ];
             } elseif (!empty($imageUrl)) {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             image_url = :image_url, author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             image_url = :image_url, author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $article->getTitle(),
@@ -310,9 +303,9 @@ class ArticleRepository
                     ':id' => $articleId
                 ];
             } else {
-                $query = "UPDATE ARTICLES 
-                         SET title = :title, slug = :slug, description = :description, 
-                             author = :author 
+                $query = "UPDATE ARTICLES
+                         SET title = :title, slug = :slug, description = :description,
+                             author = :author
                          WHERE id = :id";
                 $params = [
                     ':title' => $article->getTitle(),

@@ -35,7 +35,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
         <h2>Navigation</h2>
 
 
-        <!-- Formulaire de recherche -->
+        <!-- Search form -->
         <form method="GET" class="admin-search-form">
             <input type="hidden" name="page" value="adminSection">
             <input type="hidden" name="filter" value="<?= $currentFilter ?>">
@@ -69,7 +69,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
             <?php endif; ?>
         </form>
 
-        <!-- Actions d'exportation-->
+        <!-- Export actions -->
         <nav class="filter-section">
             <h3 class="filter-title">Actions</h3>
             <p class="filter-hint">Export PDF selon les filtres sélectionnés (statut, rôle, recherche).</p>

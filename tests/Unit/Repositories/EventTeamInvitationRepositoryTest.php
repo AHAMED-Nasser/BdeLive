@@ -47,7 +47,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $instanceProperty->setValue(null, null);
     }
 
-    // ========== createInvitation Tests ==========
 
     public function testCreateInvitationReturnsToken(): void
     {
@@ -105,7 +104,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-    // ========== findByToken Tests ==========
 
     public function testFindByTokenReturnsInvitationData(): void
     {
@@ -168,7 +166,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $this->assertNull($result);
     }
 
-    // ========== updateValidationStatus Tests ==========
 
     public function testUpdateValidationStatusReturnsTrue(): void
     {
@@ -260,7 +257,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         }
     }
 
-    // ========== areAllInvitationsConfirmed Tests ==========
 
     public function testAreAllInvitationsConfirmedReturnsTrueWhenAllConfirmed(): void
     {
@@ -313,7 +309,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $this->assertFalse($result);
     }
 
-    // ========== getInvitationsByTeam Tests ==========
 
     public function testGetInvitationsByTeamReturnsInvitations(): void
     {
@@ -348,7 +343,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $this->assertEmpty($result);
     }
 
-    // ========== isEmailInvited Tests ==========
 
     public function testIsEmailInvitedReturnsTrueWhenInvited(): void
     {
@@ -380,7 +374,6 @@ class EventTeamInvitationRepositoryTest extends TestCase
         $this->assertFalse($result);
     }
 
-    // ========== countPendingInvitations Tests ==========
 
     public function testCountPendingInvitationsReturnsCount(): void
     {

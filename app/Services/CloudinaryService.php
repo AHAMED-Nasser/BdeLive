@@ -81,7 +81,7 @@ class CloudinaryService
                 return null;
             }
 
-            // Log avant upload
+            // Log before upload
             error_log(
                 'CloudinaryService::uploadImage - Uploading: ' . $file['name'] .
                 ' (Size: ' . $file['size'] . ' bytes)'
@@ -146,7 +146,7 @@ class CloudinaryService
             count($files['name']) . ' files'
         );
 
-        // Management in the case where multiple files are sended
+        // Management in the case where multiple files are sent
         if (is_array($files['tmp_name'])) {
             $fileCount = count($files['tmp_name']);
 

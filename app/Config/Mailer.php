@@ -38,11 +38,9 @@ class Mailer
 
     public function __construct()
     {
-        // On vérifie si la constante existe avant de l'utiliser
         if (defined('FROM_EMAIL')) {
             $this->from_email = \FROM_EMAIL;
         } else {
-            // Valeur par défaut ou log d'erreur pour éviter le Fatal Error
             $this->from_email = 'default@bdelive.com';
             error_log("Attention : La constante FROM_EMAIL n'est pas définie.");
         }

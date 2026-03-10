@@ -10,14 +10,14 @@ use DateTime;
 use App\Modules\Helpers\SlugGenerator;
 
 /**
- * EventModel - Modèle unifié pour la gestion des événements
+ * EventModel - Unified model for event management
  *
- * Ce modèle centralise toutes les opérations sur les événements (lecture et écriture)
- * conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).
+ * This model centralizes all operations on events (read and write)
+ * following the Repository pattern taught in the course (CM4 Slide 22).
  *
- * Responsabilités :
- * - Lecture : Récupération des événements avec pagination, filtres, etc.
- * - Écriture : Création, modification et suppression d'événements
+ * Responsibilities:
+ * - Read: Retrieve events with pagination, filters, etc.
+ * - Write: Create, update and delete events
  *
  * @package BdeLive\Models\Events
  * @author BdeLive - Group 8
@@ -25,38 +25,30 @@ use App\Modules\Helpers\SlugGenerator;
  */
 class EventModel
 {
-    /**
-     * Instance de connexion PDO à la base de données
-     *
-     * @var PDO
-     */
     private PDO $pdo;
 
     /**
-     * Constructeur - Injection de dépendance PDO
+     * Constructor - PDO dependency injection
      *
-     * Conformément aux bonnes pratiques (CM4 Slide 22), la connexion PDO
-     * est injectée via le constructeur pour faciliter les tests et respecter
-     * le principe d'inversion de dépendances.
+     * Following best practices (CM4 Slide 22), the PDO connection
+     * is injected via the constructor to simplify testing and respect
+     * the dependency inversion principle.
      *
-     * @param PDO $pdo Instance de connexion à la base de données
-     * @return void
+     * @param PDO $pdo Database connection instance
      */
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
     }
 
-    // =========================================================================
-    // MÉTHODES DE LECTURE (Read)
-    // =========================================================================
+
 
     /**
-     * Compter le nombre total d'événements dans la base de données
+     * Count total number of events in the database
      *
-     * Compte tous les événements présents dans la table EVENTS.
+     * Counts all events present in the EVENTS table.
      *
-     * @return int Nombre total d'événements
+     * @return int Total number of events
      */
     public function count(): int
     {
@@ -73,10 +65,10 @@ class EventModel
     }
 
     /**
-     * Récupérer un événement par son identifiant
+     * Retrieve an event by its identifier
      *
-     * @param int $id Identifiant unique de l'événement
-     * @return array<string, mixed>|null Données de l'événement ou null si non trouvé
+     * @param int $id Unique event identifier
+     * @return array<string, mixed>|null Event data or null if not found
      */
     public function findById(int $id): ?array
     {
@@ -162,14 +154,14 @@ class EventModel
     }
 
     /**
-     * Récupérer une liste paginée d'événements
+     * Retrieve a paginated list of events
      *
-     * Récupère les événements avec support de la pagination.
-     * Les résultats sont triés par date et heure d'événement (décroissant).
+     * Retrieves events with pagination support.
+     * Results are sorted by event date and time (descending).
      *
-     * @param int $offset Décalage calculé par le système de pagination
-     * @param int $limit Nombre d'éléments par page
-     * @return array<int, array<string, mixed>> Tableau d'événements pour la page demandée
+     * @param int $offset Offset calculated by the pagination system
+     * @param int $limit Number of items per page
+     * @return array<int, array<string, mixed>> Array of events for the requested page
      */
     public function findPaginated(int $offset, int $limit): array
     {
@@ -192,9 +184,9 @@ class EventModel
     }
 
     /**
-     * Récupérer tous les événements pour l'affichage calendrier
+     * Retrieve all events for calendar display
      *
-     * @return array<int, array<string, mixed>> Tableau de tous les événements
+     * @return array<int, array<string, mixed>> Array of all events
      */
     public function findAll(): array
     {
@@ -217,14 +209,14 @@ class EventModel
     }
 
     /**
-     * Récupérer les prochains événements à venir
+     * Retrieve upcoming events
      *
-     * Récupère les événements à venir triés par date (ascendant) pour afficher
-     * les prochains événements en premier. Ne retourne que les événements
-     * avec une date supérieure ou égale à aujourd'hui.
+     * Retrieves upcoming events sorted by date (ascending) to display
+     * the next events first. Returns only events with a date greater
+     * than or equal to today.
      *
-     * @param int $limit Nombre maximum d'événements à récupérer
-     * @return array<int, array<string, mixed>> Tableau des événements à venir
+     * @param int $limit Maximum number of events to retrieve
+     * @return array<int, array<string, mixed>> Array of upcoming events
      */
     public function findLatestEvents(int $limit): array
     {
@@ -249,27 +241,24 @@ class EventModel
         }
     }
 
-    // =========================================================================
-    // MÉTHODES D'ÉCRITURE (Write)
-    // =========================================================================
 
     /**
-     * Insérer un nouvel événement dans la base de données
+     * Insert a new event into the database
      *
-     * Crée un nouvel enregistrement d'événement avec toutes les informations
-     * fournies, incluant les images Cloudinary et les options d'inscription en groupe.
+     * Creates a new event record with all provided information,
+     * including Cloudinary images and group registration options.
      *
-     * @param string $eventName Nom/titre de l'événement
-     * @param DateTime $eventDate Date de l'événement
-     * @param DateTime $eventTime Heure de l'événement
-     * @param string $eventLocation Lieu/emplacement de l'événement
-     * @param string $eventTheme Thème/catégorie de l'événement
-     * @param string $statusParticipating Statuts des participants autorisés (séparés par virgule)
-     * @param string $description Description de l'événement
-     * @param string $images Chaîne JSON des URLs d'images Cloudinary
-     * @param bool $isGroupEvent Indique si c'est un événement avec inscription en groupe
-     * @param int $teamSize Nombre maximum de membres par équipe (uniquement pour événements de groupe)
-     * @return bool True si l'insertion réussit, false sinon
+     * @param string $eventName Event name/title
+     * @param DateTime $eventDate Event date
+     * @param DateTime $eventTime Event time
+     * @param string $eventLocation Event location/venue
+     * @param string $eventTheme Event theme/category
+     * @param string $statusParticipating Allowed participant statuses (comma-separated)
+     * @param string $description Event description
+     * @param string $images JSON string of Cloudinary image URLs
+     * @param bool $isGroupEvent Whether this is a group event
+     * @param int $teamSize Maximum team size (for group events)
+     * @return bool True on success, false on failure
      */
     public function insertEvent(
         string $eventName,
@@ -283,7 +272,7 @@ class EventModel
         bool $isGroupEvent = false,
         int $teamSize = 1
     ): bool {
-        // Generate unique slug from event name for SEO-friendly URLs
+        // Generate a unique slug from event name for SEO-friendly URLs
         $slug = SlugGenerator::generateUnique($eventName, function ($slug) {
             return $this->slugExists($slug);
         });
@@ -314,24 +303,23 @@ class EventModel
     }
 
     /**
-     * Mettre à jour un événement existant dans la base de données
+     * Update an existing event in the database
      *
-     * Met à jour toutes les informations d'un événement existant identifié
-     * par son ID. Tous les champs sont mis à jour, y compris les images
-     * et les paramètres d'inscription en groupe.
+     * Updates all information of an existing event identified by its ID.
+     * All fields are updated, including images and group registration settings.
      *
-     * @param int $eventId Identifiant de l'événement à modifier
-     * @param string $eventName Nouveau nom/titre de l'événement
-     * @param DateTime $eventDate Nouvelle date de l'événement
-     * @param DateTime $eventTime Nouvelle heure de l'événement
-     * @param string $eventLocation Nouveau lieu de l'événement
-     * @param string $eventTheme Nouveau thème de l'événement
-     * @param string $statusParticipating Nouveaux statuts des participants autorisés
-     * @param string $description Nouvelle description de l'événement
-     * @param string $images Nouvelle chaîne JSON des URLs d'images
-     * @param bool $isGroupEvent Indique si c'est un événement avec inscription en groupe
-     * @param int $teamSize Nombre maximum de membres par équipe
-     * @return bool True si la mise à jour réussit, false sinon
+     * @param int $eventId Identifier of the event to update
+     * @param string $eventName New event name/title
+     * @param DateTime $eventDate New event date
+     * @param DateTime $eventTime New event time
+     * @param string $eventLocation New event location
+     * @param string $eventTheme New event theme
+     * @param string $statusParticipating New allowed participant statuses
+     * @param string $description New event description
+     * @param string $images New JSON string of image URLs
+     * @param bool $isGroupEvent Whether this is a group event
+     * @param int $teamSize Maximum team size
+     * @return bool True on success, false on failure
      */
     public function updateEvent(
         int $eventId,
@@ -389,14 +377,14 @@ class EventModel
     }
 
     /**
-     * Mettre à jour uniquement les images associées à un événement
+     * Update only images associated with an event
      *
-     * Permet de mettre à jour le champ images d'un événement sans modifier
-     * les autres informations. Utile après un upload d'images additionnel.
+     * Updates the images field of an event without changing other information.
+     * Useful after uploading additional images.
      *
-     * @param int $eventId Identifiant unique de l'événement
-     * @param string $imageJson Chaîne JSON des URLs d'images
-     * @return bool True si la mise à jour réussit, false sinon
+     * @param int $eventId Unique event identifier
+     * @param string $imageJson JSON string of image URLs
+     * @return bool True on success, false on failure
      */
     public function updateEventImages(int $eventId, string $imageJson): bool
     {
@@ -414,13 +402,13 @@ class EventModel
     }
 
     /**
-     * Supprimer un événement de la base de données
+     * Delete an event from the database
      *
-     * Supprime définitivement un événement identifié par son ID.
-     * Cette opération est irréversible.
+     * Permanently deletes an event identified by its ID.
+     * This operation is irreversible.
      *
-     * @param int $eventId Identifiant de l'événement à supprimer
-     * @return bool True si la suppression réussit, false sinon
+     * @param int $eventId Identifier of the event to delete
+     * @return bool True on success, false on failure
      */
     public function deleteEvent(int $eventId): bool
     {

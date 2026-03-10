@@ -168,7 +168,7 @@ class AuthManagerTest extends TestCase
 
     public function testRequireAdminThrowsWhenNotAdmin(): void
     {
-        // Utilisateur connecté mais simple 'user'
+        // Connected user but simple 'user'
         $this->auth->login(123, 'BUT 2', 'student@example.com', 'user', 0);
 
         $this->expectException(AuthorizationException::class);

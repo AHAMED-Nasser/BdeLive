@@ -4,7 +4,7 @@ skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam packageStyle rectangle
 
-title Architecture conceptuelle - BdeLive\nMVC 2 · Data Mapper · Injection de Dépendances · Clean Architecture
+title Architecture Logicielle - BdeLive
 
 ' ==================== COUCHE CORE ====================
 package "Core" #E8F4F8 {
