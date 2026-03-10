@@ -4,77 +4,448 @@ skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam packageStyle rectangle
 
-title Software Architecture - BdeLive
+skinparam class {
+  BackgroundColor<<NEW>> LightGreen
+  BackgroundColor<<Refactored>> LightYellow
+}
+
+title Software Architecture - BdeLive (Exhaustive Class Diagram)
 
 ' ==================== CORE LAYER ====================
 package "Core" #E8F4F8 {
-  class Application {
+  class Application <<Refactored>> {
+    - instance: Application|null
+    - session: SessionManager
+    - request: Request
+    - response: Response
+    - csrf: CsrfProtection
+    - auth: AuthManager
+    --
+    + getInstance(): self
     + boot(): void
     + request(): Request
     + response(): Response
-  }
-  class Request {
-    + get(), post(), method()
-  }
-  class Container {
-    + get(id): object
-    + set(id, builder): self
+    + session(): SessionManager
+    + csrf(): CsrfProtection
+    + auth(): AuthManager
   }
   class Database {
+    - instance: Database|null
+    - pdo: PDO
+    --
+    + getInstance(): Database
     + getConnection(): PDO
+  }
+  class Container <<NEW>> {
+    - bindings: array
+    - instances: array
+    --
+    + set(id, builder): self
+    + get(id): object
+    + has(id): bool
+  }
+  class ContainerFactory <<NEW>> {
+    + create(): Container
+  }
+}
+
+package "Core.Http" #E8F4F8 {
+  class Request {
+    - query: array
+    - request: array
+    - files: array
+    - server: array
+    - cookies: array
+    --
+    + get(key, default): mixed
+    + post(key, default): mixed
+    + method(): string
+    + isPost(): bool
+    + createFromGlobals(): self
+  }
+  class Response {
+    + redirect(url): void
+    + json(data, status): void
+    + setStatusCode(code): void
+  }
+}
+
+package "Core.Session" #E8F4F8 {
+  class SessionManager {
+    - started: bool
+    --
+    + start(): void
+    + get(key, default): mixed
+    + set(key, value): void
+    + flash(type, message): void
+    + getFlash(type): mixed
+    + has(key): bool
+  }
+}
+
+package "Core.Security" #E8F4F8 {
+  class CsrfProtection {
+    - session: SessionManager
+    --
+    + generateToken(): string
+    + validateToken(token): bool
+    + getToken(): string
+    + getTokenField(): string
+  }
+  class RecaptchaValidator <<NEW>> {
+    + validate(token, clientIp): bool
+  }
+}
+
+package "Core.Auth" #E8F4F8 {
+  class AuthManager <<Refactored>> {
+    - session: SessionManager
+    --
+    + isAuthenticated(): bool
+    + getUser(): array|null
+    + isAdmin(): bool
+    + requireAuthentication(): void
+    + requireAdmin(): void
+    + login(user): void
+    + logout(): void
+  }
+}
+
+package "Core.Markdown" #E8F4F8 {
+  class MarkdownRenderer <<NEW>> {
+    + toHtml(markdown): string
+    + toPlainPreview(markdown, maxLength): string
+  }
+}
+
+package "Core.Exception" #E8F4F8 {
+  class AuthenticationException {
+    --
+    Extends Exception
+  }
+  class AuthorizationException {
+    --
+    Extends Exception
+  }
+  class CsrfException {
+    --
+    Extends Exception
   }
 }
 
 ' ==================== CONTROLLERS LAYER ====================
 package "Controllers" #F0E8F8 {
-  abstract class AbstractController {
-     render(view, data): void
-     redirect(url): never
+  abstract class BaseController {
+    # app: Application
+    # request: Request
+    # response: Response
+    # session: SessionManager
+    # csrf: CsrfProtection
+    # auth: AuthManager
+    --
+    # render(viewPath, data): void
+    # redirect(url): never
+    # setError(message): void
+    # setSuccess(message): void
+    # validateCsrf(token): bool
+  }
+  abstract class DefaultController {
+    --
+    No auth required
+  }
+  abstract class AuthenticatedController {
+    --
+    Requires login
+  }
+  abstract class AdminController {
+    --
+    Requires BDE admin
   }
 }
 
+package "Controllers.Events" #F0E8F8 {
+  class CreateEventController {
+    --
+    Handles event creation
+  }
+  class ShowEventController {
+    - eventRepository: EventRepository
+    --
+    Displays event details
+  }
+}
+
+package "Controllers.Admin" #F0E8F8 {
+  class AdminSectionController {
+    --
+    User management
+  }
+}
+
+package "Controllers.Users" #F0E8F8 {
+  class LoginController {
+    --
+    Login form
+  }
+  class RegisterController {
+    --
+    User registration
+  }
+}
+
+note right of BaseController
+  Note: All concrete controllers
+  depend on their respective
+  Repositories / Models / Services
+  via the DI Container.
+  Only CreateEventController and
+  ShowEventController arrows shown.
+end note
+
 ' ==================== VIEWS LAYER ====================
-package "Views (PHP templates)" #F8F0E8 {
+package "Views" #F8F0E8 {
   class View {
     Data passed via render()
     Escaped HTML output
   }
 }
 
-' ==================== DOMAIN LAYER (Event example) ====================
-package "Domain" #F0F8E8 {
-  package "Repositories" {
-    class EventRepository {
-      - pdo: PDO
-      + findById(id): Event|null
-      + save(event: Event): bool
-    }
+' ==================== DOMAIN - ENTITIES ====================
+package "Domain.Entities" #F0F8E8 {
+  class Event <<NEW>> {
+    - id: int|null
+    - name: string
+    - slug: string
+    - date: string
+    - time: string
+    - location: string
+    - theme: string
+    - description: string
+    - images: string
+    - isGroupEvent: bool
+    - teamSize: int
+    --
+    + isPast(): bool
+    + getFormattedDate(): string
+    + getFormattedTime(): string
+    + getImagesArray(): array
+    + hasImages(): bool
+    + isGroupEvent(): bool
+    --
+    Pure domain object
+    No outgoing dependencies
   }
-  package "Factories" {
-    class EventFactory {
-      + createFromDatabase(data): Event
-      + toDatabase(event): array
-    }
-  }
-  package "Entities" {
-    class Event {
-      Pure domain object
-      No database logic
-    }
+  class Article <<NEW>> {
+    - id: int|null
+    - title: string
+    - slug: string
+    - description: string
+    - imageUrl: string|null
+    - author: string
+    - createdAt: string
+    --
+    + getShortDescription(limit): string
+    + getFormattedDate(): string
+    + hasImage(): bool
+    + getImageUrlOrPlaceholder(): string
+    --
+    Pure domain object
+    No outgoing dependencies
   }
 }
 
-' ==================== FLOW - CLEAN ARCHITECTURE (..> = dependency) ====================
-Application ..> Request : 1. Receives HTTP request
-Application ..> Container : 2. Asks for controller via DI
-Container ..> AbstractController : 3. Instantiates and injects dependencies
+' ==================== DOMAIN - FACTORIES ====================
+package "Domain.Factories" #F0F8E8 {
+  class EventFactory <<NEW>> {
+    + createFromDatabase(data): Event
+    + createCollectionFromDatabase(dataSet): Event[]
+    + toDatabase(event): array
+  }
+  class ArticleFactory <<NEW>> {
+    + createFromDatabase(data): Article
+    + createCollectionFromDatabase(dataSet): Article[]
+    + toDatabase(article): array
+  }
+}
 
-AbstractController ..> EventRepository : 4. Requests domain data
-EventRepository ..> Database : 5. Executes SQL query
-EventRepository ..> EventFactory : 6. Delegates data mapping
-EventFactory ..> Event : 7. Creates entity
+' ==================== DOMAIN - REPOSITORIES ====================
+package "Domain.Repositories" #F0F8E8 {
+  class EventRepository <<Refactored>> {
+    - pdo: PDO
+    --
+    + findById(id): Event|null
+    + findBySlug(slug): Event|null
+    + findAll(): Event[]
+    + findPaginated(offset, limit): Event[]
+    + save(event): bool
+  }
+  class ArticleRepository <<NEW>> {
+    - pdo: PDO
+    --
+    + findById(id): Article|null
+    + findBySlug(slug): Article|null
+    + findPaginated(offset, limit): Article[]
+    + save(article): bool
+  }
+  class EventRegistrationRepository {
+    - pdo: PDO
+    --
+    + isUserRegistered(eventId, userId): bool
+    + getRegisteredUsersGroupedForPdf(eventId): array
+  }
+  class EventTeamRepository {
+    - pdo: PDO
+  }
+  class EventTeamInvitationRepository {
+    - pdo: PDO
+  }
+}
 
-EventRepository ..> Event : 8. Returns entity
-AbstractController ..> Event : 9. Receives entity
-AbstractController ..> View : 10. Passes data to view
+' ==================== MODELS ====================
+package "Models" #F5F5DC {
+  class EventModel <<Refactored>> {
+    - pdo: PDO
+    --
+    + count(): int
+    + findById(id): array|null
+    + findPaginated(offset, limit): array
+    + insertEvent(...): bool
+    + updateEvent(...): bool
+    + deleteEvent(id): bool
+  }
+  class ArticleModel <<Refactored>> {
+    - pdo: PDO
+    --
+    + getArticleById(id): array|null
+    + getArticleBySlug(slug): array|null
+    + getPaginatedArticles(offset, limit): array
+    + insertArticle(...): bool
+    + updateArticle(...): bool
+    + deleteArticle(id): bool
+  }
+  class UserManager <<Refactored>> {
+    - pdo: PDO
+    --
+    + getUserById(id): array|null
+    + getUsers(limit, offset, ...): array
+    + verifyPassword(password, hash): bool
+    + updateEmail(userId, email): bool
+  }
+  class PrivacyManager {
+    + isUserBlocked(userId): bool
+    + blockUser(userId): void
+    + canResendPasswordCode(userId): array
+  }
+  class LoginAttemptManager <<NEW>> {
+    - pdo: PDO
+    --
+    + countRecentAttempts(ip, email, minutes): int
+    + recordFailedAttempt(ip, email): void
+  }
+}
+
+' ==================== SERVICES ====================
+package "Services" #E8E8F8 {
+  class CloudinaryService {
+    - uploadApi: UploadApi
+    --
+    + upload(file): array
+    + delete(publicId): void
+  }
+}
+
+package "Config" #E8E8F8 {
+  class Mailer {
+    + sendEmail(...): bool
+  }
+}
+
+' ==================== HELPERS ====================
+package "Helpers" #F8F8E8 {
+  class SlugGenerator {
+    + generate(string): string
+    + generateUnique(string, callable): string
+  }
+  class Pagination {
+    + getOffset(): int
+    + getTotalPages(): int
+  }
+}
+
+' ==================== INHERITANCE ====================
+DefaultController --|> BaseController
+AuthenticatedController --|> BaseController
+AdminController --|> AuthenticatedController
+CreateEventController --|> AdminController
+ShowEventController --|> DefaultController
+AdminSectionController --|> AdminController
+LoginController --|> DefaultController
+RegisterController --|> DefaultController
+
+AuthenticationException --|> Exception
+AuthorizationException --|> Exception
+CsrfException --|> Exception
+
+' ==================== COMPOSITION / AGGREGATION ====================
+Application *-- SessionManager : session
+Application *-- Request : request
+Application *-- Response : response
+Application *-- CsrfProtection : csrf
+Application *-- AuthManager : auth
+
+AuthManager o-- SessionManager : session
+CsrfProtection o-- SessionManager : session
+
+EventRepository o-- Database : pdo
+ArticleRepository o-- Database : pdo
+EventRegistrationRepository o-- Database : pdo
+EventTeamRepository o-- Database : pdo
+EventTeamInvitationRepository o-- Database : pdo
+
+EventModel o-- Database : pdo
+ArticleModel o-- Database : pdo
+UserManager o-- Database : pdo
+LoginAttemptManager o-- Database : pdo
+
+' ==================== DEPENDENCIES - DATA MAPPER ====================
+EventRepository ..> EventFactory : delegates mapping
+EventFactory ..> Event : creates
+ArticleRepository ..> ArticleFactory : delegates mapping
+ArticleFactory ..> Article : creates
+
+EventRepository ..> Event : returns
+ArticleRepository ..> Article : returns
+
+' ==================== DEPENDENCIES - DI & FLOW ====================
+Application ..> Request : creates
+ContainerFactory ..> Container : creates
+ContainerFactory ..> Database : uses
+ContainerFactory ..> EventRepository : binds
+ContainerFactory ..> ArticleRepository : binds
+
+BaseController ..> Application : getInstance
+
+' Only 2-3 major controllers with explicit arrows
+CreateEventController ..> EventRepository : requests data
+CreateEventController ..> CloudinaryService : uploads images
+ShowEventController ..> EventRepository : requests data
+ShowEventController ..> EventRegistrationRepository : registrants
+
+BaseController ..> View : passes data to render
+
+' ==================== LEGEND ====================
+legend right
+  |= Symbol |= Meaning |
+  | extends | Inheritance |
+  | ..> | Dependency (Clean Architecture) |
+  | o-- | Aggregation (has-a, PDO from Database) |
+  | *-- | Composition (owns) |
+  |---
+  |= Stereotype |= Meaning |
+  | <<NEW>> | Recently added classes |
+  | <<Refactored>> | Heavily modified classes |
+  |---
+  | Entities | Pure domain objects, no outgoing arrows |
+endlegend
+
 @enduml
