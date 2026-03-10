@@ -1,0 +1,23 @@
+@startuml
+!theme plain
+skinparam packageStyle rectangle
+left to right direction
+
+title Diagramme de Cas d'Utilisation - Utilisateur
+
+actor "Utilisateur" as User
+
+rectangle "Plateforme BdeLive" {
+  usecase "S'inscrire à un événement" as UC_Register
+  usecase "Créer/Rejoindre une équipe" as UC_Team
+  usecase "Gérer ses données (RGPD)" as UC_Privacy
+  usecase "S'authentifier" as UC_Auth
+}
+
+UC_Register .> UC_Auth : <<include>>
+UC_Team .> UC_Register : <<extend>>
+
+User --> UC_Register
+User --> UC_Privacy
+
+@enduml

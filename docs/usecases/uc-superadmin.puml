@@ -1,0 +1,22 @@
+@startuml
+!theme plain
+skinparam packageStyle rectangle
+left to right direction
+
+title Diagramme de Cas d'Utilisation - Super Administrateur
+
+actor "Super Admin" as SuperAdmin
+
+rectangle "Plateforme BdeLive" {
+  usecase "Promouvoir un utilisateur\nou un administrateur" as UC_Promote
+  usecase "Rétrograder un utilisateur\nou un administrateur" as UC_Demote
+  usecase "Supprimer un compte\n(utilisateur ou admin)" as UC_Delete
+  usecase "Restaurer un compte\n(utilisateur ou admin)" as UC_Restore
+}
+
+SuperAdmin --> UC_Promote
+SuperAdmin --> UC_Demote
+SuperAdmin --> UC_Delete
+SuperAdmin --> UC_Restore
+
+@enduml

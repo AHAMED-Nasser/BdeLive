@@ -133,11 +133,11 @@ flowchart TD
 
 | Document | Formats |
 |----------|---------|
-| Architecture logicielle | [PNG](docs/architecture-logiciel-BdeLive.png) |
-| Cas d'utilisation (RBAC) | [PUML](docs/diagramme-cas-utilisation.puml) · [SVG](docs/diagramme-cas-utilisation.svg) |
-| Diagramme de classes | [PUML](docs/diagramme-classes.puml) · [SVG](docs/diagramme-classes.svg) |
+| Architecture logicielle | [PUML](docs/architecture/diagram-architecture.puml) · [SVG](docs/architecture/diagram-architecture.svg) |
+| Cas d'utilisation (RBAC) | [Visiteur](docs/usecases/uc-visiteur.puml) · [Utilisateur](docs/usecases/uc-utilisateur.puml) · [Admin](docs/usecases/uc-admin.puml) · [Super Admin](docs/usecases/uc-superadmin.puml) |
+| Diagramme de classes | [PUML](docs/classes/diagramme-classes.puml) · [SVG](docs/classes/diagramme-classes.svg) |
 
-**[📂 docs/](docs/)**
+**[📂 docs/](docs/)** — Voir [docs/README.md](docs/README.md) pour la structure complète.
 
 ---
 
