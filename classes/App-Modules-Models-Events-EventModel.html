@@ -198,15 +198,15 @@
 
     </aside>
 
-            <p class="phpdocumentor-summary">EventModel - Modèle unifié pour la gestion des événements</p>
+            <p class="phpdocumentor-summary">EventModel - Unified model for event management</p>
 
 
-    <section class="phpdocumentor-description"><p>Ce modèle centralise toutes les opérations sur les événements (lecture et écriture)
-conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
-<p>Responsabilités :</p>
+    <section class="phpdocumentor-description"><p>This model centralizes all operations on events (read and write)
+following the Repository pattern taught in the course (CM4 Slide 22).</p>
+<p>Responsibilities:</p>
 <ul>
-<li>Lecture : Récupération des événements avec pagination, filtres, etc.</li>
-<li>Écriture : Création, modification et suppression d'événements</li>
+<li>Read: Retrieve events with pagination, filters, etc.</li>
+<li>Write: Create, update and delete events</li>
 </ul>
 </section>
 
@@ -263,7 +263,6 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <span>
                         &nbsp;: <abbr title="\PDO">PDO</abbr>            </span>
 </dt>
-<dd>Instance de connexion PDO à la base de données</dd>
 
     </dl>
 
@@ -276,37 +275,37 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Constructeur - Injection de dépendance PDO</dd>
+<dd>Constructor - PDO dependency injection</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_count">count()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
-<dd>Compter le nombre total d&#039;événements dans la base de données</dd>
+<dd>Count total number of events in the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_deleteEvent">deleteEvent()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Supprimer un événement de la base de données</dd>
+<dd>Delete an event from the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_findAll">findAll()</a>
     <span>
                                 &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
-<dd>Récupérer tous les événements pour l&#039;affichage calendrier</dd>
+<dd>Retrieve all events for calendar display</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_findById">findById()</a>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;|null    </span>
 </dt>
-<dd>Récupérer un événement par son identifiant</dd>
+<dd>Retrieve an event by its identifier</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_findBySlug">findBySlug()</a>
@@ -320,35 +319,35 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <span>
                                 &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
-<dd>Récupérer les prochains événements à venir</dd>
+<dd>Retrieve upcoming events</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_findPaginated">findPaginated()</a>
     <span>
                                 &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
-<dd>Récupérer une liste paginée d&#039;événements</dd>
+<dd>Retrieve a paginated list of events</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_insertEvent">insertEvent()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Insérer un nouvel événement dans la base de données</dd>
+<dd>Insert a new event into the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_updateEvent">updateEvent()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Mettre à jour un événement existant dans la base de données</dd>
+<dd>Update an existing event in the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_updateEventImages">updateEventImages()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Mettre à jour uniquement les images associées à un événement</dd>
+<dd>Update only images associated with an event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Modules-Models-Events-EventModel.html#method_slugExists">slugExists()</a>
@@ -394,12 +393,11 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">28</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Instance de connexion PDO à la base de données</p>
-
+    
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
@@ -437,22 +435,22 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Constructeur - Injection de dépendance PDO</p>
+        <p class="phpdocumentor-summary">Constructor - PDO dependency injection</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\PDO">PDO</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pdo</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\PDO">PDO</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pdo</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Conformément aux bonnes pratiques (CM4 Slide 22), la connexion PDO
-est injectée via le constructeur pour faciliter les tests et respecter
-le principe d'inversion de dépendances.</p>
+        <section class="phpdocumentor-description"><p>Following best practices (CM4 Slide 22), the PDO connection
+is injected via the constructor to simplify testing and respect
+the dependency inversion principle.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -462,7 +460,7 @@ le principe d'inversion de dépendances.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\PDO">PDO</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Instance de connexion à la base de données</p>
+                    <section class="phpdocumentor-description"><p>Database connection instance</p>
 </section>
 
             </dd>
@@ -488,11 +486,11 @@ le principe d'inversion de dépendances.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">61</span>
+    <span class="phpdocumentor-element-found-in__line">53</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Compter le nombre total d&#039;événements dans la base de données</p>
+        <p class="phpdocumentor-summary">Count total number of events in the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -501,7 +499,7 @@ le principe d'inversion de dépendances.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Compte tous les événements présents dans la table EVENTS.</p>
+        <section class="phpdocumentor-description"><p>Counts all events present in the EVENTS table.</p>
 </section>
 
     
@@ -513,7 +511,7 @@ le principe d'inversion de dépendances.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Nombre total d'événements</p>
+                <section class="phpdocumentor-description"><p>Total number of events</p>
 </section>
 
             </section>
@@ -533,11 +531,11 @@ le principe d'inversion de dépendances.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">425</span>
+    <span class="phpdocumentor-element-found-in__line">413</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Supprimer un événement de la base de données</p>
+        <p class="phpdocumentor-summary">Delete an event from the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -546,8 +544,8 @@ le principe d'inversion de dépendances.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Supprime définitivement un événement identifié par son ID.
-Cette opération est irréversible.</p>
+        <section class="phpdocumentor-description"><p>Permanently deletes an event identified by its ID.
+This operation is irreversible.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -557,7 +555,7 @@ Cette opération est irréversible.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifiant de l'événement à supprimer</p>
+                    <section class="phpdocumentor-description"><p>Identifier of the event to delete</p>
 </section>
 
             </dd>
@@ -571,7 +569,7 @@ Cette opération est irréversible.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si la suppression réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -591,11 +589,11 @@ Cette opération est irréversible.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">199</span>
+    <span class="phpdocumentor-element-found-in__line">191</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer tous les événements pour l&#039;affichage calendrier</p>
+        <p class="phpdocumentor-summary">Retrieve all events for calendar display</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -614,7 +612,7 @@ Cette opération est irréversible.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Tableau de tous les événements</p>
+                <section class="phpdocumentor-description"><p>Array of all events</p>
 </section>
 
             </section>
@@ -634,11 +632,11 @@ Cette opération est irréversible.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">81</span>
+    <span class="phpdocumentor-element-found-in__line">73</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer un événement par son identifiant</p>
+        <p class="phpdocumentor-summary">Retrieve an event by its identifier</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -655,7 +653,7 @@ Cette opération est irréversible.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifiant unique de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Unique event identifier</p>
 </section>
 
             </dd>
@@ -669,7 +667,7 @@ Cette opération est irréversible.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Données de l'événement ou null si non trouvé</p>
+                <section class="phpdocumentor-description"><p>Event data or null if not found</p>
 </section>
 
             </section>
@@ -689,7 +687,7 @@ Cette opération est irréversible.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">106</span>
+    <span class="phpdocumentor-element-found-in__line">98</span>
 
     </aside>
 
@@ -747,11 +745,11 @@ This method is used for SEO-optimized URLs instead of numeric IDs.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">229</span>
+    <span class="phpdocumentor-element-found-in__line">221</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer les prochains événements à venir</p>
+        <p class="phpdocumentor-summary">Retrieve upcoming events</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -760,9 +758,9 @@ This method is used for SEO-optimized URLs instead of numeric IDs.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Récupère les événements à venir triés par date (ascendant) pour afficher
-les prochains événements en premier. Ne retourne que les événements
-avec une date supérieure ou égale à aujourd'hui.</p>
+        <section class="phpdocumentor-description"><p>Retrieves upcoming events sorted by date (ascending) to display
+the next events first. Returns only events with a date greater
+than or equal to today.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -772,7 +770,7 @@ avec une date supérieure ou égale à aujourd'hui.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre maximum d'événements à récupérer</p>
+                    <section class="phpdocumentor-description"><p>Maximum number of events to retrieve</p>
 </section>
 
             </dd>
@@ -786,7 +784,7 @@ avec une date supérieure ou égale à aujourd'hui.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Tableau des événements à venir</p>
+                <section class="phpdocumentor-description"><p>Array of upcoming events</p>
 </section>
 
             </section>
@@ -806,11 +804,11 @@ avec une date supérieure ou égale à aujourd'hui.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">174</span>
+    <span class="phpdocumentor-element-found-in__line">166</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer une liste paginée d&#039;événements</p>
+        <p class="phpdocumentor-summary">Retrieve a paginated list of events</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -819,8 +817,8 @@ avec une date supérieure ou égale à aujourd'hui.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Récupère les événements avec support de la pagination.
-Les résultats sont triés par date et heure d'événement (décroissant).</p>
+        <section class="phpdocumentor-description"><p>Retrieves events with pagination support.
+Results are sorted by event date and time (descending).</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -830,7 +828,7 @@ Les résultats sont triés par date et heure d'événement (décroissant).</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Décalage calculé par le système de pagination</p>
+                    <section class="phpdocumentor-description"><p>Offset calculated by the pagination system</p>
 </section>
 
             </dd>
@@ -839,7 +837,7 @@ Les résultats sont triés par date et heure d'événement (décroissant).</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre d'éléments par page</p>
+                    <section class="phpdocumentor-description"><p>Number of items per page</p>
 </section>
 
             </dd>
@@ -853,7 +851,7 @@ Les résultats sont triés par date et heure d'événement (décroissant).</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Tableau d'événements pour la page demandée</p>
+                <section class="phpdocumentor-description"><p>Array of events for the requested page</p>
 </section>
 
             </section>
@@ -873,11 +871,11 @@ Les résultats sont triés par date et heure d'événement (décroissant).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">274</span>
+    <span class="phpdocumentor-element-found-in__line">263</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Insérer un nouvel événement dans la base de données</p>
+        <p class="phpdocumentor-summary">Insert a new event into the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -886,8 +884,8 @@ Les résultats sont triés par date et heure d'événement (décroissant).</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Crée un nouvel enregistrement d'événement avec toutes les informations
-fournies, incluant les images Cloudinary et les options d'inscription en groupe.</p>
+        <section class="phpdocumentor-description"><p>Creates a new event record with all provided information,
+including Cloudinary images and group registration options.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -897,7 +895,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nom/titre de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event name/title</p>
 </section>
 
             </dd>
@@ -906,7 +904,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\DateTime">DateTime</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Date de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event date</p>
 </section>
 
             </dd>
@@ -915,7 +913,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\DateTime">DateTime</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Heure de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event time</p>
 </section>
 
             </dd>
@@ -924,7 +922,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Lieu/emplacement de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event location/venue</p>
 </section>
 
             </dd>
@@ -933,7 +931,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Thème/catégorie de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event theme/category</p>
 </section>
 
             </dd>
@@ -942,7 +940,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Statuts des participants autorisés (séparés par virgule)</p>
+                    <section class="phpdocumentor-description"><p>Allowed participant statuses (comma-separated)</p>
 </section>
 
             </dd>
@@ -951,7 +949,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Description de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Event description</p>
 </section>
 
             </dd>
@@ -960,7 +958,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">''</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Chaîne JSON des URLs d'images Cloudinary</p>
+                    <section class="phpdocumentor-description"><p>JSON string of Cloudinary image URLs</p>
 </section>
 
             </dd>
@@ -969,7 +967,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">bool</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Indique si c'est un événement avec inscription en groupe</p>
+                    <section class="phpdocumentor-description"><p>Whether this is a group event</p>
 </section>
 
             </dd>
@@ -978,7 +976,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">1</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre maximum de membres par équipe (uniquement pour événements de groupe)</p>
+                    <section class="phpdocumentor-description"><p>Maximum team size (for group events)</p>
 </section>
 
             </dd>
@@ -992,7 +990,7 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si l'insertion réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -1012,11 +1010,11 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">336</span>
+    <span class="phpdocumentor-element-found-in__line">324</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Mettre à jour un événement existant dans la base de données</p>
+        <p class="phpdocumentor-summary">Update an existing event in the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1025,9 +1023,8 @@ fournies, incluant les images Cloudinary et les options d'inscription en groupe.
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Met à jour toutes les informations d'un événement existant identifié
-par son ID. Tous les champs sont mis à jour, y compris les images
-et les paramètres d'inscription en groupe.</p>
+        <section class="phpdocumentor-description"><p>Updates all information of an existing event identified by its ID.
+All fields are updated, including images and group registration settings.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1037,7 +1034,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifiant de l'événement à modifier</p>
+                    <section class="phpdocumentor-description"><p>Identifier of the event to update</p>
 </section>
 
             </dd>
@@ -1046,7 +1043,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveau nom/titre de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event name/title</p>
 </section>
 
             </dd>
@@ -1055,7 +1052,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\DateTime">DateTime</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle date de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event date</p>
 </section>
 
             </dd>
@@ -1064,7 +1061,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\DateTime">DateTime</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle heure de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event time</p>
 </section>
 
             </dd>
@@ -1073,7 +1070,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveau lieu de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event location</p>
 </section>
 
             </dd>
@@ -1082,7 +1079,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveau thème de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event theme</p>
 </section>
 
             </dd>
@@ -1091,7 +1088,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveaux statuts des participants autorisés</p>
+                    <section class="phpdocumentor-description"><p>New allowed participant statuses</p>
 </section>
 
             </dd>
@@ -1100,7 +1097,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle description de l'événement</p>
+                    <section class="phpdocumentor-description"><p>New event description</p>
 </section>
 
             </dd>
@@ -1109,7 +1106,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle chaîne JSON des URLs d'images</p>
+                    <section class="phpdocumentor-description"><p>New JSON string of image URLs</p>
 </section>
 
             </dd>
@@ -1118,7 +1115,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">bool</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">false</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Indique si c'est un événement avec inscription en groupe</p>
+                    <section class="phpdocumentor-description"><p>Whether this is a group event</p>
 </section>
 
             </dd>
@@ -1127,7 +1124,7 @@ et les paramètres d'inscription en groupe.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">1</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre maximum de membres par équipe</p>
+                    <section class="phpdocumentor-description"><p>Maximum team size</p>
 </section>
 
             </dd>
@@ -1141,7 +1138,7 @@ et les paramètres d'inscription en groupe.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si la mise à jour réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -1161,11 +1158,11 @@ et les paramètres d'inscription en groupe.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">401</span>
+    <span class="phpdocumentor-element-found-in__line">389</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Mettre à jour uniquement les images associées à un événement</p>
+        <p class="phpdocumentor-summary">Update only images associated with an event</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -1174,8 +1171,8 @@ et les paramètres d'inscription en groupe.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Permet de mettre à jour le champ images d'un événement sans modifier
-les autres informations. Utile après un upload d'images additionnel.</p>
+        <section class="phpdocumentor-description"><p>Updates the images field of an event without changing other information.
+Useful after uploading additional images.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1185,7 +1182,7 @@ les autres informations. Utile après un upload d'images additionnel.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifiant unique de l'événement</p>
+                    <section class="phpdocumentor-description"><p>Unique event identifier</p>
 </section>
 
             </dd>
@@ -1194,7 +1191,7 @@ les autres informations. Utile après un upload d'images additionnel.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Chaîne JSON des URLs d'images</p>
+                    <section class="phpdocumentor-description"><p>JSON string of image URLs</p>
 </section>
 
             </dd>
@@ -1208,7 +1205,7 @@ les autres informations. Utile après un upload d'images additionnel.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si la mise à jour réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -1228,7 +1225,7 @@ les autres informations. Utile après un upload d'images additionnel.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">130</span>
+    <span class="phpdocumentor-element-found-in__line">122</span>
 
     </aside>
 
@@ -1286,7 +1283,7 @@ If a slug exists, SlugGenerator will append a number (e.g., &quot;event-2&quot;)
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Events/EventModel.php"><a href="files/app-modules-models-events-eventmodel.html"><abbr title="app/Modules/Models/Events/EventModel.php">EventModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">152</span>
+    <span class="phpdocumentor-element-found-in__line">144</span>
 
     </aside>
 

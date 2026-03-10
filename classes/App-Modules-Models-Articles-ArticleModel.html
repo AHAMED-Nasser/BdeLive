@@ -194,22 +194,16 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">26</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">ArticleModel - Modèle unifié pour la gestion des articles</p>
+            <p class="phpdocumentor-summary">Responsibilities:
+- Read: Retrieve articles with pagination, search by slug/ID
+- Write: Create, update and delete articles
+- Automatic management of unique slugs</p>
 
 
-    <section class="phpdocumentor-description"><p>Ce modèle centralise toutes les opérations sur les articles (lecture et écriture)
-conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
-<p>Responsabilités :</p>
-<ul>
-<li>Lecture : Récupération des articles avec pagination, recherche par slug/ID</li>
-<li>Écriture : Création, modification et suppression d'articles</li>
-<li>Gestion automatique des slugs uniques</li>
-</ul>
-</section>
 
 
     <h5 class="phpdocumentor-tag-list__heading" id="tags">
@@ -264,7 +258,6 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <span>
                         &nbsp;: <abbr title="\PDO">PDO</abbr>            </span>
 </dt>
-<dd>Instance de connexion PDO à la base de données</dd>
 
     </dl>
 
@@ -277,93 +270,93 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method___construct">__construct()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Constructeur - Injection de dépendance PDO</dd>
+<dd>Constructor - PDO dependency injection</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_countArticles">countArticles()</a>
     <span>
                                 &nbsp;: int    </span>
 </dt>
-<dd>Compter le nombre total d&#039;articles</dd>
+<dd>Count total number of articles</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_deleteArticle">deleteArticle()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Supprimer un article de la base de données</dd>
+<dd>Delete an article from the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_getArticleById">getArticleById()</a>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;|null    </span>
 </dt>
-<dd>Récupérer un article par son identifiant</dd>
+<dd>Retrieve an article by its identifier</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_getArticleBySlug">getArticleBySlug()</a>
     <span>
                                 &nbsp;: array&lt;string, mixed&gt;|null    </span>
 </dt>
-<dd>Récupérer un article par son slug</dd>
+<dd>Retrieve an article by its slug</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_getLatestArticles">getLatestArticles()</a>
     <span>
                                 &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
-<dd>Récupérer les derniers articles triés par date de création (décroissant)</dd>
+<dd>Retrieve latest articles sorted by creation date (descending)</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_getPaginatedArticles">getPaginatedArticles()</a>
     <span>
                                 &nbsp;: array&lt;int, array&lt;string, mixed&gt;&gt;    </span>
 </dt>
-<dd>Récupérer des articles paginés triés par date de création (décroissant)</dd>
+<dd>Retrieve paginated articles sorted by creation date (descending)</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_insertArticle">insertArticle()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Insérer un nouvel article dans la base de données</dd>
+<dd>Insert a new article into the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_updateArticle">updateArticle()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Mettre à jour un article existant dans la base de données</dd>
+<dd>Update an existing article in the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_generateUniqueSlug">generateUniqueSlug()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Générer un slug unique à partir d&#039;un titre en utilisant SlugGenerator réutilisable</dd>
+<dd>Generate a unique slug from a title using reusable SlugGenerator</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_generateUniqueSlugForUpdate">generateUniqueSlugForUpdate()</a>
     <span>
                                 &nbsp;: string    </span>
 </dt>
-<dd>Générer un slug unique pour une mise à jour d&#039;article</dd>
+<dd>Generate a unique slug for an article update</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_slugExists">slugExists()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Vérifier si un slug existe déjà dans la base de données</dd>
+<dd>Check if a slug already exists in the database</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Modules-Models-Articles-ArticleModel.html#method_slugExistsExcludingId">slugExistsExcludingId()</a>
     <span>
                                 &nbsp;: bool    </span>
 </dt>
-<dd>Vérifier si un slug existe déjà dans la base de données, en excluant un ID d&#039;article spécifique</dd>
+<dd>Check if a slug already exists in the database, excluding a specific article ID</dd>
 
     </dl>
 
@@ -395,12 +388,11 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">33</span>
+    <span class="phpdocumentor-element-found-in__line">24</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Instance de connexion PDO à la base de données</p>
-
+    
     
     <code class="phpdocumentor-code phpdocumentor-signature ">
         <span class="phpdocumentor-signature__visibility">private</span>
@@ -438,24 +430,20 @@ conformément au pattern Repository enseigné dans le cours (CM4 Slide 22).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">45</span>
+    <span class="phpdocumentor-element-found-in__line">33</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Constructeur - Injection de dépendance PDO</p>
+        <p class="phpdocumentor-summary">Constructor - PDO dependency injection</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\PDO">PDO</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pdo</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type"><abbr title="\PDO">PDO</abbr>&nbsp;</span><span class="phpdocumentor-signature__argument__name">$pdo</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Conformément aux bonnes pratiques (CM4 Slide 22), la connexion PDO
-est injectée via le constructeur pour faciliter les tests et respecter
-le principe d'inversion de dépendances.</p>
-</section>
-
+    
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
     <dl class="phpdocumentor-argument-list">
                     <dt class="phpdocumentor-argument-list__entry">
@@ -463,7 +451,7 @@ le principe d'inversion de dépendances.</p>
                 : <span class="phpdocumentor-argument-list__argument__type"><abbr title="\PDO">PDO</abbr></span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Instance de connexion à la base de données</p>
+                    <section class="phpdocumentor-description"><p>Database connection instance</p>
 </section>
 
             </dd>
@@ -489,11 +477,11 @@ le principe d'inversion de dépendances.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">307</span>
+    <span class="phpdocumentor-element-found-in__line">290</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Compter le nombre total d&#039;articles</p>
+        <p class="phpdocumentor-summary">Count total number of articles</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -512,7 +500,7 @@ le principe d'inversion de dépendances.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">int</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Nombre total d'articles</p>
+                <section class="phpdocumentor-description"><p>Total number of articles</p>
 </section>
 
             </section>
@@ -532,11 +520,11 @@ le principe d'inversion de dépendances.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">186</span>
+    <span class="phpdocumentor-element-found-in__line">171</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Supprimer un article de la base de données</p>
+        <p class="phpdocumentor-summary">Delete an article from the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -545,8 +533,7 @@ le principe d'inversion de dépendances.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Supprime définitivement un article identifié par son ID.
-Retourne true si la suppression a réussi, false sinon.</p>
+        <section class="phpdocumentor-description"><p>Permanently deletes an article identified by its ID.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -556,7 +543,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID de l'article à supprimer</p>
+                    <section class="phpdocumentor-description"><p>ID of the article to delete</p>
 </section>
 
             </dd>
@@ -570,7 +557,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si la suppression réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -590,11 +577,11 @@ Retourne true si la suppression a réussi, false sinon.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">210</span>
+    <span class="phpdocumentor-element-found-in__line">193</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer un article par son identifiant</p>
+        <p class="phpdocumentor-summary">Retrieve an article by its identifier</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -611,7 +598,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Identifiant unique de l'article</p>
+                    <section class="phpdocumentor-description"><p>Unique article identifier</p>
 </section>
 
             </dd>
@@ -625,7 +612,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Données de l'article ou null si non trouvé</p>
+                <section class="phpdocumentor-description"><p>Article data or null if not found</p>
 </section>
 
             </section>
@@ -645,11 +632,11 @@ Retourne true si la suppression a réussi, false sinon.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">231</span>
+    <span class="phpdocumentor-element-found-in__line">214</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer un article par son slug</p>
+        <p class="phpdocumentor-summary">Retrieve an article by its slug</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -666,7 +653,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Slug unique de l'article</p>
+                    <section class="phpdocumentor-description"><p>Unique article slug</p>
 </section>
 
             </dd>
@@ -680,7 +667,7 @@ Retourne true si la suppression a réussi, false sinon.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;string, mixed&gt;|null</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Données de l'article ou null si non trouvé</p>
+                <section class="phpdocumentor-description"><p>Article data or null if not found</p>
 </section>
 
             </section>
@@ -700,11 +687,11 @@ Retourne true si la suppression a réussi, false sinon.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">283</span>
+    <span class="phpdocumentor-element-found-in__line">266</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer les derniers articles triés par date de création (décroissant)</p>
+        <p class="phpdocumentor-summary">Retrieve latest articles sorted by creation date (descending)</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -713,8 +700,8 @@ Retourne true si la suppression a réussi, false sinon.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Récupère un nombre spécifié des articles les plus récents de la base de données.
-Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les performances.</p>
+        <section class="phpdocumentor-description"><p>Retrieves a specified number of the most recent articles from the database.
+The query is optimized to select only required columns for performance.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -724,7 +711,7 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                  = <span class="phpdocumentor-argument-list__argument__default-value">2</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre d'articles à récupérer (par défaut : 2)</p>
+                    <section class="phpdocumentor-description"><p>Number of articles to retrieve (default: 2)</p>
 </section>
 
             </dd>
@@ -738,7 +725,7 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Tableau d'articles, tableau vide si aucun trouvé</p>
+                <section class="phpdocumentor-description"><p>Array of articles, empty array if none found</p>
 </section>
 
             </section>
@@ -758,11 +745,11 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">253</span>
+    <span class="phpdocumentor-element-found-in__line">236</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Récupérer des articles paginés triés par date de création (décroissant)</p>
+        <p class="phpdocumentor-summary">Retrieve paginated articles sorted by creation date (descending)</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -779,7 +766,7 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Décalage de départ</p>
+                    <section class="phpdocumentor-description"><p>Start offset</p>
 </section>
 
             </dd>
@@ -788,7 +775,7 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nombre d'articles à récupérer</p>
+                    <section class="phpdocumentor-description"><p>Number of articles to retrieve</p>
 </section>
 
             </dd>
@@ -802,7 +789,7 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Tableau d'articles</p>
+                <section class="phpdocumentor-description"><p>Array of articles</p>
 </section>
 
             </section>
@@ -822,11 +809,11 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">66</span>
+    <span class="phpdocumentor-element-found-in__line">52</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Insérer un nouvel article dans la base de données</p>
+        <p class="phpdocumentor-summary">Insert a new article into the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -835,8 +822,8 @@ Requête optimisée qui ne sélectionne que les colonnes nécessaires pour les p
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Crée un nouvel enregistrement d'article avec toutes les informations fournies.
-Génère automatiquement un slug unique à partir du titre.</p>
+        <section class="phpdocumentor-description"><p>Creates a new article record with all provided information.
+Automatically generates a unique slug from the title.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -846,7 +833,7 @@ Génère automatiquement un slug unique à partir du titre.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Titre de l'article</p>
+                    <section class="phpdocumentor-description"><p>Article title</p>
 </section>
 
             </dd>
@@ -855,7 +842,7 @@ Génère automatiquement un slug unique à partir du titre.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Description/contenu de l'article</p>
+                    <section class="phpdocumentor-description"><p>Article description/content</p>
 </section>
 
             </dd>
@@ -864,7 +851,7 @@ Génère automatiquement un slug unique à partir du titre.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>URL de l'image Cloudinary</p>
+                    <section class="phpdocumentor-description"><p>Cloudinary image URL</p>
 </section>
 
             </dd>
@@ -873,7 +860,7 @@ Génère automatiquement un slug unique à partir du titre.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nom complet de l'auteur</p>
+                    <section class="phpdocumentor-description"><p>Author full name</p>
 </section>
 
             </dd>
@@ -887,7 +874,7 @@ Génère automatiquement un slug unique à partir du titre.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si l'insertion réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -907,11 +894,11 @@ Génère automatiquement un slug unique à partir du titre.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">108</span>
+    <span class="phpdocumentor-element-found-in__line">94</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Mettre à jour un article existant dans la base de données</p>
+        <p class="phpdocumentor-summary">Update an existing article in the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
@@ -920,9 +907,9 @@ Génère automatiquement un slug unique à partir du titre.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Met à jour les informations d'un article existant identifié par son ID.
-Si le titre a changé, génère un nouveau slug unique.
-L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
+        <section class="phpdocumentor-description"><p>Updates information of an existing article identified by its ID.
+If the title changes, a new unique slug is generated.
+The image URL is updated only if a new image is provided.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -932,7 +919,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID de l'article à mettre à jour</p>
+                    <section class="phpdocumentor-description"><p>ID of the article to update</p>
 </section>
 
             </dd>
@@ -941,7 +928,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveau titre de l'article</p>
+                    <section class="phpdocumentor-description"><p>New article title</p>
 </section>
 
             </dd>
@@ -950,7 +937,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle description/contenu</p>
+                    <section class="phpdocumentor-description"><p>New description/content</p>
 </section>
 
             </dd>
@@ -959,7 +946,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouvelle URL d'image Cloudinary (chaîne vide pour conserver l'existante)</p>
+                    <section class="phpdocumentor-description"><p>New Cloudinary image URL (empty string to keep existing)</p>
 </section>
 
             </dd>
@@ -968,7 +955,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Nouveau nom d'auteur</p>
+                    <section class="phpdocumentor-description"><p>New author name</p>
 </section>
 
             </dd>
@@ -982,7 +969,7 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si la mise à jour réussit, false sinon</p>
+                <section class="phpdocumentor-description"><p>True on success, false on failure</p>
 </section>
 
             </section>
@@ -1002,11 +989,11 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">338</span>
+    <span class="phpdocumentor-element-found-in__line">319</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Générer un slug unique à partir d&#039;un titre en utilisant SlugGenerator réutilisable</p>
+        <p class="phpdocumentor-summary">Generate a unique slug from a title using reusable SlugGenerator</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1015,8 +1002,8 @@ L'URL de l'image n'est mise à jour que si une nouvelle image est fournie.</p>
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Si un slug existe déjà, ajoute un numéro pour le rendre unique.
-Exemple : &quot;mon-article&quot;, &quot;mon-article-2&quot;, &quot;mon-article-3&quot;</p>
+        <section class="phpdocumentor-description"><p>If a slug already exists, appends a number to make it unique.
+Example: &quot;my-article&quot;, &quot;my-article-2&quot;, &quot;my-article-3&quot;</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1026,7 +1013,7 @@ Exemple : &quot;mon-article&quot;, &quot;mon-article-2&quot;, &quot;mon-article-
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Titre à convertir</p>
+                    <section class="phpdocumentor-description"><p>Title to convert</p>
 </section>
 
             </dd>
@@ -1040,7 +1027,7 @@ Exemple : &quot;mon-article&quot;, &quot;mon-article-2&quot;, &quot;mon-article-
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Un slug unique</p>
+                <section class="phpdocumentor-description"><p>Unique slug</p>
 </section>
 
             </section>
@@ -1060,11 +1047,11 @@ Exemple : &quot;mon-article&quot;, &quot;mon-article-2&quot;, &quot;mon-article-
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">376</span>
+    <span class="phpdocumentor-element-found-in__line">357</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Générer un slug unique pour une mise à jour d&#039;article</p>
+        <p class="phpdocumentor-summary">Generate a unique slug for an article update</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1073,9 +1060,9 @@ Exemple : &quot;mon-article&quot;, &quot;mon-article-2&quot;, &quot;mon-article-
     <div class="phpdocumentor-label-line">
         </div>
     
-        <section class="phpdocumentor-description"><p>Similaire à generateUniqueSlug mais exclut l'article actuel de la vérification d'unicité.
-Permet de mettre à jour un article sans changer son slug si le titre n'a pas changé,
-ou de générer un nouveau slug unique si le titre a changé.</p>
+        <section class="phpdocumentor-description"><p>Similar to generateUniqueSlug but excludes the current article from the uniqueness check.
+Allows updating an article without changing its slug if the title did not change,
+or generating a new unique slug if the title changed.</p>
 </section>
 
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -1085,7 +1072,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Titre à convertir</p>
+                    <section class="phpdocumentor-description"><p>Title to convert</p>
 </section>
 
             </dd>
@@ -1094,7 +1081,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID de l'article à exclure de la vérification d'unicité</p>
+                    <section class="phpdocumentor-description"><p>ID of the article to exclude from uniqueness check</p>
 </section>
 
             </dd>
@@ -1108,7 +1095,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">string</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>Un slug unique</p>
+                <section class="phpdocumentor-description"><p>Unique slug</p>
 </section>
 
             </section>
@@ -1128,11 +1115,11 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">351</span>
+    <span class="phpdocumentor-element-found-in__line">332</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Vérifier si un slug existe déjà dans la base de données</p>
+        <p class="phpdocumentor-summary">Check if a slug already exists in the database</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1149,7 +1136,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Slug à vérifier</p>
+                    <section class="phpdocumentor-description"><p>Slug to check</p>
 </section>
 
             </dd>
@@ -1163,7 +1150,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si le slug existe, false sinon</p>
+                <section class="phpdocumentor-description"><p>True if the slug exists, false otherwise</p>
 </section>
 
             </section>
@@ -1183,11 +1170,11 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Models/Articles/ArticleModel.php"><a href="files/app-modules-models-articles-articlemodel.html"><abbr title="app/Modules/Models/Articles/ArticleModel.php">ArticleModel.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">390</span>
+    <span class="phpdocumentor-element-found-in__line">371</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Vérifier si un slug existe déjà dans la base de données, en excluant un ID d&#039;article spécifique</p>
+        <p class="phpdocumentor-summary">Check if a slug already exists in the database, excluding a specific article ID</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
@@ -1204,7 +1191,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Slug à vérifier</p>
+                    <section class="phpdocumentor-description"><p>Slug to check</p>
 </section>
 
             </dd>
@@ -1213,7 +1200,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID de l'article à exclure de la vérification</p>
+                    <section class="phpdocumentor-description"><p>ID of the article to exclude from the check</p>
 </section>
 
             </dd>
@@ -1227,7 +1214,7 @@ ou de générer un nouveau slug unique si le titre a changé.</p>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">bool</span>
                     &mdash;
-                <section class="phpdocumentor-description"><p>True si le slug existe (en excluant l'ID spécifié), false sinon</p>
+                <section class="phpdocumentor-description"><p>True if the slug exists (excluding the specified ID), false otherwise</p>
 </section>
 
             </section>

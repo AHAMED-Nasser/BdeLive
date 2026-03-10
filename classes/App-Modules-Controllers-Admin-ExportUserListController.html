@@ -195,20 +195,34 @@
         <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Controllers/Admin/ExportUserListController.php"><a href="files/app-modules-controllers-admin-exportuserlistcontroller.html"><abbr title="app/Modules/Controllers/Admin/ExportUserListController.php">ExportUserListController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Contrôleur responsable de l&#039;exportation de la liste des utilisateurs en PDF.</p>
+            <p class="phpdocumentor-summary">Controller responsible for exporting the user list to PDF.</p>
 
 
-    <section class="phpdocumentor-description"><p>Reprend les filtres de recherche et de statut de l'administration.</p>
-<ul>
-<li>@author BDELIVE - Groupe 8</li>
-</ul>
+    <section class="phpdocumentor-description"><p>Reuses the same search and status filters as the admin section,
+and generates a PDF containing all matching users.</p>
 </section>
 
 
+    <h5 class="phpdocumentor-tag-list__heading" id="tags">
+        Tags
+        <a href="classes/App-Modules-Controllers-Admin-ExportUserListController.html#tags" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h5>
+    <dl class="phpdocumentor-tag-list">
+                                    <dt class="phpdocumentor-tag-list__entry">
+                    <span class="phpdocumentor-tag__name">author</span>
+                </dt>
+                <dd class="phpdocumentor-tag-list__definition">
+                                                                                
+                                                 <section class="phpdocumentor-description"><p>BDELIVE - Group 8</p>
+</section>
+
+                                    </dd>
+                                            </dl>
 
     
     
@@ -365,6 +379,7 @@
     <span>
                                 &nbsp;: void    </span>
 </dt>
+<dd>Generates the PDF and streams it to the browser.</dd>
 
     </dl>
 
@@ -623,7 +638,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Controllers/Admin/ExportUserListController.php"><a href="files/app-modules-controllers-admin-exportuserlistcontroller.html"><abbr title="app/Modules/Controllers/Admin/ExportUserListController.php">ExportUserListController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">19</span>
+    <span class="phpdocumentor-element-found-in__line">22</span>
 
     </aside>
 
@@ -1261,11 +1276,12 @@ Checks in order:</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Controllers/Admin/ExportUserListController.php"><a href="files/app-modules-controllers-admin-exportuserlistcontroller.html"><abbr title="app/Modules/Controllers/Admin/ExportUserListController.php">ExportUserListController.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">49</span>
+    <span class="phpdocumentor-element-found-in__line">54</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Generates the PDF and streams it to the browser.</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
                     <span class="phpdocumentor-signature__name">generatePdf</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$users</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$filter</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$role</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$search</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
@@ -1281,28 +1297,36 @@ Checks in order:</p>
                 : <span class="phpdocumentor-argument-list__argument__type">array&lt;int, array&lt;string, mixed&gt;&gt;</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>List of users to export</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$filter</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Current status filter</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$role</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Current role filter</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$search</span>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Current search query</p>
+</section>
+
             </dd>
             </dl>
 

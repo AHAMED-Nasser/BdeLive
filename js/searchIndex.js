@@ -958,7 +958,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController",
             "name": "ExportUserListController",
-            "summary": "Contr\u00F4leur\u0020responsable\u0020de\u0020l\u0027exportation\u0020de\u0020la\u0020liste\u0020des\u0020utilisateurs\u0020en\u0020PDF.",
+            "summary": "Controller\u0020responsible\u0020for\u0020exporting\u0020the\u0020user\u0020list\u0020to\u0020PDF.",
             "url": "classes/App-Modules-Controllers-Admin-ExportUserListController.html"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController\u003A\u003A__construct\u0028\u0029",
@@ -968,7 +968,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Admin\\ExportUserListController\u003A\u003AgeneratePdf\u0028\u0029",
             "name": "generatePdf",
-            "summary": "",
+            "summary": "Generates\u0020the\u0020PDF\u0020and\u0020streams\u0020it\u0020to\u0020the\u0020browser.",
             "url": "classes/App-Modules-Controllers-Admin-ExportUserListController.html#method_generatePdf"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\AdminController",
@@ -2246,11 +2246,6 @@ Search.appendIndex(
             "summary": "Check\u0020if\u0020the\u0020event\u0020has\u0020already\u0020occurred",
             "url": "classes/App-Modules-Entities-Event.html#method_isPast"
         },                {
-            "fqsen": "\\App\\Modules\\Entities\\Event\u003A\u003AisFull\u0028\u0029",
-            "name": "isFull",
-            "summary": "Check\u0020if\u0020the\u0020event\u0020is\u0020full\u0020\u0028requires\u0020external\u0020registration\u0020data\u0029",
-            "url": "classes/App-Modules-Entities-Event.html#method_isFull"
-        },                {
             "fqsen": "\\App\\Modules\\Entities\\Event\u003A\u003AgetFormattedDate\u0028\u0029",
             "name": "getFormattedDate",
             "summary": "Get\u0020formatted\u0020date\u0020for\u0020display\u0020\u0028French\u0020format\u003A\u0020dd\/mm\/YYYY\u0029",
@@ -2473,97 +2468,97 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel",
             "name": "ArticleModel",
-            "summary": "ArticleModel\u0020\u002D\u0020Mod\u00E8le\u0020unifi\u00E9\u0020pour\u0020la\u0020gestion\u0020des\u0020articles",
+            "summary": "Responsibilities\u003A\n\u002D\u0020Read\u003A\u0020Retrieve\u0020articles\u0020with\u0020pagination,\u0020search\u0020by\u0020slug\/ID\n\u002D\u0020Write\u003A\u0020Create,\u0020update\u0020and\u0020delete\u0020articles\n\u002D\u0020Automatic\u0020management\u0020of\u0020unique\u0020slugs",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Constructeur\u0020\u002D\u0020Injection\u0020de\u0020d\u00E9pendance\u0020PDO",
+            "summary": "Constructor\u0020\u002D\u0020PDO\u0020dependency\u0020injection",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AinsertArticle\u0028\u0029",
             "name": "insertArticle",
-            "summary": "Ins\u00E9rer\u0020un\u0020nouvel\u0020article\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Insert\u0020a\u0020new\u0020article\u0020into\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_insertArticle"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AupdateArticle\u0028\u0029",
             "name": "updateArticle",
-            "summary": "Mettre\u0020\u00E0\u0020jour\u0020un\u0020article\u0020existant\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Update\u0020an\u0020existing\u0020article\u0020in\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_updateArticle"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AdeleteArticle\u0028\u0029",
             "name": "deleteArticle",
-            "summary": "Supprimer\u0020un\u0020article\u0020de\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Delete\u0020an\u0020article\u0020from\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_deleteArticle"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgetArticleById\u0028\u0029",
             "name": "getArticleById",
-            "summary": "R\u00E9cup\u00E9rer\u0020un\u0020article\u0020par\u0020son\u0020identifiant",
+            "summary": "Retrieve\u0020an\u0020article\u0020by\u0020its\u0020identifier",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_getArticleById"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgetArticleBySlug\u0028\u0029",
             "name": "getArticleBySlug",
-            "summary": "R\u00E9cup\u00E9rer\u0020un\u0020article\u0020par\u0020son\u0020slug",
+            "summary": "Retrieve\u0020an\u0020article\u0020by\u0020its\u0020slug",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_getArticleBySlug"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgetPaginatedArticles\u0028\u0029",
             "name": "getPaginatedArticles",
-            "summary": "R\u00E9cup\u00E9rer\u0020des\u0020articles\u0020pagin\u00E9s\u0020tri\u00E9s\u0020par\u0020date\u0020de\u0020cr\u00E9ation\u0020\u0028d\u00E9croissant\u0029",
+            "summary": "Retrieve\u0020paginated\u0020articles\u0020sorted\u0020by\u0020creation\u0020date\u0020\u0028descending\u0029",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_getPaginatedArticles"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgetLatestArticles\u0028\u0029",
             "name": "getLatestArticles",
-            "summary": "R\u00E9cup\u00E9rer\u0020les\u0020derniers\u0020articles\u0020tri\u00E9s\u0020par\u0020date\u0020de\u0020cr\u00E9ation\u0020\u0028d\u00E9croissant\u0029",
+            "summary": "Retrieve\u0020latest\u0020articles\u0020sorted\u0020by\u0020creation\u0020date\u0020\u0028descending\u0029",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_getLatestArticles"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AcountArticles\u0028\u0029",
             "name": "countArticles",
-            "summary": "Compter\u0020le\u0020nombre\u0020total\u0020d\u0027articles",
+            "summary": "Count\u0020total\u0020number\u0020of\u0020articles",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_countArticles"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgenerateUniqueSlug\u0028\u0029",
             "name": "generateUniqueSlug",
-            "summary": "G\u00E9n\u00E9rer\u0020un\u0020slug\u0020unique\u0020\u00E0\u0020partir\u0020d\u0027un\u0020titre\u0020en\u0020utilisant\u0020SlugGenerator\u0020r\u00E9utilisable",
+            "summary": "Generate\u0020a\u0020unique\u0020slug\u0020from\u0020a\u0020title\u0020using\u0020reusable\u0020SlugGenerator",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_generateUniqueSlug"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AslugExists\u0028\u0029",
             "name": "slugExists",
-            "summary": "V\u00E9rifier\u0020si\u0020un\u0020slug\u0020existe\u0020d\u00E9j\u00E0\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Check\u0020if\u0020a\u0020slug\u0020already\u0020exists\u0020in\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_slugExists"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AgenerateUniqueSlugForUpdate\u0028\u0029",
             "name": "generateUniqueSlugForUpdate",
-            "summary": "G\u00E9n\u00E9rer\u0020un\u0020slug\u0020unique\u0020pour\u0020une\u0020mise\u0020\u00E0\u0020jour\u0020d\u0027article",
+            "summary": "Generate\u0020a\u0020unique\u0020slug\u0020for\u0020an\u0020article\u0020update",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_generateUniqueSlugForUpdate"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003AslugExistsExcludingId\u0028\u0029",
             "name": "slugExistsExcludingId",
-            "summary": "V\u00E9rifier\u0020si\u0020un\u0020slug\u0020existe\u0020d\u00E9j\u00E0\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es,\u0020en\u0020excluant\u0020un\u0020ID\u0020d\u0027article\u0020sp\u00E9cifique",
+            "summary": "Check\u0020if\u0020a\u0020slug\u0020already\u0020exists\u0020in\u0020the\u0020database,\u0020excluding\u0020a\u0020specific\u0020article\u0020ID",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#method_slugExistsExcludingId"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Articles\\ArticleModel\u003A\u003A\u0024pdo",
             "name": "pdo",
-            "summary": "Instance\u0020de\u0020connexion\u0020PDO\u0020\u00E0\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "",
             "url": "classes/App-Modules-Models-Articles-ArticleModel.html#property_pdo"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel",
             "name": "EventModel",
-            "summary": "EventModel\u0020\u002D\u0020Mod\u00E8le\u0020unifi\u00E9\u0020pour\u0020la\u0020gestion\u0020des\u0020\u00E9v\u00E9nements",
+            "summary": "EventModel\u0020\u002D\u0020Unified\u0020model\u0020for\u0020event\u0020management",
             "url": "classes/App-Modules-Models-Events-EventModel.html"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "Constructeur\u0020\u002D\u0020Injection\u0020de\u0020d\u00E9pendance\u0020PDO",
+            "summary": "Constructor\u0020\u002D\u0020PDO\u0020dependency\u0020injection",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003Acount\u0028\u0029",
             "name": "count",
-            "summary": "Compter\u0020le\u0020nombre\u0020total\u0020d\u0027\u00E9v\u00E9nements\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Count\u0020total\u0020number\u0020of\u0020events\u0020in\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_count"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AfindById\u0028\u0029",
             "name": "findById",
-            "summary": "R\u00E9cup\u00E9rer\u0020un\u0020\u00E9v\u00E9nement\u0020par\u0020son\u0020identifiant",
+            "summary": "Retrieve\u0020an\u0020event\u0020by\u0020its\u0020identifier",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_findById"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AfindBySlug\u0028\u0029",
@@ -2583,42 +2578,42 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AfindPaginated\u0028\u0029",
             "name": "findPaginated",
-            "summary": "R\u00E9cup\u00E9rer\u0020une\u0020liste\u0020pagin\u00E9e\u0020d\u0027\u00E9v\u00E9nements",
+            "summary": "Retrieve\u0020a\u0020paginated\u0020list\u0020of\u0020events",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_findPaginated"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AfindAll\u0028\u0029",
             "name": "findAll",
-            "summary": "R\u00E9cup\u00E9rer\u0020tous\u0020les\u0020\u00E9v\u00E9nements\u0020pour\u0020l\u0027affichage\u0020calendrier",
+            "summary": "Retrieve\u0020all\u0020events\u0020for\u0020calendar\u0020display",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_findAll"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AfindLatestEvents\u0028\u0029",
             "name": "findLatestEvents",
-            "summary": "R\u00E9cup\u00E9rer\u0020les\u0020prochains\u0020\u00E9v\u00E9nements\u0020\u00E0\u0020venir",
+            "summary": "Retrieve\u0020upcoming\u0020events",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_findLatestEvents"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AinsertEvent\u0028\u0029",
             "name": "insertEvent",
-            "summary": "Ins\u00E9rer\u0020un\u0020nouvel\u0020\u00E9v\u00E9nement\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Insert\u0020a\u0020new\u0020event\u0020into\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_insertEvent"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AupdateEvent\u0028\u0029",
             "name": "updateEvent",
-            "summary": "Mettre\u0020\u00E0\u0020jour\u0020un\u0020\u00E9v\u00E9nement\u0020existant\u0020dans\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Update\u0020an\u0020existing\u0020event\u0020in\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_updateEvent"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AupdateEventImages\u0028\u0029",
             "name": "updateEventImages",
-            "summary": "Mettre\u0020\u00E0\u0020jour\u0020uniquement\u0020les\u0020images\u0020associ\u00E9es\u0020\u00E0\u0020un\u0020\u00E9v\u00E9nement",
+            "summary": "Update\u0020only\u0020images\u0020associated\u0020with\u0020an\u0020event",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_updateEventImages"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003AdeleteEvent\u0028\u0029",
             "name": "deleteEvent",
-            "summary": "Supprimer\u0020un\u0020\u00E9v\u00E9nement\u0020de\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "Delete\u0020an\u0020event\u0020from\u0020the\u0020database",
             "url": "classes/App-Modules-Models-Events-EventModel.html#method_deleteEvent"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Events\\EventModel\u003A\u003A\u0024pdo",
             "name": "pdo",
-            "summary": "Instance\u0020de\u0020connexion\u0020PDO\u0020\u00E0\u0020la\u0020base\u0020de\u0020donn\u00E9es",
+            "summary": "",
             "url": "classes/App-Modules-Models-Events-EventModel.html#property_pdo"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Pwd\\PasswordReset",
