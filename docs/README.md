@@ -9,6 +9,7 @@ Structure de la documentation technique du projet.
 | [**architecture/**](architecture/) | Diagramme du flux requête/réponse, patterns MVC 2, Repository, Factory, DI |
 | [**usecases/**](usecases/) | Diagrammes de cas d'utilisation par acteur (RBAC) |
 | [**classes/**](classes/) | Diagramme de classes UML exhaustif |
+| [**database/**](database/) | Schéma relationnel de la base de données |
 
 ## Fichiers
 
@@ -26,3 +27,7 @@ Structure de la documentation technique du projet.
 ### Classes
 
 - [diagramme-classes.puml](classes/diagramme-classes.puml) · [SVG](classes/diagramme-classes.svg) — Entités, Repositories, Factories, structure du domaine
+
+### Base de données
+
+- [Schéma relationnel](database/schema-relationnel.png) — Modèle relationnel des tables MySQL
