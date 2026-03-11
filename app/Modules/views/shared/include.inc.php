@@ -442,6 +442,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <script src="./assets/js/delete-confirm.js"></script>
         <script src="./assets/js/form-submit-protection.js"></script>
         <script src="./assets/js/modal.js"></script>
+        <script src="./assets/js/team-invitation.js"></script>
         <script src="./assets/js/togglePassword.js"></script>
         <script src="./assets/js/passwordControl.js"></script>
         <script src="./assets/js/navbar-scroll.js"></script>

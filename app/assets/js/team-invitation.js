@@ -1,0 +1,49 @@
+/**
+ * Team invitation page: replaces confirm() with modal for Accept/Decline actions.
+ */
+(function () {
+    'use strict';
+
+    function init() {
+        const acceptBtn = document.querySelector('.team-invitation-btn--accept[data-modal-msg]');
+        const declineBtn = document.querySelector('.team-invitation-btn--decline[data-modal-msg]');
+
+        if (!acceptBtn || !declineBtn || typeof window.showConfirmModal !== 'function') {
+            return;
+        }
+
+        acceptBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const title = acceptBtn.getAttribute('data-modal-title') || 'Confirmer';
+            const msg = acceptBtn.getAttribute('data-modal-msg') || 'Confirmez-vous votre participation à ce groupe ?';
+            window.showConfirmModal(title, msg, function () {
+                window.location.href = acceptBtn.getAttribute('href') || '';
+            }, null, {
+                icon: 'fas fa-check-circle',
+                confirmText: 'Accepter',
+                cancelText: 'Annuler',
+                danger: false
+            });
+        });
+
+        declineBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const title = declineBtn.getAttribute('data-modal-title') || 'Refuser l\'invitation';
+            const msg = declineBtn.getAttribute('data-modal-msg') || 'Êtes-vous sûr de vouloir refuser ? Le groupe entier sera annulé.';
+            window.showConfirmModal(title, msg, function () {
+                window.location.href = declineBtn.getAttribute('href') || '';
+            }, null, {
+                icon: 'fas fa-exclamation-triangle',
+                confirmText: 'Refuser',
+                cancelText: 'Annuler',
+                danger: true
+            });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

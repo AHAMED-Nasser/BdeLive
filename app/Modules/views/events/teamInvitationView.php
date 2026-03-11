@@ -63,22 +63,24 @@ start_page("Invitation à rejoindre un groupe - BDELive", true, $user ?? null);
 
         <div class="team-invitation-actions">
             <p>Souhaitez-vous rejoindre ce groupe ?</p>
-            <div class="team-invitation-buttons">
-                <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=confirm"
-                    class="team-invitation-btn team-invitation-btn--accept"
-                    data-confirm="Confirmez-vous votre participation à ce groupe ?">
-                    <i class="fas fa-check" aria-hidden="true"></i> Accepter
-                </a>
-                <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=decline"
-                    class="team-invitation-btn team-invitation-btn--decline"
-                    data-confirm="Êtes-vous sûr de vouloir refuser ? Le groupe entier sera annulé.">
-                    <i class="fas fa-times" aria-hidden="true"></i> Refuser
-                </a>
-            </div>
             <div class="team-invitation-warning">
                 <p><i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
                     <strong>Attention :</strong> Si vous refusez, le groupe entier sera annulé et tous les autres
                     membres devront reformer un nouveau groupe.</p>
+            </div>
+            <div class="team-invitation-buttons">
+                <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=confirm"
+                    class="team-invitation-btn team-invitation-btn--accept"
+                    data-modal-title="Confirmer l'inscription"
+                    data-modal-msg="Confirmez-vous votre participation à ce groupe ?">
+                    <i class="fas fa-check" aria-hidden="true"></i> Accepter
+                </a>
+                <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=decline"
+                    class="team-invitation-btn team-invitation-btn--decline"
+                    data-modal-title="Refuser l'invitation"
+                    data-modal-msg="Êtes-vous sûr de vouloir refuser ? Le groupe entier sera annulé et tous les autres membres devront reformer un nouveau groupe.">
+                    <i class="fas fa-times" aria-hidden="true"></i> Refuser
+                </a>
             </div>
         </div>
     </div>

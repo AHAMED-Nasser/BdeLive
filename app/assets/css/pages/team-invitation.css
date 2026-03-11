@@ -162,6 +162,10 @@
     color: var(--text-secondary);
 }
 
+.team-invitation-warning {
+    margin-bottom: 20px;
+}
+
 .team-invitation-buttons {
     display: flex;
     gap: 15px;
@@ -196,7 +200,6 @@
 }
 
 .team-invitation-warning {
-    margin-top: 20px;
     padding: 15px;
     background: var(--alert-warning-bg);
     border-radius: 8px;
