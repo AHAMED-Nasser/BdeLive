@@ -1,76 +1,83 @@
-/**
- * Group Registration Page Styles
- *
- * Styles pour la page d'inscription en groupe avec support du mode sombre
- *
- * @author BdeLive Team
- * @version 1.0.0
- */
+.event-info h3,
+.group-registration-container h1 {
+    font-family: var(--font-heading);
+    color: var(--text-primary)
+}
+
+.event-info,
+.team-card {
+    box-shadow: 0 2px 4px var(--shadow-sm)
+}
 
 .group-registration-container {
     max-width: 700px;
     margin: 40px auto;
-    padding: 20px;
+    padding: 20px
 }
 
 .group-registration-container h1 {
     text-align: center;
-    margin-bottom: 30px;
-    font-family: var(--font-heading);
-    color: var(--text-primary);
+    margin-bottom: 30px
 }
 
 .group-registration-container h1 i {
-    margin-right: 10px;
+    margin-right: 10px
 }
 
-/* Event Info Card */
 .event-info {
     background: var(--bg-card);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px var(--shadow-sm);
+    border: 1px solid var(--border-color)
+}
+
+.group-flash-error,
+.group-flash-success {
+    border-radius: 4px;
+    margin: 20px 0;
+    text-align: center;
+    padding: 12px
 }
 
 .event-info h3 {
-    margin: 0 0 10px 0;
-    font-family: var(--font-heading);
-    color: var(--text-primary);
+    margin: 0 0 10px
+}
+
+.event-info p,
+.group-flash-error,
+.group-flash-success,
+.group-flash-warning,
+.team-size-info {
+    font-family: var(--font-body)
 }
 
 .event-info p {
     margin: 0;
-    color: var(--text-secondary);
-    font-family: var(--font-body);
+    color: var(--text-secondary)
+}
+
+.form-actions a,
+.group-form h4,
+.member-input input,
+.member-input label {
+    color: var(--text-primary)
 }
 
 .event-info p:not(:last-child) {
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
-/* Flash Messages */
 .group-flash-success {
     background-color: var(--alert-success-bg);
     color: var(--alert-success-text);
-    padding: 12px;
-    margin: 20px 0;
-    border-radius: 4px;
-    text-align: center;
-    border: 1px solid var(--alert-success-border);
-    font-family: var(--font-body);
+    border: 1px solid var(--alert-success-border)
 }
 
 .group-flash-error {
     background-color: var(--alert-error-bg);
     color: var(--alert-error-text);
-    padding: 12px;
-    margin: 20px 0;
-    border-radius: 4px;
-    text-align: center;
-    border: 1px solid var(--alert-error-border);
-    font-family: var(--font-body);
+    border: 1px solid var(--alert-error-border)
 }
 
 .group-flash-warning {
@@ -79,63 +86,56 @@
     padding: 12px;
     margin: 20px 0;
     border-radius: 4px;
-    text-align: center;
-    font-family: var(--font-body);
+    text-align: center
 }
 
-/* Group Info Box - Supprimé pour simplifier */
-
-/* Team Size Info */
 .team-size-info {
     text-align: center;
     margin-bottom: 20px;
     padding: 12px;
     background: var(--gradient-primary);
     border-radius: 8px;
-    color: var(--text-inverse);
-    font-family: var(--font-body);
+    color: var(--text-inverse)
 }
 
 .team-size-info span {
-    font-size: 18px;
+    font-size: 18px
 }
 
 .team-size-info strong {
-    font-weight: 700;
+    font-weight: 700
 }
 
-/* Creator Info - Supprimé pour simplifier */
-
-/* Form Section */
 .group-form h4 {
     margin-bottom: 20px;
     margin-top: 0;
-    font-family: var(--font-heading);
-    color: var(--text-primary);
+    font-family: var(--font-heading)
 }
 
-.group-form p,
+.form-actions a,
 .group-form label,
-.group-form span {
-    font-family: var(--font-body);
+.group-form p,
+.group-form span,
+.member-input input,
+.member-input label,
+.warning-box p {
+    font-family: var(--font-body)
 }
 
+.existing-teams h4 i,
 .group-form h4 i {
     margin-right: 8px;
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
-/* Member Input */
 .member-input {
-    margin-bottom: 15px;
+    margin-bottom: 15px
 }
 
 .member-input label {
     display: block;
     margin-bottom: 5px;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-family: var(--font-body);
+    font-weight: 500
 }
 
 .member-input input {
@@ -145,88 +145,87 @@
     border-radius: 8px;
     font-size: 16px;
     background-color: var(--bg-card);
-    color: var(--text-primary);
-    font-family: var(--font-body);
     text-align: left;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: border-color .3s, box-shadow .3s
 }
 
 .member-input input:focus {
     border-color: var(--color-primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, .2)
 }
 
 .member-input input::placeholder {
     color: var(--text-tertiary);
-    text-align: left;
+    text-align: left
 }
 
-/* Warning Box */
 .warning-box {
     background: var(--alert-warning-bg);
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 25px;
-    border-left: 4px solid var(--color-warning);
+    border-left: 4px solid var(--color-warning)
 }
 
 .warning-box p {
     margin: 0;
     color: var(--alert-warning-text);
-    font-size: 14px;
-    font-family: var(--font-body);
+    font-size: 14px
+}
+
+.form-actions a i,
+.warning-box i {
+    margin-right: 8px
 }
 
 .warning-box strong {
-    font-weight: 600;
+    font-weight: 600
 }
 
 .warning-box i {
-    margin-right: 8px;
-    color: var(--color-warning);
+    color: var(--color-warning)
 }
 
-/* Form Actions */
 .form-actions {
-    margin-top: 30px;
+    margin-top: 30px
 }
 
-.form-actions button[type="submit"] {
+.form-actions button[type=submit] {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    color: white;
+    background: linear-gradient(135deg, #28a745 0, #20c997 100%);
+    color: #fff;
     border: none;
     border-radius: 8px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform .2s, box-shadow .2s;
     font-family: var(--font-heading);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 8px
 }
 
-.dark-mode .form-actions button[type="submit"] {
-    background: linear-gradient(135deg, #4ade80 0%, #34d399 100%);
-    color: var(--text-inverse);
+.dark-mode .form-actions button[type=submit] {
+    background: linear-gradient(135deg, #4ade80 0, #34d399 100%);
+    color: var(--text-inverse)
 }
 
-.form-actions button[type="submit"]:hover {
+.form-actions button[type=submit]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, .3)
 }
 
-.dark-mode .form-actions button[type="submit"]:hover {
-    box-shadow: 0 4px 12px rgba(74, 222, 128, 0.4);
+.dark-mode .form-actions button[type=submit]:hover {
+    box-shadow: 0 4px 12px rgba(74, 222, 128, .4)
 }
 
-.form-actions button[type="submit"]:focus {
+.form-actions button[type=submit]:focus {
     outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline-offset: 2px
 }
 
 .form-actions a {
@@ -235,41 +234,33 @@
     margin-top: 15px;
     padding: 12px;
     background: var(--bg-hover);
-    color: var(--text-primary);
     border-radius: 8px;
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-family: var(--font-body);
-    border: 1px solid var(--border-color);
+    transition: .3s;
+    border: 1px solid var(--border-color)
+}
+
+.existing-teams h4,
+.team-card strong {
+    color: var(--text-primary);
+    font-family: var(--font-heading)
 }
 
 .form-actions a:hover {
     background: var(--bg-tertiary);
     transform: translateY(-2px);
     text-decoration: none;
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
-.form-actions a i {
-    margin-right: 8px;
-}
-
-/* Existing Teams Section */
 .existing-teams {
     margin-top: 40px;
     padding-top: 30px;
-    border-top: 2px solid var(--border-color);
+    border-top: 2px solid var(--border-color)
 }
 
 .existing-teams h4 {
-    margin-bottom: 15px;
-    font-family: var(--font-heading);
-    color: var(--text-primary);
-}
-
-.existing-teams h4 i {
-    margin-right: 8px;
-    color: var(--color-primary);
+    margin-bottom: 15px
 }
 
 .team-card {
@@ -278,29 +269,23 @@
     border-radius: 8px;
     margin-bottom: 10px;
     border-left: 4px solid var(--border-color);
-    box-shadow: 0 2px 4px var(--shadow-sm);
-    transition: transform 0.2s ease;
+    transition: transform .2s
 }
 
 .team-card:hover {
-    transform: translateX(4px);
+    transform: translateX(4px)
 }
 
 .team-card.confirmed {
-    border-left-color: var(--color-success);
+    border-left-color: var(--color-success)
 }
 
 .team-card.pending {
-    border-left-color: var(--color-warning);
+    border-left-color: var(--color-warning)
 }
 
 .team-card.cancelled {
-    border-left-color: var(--color-danger);
-}
-
-.team-card strong {
-    color: var(--text-primary);
-    font-family: var(--font-heading);
+    border-left-color: var(--color-danger)
 }
 
 .team-card .status-badge {
@@ -309,77 +294,76 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-weight: 600;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
 .team-card .status-badge.confirmed {
     background: var(--alert-success-bg);
-    color: var(--alert-success-text);
+    color: var(--alert-success-text)
 }
 
 .team-card .status-badge.pending {
     background: var(--alert-warning-bg);
-    color: var(--alert-warning-text);
+    color: var(--alert-warning-text)
 }
 
 .team-card .status-badge.cancelled {
     background: var(--alert-error-bg);
-    color: var(--alert-error-text);
+    color: var(--alert-error-text)
 }
 
 .team-card p {
-    margin: 10px 0 0 0;
+    margin: 10px 0 0;
     font-size: 13px;
     color: var(--text-secondary);
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .group-registration-container {
         padding: 15px;
-        margin: 20px auto;
+        margin: 20px auto
     }
 
     .group-registration-container h1 {
-        font-size: 1.5rem;
+        font-size: 1.5rem
     }
 
+    .creator-info,
     .event-info,
     .group-info,
-    .creator-info,
     .warning-box {
-        padding: 15px;
+        padding: 15px
     }
 
     .team-size-info {
-        padding: 12px;
+        padding: 12px
     }
 
     .team-size-info span {
-        font-size: 16px;
+        font-size: 16px
     }
 
-    .form-actions button[type="submit"] {
+    .form-actions button[type=submit] {
         padding: 12px;
-        font-size: 15px;
+        font-size: 15px
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .group-registration-container {
         padding: 10px;
-        margin: 15px auto;
+        margin: 15px auto
     }
 
     .group-registration-container h1 {
         font-size: 1.3rem;
-        margin-bottom: 20px;
+        margin-bottom: 20px
     }
 
     .team-card .status-badge {
         float: none;
         display: inline-block;
-        margin-top: 5px;
+        margin-top: 5px
     }
 }

@@ -1,12 +1,31 @@
-/* Styles pour la navbar */
+.nav a,
+.nav span {
+    color: var(--text-inverse);
+    font-size: 1.1rem
+}
+
+.dark-mode-toggle:hover,
+.nav a:hover {
+    transform: translateY(-2px)
+}
+
+.nav,
+.profile-dropdown-container {
+    position: relative
+}
+
+.nav span,
+.profile-dropdown-trigger {
+    font-family: "JetBrains Mono ExtraBold", monospace
+}
+
 .nav {
     width: 100%;
     background: var(--gradient-primary);
-    position: relative;
     padding: 8px 20px;
     box-shadow: 0 2px 10px var(--shadow-md);
     min-height: 55px;
-    transition: padding 0.55s ease, min-height 0.55s ease, box-shadow 0.55s ease;
+    transition: padding .55s, min-height .55s, box-shadow .55s
 }
 
 .nav-inner {
@@ -15,208 +34,144 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: 100%
 }
-
 
 .nav li {
     list-style: none;
-    padding: 8px 12px;
+    padding: 8px 12px
 }
 
 .nav a {
-    font-size: 1.1rem;
-    color: var(--text-inverse);
     padding: 6px 12px;
     border-radius: 5px;
-    display: inline-block;
+    display: inline-block
+}
+
+.dark-mode-toggle,
+.nav ul {
+    display: flex;
+    align-items: center
 }
 
 .nav a:hover {
     color: var(--text-inverse);
-    background-color: rgba(255, 255, 255, 0.2);
-    text-decoration: none;
-    transform: translateY(-2px);
-}
-
-.nav ul {
-    display: flex;
-    align-items: center;
-}
-
-.nav span {
-    color: var(--text-inverse);
-    font-family: "JetBrains Mono ExtraBold", monospace;
-    font-size: 1.1rem;
+    background-color: rgba(255, 255, 255, .2);
+    text-decoration: none
 }
 
 .nav-logo img {
     height: 60px;
-    /* On enlève l'arrondi qui force une forme */
     border-radius: 0 !important;
-    /* On force le fond à être transparent au cas où le parent en aurait un */
     background-color: transparent !important;
     border: none !important;
     display: block;
-    transition: opacity 0.3s ease, filter 0.3s ease, height 0.25s ease;
+    transition: opacity .3s, filter .3s, height .25s
 }
 
-/* Navbar compacte quand on a scrollé vers le bas */
 .nav--compact {
     padding: 2px 20px;
     min-height: 40px;
-    box-shadow: 0 1px 6px var(--shadow-sm);
+    box-shadow: 0 1px 6px var(--shadow-sm)
 }
 
 .nav--compact .nav-logo img {
-    height: 38px;
+    height: 38px
 }
 
 .nav--compact .nav li {
-    padding: 2px 8px;
+    padding: 2px 8px
 }
 
-.nav--compact .nav a {
-    font-size: 0.95rem;
-    padding: 3px 8px;
-}
-
+.nav--compact .nav a,
 .nav--compact .profile-dropdown-trigger {
-    font-size: 0.95rem;
-    padding: 3px 8px;
+    font-size: .95rem;
+    padding: 3px 8px
 }
 
-/* On s'assure que le lien autour de l'image n'a pas de fond blanc */
 .nav-logo {
-    background: transparent !important;
-    padding: 0;
+    background: 0 0 !important;
+    padding: 0
 }
 
-/* Fond navbar en dark mode : gris foncé au lieu de pure black */
 .dark-mode .nav {
-    background: #18181b;
+    background: #18181b
 }
 
-/* Assurer la visibilité du logo en mode sombre */
+.dark-mode-toggle:hover,
+.profile-dropdown-trigger:hover {
+    background-color: rgba(255, 255, 255, .2)
+}
+
 .dark-mode .nav-logo img {
     opacity: 1;
     filter: none !important;
-    /* On retire les filtres de luminosité */
-    background: transparent !important;
+    background: 0 0 !important
 }
 
-
 .dark-mode-toggle {
-    background: transparent;
+    background: 0 0;
     border: none;
     cursor: pointer;
     padding: 8px 12px;
     border-radius: 5px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    color: white !important;
+    transition: .3s;
+    color: #fff !important
 }
 
-.dark-mode-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
+.dark-mode-toggle-mobile:focus,
 .dark-mode-toggle:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.8);
-    outline-offset: 2px;
+    outline: rgba(255, 255, 255, .8) solid 2px;
+    outline-offset: 2px
 }
 
 .dark-mode-icon {
     width: 20px;
     height: 20px;
-    transition: transform 0.3s ease;
+    transition: transform .3s;
     stroke: currentColor;
-    fill: none;
+    fill: none
 }
 
 .dark-mode-toggle:hover .dark-mode-icon {
-    transform: rotate(15deg);
+    transform: rotate(15deg)
 }
 
-/* Afficher l'icône appropriée selon le mode - CSS de secours si JS ne fonctionne pas */
-.dark-mode .dark-mode-toggle .sun-icon {
-    display: none !important;
+.dark-mode .dark-mode-toggle .sun-icon,
+.dark-mode .dark-mode-toggle-mobile .sun-icon {
+    display: none !important
 }
 
-.dark-mode .dark-mode-toggle .moon-icon {
+.dark-mode .dark-mode-toggle .moon-icon,
+.dark-mode .dark-mode-toggle-mobile .moon-icon,
+:not(.dark-mode) .dark-mode-toggle .sun-icon,
+:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
     display: block !important;
-    visibility: visible !important;
+    visibility: visible !important
 }
 
-:not(.dark-mode) .dark-mode-toggle .sun-icon {
-    display: block !important;
-    visibility: visible !important;
-}
-
-:not(.dark-mode) .dark-mode-toggle .moon-icon {
+:not(.dark-mode) .dark-mode-toggle .moon-icon,
+:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
     display: none !important;
-    visibility: hidden !important;
+    visibility: hidden !important
 }
 
-/* Support pour @media prefers-color-scheme: dark (si la classe dark-mode n'est pas appliquée) */
-@media (prefers-color-scheme: dark) {
-    :root:not(.light-mode) .nav {
-        background: #18181b;
-    }
-
-    :root:not(.light-mode) .nav a,
-    :root:not(.light-mode) .nav span,
-    :root:not(.light-mode) .profile-dropdown-trigger {
-        color: #f5f5f5;
-    }
-
-    :root:not(.light-mode) .dark-mode-toggle .sun-icon {
-        display: none !important;
-    }
-
-    :root:not(.light-mode) .dark-mode-toggle .moon-icon {
-        display: block !important;
-        visibility: visible !important;
-    }
-}
-
-@media (prefers-color-scheme: light) {
-    :root:not(.dark-mode) .dark-mode-toggle .sun-icon {
-        display: block !important;
-        visibility: visible !important;
-    }
-
-    :root:not(.dark-mode) .dark-mode-toggle .moon-icon {
-        display: none !important;
-        visibility: hidden !important;
-    }
-}
-
-/* ===== DARK MODE: Textes en blanc ===== */
 .dark-mode .nav a,
 .dark-mode .nav span,
 .dark-mode .profile-dropdown-trigger {
-    color: #f5f5f5;
+    color: #f5f5f5
 }
 
-/* ===== Icône profil SVG ===== */
 .profile-icon {
     width: 20px;
     height: 20px;
     fill: currentColor;
-    vertical-align: middle;
-}
-
-/* ===== PROFILE DROPDOWN MENU (CSS Only) ===== */
-.profile-dropdown-container {
-    position: relative;
+    vertical-align: middle
 }
 
 .profile-dropdown-toggle {
-    display: none;
+    display: none
 }
 
 .profile-dropdown-trigger {
@@ -228,21 +183,16 @@
     font-size: 1.05rem;
     padding: 6px 12px;
     border-radius: 5px;
-    transition: all 0.3s ease;
-    font-family: "JetBrains Mono ExtraBold", monospace;
-}
-
-.profile-dropdown-trigger:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    transition: .3s
 }
 
 .profile-dropdown-trigger .dropdown-arrow {
-    font-size: 0.8rem;
-    transition: transform 0.3s ease;
+    font-size: .8rem;
+    transition: transform .3s
 }
 
 .profile-dropdown-toggle:checked+.profile-dropdown-trigger .dropdown-arrow {
-    transform: rotate(180deg);
+    transform: rotate(180deg)
 }
 
 .profile-dropdown-menu {
@@ -256,16 +206,16 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
-    transition: all 0.3s ease;
+    transition: .3s;
     z-index: 1000;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 10px
 }
 
 .profile-dropdown-toggle:checked~.profile-dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(0)
 }
 
 .profile-dropdown-menu a {
@@ -275,8 +225,8 @@
     padding: 14px 18px;
     color: var(--text-primary);
     font-size: 1rem;
-    transition: all 0.2s ease;
-    border-left: 3px solid transparent;
+    transition: .2s;
+    border-left: 3px solid transparent
 }
 
 .profile-dropdown-menu a:hover {
@@ -284,113 +234,105 @@
     color: var(--color-primary);
     border-left-color: var(--color-primary);
     transform: none;
-    text-decoration: none;
+    text-decoration: none
 }
 
 .profile-dropdown-menu a i {
     width: 20px;
     text-align: center;
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
 .profile-dropdown-menu .dropdown-divider {
     height: 1px;
     background: var(--border-light);
-    margin: 5px 0;
+    margin: 5px 0
 }
 
 .profile-dropdown-menu .dropdown-disabled {
     color: var(--text-muted);
     cursor: not-allowed;
-    pointer-events: none;
+    pointer-events: none
 }
 
 .profile-dropdown-menu .dropdown-disabled i {
-    color: var(--text-muted);
+    color: var(--text-muted)
 }
 
-.profile-dropdown-menu .dropdown-danger {
-    color: #dc3545;
+.profile-dropdown-menu .dropdown-danger,
+.profile-dropdown-menu .dropdown-danger i {
+    color: #dc3545
 }
 
 .profile-dropdown-menu .dropdown-danger:hover {
     background-color: var(--alert-error-bg);
     color: #dc3545;
-    border-left-color: #dc3545;
+    border-left-color: #dc3545
 }
 
-.profile-dropdown-menu .dropdown-danger i {
-    color: #dc3545;
-}
-
-/* Sidebar section title */
 .sidebar-section-title {
-    color: rgba(255, 255, 255, 0.7) !important;
-    font-size: 0.75rem !important;
+    color: rgba(255, 255, 255, .7) !important;
+    font-size: .75rem !important;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
-    padding: 24px 20px 8px 20px !important;
+    padding: 24px 20px 8px !important;
     margin-top: 8px;
     border-bottom: none !important;
     pointer-events: none;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .1), transparent)
 }
 
 .sidebar-menu ul li:first-child.sidebar-section-title {
     margin-top: 0;
-    padding-top: 16px !important;
+    padding-top: 16px !important
 }
 
 .sidebar-menu .dropdown-disabled {
-    color: rgba(255, 255, 255, 0.4) !important;
+    color: rgba(255, 255, 255, .4) !important;
     cursor: not-allowed;
-    pointer-events: none;
+    pointer-events: none
 }
 
-.sidebar-menu .sidebar-danger {
-    color: #ff6b6b !important;
+.sidebar-menu .sidebar-danger,
+.sidebar-menu .sidebar-danger i {
+    color: #ff6b6b !important
 }
 
 .sidebar-menu .sidebar-danger:hover {
-    background-color: rgba(255, 107, 107, 0.25) !important;
-    color: #ff8787 !important;
-}
-
-.sidebar-menu .sidebar-danger i {
-    color: #ff6b6b !important;
+    background-color: rgba(255, 107, 107, .25) !important;
+    color: #ff8787 !important
 }
 
 .sidebar-menu .sidebar-danger:hover i {
-    color: #ff8787 !important;
+    color: #ff8787 !important
 }
 
-/* Dark Mode Toggle Mobile dans le Sidebar */
 .dark-mode-toggle-mobile {
     display: flex;
     align-items: center;
     gap: 12px;
     width: 100%;
     padding: 16px 20px;
-    background: transparent;
+    background: 0 0;
     border: none;
     color: var(--text-inverse);
     font-size: 1.1rem;
     border-radius: 0;
     margin: 0;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: .3s;
     text-align: left;
     font-family: inherit;
-    position: relative;
+    position: relative
 }
 
 .dark-mode-toggle-mobile:hover {
     color: var(--text-inverse);
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, .15);
     text-decoration: none;
     transform: translateX(8px);
-    padding-left: 28px;
+    padding-left: 28px
 }
 
 .dark-mode-toggle-mobile::before {
@@ -400,17 +342,12 @@
     top: 0;
     bottom: 0;
     width: 3px;
-    background: transparent;
-    transition: background 0.3s ease;
+    background: 0 0;
+    transition: background .3s
 }
 
 .dark-mode-toggle-mobile:hover::before {
-    background: rgba(255, 255, 255, 0.4);
-}
-
-.dark-mode-toggle-mobile:focus {
-    outline: 2px solid rgba(255, 255, 255, 0.8);
-    outline-offset: 2px;
+    background: rgba(255, 255, 255, .4)
 }
 
 .dark-mode-toggle-mobile .dark-mode-icon {
@@ -418,128 +355,115 @@
     height: 20px;
     stroke: currentColor;
     fill: none;
-    flex-shrink: 0;
+    flex-shrink: 0
 }
 
 .dark-mode-toggle-mobile span {
-    flex: 1;
+    flex: 1
 }
 
-/* Afficher l'icône appropriée dans le sidebar mobile */
-.dark-mode .dark-mode-toggle-mobile .sun-icon {
-    display: none !important;
-}
-
-.dark-mode .dark-mode-toggle-mobile .moon-icon {
-    display: block !important;
-    visibility: visible !important;
-}
-
-:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
-    display: block !important;
-    visibility: visible !important;
-}
-
-:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
-    display: none !important;
-    visibility: hidden !important;
-}
-
-/* Support pour @media prefers-color-scheme: dark dans le sidebar */
-@media (prefers-color-scheme: dark) {
-    :root:not(.light-mode) .dark-mode-toggle-mobile .sun-icon {
-        display: none !important;
+@media (prefers-color-scheme:dark) {
+    :root:not(.light-mode) .nav {
+        background: #18181b
     }
 
+    :root:not(.light-mode) .nav a,
+    :root:not(.light-mode) .nav span,
+    :root:not(.light-mode) .profile-dropdown-trigger {
+        color: #f5f5f5
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle .sun-icon,
+    :root:not(.light-mode) .dark-mode-toggle-mobile .sun-icon {
+        display: none !important
+    }
+
+    :root:not(.light-mode) .dark-mode-toggle .moon-icon,
     :root:not(.light-mode) .dark-mode-toggle-mobile .moon-icon {
         display: block !important;
-        visibility: visible !important;
+        visibility: visible !important
     }
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme:light) {
+
+    :root:not(.dark-mode) .dark-mode-toggle .sun-icon,
     :root:not(.dark-mode) .dark-mode-toggle-mobile .sun-icon {
         display: block !important;
-        visibility: visible !important;
+        visibility: visible !important
     }
 
+    :root:not(.dark-mode) .dark-mode-toggle .moon-icon,
     :root:not(.dark-mode) .dark-mode-toggle-mobile .moon-icon {
         display: none !important;
-        visibility: hidden !important;
+        visibility: hidden !important
     }
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablet (max-width: 992px) */
-@media (max-width: 992px) {
+@media (max-width:992px) {
     .nav {
         padding: 8px 15px;
-        min-height: 50px;
+        min-height: 50px
     }
 
     .nav a {
         font-size: 1.05rem;
-        padding: 6px 10px;
+        padding: 6px 10px
     }
 
     .nav-logo img {
-        height: 55px;
+        height: 55px
     }
 
     .profile-dropdown-trigger {
         font-size: 1rem;
-        padding: 6px 10px;
+        padding: 6px 10px
     }
 }
 
-/* Mobile (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .nav {
         padding: 6px 12px;
-        min-height: 48px;
+        min-height: 48px
     }
 
     .nav li {
-        padding: 6px 8px;
+        padding: 6px 8px
     }
 
     .nav a {
         font-size: 1rem;
-        padding: 6px 10px;
+        padding: 6px 10px
     }
 
     .nav span {
-        font-size: 0.95rem;
+        font-size: .95rem
     }
 
     .nav-logo img {
-        height: 50px;
+        height: 50px
     }
 
-    /* Hide profile dropdown on mobile (use sidebar instead) */
     .profile-dropdown-container {
-        display: none;
+        display: none
     }
 }
 
-/* Small mobile (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .nav {
         padding: 5px 10px;
-        min-height: 45px;
+        min-height: 45px
     }
 
     .nav-logo img {
-        height: 45px;
+        height: 45px
     }
 
     .nav span {
-        font-size: 0.85rem;
+        font-size: .85rem
     }
 }
 
-/* ===== ACCESSIBILITY UTILITY ===== */
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -549,5 +473,5 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
-    border-width: 0;
+    border-width: 0
 }

@@ -1,62 +1,90 @@
-* {
+*,
+fieldset {
     padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+    margin: 0
+}
+
+.Réseaux,
+.pagination li {
+    display: inline-block
+}
+
+.bde-text,
+.bde-text p,
+body,
+html {
+    line-height: 1.7
+}
+
+.bde-image circle,
+.dark-mode .bde-image circle {
+    fill: currentColor
+}
+
+.bde-image path,
+.dark-mode .bde-image path {
+    stroke: var(--text-inverse)
+}
+
+.btn-delete:hover,
+.btn-edit:hover,
+.btn-success:hover {
+    filter: brightness(.9)
+}
+
+* {
+    box-sizing: border-box
 }
 
 fieldset {
     border: none;
-    padding: 0;
-    margin: 0;
-    min-width: 0;
+    min-width: 0
 }
 
 header {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 1000
 }
 
-html,
-body {
+body,
+html {
     max-width: 100%;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: 17px;
-    line-height: 1.7;
+    font-size: 17px
 }
 
-/* === Styles généraux pour tous les liens === */
+.pagination a:hover,
 a {
     color: var(--color-primary);
-    text-decoration: none;
-    transition: all 0.3s ease;
+    text-decoration: none
+}
+
+a {
+    transition: .3s;
     font-family: "JetBrains Mono ExtraBold", monospace;
+    color: var(--text-primary)
 }
 
 a:hover {
     color: var(--color-primary-hover);
     text-decoration: none;
-    transform: translateY(-1px);
+    transform: translateY(-1px)
 }
 
+#back-to-top:focus,
+.create-action-btn:focus,
 a:focus {
     outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline-offset: 2px
 }
 
-
-
-/* Styles pour le footer */
-
-
-/* footer */
 .content-background {
     background: var(--gradient-content);
-    padding: 60px 0;
+    padding: 60px 0
 }
-
 
 .Réseaux {
     margin-bottom: 3px;
@@ -64,13 +92,9 @@ a:focus {
     font-size: 1.3rem;
     padding: 10px 15px;
     border-radius: 5px;
-    display: inline-block;
-    letter-spacing: 1px;
+    letter-spacing: 1px
 }
 
-
-
-/* === Pagination === */
 .pagination {
     display: flex;
     justify-content: center;
@@ -78,15 +102,11 @@ a:focus {
     list-style: none;
     padding: 0;
     margin: 20px 0;
-    gap: 8px;
+    gap: 8px
 }
 
-.pagination li {
-    display: inline-block;
-}
-
-.pagination a,
-.pagination .page-number {
+.pagination .page-number,
+.pagination a {
     display: block;
     padding: 10px 15px;
     background: var(--bg-secondary);
@@ -94,40 +114,48 @@ a:focus {
     text-decoration: none;
     border: 1px solid var(--border-color);
     border-radius: 5px;
-    transition: all 0.3s ease;
+    transition: .3s;
     min-width: 44px;
-    text-align: center;
+    text-align: center
+}
+
+.BDE,
+.legal-terms-page section {
+    background-color: var(--bg-card)
 }
 
 .pagination a:hover {
     background: var(--bg-hover);
-    color: var(--color-primary);
-    text-decoration: none;
     transform: translateY(-2px);
-    border-color: var(--color-primary);
+    border-color: var(--color-primary)
 }
 
-.pagination a[aria-current="page"],
-.pagination .page-number.active {
+.pagination .page-number.active,
+.pagination a[aria-current=page] {
     background: var(--color-primary);
     color: var(--text-inverse);
     border-color: var(--color-primary);
-    font-weight: bold;
+    font-weight: 700
 }
 
-.pagination a[aria-current="page"]:hover,
-.pagination .page-number.active:hover {
+.pagination .page-number.active:hover,
+.pagination a[aria-current=page]:hover {
     background: var(--color-primary-hover);
     color: var(--text-inverse);
     transform: none;
-    cursor: default;
+    cursor: default
 }
 
 .pagination-info {
     text-align: center;
     margin-bottom: 15px;
     color: var(--text-tertiary);
-    font-size: 0.9em;
+    font-size: .9em
+}
+
+.bde-text,
+.bde-text p {
+    color: var(--text-secondary)
 }
 
 .visuallyhidden {
@@ -139,30 +167,24 @@ a:focus {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
-    border: 0;
+    border: 0
 }
 
-/* Section principale BDE */
 .BDE {
     max-width: 1200px;
     margin: 60px auto;
     padding: 50px 30px;
-    background-color: var(--bg-card);
     border-radius: 10px;
-    box-shadow: 15px 15px 15px var(--shadow-sm);
+    box-shadow: 15px 15px 15px var(--shadow-sm)
 }
 
-#bde-title {
-    text-align: left;
-    color: var(--text-secondary);
-    font-size: 2.4rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-    padding-left: 15px;
-    font-family: var(--font-heading);
+#back-to-top,
+.create-action-btn {
+    background: var(--gradient-primary);
+    box-shadow: 0 4px 12px var(--shadow-md)
 }
 
+#bde-title,
 .about-page-title {
     text-align: left;
     color: var(--text-secondary);
@@ -171,50 +193,63 @@ a:focus {
     margin-bottom: 20px;
     letter-spacing: 1px;
     padding-left: 15px;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
+}
+
+.admin-zone,
+.alert,
+.bde-text,
+.event-info-banner,
+.hero-hours-title,
+.registration-section {
+    text-align: center
+}
+
+.bde-text,
+.bde-text p,
+.create-action-btn i,
+.event-info-banner p {
+    font-size: 1.1rem
+}
+
+.bde-text,
+.bde-text p,
+.legal-terms-page {
+    font-family: var(--font-body)
 }
 
 .bde-text {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    font-family: var(--font-body);
+    padding: 10px 20px
+}
+
+.create-action-btn,
+.create-action-btn:hover {
+    color: var(--text-inverse);
+    text-decoration: none
 }
 
 .bde-text p {
-    font-size: 1.1rem;
-    line-height: 1.7;
     margin-bottom: 15px;
-    color: var(--text-secondary);
-    font-weight: normal;
-    font-family: var(--font-body);
+    font-weight: 400
 }
 
 .bde-text p:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0
 }
 
 .bde-text p strong {
-    font-weight: 700;
+    font-weight: 700
 }
 
-/* === SECTION ÉQUIPE === */
-
-
-
-
-/* === BOUTONS DE CRÉATION (Admin) === */
 .page-header-with-action {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 30px;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .create-action-btn {
@@ -222,73 +257,27 @@ a:focus {
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: var(--gradient-primary);
-    color: var(--text-inverse);
-    text-decoration: none;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px var(--shadow-md);
-    white-space: nowrap;
+    transition: .3s;
+    white-space: nowrap
 }
 
 .create-action-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px var(--shadow-lg);
-    text-decoration: none;
-    color: var(--text-inverse);
+    box-shadow: 0 6px 16px var(--shadow-lg)
 }
 
-.create-action-btn:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+.bde-image:hover,
+.dark-mode .bde-image:hover {
+    color: var(--color-primary-hover)
 }
 
-.create-action-btn i {
-    font-size: 1.1rem;
-}
-
-/* Responsive pour les boutons de création */
-@media (max-width: 768px) {
-    .page-header-with-action {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 15px;
-    }
-
-    .page-header-with-action h1,
-    .page-header-with-action .title {
-        text-align: center;
-        margin-bottom: 0;
-    }
-
-    .create-action-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 24px;
-        font-size: 1rem;
-        min-height: 44px;
-        /* Accessibilité tactile */
-    }
-}
-
-@media (max-width: 480px) {
-    .create-action-btn {
-        padding: 12px 20px;
-        font-size: 0.95rem;
-    }
-
-    .create-action-btn span {
-        display: inline;
-    }
-}
-
-/* === STYLES POUR LES ÉVÉNEMENTS === */
 .event-detail-page {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px
 }
 
 .event-info-banner {
@@ -296,26 +285,24 @@ a:focus {
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
-    text-align: center;
     box-shadow: 0 2px 4px var(--shadow-sm);
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
 .event-info-banner p {
     margin: 10px 0;
-    color: var(--text-primary);
-    font-size: 1.1rem;
+    color: var(--text-primary)
 }
 
 .event-info-banner strong {
     color: var(--text-primary);
-    font-weight: 600;
+    font-weight: 600
 }
 
 .event-description-container {
     margin-bottom: 50px;
     line-height: 1.6;
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
 .event-description-container img {
@@ -324,28 +311,27 @@ a:focus {
     object-fit: cover;
     display: block;
     margin: 20px auto;
-    border-radius: 8px;
+    border-radius: 8px
 }
 
 .event-description-container h2 {
     color: var(--text-primary);
-    font-weight: bold;
+    font-weight: 700
 }
 
 .event-description-container p {
     color: var(--text-secondary);
-    font-size: 17px;
+    font-size: 17px
 }
 
 .registration-section {
-    text-align: center;
     margin: 30px 0;
     padding: 20px;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light)
 }
 
 .registration-section p {
-    color: var(--text-tertiary);
+    color: var(--text-tertiary)
 }
 
 .admin-zone {
@@ -353,74 +339,54 @@ a:focus {
     border: 1px solid var(--alert-warning-border);
     padding: 25px;
     border-radius: 8px;
-    text-align: center;
-    margin-top: 50px;
+    margin-top: 50px
 }
 
 .admin-zone h2 {
-    color: var(--alert-warning-text);
+    color: var(--alert-warning-text)
 }
 
-/* === FLECHE ACCUEIL === */
 .btn-image-right {
     display: flex;
     justify-content: flex-end;
-    margin: 30px 60px;
+    margin: 30px 60px
 }
 
 .bde-image {
     width: 60px;
     height: 60px;
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform .3s, color .3s;
     color: var(--color-primary);
-    display: block;
+    display: block
+}
+
+.hero,
+.hero-hours {
+    color: var(--text-inverse)
 }
 
 .bde-image:hover {
-    transform: translateX(5px);
-    color: var(--color-primary-hover);
+    transform: translateX(5px)
 }
 
-/* Style pour le cercle dans le SVG */
 .bde-image circle {
-    fill: currentColor;
-    transition: fill 0.3s ease;
+    transition: fill .3s
 }
 
-/* Style pour la flèche dans le SVG - toujours blanche pour le contraste */
 .bde-image path {
-    stroke: var(--text-inverse);
-    transition: stroke 0.3s ease;
+    transition: stroke .3s
 }
 
-/* Adaptation du bouton back to top en mode sombre */
 .dark-mode .bde-image {
-    color: var(--color-primary);
-}
-
-.dark-mode .bde-image:hover {
-    color: var(--color-primary-hover);
-}
-
-.dark-mode .bde-image circle {
-    fill: currentColor;
-}
-
-.dark-mode .bde-image path {
-    stroke: var(--text-inverse);
+    color: var(--color-primary)
 }
 
 .btn-image-right a:focus {
     outline: 2px solid var(--shadow-sm);
     outline-offset: 2px;
-    border-radius: 50%;
+    border-radius: 50%
 }
 
-a {
-    color: var(--text-primary);
-}
-
-/* Bouton image */
 .btn-image-right {
     position: sticky;
     top: 20px;
@@ -428,354 +394,367 @@ a {
     width: 100%;
     justify-content: flex-end;
     z-index: 1000;
-    padding-right: 60px;
-    /* remplace margin-right */
+    padding-right: 60px
 }
-
 
 .btn-image-right img {
     width: 60px;
-    /* taille du bouton */
     border-radius: 50%;
-    /* arrondi pour un effet bouton */
-    margin: 20px;
+    margin: 20px
 }
 
-
-
-
-/* Hero section on home page */
 .hero {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
     padding: 12px 40px;
-    color: var(--text-inverse);
     background: var(--gradient-hero);
-    min-height: 65px;
+    min-height: 65px
 }
-
 
 #hero-title {
     font-size: 1.5rem;
-    letter-spacing: 0.5px;
+    letter-spacing: .5px;
     margin-bottom: 3px;
     margin-top: 0;
     font-weight: 700;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .hero p {
     margin: 0;
-    font-size: 0.95rem;
-    opacity: 0.92;
-    line-height: 1.3;
+    font-size: .95rem;
+    opacity: .92;
+    line-height: 1.3
 }
 
-/* ===== HORAIRES D'OUVERTURE DANS HERO ===== */
 .hero-hours {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, .15);
     backdrop-filter: blur(10px);
     border-radius: 8px;
     padding: 8px 12px;
-    color: var(--text-inverse);
-    font-size: 0.85rem;
+    font-size: .85rem;
     line-height: 1.25;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, .2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
     min-width: 180px;
-    max-width: 220px;
+    max-width: 220px
 }
 
 .hero-hours-title {
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: .85rem;
     margin-bottom: 6px;
-    text-align: center;
-    letter-spacing: 0.3px;
+    letter-spacing: .3px;
     text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, .2);
+    padding-bottom: 4px
 }
 
 .hero-hours-content {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 5px
 }
 
 .hero-hours-section {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 2px
 }
 
 .hero-hours-section strong {
-    font-size: 0.85rem;
-    opacity: 0.95;
+    font-size: .85rem;
+    opacity: .95;
     font-weight: 600;
-    margin-bottom: 1px;
+    margin-bottom: 1px
 }
 
 .hero-hours-times {
     display: flex;
     flex-direction: column;
     gap: 1px;
-    padding-left: 5px;
+    padding-left: 5px
 }
 
 .hero-hours-times span {
-    font-size: 0.8rem;
-    opacity: 0.9;
+    font-size: .8rem;
+    opacity: .9;
     white-space: nowrap;
-    font-weight: 500;
+    font-weight: 500
 }
 
 .hero-hours-times span.closed {
     font-style: italic;
-    opacity: 0.82;
-    font-size: 0.8rem;
+    opacity: .82;
+    font-size: .8rem
 }
 
-/* Responsive pour les horaires dans hero */
-@media (max-width: 992px) {
+@media (max-width:992px) {
     .hero {
         flex-direction: column;
         align-items: stretch;
         padding: 12px 25px;
         gap: 10px;
-        min-height: auto;
+        min-height: auto
     }
 
     #hero-title {
-        font-size: 1.4rem;
+        font-size: 1.4rem
     }
 
     .hero p {
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 
     .hero-hours {
-        max-width: 100%;
+        max-width: 100%
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width:768px) {
+    .page-header-with-action {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px
+    }
+
+    .page-header-with-action .title,
+    .page-header-with-action h1 {
+        text-align: center;
+        margin-bottom: 0
+    }
+
+    .create-action-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 24px;
+        font-size: 1rem;
+        min-height: 44px
+    }
+
     .hero {
-        padding: 10px 20px;
+        padding: 10px 20px
     }
 
     #hero-title {
-        font-size: 1.3rem;
+        font-size: 1.3rem
     }
 
     .hero p {
-        font-size: 0.85rem;
+        font-size: .85rem
     }
 
     .hero-hours {
         min-width: auto;
         padding: 7px 10px;
-        font-size: 0.8rem;
+        font-size: .8rem
     }
 
     .hero-hours-title {
-        font-size: 0.8rem;
+        font-size: .8rem;
         margin-bottom: 4px;
-        padding-bottom: 3px;
+        padding-bottom: 3px
     }
 
-    .hero-hours-section strong {
-        font-size: 0.75rem;
-    }
-
+    .hero-hours-section strong,
     .hero-hours-times span {
-        font-size: 0.75rem;
+        font-size: .75rem
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width:480px) {
+    .create-action-btn {
+        padding: 12px 20px;
+        font-size: .95rem
+    }
+
+    .create-action-btn span {
+        display: inline
+    }
+
     .hero {
-        padding: 8px 15px;
+        padding: 8px 15px
     }
 
     #hero-title {
-        font-size: 1.2rem;
+        font-size: 1.2rem
     }
 
     .hero p {
-        font-size: 0.8rem;
+        font-size: .8rem
     }
 
     .hero-hours {
-        padding: 6px 8px;
+        padding: 6px 8px
     }
 }
 
-/* .event-card is unused in HTML; removed for cleanliness */
-
-/* Styles pour la page des mentions légales */
 .legal-terms-page {
     margin: 40px;
     line-height: 1.7;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 17px
 }
 
 .legal-terms-page h1,
 .legal-terms-page h2 {
     color: var(--text-secondary);
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .legal-terms-page section {
     margin-bottom: 35px;
     padding: 35px;
-    background-color: var(--bg-card);
     border-radius: 8px;
-    box-shadow: 0 2px 5px var(--shadow-sm);
+    box-shadow: 0 2px 5px var(--shadow-sm)
+}
+
+.alert a,
+.legal-terms-page a {
+    padding: 4px 8px;
+    display: inline-block;
+    color: var(--color-primary)
+}
+
+.forgot-container form,
+.form-container-wide form {
+    box-shadow: 0 4px 15px var(--shadow-md);
+    gap: 15px;
+    width: 100%
 }
 
 .legal-terms-page section h2 {
     font-family: var(--font-heading);
-    margin-bottom: 20px;
+    margin-bottom: 20px
 }
 
+.legal-terms-page section li,
 .legal-terms-page section p,
-.legal-terms-page section ul,
-.legal-terms-page section li {
+.legal-terms-page section ul {
     font-family: var(--font-body);
-    margin-bottom: 15px;
+    margin-bottom: 15px
 }
 
 .legal-terms-page a {
-    color: var(--color-primary);
-    padding: 4px 8px;
     border-radius: 3px;
-    display: inline-block;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
+.alert a:hover,
 .legal-terms-page a:hover {
     color: var(--color-primary-hover);
     background-color: var(--bg-hover);
     text-decoration: none;
-    transform: translateY(-1px);
+    transform: translateY(-1px)
 }
 
-/* Styles pour les messages d'alerte */
+.forgot-container a:hover,
+.forgot-container button:hover,
+.form-container-wide button:hover {
+    transform: translateY(-2px)
+}
+
 .alert {
     padding: 15px;
     margin: 20px;
-    border-radius: 5px;
-    text-align: center;
+    border-radius: 5px
 }
 
 .alert-success {
     background: var(--alert-success-bg);
     color: var(--alert-success-text);
-    border: 1px solid var(--alert-success-border);
+    border: 1px solid var(--alert-success-border)
 }
 
 .alert-info {
     background: var(--alert-info-bg);
-    color: var(--alert-info-text);
+    color: var(--alert-info-text)
 }
 
 .alert-danger {
     background: var(--alert-error-bg);
     color: var(--alert-error-text);
-    border: 1px solid var(--alert-error-border);
+    border: 1px solid var(--alert-error-border)
 }
 
 .alert-warning {
     background: var(--alert-warning-bg);
-    color: var(--alert-warning-text);
+    color: var(--alert-warning-text)
+}
+
+.forgot-container,
+.form-container-wide {
+    min-height: 100vh;
+    background-color: var(--bg-secondary);
+    padding-top: 80px
 }
 
 .alert a {
     margin-left: 20px;
-    color: var(--color-primary);
-    padding: 4px 8px;
-    border-radius: 3px;
-    display: inline-block;
+    border-radius: 3px
 }
 
-.alert a:hover {
-    color: var(--color-primary-hover);
-    background-color: var(--bg-hover);
-    text-decoration: none;
-    transform: translateY(-1px);
-}
-
-/* === Pages d'authentification (mot de passe oublié, réinitialisation) === */
 .forgot-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 100vh;
-    background-color: var(--bg-secondary);
-    padding-top: 80px;
+    justify-content: flex-start
 }
 
-.forgot-container h1,
-.forgot-container .title {
-    font-family: var(--font-heading);
+.forgot-container .title,
+.forgot-container h1 {
+    font-family: var(--font-heading)
 }
 
-.forgot-container p,
-.forgot-container label,
 .forgot-container input,
+.forgot-container label,
+.forgot-container p,
+.forgot-container select,
 .forgot-container textarea,
-.forgot-container select {
-    font-family: var(--font-body);
+.form-container-wide input,
+.form-container-wide label,
+.form-container-wide p,
+.form-container-wide select,
+.form-container-wide textarea {
+    font-family: var(--font-body)
 }
 
-/* Container large pour les formulaires de création */
 .form-container-wide {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
-    background-color: var(--bg-secondary);
-    padding-top: 80px;
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
     padding-left: 20px;
-    padding-right: 20px;
+    padding-right: 20px
 }
 
-.form-container-wide h1,
-.form-container-wide .title {
+.form-container-wide .title,
+.form-container-wide h1 {
     font-family: var(--font-heading);
     text-align: center;
     margin-bottom: 30px;
     font-size: 2rem;
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
-.form-container-wide p,
-.form-container-wide label,
-.form-container-wide input,
-.form-container-wide textarea,
-.form-container-wide select {
-    font-family: var(--font-body);
-}
-
-.form-container-wide input[type="email"],
-.form-container-wide input[type="text"],
-.form-container-wide input[type="password"],
-.form-container-wide input[type="number"],
-.form-container-wide input[type="date"],
-.form-container-wide input[type="time"],
-.form-container-wide textarea,
-.form-container-wide select {
+.forgot-container input[type=email],
+.forgot-container input[type=password],
+.forgot-container input[type=text],
+.forgot-container select,
+.form-container-wide input[type=date],
+.form-container-wide input[type=email],
+.form-container-wide input[type=number],
+.form-container-wide input[type=password],
+.form-container-wide input[type=text],
+.form-container-wide input[type=time],
+.form-container-wide select,
+.form-container-wide textarea {
     width: 100%;
     padding: 12px;
     margin-bottom: 20px;
@@ -783,44 +762,45 @@ a {
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color .2s;
     background-color: var(--bg-card);
     color: var(--text-primary);
-    text-align: left;
+    text-align: left
 }
 
-.form-container-wide input[type="email"]:focus,
-.form-container-wide input[type="text"]:focus,
-.form-container-wide input[type="password"]:focus,
-.form-container-wide input[type="number"]:focus,
-.form-container-wide input[type="date"]:focus,
-.form-container-wide input[type="time"]:focus,
-.form-container-wide textarea:focus,
-.form-container-wide select:focus {
+.forgot-container input[type=email]:focus,
+.forgot-container input[type=password]:focus,
+.forgot-container input[type=text]:focus,
+.forgot-container select:focus,
+.form-container-wide input[type=date]:focus,
+.form-container-wide input[type=email]:focus,
+.form-container-wide input[type=number]:focus,
+.form-container-wide input[type=password]:focus,
+.form-container-wide input[type=text]:focus,
+.form-container-wide input[type=time]:focus,
+.form-container-wide select:focus,
+.form-container-wide textarea:focus {
     border-color: var(--color-primary);
-    outline: none;
-    text-align: left;
+    outline: 0;
+    text-align: left
 }
 
 .form-container-wide form {
     background-color: var(--bg-card);
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px var(--shadow-md);
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 20px 0;
+    margin: 20px 0
 }
 
-.form-container-wide label,
-.form-container-wide .form-label {
+.form-container-wide .form-label,
+.form-container-wide label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
     color: var(--text-primary);
-    text-align: left;
+    text-align: left
 }
 
 .form-container-wide button {
@@ -831,32 +811,10 @@ a {
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s;
-    font-family: var(--font-heading);
-}
-
-.form-container-wide button:hover {
-    transform: translateY(-2px);
-}
-
-@media (max-width: 992px) {
-    .form-container-wide {
-        max-width: 800px;
-    }
-}
-
-@media (max-width: 768px) {
-    .form-container-wide {
-        max-width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .form-container-wide form {
-        padding: 25px;
-    }
+    transition: transform .2s;
+    font-family: var(--font-heading)
 }
 
 .forgot-container h1 {
@@ -864,69 +822,40 @@ a {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2rem;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .forgot-container form {
     background-color: var(--bg-card);
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 15px var(--shadow-md);
-    width: 100%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 20px 0;
+    margin: 20px 0
 }
 
-.forgot-container label,
-.forgot-container .form-label {
+.forgot-container .form-label,
+.forgot-container label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
 .forgot-container form .link-forgot-pwd {
     align-self: flex-end;
-    font-size: 0.85rem;
+    font-size: .85rem;
     margin-top: -10px;
     margin-bottom: 5px;
     padding: 0;
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
 .forgot-container form .link-forgot-pwd:hover {
-    background: none;
+    background: 0 0;
     transform: none;
-    text-decoration: none;
-}
-
-.forgot-container input[type="email"],
-.forgot-container input[type="text"],
-.forgot-container input[type="password"],
-.forgot-container select {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-    background-color: var(--bg-card);
-    color: var(--text-primary);
-    text-align: left;
-}
-
-.forgot-container input[type="email"]:focus,
-.forgot-container input[type="text"]:focus,
-.forgot-container input[type="password"]:focus,
-.forgot-container select:focus {
-    border-color: var(--color-primary);
-    outline: none;
-    text-align: left;
+    text-decoration: none
 }
 
 .forgot-container button {
@@ -937,32 +866,31 @@ a {
     border: none;
     border-radius: 5px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform .2s
 }
 
-.forgot-container button:hover {
-    transform: translateY(-2px);
+.auth-links-footer a,
+.forgot-container a {
+    display: inline-flex;
+    gap: 8px;
+    font-size: .95rem;
+    padding: 6px 10px
 }
 
 .forgot-container a {
-    display: inline-flex;
     align-items: center;
-    gap: 8px;
     margin-top: 0;
-    font-size: 0.95rem;
     color: var(--color-primary);
-    padding: 6px 10px;
     border-radius: 5px;
-    transition: all 0.3s ease;
+    transition: .3s
 }
 
 .forgot-container a:hover {
     color: var(--color-primary-hover);
     background-color: var(--bg-hover);
-    text-decoration: none;
-    transform: translateY(-2px);
+    text-decoration: none
 }
 
 .auth-links-footer {
@@ -971,59 +899,60 @@ a {
     align-items: center;
     width: 100%;
     max-width: 600px;
-    margin: 20px auto 0 auto;
-    gap: 15px;
+    margin: 20px auto 0;
+    gap: 15px
 }
 
 .auth-links-footer .right-links {
     display: flex;
     gap: 15px;
-    align-items: center;
+    align-items: center
 }
 
 .auth-links-footer .separator {
     color: var(--text-tertiary);
-    font-size: 0.9rem;
+    font-size: .9rem
 }
 
 .auth-links-footer a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.95rem;
-    padding: 6px 10px;
+    align-items: center
 }
 
-@media (max-width: 600px) {
+@media (max-width:600px) {
     .auth-links-footer {
         flex-direction: column-reverse;
         justify-content: center;
-        gap: 20px;
+        gap: 20px
     }
 
     .auth-links-footer .right-links {
         flex-direction: column;
-        gap: 10px;
+        gap: 10px
     }
 
     .auth-links-footer .separator {
-        display: none;
+        display: none
     }
 }
 
 .forgot-container p {
     text-align: center;
     color: var(--text-tertiary);
-    margin: 15px 0;
+    margin: 15px 0
 }
 
-/* === Menu Hamburger === */
-/* Cacher la checkbox */
+#back-to-top,
+#back-to-top i,
+.sidebar-menu ul li a,
+.sidebar-menu ul li a:hover,
+.social-icon {
+    color: var(--text-inverse)
+}
+
 .menu-toggle {
-    display: none;
+    display: none
 }
 
-/* Icône hamburger - positionnée dans la navbar à droite */
 .hamburger-icon {
     position: absolute;
     top: 50%;
@@ -1035,109 +964,106 @@ a {
     z-index: 1002;
     display: none;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-between
 }
 
-/* Quand le menu est ouvert, fixer la croix pour qu'elle ne bouge pas au scroll */
 .menu-toggle:checked~.hamburger-icon {
     position: fixed;
     top: 20px;
     right: 20px;
     transform: none;
-    z-index: 1003;
+    z-index: 1003
 }
 
-/* Les 3 barres du hamburger */
 .hamburger-icon .bar {
     display: block;
     width: 100%;
     height: 4px;
     background-color: var(--text-secondary);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: .3s
 }
 
-/* Animation des barres quand le menu est ouvert */
-/* Animation des barres quand le menu est ouvert */
 .menu-toggle:checked+.hamburger-icon .bar:nth-child(2) {
     transform: translateY(15.5px) rotate(45deg);
-    background-color: var(--text-inverse);
+    background-color: var(--text-inverse)
 }
 
 .menu-toggle:checked+.hamburger-icon .bar:nth-child(3) {
-    opacity: 0;
+    opacity: 0
 }
 
 .menu-toggle:checked+.hamburger-icon .bar:nth-child(4) {
     transform: translateY(-15.5px) rotate(-45deg);
-    background-color: var(--text-inverse);
+    background-color: var(--text-inverse)
 }
 
-/* Menu Sidebar - caché par défaut à droite */
 .sidebar-menu {
     position: fixed;
     top: 0;
     right: -320px;
-    /* Caché à droite - légèrement plus large pour plus d'espace */
     width: 320px;
     max-width: 85vw;
     height: 100vh;
     background: var(--gradient-sidebar);
     box-shadow: -2px 0 15px var(--shadow-md);
-    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: right .35s cubic-bezier(.4, 0, .2, 1);
     z-index: 1001;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: hidden
 }
 
-/* Scrollbar personnalisée pour le menu sidebar */
+#back-to-top,
+.sidebar-overlay {
+    position: fixed;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden
+}
+
 .sidebar-menu::-webkit-scrollbar {
-    width: 6px;
+    width: 6px
 }
 
 .sidebar-menu::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, .05)
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, .2);
+    border-radius: 3px
 }
 
 .sidebar-menu::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, .3)
 }
 
-/* Afficher le menu quand la checkbox est cochée */
 .menu-toggle:checked~.sidebar-menu {
-    right: 0;
-    /* Glisse de la droite vers la gauche */
+    right: 0
 }
 
-/* Style du menu */
 .sidebar-menu ul {
     list-style: none;
-    padding: 90px 0 20px 0;
+    padding: 90px 0 20px;
     margin: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column
 }
 
-/* S'assurer que le bouton mode sombre n'est pas caché par la croix */
 .sidebar-menu ul li .dark-mode-toggle-mobile {
-    margin-top: 5px;
+    margin-top: 5px
 }
 
 .sidebar-menu ul li {
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
     display: block;
-    width: 100%;
+    width: 100%
 }
 
 .sidebar-menu ul li:last-child {
-    border-bottom: none;
+    border-bottom: none
 }
 
 .sidebar-menu ul li a {
@@ -1145,27 +1071,25 @@ a {
     align-items: center;
     gap: 12px;
     padding: 16px 20px;
-    color: var(--text-inverse);
     font-size: 1.1rem;
     border-radius: 0;
     margin: 0;
-    transition: all 0.3s ease;
-    position: relative;
+    transition: .3s;
+    position: relative
 }
 
 .sidebar-menu ul li a i {
     width: 20px;
     text-align: center;
     font-size: 1rem;
-    flex-shrink: 0;
+    flex-shrink: 0
 }
 
 .sidebar-menu ul li a:hover {
-    color: var(--text-inverse);
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, .15);
     text-decoration: none;
     transform: translateX(8px);
-    padding-left: 28px;
+    padding-left: 28px
 }
 
 .sidebar-menu ul li a::before {
@@ -1175,99 +1099,100 @@ a {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: transparent;
-    transition: background 0.3s ease;
+    background: 0 0;
+    transition: background .3s
 }
 
 .sidebar-menu ul li a:hover::before {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, .4)
 }
 
-/* Overlay sombre quand le menu est ouvert */
 .sidebar-overlay {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(0, 0, 0, .5);
+    transition: opacity .3s, visibility .3s;
     pointer-events: none;
     border: none;
     padding: 0;
     margin: 0;
     appearance: none;
-    cursor: pointer;
+    cursor: pointer
 }
 
 .menu-toggle:checked~.sidebar-overlay {
     opacity: 1;
     visibility: visible;
-    pointer-events: all;
+    pointer-events: all
 }
 
-/* Fermer le menu quand on clique sur l'overlay */
 .sidebar-overlay:active {
-    cursor: pointer;
+    cursor: pointer
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width:992px) {
+    .form-container-wide {
+        max-width: 800px
+    }
 
-/* Tablet and below (max-width: 992px) */
-@media (max-width: 992px) {
     .BDE {
         margin: 40px 20px;
-        padding: 30px 15px;
+        padding: 30px 15px
     }
 
     #bde-title,
     .about-page-title {
         font-size: 2rem;
-        padding-left: 10px;
+        padding-left: 10px
+    }
+
+    .bde-text,
+    .bde-text p {
+        font-size: 1rem
     }
 
     .bde-text {
-        font-size: 1rem;
-        padding: 10px 15px;
-    }
-
-    .bde-text p {
-        font-size: 1rem;
+        padding: 10px 15px
     }
 
     .btn-image-right {
         padding-right: 30px;
-        margin: 20px 30px;
+        margin: 20px 30px
     }
 
     .content-background {
-        padding: 40px 20px;
+        padding: 40px 20px
     }
 
     .hero {
-        padding: 25px 15px;
+        padding: 25px 15px
     }
 
     #hero-title {
-        font-size: 1.8rem;
+        font-size: 1.8rem
     }
 }
 
-/* Mobile (max-width: 768px) */
-@media (max-width: 768px) {
-
-    /* Navbar adjustments on mobile */
-    .nav {
-        padding: 8px 12px;
-        min-height: 60px;
+@media (max-width:768px) {
+    .form-container-wide {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px
     }
 
-    /* Hide ONLY the inline nav links (second UL in .nav-inner), not the sidebar menu */
+    .form-container-wide form {
+        padding: 25px
+    }
+
+    .nav {
+        padding: 8px 12px;
+        min-height: 60px
+    }
+
     .nav .nav-inner>ul:nth-of-type(2) {
-        display: none;
+        display: none
     }
 
     .hamburger-icon {
@@ -1275,99 +1200,95 @@ a {
         top: 50%;
         right: 15px;
         width: 35px;
-        height: 30px;
+        height: 30px
     }
 
-    /* Sur mobile, fixer la croix quand le menu est ouvert */
     .menu-toggle:checked~.hamburger-icon {
         position: fixed;
         top: 15px;
         right: 15px;
         transform: none;
-        z-index: 1003;
+        z-index: 1003
     }
 
-    /* Logo size on mobile */
     .nav-logo img {
-        height: 60px;
+        height: 60px
     }
 
     .forgot-container form {
         padding: 25px;
         width: 90%;
-        margin: 15px;
+        margin: 15px
     }
 
     .forgot-container {
-        padding-top: 60px;
+        padding-top: 60px
     }
 
     .forgot-container h1 {
         font-size: 1.6rem;
-        margin-bottom: 20px;
+        margin-bottom: 20px
     }
 
     .legal-terms-page {
         margin: 20px 10px;
-        padding: 15px;
+        padding: 15px
     }
 
     .legal-terms-page section {
         padding: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 15px
     }
 
-    /* Menu hamburger en version mobile */
     .sidebar-menu {
         width: 250px;
-        right: -250px;
+        right: -250px
     }
 
-    /* BDE Section */
     .BDE {
         margin: 30px 10px;
-        padding: 25px 15px;
+        padding: 25px 15px
     }
 
     #bde-title,
     .about-page-title {
         font-size: 1.6rem;
         padding-left: 5px;
-        margin-bottom: 15px;
+        margin-bottom: 15px
+    }
+
+    .bde-text,
+    .bde-text p,
+    .social-logos h2,
+    .social-logos h3,
+    .social-logos h4 {
+        font-size: .95rem
     }
 
     .bde-text {
-        font-size: 0.95rem;
-        padding: 8px 10px;
+        padding: 8px 10px
     }
 
-    .bde-text p {
-        font-size: 0.95rem;
-    }
-
-    /* Button image */
     .btn-image-right {
         padding-right: 15px;
-        margin: 15px 10px;
+        margin: 15px 10px
     }
 
-    .btn-image-right img,
-    .bde-image {
+    .bde-image,
+    .btn-image-right img {
         width: 50px;
         height: 50px;
-        margin: 15px;
+        margin: 15px
     }
 
-    /* Hero section */
     .hero {
-        padding: 20px 15px;
+        padding: 20px 15px
     }
 
     #hero-title {
-        font-size: 1.5rem;
+        font-size: 1.5rem
     }
 
-    /* Pagination */
     .pagination {
         flex-direction: row;
         flex-wrap: nowrap;
@@ -1375,126 +1296,118 @@ a {
         justify-content: center;
         align-items: center;
         overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+        -webkit-overflow-scrolling: touch
     }
 
     .pagination li {
         flex-shrink: 0;
-        display: inline-block;
+        display: inline-block
     }
 
-    .pagination a,
-    .pagination .page-number {
+    .pagination .page-number,
+    .pagination a {
         padding: 8px 12px;
-        font-size: 0.9rem;
+        font-size: .9rem;
         min-width: 40px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        white-space: nowrap;
+        white-space: nowrap
     }
 
-    /* Content background */
     .content-background {
-        padding: 30px 15px;
+        padding: 30px 15px
     }
 
-    /* Alerts */
     .alert {
         padding: 12px;
         margin: 15px 10px;
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 
-    /* Social logos */
     .social-logos {
         gap: 12px;
         margin-top: 10px;
-        margin-bottom: 18px;
-    }
-
-    .social-logos h2,
-    .social-logos h3,
-    .social-logos h4 {
-        font-size: 0.95rem;
+        margin-bottom: 18px
     }
 
     .social-icon {
         width: 1.4rem;
-        height: 1.4rem;
+        height: 1.4rem
     }
 }
 
-/* Small mobile (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .BDE {
         margin: 20px 5px;
-        padding: 20px 10px;
+        padding: 20px 10px
     }
 
     #bde-title,
     .about-page-title {
         font-size: 1.4rem;
-        padding-left: 0;
+        padding-left: 0
+    }
+
+    .bde-text,
+    .bde-text p,
+    .social-logos h2,
+    .social-logos h3,
+    .social-logos h4 {
+        font-size: .9rem
     }
 
     .bde-text {
-        font-size: 0.9rem;
-        padding: 5px;
-    }
-
-    .bde-text p {
-        font-size: 0.9rem;
+        padding: 5px
     }
 
     .forgot-container form {
         padding: 20px;
-        width: 95%;
+        width: 95%
     }
 
     .forgot-container h1 {
-        font-size: 1.4rem;
+        font-size: 1.4rem
     }
 
-    .forgot-container input[type="email"],
-    .forgot-container input[type="text"],
-    .forgot-container input[type="password"],
+    .forgot-container input[type=email],
+    .forgot-container input[type=password],
+    .forgot-container input[type=text],
     .forgot-container select {
-        font-size: 16px;
-        /* Prevents zoom on iOS */
+        font-size: 16px
     }
 
     .legal-terms-page {
         margin: 10px 5px;
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 
     .legal-terms-page h1 {
-        font-size: 1.5rem;
+        font-size: 1.5rem
     }
 
     .legal-terms-page h2 {
-        font-size: 1.2rem;
+        font-size: 1.2rem
     }
 
     .btn-image-right {
         padding-right: 10px;
-        margin: 10px 5px;
+        margin: 10px 5px
     }
 
-    .btn-image-right img,
-    .bde-image {
+    .bde-image,
+    .btn-image-right img {
         width: 45px;
         height: 45px;
-        margin: 10px;
+        margin: 10px
     }
 
     .hero {
-        padding: 15px 10px;
+        padding: 15px 10px
     }
 
     #hero-title {
-        font-size: 1.3rem;
+        font-size: 1.3rem
     }
 
     .pagination {
@@ -1506,45 +1419,39 @@ a {
         align-items: center;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 5px 0;
+        padding: 5px 0
     }
 
     .pagination li {
         flex-shrink: 0;
-        display: inline-block;
+        display: inline-block
     }
 
-    .pagination a,
-    .pagination .page-number {
+    .pagination .page-number,
+    .pagination a {
         padding: 8px 10px;
-        font-size: 0.85rem;
+        font-size: .85rem;
         min-width: 38px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        white-space: nowrap;
+        white-space: nowrap
     }
 
     .pagination-info {
-        font-size: 0.85rem;
-        margin-bottom: 10px;
+        font-size: .85rem;
+        margin-bottom: 10px
     }
 
     .social-logos {
         gap: 10px;
         margin-top: 8px;
-        margin-bottom: 15px;
-    }
-
-    .social-logos h2,
-    .social-logos h3,
-    .social-logos h4 {
-        font-size: 0.9rem;
+        margin-bottom: 15px
     }
 
     .social-icon {
         width: 1.3rem;
-        height: 1.3rem;
+        height: 1.3rem
     }
 }
 
@@ -1555,7 +1462,7 @@ a {
     gap: 15px;
     margin-top: 10px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .social-logos h2,
@@ -1565,7 +1472,7 @@ a {
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-inverse);
-    letter-spacing: 0.5px;
+    letter-spacing: .5px
 }
 
 .social-link {
@@ -1574,93 +1481,84 @@ a {
     justify-content: center;
     padding: 8px;
     border-radius: 50%;
-    transition: all 0.3s ease;
+    transition: .3s;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.5rem
+}
+
+.btn-delete,
+.btn-edit {
+    border: none;
+    padding: 8px 16px
 }
 
 .social-link:focus {
     outline: 2px solid var(--text-inverse);
     outline-offset: 2px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, .1)
 }
 
 .social-icon {
     width: 1.75rem;
     height: 1.75rem;
-    color: var(--text-inverse);
-    transition: transform 0.3s ease;
+    transition: transform .3s
 }
 
-.social-link:hover .social-icon,
-.social-link:focus .social-icon {
-    transform: scale(1.1);
+.btn-edit,
+.btn-edit:hover {
+    text-decoration: none;
+    color: #f5f5f5
 }
 
-/* === Boutons d'action admin (Modifier, Supprimer) === */
-/* Réutilisable pour les événements */
+.btn-delete,
+.btn-edit,
+.btn-success {
+    transition: background-color .3s;
+    display: inline-block;
+    cursor: pointer
+}
+
+.social-link:focus .social-icon,
+.social-link:hover .social-icon {
+    transform: scale(1.1)
+}
+
 .btn-edit {
     background-color: var(--color-warning);
-    color: #f5f5f5;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease;
+    border-radius: 4px
 }
 
-.btn-edit:hover {
-    filter: brightness(0.9);
+.btn-delete,
+.btn-delete:hover {
     text-decoration: none;
-    color: #f5f5f5;
+    color: var(--color-danger-text)
 }
 
 .btn-delete {
     background-color: var(--color-danger);
-    color: var(--color-danger-text);
-    border: none;
-    padding: 8px 16px;
     border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
+    font-size: .9rem
 }
 
-.btn-delete:hover {
-    filter: brightness(0.9);
-    text-decoration: none;
-    color: var(--color-danger-text);
+.btn-success,
+.btn-success:hover {
+    color: var(--color-success-text);
+    text-decoration: none
 }
 
 .btn-success {
     background-color: var(--color-success);
-    color: var(--color-success-text);
     border: none;
     padding: 12px 25px;
     border-radius: 4px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    font-weight: 700
 }
 
-.btn-success:hover {
-    filter: brightness(0.9);
-    text-decoration: none;
-    color: var(--color-success-text);
-}
-
-/* Event Gallery */
 .event-grid-images {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
-    margin: 30px 0;
+    margin: 30px 0
 }
 
 .event-gallery-image {
@@ -1668,44 +1566,18 @@ a {
     height: 300px;
     object-fit: cover;
     border-radius: 8px;
-    transition: transform 0.3s ease;
-    box-shadow: 0 4px 6px var(--shadow-sm);
+    transition: transform .3s;
+    box-shadow: 0 4px 6px var(--shadow-sm)
 }
 
 .event-gallery-image:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 12px var(--shadow-md);
+    box-shadow: 0 8px 12px var(--shadow-md)
 }
 
-@media (max-width: 768px) {
-    .event-grid-images {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin: 20px 0;
-    }
-
-    .event-gallery-image {
-        height: 220px;
-    }
-}
-
-@media (max-width: 480px) {
-    .event-grid-images {
-        gap: 8px;
-        margin: 15px 0;
-    }
-
-    .event-gallery-image {
-        height: 180px;
-        border-radius: 6px;
-    }
-}
-
-/* ===== EVENT SHOW PAGE SPECIFIC STYLES ===== */
-/* Registration button - Light Mode: Dark green with white text */
-.registration-section .btn-success,
+.registration-section .btn-group-register,
 .registration-section .btn-individual-register,
-.registration-section .btn-group-register {
+.registration-section .btn-success {
     background-color: #15803d !important;
     color: #fff !important;
     border: none;
@@ -1713,138 +1585,123 @@ a {
     border-radius: 8px;
     text-decoration: none;
     display: inline-block;
-    font-weight: bold;
+    font-weight: 700;
     font-family: "JetBrains Mono", monospace;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform .2s, box-shadow .2s
 }
 
-.registration-section .btn-success:hover,
+.registration-section .btn-group-register:hover,
 .registration-section .btn-individual-register:hover,
-.registration-section .btn-group-register:hover {
+.registration-section .btn-success:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, .4);
     background-color: #15803d !important;
     color: #fff !important;
-    filter: none !important;
+    filter: none !important
 }
 
-/* Registration button - Dark Mode: Bright green #39E07F with black text */
-.dark-mode .registration-section .btn-success,
+.dark-mode .registration-section .btn-group-register,
 .dark-mode .registration-section .btn-individual-register,
-.dark-mode .registration-section .btn-group-register {
-    background-color: #39E07F !important;
-    color: #000 !important;
+.dark-mode .registration-section .btn-success {
+    background-color: #39e07f !important;
+    color: #000 !important
 }
 
-.dark-mode .registration-section .btn-success:hover,
+.dark-mode .registration-section .btn-group-register:hover,
 .dark-mode .registration-section .btn-individual-register:hover,
-.dark-mode .registration-section .btn-group-register:hover {
-    background-color: #39E07F !important;
+.dark-mode .registration-section .btn-success:hover {
+    background-color: #39e07f !important;
     color: #000 !important;
-    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+    box-shadow: 0 4px 12px rgba(57, 224, 127, .4)
 }
 
-/* Admin zone - Light Mode: Light gray background */
 .event-detail-page .admin-zone {
     background: #f8f9fa !important;
     border: 1px solid #ddd !important;
     padding: 25px;
     border-radius: 8px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 50px
 }
 
 .event-detail-page .admin-zone h2 {
     color: #333 !important;
     margin-bottom: 20px;
-    font-weight: 600;
+    font-weight: 600
 }
 
-/* Admin zone - Dark Mode: Dark background #20212C */
 .dark-mode .event-detail-page .admin-zone {
-    background: #20212C !important;
-    border: 1px solid #4A4B56 !important;
+    background: #20212c !important;
+    border: 1px solid #4a4b56 !important
 }
 
-.dark-mode .event-detail-page .admin-zone h2 {
-    color: #ffffff !important;
-}
-
-/* Admin buttons - Light Mode */
-.event-detail-page .admin-zone .btn-edit {
-    background-color: #b8860b !important;
-    color: #f5f5f5 !important;
+.event-detail-page .admin-zone .btn-delete,
+.event-detail-page .admin-zone .btn-edit,
+.event-detail-page .admin-zone .btn-view {
     padding: 12px 24px;
     border-radius: 8px;
     font-family: "JetBrains Mono", monospace;
+    color: #f5f5f5 !important
+}
+
+.dark-mode .event-detail-page .admin-zone h2 {
+    color: #fff !important
+}
+
+.event-detail-page .admin-zone .btn-edit {
+    background-color: #b8860b !important
 }
 
 .event-detail-page .admin-zone .btn-edit:hover {
     background-color: #9a7009 !important;
     color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.4);
-    filter: none !important;
+    box-shadow: 0 4px 8px rgba(184, 134, 11, .4);
+    filter: none !important
 }
 
 .event-detail-page .admin-zone .btn-delete {
-    background-color: #D32F2F !important;
-    color: #f5f5f5 !important;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: "JetBrains Mono", monospace;
+    background-color: #d32f2f !important
 }
 
 .event-detail-page .admin-zone .btn-delete:hover {
-    background-color: #C62828 !important;
+    background-color: #c62828 !important;
     color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
-    filter: none !important;
+    box-shadow: 0 4px 8px rgba(211, 47, 47, .3);
+    filter: none !important
 }
 
 .event-detail-page .admin-zone .btn-view {
-    background-color: #673AB7 !important;
-    color: #f5f5f5 !important;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-family: "JetBrains Mono", monospace;
+    background-color: #673ab7 !important
 }
 
 .event-detail-page .admin-zone .btn-view:hover {
-    background-color: #5E35B1 !important;
+    background-color: #5e35b1 !important;
     color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
-    filter: none !important;
+    box-shadow: 0 4px 8px rgba(103, 58, 183, .3);
+    filter: none !important
 }
 
-/* Admin buttons - Dark Mode (géré globalement dans themes/dark-mode.css) */
 .dark-mode .event-detail-page .admin-zone .btn-edit,
 .dark-mode .event-detail-page .admin-zone .btn-edit:hover {
     background-color: #b8860b !important;
-    color: #f5f5f5 !important;
+    color: #f5f5f5 !important
 }
 
 .dark-mode .event-detail-page .admin-zone .btn-delete,
-.dark-mode .event-detail-page .admin-zone .btn-delete:hover {
-    color: #f5f5f5 !important;
-}
-
+.dark-mode .event-detail-page .admin-zone .btn-delete:hover,
 .dark-mode .event-detail-page .admin-zone .btn-view,
 .dark-mode .event-detail-page .admin-zone .btn-view:hover {
-    color: #f5f5f5 !important;
+    color: #f5f5f5 !important
 }
 
-/* === Bouton Back to Top === */
 #back-to-top {
-    position: fixed;
     bottom: 30px;
     right: 30px;
     width: 50px;
     height: 50px;
-    background: var(--gradient-primary);
-    color: var(--text-inverse);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -1852,49 +1709,55 @@ a {
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px var(--shadow-md);
+    transition: .3s
 }
 
 #back-to-top.show {
     opacity: 1;
-    visibility: visible;
+    visibility: visible
 }
 
 #back-to-top:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 16px var(--shadow-lg);
+    box-shadow: 0 6px 16px var(--shadow-lg)
 }
 
-#back-to-top:focus {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-}
+@media (max-width:768px) {
+    .event-grid-images {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin: 20px 0
+    }
 
-#back-to-top i {
-    color: var(--text-inverse);
-}
+    .event-gallery-image {
+        height: 220px
+    }
 
-/* Responsive pour le bouton back to top */
-@media (max-width: 768px) {
     #back-to-top {
         bottom: 20px;
         right: 20px;
         width: 45px;
         height: 45px;
-        font-size: 18px;
+        font-size: 18px
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width:480px) {
+    .event-grid-images {
+        gap: 8px;
+        margin: 15px 0
+    }
+
+    .event-gallery-image {
+        height: 180px;
+        border-radius: 6px
+    }
+
     #back-to-top {
         bottom: 15px;
         right: 15px;
         width: 40px;
         height: 40px;
-        font-size: 16px;
+        font-size: 16px
     }
 }

@@ -1,23 +1,25 @@
-/**
- * Weekly Schedule Styles - Vue Hebdomadaire d'Emploi du Temps
- * Utilise les variables CSS existantes pour dark/light mode
- */
+.view-btn,
+.view-btn:hover,
+.week-nav-btn,
+.week-nav-btn:hover {
+    text-decoration: none
+}
 
-/* ===========================================
-   CONTENEUR PRINCIPAL
-   =========================================== */
+.course-block,
+.modal-close {
+    cursor: pointer;
+    transition: .2s
+}
+
 .weekly-schedule {
     max-width: 1400px;
     margin: 2rem auto;
     padding: 1.5rem;
     background: var(--bg-card);
     border-radius: 12px;
-    box-shadow: 0 2px 8px var(--shadow-sm);
+    box-shadow: 0 2px 8px var(--shadow-sm)
 }
 
-/* ===========================================
-   NAVIGATION COMMUNE (Jour/Semaine/Mois)
-   =========================================== */
 .schedule-nav {
     display: flex;
     flex-direction: row;
@@ -26,11 +28,11 @@
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 2px solid var(--border-color);
-    gap: 1rem;
+    gap: 1rem
 }
 
-.schedule-nav h2,
-.schedule-nav .calendar-title {
+.schedule-nav .calendar-title,
+.schedule-nav h2 {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
@@ -38,635 +40,352 @@
     text-align: center;
     text-transform: capitalize;
     flex: 1;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
-/* Wrapper pour les boutons de navigation - Desktop : côte à côte */
 .week-nav-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 1rem;
-    flex: 0 0 auto;
+    flex: 0 0 auto
 }
 
 .week-nav-btn {
-    padding: 0.75rem 1.5rem;
+    padding: .75rem 1.5rem;
     background: var(--color-primary);
     color: var(--text-inverse);
     border-radius: 6px;
-    text-decoration: none;
     font-weight: 500;
-    transition: all 0.3s;
+    transition: .3s;
     border: none;
     cursor: pointer;
     flex: 0 1 auto;
     min-width: 140px;
     text-align: center;
-    white-space: nowrap;
+    white-space: nowrap
 }
 
 .week-nav-btn:hover {
     background: var(--color-primary-hover);
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px var(--shadow-md);
-    text-decoration: none;
+    box-shadow: 0 2px 4px var(--shadow-md)
 }
 
-/* ===========================================
-   CONTENEUR GRILLE
-   =========================================== */
 .schedule-grid-container {
-    --schedule-header-height: 60px; /* Source unique de vérité pour l'alignement */
+    --schedule-header-height: 60px;
     display: grid;
     grid-template-columns: 80px 1fr;
     gap: 0;
     position: relative;
-    overflow-x: visible;
+    overflow-x: visible
 }
 
-/* ===========================================
-   AXE DES HEURES (GAUCHE)
-   =========================================== */
 .time-axis {
     display: flex;
     flex-direction: column;
-    padding-top: var(--schedule-header-height); /* Synchronisé avec .day-header */
-    position: relative;
+    padding-top: var(--schedule-header-height);
+    position: relative
 }
 
 .time-slot {
     height: 60px;
-    /* 1 heure = 60px */
     display: flex;
     align-items: flex-start;
-    font-size: 0.85rem;
+    font-size: .85rem;
     color: var(--text-secondary);
     font-weight: 500;
-    padding-right: 0.5rem;
+    padding-right: .5rem;
     text-align: right;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
-/* ===========================================
-   GRILLE DES JOURS
-   =========================================== */
 .schedule-grid-wrapper {
     position: relative;
     overflow-x: visible;
-    overflow-y: auto;
+    overflow-y: auto
 }
 
 .schedule-grid {
     display: grid;
     grid-template-columns: repeat(5, minmax(150px, 1fr));
-    /* 5 colonnes (Lun-Ven) */
     gap: 1px;
     background: var(--border-color);
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    min-height: calc(13 * 60px + var(--schedule-header-height, 60px));
-    /* 13 heures (08:00-20:00) + header */
+    min-height: calc(13 * 60px + var(--schedule-header-height, 60px))
 }
 
-/* ===========================================
-   EN-TÊTES JOURS
-   =========================================== */
 .day-header {
     background: var(--bg-secondary);
     color: var(--text-primary);
     font-weight: 600;
     text-align: center;
-    padding: 0 0.75rem;
-    font-size: 0.95rem;
+    padding: 0 .75rem;
+    font-size: .95rem;
     border-bottom: 2px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 2;
     font-family: var(--font-heading);
-    /* Hauteur fixe synchronisée avec --schedule-header-height */
     height: var(--schedule-header-height, 60px);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: center
 }
 
-/* ===========================================
-   COLONNES JOUR
-   =========================================== */
 .day-column {
     position: relative;
     background: var(--bg-card);
-    min-height: calc(13 * 60px);
-    /* 08:00-20:00 = 13 heures */
+    min-height: calc(13 * 60px)
 }
 
-/* Lignes horaires (background) */
 .hour-line {
     position: absolute;
     left: 0;
     right: 0;
     height: 1px;
     border-top: 1px dotted var(--border-color);
-    opacity: 0.5;
-    pointer-events: none;
+    opacity: .5;
+    pointer-events: none
 }
 
-/* ===========================================
-   BLOCS COURS
-   =========================================== */
 .course-block {
     position: absolute;
     left: 4px;
     right: 4px;
-    padding: 0.5rem;
+    padding: .5rem;
     border-radius: 6px;
-    color: #ffffff;
-    font-size: 0.75rem;
+    color: #fff;
+    font-size: .75rem;
     line-height: 1.3;
-    transition: all 0.2s ease;
     overflow: hidden;
-    cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    border: 1px solid rgba(0, 0, 0, .1);
+    z-index: 1
 }
 
 .course-block:hover {
     transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+    z-index: 10
 }
 
-/* Contenu du bloc */
 .course-time {
     font-weight: 700;
-    font-size: 0.8rem;
-    margin-bottom: 0.25rem;
-    opacity: 0.95;
-    font-family: var(--font-body);
+    font-size: .8rem;
+    margin-bottom: .25rem;
+    opacity: .95;
+    font-family: var(--font-body)
 }
 
 .course-title {
     font-weight: 600;
-    font-size: 0.85rem;
-    margin-bottom: 0.25rem;
+    font-size: .85rem;
+    margin-bottom: .25rem;
     line-height: 1.2;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .course-location,
 .course-teacher {
-    font-size: 0.7rem;
-    opacity: 0.9;
-    margin-top: 0.15rem;
-    font-family: var(--font-body);
+    font-size: .7rem;
+    opacity: .9;
+    margin-top: .15rem;
+    font-family: var(--font-body)
 }
 
-/* ===========================================
-   COULEURS PAR TYPE DE COURS
-   =========================================== */
-.course-block[data-type="td"] {
-    background: linear-gradient(135deg, #3788d8 0%, #2563a8 100%);
+.course-block[data-type=td] {
+    background: linear-gradient(135deg, #3788d8 0, #2563a8 100%)
 }
 
-.course-block[data-type="tp"] {
-    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+.course-block[data-type=tp] {
+    background: linear-gradient(135deg, #28a745 0, #1e7e34 100%)
 }
 
-.course-block[data-type="cm"] {
-    background: linear-gradient(135deg, #dc3545 0%, #b02a37 100%);
+.course-block[data-type=cm] {
+    background: linear-gradient(135deg, #dc3545 0, #b02a37 100%)
 }
 
-.course-block[data-type="exam"] {
-    background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%);
-    box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
-    animation: pulse 2s ease-in-out infinite;
+.course-block[data-type=exam] {
+    background: linear-gradient(135deg, #f33 0, #c00 100%);
+    box-shadow: 0 0 15px rgba(255, 51, 51, .4);
+    animation: 2s ease-in-out infinite pulse
 }
 
-.course-block[data-type="soutenance"] {
-    background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);
+.course-block[data-type=soutenance] {
+    background: linear-gradient(135deg, #6f42c1 0, #5a32a3 100%)
 }
 
-.course-block[data-type="support"] {
-    background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+.course-block[data-type=support] {
+    background: linear-gradient(135deg, #17a2b8 0, #117a8b 100%)
 }
 
-.course-block[data-type="default"] {
-    background: linear-gradient(135deg, #6c757d 0%, #545b62 100%);
+.course-block[data-type=default] {
+    background: linear-gradient(135deg, #6c757d 0, #545b62 100%)
 }
 
-/* Animation pulse pour examens */
 @keyframes pulse {
 
     0%,
     100% {
-        box-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        box-shadow: 0 0 15px rgba(255, 51, 51, .4)
     }
 
     50% {
-        box-shadow: 0 0 25px rgba(255, 51, 51, 0.6);
+        box-shadow: 0 0 25px rgba(255, 51, 51, .6)
     }
 }
 
-/* ===========================================
-   RESPONSIVE - TABLETTE
-   =========================================== */
-@media (max-width: 1024px) {
+@media (max-width:1024px) {
     .weekly-schedule {
-        padding: 1rem;
+        padding: 1rem
     }
 
     .schedule-grid {
-        grid-template-columns: repeat(5, minmax(120px, 1fr));
+        grid-template-columns: repeat(5, minmax(120px, 1fr))
     }
 
     .course-title {
-        font-size: 0.75rem;
+        font-size: .75rem
     }
 
     .course-location,
     .course-teacher {
-        font-size: 0.65rem;
+        font-size: .65rem
     }
 }
 
-/* ===========================================
-   RESPONSIVE - MOBILE
-   =========================================== */
-@media (max-width: 767px) {
-    /* Conteneurs communs */
-    .weekly-schedule,
-    .calendar-container {
-        padding: 0.75rem;
-        margin: 1rem auto;
-    }
-
-    /* Navigation commune (Jour/Semaine/Mois) - Disposition optimisée mobile */
-    .schedule-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-        align-items: stretch;
-        margin-bottom: 1.5rem;
-        padding-bottom: 1rem;
-    }
-
-    /* Titre centré en haut, avant les boutons */
-    .schedule-nav h2,
-    .schedule-nav .calendar-title {
-        font-size: 1.1rem;
-        text-align: center;
-        margin: 0;
-        padding: 0.5rem 0;
-        font-weight: 600;
-        color: var(--text-primary);
-        width: 100%;
-    }
-
-    /* Wrapper pour les boutons de navigation - côte à côte */
-    .week-nav-buttons {
-        display: flex;
-        flex-direction: row;
-        gap: 0.75rem;
-        width: 100%;
-    }
-
-    /* Boutons de navigation côte à côte avec espacement égal */
-    .week-nav-btn {
-        padding: 0.65rem 1rem;
-        font-size: 0.85rem;
-        flex: 1;
-        text-align: center;
-        min-width: 0;
-    }
-
-    /* Conteneur sans scroll horizontal - tous les jours visibles */
-    .schedule-grid-container {
-        --schedule-header-height: 35px;
-        grid-template-columns: 30px 1fr;
-        gap: 0;
-        overflow-x: visible;
-        overflow-y: auto;
-    }
-
-    .time-axis {
-        padding-top: var(--schedule-header-height);
-        position: relative;
-        z-index: 1;
-        background: var(--bg-primary);
-    }
-
-    .time-slot {
-        font-size: 0.6rem;
-        padding-right: 0.15rem;
-        height: 35px;
-        line-height: 1;
-    }
-
-    /* Grille sans scroll horizontal - tous les jours visibles */
-    .schedule-grid-wrapper {
-        overflow-x: visible;
-        overflow-y: auto;
-    }
-
-    .schedule-grid {
-        grid-template-columns: repeat(5, 1fr);
-        min-height: calc(13 * 35px + 35px);
-        width: 100%;
-        gap: 1px;
-    }
-
-    .day-header {
-        padding: 0 0.1rem;
-        font-size: 0.65rem;
-        line-height: 1.1;
-        position: sticky;
-        top: 0;
-        z-index: 5;
-        background: var(--bg-primary);
-        white-space: normal;
-        word-break: break-word;
-        text-align: center;
-    }
-
-    .day-header small {
-        font-size: 0.55rem;
-        display: block;
-        margin-top: 0.1rem;
-        opacity: 0.8;
-    }
-
-    .day-column {
-        min-height: calc(13 * 35px);
-    }
-
-    .hour-line {
-        height: 1px;
-    }
-
-    .course-block {
-        left: 1px;
-        right: 1px;
-        padding: 0.2rem;
-        font-size: 0.55rem;
-        border-radius: 2px;
-        line-height: 1.1;
-    }
-
-    .course-time {
-        font-size: 0.55rem;
-        margin-bottom: 0.1rem;
-        font-weight: 600;
-    }
-
-    .course-title {
-        font-size: 0.55rem;
-        line-height: 1.1;
-        margin-bottom: 0.05rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    .course-location,
-    .course-teacher {
-        display: none;
-        /* Masquer sur mobile */
-    }
-
-    /* Amélioration pour très petits écrans */
-    @media (max-width: 480px) {
-        .schedule-grid-container {
-            --schedule-header-height: 32px;
-            grid-template-columns: 28px 1fr;
-        }
-
-        .time-slot {
-            font-size: 0.55rem;
-            height: 32px;
-            padding-right: 0.1rem;
-        }
-
-        .schedule-grid {
-            grid-template-columns: repeat(5, 1fr);
-            min-height: calc(13 * 32px + 32px);
-        }
-
-        .day-header {
-            padding: 0 0.05rem;
-            font-size: 0.6rem;
-        }
-
-        .day-header small {
-            font-size: 0.5rem;
-        }
-
-        .day-column {
-            min-height: calc(13 * 32px);
-        }
-
-        .course-block {
-            padding: 0.15rem;
-            font-size: 0.5rem;
-        }
-
-        .course-time {
-            font-size: 0.5rem;
-            margin-bottom: 0.05rem;
-        }
-
-        .course-title {
-            font-size: 0.5rem;
-            -webkit-line-clamp: 1;
-            line-clamp: 1;
-        }
-    }
-}
-
-/* ===========================================
-   MODE SOMBRE - AJUSTEMENTS
-   =========================================== */
 .dark-mode .weekly-schedule {
     background: var(--bg-card);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .4)
 }
 
 .dark-mode .day-column {
-    background: var(--bg-card);
+    background: var(--bg-card)
 }
 
 .dark-mode .hour-line {
     border-top-color: var(--border-color);
-    opacity: 0.3;
+    opacity: .3
 }
 
 .dark-mode .course-block {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, .1)
 }
 
-/* ===========================================
-   ACCESSIBILITÉ
-   =========================================== */
-.week-nav-btn:focus,
-.course-block:focus {
+.course-block:focus,
+.week-nav-btn:focus {
     outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline-offset: 2px
 }
 
-/* Message si aucun cours */
 .no-courses-message {
-    grid-column: 1 / -1;
+    grid-column: 1/-1;
     text-align: center;
     padding: 3rem;
-    color: var(--text-tertiary);
+    color: var(--text-tertiary)
 }
 
 .no-courses-message i {
     font-size: 3rem;
     margin-bottom: 1rem;
-    opacity: 0.5;
+    opacity: .5
 }
 
-/* ===========================================
-   BOUTONS DE VUE (JOUR/SEMAINE/MOIS)
-   =========================================== */
 .view-switcher {
     display: flex;
-    gap: 0.5rem;
+    gap: .5rem;
     justify-content: center;
     margin-bottom: 1.5rem;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
 .view-btn {
-    padding: 0.6rem 1.2rem;
+    padding: .6rem 1.2rem;
     background: var(--bg-secondary);
     color: var(--text-primary);
-    text-decoration: none;
     border-radius: 6px;
-    font-size: 0.9rem;
+    font-size: .9rem;
     font-weight: 500;
-    transition: all 0.2s;
-    border: 2px solid transparent;
+    transition: .2s;
+    border: 2px solid transparent
 }
 
 .view-btn:hover {
     background: var(--bg-hover);
-    transform: translateY(-1px);
-    text-decoration: none;
+    transform: translateY(-1px)
 }
 
 .view-btn.active {
     background: var(--color-primary);
     color: var(--text-inverse);
-    border-color: var(--color-primary);
+    border-color: var(--color-primary)
 }
 
-@media (max-width: 767px) {
-    .view-switcher {
-        display: flex;
-        flex-direction: row;
-        /* Force row layout */
-        gap: 0.5rem;
-        margin-bottom: 1rem;
-        flex-wrap: nowrap;
-        justify-content: center;
-        /* Centrer les boutons restants */
-    }
-
-    .view-btn {
-        flex: 1;
-        width: auto;
-        min-width: fit-content;
-        text-align: center;
-        padding: 0.6rem 0.5rem;
-        font-size: 0.85rem;
-        white-space: nowrap;
-    }
-
-    /* Afficher tous les boutons sur mobile - le calendrier natif est optimisé */
-    /* Le bouton Mois n'est plus masqué car le calendrier natif est responsive */
-}
-
-/* ===========================================
-   INDICATEUR DE TEMPS ACTUEL (LIGNE ROUGE)
-   =========================================== */
-.current-time-indicator {
+.current-time-indicator,
+.current-time-indicator::before,
+.time-label {
     position: absolute;
+    background: #f33
+}
+
+.current-time-indicator {
     left: 0;
     right: 0;
     height: 2px;
-    background: #ff3333;
     z-index: 100;
     pointer-events: none;
-    box-shadow: 0 0 10px rgba(255, 51, 51, 0.5);
+    box-shadow: 0 0 10px rgba(255, 51, 51, .5)
 }
 
 .current-time-indicator::before {
     content: '';
-    position: absolute;
     left: 0;
     top: -4px;
     width: 8px;
     height: 8px;
-    background: #ff3333;
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(255, 51, 51, 0.6);
+    box-shadow: 0 0 8px rgba(255, 51, 51, .6)
 }
 
 .time-label {
-    position: absolute;
     left: -50px;
     top: -10px;
-    background: #ff3333;
-    color: white;
+    color: #fff;
     padding: 2px 6px;
     border-radius: 4px;
-    font-size: 0.7rem;
+    font-size: .7rem;
     font-weight: 600;
-    white-space: nowrap;
+    white-space: nowrap
 }
 
-@media (max-width: 767px) {
-    .time-label {
-        left: 4px;
-        font-size: 0.65rem;
-        padding: 1px 4px;
-    }
-}
-
-/* ===========================================
-   MODAL MOBILE POUR DÉTAILS COURS
-   =========================================== */
-.course-modal {
-    position: fixed;
+.course-modal,
+.modal-overlay {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 0
+}
+
+.course-modal {
+    position: fixed;
     z-index: 9999;
     display: none;
     align-items: center;
-    justify-content: center;
+    justify-content: center
 }
 
-.course-modal.active {
-    display: flex;
+.course-modal.active,
+.modal-close {
+    display: flex
 }
 
 .modal-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, .7);
+    backdrop-filter: blur(4px)
 }
 
 .modal-content {
@@ -678,55 +397,52 @@
     width: 450px;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
     z-index: 1;
-    animation: modalSlideIn 0.3s ease-out;
+    animation: .3s ease-out modalSlideIn
 }
 
 @keyframes modalSlideIn {
     from {
         opacity: 0;
-        transform: translateY(-20px);
+        transform: translateY(-20px)
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0)
     }
 }
 
 .modal-close {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    background: transparent;
+    top: .5rem;
+    right: .5rem;
+    background: 0 0;
     border: none;
     font-size: 1.5rem;
     color: var(--text-secondary);
-    cursor: pointer;
     width: 32px;
     height: 32px;
-    display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s;
+    border-radius: 50%
 }
 
 .modal-close:hover {
     background: var(--bg-hover);
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
 .modal-body {
-    padding-top: 1rem;
+    padding-top: 1rem
 }
 
 .modal-time {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--color-primary);
-    margin-bottom: 0.75rem;
+    margin-bottom: .75rem
 }
 
 .modal-title {
@@ -734,44 +450,249 @@
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 1rem;
-    line-height: 1.4;
+    line-height: 1.4
 }
 
 .modal-location,
 .modal-teacher {
-    font-size: 0.95rem;
+    font-size: .95rem;
     color: var(--text-secondary);
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem
 }
 
-/* Touch improvements for mobile */
-@media (max-width: 767px) {
+@media (max-width:767px) {
+
+    .schedule-grid-container,
+    .schedule-grid-wrapper {
+        overflow-x: visible;
+        overflow-y: auto
+    }
+
+    .day-header,
+    .time-axis {
+        background: var(--bg-primary)
+    }
+
+    .calendar-container,
+    .weekly-schedule {
+        padding: .75rem;
+        margin: 1rem auto
+    }
+
+    .schedule-nav {
+        display: flex;
+        flex-direction: column;
+        gap: .75rem;
+        align-items: stretch;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem
+    }
+
+    .schedule-nav .calendar-title,
+    .schedule-nav h2 {
+        font-size: 1.1rem;
+        text-align: center;
+        margin: 0;
+        padding: .5rem 0;
+        font-weight: 600;
+        color: var(--text-primary);
+        width: 100%
+    }
+
+    .week-nav-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: .75rem;
+        width: 100%
+    }
+
+    .week-nav-btn {
+        padding: .65rem 1rem;
+        font-size: .85rem;
+        flex: 1;
+        text-align: center;
+        min-width: 0
+    }
+
+    .schedule-grid-container {
+        --schedule-header-height: 35px;
+        grid-template-columns: 30px 1fr;
+        gap: 0
+    }
+
+    .time-axis {
+        padding-top: var(--schedule-header-height);
+        position: relative;
+        z-index: 1
+    }
+
+    .time-slot {
+        font-size: .6rem;
+        padding-right: .15rem;
+        height: 35px;
+        line-height: 1
+    }
+
+    .schedule-grid {
+        grid-template-columns: repeat(5, 1fr);
+        min-height: calc(13 * 35px + 35px);
+        width: 100%;
+        gap: 1px
+    }
+
+    .day-header {
+        padding: 0 .1rem;
+        font-size: .65rem;
+        line-height: 1.1;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        white-space: normal;
+        word-break: break-word;
+        text-align: center
+    }
+
+    .day-header small {
+        font-size: .55rem;
+        display: block;
+        margin-top: .1rem;
+        opacity: .8
+    }
+
+    .day-column {
+        min-height: calc(13 * 35px)
+    }
+
+    .hour-line {
+        height: 1px
+    }
+
+    .course-block {
+        left: 1px;
+        right: 1px;
+        border-radius: 2px;
+        line-height: 1.1
+    }
+
+    .course-time {
+        font-size: .55rem;
+        margin-bottom: .1rem;
+        font-weight: 600
+    }
+
+    .course-title {
+        font-size: .55rem;
+        line-height: 1.1;
+        margin-bottom: .05rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical
+    }
+
+    .course-location,
+    .course-teacher {
+        display: none
+    }
+
+    @media (max-width:480px) {
+        .schedule-grid-container {
+            --schedule-header-height: 32px;
+            grid-template-columns: 28px 1fr
+        }
+
+        .time-slot {
+            font-size: .55rem;
+            height: 32px;
+            padding-right: .1rem
+        }
+
+        .schedule-grid {
+            grid-template-columns: repeat(5, 1fr);
+            min-height: calc(13 * 32px + 32px)
+        }
+
+        .day-header {
+            padding: 0 .05rem;
+            font-size: .6rem
+        }
+
+        .course-block,
+        .course-time,
+        .course-title,
+        .day-header small {
+            font-size: .5rem
+        }
+
+        .day-column {
+            min-height: calc(13 * 32px)
+        }
+
+        .course-block {
+            padding: .15rem
+        }
+
+        .course-time {
+            margin-bottom: .05rem
+        }
+
+        .course-title {
+            -webkit-line-clamp: 1;
+            line-clamp: 1
+        }
+    }
+
+    .view-switcher {
+        display: flex;
+        flex-direction: row;
+        gap: .5rem;
+        margin-bottom: 1rem;
+        flex-wrap: nowrap;
+        justify-content: center
+    }
+
+    .view-btn {
+        flex: 1;
+        width: auto;
+        min-width: fit-content;
+        text-align: center;
+        padding: .6rem .5rem;
+        font-size: .85rem;
+        white-space: nowrap
+    }
+
+    .time-label {
+        left: 4px;
+        font-size: .65rem;
+        padding: 1px 4px
+    }
+
     .course-block {
         min-height: 40px;
-        /* Zone tactile minimum */
-        padding: 0.4rem;
-        font-size: 0.7rem;
+        padding: .4rem;
+        font-size: .7rem
     }
 
     .modal-content {
         width: 95%;
-        padding: 1.25rem;
+        padding: 1.25rem
     }
 
     .modal-time {
-        font-size: 1rem;
+        font-size: 1rem
     }
 
     .modal-title {
-        font-size: 1.1rem;
+        font-size: 1.1rem
     }
 }
 
-/* Dark mode adjustments for modal */
 .dark-mode .modal-overlay {
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, .85)
 }
 
 .dark-mode .modal-content {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .6)
 }

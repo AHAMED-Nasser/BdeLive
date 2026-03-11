@@ -1,57 +1,55 @@
-/* Section title styling */
+.carousel-event-link,
+.carousel-event-link:active,
+.carousel-event-link:focus,
+.carousel-event-link:hover,
+.carousel-event-link:visited {
+    text-decoration: none !important
+}
+
+.carousel-event-link .event-title,
+.carousel-no-image .event-name-display,
 .section-title {
-    text-align: center;
+    font-family: var(--font-heading);
+    text-align: center
+}
+
+.carousel-control,
+.dot {
+    cursor: pointer;
+    transition: .3s
+}
+
+.section-title {
     font-weight: 700;
     color: var(--text-primary);
-    margin: 0;
-    font-family: var(--font-heading);
+    margin: 0
+}
+
+.carousel,
+.future-event {
+    margin: 0 auto;
+    width: 100%
 }
 
 .events-title {
     font-size: 2rem;
-    padding: 45px 20px 30px 20px;
-    letter-spacing: 0.5px;
+    padding: 45px 20px 30px;
+    letter-spacing: .5px
 }
 
-/* Responsive section titles */
-@media (max-width: 768px) {
-    .events-title {
-        font-size: 1.6rem;
-        padding: 30px 15px 20px 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    .events-title {
-        font-size: 1.4rem;
-        padding: 25px 10px 15px 10px;
-        line-height: 1.3;
-    }
-}
-
-/* Event carousel link styling */
 .carousel-event-link {
     display: block;
-    text-decoration: none !important;
     color: inherit;
     width: 100%;
     height: 100%;
     position: relative;
-    transition: transform 0.3s ease;
-}
-
-.carousel-event-link:hover,
-.carousel-event-link:visited,
-.carousel-event-link:active,
-.carousel-event-link:focus {
-    text-decoration: none !important;
+    transition: transform .3s
 }
 
 .carousel-event-link:hover {
-    transform: scale(1.02);
+    transform: scale(1.02)
 }
 
-/* Hover overlay - appears when hovering over the image */
 .carousel-event-link::after {
     content: "En savoir plus";
     position: absolute;
@@ -59,33 +57,31 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.137);
+    background: rgba(0, 0, 0, .137);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.25rem;
     font-weight: 700;
-    color: white;
+    color: #fff;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity .3s;
     z-index: 2;
     border-radius: 12px;
     text-transform: uppercase;
     letter-spacing: 2px;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px)
 }
 
-/* Only show hover effect on devices with fine pointer (mouse) */
-@media (hover: hover) and (pointer: fine) {
+@media (hover:hover) and (pointer:fine) {
     .carousel-event-link:hover::after {
-        opacity: 1;
+        opacity: 1
     }
 }
 
-/* Disable hover transform on touch devices */
-@media (hover: none) {
+@media (hover:none) {
     .carousel-event-link:hover {
-        transform: none;
+        transform: none
     }
 }
 
@@ -95,23 +91,20 @@
     left: 0;
     right: 0;
     z-index: 3;
-    /* Overlay léger : l'image reste visible, le texte garde une zone contrastée */
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.25) 45%, rgba(0, 0, 0, 0.08) 75%, transparent 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, .5) 0, rgba(0, 0, 0, .25) 45%, rgba(0, 0, 0, .08) 75%, transparent 100%);
     padding: 30px 20px 20px;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px 12px 0 0
 }
 
 .carousel-event-link .event-title {
-    color: white;
+    color: #fff;
     padding: 0;
-    margin: 0 0 12px 0;
+    margin: 0 0 12px;
     font-size: 1.5rem;
     font-weight: 700;
-    text-align: center;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 1), 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
-    letter-spacing: 0.5px;
-    text-decoration: none !important;
-    font-family: var(--font-heading);
+    text-shadow: 0 1px 2px #000, 0 2px 8px rgba(0, 0, 0, .9), 0 0 20px rgba(0, 0, 0, .8), 0 0 40px rgba(0, 0, 0, .5);
+    letter-spacing: .5px;
+    text-decoration: none !important
 }
 
 .event-meta-brief {
@@ -120,14 +113,29 @@
     gap: 8px;
     justify-content: center;
     align-items: center;
-    font-size: 0.85rem;
-    color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.7);
+    font-size: .85rem;
+    color: #fff;
+    text-shadow: 0 1px 3px #000, 0 2px 6px rgba(0, 0, 0, .9), 0 0 12px rgba(0, 0, 0, .7)
 }
 
 .event-meta-brief .event-meta-date {
     font-weight: 600;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 1), 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 14px rgba(0, 0, 0, 0.8);
+    text-shadow: 0 1px 3px #000, 0 2px 6px rgba(0, 0, 0, .95), 0 0 14px rgba(0, 0, 0, .8)
+}
+
+.event-meta-brief .event-meta-location,
+.event-meta-brief .event-meta-registration,
+.event-meta-brief .event-meta-type {
+    padding: .3rem .65rem;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 9999px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .95), 0 0 8px rgba(0, 0, 0, .6);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .35)
 }
 
 .event-meta-brief .event-meta-location {
@@ -135,31 +143,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.event-meta-brief .event-meta-type,
-.event-meta-brief .event-meta-registration,
-.event-meta-brief .event-meta-location {
-    padding: 0.3rem 0.65rem;
-    background: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 9999px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 8px rgba(0, 0, 0, 0.6);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-}
-
-.event-meta-brief .event-meta-location {
     text-transform: none;
-    font-weight: 500;
+    font-weight: 500
 }
 
 .carousel-event-link .carousel-image {
     position: relative;
-    z-index: 1;
+    z-index: 1
 }
 
 .no-events-message {
@@ -167,10 +157,8 @@
     padding: 2rem;
     color: var(--text-secondary);
     font-size: 1.1rem;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
-
-
 
 .events {
     display: flex !important;
@@ -180,23 +168,19 @@
     padding: 40px 20px !important;
     overflow-x: visible !important;
     overflow-y: visible !important;
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-secondary)
 }
 
 .future-event {
-    width: 100%;
-    padding: 20px 0;
-    margin: 0 auto;
+    padding: 20px 0
 }
 
 .carousel {
-    width: 100%;
     max-width: 1200px;
     overflow-x: visible;
     overflow-y: visible;
     padding: 0;
-    margin: 0 auto;
-    position: relative;
+    position: relative
 }
 
 .carousel .carousel-block {
@@ -206,54 +190,43 @@
     justify-content: center;
     align-items: center;
     padding: 0;
-    overflow: visible;
+    overflow: visible
 }
 
-/* Zone centrale de l'image - AVEC HAUTEUR FIXE */
 .carousel-inner {
     width: 100%;
     max-width: 800px;
     display: block;
     position: relative;
-    min-height: 450px;
-    /* Hauteur fixe */
+    min-height: 450px
 }
 
-/* Items du carousel - POSITION ABSOLUTE */
 .carousel-item {
     display: none;
     width: 100%;
     position: absolute;
-    /* CRITIQUE : superpose les items */
     top: 0;
     left: 0;
     opacity: 0;
-    /* Cache complètement */
-    transition: opacity 0.5s ease;
-    /* Animation douce */
+    transition: opacity .5s
 }
 
 .carousel-item.active {
     display: block;
     position: relative;
-    /* L'item actif reprend le flux normal */
-    opacity: 1;
+    opacity: 1
 }
 
 .carousel-image {
     width: 100%;
     height: 450px;
-    /* Hauteur fixe */
     display: block;
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
     object-fit: cover;
-    /* Remplit l'espace en coupant si nécessaire */
-    object-position: center;
-    /* Centre l'image */
+    object-position: center
 }
 
-/* Boutons de contrôle */
 .carousel-control {
     position: absolute;
     top: 50%;
@@ -267,28 +240,26 @@
     background: var(--bg-card) !important;
     border: 2px solid var(--border-color) !important;
     border-radius: 50%;
-    cursor: pointer;
     padding: 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px var(--shadow-sm);
+    box-shadow: 0 2px 8px var(--shadow-sm)
 }
 
 .carousel-control:hover {
     background: var(--bg-hover) !important;
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 4px 12px var(--shadow-md);
+    box-shadow: 0 4px 12px var(--shadow-md)
 }
 
 .carousel-control:active {
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(-50%) scale(.95)
 }
 
 .carousel-control.prev {
-    left: -70px;
+    left: -70px
 }
 
 .carousel-control.next {
-    right: -70px;
+    right: -70px
 }
 
 .carousel-control svg {
@@ -297,25 +268,24 @@
     display: block;
     pointer-events: none;
     color: var(--text-primary);
-    transition: all 0.3s ease;
+    transition: .3s
 }
 
 .carousel-control:hover svg {
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
-/* Fallback display for events without images */
 .carousel-no-image {
     width: 100%;
     height: 450px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0, #764ba2 100%);
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
     position: relative;
-    overflow: hidden;
+    overflow: hidden
 }
 
 .carousel-no-image::before {
@@ -325,44 +295,37 @@
     left: -50%;
     width: 200%;
     height: 200%;
-    background: repeating-linear-gradient(45deg,
-            transparent,
-            transparent 10px,
-            rgba(255, 255, 255, 0.03) 10px,
-            rgba(255, 255, 255, 0.03) 20px);
-    animation: shimmer 20s linear infinite;
+    background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255, 255, 255, .03) 10px, rgba(255, 255, 255, .03) 20px);
+    animation: 20s linear infinite shimmer
 }
 
 @keyframes shimmer {
     0% {
-        transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0)
     }
 
     100% {
-        transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg)
     }
 }
 
 .carousel-no-image .event-name-display {
     font-size: 2.5rem;
     font-weight: 700;
-    color: white;
-    font-family: var(--font-heading);
-    text-align: center;
-    text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    text-shadow: 3px 3px 12px rgba(0, 0, 0, .5);
     padding: 40px;
     z-index: 2;
     position: relative;
     letter-spacing: 1px;
-    line-height: 1.3;
+    line-height: 1.3
 }
 
-/* Dots */
 .carousel-dots {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 24px;
+    margin-top: 24px
 }
 
 .dot {
@@ -370,352 +333,330 @@
     height: 10px;
     border-radius: 50%;
     background: var(--border-light);
-    transition: all 0.3s ease;
-    cursor: pointer;
     border: none;
     padding: 0;
-    outline-offset: 2px;
+    outline-offset: 2px
 }
 
 .dot:hover {
     background: var(--text-tertiary);
-    transform: scale(1.2);
+    transform: scale(1.2)
 }
 
 .dot.active {
     background: var(--color-primary);
     width: 32px;
-    border-radius: 5px;
+    border-radius: 5px
 }
 
 .dot:focus-visible {
     outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+    outline-offset: 2px
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablet (max-width: 992px) */
-@media (max-width: 992px) {
+@media (max-width:992px) {
     .carousel-control {
         width: 45px;
-        height: 45px;
+        height: 45px
     }
 
     .carousel-control.prev {
-        left: -60px;
+        left: -60px
     }
 
     .carousel-control.next {
-        right: -60px;
+        right: -60px
     }
 
     .carousel-control svg {
         width: 20px;
-        height: 20px;
+        height: 20px
     }
 
     .carousel-inner {
-        min-height: 400px;
+        min-height: 400px
     }
 
     .carousel-image {
-        height: 400px;
+        height: 400px
     }
 
     .carousel-event-overlay {
-        padding: 25px 16px 18px;
+        padding: 25px 16px 18px
     }
 
     .carousel-event-link .event-title {
         font-size: 1.6rem;
-        margin: 0 0 10px 0;
+        margin: 0 0 10px
     }
 
     .event-meta-brief {
-        font-size: 0.8rem;
+        font-size: .8rem
     }
 
     .carousel-event-link::after {
         font-size: 1.15rem;
-        letter-spacing: 1.5px;
+        letter-spacing: 1.5px
     }
 }
 
-/* Mobile (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width:768px) {
+    .events-title {
+        font-size: 1.6rem;
+        padding: 30px 15px 20px
+    }
+
     .carousel {
         max-width: 100%;
-        padding: 0 44px;
+        padding: 0 44px
     }
 
     .carousel-control {
         width: 40px;
-        height: 40px;
+        height: 40px
     }
 
     .carousel-control.prev {
-        left: 5px;
+        left: 5px
     }
 
     .carousel-control.next {
-        right: 5px;
+        right: 5px
     }
 
     .carousel-control svg {
         width: 18px;
-        height: 18px;
+        height: 18px
     }
 
+    .carousel-image,
     .carousel-no-image {
-        height: 300px;
+        height: 300px
     }
 
     .carousel-no-image .event-name-display {
         font-size: 2rem;
-        padding: 30px;
+        padding: 30px
     }
 
     .carousel-inner {
         min-height: 300px;
-        max-width: 100%;
-    }
-
-    .carousel-image {
-        height: 300px;
+        max-width: 100%
     }
 
     .carousel-event-overlay {
-        padding: 20px 12px 14px;
+        padding: 20px 12px 14px
     }
 
     .carousel-event-link .event-title {
         font-size: 1.3rem;
-        margin: 0 0 10px 0;
-        letter-spacing: 0.3px;
-        padding-right: 75px;
+        margin: 0 0 10px;
+        letter-spacing: .3px;
+        padding-right: 75px
     }
 
     .event-meta-brief {
         flex-direction: column;
         gap: 6px;
-        font-size: 0.75rem;
+        font-size: .75rem
     }
 
     .event-meta-brief .event-meta-date {
-        order: 1;
+        order: 1
     }
 
     .event-meta-brief .event-meta-location {
         order: 2;
         max-width: 100%;
-        text-align: center;
+        text-align: center
     }
 
-    .event-meta-brief .event-meta-type,
-    .event-meta-brief .event-meta-registration {
+    .event-meta-brief .event-meta-registration,
+    .event-meta-brief .event-meta-type {
         order: 3;
-        padding: 0.25rem 0.5rem;
+        padding: .25rem .5rem
     }
 
+    .event-badge--live,
     .event-badge--past,
-    .event-badge--upcoming,
-    .event-badge--live {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
-        top: 0.5rem;
-        right: 0.5rem;
+    .event-badge--upcoming {
+        font-size: .75rem;
+        padding: .2rem .5rem;
+        top: .5rem;
+        right: .5rem
     }
 
     .carousel-event-link::after {
         font-size: 1rem;
-        letter-spacing: 1px;
+        letter-spacing: 1px
     }
 
     .events {
-        padding: 30px 10px !important;
+        padding: 30px 10px !important
     }
 
     .future-event {
-        padding: 10px 0;
+        padding: 10px 0
     }
 
     .carousel-dots {
         margin-top: 20px;
-        gap: 8px;
+        gap: 8px
     }
 
     .dot {
         width: 8px;
-        height: 8px;
+        height: 8px
     }
 
     .dot.active {
-        width: 24px;
+        width: 24px
     }
 }
 
-/* Small mobile (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width:480px) {
+    .events-title {
+        font-size: 1.4rem;
+        padding: 25px 10px 15px;
+        line-height: 1.3
+    }
+
     .carousel {
-        padding: 0 38px;
+        padding: 0 38px
     }
 
     .carousel-control {
         width: 34px;
-        height: 34px;
+        height: 34px
     }
 
     .carousel-control.prev {
-        left: 2px;
+        left: 2px
     }
 
     .carousel-control.next {
-        right: 2px;
+        right: 2px
     }
 
     .carousel-control svg {
         width: 14px;
-        height: 14px;
+        height: 14px
     }
 
+    .carousel-image,
     .carousel-no-image {
-        height: 220px;
+        height: 220px
     }
 
     .carousel-no-image .event-name-display {
         font-size: 1.4rem;
-        padding: 20px;
+        padding: 20px
     }
 
     .carousel-inner {
-        min-height: 220px;
-    }
-
-    .carousel-image {
-        height: 220px;
+        min-height: 220px
     }
 
     .carousel-event-overlay {
-        padding: 14px 10px 12px;
+        padding: 14px 10px 12px
     }
 
     .carousel-event-link .event-title {
         font-size: 1.15rem;
-        margin: 0 0 8px 0;
-        letter-spacing: 0.2px;
+        margin: 0 0 8px;
+        letter-spacing: .2px;
         line-height: 1.2;
-        padding-right: 70px;
+        padding-right: 70px
     }
 
     .event-meta-brief {
-        font-size: 0.7rem;
-        gap: 5px;
+        font-size: .7rem;
+        gap: 5px
     }
 
     .event-meta-brief .event-meta-location {
-        max-width: 160px;
+        max-width: 160px
     }
 
-    .event-meta-brief .event-meta-type,
-    .event-meta-brief .event-meta-registration {
-        padding: 0.2rem 0.4rem;
+    .event-meta-brief .event-meta-registration,
+    .event-meta-brief .event-meta-type {
+        padding: .2rem .4rem
     }
 
+    .event-badge--live,
     .event-badge--past,
-    .event-badge--upcoming,
-    .event-badge--live {
-        font-size: 0.7rem;
-        padding: 0.18rem 0.4rem;
-        top: 0.4rem;
-        right: 0.4rem;
+    .event-badge--upcoming {
+        font-size: .7rem;
+        padding: .18rem .4rem;
+        top: .4rem;
+        right: .4rem
     }
 
     .carousel-event-link::after {
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
+        font-size: .9rem;
+        letter-spacing: .5px
     }
 
     .events {
-        padding: 20px 5px !important;
+        padding: 20px 5px !important
     }
 
     .future-event {
-        padding: 5px 0;
+        padding: 5px 0
     }
 }
 
-/* Badge "En cours" pour événements du jour (carousel homepage + page event) */
-.event-badge--live {
+.event-badge--live,
+.event-badge--past,
+.event-badge--upcoming {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: .75rem;
+    right: .75rem;
     z-index: 4;
     display: inline-block;
-    padding: 0.28rem 0.65rem;
-    font-size: 0.8rem;
+    padding: .28rem .65rem;
+    font-size: .8rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: .02em;
     text-transform: uppercase;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .15)
+}
+
+.event-badge--live {
     color: #5c3d0d;
-    background: rgba(251, 191, 36, 0.95);
-    border-radius: 9999px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    background: rgba(251, 191, 36, .95);
+    border-radius: 9999px
 }
 
 .dark-mode .event-badge--live {
     color: #1a1508;
-    background: rgba(251, 191, 36, 0.85);
-    border: 1px solid rgba(251, 191, 36, 0.5);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+    background: rgba(251, 191, 36, .85);
+    border: 1px solid rgba(251, 191, 36, .5);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .4)
 }
 
-/* Badge "Passé" pour événements passés (carousel homepage + page event) */
 .event-badge--past {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 4;
-    display: inline-block;
-    padding: 0.28rem 0.65rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: #ffffff;
-    background: rgba(231, 76, 60, 0.95);
-    border-radius: 9999px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    background: rgba(231, 76, 60, .95);
+    border-radius: 9999px
 }
 
 .dark-mode .event-badge--past {
-    color: #ffffff;
-    background: rgba(231, 76, 60, 0.85);
-    border: 1px solid rgba(231, 76, 60, 0.5);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    background: rgba(231, 76, 60, .85);
+    border: 1px solid rgba(231, 76, 60, .5);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .4)
 }
 
-/* Badge "À venir" pour événements futurs (carousel homepage + page event) */
 .event-badge--upcoming {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 4;
-    display: inline-block;
-    padding: 0.28rem 0.65rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
     color: #0d3d0d;
-    background: rgba(56, 239, 125, 0.95);
-    border-radius: 9999px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    background: rgba(56, 239, 125, .95);
+    border-radius: 9999px
 }
 
 .dark-mode .event-badge--upcoming {
     color: #0d3d0d;
-    background: rgba(56, 239, 125, 0.85);
-    border: 1px solid rgba(56, 239, 125, 0.5);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+    background: rgba(56, 239, 125, .85);
+    border: 1px solid rgba(56, 239, 125, .5);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .4)
 }

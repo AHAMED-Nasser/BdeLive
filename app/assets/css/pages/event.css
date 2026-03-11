@@ -1,21 +1,17 @@
-/* ===========================================
-   SÉLECTEUR VUE (LISTE/CALENDRIER) ADAPTATIF
-   =========================================== */
 .event-view-toggle-container {
     margin: 20px auto;
     text-align: center;
-    max-width: 400px;
+    max-width: 400px
 }
 
 .event-view-toggle-buttons {
     display: inline-flex;
     gap: 0;
-    /* S'adapte au mode sombre via var(--bg-secondary) */
     background: var(--bg-secondary, #f1f1f1);
     padding: 4px;
-    border-radius: 12px; /* Un peu plus arrondi pour le style moderne */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+    border: 1px solid var(--border-color, #e0e0e0)
 }
 
 .event-view-btn {
@@ -24,78 +20,72 @@
     justify-content: center;
     gap: 8px;
     padding: 10px 20px;
-    background: transparent;
-    /* Texte s'adapte au mode jour/nuit */
-    color: var(--text-secondary, #666666);
+    background: 0 0;
+    color: var(--text-secondary, #666);
     text-decoration: none;
     border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: .3s;
     border: none;
-    cursor: pointer;
+    cursor: pointer
 }
 
-/* État au survol (non actif) */
+.btn-more,
+.pagination li a:hover {
+    color: var(--color-primary, #667eea) !important
+}
+
 .event-view-btn:hover {
-    background: var(--bg-hover, rgba(0,0,0,0.05));
-    color: var(--text-primary, #000000);
+    background: var(--bg-hover, rgba(0, 0, 0, .05));
+    color: var(--text-primary, #000)
 }
 
-/* ÉTAT ACTIF (Sélectionné) */
 .event-view-btn.active {
-    /* Garde votre couleur primaire éclatante dans les deux modes */
     background: var(--color-primary, #667eea);
-    color: #ffffff !important; /* Toujours blanc pour la lisibilité sur couleur */
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-    font-weight: 600;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, .3);
+    font-weight: 600
 }
 
-/* Ajustement spécifique pour le mode nuit via les variables */
-[data-theme='dark'] .event-view-toggle-buttons,
-.dark-mode .event-view-toggle-buttons {
-    background: #000000; /* Fond noir pour le conteneur en mode nuit */
-    border-color: #333333;
+.dark-mode .event-view-toggle-buttons,
+[data-theme=dark] .event-view-toggle-buttons {
+    background: #000;
+    border-color: #333
 }
 
+.btn-more:hover,
+.pagination li .page-number.active {
+    background-color: var(--color-primary, #667eea);
+    color: #fff !important
+}
 
-/* ===========================================
-   BOUTON "VOIR LES DÉTAILS" ADAPTATIF
-   =========================================== */
 .btn-more {
     display: inline-block;
     padding: 12px 28px;
-    /* S'adapte : Fond noir en mode nuit, blanc ou gris très clair en jour */
-    background-color: var(--bg-button-detail, #000000);
-    color: var(--color-primary, #667eea) !important;
+    background-color: var(--bg-button-detail, #000);
     border: 2px solid var(--color-primary, #667eea);
     border-radius: 50px;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: .85rem;
     letter-spacing: 1px;
     text-decoration: none !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: .4s cubic-bezier(.175, .885, .32, 1.275);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .2)
 }
 
 .btn-more:hover {
-    /* Remplissage complet avec la couleur primaire au survol */
-    background-color: var(--color-primary, #667eea);
-    color: #ffffff !important;
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, .4)
 }
 
-/* ===========================================
-   PAGINATION ADAPTATIVE
-   =========================================== */
 .pagination-container {
     margin: 50px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 15px
 }
 
 .pagination {
@@ -103,11 +93,11 @@
     justify-content: center;
     list-style: none;
     padding: 0;
-    gap: 8px;
+    gap: 8px
 }
 
-.pagination li a,
-.pagination li .page-number {
+.pagination li .page-number,
+.pagination li a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,45 +105,36 @@
     height: 44px;
     padding: 0 15px;
     border-radius: 10px;
-    /* Utilise les variables de fond et de texte de votre thème */
-    background: var(--bg-card, #ffffff);
-    color: var(--text-primary, #333333);
+    background: var(--bg-card, #fff);
+    color: var(--text-primary, #333);
     text-decoration: none;
     font-weight: 600;
     border: 1px solid var(--border-color, #e0e0e0);
-    transition: all 0.2s ease;
+    transition: .2s
 }
 
-/* Page Active : Reste identique dans les deux modes pour la visibilité */
 .pagination li .page-number.active {
-    background-color: var(--color-primary, #667eea);
-    color: #ffffff !important;
     border-color: var(--color-primary, #667eea);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, .4)
 }
 
-/* Survol des numéros */
 .pagination li a:hover {
     background-color: var(--bg-hover, #f8f9fa);
-    color: var(--color-primary, #667eea) !important;
     border-color: var(--color-primary, #667eea);
-    transform: translateY(-2px);
+    transform: translateY(-2px)
 }
 
-/* Exemple de configuration de thème */
 :root {
-    /* MODE JOUR */
     --bg-card: #ffffff;
     --text-primary: #333333;
-    --bg-button-detail: #f9f9f9; /* Gris très clair ou blanc le jour */
-    --border-color: #e0e0e0;
+    --bg-button-detail: #f9f9f9;
+    --border-color: #e0e0e0
 }
 
-[data-theme='dark'], .dark-mode {
-    /* MODE NUIT */
+.dark-mode,
+[data-theme=dark] {
     --bg-card: #1a1a1a;
     --text-primary: #f1f1f1;
-    --bg-button-detail: #000000; /* NOIR PUR la nuit */
-    --border-color: #333333;
+    --bg-button-detail: #000000;
+    --border-color: #333333
 }
-

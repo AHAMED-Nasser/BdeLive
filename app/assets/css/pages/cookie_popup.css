@@ -1,6 +1,3 @@
-/* cookie_popup.css */
-
-/* Popup cookies */
 #cookieConsent {
     position: fixed;
     bottom: 1rem;
@@ -11,7 +8,7 @@
     background: var(--bg-card, #fff);
     padding: 1rem 1.25rem;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,175 +16,166 @@
     z-index: 9999;
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     color: var(--text-primary, #0b1220);
-    border: 1px solid var(--border-color, rgba(0,0,0,0.1));
+    border: 1px solid var(--border-color, rgba(0, 0, 0, .1))
 }
 
 #cookieConsent .text h4 {
-    margin: 0 0 .25rem 0;
+    margin: 0 0 .25rem;
     font-size: 1rem;
     color: var(--text-primary, #0b1220);
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 #cookieConsent .text p {
     margin: 0;
     font-size: .9rem;
     color: var(--text-secondary, #555);
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
 #cookieConsent .actions {
     display: flex;
-    gap: 0.5rem;
+    gap: .5rem
 }
 
 #cookieConsent .btn {
-    padding: 0.5rem 0.75rem;
+    padding: .5rem .75rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
     background: #0b84ff;
     color: #fff;
-    transition: all 0.3s ease;
+    transition: .3s
 }
 
 #cookieConsent .btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(11, 132, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(11, 132, 255, .3)
 }
 
 #cookieConsent .btn.secondary {
-    background: transparent;
+    background: 0 0;
     border: 1px solid var(--border-color, #ccc);
-    color: var(--text-primary, #0b1220);
+    color: var(--text-primary, #0b1220)
 }
 
 #cookieConsent .btn.secondary:hover {
-    background: var(--bg-hover, rgba(0,0,0,0.05));
-    box-shadow: none;
+    background: var(--bg-hover, rgba(0, 0, 0, .05));
+    box-shadow: none
 }
 
 #cookieConsent .btn.link {
-    background: transparent;
+    background: 0 0;
     color: var(--text-secondary, #555);
-    font-weight: 600;
+    font-weight: 600
 }
 
 #cookieConsent .btn.link:hover {
     color: var(--color-primary, #0b84ff);
-    box-shadow: none;
+    box-shadow: none
 }
 
-/* Dark mode spécifique pour le cookie popup */
 .dark-mode #cookieConsent {
     background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255, 255, 255, .1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .4)
 }
 
 .dark-mode #cookieConsent .text h4 {
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
+.dark-mode #cookieConsent .btn.link,
 .dark-mode #cookieConsent .text p {
-    color: var(--text-secondary);
+    color: var(--text-secondary)
 }
 
 .dark-mode #cookieConsent .btn.secondary {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, .2);
+    color: var(--text-primary)
 }
 
 .dark-mode #cookieConsent .btn.secondary:hover {
-    background: var(--bg-hover);
-}
-
-.dark-mode #cookieConsent .btn.link {
-    color: var(--text-secondary);
+    background: var(--bg-hover)
 }
 
 .dark-mode #cookieConsent .btn.link:hover {
-    color: var(--color-primary);
+    color: var(--color-primary)
 }
 
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablet (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     #cookieConsent {
-        bottom: 0.75rem;
-        left: 0.75rem;
-        right: 0.75rem;
-        padding: 0.9rem 1rem;
+        bottom: .75rem;
+        left: .75rem;
+        right: .75rem;
+        padding: .9rem 1rem
     }
 
     #cookieConsent .text h4 {
-        font-size: 0.95rem;
+        font-size: .95rem
     }
 
     #cookieConsent .text p {
-        font-size: 0.85rem;
+        font-size: .85rem
     }
 
     #cookieConsent .actions {
-        gap: 0.4rem;
+        gap: .4rem
     }
 
     #cookieConsent .btn {
-        padding: 0.45rem 0.65rem;
-        font-size: 0.9rem;
+        padding: .45rem .65rem;
+        font-size: .9rem
     }
 }
 
-/* Mobile (max-width: 520px) */
-@media (max-width: 520px) {
+@media (max-width:520px) {
     #cookieConsent {
         flex-direction: column;
         align-items: stretch;
-        bottom: 0.5rem;
-        left: 0.5rem;
-        right: 0.5rem;
-        padding: 0.8rem;
-        gap: 0.8rem;
+        bottom: .5rem;
+        left: .5rem;
+        right: .5rem;
+        padding: .8rem;
+        gap: .8rem
     }
 
     #cookieConsent .text h4 {
-        font-size: 0.9rem;
-        margin-bottom: 0.2rem;
+        font-size: .9rem;
+        margin-bottom: .2rem
     }
 
     #cookieConsent .text p {
-        font-size: 0.8rem;
+        font-size: .8rem
     }
 
     #cookieConsent .actions {
         justify-content: stretch;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: .5rem
     }
 
     #cookieConsent .actions button {
         width: 100%;
-        padding: 0.6rem;
-        font-size: 0.9rem;
+        padding: .6rem;
+        font-size: .9rem
     }
 }
 
-/* Small mobile (max-width: 360px) */
-@media (max-width: 360px) {
+@media (max-width:360px) {
     #cookieConsent {
-        bottom: 0.3rem;
-        left: 0.3rem;
-        right: 0.3rem;
-        padding: 0.7rem;
+        bottom: .3rem;
+        left: .3rem;
+        right: .3rem;
+        padding: .7rem
     }
 
     #cookieConsent .text h4 {
-        font-size: 0.85rem;
+        font-size: .85rem
     }
 
     #cookieConsent .text p {
-        font-size: 0.75rem;
+        font-size: .75rem
     }
 }

@@ -1,114 +1,114 @@
+.join,
+.join-text {
+    text-align: center
+}
+
+.join-text,
+.join-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    font-family: var(--font-body)
+}
+
+#join-title,
+.join-text p strong {
+    font-weight: 700
+}
+
 .join {
     max-width: 1000px;
     margin: 60px auto;
     padding: 40px 20px;
     background-color: var(--bg-card);
     border-radius: 10px;
-    box-shadow: 15px 15px 15px var(--shadow-sm);
-    text-align: center;
+    box-shadow: 15px 15px 15px var(--shadow-sm)
 }
 
 #join-title {
     text-align: left;
     font-size: 2.4rem;
-    font-weight: 700;
     margin-bottom: 20px;
     letter-spacing: 1px;
     padding-left: 15px;
     color: var(--text-primary);
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .join-text {
     max-width: 800px;
     margin: 0 auto;
-    text-align: center;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    font-family: var(--font-body);
+    padding: 10px 20px
 }
 
 .join-text p {
-    font-size: 1.1rem;
-    line-height: 1.7;
     margin-bottom: 0;
-    color: var(--text-secondary);
-    font-weight: normal;
-    font-family: var(--font-body);
+    font-weight: 400
 }
 
-.join-text p strong {
-    font-weight: 700;
-}
+@media (max-width:992px) {
 
-/* ===== RESPONSIVE DESIGN ===== */
+    .join-text,
+    .join-text p {
+        font-size: 1rem
+    }
 
-/* Tablet (max-width: 992px) */
-@media (max-width: 992px) {
     .join {
         margin: 50px auto;
-        padding: 35px 15px;
+        padding: 35px 15px
     }
 
     #join-title {
         font-size: 2rem;
-        padding-left: 10px;
+        padding-left: 10px
     }
 
     .join-text {
-        font-size: 1rem;
-        padding: 8px 15px;
-    }
-
-    .join-text p {
-        font-size: 1rem;
+        padding: 8px 15px
     }
 }
 
-/* Mobile (max-width: 768px) */
-@media (max-width: 768px) {
+@media (max-width:768px) {
+
+    .join-text,
+    .join-text p {
+        font-size: .95rem
+    }
+
     .join {
         margin: 40px 15px;
-        padding: 30px 15px;
+        padding: 30px 15px
     }
 
     #join-title {
         font-size: 1.6rem;
         padding-left: 5px;
-        margin-bottom: 15px;
+        margin-bottom: 15px
     }
 
     .join-text {
-        font-size: 0.95rem;
-        padding: 5px 10px;
-    }
-
-    .join-text p {
-        font-size: 0.95rem;
+        padding: 5px 10px
     }
 }
 
-/* Small mobile (max-width: 480px) */
-@media (max-width: 480px) {
+@media (max-width:480px) {
+
+    .join-text,
+    .join-text p {
+        font-size: .9rem
+    }
+
     .join {
         margin: 30px 10px;
-        padding: 25px 10px;
+        padding: 25px 10px
     }
 
     #join-title {
         font-size: 1.4rem;
-        padding-left: 0;
+        padding-left: 0
     }
 
     .join-text {
-        font-size: 0.9rem;
-        padding: 5px;
-    }
-
-    .join-text p {
-        font-size: 0.9rem;
+        padding: 5px
     }
 }
-

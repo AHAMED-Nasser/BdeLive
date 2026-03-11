@@ -1,9 +1,7 @@
-/* Conteneur pour s'assurer que le badge se place par rapport à l'image */
 .carousel-item {
-    position: relative;
+    position: relative
 }
 
-/* Style de base du badge */
 .badge-status {
     position: absolute;
     top: 12px;
@@ -11,49 +9,57 @@
     z-index: 5;
     padding: 6px 14px;
     font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 0.75rem;
+    font-size: .75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: white;
+    letter-spacing: .8px;
+    color: #fff;
     border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(4px); /* Effet de flou sur l'image derrière le badge */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .25);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 6px
 }
 
-/* État : En cours (Rouge vif avec animation) */
+.status-incoming,
 .status-live {
-    background-color: rgba(46, 204, 113, 0.9); /* Vert émeraude */
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, .2)
+}
+
+.status-live {
+    background-color: rgba(46, 204, 113, .9)
 }
 
 .status-incoming {
-    background-color: #f39c12; /* Jaune*/
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: #f39c12
 }
 
 .status-live::before {
     content: "";
     width: 6px;
     height: 6px;
-    background-color: white;
+    background-color: #fff;
     border-radius: 50%;
     display: inline-block;
-    animation: blink 1.2s infinite;
+    animation: 1.2s infinite blink
 }
 
-/* État : Terminé (Vert plus doux) */
 .status-done {
-    background-color: rgba(231, 76, 60, 0.9); /* Rouge moderne */
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(231, 76, 60, .9);
+    border: 1px solid rgba(255, 255, 255, .2)
 }
 
-/* Animation pour le badge "En cours" */
 @keyframes blink {
-    0% { opacity: 0.3; transform: scale(0.8); }
-    50% { opacity: 1; transform: scale(1.2); }
-    100% { opacity: 0.3; transform: scale(0.8); }
+
+    0%,
+    100% {
+        opacity: .3;
+        transform: scale(.8)
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.2)
+    }
 }

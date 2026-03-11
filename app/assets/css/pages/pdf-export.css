@@ -1,110 +1,102 @@
-/**
- * PDF Export Stylesheet
- *
- * Styles for DomPDF-generated event participant lists.
- * Note: DomPDF has limited CSS support - avoid advanced selectors and properties.
- *
- * @package BdeLive
- * @version 1.0.0
- */
+h1,
+h3 {
+    color: #333
+}
+
+.box,
+.team-separator {
+    height: 15px
+}
 
 body {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: Georgia, 'Times New Roman', serif
+}
+
+h1,
+h2,
+h3 {
+    font-family: Roboto, 'Helvetica Neue', Arial, sans-serif
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 5px;
-    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 5px
 }
 
 h2 {
     color: #000;
-    font-weight: bold;
+    font-weight: 700;
     margin-top: 30px;
-    margin-bottom: 15px;
-    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 15px
 }
 
 h3 {
-    color: #333;
     margin-top: 25px;
-    margin-bottom: 10px;
-    font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    margin-bottom: 10px
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    table-layout: fixed;
+    table-layout: fixed
 }
 
-th,
-td {
-    border: 1px solid #dddddd;
+td,
+th {
+    border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
-    word-wrap: break-word;
+    word-wrap: break-word
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #f2f2f2
 }
 
-/* Explicit column widths for consistent rendering in DomPDF */
-th:nth-child(1),
-td:nth-child(1) {
-    width: 25%;
+td:first-child,
+td:nth-child(2),
+th:first-child,
+th:nth-child(2) {
+    width: 25%
 }
 
-th:nth-child(2),
-td:nth-child(2) {
-    width: 25%;
-}
-
-th:nth-child(3),
-td:nth-child(3) {
-    width: 20%;
+td:nth-child(3),
+th:nth-child(3) {
+    width: 20%
 }
 
 .checkbox-col {
     width: 15%;
-    text-align: center;
+    text-align: center
 }
 
 .box {
-    height: 15px;
     width: 15px;
     border: 1px solid #333;
-    margin: auto;
+    margin: auto
 }
 
 .event-info {
     color: #666;
-    margin-bottom: 20px;
+    margin-bottom: 20px
 }
 
 .stats {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
-    margin: 20px 0;
+    margin: 20px 0
 }
 
 .group-title-row td {
     background-color: #e9e9e9;
-    font-weight: bold;
+    font-weight: 700;
     text-align: center;
-    padding: 10px;
-}
-
-.team-separator {
-    height: 15px;
+    padding: 10px
 }
 
 .empty-message {
     text-align: center;
     color: #666;
-    margin-top: 50px;
+    margin-top: 50px
 }

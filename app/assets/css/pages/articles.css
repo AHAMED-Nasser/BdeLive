@@ -1,26 +1,25 @@
-/*
- * Articles Page Styles
- * Responsive grid layout for articles with optional images
- */
+.article-title,
+.articles-section .title {
+    color: var(--text-primary);
+    font-family: var(--font-heading)
+}
 
 .articles-section {
     padding: 50px 30px;
-    min-height: 80vh;
+    min-height: 80vh
 }
 
 .articles-section .title {
     text-align: center;
     margin-bottom: 40px;
-    font-size: 2.5rem;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
+    font-size: 2.5rem
 }
 
 .articles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 30px;
-    margin-bottom: 40px;
+    margin-bottom: 40px
 }
 
 .article-card {
@@ -28,41 +27,45 @@
     border-radius: 12px;
     box-shadow: 0 4px 6px var(--shadow-sm);
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform .3s, box-shadow .3s;
     display: flex;
-    flex-direction: column;
+    flex-direction: column
 }
 
 .article-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 12px var(--shadow-md);
+    box-shadow: 0 8px 12px var(--shadow-md)
 }
 
-/* Image optionnelle : hauteur flexible */
+.article-actions .btn-delete:hover,
+.article-actions .btn-edit:hover,
+.btn-view:hover {
+    transform: translateY(-2px);
+    text-decoration: none
+}
+
 .article-image {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: cover
 }
 
 .article-content {
     padding: 25px;
     flex: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: column
 }
 
 .article-title {
     font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: var(--text-primary);
-    font-family: var(--font-heading);
+    margin-bottom: 10px
 }
 
 .article-meta {
-    font-size: 0.9rem;
+    font-size: .9rem;
     color: var(--text-tertiary);
-    margin-bottom: 15px;
+    margin-bottom: 15px
 }
 
 .article-description {
@@ -70,168 +73,141 @@
     color: var(--text-secondary);
     line-height: 1.7;
     margin-bottom: 15px;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
-/* Actions pour les administrateurs */
+.btn-view,
+.btn-view:hover {
+    color: var(--text-inverse)
+}
+
 .article-actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-top: auto;
     padding-top: 20px;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid var(--border-light)
 }
 
-/* Styles communs pour tous les boutons d'action */
-.btn-view,
+.article-actions .btn-delete,
 .article-actions .btn-edit,
-.article-actions .btn-delete {
+.btn-view {
     display: inline-flex;
     justify-content: center;
     align-items: center;
     padding: 8px 12px;
     border-radius: 6px;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: .85rem;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: .2s;
     border: none;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
     width: 100%;
     box-sizing: border-box;
     min-height: 36px;
     max-height: 40px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis
 }
 
-/* Bouton Voir l'article - Bleu violet */
 .btn-view {
     background-color: var(--color-primary);
-    color: var(--text-inverse);
-    grid-column: span 1;
+    grid-column: span 1
 }
 
 .btn-view:hover {
     background-color: var(--color-primary-hover);
-    color: var(--text-inverse);
-    text-decoration: none;
-    /* Assure qu'il n'y a pas de soulignement */
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(90, 103, 216, 0.3);
+    box-shadow: 0 4px 8px rgba(90, 103, 216, .3)
 }
 
-/* Bouton Modifier - Moutarde/Doré assombri (#b8860b) */
 .article-actions .btn-edit {
     background-color: var(--color-warning);
     color: #f5f5f5;
-    grid-column: span 1;
+    grid-column: span 1
 }
 
 .article-actions .btn-edit:hover {
-    filter: brightness(0.9);
-    text-decoration: none;
+    filter: brightness(.9);
     color: #f5f5f5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.4);
+    box-shadow: 0 4px 8px rgba(184, 134, 11, .4)
 }
 
-/* Formulaire de suppression - Prend toute la largeur en bas */
 .delete-article-form {
-    grid-column: 1 / -1;
-    /* Pleine largeur */
+    grid-column: 1/-1;
     margin: 0;
     padding: 0;
-    display: block;
+    display: block
 }
 
-/* Bouton Supprimer - Rouge */
 .article-actions .btn-delete {
     background-color: var(--color-danger);
     color: var(--color-danger-text);
-    width: 100%;
+    width: 100%
 }
 
 .article-actions .btn-delete:hover {
-    filter: brightness(0.9);
-    text-decoration: none;
+    filter: brightness(.9);
     color: var(--color-danger-text);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(229, 62, 62, 0.3);
+    box-shadow: 0 4px 8px rgba(229, 62, 62, .3)
 }
 
-/* Si "Voir l'article" n'est pas là, Modifier prend toute la largeur aussi ?
-   On peut utiliser :last-child selector si besoin, mais le grid layout est robuste.
-   Si .btn-view est absent, .btn-edit sera col 1, vide col 2.
-   Pour faire propre : si c'est le seul enfant avant le form.
-*/
+.article-actions .btn-edit:first-child:nth-last-child(2),
 .article-actions .btn-edit:only-child {
-    /* Cas théorique rare, mais sécurité */
-    grid-column: 1 / -1;
+    grid-column: 1/-1
 }
-
-/* Si on a seulement Modifier et Supprimer (pas de view) */
-.article-actions .btn-edit:first-child:nth-last-child(2) {
-    grid-column: 1 / -1;
-    /* Modifier prend toute la largeur */
-    /* Ou on le laisse en demi-largeur ? Mieux vaut pleine largeur pour l'harmonie avec supprimer */
-}
-
-/* Pagination styles now handled by style.css */
 
 .no-articles {
     text-align: center;
     font-size: 1.2rem;
     color: var(--text-tertiary);
-    padding: 60px 20px;
+    padding: 60px 20px
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .articles-grid {
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
+        gap: 20px
     }
 
     .articles-section .title {
-        font-size: 2rem;
+        font-size: 2rem
     }
 
     .article-actions {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr
     }
 
-    .btn-view,
-    .btn-edit,
+    .admin-zone form,
     .btn-delete,
-    .admin-zone form {
+    .btn-edit,
+    .btn-view {
         width: 100%;
-        grid-column: 1 / -1 !important;
+        grid-column: 1/-1 !important
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .articles-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr
     }
 
     .articles-section {
-        padding: 20px 10px;
+        padding: 20px 10px
     }
 }
 
-/* Article individuel complet */
 .article-section {
     padding: 40px 20px;
-    min-height: 80vh;
+    min-height: 80vh
 }
 
 .article-section .container {
     max-width: 900px;
-    margin: 0 auto;
+    margin: 0 auto
 }
 
 .back-link {
@@ -240,36 +216,36 @@
     color: var(--color-primary);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color .3s
 }
 
 .back-link:hover {
     color: var(--color-primary-hover);
-    text-decoration: none;
+    text-decoration: none
 }
 
 .article-full {
     background: var(--bg-card);
     border-radius: 12px;
     box-shadow: 0 4px 6px var(--shadow-sm);
-    overflow: hidden;
+    overflow: hidden
 }
 
 .article-full-image {
     width: 100%;
     max-height: 500px;
-    overflow: hidden;
+    overflow: hidden
 }
 
 .article-full-image img {
     width: 100%;
     height: auto;
     object-fit: cover;
-    display: block;
+    display: block
 }
 
 .article-full-content {
-    padding: 50px;
+    padding: 50px
 }
 
 .article-full-title {
@@ -277,7 +253,7 @@
     margin-bottom: 15px;
     color: var(--text-primary);
     line-height: 1.2;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
 .article-full-meta {
@@ -285,7 +261,7 @@
     color: var(--text-tertiary);
     margin-bottom: 30px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light)
 }
 
 .article-full-description {
@@ -294,40 +270,36 @@
     color: var(--text-secondary);
     margin-bottom: 30px;
     word-wrap: break-word;
-    font-family: var(--font-body);
+    font-family: var(--font-body)
 }
 
 .article-full-actions {
     margin-top: 40px;
     padding-top: 30px;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #e0e0e0
 }
 
-/* Bouton Voir l'article */
-
-
-/* Responsive pour l'article complet */
-@media (max-width: 768px) {
+@media (max-width:768px) {
     .article-full-content {
-        padding: 25px;
+        padding: 25px
     }
 
     .article-full-title {
-        font-size: 2rem;
+        font-size: 2rem
     }
 
     .article-full-description {
-        font-size: 1rem;
+        font-size: 1rem
     }
 
     .article-actions {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr
     }
 
-    .btn-view,
+    .btn-delete,
     .btn-edit,
-    .btn-delete {
+    .btn-view {
         width: 100%;
-        text-align: center;
+        text-align: center
     }
 }

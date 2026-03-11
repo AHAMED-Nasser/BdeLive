@@ -1,166 +1,149 @@
-/**
- * Event Show Page Styles
- * Styles for the event detail page (showEventView.php)
- */
-
-/* Lien retour vers l'agenda */
 .back-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--color-primary);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: .95rem;
     margin-bottom: 16px;
-    transition: opacity 0.2s;
+    transition: opacity .2s
+}
+
+.event-flash-error,
+.event-flash-success {
+    padding: 12px;
+    margin: 20px 0;
+    text-align: center
 }
 
 .back-link:hover {
-    opacity: 0.8;
+    opacity: .8
 }
-
-/* Modifying the description size */
 
 .event-description h2 {
     font-size: 3rem;
     margin-bottom: 15px;
-    font-weight: bold;
-    color: #2c3e50;
+    font-weight: 700;
+    color: #2c3e50
 }
 
 .event-description p {
     font-size: 1.5rem;
     line-height: 1.6;
-    color: #333;
+    color: #333
 }
-
-/* Markdown-rendered description (styles partagés dans base/markdown.css) */
 
 .event-flash-success {
     background-color: #d4edda;
     color: #155724;
-    padding: 12px;
-    margin: 20px 0;
     border: 1px solid #c3e6cb;
-    border-radius: 4px;
-    text-align: center;
+    border-radius: 4px
 }
 
 .event-flash-error {
     background-color: #f8d7da;
     color: #721c24;
-    padding: 12px;
-    margin: 20px 0;
     border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    text-align: center;
+    border-radius: 4px
 }
 
-/* Registration section */
+.dark-mode .registration-section,
+.registration-section {
+    border-top: 1px solid #4a4b56
+}
+
 .registration-section {
     text-align: center;
     margin: 30px 0;
     padding: 20px;
-    border-top: 1px solid #4A4B56;
-    position: relative;
+    position: relative
 }
 
-.dark-mode .registration-section {
-    border-top: 1px solid #4A4B56;
+.btn-group-register,
+.btn-individual-register,
+.registration-section .btn-success {
+    padding: 14px 30px;
+    display: inline-block;
+    font-weight: 700;
+    transition: transform .2s, box-shadow .2s;
+    text-decoration: none;
+    font-family: "JetBrains Mono", monospace
 }
 
-/* Group registration button - Light Mode */
 .btn-group-register {
     background-color: #15803d;
     color: #fff;
     border: none;
-    padding: 14px 30px;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
-    font-family: "JetBrains Mono", monospace;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px
 }
 
 .btn-group-register:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, .4)
 }
 
-/* Group registration button - Dark Mode */
 .dark-mode .btn-group-register {
-    background-color: #39E07F;
-    color: #000;
+    background-color: #39e07f;
+    color: #000
 }
 
 .dark-mode .btn-group-register:hover {
-    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+    box-shadow: 0 4px 12px rgba(57, 224, 127, .4)
 }
 
-/* Individual registration button - Light Mode */
 .btn-individual-register,
 .registration-section .btn-success {
     background-color: #15803d !important;
     color: #fff !important;
     border: none;
-    padding: 14px 30px;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-block;
-    font-weight: bold;
-    font-family: "JetBrains Mono", monospace;
-    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px
 }
 
 .btn-individual-register:hover,
 .registration-section .btn-success:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(21, 128, 61, 0.4);
+    box-shadow: 0 4px 12px rgba(21, 128, 61, .4);
     background-color: #15803d !important;
     color: #fff !important;
-    filter: none !important;
+    filter: none !important
 }
 
-/* Individual registration button - Dark Mode */
 .dark-mode .btn-individual-register,
 .dark-mode .registration-section .btn-success {
-    background-color: #39E07F !important;
-    color: #000 !important;
+    background-color: #39e07f !important;
+    color: #000 !important
 }
 
 .dark-mode .btn-individual-register:hover,
 .dark-mode .registration-section .btn-success:hover {
-    background-color: #39E07F !important;
+    background-color: #39e07f !important;
     color: #000 !important;
-    box-shadow: 0 4px 12px rgba(57, 224, 127, 0.4);
+    box-shadow: 0 4px 12px rgba(57, 224, 127, .4)
 }
 
-/* Admin zone - Light Mode */
 .admin-zone {
     background: #f8f9fa !important;
     border: 1px solid #ddd !important;
     padding: 25px;
     border-radius: 8px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 50px
 }
 
 .admin-zone h2 {
     color: #333 !important;
     margin-bottom: 20px;
     font-weight: 600;
-    font-family: var(--font-heading);
+    font-family: var(--font-heading)
 }
 
-/* Admin zone - Dark Mode */
 .dark-mode .admin-zone {
-    background: #20212C !important;
-    border: 1px solid #4A4B56 !important;
+    background: #20212c !important;
+    border: 1px solid #4a4b56 !important
 }
 
 .dark-mode .admin-zone h2 {
-    color: #ffffff !important;
+    color: #fff !important
 }
 
 .admin-zone-actions {
@@ -169,22 +152,25 @@
     gap: 12px;
     justify-content: center;
     align-items: stretch;
-    flex-wrap: wrap;
+    flex-wrap: wrap
 }
 
-/* Les <form> dans la zone admin ne s'étirent pas */
-.admin-zone-actions form,
-.admin-zone-actions .inline-form {
+.admin-zone-actions .inline-form,
+.admin-zone-actions form {
     margin: 0;
     padding: 0;
     display: inline-flex;
     flex: 0 0 auto;
-    align-items: stretch;
+    align-items: stretch
 }
 
-/* Admin Event Buttons - Base Styles */
-.btn-edit,
+.registrants-list-section td,
+.registrants-list-section th {
+    padding: 12px
+}
+
 .btn-delete,
+.btn-edit,
 .btn-view {
     padding: 12px 24px;
     border: none;
@@ -192,7 +178,7 @@
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: .3s;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -203,141 +189,103 @@
     height: 46px;
     font-family: "JetBrains Mono", monospace;
     appearance: none;
-    -webkit-appearance: none;
+    -webkit-appearance: none
 }
 
-/* Cohérence des boutons dans la zone admin (même hauteur, même style) */
-.admin-zone-actions form {
-    min-height: 46px;
+.group-header,
+.registrants-list-section th {
+    border-bottom: 2px solid var(--border-color)
 }
 
-.admin-zone-actions form button,
-.admin-zone-actions a.btn-edit {
-    min-height: 46px;
+.admin-zone-actions a.btn-edit,
+.admin-zone-actions form,
+.admin-zone-actions form button {
+    min-height: 46px
 }
 
-/* Normaliser les <button> dans un <form> pour qu'ils aient le même rendu */
-.admin-zone-actions form .btn-view,
 .admin-zone-actions form .btn-delete,
-.admin-zone-actions form .btn-edit {
+.admin-zone-actions form .btn-edit,
+.admin-zone-actions form .btn-view {
     height: 100%;
-    width: 100%;
+    width: 100%
 }
 
-/* Button Colors - Light Mode */
+.admin-zone .btn-edit,
 .btn-edit,
-.admin-zone .btn-edit {
+.dark-mode .admin-zone .btn-edit,
+.dark-mode .admin-zone .btn-edit:hover,
+.dark-mode .btn-edit,
+.dark-mode .btn-edit:hover {
     background-color: #b8860b !important;
-    color: #f5f5f5 !important;
+    color: #f5f5f5 !important
 }
 
-.btn-edit:hover,
-.admin-zone .btn-edit:hover {
+.admin-zone .btn-edit:hover,
+.btn-edit:hover {
     background-color: #9a7009 !important;
     color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.4);
+    box-shadow: 0 4px 8px rgba(184, 134, 11, .4)
 }
 
-.btn-delete,
-.admin-zone .btn-delete {
-    background-color: #D32F2F !important;
-    color: #f5f5f5 !important;
+.admin-zone .btn-delete,
+.btn-delete {
+    background-color: #d32f2f !important;
+    color: #f5f5f5 !important
 }
 
-.btn-delete:hover,
-.admin-zone .btn-delete:hover {
-    background-color: #C62828 !important;
-    color: #f5f5f5 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(211, 47, 47, 0.3);
-}
-
-.btn-view,
-.admin-zone .btn-view {
-    background-color: #673AB7 !important;
-    color: #f5f5f5 !important;
-}
-
-.btn-view:hover,
-.admin-zone .btn-view:hover {
-    background-color: #5E35B1 !important;
+.admin-zone .btn-delete:hover,
+.btn-delete:hover {
+    background-color: #c62828 !important;
     color: #f5f5f5 !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(103, 58, 183, 0.3);
+    box-shadow: 0 4px 8px rgba(211, 47, 47, .3)
 }
 
-/* Button Colors - Dark Mode (géré globalement dans themes/dark-mode.css) */
-.dark-mode .btn-edit,
-.dark-mode .btn-edit:hover,
-.dark-mode .admin-zone .btn-edit,
-.dark-mode .admin-zone .btn-edit:hover {
-    background-color: #b8860b !important;
+.admin-zone .btn-view,
+.btn-view {
+    background-color: #673ab7 !important;
+    color: #f5f5f5 !important
+}
+
+.admin-zone .btn-view:hover,
+.btn-view:hover {
+    background-color: #5e35b1 !important;
     color: #f5f5f5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(103, 58, 183, .3)
 }
 
-/* Mobile Layout */
-@media (max-width: 768px) {
-    .admin-zone-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .admin-zone-actions form {
-        width: 100%;
-        display: flex;
-    }
-
-    .btn-edit,
-    .btn-delete,
-    .btn-view {
-        width: 100%;
-        height: auto;
-        padding: 14px 24px;
-        white-space: normal;
-    }
-}
-
-/* Event Registrants List */
 .registrants-list-section {
-    margin-top: 40px;
+    margin-top: 40px
 }
 
 .registrants-list-section h2 {
-    margin-bottom: 20px;
+    margin-bottom: 20px
 }
 
 .registrants-list-section .table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 20px
 }
 
 .registrants-list-section thead tr {
     background-color: var(--bg-secondary);
     text-align: left;
-}
-
-.registrants-list-section th {
-    padding: 12px;
-    border-bottom: 2px solid var(--border-color);
+    background-color: var(--bg-secondary)
 }
 
 .registrants-list-section tbody tr {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color)
 }
 
-.registrants-list-section td {
-    padding: 12px;
-}
-
-/* Group Registrants */
 .group-registrants-section h2 {
-    margin-bottom: 10px;
+    margin-bottom: 10px
 }
 
 .group-block {
-    margin-bottom: 30px;
+    margin-bottom: 30px
 }
 
 .group-header {
@@ -346,195 +294,175 @@
     margin-bottom: 0;
     font-size: 17px;
     font-weight: 700;
-    font-family: var(--font-heading);
-    border-bottom: 2px solid var(--border-color);
+    font-family: var(--font-heading)
 }
 
-/* Group Header - Dark Mode */
 .dark-mode .group-header {
-    color: #ffffff;
+    color: #fff
 }
 
-/* ===== Registrants Table - Text Visibility ===== */
-
-.registrants-list-section thead tr {
-    background-color: var(--bg-secondary);
-}
-
+.registrants-list-section td,
 .registrants-list-section th {
-    color: var(--text-primary);
+    color: var(--text-primary)
 }
 
-.registrants-list-section td {
-    color: var(--text-primary);
-}
-
-/* Registrants Table - Dark Mode overrides */
 .dark-mode .registrants-list-section thead tr {
-    background-color: var(--bg-tertiary);
+    background-color: var(--bg-tertiary)
 }
 
 .dark-mode .registrants-list-section tbody tr:hover {
-    background-color: var(--bg-hover);
+    background-color: var(--bg-hover)
 }
 
-/* ===== Titre de la page événement ===== */
 .event-page-title {
-    padding: 40px 20px;
+    padding: 40px 20px
 }
 
-/* ===== Responsive Mobile (max-width: 768px) ===== */
-@media (max-width: 768px) {
-    .event-page-title {
-        padding: 20px 10px;
-        font-size: 1.6rem;
-        line-height: 1.3;
-        word-break: break-word;
-    }
-
-    /* Boutons d'inscription pleine largeur */
-    .btn-individual-register,
-    .btn-group-register {
-        display: block;
+@media (max-width:768px) {
+    .admin-zone-actions {
+        flex-direction: column;
         width: 100%;
-        text-align: center;
-        padding: 14px 20px;
-        box-sizing: border-box;
+        gap: 10px
     }
 
-    /* Bouton désinscription pleine largeur */
+    .admin-zone-actions form {
+        width: 100%;
+        display: flex
+    }
+
+    .btn-group-register,
+    .btn-individual-register,
     .registration-section .btn-delete {
         display: block;
         width: 100%;
         text-align: center;
-        box-sizing: border-box;
+        box-sizing: border-box
+    }
+
+    .event-page-title {
+        padding: 20px 10px;
+        font-size: 1.6rem;
+        line-height: 1.3;
+        word-break: break-word
+    }
+
+    .btn-group-register,
+    .btn-individual-register {
+        padding: 14px 20px
     }
 
     .registration-section {
-        padding: 15px 10px;
+        padding: 15px 10px
     }
 
-    /* Bannière d'infos */
     .event-info-banner {
         padding: 15px 12px;
-        text-align: left;
+        text-align: left
     }
 
     .event-info-banner p {
         font-size: 1rem;
-        margin: 8px 0;
+        margin: 8px 0
     }
 
-    /* Description */
     .event-description-container {
-        margin-bottom: 30px;
+        margin-bottom: 30px
     }
 
     .event-description-container h2 {
-        font-size: 1.4rem;
+        font-size: 1.4rem
     }
 
-    /* Liste des inscrits */
     .registrants-list-section {
-        margin-top: 25px;
+        margin-top: 25px
     }
 
+    .admin-zone h2,
     .registrants-list-section h2 {
         font-size: 1.2rem;
-        margin-bottom: 15px;
+        margin-bottom: 15px
     }
 
-    .registrants-list-section th,
-    .registrants-list-section td {
+    .registrants-list-section td,
+    .registrants-list-section th {
         padding: 8px 6px;
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 
-    /* Blocs groupes */
     .group-header {
         font-size: 15px;
-        padding: 10px 12px;
+        padding: 10px 12px
     }
 
-    /* Zone admin */
     .admin-zone {
         padding: 15px 12px;
-        margin-top: 30px;
+        margin-top: 30px
     }
 
-    .admin-zone h2 {
-        font-size: 1.2rem;
-        margin-bottom: 15px;
-    }
-
-    .admin-zone-actions {
-        gap: 10px;
-    }
-
-    .btn-edit,
     .btn-delete,
+    .btn-edit,
     .btn-view {
+        width: 100%;
         height: auto;
         padding: 12px 16px;
         white-space: normal;
-        font-size: 13px;
+        font-size: 13px
     }
 }
 
-/* ===== Responsive Petit Mobile (max-width: 480px) ===== */
-@media (max-width: 480px) {
+@media (max-width:480px) {
     .event-page-title {
         padding: 15px 5px;
-        font-size: 1.35rem;
+        font-size: 1.35rem
     }
 
-    .event-flash-success,
-    .event-flash-error {
+    .event-flash-error,
+    .event-flash-success {
         padding: 10px;
-        font-size: 0.9rem;
+        font-size: .9rem
     }
 
     .event-info-banner {
-        padding: 12px 10px;
+        padding: 12px 10px
     }
 
     .event-info-banner p {
-        font-size: 0.95rem;
+        font-size: .95rem
     }
 
-    .btn-individual-register,
-    .btn-group-register {
-        font-size: 0.9rem;
-        padding: 12px 15px;
+    .btn-group-register,
+    .btn-individual-register {
+        font-size: .9rem;
+        padding: 12px 15px
     }
 
     .btn-group-register i {
-        margin-right: 4px;
+        margin-right: 4px
     }
 
-    .registrants-list-section th,
-    .registrants-list-section td {
+    .registrants-list-section td,
+    .registrants-list-section th {
         padding: 6px 4px;
-        font-size: 0.82rem;
+        font-size: .82rem
     }
 
     .group-header {
         font-size: 14px;
-        padding: 8px 10px;
+        padding: 8px 10px
     }
 
     .admin-zone {
-        padding: 12px 8px;
+        padding: 12px 8px
     }
 
     .admin-zone h2 {
-        font-size: 1.1rem;
+        font-size: 1.1rem
     }
 
-    .btn-edit,
     .btn-delete,
+    .btn-edit,
     .btn-view {
         font-size: 12px;
-        padding: 10px 12px;
+        padding: 10px 12px
     }
 }
