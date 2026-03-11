@@ -90,7 +90,9 @@ class CreateEventController extends AdminController
         $eventLocation = (string) $this->request->post('event-location', '');
         $eventTheme = (string) $this->request->post('event-theme', '');
         $statusParticipatingArray = $this->request->post('status_participating', []);
-        $statusParticipating = is_array($statusParticipatingArray) ? implode(',', $statusParticipatingArray) : '';
+        $statusParticipating = is_array($statusParticipatingArray)
+            ? implode(',', array_map('trim', array_filter($statusParticipatingArray)))
+            : '';
         $description = (string) $this->request->post('description', '');
 
         // Group event fields

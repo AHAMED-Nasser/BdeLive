@@ -75,8 +75,7 @@ start_page("Administration | BDE Live", true, $user ?? null);
             <p class="filter-hint">Export PDF selon les filtres sélectionnés (statut, rôle, recherche).</p>
             <ul class="admin-nav-list">
                 <li>
-                    <a href="javascript:void(0);"
-                       onclick="submitExport()"
+                    <a href="#" id="export-pdf-btn" role="button"
                        class="admin-nav-link"
                        title="Exporter en PDF la liste filtrée (statut, rôle, recherche)">
                         <i class="fas fa-file-pdf"></i> Exporter la liste
@@ -158,15 +157,21 @@ start_page("Administration | BDE Live", true, $user ?? null);
 
     <iframe id="downloadFrame" style="display:none;"></iframe>
 
-    <script>
-        function submitExport() {
-            const form = document.getElementById('exportForm');
-            if (form) {
-                form.submit();
-            } else {
-                console.error("Le formulaire d'export est introuvable.");
+    <script nonce="<?= defined('CSP_NONCE') ? htmlspecialchars(CSP_NONCE, ENT_QUOTES, 'UTF-8') : '' ?>">
+        (function () {
+            function submitExport() {
+                const form = document.getElementById('exportForm');
+                if (form) {
+                    form.submit();
+                } else {
+                    console.error("Le formulaire d'export est introuvable.");
+                }
             }
-        }
+            document.getElementById('export-pdf-btn')?.addEventListener('click', function (e) {
+                e.preventDefault();
+                submitExport();
+            });
+        })();
     </script>
 
 

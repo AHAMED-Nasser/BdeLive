@@ -89,14 +89,14 @@ start_page("Invitation à rejoindre un groupe - BDELive", true, $user ?? null);
 
             <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
                 <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=confirm"
-                    style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: transform 0.2s;"
-                    onclick="return confirm('Confirmez-vous votre participation à ce groupe ?');">
+                    data-confirm="Confirmez-vous votre participation à ce groupe ?"
+                    style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: transform 0.2s;">
                     <i class="fas fa-check"></i> Accepter
                 </a>
 
                 <a href="index.php?page=validateTeamInvitation&token=<?= urlencode($token) ?>&action=decline"
-                    style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: transform 0.2s;"
-                    onclick="return confirm('Êtes-vous sûr de vouloir refuser ? Le groupe entier sera annulé.');">
+                    data-confirm="Êtes-vous sûr de vouloir refuser ? Le groupe entier sera annulé."
+                    style="display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: bold; transition: transform 0.2s;">
                     <i class="fas fa-times"></i> Refuser
                 </a>
             </div>

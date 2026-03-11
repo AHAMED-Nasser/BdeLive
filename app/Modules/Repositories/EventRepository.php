@@ -299,20 +299,21 @@ class EventRepository
                 ":event_theme, :status_participating, :description, :images, :is_group_event, :team_size)";
 
             $stmt = $this->pdo->prepare($query);
+            $statusParticipating = $event->getStatusParticipating();
 
-            return $stmt->execute([
-                ':event_name' => $event->getName(),
-                ':slug' => $slug,
-                ':event_date' => $event->getDate(),
-                ':event_time' => $event->getTime(),
-                ':event_location' => $event->getLocation(),
-                ':event_theme' => $event->getTheme(),
-                ':status_participating' => $event->getStatusParticipating(),
-                ':description' => $event->getDescription(),
-                ':images' => $event->getImages(),
-                ':is_group_event' => $event->isGroupEvent() ? 1 : 0,
-                ':team_size' => $event->getTeamSize()
-            ]);
+            $stmt->bindValue(':event_name', $event->getName(), PDO::PARAM_STR);
+            $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
+            $stmt->bindValue(':event_date', $event->getDate(), PDO::PARAM_STR);
+            $stmt->bindValue(':event_time', $event->getTime(), PDO::PARAM_STR);
+            $stmt->bindValue(':event_location', $event->getLocation(), PDO::PARAM_STR);
+            $stmt->bindValue(':event_theme', $event->getTheme(), PDO::PARAM_STR);
+            $stmt->bindValue(':status_participating', $statusParticipating, PDO::PARAM_STR);
+            $stmt->bindValue(':description', $event->getDescription(), PDO::PARAM_STR);
+            $stmt->bindValue(':images', $event->getImages(), PDO::PARAM_STR);
+            $stmt->bindValue(':is_group_event', $event->isGroupEvent() ? 1 : 0, PDO::PARAM_INT);
+            $stmt->bindValue(':team_size', $event->getTeamSize(), PDO::PARAM_INT);
+
+            return $stmt->execute();
         } catch (PDOException $e) {
             error_log('EventRepository::insert - ' . $e->getMessage());
             return false;

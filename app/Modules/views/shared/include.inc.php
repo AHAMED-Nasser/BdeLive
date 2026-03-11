@@ -43,8 +43,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
 
         <link rel="icon" href="./assets/img/logo.png">
 
-        <!-- Anti-FOUC: Script inline pour détection immédiate du mode sombre -->
-        <script>
+        <!-- Anti-FOUC: Inline script for immediate dark mode detection (CSP nonce required) -->
+        <script nonce="<?= defined('CSP_NONCE') ? htmlspecialchars(CSP_NONCE, ENT_QUOTES, 'UTF-8') : '' ?>">
             (function () {
                 const DARK_MODE_KEY = 'darkMode';
                 const DARK_MODE_CLASS = 'dark-mode';
@@ -83,14 +83,21 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <!-- Google Fonts: Roboto -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://unpkg.com/easymde/dist/easymde.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css"
+            integrity="sha384-uqD/OYCNfagd1EgXMgl5QedTD5K+B3e9b8GYo/41t7+Serf7CBxvl+tU1gHd+qd1"
+            crossorigin="anonymous">
 
         <!-- Dark Mode CSS - Doit être chargé en premier -->
         <link rel="stylesheet" href="./assets/css/themes/dark-mode.css">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+            integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g"
+            crossorigin="anonymous">
         <link rel="stylesheet" href="./assets/css/base/password-control.css">
         <link rel="stylesheet" href="./assets/css/base/markdown.css">
         <link rel="stylesheet" href="./assets/css/base/style.css">
@@ -124,7 +131,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <ul>
                             <li>
                                 <a href="index.php?page=home" class="nav-logo" aria-label="BDE Inform'Aix - Accueil">
-                                    <img src="./assets/img/logo.png" alt="Logo BDE Inform'Aix">
+                                    <img src="./assets/img/logo.png" alt="Logo BDE Inform'Aix" loading="lazy">
                                 </a>
                             </li>
                         </ul>
@@ -269,9 +276,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
                         <span class="bar"></span>
                     </label>
 
-                    <!-- Overlay to close the menu -->
-                    <button type="button" class="sidebar-overlay" aria-label="Fermer le menu"
-                        onclick="document.getElementById('menu-toggle').checked = false"></button>
+                    <!-- Overlay to close the menu (click handler in carousel-events.js for CSP) -->
+                    <button type="button" class="sidebar-overlay" aria-label="Fermer le menu"></button>
 
                     <!-- Menu Sidebar -->
                     <div class="sidebar-menu">
@@ -427,6 +433,8 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <script src="./assets/js/dark-mode.js"></script>
         <script src="./assets/js/auto-dismiss-alerts.js"></script>
         <script src="./assets/js/slider.js"></script>
+        <script src="./assets/js/carousel-events.js"></script>
+        <script src="./assets/js/confirm-link.js"></script>
         <script src="./assets/js/dropImageArea.js"></script>
         <script src="./assets/js/back-to-top.js"></script>
         <script src="./assets/js/delete-confirm.js"></script>
@@ -435,7 +443,9 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <script src="./assets/js/togglePassword.js"></script>
         <script src="./assets/js/passwordControl.js"></script>
         <script src="./assets/js/navbar-scroll.js"></script>
-        <script src="https://unpkg.com/easymde/dist/easymde.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"
+            integrity="sha384-KtB38COewxfrhJxoN2d+olxJAeT08LF8cVZ6DQ8Poqu89zIptqO6zAXoIxpGNWYE"
+            crossorigin="anonymous"></script>
         <script src="./assets/js/markdownEditor.js"></script>
 
         <!-- Script pour fermer le menu mobile au clic sur un lien -->

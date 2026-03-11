@@ -21,7 +21,7 @@ $app->session()->remove('old_user_status');
 start_page("Inscription - BDELive", true, $user ?? null);
 
 if ($recaptchaSiteKey !== '') {
-    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    echo '<script src="https://www.google.com/recaptcha/api.js" async defer crossorigin="anonymous"></script>';
 }
 ?>
 <div class="forgot-container">

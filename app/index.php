@@ -20,28 +20,32 @@ $isSecure = $isProduction
     || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
     || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
 session_set_cookie_params([
-    'lifetime' => 1800,                      // 30 minutes
+    'lifetime' => 0,
     'path' => '/',
-    'domain' => '',                          // Empty domain = automatic domain
-    'secure' => $isSecure,                   // HTTPS only (Secure flag)
-    'httponly' => true,                      // Inaccessible by JavaScript
-    'samesite' => 'Lax',                     // CSRF protection
+    'domain' => $isProduction ? 'bdelivesae.alwaysdata.net' : '',
+    'secure' => $isSecure,
+    'httponly' => true,
+    'samesite' => 'Lax',
 ]);
 // HTTP security headers
 header("X-Frame-Options: SAMEORIGIN");
-header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 header("X-Content-Type-Options: nosniff");
 header("X-XSS-Protection: 1; mode=block");
 header("Referrer-Policy: strict-origin-when-cross-origin");
-// Content Security Policy (CSP) - Protection against XSS
+header("Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()");
+// CSP nonce for inline scripts (must be defined before include.inc.php)
+$cspNonce = base64_encode(random_bytes(16));
+if (!defined('CSP_NONCE')) {
+    define('CSP_NONCE', $cspNonce);
+}
+// Content Security Policy (CSP) - Strict policy without unsafe-inline
 $cspDirectives = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
-    "https://cdn.jsdelivr.net https://www.googletagmanager.com " .
-    "https://www.google.com https://www.gstatic.com",
-    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com " .
-    "https://cdn.jsdelivr.net https://fonts.googleapis.com",
-    "img-src 'self' data: https: http:",
+    "script-src 'self' 'nonce-" . $cspNonce . "' https://cdnjs.cloudflare.com " .
+    "https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com",
+    "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com",
+    "img-src 'self' data: https://res.cloudinary.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com",
     "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
     "connect-src 'self' https://www.google.com",
     "frame-src 'self' https://www.google.com https://www.recaptcha.net",

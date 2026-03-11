@@ -20,7 +20,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId, $event): void
     <h2 class="event-title"><?= $carouselLabel ?></h2>
     <article class="carousel" id="<?= $carouselId ?>">
         <div class="carousel-block">
-            <button class="carousel-control prev" onclick="moveSlide(-1, '<?= $carouselId ?>')" aria-label="Précédent">
+            <button class="carousel-control prev" type="button" aria-label="Précédent">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -47,7 +47,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId, $event): void
 
 
 
-            <button class="carousel-control next" onclick="moveSlide(1, '<?= $carouselId ?>')" aria-label="Suivant">
+            <button class="carousel-control next" type="button" aria-label="Suivant">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -58,7 +58,7 @@ function useCarousel($carouselLabel, $imageMap, $carouselId, $event): void
         <div class="carousel-dots">
             <?php foreach ($imageMap as $index => $image) : ?>
                 <button class="dot <?= $index === 0 ? 'active' : '' ?>" type="button"
-                    onclick="currentSlide(<?= $index ?>, '<?= $carouselId ?>')" aria-label="Afficher l'image <?= $index + 1 ?>"
+                    aria-label="Afficher l'image <?= $index + 1 ?>"
                     aria-current="<?= $index === 0 ? 'true' : 'false' ?>"></button>
             <?php endforeach ?>
         </div>

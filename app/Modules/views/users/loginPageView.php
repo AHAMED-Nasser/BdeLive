@@ -14,7 +14,7 @@ start_page("Connexion - BDELive", true, $user ?? null);
 
 // Load reCAPTCHA script early in body so it is ready when the widget div is rendered
 if ($isSuspect && $recaptchaSiteKey !== '') {
-    echo '<script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    echo '<script src="https://www.google.com/recaptcha/api.js" async defer crossorigin="anonymous"></script>';
 }
 ?>
 

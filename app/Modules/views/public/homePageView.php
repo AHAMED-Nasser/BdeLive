@@ -102,8 +102,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
         <?php if (!empty($events)) : ?>
             <article class="carousel" id="carousel-future-event">
                 <div class="carousel-block">
-                    <button class="carousel-control prev" onclick="moveSlide(-1, 'carousel-future-event')"
-                        aria-label="Précédent">
+                    <button class="carousel-control prev" type="button" aria-label="Précédent">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" />
@@ -164,8 +163,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                         <?php endforeach; ?>
                     </div>
 
-                    <button class="carousel-control next" onclick="moveSlide(1, 'carousel-future-event')"
-                        aria-label="Suivant">
+                    <button class="carousel-control next" type="button" aria-label="Suivant">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" />
@@ -176,7 +174,6 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                 <div class="carousel-dots" role="group" aria-label="Indicateurs du carousel">
                     <?php foreach ($events as $index => $event) : ?>
                         <button class="dot <?= $index === 0 ? 'active' : '' ?>" type="button"
-                            onclick="currentSlide(<?= $index ?>, 'carousel-future-event')"
                             aria-label="Aller à l'événement <?= $index + 1 ?>"
                             aria-current="<?= $index === 0 ? 'true' : 'false' ?>"></button>
                     <?php endforeach; ?>
