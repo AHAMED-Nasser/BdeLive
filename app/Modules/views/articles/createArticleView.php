@@ -50,9 +50,6 @@ start_page("Créer un article", true, $user ?? null) ?>
                 rows="20"
                 required></textarea>
 
-            <label for="author">Auteur de l'article</label>
-            <input id="author" type="text" name="author" placeholder="Nom complet de l'auteur" required>
-
             <div class="insert-image">
                 <div class="form-label">Image de l'article (optionnel)</div>
                 <div id="drop-area">

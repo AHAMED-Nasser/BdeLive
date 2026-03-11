@@ -58,14 +58,9 @@ start_page("Modifier un article", true, $user ?? null) ?>
                 rows="20"
                 required><?= htmlspecialchars($article->getDescription()) ?></textarea>
 
-            <label for="author">Auteur de l'article</label>
-            <input
-                id="author"
-                type="text"
-                name="author"
-                placeholder="Nom complet de l'auteur"
-                value="<?= htmlspecialchars($article->getAuthor()) ?>"
-                required>
+            <p class="article-publisher-info" style="color: #666; font-size: 0.9em;">
+                Publié par <?= htmlspecialchars($article->getPublisherName()) ?>
+            </p>
 
             <div class="insert-image">
                 <?php if ($article->hasImage()) : ?>

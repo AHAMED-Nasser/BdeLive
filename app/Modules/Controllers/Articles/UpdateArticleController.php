@@ -116,10 +116,9 @@ class UpdateArticleController extends AdminController
         // Get form data using Request object (not superglobals)
         $title = (string) $this->request->post('article-title', '');
         $description = (string) $this->request->post('article-description', '');
-        $author = (string) $this->request->post('author', '');
 
-        // Validate required fields
-        if (empty($title) || empty($description) || empty($author)) {
+        // Validate required fields (author/admin_creator conservé tel quel, non modifiable)
+        if (empty($title) || empty($description)) {
             $this->setError('Tous les champs sont obligatoires.');
             $this->redirect('index.php?page=updateArticle&slug=' . urlencode($slug));
         }
@@ -155,10 +154,9 @@ class UpdateArticleController extends AdminController
             }
         }
 
-        // Update article entity with new values using setters
+        // Update article entity with new values (author/admin_creator inchangés)
         $article->setTitle($title);
         $article->setDescription($description);
-        $article->setAuthor($author);
 
         // Handle image URL update
         if ($deleteImage) {

@@ -70,7 +70,7 @@ start_page("Nos articles", true, $user ?? null);
                                 <?= htmlspecialchars($article->getTitle()) ?>
                             </h2>
                             <p class="article-meta">
-                                Par <?= htmlspecialchars($article->getAuthor()) ?>
+                                Publié par <?= htmlspecialchars($article->getPublisherName()) ?>
                                 le <?= htmlspecialchars($article->getFormattedDate()) ?>
                             </p>
                             <p class="article-description">

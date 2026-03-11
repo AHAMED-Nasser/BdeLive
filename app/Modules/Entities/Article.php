@@ -29,8 +29,10 @@ class Article
      * @param string $slug SEO-friendly URL slug
      * @param string $description Article content/description
      * @param string|null $imageUrl Cloudinary image URL (nullable)
-     * @param string $author Author full name
+     * @param string $author Author full name (legacy / fallback)
      * @param string $createdAt Creation timestamp
+     * @param int|null $adminCreatorId User ID of admin/superadmin who published (nullable for legacy)
+     * @param string $publisherName "Prénom Nom" of admin who published (for display "publié par X")
      */
     public function __construct(
         private ?int $id,
@@ -39,7 +41,9 @@ class Article
         private string $description,
         private ?string $imageUrl,
         private string $author,
-        private string $createdAt
+        private string $createdAt,
+        private ?int $adminCreatorId = null,
+        private string $publisherName = ''
     ) {
     }
 
@@ -83,6 +87,21 @@ class Article
     public function getCreatedAt(): string
     {
         return $this->createdAt;
+    }
+
+    /** @return int|null */
+    public function getAdminCreatorId(): ?int
+    {
+        return $this->adminCreatorId;
+    }
+
+    /**
+     * Get display name for "publié par X" (admin who published)
+     * Falls back to author if no publisher name (legacy articles)
+     */
+    public function getPublisherName(): string
+    {
+        return $this->publisherName !== '' ? $this->publisherName : $this->author;
     }
 
     /** @param string $title */

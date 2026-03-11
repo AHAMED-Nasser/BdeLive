@@ -47,6 +47,13 @@ class ArticleFactory
      */
     public static function createFromDatabase(array $data): Article
     {
+        $adminCreatorId = isset($data['admin_creator']) && $data['admin_creator'] !== null
+            ? (int) $data['admin_creator'] : null;
+        $publisherName = '';
+        if ($adminCreatorId !== null && isset($data['admin_first_name']) && isset($data['admin_last_name'])) {
+            $publisherName = trim((string) $data['admin_first_name'] . ' ' . (string) $data['admin_last_name']);
+        }
+
         return new Article(
             id: isset($data['id']) ? (int) $data['id'] : null,
             title: (string) ($data['title'] ?? ''),
@@ -54,7 +61,9 @@ class ArticleFactory
             description: (string) ($data['description'] ?? ''),
             imageUrl: !empty($data['image_url']) ? (string) $data['image_url'] : null,
             author: (string) ($data['author'] ?? ''),
-            createdAt: (string) ($data['created_at'] ?? date('Y-m-d H:i:s'))
+            createdAt: (string) ($data['created_at'] ?? date('Y-m-d H:i:s')),
+            adminCreatorId: $adminCreatorId,
+            publisherName: $publisherName
         );
     }
 
@@ -90,12 +99,16 @@ class ArticleFactory
      */
     public static function toDatabase(Article $article): array
     {
-        return [
+        $data = [
             'title' => $article->getTitle(),
             'slug' => $article->getSlug(),
             'description' => $article->getDescription(),
             'image_url' => $article->getImageUrl(),
             'author' => $article->getAuthor()
         ];
+        if ($article->getAdminCreatorId() !== null) {
+            $data['admin_creator'] = $article->getAdminCreatorId();
+        }
+        return $data;
     }
 }

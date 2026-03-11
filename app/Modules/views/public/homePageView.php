@@ -216,7 +216,7 @@ if (isset($user) && !empty($user['delete_session_after_home'])) {
                                 <?= htmlspecialchars($article->getTitle()) ?>
                             </h3>
                             <p class="article-meta-home">
-                                Par <?= htmlspecialchars($article->getAuthor()) ?>
+                                Publié par <?= htmlspecialchars($article->getPublisherName()) ?>
                                 le <?= htmlspecialchars($article->getFormattedDate()) ?>
                             </p>
                             <p class="article-description-home">

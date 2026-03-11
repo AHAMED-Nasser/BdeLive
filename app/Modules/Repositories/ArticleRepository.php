@@ -57,7 +57,10 @@ class ArticleRepository
     public function findById(int $id): ?Article
     {
         try {
-            $query = "SELECT * FROM ARTICLES WHERE id = :id";
+            $query = "SELECT a.*, u.first_name AS admin_first_name, u.last_name AS admin_last_name
+                      FROM ARTICLES a
+                      LEFT JOIN USERS u ON a.admin_creator = u.user_id
+                      WHERE a.id = :id";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([':id' => $id]);
 
@@ -79,7 +82,10 @@ class ArticleRepository
     public function findBySlug(string $slug): ?Article
     {
         try {
-            $query = "SELECT * FROM ARTICLES WHERE slug = :slug";
+            $query = "SELECT a.*, u.first_name AS admin_first_name, u.last_name AS admin_last_name
+                      FROM ARTICLES a
+                      LEFT JOIN USERS u ON a.admin_creator = u.user_id
+                      WHERE a.slug = :slug";
             $stmt = $this->pdo->prepare($query);
             $stmt->execute([':slug' => $slug]);
 
@@ -102,10 +108,12 @@ class ArticleRepository
     public function findPaginated(int $offset, int $limit): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url,
-                      author, created_at
-                      FROM ARTICLES
-                      ORDER BY created_at DESC
+            $query = "SELECT a.id, a.title, a.slug, a.description, a.image_url,
+                      a.author, a.created_at, a.admin_creator,
+                      u.first_name AS admin_first_name, u.last_name AS admin_last_name
+                      FROM ARTICLES a
+                      LEFT JOIN USERS u ON a.admin_creator = u.user_id
+                      ORDER BY a.created_at DESC
                       LIMIT :limit OFFSET :offset";
 
             $stmt = $this->pdo->prepare($query);
@@ -131,9 +139,11 @@ class ArticleRepository
     public function findLatestArticles(int $limit): array
     {
         try {
-            $query = "SELECT id, title, slug, description, image_url, author, created_at
-                      FROM ARTICLES
-                      ORDER BY created_at DESC
+            $query = "SELECT a.id, a.title, a.slug, a.description, a.image_url, a.author, a.created_at,
+                      a.admin_creator, u.first_name AS admin_first_name, u.last_name AS admin_last_name
+                      FROM ARTICLES a
+                      LEFT JOIN USERS u ON a.admin_creator = u.user_id
+                      ORDER BY a.created_at DESC
                       LIMIT :limit";
 
             $stmt = $this->pdo->prepare($query);
@@ -228,18 +238,32 @@ class ArticleRepository
             // Generate unique slug from article title
             $slug = $this->generateUniqueSlug($article->getTitle());
 
-            $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author)
-                      VALUES (:title, :slug, :description, :image_url, :author)";
+            $adminCreator = $article->getAdminCreatorId();
+            if ($adminCreator !== null) {
+                $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author, admin_creator)
+                          VALUES (:title, :slug, :description, :image_url, :author, :admin_creator)";
+                $params = [
+                    ':title' => $article->getTitle(),
+                    ':slug' => $slug,
+                    ':description' => $article->getDescription(),
+                    ':image_url' => $article->getImageUrl(),
+                    ':author' => $article->getAuthor(),
+                    ':admin_creator' => $adminCreator
+                ];
+            } else {
+                $query = "INSERT INTO ARTICLES (title, slug, description, image_url, author)
+                          VALUES (:title, :slug, :description, :image_url, :author)";
+                $params = [
+                    ':title' => $article->getTitle(),
+                    ':slug' => $slug,
+                    ':description' => $article->getDescription(),
+                    ':image_url' => $article->getImageUrl(),
+                    ':author' => $article->getAuthor()
+                ];
+            }
 
             $stmt = $this->pdo->prepare($query);
-
-            return $stmt->execute([
-                ':title' => $article->getTitle(),
-                ':slug' => $slug,
-                ':description' => $article->getDescription(),
-                ':image_url' => $article->getImageUrl(),
-                ':author' => $article->getAuthor()
-            ]);
+            return $stmt->execute($params);
         } catch (PDOException $e) {
             error_log('ArticleRepository::insert - ' . $e->getMessage());
             return false;

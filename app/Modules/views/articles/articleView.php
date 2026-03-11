@@ -35,7 +35,7 @@ $articleDescriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($article->
                 </h1>
 
                 <p class="article-full-meta">
-                    Par <?= htmlspecialchars($article->getAuthor()) ?>
+                    Publié par <?= htmlspecialchars($article->getPublisherName()) ?>
                     le <?= htmlspecialchars($article->getFormattedDate()) ?>
                 </p>
 

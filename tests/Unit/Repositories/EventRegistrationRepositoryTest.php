@@ -272,4 +272,312 @@ class EventRegistrationRepositoryTest extends TestCase
         $this->assertTrue($stillInPast);
         $this->assertFalse($noLongerInFuture);
     }
+
+    // --- Tests for manual modification of registrants (individual) ---
+
+    public function testRegisterUsersReturnsCountWhenSuccessful(): void
+    {
+        $eventId = 10;
+        $userIds = [101, 102, 103];
+
+        $mockStmt = $this->createMock(PDOStatement::class);
+        $mockStmt->expects($this->exactly(3))
+            ->method('execute')
+            ->willReturn(true);
+        $mockStmt->expects($this->exactly(3))
+            ->method('rowCount')
+            ->willReturnOnConsecutiveCalls(1, 1, 0); // 3e déjà inscrit (INSERT IGNORE)
+
+        $this->mockPdo->expects($this->exactly(3))
+            ->method('prepare')
+            ->with($this->stringContains('INSERT IGNORE INTO EVENT_REGISTRATIONS'))
+            ->willReturn($mockStmt);
+
+        $result = $this->repository->registerUsers($eventId, $userIds);
+
+        $this->assertEquals(2, $result);
+    }
+
+    public function testRegisterUsersReturnsZeroWhenEmpty(): void
+    {
+        $eventId = 10;
+        $userIds = [];
+
+        $result = $this->repository->registerUsers($eventId, $userIds);
+
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRegisterUsersReturnsZeroOnPdoException(): void
+    {
+        $eventId = 10;
+        $userIds = [101];
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('DB error'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->registerUsers($eventId, $userIds);
+
+        $this->assertEquals(0, $result);
+    }
+
+    public function testUnregisterUsersReturnsCountWhenSuccessful(): void
+    {
+        $eventId = 20;
+        $userIds = [201, 202, 203];
+        $deletedCount = 3;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) use ($eventId, $userIds) {
+                return $params[0] === $eventId && count($params) === 4;
+            }))
+            ->willReturn(true);
+        $this->mockStmt->expects($this->once())
+            ->method('rowCount')
+            ->willReturn($deletedCount);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('DELETE FROM EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->unregisterUsers($eventId, $userIds);
+
+        $this->assertEquals($deletedCount, $result);
+    }
+
+    public function testUnregisterUsersReturnsZeroWhenEmpty(): void
+    {
+        $eventId = 20;
+        $userIds = [];
+
+        $result = $this->repository->unregisterUsers($eventId, $userIds);
+
+        $this->assertEquals(0, $result);
+    }
+
+    public function testUnregisterUsersReturnsZeroOnPdoException(): void
+    {
+        $eventId = 20;
+        $userIds = [201];
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('Delete failed'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->unregisterUsers($eventId, $userIds);
+
+        $this->assertEquals(0, $result);
+    }
+
+    // --- Tests for manual modification of registrants (group) ---
+
+    public function testAddUserToGroupReturnsTrue(): void
+    {
+        $eventId = 30;
+        $userId = 301;
+        $teamId = 5;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) use ($eventId, $userId, $teamId) {
+                return $params[':event_id'] === $eventId
+                    && $params[':user_id'] === $userId
+                    && $params[':team_id'] === $teamId
+                    && $params[':status'] === 'Confirmé';
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('INSERT IGNORE INTO EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->addUserToGroup($eventId, $userId, $teamId);
+
+        $this->assertTrue($result);
+    }
+
+    public function testAddUserToGroupReturnsFalseOnPdoException(): void
+    {
+        $eventId = 30;
+        $userId = 301;
+        $teamId = 5;
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('Insert failed'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->addUserToGroup($eventId, $userId, $teamId);
+
+        $this->assertFalse($result);
+    }
+
+    public function testRemoveUserFromGroupReturnsTrue(): void
+    {
+        $eventId = 40;
+        $userId = 401;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':event_id' => $eventId, ':user_id' => $userId])
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('DELETE FROM EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->removeUserFromGroup($eventId, $userId);
+
+        $this->assertTrue($result);
+    }
+
+    public function testRemoveUserFromGroupReturnsFalseOnPdoException(): void
+    {
+        $eventId = 40;
+        $userId = 401;
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('Delete failed'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->removeUserFromGroup($eventId, $userId);
+
+        $this->assertFalse($result);
+    }
+
+    public function testChangeUserTeamReturnsTrue(): void
+    {
+        $eventId = 50;
+        $userId = 501;
+        $newTeamId = 7;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with($this->callback(function ($params) use ($eventId, $userId, $newTeamId) {
+                return $params[':event_id'] === $eventId
+                    && $params[':user_id'] === $userId
+                    && $params[':team_id'] === $newTeamId;
+            }))
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('UPDATE EVENT_REGISTRATIONS SET team_id'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->changeUserTeam($eventId, $userId, $newTeamId);
+
+        $this->assertTrue($result);
+    }
+
+    public function testChangeUserTeamReturnsFalseOnPdoException(): void
+    {
+        $eventId = 50;
+        $userId = 501;
+        $newTeamId = 7;
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('Update failed'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->changeUserTeam($eventId, $userId, $newTeamId);
+
+        $this->assertFalse($result);
+    }
+
+    public function testDeleteGroupRegistrantsReturnsCount(): void
+    {
+        $eventId = 60;
+        $teamId = 8;
+        $deletedCount = 4;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([':event_id' => $eventId, ':team_id' => $teamId])
+            ->willReturn(true);
+        $this->mockStmt->expects($this->once())
+            ->method('rowCount')
+            ->willReturn($deletedCount);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('DELETE FROM EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->deleteGroupRegistrants($eventId, $teamId);
+
+        $this->assertEquals($deletedCount, $result);
+    }
+
+    public function testDeleteGroupRegistrantsReturnsZeroOnPdoException(): void
+    {
+        $eventId = 60;
+        $teamId = 8;
+
+        $this->mockStmt->method('execute')->willThrowException(new \PDOException('Delete failed'));
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->deleteGroupRegistrants($eventId, $teamId);
+
+        $this->assertEquals(0, $result);
+    }
+
+    public function testRegisterUserWithTeamReturnsTrue(): void
+    {
+        $eventId = 70;
+        $userId = 701;
+        $teamId = 9;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([$eventId, $userId, 'Confirmé', $teamId])
+            ->willReturn(true);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('INSERT INTO EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->registerUserWithTeam($eventId, $userId, $teamId);
+
+        $this->assertTrue($result);
+    }
+
+    public function testGetTeamIdByUserAndEventReturnsTeamId(): void
+    {
+        $userId = 801;
+        $eventId = 80;
+        $teamId = 10;
+
+        $this->mockStmt->expects($this->once())
+            ->method('execute')
+            ->with([$userId, $eventId])
+            ->willReturn(true);
+        $this->mockStmt->expects($this->once())
+            ->method('fetchColumn')
+            ->willReturn((string) $teamId);
+
+        $this->mockPdo->expects($this->once())
+            ->method('prepare')
+            ->with($this->stringContains('SELECT team_id FROM EVENT_REGISTRATIONS'))
+            ->willReturn($this->mockStmt);
+
+        $result = $this->repository->getTeamIdByUserAndEvent($userId, $eventId);
+
+        $this->assertEquals($teamId, $result);
+    }
+
+    public function testGetTeamIdByUserAndEventReturnsNullWhenNotInTeam(): void
+    {
+        $userId = 801;
+        $eventId = 80;
+
+        $this->mockStmt->method('execute')->willReturn(true);
+        $this->mockStmt->method('fetchColumn')->willReturn(false);
+
+        $this->mockPdo->method('prepare')->willReturn($this->mockStmt);
+
+        $result = $this->repository->getTeamIdByUserAndEvent($userId, $eventId);
+
+        $this->assertNull($result);
+    }
 }
