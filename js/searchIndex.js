@@ -323,7 +323,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Core\\Container\u003A\u003Aset\u0028\u0029",
             "name": "set",
-            "summary": "",
+            "summary": "Register\u0020a\u0020binding\u0020in\u0020the\u0020container",
             "url": "classes/App-Core-Container.html#method_set"
         },                {
             "fqsen": "\\App\\Core\\Container\u003A\u003Ahas\u0028\u0029",
@@ -688,7 +688,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003AgetParser\u0028\u0029",
             "name": "getParser",
-            "summary": "",
+            "summary": "Get\u0020or\u0020create\u0020the\u0020Parsedown\u0020instance\u0020\u0028singleton\u0029",
             "url": "classes/App-Core-Markdown-MarkdownRenderer.html#method_getParser"
         },                {
             "fqsen": "\\App\\Core\\Markdown\\MarkdownRenderer\u003A\u003A\u0024parsedown",
@@ -988,7 +988,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Articles\\ArticlesController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020controller\u0020with\u0020core\u0020services\u0020from\u0020Application\u0020singleton",
             "url": "classes/App-Modules-Controllers-Articles-ArticlesController.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Articles\\ArticlesController\u003A\u003AdisplaySingleArticle\u0028\u0029",
@@ -1093,7 +1093,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\BaseController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020controller\u0020with\u0020core\u0020services\u0020from\u0020Application\u0020singleton",
             "url": "classes/App-Modules-Controllers-BaseController.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\BaseController\u003A\u003Arender\u0028\u0029",
@@ -1463,7 +1463,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Events\\ShowEventController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020controller\u0020with\u0020core\u0020services\u0020from\u0020Application\u0020singleton",
             "url": "classes/App-Modules-Controllers-Events-ShowEventController.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Events\\ShowEventController\u003A\u003A\u0024eventRepository",
@@ -1693,7 +1693,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Public\\SitemapController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020controller\u0020with\u0020core\u0020services\u0020from\u0020Application\u0020singleton",
             "url": "classes/App-Modules-Controllers-Public-SitemapController.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Public\\TeamController",
@@ -1703,7 +1703,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Public\\TeamController\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020controller\u0020with\u0020core\u0020services\u0020from\u0020Application\u0020singleton",
             "url": "classes/App-Modules-Controllers-Public-TeamController.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Controllers\\Pwd\\ForgotPasswordController",
@@ -2668,7 +2668,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\LoginAttemptManager\u003A\u003A__construct\u0028\u0029",
             "name": "__construct",
-            "summary": "",
+            "summary": "Initialize\u0020with\u0020database\u0020connection\u0020from\u0020Database\u0020singleton",
             "url": "classes/App-Modules-Models-Users-LoginAttemptManager.html#method___construct"
         },                {
             "fqsen": "\\App\\Modules\\Models\\Users\\LoginAttemptManager\u003A\u003AcountRecentAttempts\u0028\u0029",

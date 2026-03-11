@@ -298,6 +298,7 @@ automatically when their constructor type-hints interfaces already bound.</p>
     <span>
                                 &nbsp;: self    </span>
 </dt>
+<dd>Register a binding in the container</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -private">
     <a class="" href="classes/App-Core-Container.html#method_resolveClass">resolveClass()</a>
@@ -417,7 +418,7 @@ automatically when their constructor type-hints interfaces already bound.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Container.php"><a href="files/app-core-container.html"><abbr title="app/Core/Container.php">Container.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">54</span>
+    <span class="phpdocumentor-element-found-in__line">61</span>
 
     </aside>
 
@@ -483,7 +484,7 @@ automatically when their constructor type-hints interfaces already bound.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Container.php"><a href="files/app-core-container.html"><abbr title="app/Core/Container.php">Container.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">41</span>
+    <span class="phpdocumentor-element-found-in__line">48</span>
 
     </aside>
 
@@ -532,11 +533,12 @@ automatically when their constructor type-hints interfaces already bound.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Container.php"><a href="files/app-core-container.html"><abbr title="app/Core/Container.php">Container.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">32</span>
+    <span class="phpdocumentor-element-found-in__line">39</span>
 
     </aside>
 
-    
+        <p class="phpdocumentor-summary">Register a binding in the container</p>
+
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
                     <span class="phpdocumentor-signature__name">set</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__type">callable&nbsp;</span><span class="phpdocumentor-signature__argument__name">$builder</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">self</span></code>
@@ -552,14 +554,18 @@ automatically when their constructor type-hints interfaces already bound.</p>
                 : <span class="phpdocumentor-argument-list__argument__type">string</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Service identifier (class or interface name)</p>
+</section>
+
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-argument-list__argument__name">$builder</span>
                 : <span class="phpdocumentor-argument-list__argument__type">callable</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                
+                    <section class="phpdocumentor-description"><p>Factory callable that receives the container and returns the instance</p>
+</section>
+
             </dd>
             </dl>
 
@@ -570,6 +576,10 @@ automatically when their constructor type-hints interfaces already bound.</p>
             <section>
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
         <span class="phpdocumentor-signature__response_type">self</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>For method chaining</p>
+</section>
+
             </section>
 
 </article>
@@ -587,7 +597,7 @@ automatically when their constructor type-hints interfaces already bound.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Core/Container.php"><a href="files/app-core-container.html"><abbr title="app/Core/Container.php">Container.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">78</span>
+    <span class="phpdocumentor-element-found-in__line">85</span>
 
     </aside>
 
