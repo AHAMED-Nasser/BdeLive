@@ -16,12 +16,14 @@ use App\Core\Exception\CsrfException;
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
 // Proxy-aware: detect HTTPS from direct connection or X-Forwarded-Proto header
+$forwardedProto = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
 $isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+    || strtolower($forwardedProto) === 'https';
+// Use empty domain so cookie matches current host (fixes session loss when domain varies)
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
-    'domain' => $isProduction ? 'bdelivesae.alwaysdata.net' : '',
+    'domain' => '',
     'secure' => $isSecure,
     'httponly' => true,
     'samesite' => 'Lax',
