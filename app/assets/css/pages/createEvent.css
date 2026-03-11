@@ -361,14 +361,23 @@
         font-size: 16px
     }
 
-    .checkbox-container {
-        flex-direction: column;
-        align-items: flex-start;
+    /* Type d'inscription: keep Seule/Groupes side by side on mobile */
+    .checkbox-container:has(.input-container) {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: flex-start
+    }
+
+    /* Qui peut venir: 2-column grid for compact layout (fieldset on create, div on update) */
+    .checkbox-container:has(article) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 12px
     }
 
     .checkbox-container article {
-        width: 100%;
+        width: auto;
         justify-content: flex-start
     }
 }
@@ -391,7 +400,16 @@
         padding: 8px
     }
 
-    .checkbox-container {
+    /* Keep horizontal layout on small screens */
+    .checkbox-container:has(.input-container),
+    .checkbox-container:has(article) {
         gap: 10px
+    }
+
+    /* Single column for "Qui peut venir" only on very narrow screens */
+    @media (max-width:360px) {
+        .checkbox-container:has(article) {
+            grid-template-columns: 1fr
+        }
     }
 }
