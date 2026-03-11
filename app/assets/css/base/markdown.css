@@ -52,6 +52,16 @@
     padding: 0
 }
 
+.article-full-description img,
+.event-description-content img,
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.75em 0;
+    border-radius: 4px;
+}
+
 .article-full-description p,
 .event-description-content p,
 .markdown-content p {

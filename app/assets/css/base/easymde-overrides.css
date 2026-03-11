@@ -104,3 +104,13 @@
     color: #e2e8f0 !important;
     border-color: #334155 !important;
 }
+
+/* Images in Markdown preview - ensure they display */
+.editor-preview img,
+.editor-preview-side img,
+.editor-preview-active img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0.5em 0;
+}

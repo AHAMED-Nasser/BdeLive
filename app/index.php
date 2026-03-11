@@ -46,7 +46,7 @@ $cspDirectives = [
     "script-src 'self' 'nonce-" . $cspNonce . "' https://cdnjs.cloudflare.com " .
     "https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com",
     "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com",
-    "img-src 'self' data: https://res.cloudinary.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com",
+    "img-src 'self' data: https: https://res.cloudinary.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com",
     "font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com",
     "connect-src 'self' https://www.google.com",
     "frame-src 'self' https://www.google.com https://www.recaptcha.net",
