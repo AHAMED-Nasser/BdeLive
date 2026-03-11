@@ -101,8 +101,15 @@ class CreateEventController extends AdminController
         $teamSize = $isGroupEvent ? (int) $this->request->post('team_size', 2) : 1;
 
         $storeOldInput = function () use (
-            $eventName, $eventDate, $eventTime, $eventLocation, $eventTheme,
-            $statusParticipatingArray, $description, $eventType, $teamSize
+            $eventName,
+            $eventDate,
+            $eventTime,
+            $eventLocation,
+            $eventTheme,
+            $statusParticipatingArray,
+            $description,
+            $eventType,
+            $teamSize
         ): void {
             $this->session->set('old_event_name', $eventName);
             $this->session->set('old_event_date', $eventDate);
