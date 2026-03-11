@@ -2031,6 +2031,16 @@ Search.appendIndex(
             "summary": "",
             "url": "classes/App-Modules-Entities-Article.html#method_getCreatedAt"
         },                {
+            "fqsen": "\\App\\Modules\\Entities\\Article\u003A\u003AgetAdminCreatorId\u0028\u0029",
+            "name": "getAdminCreatorId",
+            "summary": "",
+            "url": "classes/App-Modules-Entities-Article.html#method_getAdminCreatorId"
+        },                {
+            "fqsen": "\\App\\Modules\\Entities\\Article\u003A\u003AgetPublisherName\u0028\u0029",
+            "name": "getPublisherName",
+            "summary": "Get\u0020display\u0020name\u0020for\u0020\u0022publi\u00E9\u0020par\u0020X\u0022\u0020\u0028admin\u0020who\u0020published\u0029\nFalls\u0020back\u0020to\u0020author\u0020if\u0020no\u0020publisher\u0020name\u0020\u0028legacy\u0020articles\u0029",
+            "url": "classes/App-Modules-Entities-Article.html#method_getPublisherName"
+        },                {
             "fqsen": "\\App\\Modules\\Entities\\Article\u003A\u003AsetTitle\u0028\u0029",
             "name": "setTitle",
             "summary": "",
@@ -2115,6 +2125,16 @@ Search.appendIndex(
             "name": "createdAt",
             "summary": "",
             "url": "classes/App-Modules-Entities-Article.html#property_createdAt"
+        },                {
+            "fqsen": "\\App\\Modules\\Entities\\Article\u003A\u003A\u0024adminCreatorId",
+            "name": "adminCreatorId",
+            "summary": "",
+            "url": "classes/App-Modules-Entities-Article.html#property_adminCreatorId"
+        },                {
+            "fqsen": "\\App\\Modules\\Entities\\Article\u003A\u003A\u0024publisherName",
+            "name": "publisherName",
+            "summary": "",
+            "url": "classes/App-Modules-Entities-Article.html#property_publisherName"
         },                {
             "fqsen": "\\App\\Modules\\Entities\\Event",
             "name": "Event",
