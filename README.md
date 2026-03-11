@@ -138,6 +138,7 @@ flowchart TD
 | Diagramme de classes | [PUML](docs/classes/diagramme-classes.puml) · [SVG](docs/classes/diagramme-classes.svg) |
 | Schéma relationnel BDD | [PNG](docs/database/schema-relationnel.png) |
 | **Documentation API (PHPDoc)** | [Index HTML](docs/api/index.html) — générée par phpDocumentor |
+| **Audit de sécurité OWASP ZAP** | [Rapport HTML](docs/security/2026-03-11-ZAP-Report-.html) — scan ZAP by Checkmarx |
 
 **Générer la documentation API :** `composer run doc`
 

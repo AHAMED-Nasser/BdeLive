@@ -11,6 +11,7 @@ Structure de la documentation technique du projet.
 | [**usecases/**](usecases/) | Diagrammes de cas d'utilisation par acteur (RBAC) |
 | [**classes/**](classes/) | Diagramme de classes UML exhaustif |
 | [**database/**](database/) | Schéma relationnel de la base de données |
+| [**security/**](security/) | Rapports d'audit de sécurité OWASP ZAP |
 
 ## Fichiers
 
@@ -37,3 +38,7 @@ Structure de la documentation technique du projet.
 ### Base de données
 
 - [Schéma relationnel](database/schema-relationnel.png) — Modèle relationnel des tables MySQL
+
+### Sécurité
+
+- [Rapport OWASP ZAP (mars 2026)](security/2026-03-11-ZAP-Report-.html) — Audit de sécurité réalisé avec ZAP by Checkmarx
