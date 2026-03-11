@@ -936,6 +936,11 @@ Search.appendIndex(
             "summary": "Generate\u0020a\u0020CSRF\u0020token\u0020hidden\u0020input\u0020field",
             "url": "namespaces/default.html#function_csrfField"
         },                {
+            "fqsen": "\\CSP_NONCE",
+            "name": "CSP_NONCE",
+            "summary": "",
+            "url": "namespaces/default.html#constant_CSP_NONCE"
+        },                {
             "fqsen": "\\FROM_EMAIL",
             "name": "FROM_EMAIL",
             "summary": "",
