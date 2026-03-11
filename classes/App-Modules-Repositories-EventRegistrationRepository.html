@@ -364,6 +364,13 @@ Handles user registration and unregistration for events.</p>
 <dd>Get team ID for a user in a specific event</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamMemberCount">getTeamMemberCount()</a>
+    <span>
+                                &nbsp;: int    </span>
+</dt>
+<dd>Get the number of members in a team</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a class="" href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_isUserRegistered">isUserRegistered()</a>
     <span>
                                 &nbsp;: bool    </span>
@@ -536,7 +543,7 @@ Handles user registration and unregistration for events.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">552</span>
+    <span class="phpdocumentor-element-found-in__line">572</span>
 
     </aside>
 
@@ -687,7 +694,7 @@ to skip if user is already registered.</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">581</span>
+    <span class="phpdocumentor-element-found-in__line">601</span>
 
     </aside>
 
@@ -1256,6 +1263,61 @@ team registrations grouped by team number.</p>
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_getTeamMemberCount">
+        getTeamMemberCount()
+        <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamMemberCount" class="headerlink"><i class="fas fa-link"></i></a>
+
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">547</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Get the number of members in a team</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">getTeamMemberCount</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$teamId</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">int</span></code>
+
+    <div class="phpdocumentor-label-line">
+        </div>
+    
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-argument-list__argument__name">$teamId</span>
+                : <span class="phpdocumentor-argument-list__argument__type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The team identifier</p>
+</section>
+
+            </dd>
+            </dl>
+
+    
+
+        
+    
+            <section>
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+        <span class="phpdocumentor-signature__response_type">int</span>
+                    &mdash;
+                <section class="phpdocumentor-description"><p>Number of members in the team</p>
+</section>
+
+            </section>
+
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_isUserRegistered">
         isUserRegistered()
         <a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_isUserRegistered" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1753,7 +1815,7 @@ with native prepared statements (EMULATE_PREPARES = false).</p>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="app/Modules/Repositories/EventRegistrationRepository.php"><a href="files/app-modules-repositories-eventregistrationrepository.html"><abbr title="app/Modules/Repositories/EventRegistrationRepository.php">EventRegistrationRepository.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">605</span>
+    <span class="phpdocumentor-element-found-in__line">625</span>
 
     </aside>
 
@@ -2000,6 +2062,7 @@ Uses parameterized IN clause for safe batch deletion.</p>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegisteredUsersWithTeams">getRegisteredUsersWithTeams()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getRegistrationsByEventId">getRegistrationsByEventId()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamIdByUserAndEvent">getTeamIdByUserAndEvent()</a></li>
+                                            <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamMemberCount">getTeamMemberCount()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_isUserRegistered">isUserRegistered()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUser">registerUser()</a></li>
                                             <li class=""><a href="classes/App-Modules-Repositories-EventRegistrationRepository.html#method_registerUsers">registerUsers()</a></li>

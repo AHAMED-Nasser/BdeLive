@@ -3226,6 +3226,11 @@ Search.appendIndex(
             "summary": "Move\u0020a\u0020user\u0020to\u0020a\u0020different\u0020team\u0020within\u0020the\u0020same\u0020event",
             "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_changeUserTeam"
         },                {
+            "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AgetTeamMemberCount\u0028\u0029",
+            "name": "getTeamMemberCount",
+            "summary": "Get\u0020the\u0020number\u0020of\u0020members\u0020in\u0020a\u0020team",
+            "url": "classes/App-Modules-Repositories-EventRegistrationRepository.html#method_getTeamMemberCount"
+        },                {
             "fqsen": "\\App\\Modules\\Repositories\\EventRegistrationRepository\u003A\u003AaddUserToGroup\u0028\u0029",
             "name": "addUserToGroup",
             "summary": "Add\u0020a\u0020user\u0020to\u0020a\u0020group\u0020event\u0020with\u0020team\u0020assignment",
