@@ -22,10 +22,6 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             <strong>Ahamed Nasser, Boudhib Mohamed-Amine, Cantor Romain, Chetioui Willem, Helali Amin, Palot
                 Thomas</strong>
         </p>
-        <p>
-            Pour toute question concernant le site, vous pouvez nous contacter via le formulaire de contact disponible
-            sur le site.
-        </p>
     </section>
 
     <section>
@@ -100,8 +96,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
 
         <p>
             <strong>Vos droits :</strong> Vous disposez d'un droit d'accès, de rectification, de suppression et de
-            portabilité de vos données. Pour l'exercer, vous pouvez contacter l'équipe de développement via le
-            formulaire de contact.
+            portabilité de vos données. Pour l'exercer, adressez-vous aux éditeurs du site (voir section Éditeur).
         </p>
 
         <p>
@@ -113,7 +108,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             <li><strong>Immédiatement :</strong> Votre compte est suspendu et vous êtes désinscrit automatiquement de
                 tous les événements à venir.</li>
             <li><strong>Pendant 30 jours (Délai de grâce) :</strong> Vos données sont conservées en "corbeille". Vous
-                pouvez contacter le support pour annuler la suppression.</li>
+                pouvez vous reconnecter à votre compte pour annuler la suppression.</li>
             <li><strong>Après 30 jours :</strong> Vos données personnelles (nom, prénom, e-mail, mot de passe) sont
                 <strong>définitivement et irréversiblement anonymisées</strong>. Votre profil devient un utilisateur
                 générique. Ce procédé nous permet de respecter votre droit à l'oubli tout en préservant l'exactitude
@@ -141,8 +136,7 @@ start_page("Mentions Légales - BDELive", true, $user ?? null);
             données vous concernant.
         </p>
         <p>
-            Pour exercer ce droit, vous pouvez vous adresser aux éditeurs du site via les moyens de contact mis à votre
-            disposition sur le site.
+            Pour exercer ce droit, vous pouvez vous adresser aux éditeurs du site (voir section Éditeur).
         </p>
     </section>
 
