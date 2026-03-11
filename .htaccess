@@ -1,7 +1,8 @@
 RewriteEngine On
 
-# Force HTTPS (security + SEO)
+# Force HTTPS (proxy-aware: skip redirect when X-Forwarded-Proto is https)
 RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Remove X-Powered-By header (OWASP: Information Disclosure)

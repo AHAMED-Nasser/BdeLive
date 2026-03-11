@@ -15,10 +15,9 @@ use App\Core\Exception\CsrfException;
 // Must be called BEFORE session_start() to take effect
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
-$isSecure = $isProduction
-    || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-    || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
+// Proxy-aware: detect HTTPS from direct connection or X-Forwarded-Proto header
+$isSecure = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
