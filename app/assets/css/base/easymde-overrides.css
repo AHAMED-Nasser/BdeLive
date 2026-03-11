@@ -1,0 +1,71 @@
+/**
+ * EasyMDE toolbar overrides - prevents theme styles from breaking the editor.
+ * Form buttons (gradient-profile) were incorrectly applied to toolbar buttons.
+ * Font Awesome 6 compatibility for toolbar icons (fa fa-* -> fas).
+ */
+.editor-toolbar .fa,
+.editor-toolbar button .fa {
+    font-family: "Font Awesome 6 Free" !important;
+    font-weight: 900 !important;
+}
+
+.editor-toolbar {
+    display: block !important;
+    background: #fff !important;
+    border-color: #ced4da !important;
+}
+
+.editor-toolbar button,
+.editor-toolbar .easymde-dropdown {
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #333 !important;
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 30px !important;
+    height: 30px !important;
+    padding: 0 6px !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.editor-toolbar button:hover,
+.editor-toolbar button.active {
+    background: #fcfcfc !important;
+    border-color: #95a5a6 !important;
+}
+
+.dark-mode .editor-toolbar {
+    background: #1a1d2b !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode .editor-toolbar button,
+.dark-mode .editor-toolbar .easymde-dropdown {
+    color: #e2e8f0 !important;
+}
+
+.dark-mode .editor-toolbar button:hover,
+.dark-mode .editor-toolbar button.active {
+    background: #2d3548 !important;
+    border-color: #475569 !important;
+}
+
+/* Ensure CodeMirror editor area has correct contrast */
+.EasyMDEContainer .CodeMirror {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #ced4da !important;
+}
+
+.dark-mode .EasyMDEContainer .CodeMirror {
+    background: #1a1d2b !important;
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+}
+
+.dark-mode .EasyMDEContainer .CodeMirror-gutters {
+    background-color: #252938 !important;
+    border-color: #334155 !important;
+}

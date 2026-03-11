@@ -100,6 +100,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
             crossorigin="anonymous">
         <link rel="stylesheet" href="./assets/css/base/password-control.css">
         <link rel="stylesheet" href="./assets/css/base/markdown.css">
+        <link rel="stylesheet" href="./assets/css/base/easymde-overrides.css">
         <link rel="stylesheet" href="./assets/css/base/style.css">
         <link rel="stylesheet" href="./assets/css/layout/footer.css">
         <link rel="stylesheet" href="./assets/css/layout/navbar.css">
