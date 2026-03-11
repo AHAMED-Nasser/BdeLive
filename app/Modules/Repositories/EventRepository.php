@@ -57,13 +57,18 @@ class EventRepository
     public function findById(int $id): ?Event
     {
         try {
-            $sql = "SELECT * FROM EVENTS WHERE event_id = :id";
+            $sql = "SELECT event_id, event_name, slug, event_date, event_time, event_location, event_theme,
+                    status_participating, description, images, is_group_event, team_size
+                    FROM EVENTS WHERE event_id = :id";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([':id' => $id]);
 
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $data ? EventFactory::createFromDatabase($data) : null;
+            if ($data) {
+                $data = array_change_key_case($data, CASE_LOWER);
+                return EventFactory::createFromDatabase($data);
+            }
+            return null;
         } catch (PDOException $e) {
             error_log('EventRepository::findById - ' . $e->getMessage());
             return null;
@@ -84,8 +89,11 @@ class EventRepository
             $stmt->execute([':slug' => $slug]);
 
             $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            return $data ? EventFactory::createFromDatabase($data) : null;
+            if ($data) {
+                $data = array_change_key_case($data, CASE_LOWER);
+                return EventFactory::createFromDatabase($data);
+            }
+            return null;
         } catch (PDOException $e) {
             error_log('EventRepository::findBySlug - ' . $e->getMessage());
             return null;

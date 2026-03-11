@@ -16,8 +16,9 @@
  */
 start_page("BDELive - Modifier l'événement : " . htmlspecialchars($event->getName()), true, $user ?? null);
 
-// Prepare the array of participating statuses for the checkboxes
-$statusParticipatingArray = explode(',', $event->getStatusParticipating());
+// Prepare the array of participating statuses for the checkboxes (same values as creation form)
+$statusParticipatingRaw = (string) ($event->getStatusParticipating() ?? '');
+$statusParticipatingArray = array_values(array_filter(array_map('trim', explode(',', $statusParticipatingRaw))));
 
 // Ensure that the dates are in the format YYYY-MM-DD for the HTML inputs
 $eventDateValue = $event->getDate();
@@ -115,7 +116,8 @@ $eventTimeValue = $event->getTime();
                     <?php
                     $statuses = ['BUT 1', 'BUT 2', 'BUT 3', 'Personnel Enseignant'];
                     foreach ($statuses as $status) :
-                        $isChecked = in_array($status, $statusParticipatingArray);
+                        $isChecked = in_array($status, $statusParticipatingArray, true)
+                            || in_array(strtolower($status), array_map('strtolower', $statusParticipatingArray), true);
                         ?>
                         <article>
                             <input id="<?= strtolower(str_replace(' ', '', $status)) ?>"

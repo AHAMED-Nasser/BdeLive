@@ -259,7 +259,9 @@ class Event
         }
 
         $decoded = json_decode($this->images, true);
-        return is_array($decoded) ? $decoded : [];
+        $arr = is_array($decoded) ? $decoded : [];
+        // Return in chronological order (first added = first displayed). Stored order is newest-first.
+        return array_reverse($arr);
     }
 
     /**

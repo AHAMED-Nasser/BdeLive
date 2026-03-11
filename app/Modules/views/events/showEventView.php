@@ -190,9 +190,9 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
         <?php endif ?>
     </div>
 
-    <?php if (!$event->isGroupEvent() && (!empty($registrants) || $isAdmin)) : ?>
+    <?php if (!$event->isGroupEvent()) : ?>
         <div class="registrants-list-section" id="registrants-section" data-event-id="<?= $eventId ?>">
-            <h2>Liste des inscrits (<?= count($registrants) ?>)</h2>
+            <h2><?= $isAdmin ? 'Liste des inscrits (' . count($registrants) . ')' : 'Nombre d\'inscrits : ' . count($registrants) ?></h2>
 
             <?php if ($isAdmin) : ?>
                 <form method="post" action="index.php?page=manageRegistrants" id="manage-registrants-form">
