@@ -24,49 +24,34 @@ $isConfirmed = $status === 'confirmed';
 $isDeclined = $status === 'declined';
 ?>
 
-<div class="container" style="max-width: 500px; margin: 60px auto; padding: 20px; text-align: center;">
-
+<div class="team-invitation-result-page">
     <?php if ($alreadyProcessed) : ?>
-        <div style="color: #6c757d; margin-bottom: 20px;">
-            <i class="fas fa-info-circle" style="font-size: 48px;"></i>
+        <div class="team-invitation-result-icon team-invitation-result-icon--info">
+            <i class="fas fa-info-circle" aria-hidden="true"></i>
         </div>
-        <h2 style="color: #333; margin-bottom: 15px;">Invitation deja traitee</h2>
-        <p style="color: #666;">
-            Statut :
-            <strong style="color: <?= $status === 'confirmed' ? '#28a745' : '#dc3545' ?>;">
-                <?= $status === 'confirmed' ? 'Confirme' : 'Refuse' ?>
-            </strong>
-        </p>
+        <h2>Invitation déjà traitée</h2>
+        <p>Statut : <strong class="team-invitation-result-status team-invitation-result-status--<?= $status ?>"><?= $status === 'confirmed' ? 'Confirmé' : 'Refusé' ?></strong></p>
 
     <?php elseif ($isConfirmed) : ?>
-        <div style="color: #28a745; margin-bottom: 20px;">
-            <i class="fas fa-check-circle" style="font-size: 48px;"></i>
+        <div class="team-invitation-result-icon team-invitation-result-icon--success">
+            <i class="fas fa-check-circle" aria-hidden="true"></i>
         </div>
-        <h2 style="color: #333; margin-bottom: 15px;">Inscription au groupe confirmee</h2>
-
+        <h2>Inscription au groupe confirmée</h2>
         <?php if (!empty($allConfirmed)) : ?>
-            <p style="color: #155724; background: #d4edda; padding: 15px; border-radius: 8px;">
-                Tous les membres ont confirme. Le groupe est maintenant inscrit.
-            </p>
+            <p class="team-invitation-result-alert team-invitation-result-alert--success">Tous les membres ont confirmé. Le groupe est maintenant inscrit.</p>
         <?php else : ?>
-            <p style="color: #856404; background: #fff3cd; padding: 15px; border-radius: 8px;">
-                En attente de la confirmation des autres membres.
-            </p>
+            <p class="team-invitation-result-alert team-invitation-result-alert--warning">En attente de la confirmation des autres membres.</p>
         <?php endif; ?>
 
     <?php else : ?>
-        <div style="color: #dc3545; margin-bottom: 20px;">
-            <i class="fas fa-times-circle" style="font-size: 48px;"></i>
+        <div class="team-invitation-result-icon team-invitation-result-icon--error">
+            <i class="fas fa-times-circle" aria-hidden="true"></i>
         </div>
-        <h2 style="color: #333; margin-bottom: 15px;">Invitation refusee</h2>
-
+        <h2>Invitation refusée</h2>
         <?php if (!empty($teamCancelled)) : ?>
-            <p style="color: #721c24; background: #f8d7da; padding: 15px; border-radius: 8px;">
-                Le groupe a ete annule.
-            </p>
+            <p class="team-invitation-result-alert team-invitation-result-alert--error">Le groupe a été annulé.</p>
         <?php endif; ?>
     <?php endif; ?>
-
 </div>
 
 <?php end_page(); ?>

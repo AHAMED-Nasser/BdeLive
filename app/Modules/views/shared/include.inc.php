@@ -117,6 +117,7 @@ function start_page(string $title, bool $wouldNav = true, ?array $user = null): 
         <link rel="stylesheet" href="./assets/css/pages/admin.css">
         <link rel="stylesheet" href="./assets/css/pages/schedule.css">
         <link rel="stylesheet" href="./assets/css/pages/event.css">
+        <link rel="stylesheet" href="./assets/css/pages/team-invitation.css">
         <link rel="stylesheet" href="./assets/css/components/modal.css">
         <link rel="stylesheet" href="./assets/css/pages/group-registration.css">
         <link rel="stylesheet" href="./assets/css/pages/bde-opening.css">
