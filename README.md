@@ -14,6 +14,8 @@
 
 **[🌐 Accéder au site →](https://bdelivesae.alwaysdata.net/index.php?page=home)**
 
+**[📚 Documentation en ligne →](https://...)** — *Le lien sera mis à jour une fois le dépôt public et la documentation déployée.*
+
 ---
 
 > **BDELive — Inform'Aix** est la plateforme web officielle du BDE (Bureau Des Étudiants) du département
