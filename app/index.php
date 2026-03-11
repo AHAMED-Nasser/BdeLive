@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-//// Load configuration
-//require_once __DIR__ . '/Config/config.php';
-//
-
+// Remove X-Powered-By header to avoid exposing PHP version (OWASP: Information Disclosure)
+header_remove('X-Powered-By');
 
 // Set timezone to France (Europe/Paris)
 date_default_timezone_set('Europe/Paris');
@@ -13,18 +11,19 @@ use App\Core\Application;
 use App\Core\Exception\AuthenticationException;
 use App\Core\Exception\AuthorizationException;
 use App\Core\Exception\CsrfException;
-// Secure configuration of the session cookies
-// Automatic detection of the environment
+// Secure configuration of the session cookies (OWASP: Session Management)
+// Must be called BEFORE session_start() to take effect
 $isProduction = isset($_SERVER['HTTP_HOST']) &&
     strpos($_SERVER['HTTP_HOST'], 'alwaysdata.net') !== false;
-// Do not define an explicit domain to allow operation
-// on all subdomains and avoid cookie problems
-// The empty domain allows PHP to automatically use the domain of the request
+$isSecure = $isProduction
+    || (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+    || (isset($_SERVER['SERVER_PORT']) && (int) $_SERVER['SERVER_PORT'] === 443);
 session_set_cookie_params([
     'lifetime' => 1800,                      // 30 minutes
     'path' => '/',
     'domain' => '',                          // Empty domain = automatic domain
-    'secure' => $isProduction,               // HTTPS only in production
+    'secure' => $isSecure,                   // HTTPS only (Secure flag)
     'httponly' => true,                      // Inaccessible by JavaScript
     'samesite' => 'Lax',                     // CSRF protection
 ]);

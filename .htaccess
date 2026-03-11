@@ -1,5 +1,10 @@
 RewriteEngine On
 
+# Remove X-Powered-By header (OWASP: Information Disclosure)
+<IfModule mod_headers.c>
+    Header unset X-Powered-By
+</IfModule>
+
 Options -MultiViews
 
 RewriteBase /
