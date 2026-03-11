@@ -280,9 +280,9 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
     <?php if ($event->isGroupEvent() && (!empty($groupRegistrants) || $isAdmin)) : ?>
         <div class="registrants-list-section group-registrants-section" id="group-registrants-section"
             data-event-id="<?= $eventId ?>">
-            <h2>Liste des inscrits (<?= $totalGroupRegistrants ?>) — <?= count($groupRegistrants) ?> groupe(s)</h2>
+            <h2><?= $isAdmin ? 'Liste des inscrits (' . $totalGroupRegistrants . ') — ' . count($groupRegistrants) . ' groupe(s)' : 'Nombre de groupes : ' . count($groupRegistrants) ?></h2>
 
-            <?php if (!empty($groupRegistrants)) : ?>
+            <?php if ($isAdmin && !empty($groupRegistrants)) : ?>
                 <?php foreach ($groupRegistrants as $teamNumber => $members) : ?>
                     <?php
                     // Get team_id from the first member
@@ -372,7 +372,7 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
-            <?php else : ?>
+            <?php elseif ($isAdmin && empty($groupRegistrants)) : ?>
                 <p class="empty-registrants-message">Aucun groupe inscrit pour le moment.</p>
             <?php endif; ?>
 
