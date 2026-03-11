@@ -18,6 +18,11 @@ use Exception;
  */
 class CsrfException extends Exception
 {
+    /**
+     * @param string $message Error message
+     * @param int $code HTTP status code (default: 403)
+     * @param \Throwable|null $previous Previous exception for chaining
+     */
     public function __construct(
         string $message = 'CSRF token validation failed',
         int $code = 403,

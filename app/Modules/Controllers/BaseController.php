@@ -37,6 +37,9 @@ abstract class BaseController
     protected CsrfProtection $csrf;
     protected AuthManager $auth;
 
+    /**
+     * Initialize controller with core services from Application singleton
+     */
     public function __construct()
     {
         $this->app = Application::getInstance();

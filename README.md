@@ -129,7 +129,7 @@ flowchart TD
 
 **Patterns illustrés :** *MVC 2* — séparation Controller / View · *Data Mapper* — Repository + Factory → Entity pure · *DI* — Controller instancié par le Container · *Clean Architecture* — le Domain ne dépend pas des couches supérieures
 
-### Diagrammes complémentaires
+### Diagrammes et documentation
 
 | Document | Formats |
 |----------|---------|
@@ -137,6 +137,9 @@ flowchart TD
 | Cas d'utilisation (RBAC) | [Visiteur](docs/usecases/uc-visiteur.puml) · [Utilisateur](docs/usecases/uc-utilisateur.puml) · [Admin](docs/usecases/uc-admin.puml) · [Super Admin](docs/usecases/uc-superadmin.puml) |
 | Diagramme de classes | [PUML](docs/classes/diagramme-classes.puml) · [SVG](docs/classes/diagramme-classes.svg) |
 | Schéma relationnel BDD | [PNG](docs/database/schema-relationnel.png) |
+| **Documentation API (PHPDoc)** | [Index HTML](docs/api/index.html) — générée par phpDocumentor |
+
+**Générer la documentation API :** `composer run doc`
 
 **[📂 docs/](docs/)** — Voir [docs/README.md](docs/README.md) pour la structure complète.
 
@@ -243,7 +246,15 @@ composer lint
 composer lint:fix
 ```
 
-> Les trois vérifications sont exécutées automatiquement sur chaque `push` et `pull request`
+### Documentation API (PHPDoc)
+
+```bash
+composer run doc
+```
+
+Génère la documentation des classes, méthodes et namespaces dans `docs/api/` (phpDocumentor).
+
+> Les trois vérifications (PHPUnit, PHPStan, PHPCS) sont exécutées automatiquement sur chaque `push` et `pull request`
 > via les workflows GitHub Actions.
 
 ---

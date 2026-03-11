@@ -43,63 +43,73 @@ class Article
     ) {
     }
 
-
+    /** @return int|null */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /** @return string */
     public function getTitle(): string
     {
         return $this->title;
     }
 
+    /** @return string */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
+    /** @return string */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /** @return string|null */
     public function getImageUrl(): ?string
     {
         return $this->imageUrl;
     }
 
+    /** @return string */
     public function getAuthor(): string
     {
         return $this->author;
     }
 
+    /** @return string */
     public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
 
-
+    /** @param string $title */
     public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
+    /** @param string $slug */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
+    /** @param string $description */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    /** @param string|null $imageUrl */
     public function setImageUrl(?string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;
     }
 
+    /** @param string $author */
     public function setAuthor(string $author): void
     {
         $this->author = $author;

@@ -61,6 +61,11 @@ final class MarkdownRenderer
         return mb_substr($plain, 0, $maxLength) . '…';
     }
 
+    /**
+     * Get or create the Parsedown instance (singleton)
+     *
+     * @return \Parsedown Parser with safe mode enabled
+     */
     private static function getParser(): \Parsedown
     {
         if (self::$parsedown === null) {

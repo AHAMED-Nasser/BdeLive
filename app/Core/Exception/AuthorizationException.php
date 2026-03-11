@@ -18,6 +18,11 @@ use Exception;
  */
 class AuthorizationException extends Exception
 {
+    /**
+     * @param string $message Error message
+     * @param int $code HTTP status code (default: 403)
+     * @param \Throwable|null $previous Previous exception for chaining
+     */
     public function __construct(string $message = 'Access denied', int $code = 403, ?\Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);

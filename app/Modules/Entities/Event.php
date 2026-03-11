@@ -54,119 +54,139 @@ class Event
     ) {
     }
 
-
+    /** @return int|null */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /** @return string */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /** @return string */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
+    /** @return string */
     public function getDate(): string
     {
         return $this->date;
     }
 
+    /** @return string */
     public function getTime(): string
     {
         return $this->time;
     }
 
+    /** @return string */
     public function getLocation(): string
     {
         return $this->location;
     }
 
+    /** @return string */
     public function getTheme(): string
     {
         return $this->theme;
     }
 
+    /** @return string */
     public function getStatusParticipating(): string
     {
         return $this->statusParticipating;
     }
 
+    /** @return string */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /** @return string */
     public function getImages(): string
     {
         return $this->images;
     }
 
+    /** @return bool */
     public function isGroupEvent(): bool
     {
         return $this->isGroupEvent;
     }
 
+    /** @return int */
     public function getTeamSize(): int
     {
         return $this->teamSize;
     }
 
-
-
+    /** @param string $name */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
+    /** @param string $slug */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
+    /** @param string $date */
     public function setDate(string $date): void
     {
         $this->date = $date;
     }
 
+    /** @param string $time */
     public function setTime(string $time): void
     {
         $this->time = $time;
     }
 
+    /** @param string $location */
     public function setLocation(string $location): void
     {
         $this->location = $location;
     }
 
+    /** @param string $theme */
     public function setTheme(string $theme): void
     {
         $this->theme = $theme;
     }
 
+    /** @param string $statusParticipating */
     public function setStatusParticipating(string $statusParticipating): void
     {
         $this->statusParticipating = $statusParticipating;
     }
 
+    /** @param string $description */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    /** @param string $images */
     public function setImages(string $images): void
     {
         $this->images = $images;
     }
 
+    /** @param bool $isGroupEvent */
     public function setIsGroupEvent(bool $isGroupEvent): void
     {
         $this->isGroupEvent = $isGroupEvent;
     }
 
+    /** @param int $teamSize */
     public function setTeamSize(int $teamSize): void
     {
         $this->teamSize = $teamSize;

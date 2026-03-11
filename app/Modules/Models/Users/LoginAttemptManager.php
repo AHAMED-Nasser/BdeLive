@@ -22,6 +22,9 @@ class LoginAttemptManager
 {
     private PDO $pdo;
 
+    /**
+     * Initialize with database connection from Database singleton
+     */
     public function __construct()
     {
         $this->pdo = Database::getInstance()->getConnection();

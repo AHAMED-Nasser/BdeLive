@@ -6,12 +6,18 @@ Structure de la documentation technique du projet.
 
 | Dossier | Contenu |
 |---------|---------|
+| [**api/**](api/) | Documentation API (PHPDoc générée par phpDocumentor) |
 | [**architecture/**](architecture/) | Diagramme du flux requête/réponse, patterns MVC 2, Repository, Factory, DI |
 | [**usecases/**](usecases/) | Diagrammes de cas d'utilisation par acteur (RBAC) |
 | [**classes/**](classes/) | Diagramme de classes UML exhaustif |
 | [**database/**](database/) | Schéma relationnel de la base de données |
 
 ## Fichiers
+
+### API (PHPDoc)
+
+- [Index API](api/index.html) — Documentation des classes, méthodes et namespaces
+- Régénération : `composer run doc`
 
 ### Architecture
 

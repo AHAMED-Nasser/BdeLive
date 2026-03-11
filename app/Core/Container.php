@@ -29,6 +29,13 @@ class Container
     /** @var array<string, object> Resolved instances for bound ids (singleton per id) */
     private array $instances = [];
 
+    /**
+     * Register a binding in the container
+     *
+     * @param string $id Service identifier (class or interface name)
+     * @param callable $builder Factory callable that receives the container and returns the instance
+     * @return self For method chaining
+     */
     public function set(string $id, callable $builder): self
     {
         $this->bindings[$id] = $builder;

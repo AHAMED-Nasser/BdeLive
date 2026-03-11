@@ -18,6 +18,11 @@ use Exception;
  */
 class AuthenticationException extends Exception
 {
+    /**
+     * @param string $message Error message
+     * @param int $code HTTP status code (default: 401)
+     * @param \Throwable|null $previous Previous exception for chaining
+     */
     public function __construct(
         string $message = 'Authentication required',
         int $code = 401,

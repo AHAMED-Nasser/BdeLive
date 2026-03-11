@@ -3,9 +3,14 @@
     <description>PSR-12 with relaxed namespace requirement for legacy code.</description>
 
     <rule ref="PSR12">
-        <!-- Ignore verbose warnings not critical to runtime correctness -->
         <exclude name="Generic.Files.LineLength"/>
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols"/>
+    </rule>
+    <!-- Line length: 500 chars (PSR12 default 120 too strict for HTML/views) -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="500"/>
+        </properties>
     </rule>
 
     <!-- Paths to scan - exclude assets directory which contains JS/CSS files -->
