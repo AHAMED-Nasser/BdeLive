@@ -94,7 +94,7 @@ $eventTimeValue = $event->getTime();
                     </div>
 
                     <div class="input-container">
-                        <input id="event-group" class="radio-button" type="radio" name="event_type" value="group" <?= !$isGroupEvent ? 'checked' : '' ?>  onchange="toggleTeamSizeUpdate()">
+                        <input id="event-group" class="radio-button" type="radio" name="event_type" value="group" <?= $isGroupEvent ? 'checked' : '' ?> onchange="toggleTeamSizeUpdate()">
                         <div class="radio-tile">
                             <div class="icon car-icon">
                                 <i class="fa-solid fa-users"></i>

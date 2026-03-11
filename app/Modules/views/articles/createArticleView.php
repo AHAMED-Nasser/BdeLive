@@ -13,6 +13,10 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
+$oldTitle = \App\Core\Application::getInstance()->session()->get('old_article_title', '');
+$oldDescription = \App\Core\Application::getInstance()->session()->get('old_article_description', '');
+\App\Core\Application::getInstance()->session()->remove('old_article_title');
+\App\Core\Application::getInstance()->session()->remove('old_article_description');
 start_page("Créer un article", true, $user ?? null) ?>
 
 <section class="createEvent">
@@ -39,7 +43,7 @@ start_page("Créer un article", true, $user ?? null) ?>
             <?= $csrf->getTokenField() ?>
 
             <label for="article-title">Titre de l'article</label>
-            <input id="article-title" type="text" name="article-title" placeholder="Titre de l'article" required>
+            <input id="article-title" type="text" name="article-title" placeholder="Titre de l'article" value="<?= htmlspecialchars($oldTitle) ?>" required>
 
             <label for="markdown-editor">Description de l'article</label>
             <textarea
@@ -48,7 +52,7 @@ start_page("Créer un article", true, $user ?? null) ?>
                 placeholder="Contenu de l'article en Markdown..."
                 name="article-description"
                 rows="20"
-                required></textarea>
+                required><?= htmlspecialchars($oldDescription) ?></textarea>
 
             <div class="insert-image">
                 <div class="form-label">Image de l'article (optionnel)</div>

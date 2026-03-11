@@ -539,6 +539,26 @@ class EventRegistrationRepository
     }
 
     /**
+     * Get the number of members in a team
+     *
+     * @param int $teamId The team identifier
+     * @return int Number of members in the team
+     */
+    public function getTeamMemberCount(int $teamId): int
+    {
+        try {
+            $stmt = $this->pdo->prepare(
+                'SELECT COUNT(*) FROM EVENT_REGISTRATIONS WHERE team_id = :team_id'
+            );
+            $stmt->execute([':team_id' => $teamId]);
+            return (int) $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            error_log('EventRegistrationRepository::getTeamMemberCount - ' . $e->getMessage());
+            return 0;
+        }
+    }
+
+    /**
      * Add a user to a group event with team assignment
      *
      * Creates a registration record with team_id. Uses INSERT IGNORE

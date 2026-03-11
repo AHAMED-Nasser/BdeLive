@@ -100,19 +100,36 @@ class CreateEventController extends AdminController
         $isGroupEvent = ($eventType === 'group');
         $teamSize = $isGroupEvent ? (int) $this->request->post('team_size', 2) : 1;
 
+        $storeOldInput = function () use (
+            $eventName, $eventDate, $eventTime, $eventLocation, $eventTheme,
+            $statusParticipatingArray, $description, $eventType, $teamSize
+        ): void {
+            $this->session->set('old_event_name', $eventName);
+            $this->session->set('old_event_date', $eventDate);
+            $this->session->set('old_event_time', $eventTime);
+            $this->session->set('old_event_location', $eventLocation);
+            $this->session->set('old_event_theme', $eventTheme);
+            $this->session->set('old_status_participating', is_array($statusParticipatingArray) ? $statusParticipatingArray : []);
+            $this->session->set('old_event_description', $description);
+            $this->session->set('old_event_type', $eventType);
+            $this->session->set('old_team_size', (string) $teamSize);
+        };
+
         // Validate team size for group events
         if ($isGroupEvent && ($teamSize < 2 || $teamSize > 20)) {
             $this->setError('Le nombre de personnes par groupe doit être entre 2 et 20');
+            $storeOldInput();
             $this->redirect('index.php?page=createEvent');
         }
 
-        // Validate required fields
+        // Validate required fields - preserve filled data on error
         if (
             empty($eventName) || empty($eventDate) || empty($eventTime) ||
             empty($eventLocation) || empty($eventTheme) ||
             empty($statusParticipating) || empty($description)
         ) {
             $this->setError('Tous les champs sont obligatoires');
+            $storeOldInput();
             $this->redirect('index.php?page=createEvent');
         }
 
@@ -132,6 +149,7 @@ class CreateEventController extends AdminController
             } catch (\Exception $e) {
                 error_log('CreateEventController::createEvent - Cloudinary error: ' . $e->getMessage());
                 $this->setError('Erreur lors de l\'upload des images. Veuillez réessayer.');
+                $storeOldInput();
                 $this->redirect('index.php?page=createEvent');
             }
         }
@@ -165,10 +183,20 @@ class CreateEventController extends AdminController
         $success = $repository->save($event);
 
         if ($success) {
+            $this->session->remove('old_event_name');
+            $this->session->remove('old_event_date');
+            $this->session->remove('old_event_time');
+            $this->session->remove('old_event_location');
+            $this->session->remove('old_event_theme');
+            $this->session->remove('old_status_participating');
+            $this->session->remove('old_event_description');
+            $this->session->remove('old_event_type');
+            $this->session->remove('old_team_size');
             $this->setSuccess('Événement créé avec succès');
             $this->redirect('index.php?page=event');
         } else {
             $this->setError('Une erreur est survenue lors de la création de l\'événement');
+            $storeOldInput();
             $this->redirect('index.php?page=createEvent');
         }
     }

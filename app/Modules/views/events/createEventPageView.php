@@ -13,6 +13,26 @@
  * @var array<string, mixed>|null $user
  * @var array<string, string|null> $flash
  */
+$session = \App\Core\Application::getInstance()->session();
+$oldName = (string) $session->get('old_event_name', '');
+$oldDate = (string) $session->get('old_event_date', '');
+$oldTime = (string) $session->get('old_event_time', '');
+$oldLocation = (string) $session->get('old_event_location', '');
+$oldTheme = (string) $session->get('old_event_theme', '');
+$oldStatusParticipating = $session->get('old_status_participating', []);
+$oldStatusParticipating = is_array($oldStatusParticipating) ? $oldStatusParticipating : [];
+$oldDescription = (string) $session->get('old_event_description', '');
+$oldEventType = (string) $session->get('old_event_type', 'solo');
+$oldTeamSize = (string) $session->get('old_team_size', '2');
+$session->remove('old_event_name');
+$session->remove('old_event_date');
+$session->remove('old_event_time');
+$session->remove('old_event_location');
+$session->remove('old_event_theme');
+$session->remove('old_status_participating');
+$session->remove('old_event_description');
+$session->remove('old_event_type');
+$session->remove('old_team_size');
 start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
 <section class="createEvent">
@@ -35,27 +55,27 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             enctype="multipart/form-data">
             <?= $csrf->getTokenField() ?>
             <label for="event-name">Nom de l'événement</label>
-            <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" required>
+            <input id="event-name" type="text" name="event-name" placeholder="Nom de l'événement" value="<?= htmlspecialchars($oldName) ?>" required>
 
             <label for="event-date">Date de l'événement</label>
-            <input id="event-date" type="date" name="event-date" required>
+            <input id="event-date" type="date" name="event-date" value="<?= htmlspecialchars($oldDate) ?>" required>
 
             <label for="event-time">Heure de l'événement</label>
-            <input id="event-time" type="time" name="event-time">
+            <input id="event-time" type="time" name="event-time" value="<?= htmlspecialchars($oldTime) ?>">
 
             <label for="event-location">Lieu de l'événement</label>
-            <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu">
+            <input id="event-location" name="event-location" type="text" placeholder="Entrer votre lieu" value="<?= htmlspecialchars($oldLocation) ?>">
 
             <label for="event-theme">Thème de l'événement</label>
             <input id="event-theme" type="text" name="event-theme"
-                placeholder="Entrer le thème de l'événement (Soirée, ...)">
+                placeholder="Entrer le thème de l'événement (Soirée, ...)" value="<?= htmlspecialchars($oldTheme) ?>">
 
             <!-- Registration type -->
             <label>Type d'inscription</label>
             <!-- From Uiverse.io by Pradeepsaranbishnoi -->
             <div class="checkbox-container">
                 <div class="input-container">
-                    <input id="event-solo" class="radio-button" type="radio" name="event_type" value="solo" checked onchange="toggleTeamSize()">
+                    <input id="event-solo" class="radio-button" type="radio" name="event_type" value="solo" <?= $oldEventType !== 'group' ? 'checked' : '' ?> onchange="toggleTeamSize()">
                     <div class="radio-tile">
                         <div class="icon walk-icon">
                             <i class="fa-solid fa-user"></i>
@@ -65,7 +85,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
                 </div>
 
                 <div class="input-container">
-                    <input id="event-group" class="radio-button" type="radio" name="event_type" value="group" onchange="toggleTeamSize()">
+                    <input id="event-group" class="radio-button" type="radio" name="event_type" value="group" <?= $oldEventType === 'group' ? 'checked' : '' ?> onchange="toggleTeamSize()">
                     <div class="radio-tile">
                         <div class="icon car-icon">
                             <i class="fa-solid fa-users"></i>
@@ -76,9 +96,9 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             </div>
 
             <!-- Team size (visible only for group events) -->
-            <div id="team-size-container" style="display: none; margin-top: 15px;">
+            <div id="team-size-container" style="<?= $oldEventType === 'group' ? 'display: block;' : 'display: none;' ?> margin-top: 15px;">
                 <label for="team-size">Nombre de personnes par groupe</label>
-                <input id="team-size" type="number" name="team_size" min="2" max="20" value="2" placeholder="Ex: 4">
+                <input id="team-size" type="number" name="team_size" min="2" max="20" value="<?= htmlspecialchars($oldTeamSize) ?>" placeholder="Ex: 4">
                 <small style="color: #666; display: block; margin-top: 5px;">Définissez le nombre de membres requis pour
                     former un groupe</small>
             </div>
@@ -87,22 +107,22 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
             <fieldset class="checkbox-container">
                 <legend class="form-label">Qui peut venir</legend>
                 <article>
-                    <input id="but1" type="checkbox" name="status_participating[]" value="BUT 1">
+                    <input id="but1" type="checkbox" name="status_participating[]" value="BUT 1" <?= in_array('BUT 1', $oldStatusParticipating, true) ? 'checked' : '' ?>>
                     <label for="but1">BUT 1</label>
                 </article>
 
                 <article>
-                    <input id="but2" type="checkbox" name="status_participating[]" value="BUT 2">
+                    <input id="but2" type="checkbox" name="status_participating[]" value="BUT 2" <?= in_array('BUT 2', $oldStatusParticipating, true) ? 'checked' : '' ?>>
                     <label for="but2">BUT 2</label>
                 </article>
 
                 <article>
-                    <input id="but3" type="checkbox" name="status_participating[]" value="BUT 3">
+                    <input id="but3" type="checkbox" name="status_participating[]" value="BUT 3" <?= in_array('BUT 3', $oldStatusParticipating, true) ? 'checked' : '' ?>>
                     <label for="but3">BUT 3</label>
                 </article>
 
                 <article>
-                    <input id="educator" type="checkbox" name="status_participating[]" value="Personnel Enseignant">
+                    <input id="educator" type="checkbox" name="status_participating[]" value="Personnel Enseignant" <?= in_array('Personnel Enseignant', $oldStatusParticipating, true) ? 'checked' : '' ?>>
                     <label for="educator">Personnel Enseignant</label>
                 </article>
 
@@ -110,7 +130,7 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
             <div class="description-event">
                 <label for="markdown-editor">Description de l'événement</label>
-                <textarea id="markdown-editor" data-autosave-id="event_description" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description"></textarea>
+                <textarea id="markdown-editor" data-autosave-id="event_description_create" data-autosave-enabled="false" placeholder="Décrivez votre événement de manière claire. Markdown possible." name="description"><?= htmlspecialchars($oldDescription) ?></textarea>
             </div>
 
             <div class="insert-image">
@@ -132,16 +152,6 @@ start_page("Créer un événement - BDELive", true, $user ?? null) ?>
 
     </div>
     <script>
-        const date = new Date();
-        // Get the current date (dd:mm:yyyy)
-        const today = date.toISOString().split("T")[0];
-        document.getElementById('event-date').setAttribute("value", today)
-
-        // Get the current time (hh:mm)
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        document.getElementById('event-time').value = `${hours}:${minutes}`;
-
         // Toggle team size visibility based on event type
         function toggleTeamSize() {
             const isGroup = document.getElementById('event-group').checked;

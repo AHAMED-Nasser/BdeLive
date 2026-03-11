@@ -2,12 +2,13 @@
   let e = document.getElementById("markdown-editor");
   if (!e || "undefined" == typeof EasyMDE) return;
   let t = e.getAttribute("data-autosave-id") || "markdown_content";
+  let autosaveEnabled = e.getAttribute("data-autosave-enabled") !== "false";
   let editor = new EasyMDE({
     element: e,
     spellChecker: !1,
     forceSync: !0,
     hideIcons: ["fullscreen", "guide"],
-    autosave: { enabled: !0, uniqueId: t },
+    autosave: { enabled: autosaveEnabled, uniqueId: t },
     placeholder: e.getAttribute("placeholder") || "Écrivez en Markdown...",
     status: ["lines", "words", "cursor"]
   });

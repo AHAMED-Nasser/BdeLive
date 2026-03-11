@@ -6,6 +6,7 @@ namespace App\Modules\Controllers\Events;
 
 use App\Modules\Controllers\AdminController;
 use App\Modules\Repositories\EventRegistrationRepository;
+use App\Modules\Repositories\EventRepository;
 use App\Modules\Repositories\EventTeamRepository;
 use Exception;
 
@@ -203,7 +204,7 @@ class ManageRegistrantsController extends AdminController
      * Add selected users to a specific team in a group event
      *
      * Reads team_id from POST data, validates it, then adds each
-     * selected user to that team.
+     * selected user to that team. Enforces team size limit.
      *
      * @param int $eventId The event identifier
      * @return void Redirects to event detail page
@@ -217,6 +218,24 @@ class ManageRegistrantsController extends AdminController
         }
 
         $userIds = $this->getValidatedUserIds($eventId);
+
+        $event = (new EventRepository(\App\Core\Database::getInstance()->getConnection()))->findById($eventId);
+        if ($event === null || !$event->isGroupEvent()) {
+            $this->setError('Événement invalide ou non configuré en mode groupe');
+            $this->redirect('index.php?page=showEvent&id=' . $eventId);
+        }
+
+        $teamSize = $event->getTeamSize();
+        $currentCount = $this->registrationRepo->getTeamMemberCount($teamId);
+        $slotsAvailable = max(0, $teamSize - $currentCount);
+
+        if (count($userIds) > $slotsAvailable) {
+            $this->setError(
+                "Ce groupe ne peut accueillir que {$slotsAvailable} personne(s) supplémentaire(s) " .
+                "(limite : {$teamSize} personnes par groupe, {$currentCount} déjà inscrit(s))."
+            );
+            $this->redirect('index.php?page=showEvent&id=' . $eventId);
+        }
 
         try {
             $addedCount = 0;
@@ -360,6 +379,7 @@ class ManageRegistrantsController extends AdminController
      *
      * Creates a new team for the event, then registers
      * all selected users into the newly created team.
+     * Enforces that the number of selected users equals the event's team size.
      *
      * @param int $eventId The event identifier
      * @return void Redirects to event detail page
@@ -367,6 +387,21 @@ class ManageRegistrantsController extends AdminController
     private function groupCreate(int $eventId): void
     {
         $userIds = $this->getValidatedUserIds($eventId);
+
+        $event = (new EventRepository(\App\Core\Database::getInstance()->getConnection()))->findById($eventId);
+        if ($event === null || !$event->isGroupEvent()) {
+            $this->setError('Événement invalide ou non configuré en mode groupe');
+            $this->redirect('index.php?page=showEvent&id=' . $eventId);
+        }
+
+        $teamSize = $event->getTeamSize();
+        if (count($userIds) !== $teamSize) {
+            $this->setError(
+                "Un groupe doit contenir exactement {$teamSize} personne(s). " .
+                "Vous avez sélectionné " . count($userIds) . " personne(s)."
+            );
+            $this->redirect('index.php?page=showEvent&id=' . $eventId);
+        }
 
         try {
             // Create new team (uses getNextTeamNumber internally)

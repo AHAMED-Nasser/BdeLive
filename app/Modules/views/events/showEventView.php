@@ -279,7 +279,7 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
 
     <?php if ($event->isGroupEvent() && (!empty($groupRegistrants) || $isAdmin)) : ?>
         <div class="registrants-list-section group-registrants-section" id="group-registrants-section"
-            data-event-id="<?= $eventId ?>">
+            data-event-id="<?= $eventId ?>" data-team-size="<?= (int) $event->getTeamSize() ?>">
             <h2><?= $isAdmin ? 'Liste des inscrits (' . $totalGroupRegistrants . ') — ' . count($groupRegistrants) . ' groupe(s)' : 'Nombre de groupes : ' . count($groupRegistrants) ?></h2>
 
             <?php if ($isAdmin && !empty($groupRegistrants)) : ?>
@@ -380,6 +380,7 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
                 <!-- Add to group panel (visible in manage mode) -->
                 <div class="add-registrant-panel" id="group-add-panel" style="display:none">
                     <h3><i class="fas fa-user-plus"></i> Ajouter des inscrits à un groupe</h3>
+                    <p class="group-size-hint"><i class="fas fa-info-circle"></i> Limite : <?= (int) $event->getTeamSize() ?> personne(s) par groupe. Pour créer un nouveau groupe, sélectionnez exactement <?= (int) $event->getTeamSize() ?> personne(s).</p>
 
                     <div class="search-container">
                         <input type="text" id="group-search-user-input" class="search-input"
@@ -400,8 +401,14 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
                             <select name="team_id" id="group-team-select" class="group-move-select" required>
                                 <option value="">— Sélectionner un groupe —</option>
                                 <?php foreach ($groupRegistrants as $teamNum => $teamMembers) : ?>
-                                    <option value="<?= (int) ($teamMembers[0]['team_id'] ?? 0) ?>">
-                                        Groupe <?= (int) $teamNum ?>
+                                    <?php
+                                    $currentTeamId = (int) ($teamMembers[0]['team_id'] ?? 0);
+                                    $memberCount = count($teamMembers);
+                                    $teamSizeVal = (int) $event->getTeamSize();
+                                    $slotsLeft = max(0, $teamSizeVal - $memberCount);
+                                    ?>
+                                    <option value="<?= $currentTeamId ?>" <?= $slotsLeft === 0 ? 'disabled' : '' ?>>
+                                        Groupe <?= (int) $teamNum ?> (<?= $memberCount ?>/<?= $teamSizeVal ?>)<?= $slotsLeft === 0 ? ' — Complet' : '' ?>
                                     </option>
                                 <?php endforeach; ?>
                                 <option value="new">＋ Créer un nouveau groupe</option>

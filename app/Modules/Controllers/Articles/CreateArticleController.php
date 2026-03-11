@@ -83,9 +83,11 @@ class CreateArticleController extends AdminController
         $title = (string) $this->request->post('article-title', '');
         $description = (string) $this->request->post('article-description', '');
 
-        // Validate required fields
+        // Validate required fields - preserve filled data on error
         if (empty($title) || empty($description)) {
             $this->setError('Tous les champs sont obligatoires.');
+            $this->session->set('old_article_title', $title);
+            $this->session->set('old_article_description', $description);
             $this->redirect('index.php?page=createArticle');
         }
 
@@ -112,6 +114,8 @@ class CreateArticleController extends AdminController
                 if ($uploadedImage === null) {
                     error_log('CreateArticleController::createArticle - Image upload failed');
                     $this->setError('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                    $this->session->set('old_article_title', $title);
+                    $this->session->set('old_article_description', $description);
                     $this->redirect('index.php?page=createArticle');
                 }
 
@@ -119,6 +123,8 @@ class CreateArticleController extends AdminController
             } catch (\Exception $e) {
                 error_log('CreateArticleController::createArticle - Cloudinary error: ' . $e->getMessage());
                 $this->setError('Erreur lors de l\'upload de l\'image. Veuillez réessayer.');
+                $this->session->set('old_article_title', $title);
+                $this->session->set('old_article_description', $description);
                 $this->redirect('index.php?page=createArticle');
             }
         }
@@ -142,10 +148,14 @@ class CreateArticleController extends AdminController
         $result = $repository->save($article);
 
         if ($result) {
+            $this->session->remove('old_article_title');
+            $this->session->remove('old_article_description');
             $this->setSuccess('Article créé avec succès.');
             $this->redirect('index.php?page=home');
         } else {
             $this->setError('Une erreur est survenue lors de la création de l\'article.');
+            $this->session->set('old_article_title', $title);
+            $this->session->set('old_article_description', $description);
             $this->redirect('index.php?page=createArticle');
         }
     }
