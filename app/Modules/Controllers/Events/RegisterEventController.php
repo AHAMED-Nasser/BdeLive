@@ -90,18 +90,21 @@ class RegisterEventController extends AuthenticatedController
             $this->redirectWithMessage($eventId, 'Les inscriptions pour cet événement sont fermées', false);
         }
 
-        // Check user eligibility (status_participating)
-        $user = $this->auth->getUser();
-        if ($user && !empty($event->getStatusParticipating())) {
-            $allowedStatuses = array_map('trim', explode(',', $event->getStatusParticipating()));
-            $userStatus = $user['user_status'] ?? '';
+        // Check user eligibility (status_participating) — only for registration, not unregistration
+        if ($action === 'register') {
+            $user = $this->auth->getUser();
+            if ($user && !empty($event->getStatusParticipating())) {
+                $allowedStatuses = array_map('trim', explode(',', $event->getStatusParticipating()));
+                $userStatus = $user['user_status'] ?? '';
 
-            if (!in_array($userStatus, $allowedStatuses, true)) {
-                $this->redirectWithMessage(
-                    $eventId,
-                    'Cet événement est réservé aux statuts : ' . $event->getStatusParticipating(),
-                    false
-                );
+                if (!in_array($userStatus, $allowedStatuses, true)) {
+                    $this->redirectWithMessage(
+                        $eventId,
+                        'Cet événement est réservé aux statuts : ' . $event->getStatusParticipating(),
+                        false
+                    );
+                    return;
+                }
             }
         }
 
