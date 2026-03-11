@@ -6,6 +6,7 @@
     element: e,
     spellChecker: !1,
     forceSync: !0,
+    hideIcons: ["fullscreen", "guide"],
     autosave: { enabled: !0, uniqueId: t },
     placeholder: e.getAttribute("placeholder") || "Écrivez en Markdown...",
     status: ["lines", "words", "cursor"]

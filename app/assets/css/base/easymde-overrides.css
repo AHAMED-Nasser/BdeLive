@@ -69,3 +69,38 @@
     background-color: #252938 !important;
     border-color: #334155 !important;
 }
+
+/* Preview pane (eye icon) - dark mode fix: avoid white background */
+.dark-mode .editor-preview,
+.dark-mode .editor-preview-side,
+.dark-mode .editor-preview-active,
+.dark-mode .EasyMDEContainer .editor-preview,
+.dark-mode .EasyMDEContainer .editor-preview-side,
+.dark-mode .EasyMDEContainer .editor-preview-active {
+    background: #1a1d2b !important;
+    color: #e2e8f0 !important;
+}
+
+.dark-mode .editor-preview p,
+.dark-mode .editor-preview-side p,
+.dark-mode .editor-preview h1,
+.dark-mode .editor-preview-side h1,
+.dark-mode .editor-preview h2,
+.dark-mode .editor-preview-side h2,
+.dark-mode .editor-preview h3,
+.dark-mode .editor-preview-side h3,
+.dark-mode .editor-preview li,
+.dark-mode .editor-preview-side li,
+.dark-mode .editor-preview blockquote,
+.dark-mode .editor-preview-side blockquote {
+    color: #e2e8f0 !important;
+}
+
+.dark-mode .editor-preview code,
+.dark-mode .editor-preview-side code,
+.dark-mode .editor-preview pre,
+.dark-mode .editor-preview-side pre {
+    background: #252938 !important;
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+}
