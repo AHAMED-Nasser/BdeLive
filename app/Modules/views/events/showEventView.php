@@ -28,6 +28,7 @@ $descriptionHtml = \App\Core\Markdown\MarkdownRenderer::toHtml($event->getDescri
 ?>
 
 <link rel="stylesheet" href="assets/css/pages/event-show.css">
+<link rel="stylesheet" href="assets/css/pages/event-detail-carousel.css">
 <?php if ($isAdmin) : ?>
     <link rel="stylesheet" href="assets/css/pages/manage-registrants.css">
 <?php endif; ?>
@@ -55,21 +56,79 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
         </div>
     <?php endif; ?>
 
-    <div class="event-grid-images">
-        <?php
-        // Use entity method to get images array
-        $images = $event->getImagesArray();
-        if ($event->hasImages()) :
-            foreach ($images as $index => $img) :
-                $src = is_array($img) ? $img['url'] : $img;
-                $altText = htmlspecialchars($event->getName()) . ' - Photo ' . ($index + 1);
-                $lazyAttr = $index > 0 ? ' loading="lazy"' : '';
-                echo '<img src="' . htmlspecialchars($src) . '" alt="' . $altText . '" class="event-gallery-image"' . $lazyAttr . ' decoding="async">';
-            endforeach;
-        else :
-            // No images available
-        endif; ?>
+    <?php
+    $images = $event->getImagesArray();
+    if ($event->hasImages()) :
+        $imageCount = count($images);
+        $isCarousel = $imageCount > 1;
+        $carouselId = 'event-detail-carousel';
+        ?>
+    <section class="event-detail-gallery" aria-label="<?= htmlspecialchars($event->getName()) ?> - Gallery">
+        <?php if ($isCarousel) : ?>
+        <div class="event-carousel-wrapper" id="<?= htmlspecialchars($carouselId) ?>" role="region" aria-roledescription="carousel" aria-label="Event images">
+            <div class="event-carousel-track">
+                <?php foreach ($images as $index => $img) :
+                    $src = is_array($img) ? $img['url'] : $img;
+                    $altText = htmlspecialchars($event->getName()) . ' - Photo ' . ($index + 1);
+                    $lazyAttr = $index > 0 ? ' loading="lazy"' : '';
+                    ?>
+                <div class="event-carousel-slide" data-slide-index="<?= $index ?>" <?= $index === 0 ? '' : 'aria-hidden="true"' ?>>
+                    <button type="button" class="event-carousel-image-trigger" data-lightbox="<?= htmlspecialchars($src) ?>" data-index="<?= $index ?>" aria-label="<?= $altText ?> - Enlarge">
+                        <img src="<?= htmlspecialchars($src) ?>" alt="<?= $altText ?>" <?= $lazyAttr ?> decoding="async" class="event-carousel-image">
+                    </button>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <button type="button" class="event-carousel-btn event-carousel-prev" aria-label="Previous image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button type="button" class="event-carousel-btn event-carousel-next" aria-label="Next image">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="event-carousel-dots" role="tablist" aria-label="Image navigation">
+                <?php foreach ($images as $index => $img) : ?>
+                <button type="button" class="event-carousel-dot <?= $index === 0 ? 'active' : '' ?>" role="tab" aria-selected="<?= $index === 0 ? 'true' : 'false' ?>" aria-label="Image <?= $index + 1 ?>"></button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <?php else :
+            $src = is_array($images[0]) ? $images[0]['url'] : $images[0];
+            $altText = htmlspecialchars($event->getName()) . ' - Photo 1';
+            ?>
+        <figure class="event-single-image">
+            <button type="button" class="event-carousel-image-trigger" data-lightbox="<?= htmlspecialchars($src) ?>" data-index="0" aria-label="<?= $altText ?> - Enlarge">
+                <img src="<?= htmlspecialchars($src) ?>" alt="<?= $altText ?>" loading="lazy" decoding="async" class="event-carousel-image">
+            </button>
+        </figure>
+        <?php endif; ?>
+    </section>
+    <div id="event-lightbox" class="event-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" data-images="<?= htmlspecialchars(json_encode(array_map(fn($img) => is_array($img) ? $img['url'] : $img, $images))) ?>" aria-hidden="true" hidden>
+        <button type="button" class="event-lightbox-close" aria-label="Close lightbox">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <div class="event-lightbox-content">
+            <img src="" alt="" class="event-lightbox-image" loading="lazy" decoding="async">
+        </div>
+        <?php if ($isCarousel) : ?>
+        <button type="button" class="event-lightbox-prev" aria-label="Previous image">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <button type="button" class="event-lightbox-next" aria-label="Next image">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        <?php endif; ?>
     </div>
+    <?php endif; ?>
 
     <div class="event-info-banner">
         <p><strong>📅 Date :</strong> <?= htmlspecialchars($event->getFormattedDate()) ?></p>
@@ -393,6 +452,9 @@ $backLabel = !empty($returnUrl) ? 'Retour au calendrier' : 'Retour aux événeme
     <?php endif; ?>
 </div>
 
+<?php if ($event->hasImages()) : ?>
+<script src="assets/js/event-detail-carousel.js" defer></script>
+<?php endif; ?>
 <?php if ($isAdmin) : ?>
     <script src="assets/js/manage-registrants.js"></script>
 <?php endif; ?>
