@@ -4,10 +4,10 @@ skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam packageStyle rectangle
 
-title Software Architecture - BdeLive
+title Architecture Logicielle - BdeLive
 
-' ==================== CORE LAYER ====================
-package "Core" #E8F4F8 {
+' ==================== COUCHE NOYAU ====================
+package "Noyau (Core)" #E8F4F8 {
   class Application {
     + boot(): void
     + request(): Request
@@ -25,65 +25,65 @@ package "Core" #E8F4F8 {
   }
 }
 
-' ==================== CONTROLLERS LAYER ====================
-package "Controllers" #F0E8F8 {
+' ==================== COUCHE CONTRÔLEURS ====================
+package "Contrôleurs" #F0E8F8 {
   abstract class AbstractController {
      render(view, data): void
      redirect(url): never
   }
 }
 
-' ==================== VIEWS LAYER ====================
-package "Views (PHP templates)" #F8F0E8 {
+' ==================== COUCHE VUES ====================
+package "Vues (Templates PHP)" #F8F0E8 {
   class View <<Concept>> {
-    Data passed via render()
-    Escaped HTML output
+    Données passées via render()
+    Sortie HTML échappée
   }
 }
 
-' ==================== DOMAIN LAYER (Event example) ====================
-package "Domain" #F0F8E8 {
+' ==================== COUCHE DOMAINE (Exemple avec Event) ====================
+package "Domaine" #F0F8E8 {
 
   note as ExampleNote
-    **Architecture Note:**
-    The "Event" domain is used here as an illustrative example.
-    The exact same Data Mapper flow
-    (Controller ➔ Repository ➔ Factory ➔ Entity)
-    is strictly applied to the "Article" domain.
+    **Note d'Architecture :**
+    Le domaine "Event" (Événement) est utilisé ici à titre d'exemple.
+    Le même flux exact de Data Mapper
+    (Contrôleur ➔ Dépôt ➔ Fabrique ➔ Entité)
+    est strictement appliqué au domaine "Article".
   end note
 
-  package "Repositories" {
+  package "Dépôts (Repositories)" {
     class EventRepository {
       - pdo: PDO
       + findById(id): Event|null
       + save(event: Event): bool
     }
   }
-  package "Factories" {
+  package "Fabriques (Factories)" {
     class EventFactory {
       + createFromDatabase(data): Event
       + toDatabase(event): array
     }
   }
-  package "Entities" {
+  package "Entités (Entities)" {
     class Event {
-      Pure domain object
-      No database logic
+      Objet de domaine pur
+      Aucune logique de base de données
     }
   }
 }
 
-' ==================== FLOW - CLEAN ARCHITECTURE (..> = dependency) ====================
-Application ..> Request : 1. Receives HTTP request
-Application ..> Container : 2. Asks for controller via DI
-Container ..> AbstractController : 3. Instantiates and injects dependencies
+' ==================== FLUX - CLEAN ARCHITECTURE (..> = dépendance) ====================
+Application ..> Request : 1. Reçoit la requête HTTP
+Application ..> Container : 2. Demande le contrôleur via l'injection de dépendances (DI)
+Container ..> AbstractController : 3. Instancie et injecte les dépendances
 
-AbstractController ..> EventRepository : 4. Requests domain data
-EventRepository ..> Database : 5. Executes SQL query
-EventRepository ..> EventFactory : 6. Delegates data mapping
-EventFactory ..> Event : 7. Creates entity
+AbstractController ..> EventRepository : 4. Demande les données du domaine
+EventRepository ..> Database : 5. Exécute la requête SQL (PDO)
+EventRepository ..> EventFactory : 6. Délègue le mapping des données
+EventFactory ..> Event : 7. Crée l'entité
 
-EventRepository ..> Event : 8. Returns entity
-AbstractController ..> Event : 9. Receives entity
-AbstractController ..> View : 10. Passes data to view
+EventRepository ..> Event : 8. Retourne l'entité
+AbstractController ..> Event : 9. Reçoit l'entité
+AbstractController ..> View : 10. Passe les données à la vue
 @enduml
