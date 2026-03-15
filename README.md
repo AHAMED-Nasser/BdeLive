@@ -12,9 +12,9 @@
 [![PSR-12](https://img.shields.io/badge/Code%20Style-PSR--12-blue)](https://www.php-fig.org/psr/psr-12/)
 [![Licence](https://img.shields.io/badge/Licence-Académique-blue)](LICENSE)
 
-**[🌐 Accéder au site →](https://bdelivesae.alwaysdata.net/index.php?page=home)**
+**[🌐 Accéder au site](https://bdelivesae.alwaysdata.net/index.php?page=home)**
 
-**[📚 Documentation en ligne →](https://...)** — *Le lien sera mis à jour une fois le dépôt public et la documentation déployée.*
+**[📚 Documentation en ligne](https://ahamed-nasser.github.io/BdeLive/)**
 
 ---
 
